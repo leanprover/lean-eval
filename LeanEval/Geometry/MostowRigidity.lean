@@ -108,11 +108,11 @@ instance : IsTopologicalGroup (unitary (MatrixSum p q α)) where
 
 end Topology
 
-variable (p q : ℕ)
-
 /-- `PO p q` is the projective indefinite orthogonal group PO(p,q) over the reals. -/
-abbrev PO : Type _ :=
+abbrev PO (p q : ℕ) :=
   HasQuotient.Quotient (unitary (MatrixSum (Fin p) (Fin q) ℝ)) (Subgroup.center _)
+
+variable (p q : ℕ)
 
 instance : MeasurableSpace (PO p q) := borel _
 instance : BorelSpace (PO p q) := ⟨rfl⟩
