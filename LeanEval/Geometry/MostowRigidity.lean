@@ -122,7 +122,8 @@ noncomputable instance : MeasureSpace (PO p q) := ⟨.haar⟩
 
 @[eval_problem]
 theorem mostow_rigidity (n : ℕ) (hn : 3 ≤ n) (Γ Λ : Subgroup (PO n 1))
-    (lat_Γ : covolume Γ (PO n 1) ≠ ⊤) (lat_Λ : covolume Λ (PO n 1) ≠ ⊤)
+    (disc_Γ : IsDiscrete (SetLike.coe Γ)) (covol_Γ : covolume Γ (PO n 1) ≠ ⊤)
+    (disc_Λ : IsDiscrete (SetLike.coe Λ)) (covol_Λ : covolume Λ (PO n 1) ≠ ⊤)
     (f : Γ ≃* Λ) : ∃ g : PO n 1, Γ.map (MulAut.conj g) = Λ := by
   sorry
 
