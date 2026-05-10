@@ -651,7 +651,7 @@ id = "Is1DFunctionField.finiteDimensional_of_transcendental"
 title = "A function field is finite-dimensional over any transcendental subfield"
 test = false
 module = "LeanEval.AlgebraicGeometry.FunctionField"
-holes = ["Is1DFunctionField.finiteDimensional_of_transcendental"] 
+holes = ["Algebra.Is1DFunctionField.finiteDimensional_of_transcendental"] 
 submitter = "Junyan Xu"
 
 [[problem]]
@@ -667,7 +667,7 @@ id = "Place.isDiscreteValuationRing"
 title = "Places of function fields are discrete valuation rings"
 test = false
 module = "LeanEval.AlgebraicGeometry.FunctionField"
-holes = ["Place.isDiscreteValuationRing"]
+holes = ["Algebra.Is1DFunctionField.Place.isDiscreteValuationRing"]
 submitter = "Junyan Xu"
 
 [[problem]]
@@ -675,7 +675,7 @@ id = "Place.finite_setOf_notMem"
 title = "Elements in function fields have finitely many poles"
 test = false
 module = "LeanEval.AlgebraicGeometry.FunctionField"
-holes = ["Place.finite_setOf_notMem"]
+holes = ["Algebra.Is1DFunctionField.Place.finite_setOf_notMem"]
 submitter = "Junyan Xu"
 
 [[problem]]

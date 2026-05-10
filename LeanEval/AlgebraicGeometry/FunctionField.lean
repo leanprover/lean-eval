@@ -134,10 +134,10 @@ def integralAdele : Submodule K (Adele K F) where
 noncomputable def genus [Is1DFunctionField K F] : ℕ := Module.finrank K
   (Adele K F ⧸ integralAdele K F ⊔ (IsScalarTower.toAlgHom K F _).toLinearMap.range)
 
-/-- Every function field of genus at least 2 (equivalently, every curve of geometric genus at least 2)
-over a number field has only finitely many rational points.
-Note: if K is not the full constant field of F/K then there are no rational points, because every place
-contains the full constant field. -/
+/-- Every function field of genus at least 2 (equivalently, every curve of geometric genus
+at least 2) over a number field has only finitely many rational points.
+Note: if K is not the full constant field of F/K then there are no rational points, because
+every place contains the full constant field. -/
 @[eval_problem]
 theorem faltings [NumberField K] [Is1DFunctionField K F] (h : 2 ≤ genus K F) :
     Finite {v : Place K F | Module.rank K (IsLocalRing.ResidueField v) = 1} := by
