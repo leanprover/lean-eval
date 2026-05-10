@@ -111,7 +111,8 @@ end Topology
 variable (p q : ℕ)
 
 /-- `PO p q` is the projective indefinite orthogonal group PO(p,q) over the reals. -/
-@[reducible] def PO : Type _ := unitary (MatrixSum (Fin p) (Fin q) ℝ) ⧸ Subgroup.center _
+abbrev PO : Type _ :=
+  HasQuotient.Quotient (unitary (MatrixSum (Fin p) (Fin q) ℝ)) (Subgroup.center _)
 
 instance : MeasurableSpace (PO p q) := borel _
 instance : BorelSpace (PO p q) := ⟨rfl⟩
