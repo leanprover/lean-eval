@@ -645,3 +645,43 @@ module = "LeanEval.NumberTheory.NeukirchUchida"
 holes = ["neukirch_uchida"]
 submitter = "Junyan Xu"
 source = "Jürgen Neukirch, Alexander Schmidt, Kay Wingberg. *Cohomology of Number Fields*, Theorem 12.2.1."
+
+[[problem]]
+id = "Is1DFunctionField.finiteDimensional_of_transcendental"
+title = "A function field is finite-dimensional over any transcendental subfield"
+test = false
+module = "LeanEval.AlgebraicGeometry.FunctionField"
+holes = ["Is1DFunctionField.finiteDimensional_of_transcendental"] 
+submitter = "Junyan Xu"
+
+[[problem]]
+id = "is1DFunctionField_iff_exists_transcendental_finiteDimensional"
+title = "A characterization of function fields of one variable"
+test = false
+module = "LeanEval.AlgebraicGeometry.FunctionField"
+holes = ["is1DFunctionField_iff_exists_transcendental_finiteDimensional"]
+submitter = "Junyan Xu"
+
+[[problem]]
+id = "Place.isDiscreteValuationRing"
+title = "Places of function fields are discrete valuation rings"
+test = false
+module = "LeanEval.AlgebraicGeometry.FunctionField"
+holes = ["Place.isDiscreteValuationRing"]
+submitter = "Junyan Xu"
+
+[[problem]]
+id = "Place.finite_setOf_notMem"
+title = "Elements in function fields have finitely many poles"
+test = false
+module = "LeanEval.AlgebraicGeometry.FunctionField"
+holes = ["Place.finite_setOf_notMem"]
+submitter = "Junyan Xu"
+
+[[problem]]
+id = "faltings"
+title = "Faltings' theorem (Mordell conjecture)"
+test = false
+module = "LeanEval.AlgebraicGeometry.FunctionField"
+holes = ["faltings"]
+submitter = "Junyan Xu"
