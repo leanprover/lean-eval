@@ -658,5 +658,16 @@
       "neukirch_uchida"
     ],
     "generated_path": "generated/neukirch_uchida"
+  },
+  {
+    "id": "permute_to_unimodal",
+    "title": "A competition programming problem about permuting a permutation to be unimodal",
+    "test": false,
+    "submitter": "Julia M. Himmel",
+    "module": "LeanEval.ProgramVerification.PermuteToUnimodal",
+    "holes": [
+      "minRearrange_correct"
+    ],
+    "generated_path": "generated/permute_to_unimodal"
   }
 ]

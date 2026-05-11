@@ -5,7 +5,7 @@ open scoped NNReal
 
 namespace Submission
 
-theorem irreducible_nonnegative_matrix_has_positive_eigenvector_at_spectralRadius {n : Type*} [Fintype n] [DecidableEq n]
+theorem irreducible_nonnegative_matrix_has_positive_eigenvector_at_spectralRadius {n : Type*} [Fintype n] [DecidableEq n] [Nonempty n]
     (A : Matrix n n ℝ)
     (hA : A.IsIrreducible) :
     ∃ v : n → ℝ,
