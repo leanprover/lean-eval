@@ -76,18 +76,22 @@ instance : IsScalarTower K v F := inferInstanceAs (IsScalarTower K v.toSubalgebr
 instance : IsFractionRing v F := inferInstanceAs (IsFractionRing v.toValuationSubring F)
 instance : ValuationRing v := inferInstanceAs (ValuationRing v.toValuationSubring)
 
+namespace Place
+
 variable {K F} in
 /-- [Stichtenoth, Theorem 1.1.6]. -/
 @[eval_problem]
-instance Place.isDiscreteValuationRing [Is1DFunctionField K F] : IsDiscreteValuationRing v := by
+instance isDiscreteValuationRing [Is1DFunctionField K F] : IsDiscreteValuationRing v := by
   sorry
 
 variable {F} in
 /-- [Stichtenoth, Corollary 1.3.4] (finitely many poles). -/
 @[eval_problem]
-theorem Place.finite_setOf_notMem [Is1DFunctionField K F] (x : F) :
+theorem finite_setOf_notMem [Is1DFunctionField K F] (x : F) :
     Finite {v : Place K F | x ∉ v} := by
   sorry
+
+end Place
 
 open scoped RestrictedProduct
 
