@@ -339,6 +339,5 @@ is fragile or hard to audit.
   [scripts/sandbox_engaged_probe.py](scripts/sandbox_engaged_probe.py),
   [scripts/check_comparator_installation.py](scripts/check_comparator_installation.py),
   [scripts/evaluate_submission.py](scripts/evaluate_submission.py),
-  [scripts/update_leaderboard.py](scripts/update_leaderboard.py),
-  [scripts/validate_manifest.py](scripts/validate_manifest.py) — the pipeline scripts referenced from this document.
+  [scripts/update_leaderboard.py](scripts/update_leaderboard.py) — the pipeline scripts referenced from this document.
 - Workflow files: [.github/workflows/submission.yml](.github/workflows/submission.yml), [.github/workflows/ci.yml](.github/workflows/ci.yml), [.github/workflows/regenerate-main.yml](.github/workflows/regenerate-main.yml), [.github/workflows/notify-leaderboard.yml](.github/workflows/notify-leaderboard.yml).
