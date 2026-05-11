@@ -87,8 +87,7 @@ instance isDiscreteValuationRing [Is1DFunctionField K F] : IsDiscreteValuationRi
 variable {F} in
 /-- [Stichtenoth, Corollary 1.3.4] (finitely many poles). -/
 @[eval_problem]
-theorem finite_setOf_notMem [Is1DFunctionField K F] (x : F) :
-    Finite {v : Place K F | x ∉ v} := by
+theorem finite_setOf_notMem [Is1DFunctionField K F] (x : F) : {v : Place K F | x ∉ v}.Finite := by
   sorry
 
 end Place
@@ -144,7 +143,7 @@ Note: if K is not the full constant field of F/K then there are no rational poin
 every place contains the full constant field. -/
 @[eval_problem]
 theorem faltings [NumberField K] [Is1DFunctionField K F] (h : 2 ≤ genus K F) :
-    Finite {v : Place K F | Module.rank K (IsLocalRing.ResidueField v) = 1} := by
+    {v : Place K F | Module.rank K (IsLocalRing.ResidueField v) = 1}.Finite := by
   sorry
 
 end Is1DFunctionField
