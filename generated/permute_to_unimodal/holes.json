@@ -1,0 +1,12 @@
+{
+  "id": "permute_to_unimodal",
+  "module": "LeanEval.ProgramVerification.PermuteToUnimodal",
+  "holes": [
+    {
+      "name": "LeanEval.ProgramVerification.minRearrange_correct",
+      "basename": "minRearrange_correct",
+      "kind": "theorem",
+      "body": "/--\n`minRearrange` correctly computes the smallest number of indices that need to be permuted in order to\nturn `arr` into a unimodal permutation.\n-/\ntheorem minRearrange_correct {arr : Array Nat} :\n    arr.Perm (1...=arr.size).toArray \u2192\n      (\u2203 (x : Array Nat) (hx : x.Perm (1...=arr.size).toArray), Unimodal x \u2227 differences (Vector.mk x (by simpa using hx.size_eq)) arr.toVector = minRearrange arr) \u2227\n      (\u2200 (x : Array Nat) (hx : x.Perm (1...=arr.size).toArray), Unimodal x \u2192 minRearrange arr \u2264 differences (Vector.mk x (by simpa using hx.size_eq)) arr.toVector) := by\n  sorry"
+    }
+  ]
+}

@@ -1,5 +1,8 @@
-blank_issues_enabled: false
+blank_issues_enabled: true
 contact_links:
+  - name: Discussion on Zulip
+    url: https://leanprover.zulipchat.com/#narrow/channel/583341-Model-comparisons-for-Lean/topic/LeanEval/with/594108910
+    about: General questions and discussion about lean-eval happen in the #Model-comparisons-for-Lean > LeanEval topic on the Lean Zulip.
   - name: Benchmark source code and documentation
     url: https://github.com/leanprover/lean-eval
     about: Read the README for submission requirements before opening a submission issue.

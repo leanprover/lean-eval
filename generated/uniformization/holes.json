@@ -1,0 +1,12 @@
+{
+  "id": "uniformization",
+  "module": "LeanEval.Geometry.Uniformization",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.uniformization",
+      "basename": "uniformization",
+      "kind": "theorem",
+      "body": "theorem uniformization {X : Type*} [TopologicalSpace X] [T2Space X] [ConnectedSpace X]\n    [SecondCountableTopology X] [ChartedSpace \u2102 X] [IsManifold m\u2102 1 X]\n    (hX : \u00ac CompactSpace X) (x : X) [Subsingleton <| Additive (FundamentalGroup X x) \u2192+ \u211d] :\n    Nonempty (X \u2243\u2098\u27eem\u2102, m\u2102\u27ef \u2102) \u2228 Nonempty (X \u2243\u2098\u27eem\u2102, m\u2102\u27ef UpperHalfPlane) := by\n  sorry"
+    }
+  ]
+}

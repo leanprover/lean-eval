@@ -1,5 +1,9 @@
 import Cli
+import EvalTools.CheckGeneratedBuilds
+import EvalTools.CheckProblemBuild
 import EvalTools.Markers
+import EvalTools.StartProblem
+import EvalTools.ValidateManifest
 
 open Cli
 
@@ -26,11 +30,18 @@ def requireRepoRoot : IO System.FilePath := do
         "Could not find the repository root. Run `lake exe lean-eval ...` from this repo or a subdirectory of it."
   pure root
 
+/-- Try to spawn `cmd --version`, return whether the OS could resolve `cmd` and
+    the process exited successfully. Portable across Linux/macOS/Windows: the
+    OS's executable resolution is what we want to test (no `sh -c command -v`
+    indirection, which fails on Windows where `sh` isn't on PATH). -/
 def commandExists (cmd : String) : IO Bool := do
   try
     let child ← IO.Process.spawn {
-      cmd := "sh"
-      args := #["-c", "command -v \"$1\" >/dev/null 2>&1", "sh", cmd]
+      cmd := cmd
+      args := #["--version"]
+      stdin := .null
+      stdout := .null
+      stderr := .null
     }
     return (← child.wait) == 0
   catch _ =>
@@ -73,11 +84,13 @@ def runRootCmd (p : Parsed) : IO UInt32 := do
   p.printHelp
   pure 0
 
-def runValidateManifestCmd (_ : Parsed) : IO UInt32 :=
-  runPythonScript "scripts/validate_manifest.py"
+def runValidateManifestCmd (_ : Parsed) : IO UInt32 := do
+  let root ← requireRepoRoot
+  EvalTools.runValidateManifest root
 
-def runCheckProblemBuildCmd (_ : Parsed) : IO UInt32 :=
-  runPythonScript "scripts/check_problem_build.py"
+def runCheckProblemBuildCmd (_ : Parsed) : IO UInt32 := do
+  let root ← requireRepoRoot
+  EvalTools.runCheckProblemBuild root
 
 def runGenerateCmd (p : Parsed) : IO UInt32 := do
   let mut args : Array String := #[]
@@ -91,8 +104,8 @@ def runCheckGeneratedBuildsCmd (p : Parsed) : IO UInt32 := do
     match p.flag? "problem" with
     | some flag => flag.as! (Array String)
     | none => #[]
-  let args := appendRepeatedFlagValues #[] "--problem" problems
-  runPythonScript "scripts/check_generated_builds.py" args
+  let root ← requireRepoRoot
+  EvalTools.runCheckGeneratedBuilds root problems
 
 def runStartProblemCmd (p : Parsed) : IO UInt32 := do
   let problemId : String := p.positionalArg! "problem-id" |>.as! String
@@ -100,10 +113,22 @@ def runStartProblemCmd (p : Parsed) : IO UInt32 := do
   if destinations.size > 1 then
     IO.eprintln "start-problem accepts at most one destination path."
     return 1
-  let mut args := #[problemId]
-  if let some destination := destinations[0]? then
-    args := args.push destination
-  runPythonScript "scripts/start_problem.py" args
+  let root ← requireRepoRoot
+  -- Display paths mirror what the previous Python script printed (it ran with
+  -- `cwd := root`, so it printed paths relative to the repo root). Effective
+  -- paths are absolute so the IO calls don't depend on the user's cwd.
+  let sourceDisplay := s!"generated/{problemId}"
+  let sourcePath := root / "generated" / problemId
+  let destinationStr? : Option String := destinations[0]?
+  let (destinationDisplay, destinationPath) := match destinationStr? with
+    | some d =>
+        let path : System.FilePath := d
+        let effective := if path.isAbsolute then path else root / path
+        (d, effective)
+    | none =>
+        let display := s!"workspaces/{problemId}"
+        (display, root / "workspaces" / problemId)
+  EvalTools.runStartProblem sourcePath sourceDisplay destinationPath destinationDisplay
 
 def runCheckComparatorInstallationCmd (_ : Parsed) : IO UInt32 :=
   runPythonScript "scripts/check_comparator_installation.py"
