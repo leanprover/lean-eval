@@ -654,6 +654,7 @@ module = "LeanEval.Combinatorics.PartitionAsymptotics"
 holes = ["isEquivalent_card_partition"]
 submitter = "Thomas K Waring"
 source = "G. H. Hardy, S. Ramanujan. *Asymptotic formulae in combinatory analysis*, 1918."
+informal_solution = "Evaluate the growth-rate of coefficients in the generating function by the so-called circle method."
 
 [[problem]]
 id = "balanceable_bounded_partitions"
