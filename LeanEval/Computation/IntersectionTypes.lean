@@ -9,13 +9,13 @@ namespace CombinatoryLogic
 
 open Relation
 
-/-- Combinatory terms.-/
+/-- Combinatory terms. -/
 inductive Tm where
-  /-- S combinator, with semantics $λxyz. xz(yz)$.-/
+  /-- S combinator, with semantics $λxyz. xz(yz)$. -/
   | S : Tm
-  /-- K combinatory, with semantics $λxy.x$.-/
+  /-- K combinator, with semantics $λxy.x$. -/
   | K : Tm
-  /-- (Function) application of combinatory terms.-/
+  /-- (Function) application of combinatory terms. -/
   | app : Tm → Tm → Tm
 
 namespace Tm
@@ -25,9 +25,9 @@ instance : Mul (Tm) where
 
 /-- Reduction of combinatory terms. -/
 inductive Red : Tm → Tm → Prop where
-  /-- Operational semantics of `S`.-/
+  /-- Operational semantics of `S`. -/
   | red_S (a b c : Tm) : Red (S * a * b * c) (a * c * (b * c))
-  /-- Operational semantics of `K`.-/
+  /-- Operational semantics of `K`. -/
   | red_K (a b : Tm) : Red (K * a * b) a
 
 /-- Multistep reduction. -/
@@ -74,5 +74,5 @@ inductive HasTy : Tm → Ty → Prop where
   /-- Right-elimination of intersection. -/
   | inter_elim_right {x : Tm} (A B : Ty) : HasTy x (A ∩ B) → HasTy x B
 
-/-- Typable and strong-normalising combinatory terms coincide. -/
-theorem exists_hasTy_iff_SN {x : Tm} : (∃ A : Ty, HasTy x A) ↔ x.SN := sorry
+/-- Typable terms are strongly-normalising. -/
+theorem exists_hasTy_iff_SN {x : Tm} {A : Ty} (h : HasTy x A) : x.SN := sorry
