@@ -36,3 +36,8 @@ root = "EvalTools.Main"
 name = "test_validate_submission"
 srcDir = "tests/lean"
 root = "EvalToolsTests.ValidateSubmissionTest"
+
+[[lean_exe]]
+name = "test_check_comparator_installation"
+srcDir = "tests/lean"
+root = "EvalToolsTests.CheckComparatorInstallationTest"

@@ -1,4 +1,5 @@
 import Cli
+import EvalTools.CheckComparatorInstallation
 import EvalTools.CheckGeneratedBuilds
 import EvalTools.CheckProblemBuild
 import EvalTools.Markers
@@ -113,8 +114,9 @@ def runStartProblemCmd (p : Parsed) : IO UInt32 := do
         (display, root / "workspaces" / problemId)
   EvalTools.runStartProblem sourcePath sourceDisplay destinationPath destinationDisplay
 
-def runCheckComparatorInstallationCmd (_ : Parsed) : IO UInt32 :=
-  runPythonScript "scripts/check_comparator_installation.py"
+def runCheckComparatorInstallationCmd (_ : Parsed) : IO UInt32 := do
+  let root ← requireRepoRoot
+  EvalTools.runCheckComparatorInstallation root
 
 def runRunEvalCmd (p : Parsed) : IO UInt32 := do
   let mut args : Array String := #[]

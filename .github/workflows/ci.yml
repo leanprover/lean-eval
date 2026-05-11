@@ -184,8 +184,8 @@ jobs:
 
       - name: Run Comparator Installation Checks
         run: |
-          python -m unittest tests.test_check_comparator_installation
-          python scripts/check_comparator_installation.py
+          lake exe test_check_comparator_installation
+          lake exe lean-eval check-comparator-installation
 
       - name: Run Eval Workflow Check
         run: python scripts/check_eval_workflow.py

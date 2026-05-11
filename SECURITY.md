@@ -215,7 +215,7 @@ every CI build; an unpinned dependency cannot be merged.
    - `.github/workflows/ci.yml`
    - `.github/workflows/submission.yml`
    - `.github/workflows/regenerate-main.yml`
-   - `scripts/check_comparator_installation.py` (`LANDRUN_INSTALL_TARGET`,
+   - `EvalTools/CheckComparatorInstallation.lean` (`landrunInstallTarget`,
      for landrun only)
    - `lean-eval-leaderboard/.benchmark-commit` (for the lean-eval
      benchmark commit only)
@@ -337,7 +337,7 @@ is fragile or hard to audit.
 - [scripts/security_probes/](scripts/security_probes/) — the four security probes cited above.
 - [scripts/action_pin_audit.py](scripts/action_pin_audit.py),
   [scripts/sandbox_engaged_probe.py](scripts/sandbox_engaged_probe.py),
-  [scripts/check_comparator_installation.py](scripts/check_comparator_installation.py),
+  [EvalTools/CheckComparatorInstallation.lean](EvalTools/CheckComparatorInstallation.lean),
   [scripts/evaluate_submission.py](scripts/evaluate_submission.py),
   [scripts/update_leaderboard.py](scripts/update_leaderboard.py) — the pipeline scripts referenced from this document.
 - Workflow files: [.github/workflows/submission.yml](.github/workflows/submission.yml), [.github/workflows/ci.yml](.github/workflows/ci.yml), [.github/workflows/regenerate-main.yml](.github/workflows/regenerate-main.yml), [.github/workflows/notify-leaderboard.yml](.github/workflows/notify-leaderboard.yml).
