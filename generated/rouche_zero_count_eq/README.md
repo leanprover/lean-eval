@@ -7,7 +7,7 @@ Rouche theorem via zero counting
 - Submitter: Kim Morrison
 - Notes: Phrases Rouché's theorem as equality of multiplicity-counted zero counts for f and f + g on the closed disk of radius R.
 - Source: Classical theorem in complex analysis.
-- Informal solution: If |g| < |f| on the boundary circle, then f and f + g have the same number of zeros inside, counted with multiplicity.
+- Informal solution: Assuming f is meromorphic in normal form on ℂ and |g| < |f| on the boundary circle, f and f + g have the same number of zeros inside the disk, counted with multiplicity.
 
 Do not modify `Challenge.lean` or `Solution.lean`. Those files are part of the
 trusted benchmark and fixed by the repository.

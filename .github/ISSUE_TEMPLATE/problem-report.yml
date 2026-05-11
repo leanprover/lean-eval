@@ -1,0 +1,47 @@
+name: Report a problem with a benchmark problem
+description: Flag an issue with a lean-eval benchmark problem (wrong statement, broken source link, unprovable, etc.).
+title: "[problem] "
+labels:
+  - problem-report
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this to report a problem with one of the benchmark problems
+        themselves — for example: the formal statement does not match the
+        informal description, the source link is wrong or dead, the problem
+        is unprovable as stated, imports are missing, or the intended
+        interpretation is ambiguous.
+
+        For submitting a solution, use the "Submit benchmark solution"
+        template instead.
+
+  - type: input
+    id: problem_id
+    attributes:
+      label: Problem id
+      description: The benchmark problem id (the `name` field in its `lakefile.toml`).
+      placeholder: e.g. chudnovsky
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What is wrong
+      description: |
+        Describe the issue. If the formal statement disagrees with the
+        informal description or the cited source, please quote the relevant
+        parts. If you have a counterexample or a minimized reproducer,
+        include it here.
+    validations:
+      required: true
+
+  - type: input
+    id: source_link
+    attributes:
+      label: Relevant link (optional)
+      description: Permalink to the offending file/line in `generated/`, or to the source the problem cites.
+      placeholder: https://github.com/leanprover/lean-eval/blob/main/generated/...
+    validations:
+      required: false

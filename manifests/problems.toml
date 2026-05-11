@@ -163,7 +163,7 @@ holes = ["rouche_zero_count_eq"]
 submitter = "Kim Morrison"
 notes = "Phrases Rouché's theorem as equality of multiplicity-counted zero counts for f and f + g on the closed disk of radius R."
 source = "Classical theorem in complex analysis."
-informal_solution = "If |g| < |f| on the boundary circle, then f and f + g have the same number of zeros inside, counted with multiplicity."
+informal_solution = "Assuming f is meromorphic in normal form on ℂ and |g| < |f| on the boundary circle, f and f + g have the same number of zeros inside the disk, counted with multiplicity."
 
 [[problem]]
 id = "mem_convexHull_finset_extremePoints_of_mem_compact_convex"
@@ -654,3 +654,31 @@ module = "LeanEval.Combinatorics.PartitionAsymptotics"
 holes = ["isEquivalent_card_partition"]
 submitter = "Thomas K Waring"
 source = "G. H. Hardy, S. Ramanujan. *Asymptotic formulae in combinatory analysis*, 1918."
+
+[[problem]]
+id = "balanceable_bounded_partitions"
+title = "Balanceable k-bounded partitions"
+test = false
+module = "LeanEval.Combinatorics.BalanceableBoundedPartitions"
+holes = ["minimal_balanceable_of_bounded"]
+submitter = "Julia M. Himmel"
+source = "https://projecteuler.net/problem=772"
+
+[[problem]]
+id = "permute_to_unimodal"
+title = "A competition programming problem about permuting a permutation to be unimodal"
+test = false
+module = "LeanEval.ProgramVerification.PermuteToUnimodal"
+holes = ["minRearrange_correct"]
+submitter = "Julia M. Himmel"
+source = "NWERC 2025 Problem G, see https://2025.nwerc.eu/problem-set.pdf"
+informal_solution = "See https://2025.nwerc.eu/solutions.pdf for a sketch of the correctness, which goes in two steps: construct a quadratic-time dynamic programming solution, then efficiently evaluate that in O(n log n). The hard part is showing the correspondence between LISs of prefixes of the constructed sequence and values of the DP."
+
+[[problem]]
+id = "uniformization"
+title = "Uniformization theorem for Riemann surfaces"
+test = false
+module = "LeanEval.Geometry.Uniformization"
+holes = ["uniformization"]
+submitter = "Junyan Xu"
+source = "John Hamal Hubbard, *Teichmüller theory and applications to geometry, topology, and dynamics. Vol. 1*, Chapter 1."
