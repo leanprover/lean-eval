@@ -33,11 +33,6 @@ class Is1DFunctionField : Prop where
 
 open scoped IntermediateField
 
-@[eval_problem]
-theorem Is1DFunctionField.finiteDimensional_of_transcendental [Is1DFunctionField K F]
-    (x : F) (hx : Transcendental K x) : FiniteDimensional K⟮x⟯ F := by
-  sorry
-
 variable {K F} in
 /-- The definition `Is1DFunctionField` is equivalent to [Stichtenoth, Definition 1.1.1]. -/
 @[eval_problem]
@@ -46,6 +41,11 @@ theorem is1DFunctionField_iff_exists_transcendental_finiteDimensional :
   sorry
 
 namespace Is1DFunctionField
+
+@[eval_problem]
+theorem finiteDimensional_of_transcendental [Is1DFunctionField K F]
+    (x : F) (hx : Transcendental K x) : FiniteDimensional K⟮x⟯ F := by
+  sorry
 
 /-- The type of places of a 1-dimensional function field. See [Stichtenoth,
 Definition 1.1.4 and 1.1.8]. We omit the condition `toSubalgebra ≠ ⊥` since it is automatic. -/
