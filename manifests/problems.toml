@@ -163,7 +163,7 @@ holes = ["rouche_zero_count_eq"]
 submitter = "Kim Morrison"
 notes = "Phrases Rouché's theorem as equality of multiplicity-counted zero counts for f and f + g on the closed disk of radius R."
 source = "Classical theorem in complex analysis."
-informal_solution = "If |g| < |f| on the boundary circle, then f and f + g have the same number of zeros inside, counted with multiplicity."
+informal_solution = "Assuming f is meromorphic in normal form on ℂ and |g| < |f| on the boundary circle, f and f + g have the same number of zeros inside the disk, counted with multiplicity."
 
 [[problem]]
 id = "mem_convexHull_finset_extremePoints_of_mem_compact_convex"
