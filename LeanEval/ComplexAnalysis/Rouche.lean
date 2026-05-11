@@ -20,13 +20,21 @@ inside the disk, but the log-weighted count depends on where each zero sits. Con
 
 We instead state the conclusion as the equality of the multiplicity sums of the zero
 divisors of `f` and `f + g` taken on the closed disk of radius `R`.
+
+We also require `f` to be in *normal form* (`MeromorphicNFOn`) rather than merely
+`MeromorphicOn`. A bare `MeromorphicOn` hypothesis admits functions whose pointwise values
+disagree with their meromorphic order at exceptional points (any `=ᶠ[codiscreteWithin]`
+modification is still meromorphic), and that pointwise disagreement is enough to make the
+divisor identity fail. See the Zulip discussion at
+https://leanprover.zulipchat.com/#narrow/channel/583341-Model-comparisons-for-Lean/topic/LeanEval/near/593331158
+for a concrete counterexample to the previous `MeromorphicOn`-only formulation.
 -/
 
 @[eval_problem]
 theorem rouche_zero_count_eq
     {f g : ℂ → ℂ} {R : ℝ}
     (hR : 0 < R)
-    (hf : MeromorphicOn f Set.univ)
+    (hf : MeromorphicNFOn f Set.univ)
     (hg : AnalyticOn ℂ g Set.univ)
     (hbound : ∀ z : ℂ, ‖z‖ = R → ‖g z‖ < ‖f z‖) :
     (∑ᶠ z, ((divisor (f + g) (Metric.closedBall 0 R))⁺) z) =

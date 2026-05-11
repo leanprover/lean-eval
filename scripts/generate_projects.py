@@ -41,39 +41,21 @@ IGNORED_PATH_NAMES = {".lake", "build", ".cache", "lake-manifest.json"}
 _WORKSPACE_TEST_LEAN = (
     "import Lean\n\n"
     "open Lean\n\n"
-    "def comparatorExists (comparatorBin : String) : IO Bool := do\n"
-    "  if comparatorBin.contains '/' then\n"
-    "    return (← System.FilePath.pathExists comparatorBin)\n"
-    "  try\n"
-    "    let child ← IO.Process.spawn {\n"
-    '      cmd := "sh"\n'
-    '      args := #["-c", "command -v \\\"$1\\\" >/dev/null 2>&1", "sh", comparatorBin]\n'
-    "    }\n"
-    "    let exitCode ← child.wait\n"
-    "    return exitCode == 0\n"
-    "  catch _ =>\n"
-    "    return false\n\n"
     "def main : IO UInt32 := do\n"
     '  let comparatorBin := (← IO.getEnv "COMPARATOR_BIN").getD "comparator"\n'
-    "  if !(← comparatorExists comparatorBin) then\n"
+    "  try\n"
+    "    let child ← IO.Process.spawn {\n"
+    '      cmd := "lake"\n'
+    '      args := #["env", comparatorBin, "config.json"]\n'
+    "    }\n"
+    "    let exitCode ← child.wait\n"
+    "    pure exitCode\n"
+    "  catch err =>\n"
     '    IO.eprintln s!"Failed to run comparator via `{comparatorBin}`."\n'
     '    IO.eprintln "Make sure `comparator` is installed and on your `PATH`, or set `COMPARATOR_BIN=/path/to/comparator`."\n'
     '    IO.eprintln "See the root repository README for comparator setup details, including landrun and lean4export."\n'
+    '    IO.eprintln s!"Original error: {err}"\n'
     "    pure 1\n"
-    "  else\n"
-    "    try\n"
-    "      let child ← IO.Process.spawn {\n"
-    '        cmd := "lake"\n'
-    '        args := #["env", comparatorBin, "config.json"]\n'
-    "      }\n"
-    "      let exitCode ← child.wait\n"
-    "      pure exitCode\n"
-    "    catch err =>\n"
-    '      IO.eprintln s!"Failed to run comparator via `{comparatorBin}`."\n'
-    '      IO.eprintln "Make sure `comparator` is installed and on your `PATH`, or set `COMPARATOR_BIN=/path/to/comparator`."\n'
-    '      IO.eprintln "See the root repository README for comparator setup details, including landrun and lean4export."\n'
-    '      IO.eprintln s!"Original error: {err}"\n'
-    "      pure 1\n"
 )
 
 

@@ -316,7 +316,7 @@ def _prime_workspace(target: pathlib.Path) -> None:
 
     Comparator's sandboxed `lake build` inside landrun is the intended
     place for `Submission` to be elaborated. Comparator + landrun (from
-    upstream `main`, per its README and check_comparator_installation.py)
+    upstream `main`, per its README and EvalTools/CheckComparatorInstallation.lean)
     is designed to handle this on a workspace primed only with `lake
     update` + `lake exe cache get`.
     """

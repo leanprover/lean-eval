@@ -658,5 +658,38 @@
       "neukirch_uchida"
     ],
     "generated_path": "generated/neukirch_uchida"
+  },
+  {
+    "id": "balanceable_bounded_partitions",
+    "title": "Balanceable k-bounded partitions",
+    "test": false,
+    "submitter": "Julia M. Himmel",
+    "module": "LeanEval.Combinatorics.BalanceableBoundedPartitions",
+    "holes": [
+      "minimal_balanceable_of_bounded"
+    ],
+    "generated_path": "generated/balanceable_bounded_partitions"
+  },
+  {
+    "id": "permute_to_unimodal",
+    "title": "A competition programming problem about permuting a permutation to be unimodal",
+    "test": false,
+    "submitter": "Julia M. Himmel",
+    "module": "LeanEval.ProgramVerification.PermuteToUnimodal",
+    "holes": [
+      "minRearrange_correct"
+    ],
+    "generated_path": "generated/permute_to_unimodal"
+  },
+  {
+    "id": "uniformization",
+    "title": "Uniformization theorem for Riemann surfaces",
+    "test": false,
+    "submitter": "Junyan Xu",
+    "module": "LeanEval.Geometry.Uniformization",
+    "holes": [
+      "uniformization"
+    ],
+    "generated_path": "generated/uniformization"
   }
 ]
