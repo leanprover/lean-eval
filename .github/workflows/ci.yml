@@ -216,4 +216,4 @@ jobs:
 
       - name: Build Generated Workspaces
         if: steps.changes.outputs.source_changed == 'true' || steps.changes.outputs.generated_changed == 'true'
-        run: python scripts/check_generated_builds.py
+        run: lake exe lean-eval check-generated-builds

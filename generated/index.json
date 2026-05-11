@@ -669,5 +669,16 @@
       "minRearrange_correct"
     ],
     "generated_path": "generated/permute_to_unimodal"
+  },
+  {
+    "id": "uniformization",
+    "title": "Uniformization theorem for Riemann surfaces",
+    "test": false,
+    "submitter": "Junyan Xu",
+    "module": "LeanEval.Geometry.Uniformization",
+    "holes": [
+      "uniformization"
+    ],
+    "generated_path": "generated/uniformization"
   }
 ]

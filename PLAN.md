@@ -22,8 +22,7 @@ produces the JSON it consumes is still Python:
 - `scripts/evaluate_submission.py` — evaluation driver
 - `scripts/update_leaderboard.py` — result writer
 - `scripts/validate_submission.py` — submission shape check
-- `scripts/check_problem_build.py`, `check_generated_builds.py`,
-  `fetch_submission.py`, `run_eval.py`, `start_problem.py`
+- `scripts/check_problem_build.py`, `fetch_submission.py`, `run_eval.py`
 
 Migrate the remaining scripts so the entire toolchain lives inside `lake`.
 
