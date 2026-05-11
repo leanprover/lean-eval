@@ -26,11 +26,18 @@ def requireRepoRoot : IO System.FilePath := do
         "Could not find the repository root. Run `lake exe lean-eval ...` from this repo or a subdirectory of it."
   pure root
 
+/-- Try to spawn `cmd --version`, return whether the OS could resolve `cmd` and
+    the process exited successfully. Portable across Linux/macOS/Windows: the
+    OS's executable resolution is what we want to test (no `sh -c command -v`
+    indirection, which fails on Windows where `sh` isn't on PATH). -/
 def commandExists (cmd : String) : IO Bool := do
   try
     let child ← IO.Process.spawn {
-      cmd := "sh"
-      args := #["-c", "command -v \"$1\" >/dev/null 2>&1", "sh", cmd]
+      cmd := cmd
+      args := #["--version"]
+      stdin := .null
+      stdout := .null
+      stderr := .null
     }
     return (← child.wait) == 0
   catch _ =>
