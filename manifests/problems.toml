@@ -645,3 +645,12 @@ module = "LeanEval.NumberTheory.NeukirchUchida"
 holes = ["neukirch_uchida"]
 submitter = "Junyan Xu"
 source = "Jürgen Neukirch, Alexander Schmidt, Kay Wingberg. *Cohomology of Number Fields*, Theorem 12.2.1."
+
+[[problem]]
+id = "asymptotic_partition"
+title = "Hardy-Ramanujan asymptotic formula for the number of integer partitions"
+test = false
+module = "LeanEval.Combinatorics.PartitionAsymptotics"
+holes = ["isEquivalent_card_partition"]
+submitter = "Thomas K Waring"
+source = "G. H. Hardy, S. Ramanujan. *Asymptotic formulae in combinatory analysis*, 1918."
