@@ -15,7 +15,7 @@ def Bounded {n : ℕ} (k : ℕ) (p : n.Partition) : Prop :=
   ∀ i ∈ p.parts, i ≤ k
 
 /--
-A partition is balanceable if it can be decoposed into two multisets of
+A partition is balanceable if it can be decomposed into two multisets of
 the same size.
 
 For example, `12 = (3 + 2 + 1) + (2 + 2 + 2)` is a balanceable partition
