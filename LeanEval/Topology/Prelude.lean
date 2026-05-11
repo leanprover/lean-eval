@@ -150,7 +150,7 @@ def frontierHandlebody₃HomeomorphAddCircleProd :
 /-- The complement of our handlebody in ℝ³ is homeomorphic to the interior of a handlebody
 with a point removed. -/
 @[eval_problem]
-def complHandelbody₃Homeomorph (g : ℕ) :
+def complHandlebody₃Homeomorph (g : ℕ) :
     ↥(handlebody₃ g)ᶜ ≃ₜ ↥(interior (handlebody₃ g) \ {(0.5, 0.5, 1.5)}) := by
   sorry
 
