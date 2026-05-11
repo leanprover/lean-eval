@@ -645,3 +645,13 @@ module = "LeanEval.NumberTheory.NeukirchUchida"
 holes = ["neukirch_uchida"]
 submitter = "Junyan Xu"
 source = "Jürgen Neukirch, Alexander Schmidt, Kay Wingberg. *Cohomology of Number Fields*, Theorem 12.2.1."
+
+[[problem]]
+id = "stirling_numbers"
+title = "Combinatorial interpretation of the Stirling numbers"
+test = false
+module = "LeanEval.Combinatorics.Stirling"
+holes = ["stirlingFirst_eq_card","stirlingSecond_eq_card"]
+submitter = "Thomas K Waring"
+source = "D. Knuth, *The Art of Computer Programming*, Volume 1, §1.2.6."
+informal_solution = "Elementary induction using the defining recurrence."
