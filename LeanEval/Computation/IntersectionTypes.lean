@@ -75,4 +75,5 @@ inductive HasTy : Tm → Ty → Prop where
   | inter_elim_right {x : Tm} (A B : Ty) : HasTy x (A ∩ B) → HasTy x B
 
 /-- Typable terms are strongly-normalising. -/
-theorem exists_hasTy_iff_SN {x : Tm} {A : Ty} (h : HasTy x A) : x.SN := sorry
+@[eval_problem]
+theorem SN_of_hasTy {x : Tm} {A : Ty} (h : HasTy x A) : x.SN := sorry
