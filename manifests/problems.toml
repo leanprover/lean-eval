@@ -647,7 +647,7 @@ submitter = "Junyan Xu"
 source = "Jürgen Neukirch, Alexander Schmidt, Kay Wingberg. *Cohomology of Number Fields*, Theorem 12.2.1."
 
 [[problem]]
-id = "Is1DFunctionField.finiteDimensional_of_transcendental"
+id = "Is1DFunctionField_finiteDimensional_of_transcendental"
 title = "A function field is finite-dimensional over any transcendental subfield"
 test = false
 module = "LeanEval.AlgebraicGeometry.FunctionField"
@@ -663,7 +663,7 @@ holes = ["is1DFunctionField_iff_exists_transcendental_finiteDimensional"]
 submitter = "Junyan Xu"
 
 [[problem]]
-id = "Place.isDiscreteValuationRing"
+id = "Place_isDiscreteValuationRing"
 title = "Places of function fields are discrete valuation rings"
 test = false
 module = "LeanEval.AlgebraicGeometry.FunctionField"
@@ -671,7 +671,7 @@ holes = ["Algebra.Is1DFunctionField.Place.isDiscreteValuationRing"]
 submitter = "Junyan Xu"
 
 [[problem]]
-id = "Place.finite_setOf_notMem"
+id = "Place_finite_setOf_notMem"
 title = "Elements in function fields have finitely many poles"
 test = false
 module = "LeanEval.AlgebraicGeometry.FunctionField"
