@@ -655,6 +655,8 @@ holes = ["SN_of_hasTy"]
 submitter = "Thomas Krishna Waring"
 source = "Mariangiola Dezani-Ciancaglini, J. Roger Hindley, *Intersection Types for Combinatory Logic*. Jean-Louis Krivine, *Lambda Calculus: types and models*, §3.2."
 informal_solution = "Standard argument by logical relations."
+
+[[problem]]
 id = "balanceable_bounded_partitions"
 title = "Balanceable k-bounded partitions"
 test = false
