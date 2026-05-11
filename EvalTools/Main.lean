@@ -1,7 +1,9 @@
 import Cli
 import EvalTools.CheckGeneratedBuilds
+import EvalTools.CheckProblemBuild
 import EvalTools.Markers
 import EvalTools.StartProblem
+import EvalTools.ValidateManifest
 
 open Cli
 
@@ -82,11 +84,13 @@ def runRootCmd (p : Parsed) : IO UInt32 := do
   p.printHelp
   pure 0
 
-def runValidateManifestCmd (_ : Parsed) : IO UInt32 :=
-  runPythonScript "scripts/validate_manifest.py"
+def runValidateManifestCmd (_ : Parsed) : IO UInt32 := do
+  let root ← requireRepoRoot
+  EvalTools.runValidateManifest root
 
-def runCheckProblemBuildCmd (_ : Parsed) : IO UInt32 :=
-  runPythonScript "scripts/check_problem_build.py"
+def runCheckProblemBuildCmd (_ : Parsed) : IO UInt32 := do
+  let root ← requireRepoRoot
+  EvalTools.runCheckProblemBuild root
 
 def runGenerateCmd (p : Parsed) : IO UInt32 := do
   let mut args : Array String := #[]

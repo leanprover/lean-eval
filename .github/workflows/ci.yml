@@ -87,10 +87,10 @@ jobs:
         run: python -m py_compile scripts/*.py tests/*.py
 
       - name: Validate Manifest
-        run: python scripts/validate_manifest.py
+        run: lake exe lean-eval validate-manifest
 
       - name: Build Problem Modules
-        run: python scripts/check_problem_build.py
+        run: lake exe lean-eval check-problem-build
 
       # Decide whether to run workspace generation/build. Source-only PRs
       # regenerate generated/ in the runner's working tree (the regenerate-main
