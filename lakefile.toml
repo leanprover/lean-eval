@@ -31,3 +31,8 @@ root = "EvalTools.ProblemInventory"
 [[lean_exe]]
 name = "lean-eval"
 root = "EvalTools.Main"
+
+[[lean_exe]]
+name = "test_validate_submission"
+srcDir = "tests/lean"
+root = "EvalToolsTests.ValidateSubmissionTest"

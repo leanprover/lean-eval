@@ -124,7 +124,7 @@ jobs:
         run: python scripts/generate_projects.py
 
       - name: Submission Policy Check
-        run: python scripts/validate_submission.py --file generated/two_plus_two/Solution.lean
+        run: lake exe lean-eval validate-submission --file generated/two_plus_two/Solution.lean
 
       # Submission diff validation is a PR-time contributor policy: it
       # decides whether a PR that only touches `generated/` looks like a
@@ -162,10 +162,10 @@ jobs:
             exit 0
           fi
 
-          python scripts/validate_submission.py --base "$BASE_SHA" --head "$HEAD_SHA"
+          lake exe lean-eval validate-submission --base "$BASE_SHA" --head "$HEAD_SHA"
 
       - name: Run Submission Policy Tests
-        run: python -m unittest tests.test_validate_submission
+        run: lake exe test_validate_submission
 
       - name: Run Generator Tests
         run: python -m unittest tests.test_generate_projects
