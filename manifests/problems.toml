@@ -651,7 +651,7 @@ id = "Place_isDiscreteValuationRing"
 title = "Places of function fields are discrete valuation rings"
 test = false
 module = "LeanEval.AlgebraicGeometry.FunctionField"
-holes = ["FunctionField.Place.isDiscreteValuationRing"]
+holes = ["isDiscreteValuationRing"]
 submitter = "Junyan Xu"
 
 [[problem]]
@@ -659,7 +659,7 @@ id = "Place_finite_setOf_notMem"
 title = "Elements in function fields have finitely many poles"
 test = false
 module = "LeanEval.AlgebraicGeometry.FunctionField"
-holes = ["FunctionField.Place.finite_setOf_notMem"]
+holes = ["finite_setOf_notMem"]
 submitter = "Junyan Xu"
 
 [[problem]]
