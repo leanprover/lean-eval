@@ -47,7 +47,9 @@ def workspacePathForProblem (root : System.FilePath) (problemId : String)
   return root / "generated" / problemId
 
 /-- Run `lake test` in the given workspace, forwarding all output to stderr so
-JSON-mode callers can keep their stdout clean. Mirrors `run_problem_test`. -/
+JSON-mode callers can keep their stdout clean. Mirrors `run_problem_test`.
+Streams each chunk as it arrives so noisy / hanging child output doesn't
+accumulate unbounded memory before the child exits. -/
 def runProblemTest (workspace : System.FilePath) : IO UInt32 := do
   let stderr ← IO.getStderr
   let child ← IO.Process.spawn {
@@ -58,23 +60,16 @@ def runProblemTest (workspace : System.FilePath) : IO UInt32 := do
     stdout := .piped
     stderr := .piped
   }
-  -- Forward both pipes to our stderr concurrently-ish: read stderr then stdout.
-  -- This isn't perfectly interleaved with subprocess timing but matches
-  -- run_eval.py's "all goes to stderr" behaviour for both streams.
   let outForward ← IO.asTask (do
-    let mut buf : ByteArray := ByteArray.empty
     while true do
       let chunk ← child.stdout.read 4096
       if chunk.isEmpty then break
-      buf := buf ++ chunk
-    stderr.write buf)
+      stderr.write chunk)
   let errForward ← IO.asTask (do
-    let mut buf : ByteArray := ByteArray.empty
     while true do
       let chunk ← child.stderr.read 4096
       if chunk.isEmpty then break
-      buf := buf ++ chunk
-    stderr.write buf)
+      stderr.write chunk)
   let exitCode ← child.wait
   let _ ← IO.wait outForward
   let _ ← IO.wait errForward

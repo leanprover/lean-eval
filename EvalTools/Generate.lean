@@ -313,6 +313,16 @@ def importPreludeLength (source : Source) : Nat := Id.run do
         return consumed
   return consumed
 
+/-- True if the line's trimmed content is `import EvalTools.Markers`, allowing
+arbitrary intra-line whitespace between `import` and the module name (the
+Python regex was `\s+`, not a single space). -/
+private def isEvalToolsMarkersImport (stripped : String) : Bool := Id.run do
+  if !(stripped.startsWith "import") then return false
+  let after := (stripped.drop "import".length).toString
+  if after.isEmpty then return false
+  if !after.toList.head!.isWhitespace then return false
+  return after.trimAscii.toString == "EvalTools.Markers"
+
 /-- Strip `@[eval_problem]` attribute lines and `import EvalTools.Markers`
 lines from `source`. Blank lines immediately before and after a stripped
 line are also dropped — mirroring the greedy `\s*` runs that bracket the
@@ -323,7 +333,7 @@ def stripProblemMarkers (source : String) : String := Id.run do
   let mut eatBlanks := false
   for line in lines do
     let stripped := line.trimAscii.toString
-    if stripped == "@[eval_problem]" || stripped == "import EvalTools.Markers" then
+    if stripped == "@[eval_problem]" || isEvalToolsMarkersImport stripped then
       -- Drop blank lines we already pushed that immediately precede this
       -- marker line; the Python regex's leading `^\s*` consumes them too.
       while out.size > 0 && out[out.size - 1]!.trimAscii.toString.isEmpty do
