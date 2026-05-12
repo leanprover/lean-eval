@@ -10,7 +10,7 @@ Ben Green and Terence Tao. *The primes contain arbitrarily long arithmetic progr
 
 /-- (Possibly trivial) arithmetic progression in any type equipped with addition. -/
 def List.IsArithProg {α : Type*} [Add α] (l : List α) : Prop :=
-  ∀ {x y z : α}, [x, y, z] <:+: l → x + y = z + z
+  ∃ d, ∀ x y, [x, y] <:+: l → x + d = y
 
 /-- The *Green-Tao Theorem*: there are arbitrarily long arithmetic progressions of primes. -/
 @[eval_problem]
