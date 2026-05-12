@@ -1,5 +1,15 @@
 import Cli
+import EvalTools.CheckComparatorInstallation
+import EvalTools.CheckEvalWorkflow
+import EvalTools.CheckGeneratedBuilds
+import EvalTools.CheckProblemBuild
+import EvalTools.Generate
 import EvalTools.Markers
+import EvalTools.RepoRoot
+import EvalTools.RunEval
+import EvalTools.StartProblem
+import EvalTools.ValidateManifest
+import EvalTools.ValidateSubmission
 
 open Cli
 
@@ -7,92 +17,45 @@ namespace EvalTools
 
 set_option autoImplicit false
 
-partial def findRepoRoot? (dir : System.FilePath) : IO (Option System.FilePath) := do
-  let hasLakefile ← (dir / "lakefile.toml").pathExists
-  let hasManifest ← (dir / "manifests" / "problems.toml").pathExists
-  if hasLakefile && hasManifest then
-    return some dir
-  match dir.parent with
-  | none => return none
-  | some parent =>
-      if parent == dir then
-        return none
-      findRepoRoot? parent
-
-def requireRepoRoot : IO System.FilePath := do
-  let cwd ← IO.currentDir
-  let some root ← findRepoRoot? cwd
-    | throw <| IO.userError
-        "Could not find the repository root. Run `lake exe lean-eval ...` from this repo or a subdirectory of it."
-  pure root
-
-def commandExists (cmd : String) : IO Bool := do
-  try
-    let child ← IO.Process.spawn {
-      cmd := "sh"
-      args := #["-c", "command -v \"$1\" >/dev/null 2>&1", "sh", cmd]
-    }
-    return (← child.wait) == 0
-  catch _ =>
-    return false
-
-def pythonCommand : IO String := do
-  if ← commandExists "python3" then
-    pure "python3"
-  else if ← commandExists "python" then
-    pure "python"
-  else
-    throw <| IO.userError
-      "Could not find `python3` or `python` in PATH. The current `lean-eval` implementation still shells out to the existing Python scripts."
-
-def runPythonScript (script : String) (args : Array String := #[]) : IO UInt32 := do
-  let root ← requireRepoRoot
-  let python ← pythonCommand
-  let child ← IO.Process.spawn {
-    cmd := python
-    args := #[script] ++ args
-    cwd := root
-    stdin := .inherit
-    stdout := .inherit
-    stderr := .inherit
-  }
-  child.wait
-
-def appendFlag (args : Array String) (name : String) (enabled : Bool) : Array String :=
-  if enabled then args.push name else args
-
-def appendFlagValue (args : Array String) (name : String) (value? : Option String) : Array String :=
-  match value? with
-  | some value => args.push name |>.push value
-  | none => args
-
-def appendRepeatedFlagValues (args : Array String) (name : String) (values : Array String) : Array String :=
-  values.foldl (fun acc value => acc.push name |>.push value) args
-
 def runRootCmd (p : Parsed) : IO UInt32 := do
   p.printHelp
   pure 0
 
-def runValidateManifestCmd (_ : Parsed) : IO UInt32 :=
-  runPythonScript "scripts/validate_manifest.py"
+def runValidateManifestCmd (_ : Parsed) : IO UInt32 := do
+  let root ← requireRepoRoot
+  EvalTools.runValidateManifest root
 
-def runCheckProblemBuildCmd (_ : Parsed) : IO UInt32 :=
-  runPythonScript "scripts/check_problem_build.py"
+def runCheckProblemBuildCmd (_ : Parsed) : IO UInt32 := do
+  let root ← requireRepoRoot
+  EvalTools.runCheckProblemBuild root
 
 def runGenerateCmd (p : Parsed) : IO UInt32 := do
-  let mut args : Array String := #[]
-  args := appendFlagValue args "--manifest" <| (p.flag? "manifest" |>.map fun f => f.as! String)
-  args := appendFlagValue args "--problem" <| (p.flag? "problem" |>.map fun f => f.as! String)
-  args := appendFlag args "--check" (p.hasFlag "check")
-  runPythonScript "scripts/generate_projects.py" args
+  let root ← requireRepoRoot
+  let manifest? : Option String := p.flag? "manifest" |>.map fun f => f.as! String
+  -- The `--manifest` flag selects an alternative manifest path. The Lean port
+  -- supports only the repo-default `manifests/problems.toml`; non-default
+  -- paths would need a separate code path in `loadManifest`, which no caller
+  -- has needed. Refuse the flag explicitly rather than silently ignoring it.
+  if let some path := manifest? then
+    if path != "manifests/problems.toml" then
+      IO.eprintln s!"--manifest currently only supports the default path (got {path})."
+      return 1
+  let problem? : Option String := p.flag? "problem" |>.map fun f => f.as! String
+  let check := p.hasFlag "check"
+  try
+    EvalTools.generate root problem? check
+    return 0
+  catch e =>
+    IO.eprintln (toString e)
+    return 1
 
 def runCheckGeneratedBuildsCmd (p : Parsed) : IO UInt32 := do
   let problems :=
     match p.flag? "problem" with
     | some flag => flag.as! (Array String)
     | none => #[]
-  let args := appendRepeatedFlagValues #[] "--problem" problems
-  runPythonScript "scripts/check_generated_builds.py" args
+  let root ← requireRepoRoot
+  EvalTools.runCheckGeneratedBuilds root problems
 
 def runStartProblemCmd (p : Parsed) : IO UInt32 := do
   let problemId : String := p.positionalArg! "problem-id" |>.as! String
@@ -100,38 +63,59 @@ def runStartProblemCmd (p : Parsed) : IO UInt32 := do
   if destinations.size > 1 then
     IO.eprintln "start-problem accepts at most one destination path."
     return 1
-  let mut args := #[problemId]
-  if let some destination := destinations[0]? then
-    args := args.push destination
-  runPythonScript "scripts/start_problem.py" args
+  let root ← requireRepoRoot
+  let sourceDisplay := s!"generated/{problemId}"
+  let sourcePath := root / "generated" / problemId
+  let destinationStr? : Option String := destinations[0]?
+  let (destinationDisplay, destinationPath) := match destinationStr? with
+    | some d =>
+        let path : System.FilePath := d
+        let effective := if path.isAbsolute then path else root / path
+        (d, effective)
+    | none =>
+        let display := s!"workspaces/{problemId}"
+        (display, root / "workspaces" / problemId)
+  EvalTools.runStartProblem sourcePath sourceDisplay destinationPath destinationDisplay
 
-def runCheckComparatorInstallationCmd (_ : Parsed) : IO UInt32 :=
-  runPythonScript "scripts/check_comparator_installation.py"
+def runCheckComparatorInstallationCmd (_ : Parsed) : IO UInt32 := do
+  let root ← requireRepoRoot
+  EvalTools.runCheckComparatorInstallation root
 
 def runRunEvalCmd (p : Parsed) : IO UInt32 := do
-  let mut args : Array String := #[]
-  args := appendFlagValue args "--manifest" <| (p.flag? "manifest" |>.map fun f => f.as! String)
-  args := appendRepeatedFlagValues args "--problem" <|
+  let manifest? : Option String := p.flag? "manifest" |>.map fun f => f.as! String
+  if let some path := manifest? then
+    if path != "manifests/problems.toml" then
+      IO.eprintln s!"--manifest currently only supports the default path (got {path})."
+      return 1
+  let selected : Array String :=
     match p.flag? "problem" with
     | some flag => flag.as! (Array String)
     | none => #[]
-  args := appendFlag args "--json" (p.hasFlag "json")
-  args := appendFlagValue args "--workspaces-root" <| (p.flag? "workspaces-root" |>.map fun f => f.as! String)
-  runPythonScript "scripts/run_eval.py" args
+  let emitJson := p.hasFlag "json"
+  let root ← requireRepoRoot
+  let workspacesRoot : System.FilePath :=
+    match p.flag? "workspaces-root" with
+    | some flag =>
+        let raw : String := flag.as! String
+        let path : System.FilePath := raw
+        if path.isAbsolute then path else root / raw
+    | none => root / "workspaces"
+  EvalTools.runRunEval root selected workspacesRoot emitJson
 
 def runValidateSubmissionCmd (p : Parsed) : IO UInt32 := do
-  let mut args : Array String := #[]
-  args := appendFlagValue args "--base" <| (p.flag? "base" |>.map fun f => f.as! String)
-  args := appendFlagValue args "--head" <| (p.flag? "head" |>.map fun f => f.as! String)
-  args := appendRepeatedFlagValues args "--file" <|
+  let base? : Option String := p.flag? "base" |>.map fun f => f.as! String
+  let head? : Option String := p.flag? "head" |>.map fun f => f.as! String
+  let files : Array String :=
     match p.flag? "file" with
     | some flag => flag.as! (Array String)
     | none => #[]
-  args := appendFlag args "--json" (p.hasFlag "json")
-  runPythonScript "scripts/validate_submission.py" args
+  let emitJson := p.hasFlag "json"
+  let root ← requireRepoRoot
+  EvalTools.runValidateSubmission root base? head? files emitJson
 
-def runCheckEvalWorkflowCmd (_ : Parsed) : IO UInt32 :=
-  runPythonScript "scripts/check_eval_workflow.py"
+def runCheckEvalWorkflowCmd (_ : Parsed) : IO UInt32 := do
+  let root ← requireRepoRoot
+  EvalTools.runCheckEvalWorkflow root
 
 def validateManifestCmd : Cmd := `[Cli|
   "validate-manifest" VIA runValidateManifestCmd;

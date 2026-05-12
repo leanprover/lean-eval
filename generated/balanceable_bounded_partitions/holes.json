@@ -1,0 +1,12 @@
+{
+  "id": "balanceable_bounded_partitions",
+  "module": "LeanEval.Combinatorics.BalanceableBoundedPartitions",
+  "holes": [
+    {
+      "name": "LeanEval.Combinatorics.minimal_balanceable_of_bounded",
+      "basename": "minimal_balanceable_of_bounded",
+      "kind": "theorem",
+      "body": "/--\nFor any `k`, the smallest `n` such that any `k`-bounded partition of `n` is\nalso balanceable is given by `2 * lcm(1, ..., k)`.\n-/\ntheorem minimal_balanceable_of_bounded (k : \u2115) (hk : 0 < k) :\n    Minimal (fun n => 0 < n \u2227 \u2200 p : n.Partition, Bounded k p \u2192 Balanceable p) (2 * (Finset.Icc 1 k).lcm id) := by\n  sorry"
+    }
+  ]
+}
