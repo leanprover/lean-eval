@@ -645,3 +645,12 @@ module = "LeanEval.NumberTheory.NeukirchUchida"
 holes = ["neukirch_uchida"]
 submitter = "Junyan Xu"
 source = "Jürgen Neukirch, Alexander Schmidt, Kay Wingberg. *Cohomology of Number Fields*, Theorem 12.2.1."
+
+[[problem]]
+id = "green_tao"
+title = "Green-Tao theorem on primes in arithmetic progression"
+test = false
+module = "LeanEval.NumberTheory.GreenTao"
+holes = ["green_tao"]
+submitter = "Thomas Waring"
+source = "Ben Green and Terence Tao. *The primes contain arbitrarily long arithmetic progressions* (2004)."
