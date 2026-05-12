@@ -87,17 +87,17 @@ jobs:
         run: python -m py_compile scripts/*.py tests/*.py
 
       - name: Validate Manifest
-        run: python scripts/validate_manifest.py
+        run: lake exe lean-eval validate-manifest
 
       - name: Build Problem Modules
-        run: python scripts/check_problem_build.py
+        run: lake exe lean-eval check-problem-build
 
       # Decide whether to run workspace generation/build. Source-only PRs
       # regenerate generated/ in the runner's working tree (the regenerate-main
       # workflow is the only thing that commits generated/ to main); solver PRs
       # build the committed tree as-is. Done early so that downstream steps
-      # which read generated/ (e.g. check_eval_workflow.py) see a tree that
-      # matches the source.
+      # which read generated/ (e.g. `lean-eval check-eval-workflow`) see a tree
+      # that matches the source.
       - name: Detect changes
         id: changes
         run: |
@@ -107,7 +107,7 @@ jobs:
             echo "generated_changed=true" >> "$GITHUB_OUTPUT"
           else
             CHANGED=$(git diff --name-only "$BASE"..HEAD)
-            if echo "$CHANGED" | grep -Eq '^(LeanEval/|EvalTools/|manifests/problems\.toml$|scripts/generate_projects\.py$|lakefile\.toml$|lean-toolchain$)'; then
+            if echo "$CHANGED" | grep -Eq '^(LeanEval/|EvalTools/|templates/|manifests/problems\.toml$|lakefile\.toml$|lean-toolchain$)'; then
               echo "source_changed=true" >> "$GITHUB_OUTPUT"
             else
               echo "source_changed=false" >> "$GITHUB_OUTPUT"
@@ -121,10 +121,10 @@ jobs:
 
       - name: Regenerate workspaces from source
         if: steps.changes.outputs.source_changed == 'true'
-        run: python scripts/generate_projects.py
+        run: lake exe lean-eval generate
 
       - name: Submission Policy Check
-        run: python scripts/validate_submission.py --file generated/two_plus_two/Solution.lean
+        run: lake exe lean-eval validate-submission --file generated/two_plus_two/Solution.lean
 
       # Submission diff validation is a PR-time contributor policy: it
       # decides whether a PR that only touches `generated/` looks like a
@@ -162,16 +162,10 @@ jobs:
             exit 0
           fi
 
-          python scripts/validate_submission.py --base "$BASE_SHA" --head "$HEAD_SHA"
+          lake exe lean-eval validate-submission --base "$BASE_SHA" --head "$HEAD_SHA"
 
       - name: Run Submission Policy Tests
-        run: python -m unittest tests.test_validate_submission
-
-      - name: Run Generator Tests
-        run: python -m unittest tests.test_generate_projects
-
-      - name: Run Scoring Tests
-        run: python -m unittest tests.test_run_eval
+        run: lake exe test_validate_submission
 
       - name: Run Leaderboard Update Tests
         run: python -m unittest tests.test_update_leaderboard
@@ -184,11 +178,11 @@ jobs:
 
       - name: Run Comparator Installation Checks
         run: |
-          python -m unittest tests.test_check_comparator_installation
-          python scripts/check_comparator_installation.py
+          lake exe test_check_comparator_installation
+          lake exe lean-eval check-comparator-installation
 
       - name: Run Eval Workflow Check
-        run: python scripts/check_eval_workflow.py
+        run: lake exe lean-eval check-eval-workflow
 
       # Download Mathlib cache once in the first workspace, then hard-link
       # its .lake/packages tree into every other workspace so that each
@@ -216,4 +210,4 @@ jobs:
 
       - name: Build Generated Workspaces
         if: steps.changes.outputs.source_changed == 'true' || steps.changes.outputs.generated_changed == 'true'
-        run: python scripts/check_generated_builds.py
+        run: lake exe lean-eval check-generated-builds
