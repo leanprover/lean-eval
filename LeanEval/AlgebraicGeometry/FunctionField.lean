@@ -1,6 +1,6 @@
 import Mathlib.FieldTheory.IntermediateField.Adjoin.Defs
+import Mathlib.NumberTheory.FunctionField
 import Mathlib.NumberTheory.NumberField.Basic
-import Mathlib.RingTheory.AlgebraicIndependent.Basic
 import Mathlib.RingTheory.DiscreteValuationRing.Basic
 import Mathlib.RingTheory.Valuation.ValuationSubring
 import Mathlib.Topology.Algebra.RestrictedProduct.Basic
@@ -25,27 +25,10 @@ end ValuationSubalgebra
 
 variable (K F: Type*) [Field K] [Field F] [Algebra K F]
 
-namespace Algebra
+class BundledFunctionField extends
+  Algebra (RatFunc K) F, IsScalarTower K (RatFunc K) F, FunctionField K F
 
-class Is1DFunctionField : Prop where
-  trdeg_eq_one : trdeg K F = 1
-  fg : (⊤ : IntermediateField K F).FG
-
-open scoped IntermediateField
-
-variable {K F} in
-/-- The definition `Is1DFunctionField` is equivalent to [Stichtenoth, Definition 1.1.1]. -/
-@[eval_problem]
-theorem is1DFunctionField_iff_exists_transcendental_finiteDimensional :
-    Is1DFunctionField K F ↔ ∃ x : F, Transcendental K x ∧ FiniteDimensional K⟮x⟯ F := by
-  sorry
-
-namespace Is1DFunctionField
-
-@[eval_problem]
-theorem finiteDimensional_of_transcendental [Is1DFunctionField K F]
-    (x : F) (hx : Transcendental K x) : FiniteDimensional K⟮x⟯ F := by
-  sorry
+namespace FunctionField
 
 /-- The type of places of a 1-dimensional function field. See [Stichtenoth,
 Definition 1.1.4 and 1.1.8]. We omit the condition `toSubalgebra ≠ ⊥` since it is automatic. -/
@@ -81,13 +64,14 @@ namespace Place
 variable {K F} in
 /-- [Stichtenoth, Theorem 1.1.6]. -/
 @[eval_problem]
-instance isDiscreteValuationRing [Is1DFunctionField K F] : IsDiscreteValuationRing v := by
+instance isDiscreteValuationRing [BundledFunctionField K F] : IsDiscreteValuationRing v := by
   sorry
 
 variable {F} in
 /-- [Stichtenoth, Corollary 1.3.4] (finitely many poles). -/
 @[eval_problem]
-theorem finite_setOf_notMem [Is1DFunctionField K F] (x : F) : {v : Place K F | x ∉ v}.Finite := by
+theorem finite_setOf_notMem [BundledFunctionField K F] (x : F) :
+    {v : Place K F | x ∉ v}.Finite := by
   sorry
 
 end Place
@@ -99,14 +83,14 @@ abbrev Adele : Type _ := Πʳ v : Place K F, [F, v]
 
 variable {F} in
 /-- The principal adele associated to an element in the function field. -/
-def Adele.principal [Is1DFunctionField K F] : F →+* Adele K F where
+def Adele.principal [BundledFunctionField K F] : F →+* Adele K F where
   toFun x := ⟨fun _ ↦ x, Place.finite_setOf_notMem K x⟩
   map_one' := rfl
   map_mul' _ _ := rfl
   map_zero' := rfl
   map_add' _ _ := rfl
 
-instance [Is1DFunctionField K F] : Algebra F (Adele K F) where
+instance [BundledFunctionField K F] : Algebra F (Adele K F) where
   smul x a := ⟨x • a, (.principal K x * a).2⟩
   algebraMap := Adele.principal K
   commutes' _ _ := mul_comm ..
@@ -121,9 +105,9 @@ instance : Algebra K (Adele K F) where
   algebraMap.map_add' _ _ := by ext; exact (algebraMap K F).map_add ..
   algebraMap.map_zero' := by ext; exact (algebraMap K F).map_zero
   commutes' _ _ := mul_comm ..
-  smul_def' _ _ := by ext; apply smul_def
+  smul_def' _ _ := by ext; apply Algebra.smul_def
 
-instance [Is1DFunctionField K F] : IsScalarTower K F (Adele K F) :=
+instance [BundledFunctionField K F] : IsScalarTower K F (Adele K F) :=
   .of_algebraMap_eq fun _ ↦ rfl
 
 /-- The $K$-subspace $\mathcal{A}_F(0)$, see [Stichtenoth, Definition 1.5.3]. -/
@@ -133,8 +117,13 @@ def integralAdele : Submodule K (Adele K F) where
   zero_mem' _ := zero_mem _
   smul_mem' _ _ h v := v.smul_mem (h v) _
 
+@[eval_problem]
+instance genus_finite [BundledFunctionField K F] : FiniteDimensional K
+    (Adele K F ⧸ integralAdele K F ⊔ (IsScalarTower.toAlgHom K F _).toLinearMap.range) := by
+  sorry
+
 /-- The genus of a function field, [Stichtenoth, Corollary 1.5.5]. -/
-noncomputable def genus [Is1DFunctionField K F] : ℕ := Module.finrank K
+noncomputable def genus [BundledFunctionField K F] : ℕ := Module.finrank K
   (Adele K F ⧸ integralAdele K F ⊔ (IsScalarTower.toAlgHom K F _).toLinearMap.range)
 
 /-- Every function field of genus at least 2 (equivalently, every curve of geometric genus
@@ -142,10 +131,8 @@ at least 2) over a number field has only finitely many rational points.
 Note: if K is not the full constant field of F/K then there are no rational points, because
 every place contains the full constant field. -/
 @[eval_problem]
-theorem faltings [NumberField K] [Is1DFunctionField K F] (h : 2 ≤ genus K F) :
+theorem faltings [NumberField K] [BundledFunctionField K F] (h : 2 ≤ genus K F) :
     {v : Place K F | Module.rank K (IsLocalRing.ResidueField v) = 1}.Finite := by
   sorry
 
-end Is1DFunctionField
-
-end Algebra
+end FunctionField
