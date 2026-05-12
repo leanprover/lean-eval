@@ -15,15 +15,16 @@ Pick concrete versions, pin them, and write down the upgrade procedure.
 
 ## 2. Native-Lean migration of lean-eval tooling
 
-The leaderboard *site* is native Lean, but the lean-eval-side tooling that
-produces the JSON it consumes is still Python:
+The leaderboard *site* is native Lean, and `lake exe lean-eval` is the
+native entrypoint for the CLI surface (generate, run-eval,
+check-eval-workflow, etc.). The remaining Python scripts only run inside
+the submission pipeline and have no `lake exe lean-eval` wrapper:
 
-- `scripts/generate_projects.py` — workspace generator
 - `scripts/evaluate_submission.py` — evaluation driver
 - `scripts/update_leaderboard.py` — result writer
-- `scripts/fetch_submission.py`, `run_eval.py`
+- `scripts/fetch_submission.py` — submission fetcher
 
-Migrate the remaining scripts so the entire toolchain lives inside `lake`.
+Optional: migrate these too so the entire toolchain lives inside `lake`.
 
 ## 3. Problem curation
 

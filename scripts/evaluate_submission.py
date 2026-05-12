@@ -31,10 +31,7 @@ import tempfile
 import tomllib
 from typing import Iterable
 
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-
-import generate_projects as gp  # noqa: E402
-
+REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 SUMMARY_GLOBAL_CHAR_CAP = 30_000
 MAX_MISMATCHES_PER_PROBLEM = 10
@@ -52,8 +49,25 @@ class WorkspaceMatch:
 
 
 def _load_manifest_ids(manifest_path: pathlib.Path) -> set[str]:
-    problems = gp.load_manifest(manifest_path)
-    return {problem.id for problem in problems}
+    """Read `manifests/problems.toml` and return the set of problem ids.
+
+    We parse just enough to extract `id` from each `[[problem]]` entry; full
+    validation lives in `lake exe lean-eval validate-manifest`. Mirrors what
+    `generate_projects.py:load_manifest` did before that module went away.
+    """
+    with manifest_path.open("rb") as handle:
+        data = tomllib.load(handle)
+    problems = data.get("problem", [])
+    if not problems:
+        raise EvaluateError(f"No problems found in {manifest_path}")
+    ids: set[str] = set()
+    for entry in problems:
+        if not isinstance(entry, dict):
+            continue
+        problem_id = entry.get("id")
+        if isinstance(problem_id, str) and problem_id.strip():
+            ids.add(problem_id.strip())
+    return ids
 
 
 def _is_inside(path: pathlib.Path, root: pathlib.Path) -> bool:
@@ -581,7 +595,7 @@ def evaluate_submission(
     #   (1) comparator's landrun sandbox, which whitelists paths rooted
     #       at the repo, can reach the per-workspace .lake/build
     #   (2) run_eval.score_problems can compute
-    #       workspace_path.relative_to(gp.REPO_ROOT) without ValueError
+    #       workspace_path.relative_to(REPO_ROOT) without ValueError
     repo_root.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(dir=repo_root, prefix=".submission-") as tmp:
         workspaces_root = pathlib.Path(tmp) / "workspaces"
@@ -663,7 +677,7 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--repo-root",
         type=pathlib.Path,
-        default=gp.REPO_ROOT,
+        default=REPO_ROOT,
         help="Repo root where `lake exe lean-eval` should run. Defaults to detection.",
     )
     parser.add_argument(

@@ -13,8 +13,8 @@ on:
     paths:
       - 'LeanEval/**'
       - 'EvalTools/**'
+      - 'templates/**'
       - 'manifests/problems.toml'
-      - 'scripts/generate_projects.py'
       - 'lakefile.toml'
       - 'lean-toolchain'
   workflow_dispatch:
