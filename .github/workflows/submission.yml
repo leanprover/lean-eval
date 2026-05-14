@@ -4,11 +4,18 @@
 # Security model: untrusted submitter Lean code is ONLY ever elaborated
 # inside comparator's landrun sandbox (invoked from `lake test` via
 # WorkspaceTest.lean). The non-negotiable invariants of this workflow
-# (read-only token in the evaluate job, .git stripped before lake runs,
-# `_prime_workspace` not pre-building any user-controlled targets, etc.)
-# are documented in LANDRUN.md → "What must not regress when this is
-# fixed". Read that section before editing this file or
+# (`APP_INSTALLATION_TOKEN` scoped to the single `Fetch submission`
+# step's env, .git stripped before lake runs, `_prime_workspace` not
+# pre-building any user-controlled targets, etc.) are documented in
+# SECURITY.md. Read that section before editing this file or
 # `scripts/evaluate_submission.py`.
+#
+# Fetch + evaluate live in a single job on purpose: a previous version
+# uploaded the cloned source as a `submission-source` artifact so a
+# separate `evaluate` job could pick it up, but on a public repo
+# anyone authenticated can download workflow artifacts via the API,
+# which leaked private submissions. Keeping fetch and evaluate
+# co-located removes the cross-runner transport entirely.
 name: Submission
 
 on:
@@ -27,13 +34,27 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  fetch:
+  evaluate:
     if: github.event.label.name == 'submission'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 90
+    # `issues: write` is needed by the in-job fetch-failure / evaluate-failure
+    # commenters below. The default `GITHUB_TOKEN` is *not* placed into the
+    # env of any step that runs untrusted Lean: it only appears in the
+    # explicit `env: GH_TOKEN:` blocks on the commenter steps. The
+    # `lean-eval-bot` installation token (which can read private
+    # submission repos) is similarly scoped to the single `Fetch
+    # submission` step's env. persist-credentials:false + `rm -rf .git`
+    # before lake runs ensures no checkout token persists into the
+    # lake runtime either.
     permissions:
       contents: read
       issues: write
+    # Surfaces whether the fetch step succeeded to the downstream `notify`
+    # job, which otherwise cannot distinguish fetch failure (already
+    # commented inline) from evaluate failure (needs a comment).
+    outputs:
+      fetch_succeeded: ${{ steps.fetch_status.outputs.succeeded }}
     steps:
       # actions/checkout pinned to 11bd7190 (= refs/tags/v4.2.2 as of 2026-05-04).
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -88,26 +109,30 @@ jobs:
       - name: Fetch submission
         id: fetch
         env:
+          # Step-scoped: the app token is NOT present in the env of any
+          # later step in this job. This is the load-bearing assumption
+          # that lets fetch + evaluate share a job without leaking
+          # access to private submission repos into the landrun-sandboxed
+          # evaluation. Do not promote this to a job-level env or
+          # secrets block.
           APP_INSTALLATION_TOKEN: ${{ steps.app_token.outputs.token }}
         run: |
           python scripts/fetch_submission.py \
             --event-path "$GITHUB_EVENT_PATH" \
             --output-dir /tmp/fetch-out
 
-      - name: Upload submission source artifact
-        if: success()
-        # actions/upload-artifact pinned to ea165f8d (= refs/tags/v4.6.2 as of 2026-05-04).
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        with:
-          name: submission-source
-          path: |
-            /tmp/fetch-out/source.tar.gz
-            /tmp/fetch-out/metadata.json
-          if-no-files-found: error
-          retention-days: 7
+      - name: Record fetch status for downstream jobs
+        id: fetch_status
+        if: always()
+        run: |
+          if [ "${{ steps.fetch.outcome }}" = "success" ]; then
+            echo "succeeded=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "succeeded=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Comment on fetch failure
-        if: failure()
+        if: failure() && steps.fetch.outcome == 'failure'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -116,17 +141,6 @@ jobs:
             --body "❌ Submission fetch failed. See the workflow logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}. If your submission repo is private, make sure the \`lean-eval-bot\` GitHub App is installed on it."
           gh issue close ${{ github.event.issue.number }} --repo "${{ github.repository }}" --reason "not planned" || true
 
-  evaluate:
-    needs: fetch
-    runs-on: ubuntu-latest
-    timeout-minutes: 90
-    # Deliberately minimal: contents:read is only enough to clone this
-    # public benchmark repo. No issues:write, no contents:write, no
-    # packages. persist-credentials:false + rm -rf .git below ensures the
-    # token cannot persist into the lake runtime.
-    permissions:
-      contents: read
-    steps:
       - name: Free disk space for Mathlib cache
         # Standard runners ship with ~14GB free; Mathlib unpacked is
         # several GB and we hold it twice (repo root + per-workspace).
@@ -142,11 +156,6 @@ jobs:
           large-packages: false
           docker-images: true
           swap-storage: false
-
-      # actions/checkout pinned to 11bd7190 (= refs/tags/v4.2.2 as of 2026-05-04).
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-        with:
-          persist-credentials: false
 
       - name: Strip git state before running untrusted Lean
         run: rm -rf .git
@@ -200,16 +209,10 @@ jobs:
       - name: Probe env-var allowlist
         run: python scripts/security_probes/env_dump_probe.py --require-tools
 
-      # actions/download-artifact pinned to d3f86a10 (= refs/tags/v4.3.0 as of 2026-05-04).
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        with:
-          name: submission-source
-          path: /tmp/submission-artifact
-
       - name: Extract submission source
         run: |
           mkdir -p /tmp/submission-src
-          tar -xzf /tmp/submission-artifact/source.tar.gz -C /tmp/submission-src --strip-components=1
+          tar -xzf /tmp/fetch-out/source.tar.gz -C /tmp/submission-src --strip-components=1
 
       - name: Run evaluate_submission.py
         # Sharing the host repo's .lake/packages tree across every
@@ -230,10 +233,10 @@ jobs:
 
       - name: Copy frozen metadata through to record
         if: always()
-        run: cp /tmp/submission-artifact/metadata.json /tmp/evaluate-out/metadata.json || true
+        run: cp /tmp/fetch-out/metadata.json /tmp/evaluate-out/metadata.json || true
 
       - name: Upload evaluate results artifact
-        if: always()
+        if: always() && steps.fetch.outcome == 'success'
         # actions/upload-artifact pinned to ea165f8d (= refs/tags/v4.6.2 as of 2026-05-04).
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
@@ -403,14 +406,15 @@ jobs:
             --repo "${{ github.repository }}" \
             --reason "completed"
 
-  # Catches the case where `fetch` succeeded but the pipeline did not
-  # complete cleanly — most often `evaluate` failing because the
-  # submitter's Submission.lean did not compile. Without this, the
-  # `record` job is skipped (its `needs: evaluate` dependency was unmet)
-  # and the submitter sees no comment at all.
+  # Catches the case where fetch succeeded but the pipeline did not
+  # complete cleanly — most often the evaluation steps failing because
+  # the submitter's Submission.lean did not compile, or the leaderboard
+  # `record` job failing. Without this, the submitter sees no comment.
+  # Gated on `evaluate.outputs.fetch_succeeded` so we do NOT duplicate
+  # the in-job fetch-failure comment.
   notify:
-    needs: [fetch, evaluate, record]
-    if: always() && needs.fetch.result == 'success' && needs.record.result != 'success'
+    needs: [evaluate, record]
+    if: always() && needs.evaluate.outputs.fetch_succeeded == 'true' && needs.record.result != 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:

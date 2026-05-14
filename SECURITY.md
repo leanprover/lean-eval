@@ -34,6 +34,17 @@ The attacker does not control:
 The goal we resist: **a submitter receiving credit on the leaderboard
 for a theorem they have not actually proved.**
 
+**Submission confidentiality is best-effort, not a guarantee.** Private
+submissions (those filed against a private GitHub repo readable only
+via the `lean-eval-bot` App) are evaluated without uploading their
+source as a workflow artifact, so the source is not exposed to anyone
+authenticated against the GitHub Actions API. But this is a
+single-line property maintained by the workflow's structure (fetch and
+evaluate share a job; `APP_INSTALLATION_TOKEN` is scoped to one step's
+env); we do not actively probe it, and a future workflow refactor
+could regress it silently. Submitters who require confidentiality
+should audit the workflow themselves before relying on this.
+
 ## 2. Architecture: Challenge / Submission / Solution
 
 Every benchmark problem ships as a self-contained Lake project in
