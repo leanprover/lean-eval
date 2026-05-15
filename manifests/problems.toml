@@ -648,7 +648,7 @@ source = "Jürgen Neukirch, Alexander Schmidt, Kay Wingberg. *Cohomology of Numb
 
 [[problem]]
 id = "green_tao"
-title = "Green-Tao theorem on primes in arithmetic progression"
+title = "Green–Tao theorem on primes in arithmetic progression"
 test = false
 module = "LeanEval.NumberTheory.GreenTao"
 holes = ["green_tao"]
