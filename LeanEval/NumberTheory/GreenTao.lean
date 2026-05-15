@@ -1,9 +1,9 @@
 import EvalTools.Markers
 import Mathlib.Data.Nat.Prime.Defs
 
-/-! # Green-Tao theorem on primes in arithmetic progressions
+/-! # Green–Tao theorem on primes in arithmetic progressions
 
-There exist arbitrarily-long arithmetic progression of primes.
+There exist arbitrarily long arithmetic progression of primes.
 
 Ben Green and Terence Tao. *The primes contain arbitrarily long arithmetic progressions* (2004).
 -/
