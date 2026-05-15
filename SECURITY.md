@@ -56,12 +56,19 @@ actively probe:
   sandbox can stat is readable by the untrusted Lean elaborator.
 
 A future workflow refactor could regress any of these silently.
-`actions/create-github-app-token` is also believed to write its token
-output to a runner temp file under `$RUNNER_TEMP/_runner_file_commands/`
-which the landrun sandbox can in principle read; this has not been
-empirically verified or mitigated. Submitters who require
-confidentiality should audit the workflow themselves before relying
-on this.
+`actions/create-github-app-token` does write the token to
+`$RUNNER_TEMP/_runner_file_commands/{set_output,save_state}_<uuid>`
+during the mint step, but actions/runner's `FileCommandManager`
+deletes the previous step's files at the start of every step
+(`runner/src/Runner.Worker/FileCommandManager.cs:InitializeFiles`),
+so by the time untrusted Lean runs in `evaluate_submission.py` those
+files have been deleted many steps earlier. Deeper shared-host paths
+that apply to any secret on a GitHub-hosted runner (e.g. reading
+`/proc/<runner-worker-pid>/environ` or attaching ptrace to the
+worker) are partially mitigated by Ubuntu's
+`kernel.yama.ptrace_scope=1` but are not something we actively probe.
+Submitters who require confidentiality should audit the workflow
+themselves before relying on this.
 
 ## 2. Architecture: Challenge / Submission / Solution
 
