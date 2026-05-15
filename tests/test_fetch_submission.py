@@ -4,6 +4,7 @@ import json
 import pathlib
 import subprocess
 import sys
+import tarfile
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -274,6 +275,106 @@ class CloneAtShaTests(unittest.TestCase):
             self.assertEqual(
                 (destination / "README.md").read_text(encoding="utf-8"),
                 "hello\n",
+            )
+
+    def test_clone_persists_token_in_git_config(self) -> None:
+        # Documents the leak path the strip in `fetch_submission` defends
+        # against: `git remote add origin <url>` writes the URL verbatim
+        # into .git/config, so an `x-access-token:` URL ends up on disk.
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = pathlib.Path(tmp)
+            origin, sha = self._make_fixture_repo(tmp_path)
+            authed_url = (
+                "https://x-access-token:SENTINEL_TOKEN_DO_NOT_TRUST"
+                f"@127.0.0.1/{origin.name}"
+            )
+            destination = tmp_path / "dest"
+            destination.mkdir()
+            subprocess.run(
+                ["git", "init", "--quiet"], cwd=destination, check=True
+            )
+            subprocess.run(
+                ["git", "remote", "add", "origin", authed_url],
+                cwd=destination,
+                check=True,
+            )
+            config = (destination / ".git" / "config").read_text(encoding="utf-8")
+            self.assertIn("SENTINEL_TOKEN_DO_NOT_TRUST", config)
+            del sha  # unused; fixture creator returns it for symmetry
+
+
+class FetchSubmissionTarballHygieneTests(unittest.TestCase):
+    """Regression test for the .git-strip in `fetch_submission`.
+
+    `clone_url_for` embeds the App installation token in the `origin`
+    remote URL for private-repo submissions, which `git remote add`
+    persists into .git/config. Comparator's landrun policy is `--ro /`,
+    so anything left under a path the sandbox can stat is readable by
+    untrusted Lean. The fetch flow MUST strip .git before tarring.
+    """
+
+    def _make_fixture_repo(self, tmp_path: pathlib.Path) -> tuple[pathlib.Path, str]:
+        repo = tmp_path / "origin"
+        repo.mkdir()
+        subprocess.run(["git", "init", "--quiet"], cwd=repo, check=True)
+        subprocess.run(["git", "config", "user.email", "test@example.com"], cwd=repo, check=True)
+        subprocess.run(["git", "config", "user.name", "Test"], cwd=repo, check=True)
+        (repo / "README.md").write_text("hello\n")
+        subprocess.run(["git", "add", "README.md"], cwd=repo, check=True)
+        subprocess.run(
+            ["git", "commit", "-m", "init", "--no-gpg-sign"],
+            cwd=repo,
+            check=True,
+        )
+        result = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=repo,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        return repo, result.stdout.strip()
+
+    def test_source_tarball_excludes_git_directory(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = pathlib.Path(tmp)
+            origin, sha = self._make_fixture_repo(tmp_path)
+            out_dir = tmp_path / "out"
+            event = {
+                "issue": {
+                    "number": 42,
+                    "user": {"login": "alice"},
+                    "body": SAMPLE_BODY,
+                }
+            }
+            with patch(
+                "fetch_submission.clone_url_for", return_value=str(origin)
+            ), patch(
+                "fetch_submission.resolve_ref", return_value=sha
+            ), patch(
+                "fetch_submission.resolve_repo_visibility", return_value=False
+            ):
+                fs.fetch_submission(
+                    event_payload=event,
+                    output_dir=out_dir,
+                    app_token="ghs_SENTINEL_TOKEN_DO_NOT_TRUST",
+                    skip_clone=False,
+                )
+
+            tar_path = out_dir / "source.tar.gz"
+            self.assertTrue(tar_path.is_file())
+            with tarfile.open(tar_path, "r:gz") as tf:
+                offending = [
+                    m.name
+                    for m in tf.getmembers()
+                    if ".git" in pathlib.PurePosixPath(m.name).parts
+                ]
+            self.assertEqual(
+                offending, [], f"tarball must not contain .git entries: {offending!r}"
+            )
+            self.assertFalse(
+                (out_dir / "source" / ".git").exists(),
+                "source/.git was not removed before tar",
             )
 
 

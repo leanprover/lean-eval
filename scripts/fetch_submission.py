@@ -19,6 +19,7 @@ import json
 import os
 import pathlib
 import re
+import shutil
 import subprocess
 import sys
 import tarfile
@@ -394,6 +395,18 @@ def fetch_submission(
     source_dir = output_dir / "source"
     if not skip_clone:
         clone_at_sha(clone_url, sha, source_dir)
+        # For private-repo submissions, `clone_url` embeds the
+        # `lean-eval-bot` App installation token in the `origin` remote
+        # URL, which `git remote add` persists into `.git/config`.
+        # Comparator's landrun policy is `--ro /`, so anything left on
+        # the runner under a path the sandbox can stat is readable by
+        # the untrusted Lean elaborator; dropping `.git` here keeps the
+        # token (and any other VCS metadata) out of `source.tar.gz` and
+        # out of the workspace the elaborator overlays from. If the
+        # auth-injection in `clone_url_for` ever moves to
+        # `http.extraheader` / credential helper, this strip becomes
+        # belt-and-braces but can stay.
+        shutil.rmtree(source_dir / ".git")
         guard_no_path_escape(source_dir)
         tar_source(source_dir, output_dir / "source.tar.gz")
 

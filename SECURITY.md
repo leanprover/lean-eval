@@ -38,12 +38,30 @@ for a theorem they have not actually proved.**
 submissions (those filed against a private GitHub repo readable only
 via the `lean-eval-bot` App) are evaluated without uploading their
 source as a workflow artifact, so the source is not exposed to anyone
-authenticated against the GitHub Actions API. But this is a
-single-line property maintained by the workflow's structure (fetch and
-evaluate share a job; `APP_INSTALLATION_TOKEN` is scoped to one step's
-env); we do not actively probe it, and a future workflow refactor
-could regress it silently. Submitters who require confidentiality
-should audit the workflow themselves before relying on this.
+authenticated against the GitHub Actions API. Confidentiality of the
+source — and of the App installation token used to clone it — depends
+on several properties of the workflow's structure that we do not
+actively probe:
+
+- fetch and evaluate share a job, so source never crosses a runner
+  boundary;
+- `APP_INSTALLATION_TOKEN` is scoped to the env of the single
+  `Fetch submission` step;
+- `fetch_submission.py` strips `.git/` from the cloned source before
+  tarring, because `clone_url_for` embeds the installation token in
+  the `origin` remote URL and `git remote add` persists that URL into
+  `.git/config` (regression test:
+  `FetchSubmissionTarballHygieneTests`). Comparator's landrun policy
+  is `--ro /`, so anything left on the runner under a path the
+  sandbox can stat is readable by the untrusted Lean elaborator.
+
+A future workflow refactor could regress any of these silently.
+`actions/create-github-app-token` is also believed to write its token
+output to a runner temp file under `$RUNNER_TEMP/_runner_file_commands/`
+which the landrun sandbox can in principle read; this has not been
+empirically verified or mitigated. Submitters who require
+confidentiality should audit the workflow themselves before relying
+on this.
 
 ## 2. Architecture: Challenge / Submission / Solution
 
