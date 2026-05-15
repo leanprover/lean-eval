@@ -22,7 +22,7 @@ theorem stirlingFirst_eq_card (n k : ℕ) :
   n.stirlingFirst k =
   Fintype.card {x : Finpartition (α := Finset (Fin n)) .univ // x.parts.card = k} := sorry
 
-/-- `n.stirlingSecond k` sounds the number of permutations of a set with cardinality `n` having `k`
+/-- `n.stirlingSecond k` counts the number of permutations of a set with cardinality `n` having `k`
 cycles (including those with one-element). -/
 @[eval_problem]
 theorem stirlingSecond_eq_card (n k : ℕ) :
