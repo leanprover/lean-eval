@@ -1,0 +1,9 @@
+id = "cauchy_kovalevskaya"
+title = "Cauchy–Kovalevskaya theorem"
+test = false
+module = "LeanEval.Analysis.CauchyKovalevskaya"
+holes = ["cauchy_kovalevskaya"]
+submitter = "Kim Morrison"
+notes = "§32 of Oliver Knill's 'Some Fundamental Theorems in Mathematics'. The quasi-linear scalar Cauchy problem with real-analytic data has a unique local analytic solution. Stated with off-the-shelf mathlib (AnalyticOnNhd, fderiv, EuclideanSpace); the PDE is encoded through the Fréchet derivative, with fderiv u p (0,1) the time derivative and fderiv u p (v,0) the spatial directional derivative. Mathlib has no Cauchy-Kovalevskaya theorem, and no formalization of it was found in any other proof assistant."
+source = "A.-L. Cauchy (1842) and S. Kovalevskaya (1875). Listed as §32 in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf)."
+informal_solution = "Construct the solution as a formal power series in (x, t) whose coefficients are determined recursively by differentiating the PDE and using the initial data; prove convergence by the method of majorants — bound the analytic data F, f, u₀ by geometric majorants for which the majorant Cauchy problem has an explicitly convergent closed-form solution, so the formal series converges on a neighborhood and is analytic there. Uniqueness holds because the power-series coefficients of any analytic solution with the given initial data are forced by the equation."
