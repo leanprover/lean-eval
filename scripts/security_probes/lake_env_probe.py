@@ -3,8 +3,9 @@
 Confirm that `lake env <cmd>` does NOT elaborate any project Lean
 source as a side effect.
 
-The trust model in `scripts/evaluate_submission.py:_prime_workspace`
-and `generated/*/WorkspaceTest.lean` depends on this: the only place
+The trust model in `evaluate_submission.py:_prime_workspace` (in the
+leanprover/lean-eval-submissions repo) and `generated/*/WorkspaceTest.lean`
+depends on this: the only place
 user-controlled `Submission.lean` should get elaborated is comparator's
 sandboxed `safeLakeBuild Solution`. If `lake env` ever started building
 project libraries, an attacker's `Submission.lean` would run outside

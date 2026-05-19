@@ -1,74 +1,45 @@
 # Security model: lean-eval
 
-This document explains why we believe the lean-eval submission pipeline
-is resistant to adversarial submissions, what assumptions it depends on,
-and where a future red-teamer should look first.
+This repository owns the benchmark problem set and the
+**comparator / landrun sandbox integration** — the machinery that bounds
+untrusted submitter Lean code. This document explains the sandbox
+invariants, the comparator trust model, and the pinned-dependency policy
+that the whole evaluation pipeline rests on.
 
-It is not a debugging log. The CI-postmortem narrative that previously
-lived in `LANDRUN.md` is preserved in git history and replaced here by a
-focused security write-up.
+The **submission pipeline** itself — issue intake, fetching submission
+source, the evaluation workflow, recording results, and the overall
+adversarial-submission threat model — lives in the submissions
+repository and is documented there:
 
-## 1. Threat model
+> **[`leanprover/lean-eval-submissions` → `SECURITY.md`](https://github.com/leanprover/lean-eval-submissions/blob/main/SECURITY.md)**
 
-The attacker controls:
+The two documents are complementary. The pipeline's guarantees are only
+as strong as the sandbox guarantees described here; this repository is
+where a change (a pin bump, a `templates/` edit, a generated-workspace
+lakefile change) can weaken the sandbox, so this is the doc a reviewer
+of a `lean-eval` PR must check against.
 
-- One submission they file as a GitHub issue: a public/private GitHub
-  repo (or public gist) containing `Submission.lean` and any number of
-  files under `Submission/**/*.lean`. Nothing else from the submission
-  source is consumed.
-- The freeform `model` and `production_description` fields in the issue
-  body.
+## Reporting a vulnerability
 
-The attacker does not control:
+If you find a way for a submitter to receive credit for a theorem they
+have not proved, or to read another submission's private source, or to
+execute code outside the landrun sandbox: do not file a public issue.
+Email the maintainers (see the repository's `leanprover` org contacts)
+with the details and a reproduction.
 
-- Whether the `submission` label gets applied — that requires triage
-  permission on `leanprover/lean-eval`.
-- `Challenge.lean`, `Solution.lean`, `lakefile.toml`, `lean-toolchain`,
-  `config.json`, `WorkspaceTest.lean` in the generated workspace.
-  These are taken from a pristine `generated/<id>/` checkout each run.
-- Any pinned upstream commit (landrun, lean4export, comparator,
-  GitHub Actions). See [Trusted dependencies and pin
-  policy](#5-trusted-dependencies-and-pin-policy) for the assumption
-  this places on each upstream.
+## 1. What this document covers
 
-The goal we resist: **a submitter receiving credit on the leaderboard
-for a theorem they have not actually proved.**
+The adversary is a submitter who controls a `Submission.lean` (and files
+under `Submission/`). The goal we resist here: **untrusted submitter Lean
+escaping comparator's sandbox, or comparator accepting a Solution that
+does not actually prove the Challenge.** The pipeline-level framing of
+the same adversary (issue intake, token handling, confidentiality) is in
+the submissions repo's `SECURITY.md`.
 
-**Submission confidentiality is best-effort, not a guarantee.** Private
-submissions (those filed against a private GitHub repo readable only
-via the `lean-eval-bot` App) are evaluated without uploading their
-source as a workflow artifact, so the source is not exposed to anyone
-authenticated against the GitHub Actions API. Confidentiality of the
-source — and of the App installation token used to clone it — depends
-on several properties of the workflow's structure that we do not
-actively probe:
-
-- fetch and evaluate share a job, so source never crosses a runner
-  boundary;
-- `APP_INSTALLATION_TOKEN` is scoped to the env of the single
-  `Fetch submission` step;
-- `fetch_submission.py` strips `.git/` from the cloned source before
-  tarring, because `clone_url_for` embeds the installation token in
-  the `origin` remote URL and `git remote add` persists that URL into
-  `.git/config` (regression test:
-  `FetchSubmissionTarballHygieneTests`). Comparator's landrun policy
-  is `--ro /`, so anything left on the runner under a path the
-  sandbox can stat is readable by the untrusted Lean elaborator.
-
-A future workflow refactor could regress any of these silently.
-`actions/create-github-app-token` does write the token to
-`$RUNNER_TEMP/_runner_file_commands/{set_output,save_state}_<uuid>`
-during the mint step, but actions/runner's `FileCommandManager`
-deletes the previous step's files at the start of every step
-(`runner/src/Runner.Worker/FileCommandManager.cs:InitializeFiles`),
-so by the time untrusted Lean runs in `evaluate_submission.py` those
-files have been deleted many steps earlier. Deeper shared-host paths
-that apply to any secret on a GitHub-hosted runner (e.g. reading
-`/proc/<runner-worker-pid>/environ` or attaching ptrace to the
-worker) are partially mitigated by Ubuntu's
-`kernel.yama.ptrace_scope=1` but are not something we actively probe.
-Submitters who require confidentiality should audit the workflow
-themselves before relying on this.
+The submitter does not control `Challenge.lean`, `Solution.lean`,
+`lakefile.toml`, `lean-toolchain`, `config.json`, or `WorkspaceTest.lean`
+in the generated workspace — these are taken from a pristine
+`generated/<id>/` checkout each run — nor any pinned upstream commit.
 
 ## 2. Architecture: Challenge / Submission / Solution
 
@@ -123,7 +94,7 @@ code.
 
 | Step | Process | Location | Elaborates Submission? |
 |---|---|---|---|
-| `actions/checkout` of lean-eval | trusted | runner | No |
+| `actions/checkout` | trusted | runner | No |
 | `rm -rf .git` | trusted | runner | No |
 | `lake build comparator` (in `.ci/comparator/`) | trusted | runner | No |
 | `lake build lean4export` (in `.ci/lean4export/`) | trusted | runner | No |
@@ -142,6 +113,10 @@ code.
 | `comparator.safeExport solutionModule` | reads the just-built olean | **inside landrun** | No |
 | `runKernel solution` | replays exported env in comparator process | runner | No |
 
+(`evaluate_submission.py` lives in the submissions repo; the steps above
+describe what it does when it drives an evaluation against this
+benchmark.)
+
 Two boundary concerns to call out explicitly:
 
 **Lake env doesn't elaborate.** [scripts/security_probes/lake_env_probe.py](scripts/security_probes/lake_env_probe.py)
@@ -154,7 +129,7 @@ during `lake env`, this probe must be re-run before the toolchain
 bump lands.
 
 **`_prime_workspace` doesn't build user-controlled targets.** The
-docstring at [scripts/evaluate_submission.py:288-322](scripts/evaluate_submission.py#L288-L322)
+docstring at `evaluate_submission.py` (in the submissions repo)
 documents the rule and the regression history (commit `3474943`
 violated it in 2026-04, reverted in #92 in 2026-05). `lake update` and
 `lake exe cache get` are the only shell-outs allowed.
@@ -212,7 +187,7 @@ mechanism that forces a re-audit.
 
 ## 5. Trusted dependencies and pin policy
 
-Every external dependency of the submission pipeline is pinned to an
+Every external dependency of the evaluation pipeline is pinned to an
 immutable commit SHA. Tags and branches are mutable; if `landrun@main`
 or `actions/checkout@v4` is ever resolved at install time, the
 upstream publisher controls our supply chain.
@@ -226,14 +201,11 @@ upstream publisher controls our supply chain.
 | `actions/checkout` | (action) | `11bd71901bbe5b1630ceea73d27597364c9af683` | repo checkout | 2026-05-04 |
 | `actions/setup-python` | (action) | `a26af69be951a213d495a4c3e4e4022e16d87065` | python setup | 2026-05-04 |
 | `actions/setup-go` | (action) | `d35c59abb061a4a6fb18e82ac0862c26744d6ab5` | go setup | 2026-05-04 |
-| `actions/upload-artifact` | (action) | `ea165f8d65b6e75b540449e92b4886f43607fa02` | artifact upload | 2026-05-04 |
-| `actions/download-artifact` | (action) | `d3f86a106a0bac45b974a628896c90dbdf5c8093` | artifact download | 2026-05-04 |
 | `actions/create-github-app-token` | (action) | `d72941d797fd3113feb6b93fd0dec494b13a2547` | App auth | 2026-05-04 |
 | `leanprover/lean-action` | (action) | `38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9` | Lean toolchain | 2026-05-04 |
 | Go toolchain | (setup-go arg) | `1.24.0` | concrete version, not `stable` | 2026-05-04 |
 | Python | (setup-python arg) | `3.11.10` | concrete patch version | 2026-05-04 |
 | `permitted_axioms` (every workspace) | comparator config | `{propext, Quot.sound, Classical.choice}` | axioms allowed in proofs | unchanged |
-| benchmark commit (leaderboard) | leanprover/lean-eval | `.benchmark-commit` in lean-eval-leaderboard | which lean-eval the live site reflects | per-bump |
 
 Mutable selectors are forbidden anywhere in `.github/workflows/`. The
 [`scripts/action_pin_audit.py`](scripts/action_pin_audit.py) script
@@ -242,15 +214,19 @@ walks every workflow and hard-fails on `uses: ...@main`,
 without a patch component, and `go install ...@<branch>`. It runs on
 every CI build; an unpinned dependency cannot be merged.
 
+The submission pipeline (`leanprover/lean-eval-submissions`) pins the
+same landrun / lean4export / comparator / GitHub Actions versions in its
+own `submission.yml`. A bump must update both repos in lockstep.
+
 ### Bumping pinned dependencies
 
 1. Find the new SHA. For tags: `git ls-remote <repo> refs/tags/<tag>`.
    For branch HEAD: `git ls-remote <repo> refs/heads/main`.
 2. Update **every** site listed below in lockstep, and add a dated
    comment of the form `# <dep> pinned to <sha7> (<note> as of YYYY-MM-DD).`
-   - `.github/workflows/ci.yml`
-   - `.github/workflows/submission.yml`
-   - `.github/workflows/regenerate-main.yml`
+   - `.github/workflows/ci.yml` (this repo)
+   - `.github/workflows/regenerate-main.yml` (this repo)
+   - `.github/workflows/submission.yml` (leanprover/lean-eval-submissions)
    - `EvalTools/CheckComparatorInstallation.lean` (`landrunInstallTarget`,
      for landrun only)
    - `lean-eval-leaderboard/.benchmark-commit` (for the lean-eval
@@ -264,12 +240,13 @@ every CI build; an unpinned dependency cannot be merged.
    Update Sections 3 and 6 of this doc if either changes verdict.
 5. Merge.
 
-## 6. Validations done at submission time
+## 6. Validations done at evaluation time
 
 - **Action pin audit.** [scripts/action_pin_audit.py](scripts/action_pin_audit.py)
   runs in CI; mutable workflow refs are blocked from merging.
 - **Sandbox-engaged probe.** [scripts/sandbox_engaged_probe.py](scripts/sandbox_engaged_probe.py)
-  runs in `ci.yml` and on every `submission` workflow run. It builds a
+  runs in `ci.yml` and on every `submission` workflow run (the
+  submissions repo invokes it from this repo's checkout). It builds a
   synthetic comparator workspace whose `Submission.lean` attempts five
   writes — `/tmp/...`, `$HOME/...`, `../outside`, through a `.lake/`
   symlink to outside, and `.lake/probe/inside-ok` — and asserts only
@@ -286,35 +263,24 @@ every CI build; an unpinned dependency cannot be merged.
   can't slip through. The required three are forwarded by comparator's
   `envPass`; `LEAN_PATH` and `LD_LIBRARY_PATH` are added by `lake`
   itself when it spawns `lean` and may or may not be present
-  depending on the OS (NixOS sets both, Ubuntu typically only sets
-  LEAN_PATH). They point at the workspace's `.lake/build/lib` and the
-  toolchain's shared libs and contain no secrets. Confirmed
-  empirically on Linux/NixOS on 2026-05-04 (runs both vars) and on
-  Ubuntu GHA runners 2026-05-04 (runs only LEAN_PATH).
-- **Overlay restriction.** `evaluate_submission.py:overlay_match` only
-  copies `Submission.lean` and files matching `*.lean` under
-  `Submission/`. Symlinks are rejected at submission walk and at
-  overlay time; all paths are normalized and checked for traversal.
-- **`_prime_workspace` invariant.** Only `lake update` + `lake exe
-  cache get` are allowed before comparator runs. The docstring
-  carries the rule and the regression history.
+  depending on the OS. They point at the workspace's `.lake/build/lib`
+  and the toolchain's shared libs and contain no secrets.
 - **Permitted axioms.** Every generated `config.json` has
   `permitted_axioms = {propext, Quot.sound, Classical.choice}`. No
   `sorryAx`, no `Lean.ofReduceBool`.
-- **Schema validation.** `update_leaderboard.py` validates
-  `submission-ref` and `benchmark-commit` as 40-char hex SHAs,
-  `submission-repo` as `owner/name`, `submission-kind` as `github_repo`
-  or `gist`, and `--user` as a GitHub login regex.
-- **Benchmark-commit pin.** The leaderboard's
-  `scripts/generate_site_data.py` reads `.benchmark-commit` and aborts
-  if the consumed `../lean-eval` checkout's HEAD does not match. The
-  intended bumper of the live site is the leaderboard repo's
-  `bump-benchmark-snapshot.yml` (not yet implemented; see Section 7).
+
+Why CI runs the probes: a `lean-eval` PR can weaken the sandbox by
+bumping the comparator/landrun pin, editing `templates/`, or changing a
+generated workspace's lakefile. The probes run as a required check here
+so such a regression is caught on the PR that introduces it, before any
+submission is ever evaluated against it. The submission pipeline re-runs
+them per-submission as a last-second pre-flight gate.
 
 ## 7. Soft spots — where to look first
 
 Each item is something we believe is OK today but where the assumption
-is fragile or hard to audit.
+is fragile or hard to audit. Pipeline-level soft spots (leaderboard
+escaping, the triage gate) are in the submissions repo's `SECURITY.md`.
 
 1. **landrun `--best-effort` semantics on novel kernels.** landrun
    silently runs without sandbox if the kernel lacks landlock support.
@@ -342,38 +308,19 @@ is fragile or hard to audit.
    sufficiently constrain a def — and adding one would be at most a
    heuristic. The real guard is PR review of any problem that uses
    def/instance holes.
-5. **HTML escaping of freeform fields on the leaderboard.** The
-   `model` and `production_description` fields are unbounded freeform
-   text from the issue body, propagated into `leaderboard.json` and
-   rendered by Verso. Verso/markdown should escape but this has not
-   been explicitly probed.
-6. **Leaderboard deploy doesn't yet enforce `.benchmark-commit`.**
-   `lean-eval-leaderboard/.github/workflows/deploy.yml` currently
-   builds from frozen `site-data/`; `generate_site_data.py` is invoked
-   out-of-band. The pin guard added in this work fires only when the
-   script runs. The intended `bump-benchmark-snapshot.yml` workflow
-   that would close this gap does not yet exist; tracked as follow-up.
-7. **Single-kernel defence.** `enable_nanoda: false` in every
+5. **Single-kernel defence.** `enable_nanoda: false` in every
    generated config means the alternate kernel is not run. A Lean
    kernel soundness bug becomes a false-credit vector. Defence in
    depth would be `enable_nanoda: true` once nanoda's string
    handling is upstream-fixed.
-8. **Freeform `model` length.** `update_leaderboard.py` validates
-   `production_description` length but not `model`. A pathological
-   `model` value cannot grant credit, but can pollute the
-   leaderboard JSON.
-9. **The `submission` label is a triage gate.** Anyone with triage
-   access on `leanprover/lean-eval` can trigger the workflow against
-   any submission URL. Repository admin hygiene matters.
 
 ## References
 
 - [comparator/Main.lean](../comparator/Main.lean), [comparator/Comparator/Compare.lean](../comparator/Comparator/Compare.lean), [comparator/Comparator/Axioms.lean](../comparator/Comparator/Axioms.lean) — verifier internals.
 - [leanprover/comparator README](https://github.com/leanprover/comparator) — upstream trust model.
-- [scripts/security_probes/](scripts/security_probes/) — the four security probes cited above.
+- [scripts/security_probes/](scripts/security_probes/) — the security probes cited above.
 - [scripts/action_pin_audit.py](scripts/action_pin_audit.py),
   [scripts/sandbox_engaged_probe.py](scripts/sandbox_engaged_probe.py),
-  [EvalTools/CheckComparatorInstallation.lean](EvalTools/CheckComparatorInstallation.lean),
-  [scripts/evaluate_submission.py](scripts/evaluate_submission.py),
-  [scripts/update_leaderboard.py](scripts/update_leaderboard.py) — the pipeline scripts referenced from this document.
-- Workflow files: [.github/workflows/submission.yml](.github/workflows/submission.yml), [.github/workflows/ci.yml](.github/workflows/ci.yml), [.github/workflows/regenerate-main.yml](.github/workflows/regenerate-main.yml), [.github/workflows/notify-leaderboard.yml](.github/workflows/notify-leaderboard.yml).
+  [EvalTools/CheckComparatorInstallation.lean](EvalTools/CheckComparatorInstallation.lean) — the integrity scripts referenced above.
+- Workflow files: [.github/workflows/ci.yml](.github/workflows/ci.yml), [.github/workflows/regenerate-main.yml](.github/workflows/regenerate-main.yml), [.github/workflows/notify-leaderboard.yml](.github/workflows/notify-leaderboard.yml).
+- [`leanprover/lean-eval-submissions` SECURITY.md](https://github.com/leanprover/lean-eval-submissions/blob/main/SECURITY.md) — the submission-pipeline threat model.

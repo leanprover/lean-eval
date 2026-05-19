@@ -84,7 +84,7 @@ jobs:
         run: python scripts/security_probes/env_dump_probe.py --require-tools
 
       - name: Python Syntax Checks
-        run: python -m py_compile scripts/*.py tests/*.py
+        run: python -m py_compile scripts/*.py scripts/security_probes/*.py
 
       - name: Validate Manifest
         run: lake exe lean-eval validate-manifest
@@ -169,15 +169,6 @@ jobs:
 
       - name: Run Generate Tests
         run: lake exe test_generate
-
-      - name: Run Leaderboard Update Tests
-        run: python -m unittest tests.test_update_leaderboard
-
-      - name: Run Fetch Submission Tests
-        run: python -m unittest tests.test_fetch_submission
-
-      - name: Run Evaluate Submission Tests
-        run: python -m unittest tests.test_evaluate_submission
 
       - name: Run Comparator Installation Checks
         run: |

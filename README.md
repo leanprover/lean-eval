@@ -216,13 +216,23 @@ The scorer prefers `workspaces/<problem-id>/` when present and falls back to
 
 ## Submission Rules
 
+To **submit a solution** to the public leaderboard, open a submission issue on
+the submissions repository:
+
+> **[github.com/leanprover/lean-eval-submissions](https://github.com/leanprover/lean-eval-submissions)**
+
+That repository owns the hosted submission pipeline and the stored results.
+This repository (`leanprover/lean-eval`) holds only the problem set and the
+comparator/sandbox integration.
+
 Participants may use Mathlib freely.
 
 If a proof needs helper code that is not already in Mathlib, that code must be included
 inside the submission workspace itself. Multi-file submissions are allowed through
 `Submission.lean` and extra local modules under `Submission/`.
 
-For benchmark-repo submissions, validate changed paths with:
+For benchmark-repo submissions (a PR that edits a `generated/` workspace in place),
+validate changed paths with:
 
 ```bash
 lake exe lean-eval validate-submission --file generated/two_plus_two/Solution.lean

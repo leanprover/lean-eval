@@ -9,10 +9,14 @@ posture from this file alone — no UI screenshots, no tribal knowledge.
 
 | Item | Type | Stored as | Used by |
 | --- | --- | --- | --- |
-| `lean-eval-bot` | GitHub App (owner: `kim-em`) | `LEAN_EVAL_BOT_APP_ID`, `LEAN_EVAL_BOT_PRIVATE_KEY` | `submission.yml` |
 | `lean-eval-regenerator` | GitHub App (owner: `kim-em`) | `LEAN_EVAL_REGENERATOR_APP_ID`, `LEAN_EVAL_REGENERATOR_PRIVATE_KEY` | `regenerate-main.yml` |
-| `LEADERBOARD_WRITE_TOKEN` | Fine-grained PAT | `LEADERBOARD_WRITE_TOKEN` (in both `leanprover/lean-eval` and `leanprover/lean-eval-leaderboard`) | `submission.yml`, `notify-leaderboard.yml` (this repo); `bump-benchmark-snapshot.yml` (leaderboard) |
+| `LEADERBOARD_WRITE_TOKEN` | Fine-grained PAT | `LEADERBOARD_WRITE_TOKEN` (in both `leanprover/lean-eval` and `leanprover/lean-eval-leaderboard`) | `notify-leaderboard.yml` (this repo); `bump-benchmark-snapshot.yml` (leaderboard) |
 | Ruleset `main protection` | Repository Ruleset | (config in this repo, applied via API) | branch protection on `main` |
+
+The submission pipeline's credentials (`lean-eval-bot`,
+`lean-eval-recorder`, and that repo's copy of `LEADERBOARD_WRITE_TOKEN`)
+moved with the pipeline to `leanprover/lean-eval-submissions`; they are
+documented in [that repo's `docs/ci-secrets.md`](https://github.com/leanprover/lean-eval-submissions/blob/main/docs/ci-secrets.md).
 
 To check the live state at any time:
 
@@ -21,58 +25,6 @@ gh secret list -R leanprover/lean-eval
 gh api /repos/leanprover/lean-eval/rules/branches/main \
     --jq '[.[].type]'
 ```
-
-## GitHub App: `lean-eval-bot`
-
-Used by [`.github/workflows/submission.yml`](../.github/workflows/submission.yml)
-to mint installation tokens that fetch submission source from contributor
-repositories (which may be private).
-
-### App settings
-
-- Owner account: `kim-em` (User account).
-- Webhook: deactivated.
-- Repository permissions:
-  - `Contents: Read`
-- Where can this GitHub App be installed: **Any account**. Contributors
-  install it on their own submission repos so the workflow can clone them.
-
-### Repository secrets (in `leanprover/lean-eval`)
-
-- `LEAN_EVAL_BOT_APP_ID` — the App ID number.
-- `LEAN_EVAL_BOT_PRIVATE_KEY` — the full PEM contents of a private key
-  generated for the app.
-
-### Where used
-
-[`.github/workflows/submission.yml`](../.github/workflows/submission.yml),
-in the `Mint lean-eval-bot installation token` step, via
-`actions/create-github-app-token@v1`. The minted token is then used to
-fetch the contributor's submission source.
-
-The issue template
-[`.github/ISSUE_TEMPLATE/submit.yml`](../.github/ISSUE_TEMPLATE/submit.yml)
-instructs contributors to install this app on their submission repo as
-part of the submission workflow.
-
-### Reconstruction from scratch
-
-1. As the desired app owner, visit <https://github.com/settings/apps/new>.
-2. Fill in:
-   - Name: `lean-eval-bot`
-   - Homepage URL: `https://github.com/leanprover/lean-eval`
-   - Webhook → Active: unchecked
-   - Repository permissions → Contents: Read
-   - Where can this GitHub App be installed: **Any account**
-3. Save → record the App ID.
-4. Generate a private key, download the `.pem`.
-5. Install the app on `leanprover/lean-eval` (so it has an installation
-   the workflow can mint tokens against).
-6. Set the secrets:
-   ```bash
-   gh secret set LEAN_EVAL_BOT_APP_ID -R leanprover/lean-eval --body <APP_ID>
-   gh secret set LEAN_EVAL_BOT_PRIVATE_KEY -R leanprover/lean-eval < path/to/key.pem
-   ```
 
 ## GitHub App: `lean-eval-regenerator`
 
@@ -142,12 +94,9 @@ fallback steps:
 
 ## PAT: `LEADERBOARD_WRITE_TOKEN`
 
-Fine-grained Personal Access Token used by three workflows to drive the
-leaderboard repository (<https://github.com/leanprover/lean-eval-leaderboard>):
+Fine-grained Personal Access Token used to drive the leaderboard
+repository (<https://github.com/leanprover/lean-eval-leaderboard>):
 
-- [`.github/workflows/submission.yml`](../.github/workflows/submission.yml)
-  in this repo — pushes a `record:` commit to leaderboard `main` when a
-  submission succeeds.
 - [`.github/workflows/notify-leaderboard.yml`](../.github/workflows/notify-leaderboard.yml)
   in this repo — fires a `repository_dispatch` event into the leaderboard
   whenever a problem-affecting change lands on this repo's `main`,
@@ -158,6 +107,10 @@ leaderboard repository (<https://github.com/leanprover/lean-eval-leaderboard>):
   runs `lake build` as the gate, and direct-pushes the bump to
   leaderboard `main`. The deploy workflow then republishes the site.
 
+(`leanprover/lean-eval-submissions` keeps its own copy of this PAT,
+used by `submission.yml` to dispatch a leaderboard redeploy after a
+result is recorded. Rotations must cover that copy too.)
+
 The token must be a fine-grained PAT issued under your personal account
 (not the org), with the leaderboard repo selected and `Contents: Read
 and write`. That permission is sufficient both for direct pushes (the
@@ -167,16 +120,17 @@ for `repository_dispatch` (per
 
 ### Repository secrets
 
-The same token value is stored in **two** places — once per repo that
-needs to use it:
+The same token value is stored once per repo that needs it:
 
 - `LEADERBOARD_WRITE_TOKEN` in `leanprover/lean-eval` (used by
-  `submission.yml` and `notify-leaderboard.yml`).
+  `notify-leaderboard.yml`).
 - `LEADERBOARD_WRITE_TOKEN` in `leanprover/lean-eval-leaderboard` (used
   by `bump-benchmark-snapshot.yml`).
+- `LEADERBOARD_WRITE_TOKEN` in `leanprover/lean-eval-submissions` (used
+  by `submission.yml` to dispatch a redeploy).
 
-When rotating the PAT, update **both** secrets together. Forgetting one
-causes silent half-failures: e.g., dispatch fires but the bump's
+When rotating the PAT, update **all three** secrets together. Forgetting
+one causes silent half-failures: e.g., dispatch fires but the bump's
 push step rejects, or vice versa.
 
 ### Reconstruction from scratch
