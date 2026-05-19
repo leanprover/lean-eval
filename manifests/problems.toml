@@ -414,6 +414,15 @@ submitter = "Kim Morrison"
 notes = "Minimal example exercising instance + theorem holes; instances must be named so the comparator can address them."
 
 [[problem]]
+id = "variable_binder_example"
+title = "variable-binder minimal example"
+test = true
+module = "LeanEval.Sandbox.VariableBinderExample"
+holes = ["variable_binder_example"]
+submitter = "Kim Morrison"
+notes = "Regression for https://github.com/leanprover/lean-eval/issues/276. The theorem inherits implicit binders from a preceding `variable` declaration, which the extractor must re-emit in the generated workspace."
+
+[[problem]]
 id = "exists_nonisotopic_link"
 title = "Existence of a non-isotopic pair of oriented two-component links"
 test = false

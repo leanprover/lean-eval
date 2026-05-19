@@ -1,0 +1,12 @@
+{
+  "id": "variable_binder_example",
+  "module": "LeanEval.Sandbox.VariableBinderExample",
+  "holes": [
+    {
+      "name": "LeanEval.Sandbox.variable_binder_example",
+      "basename": "variable_binder_example",
+      "kind": "theorem",
+      "body": "theorem variable_binder_example\n    (A : Matrix n n \u211a) (hA : A.IsHermitian) :\n    A.trace = \u2211 i, A i i := by\n  sorry"
+    }
+  ]
+}

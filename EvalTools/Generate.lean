@@ -773,6 +773,174 @@ def extractContextOpens (problemId : String) (sourcePath : System.FilePath)
   if contextLines.isEmpty then return ""
   return "\n".intercalate contextLines.toList ++ "\n\n"
 
+/-! ## Context variables
+
+Walk the source up to the theorem and collect every `variable` declaration
+that is still in scope at that point. The lidskii regression (issue #276) is
+the canonical example: a theorem can refer to identifiers like `n` that are
+introduced by a preceding `variable {n : Type*} ...` declaration, and the
+elaborated theorem inherits those binders even though they do not appear in
+the source slice between `theorem <name>` and `:= by`. Re-emitting the
+`variable` lines in the generated workspace restores the elaboration context
+needed to type-check the extracted statement.
+
+Multi-line `variable` declarations are kept verbatim: after a `variable`
+header line we keep absorbing lines that begin with whitespace, which matches
+how Lean's parser treats indented continuations of a binder list. -/
+
+private def isLineStartingWithWhitespace (line : String) : Bool :=
+  match line.toList with
+  | [] => false
+  | c :: _ => c.isWhitespace
+
+/-- True iff `s` starts with `kw` and the next character (if any) is not part of
+an identifier — i.e. `kw` is followed by whitespace or end-of-line, not by more
+letters/underscores. Avoids matching `variableFoo` as `variable`. -/
+private def startsWithKeyword (s kw : String) : Bool :=
+  if !(s.startsWith kw) then false
+  else
+    let chars := s.toList.drop kw.length
+    match chars with
+    | [] => true
+    | c :: _ => !(c.isAlphanum || c == '_' || c == '\'')
+
+-- Drop the prefix of length `n` from `s` as a `String`.
+private def stringDrop (s : String) (n : Nat) : String :=
+  String.mk (s.toList.drop n)
+
+-- Find the contents of `s` after the first occurrence of `"-/"`. If the
+-- closer appears, returns `(afterMarker, false)`; otherwise returns
+-- `("", true)` to signal the block comment is still open at end-of-line.
+private def skipToBlockCommentClose (s : String) : String × Bool :=
+  let parts := s.splitOn "-/"
+  match parts with
+  | [] => ("", true)
+  | [_] => ("", true)
+  | _ :: rest => ("-/".intercalate rest, false)
+
+-- Strip a single block comment from the start of `lineRemainder`, returning
+-- `(remainderAfterComment, stillOpen)`. Caller must ensure `lineRemainder`
+-- starts with the block-comment opener `/-`.
+private def consumeBlockCommentStart (lineRemainder : String) : String × Bool :=
+  skipToBlockCommentClose (stringDrop lineRemainder 2)
+
+-- Strip text up to and including the next block-comment closer, returning
+-- what's left on this line and whether the block comment is still open.
+private def consumeBlockCommentContinuation (lineRemainder : String) : String × Bool :=
+  skipToBlockCommentClose lineRemainder
+
+/-- Names introduced by the named (non-instance) leading binders of a
+declaration-like text such as a theorem signature or the body of a
+`variable` declaration. -/
+def binderIntroducedNames (text : String) : Array String := Id.run do
+  let mut names : Array String := #[]
+  for (opener, body) in leadingBinders text do
+    -- Instance-implicit binders are usually anonymous (`[Fintype n]`); skip
+    -- them — the names they reference come from other binders.
+    if opener == '[' then continue
+    let parts := body.splitOn ":"
+    if parts.length < 2 then continue
+    for name in splitWhitespace parts[0]! do
+      names := names.push name
+  return names
+
+/-- True iff every name introduced by `varText` (a `variable ...` line, with
+the `variable` prefix still attached) is already bound by `theoremBinderNames`.
+Such a `variable` is shadowed by the theorem's explicit binders and so
+Lean would emit it as an "unused variable" if we re-emitted it. -/
+private def variableShadowedByTheorem (varText : String)
+    (theoremBinderNames : Array String) : Bool := Id.run do
+  let trimmed := varText.trimAscii.toString
+  if !(startsWithKeyword trimmed "variable") then return false
+  let body := (trimmed.drop "variable".length).toString
+  let varNames := binderIntroducedNames body
+  if varNames.isEmpty then return false
+  for name in varNames do
+    if !theoremBinderNames.contains name then return false
+  return true
+
+def extractContextVariables (source : String) (extracted? : Option ExtractedTheorem)
+    (theoremBinderNames : Array String) : String := Id.run do
+  let lines := source.splitOn "\n"
+  let targetLine? : Option Nat := extracted?.map fun e => e.startLine
+  -- One layer per `section`/`namespace` we are still inside. A `variable`
+  -- declared in a `section`/`namespace` goes out of scope at the matching
+  -- `end`; treating both the same way matches Lean's scoping for `variable`.
+  let mut variableLayers : Array (Array String) := #[#[]]
+  let mut frameDepth : Nat := 0
+  let mut inBlockComment := false
+  let mut idx : Nat := 0
+  while idx < lines.length do
+    let lineNum := idx + 1
+    if let some t := targetLine? then
+      if lineNum ≥ t then break
+    let line := lines[idx]!
+    -- Walk the line tracking block-comment state. We only consider the
+    -- non-comment remainder when classifying the line.
+    let mut work := line
+    if inBlockComment then
+      let (rest, stillOpen) := consumeBlockCommentContinuation work
+      if stillOpen then
+        idx := idx + 1
+        continue
+      inBlockComment := false
+      work := rest
+    -- Strip any further `/- ... -/` segments that close on this line, and
+    -- detect an opener that doesn't.
+    let mut classified := work
+    let mut bail := false
+    while true do
+      let trimmed := classified.trimAsciiStart.toString
+      if trimmed.startsWith "/-" then
+        let (rest', stillOpen) := consumeBlockCommentStart trimmed
+        if stillOpen then
+          inBlockComment := true
+          bail := true
+          break
+        classified := rest'
+      else
+        break
+    if bail then
+      idx := idx + 1
+      continue
+    let stripped := classified.trimAscii.toString
+    if stripped.isEmpty || stripped.startsWith "--" then
+      idx := idx + 1
+      continue
+    if startsWithKeyword stripped "namespace" || startsWithKeyword stripped "section" then
+      frameDepth := frameDepth + 1
+      variableLayers := variableLayers.push #[]
+      idx := idx + 1
+    else if startsWithKeyword stripped "end" then
+      if frameDepth > 0 then
+        frameDepth := frameDepth - 1
+        variableLayers := variableLayers.pop
+      idx := idx + 1
+    else if startsWithKeyword stripped "variable" then
+      let mut block := line
+      idx := idx + 1
+      while idx < lines.length do
+        let lineNum' := idx + 1
+        if let some t := targetLine? then
+          if lineNum' ≥ t then break
+        let next := lines[idx]!
+        if next.trimAscii.toString.isEmpty then break
+        if !isLineStartingWithWhitespace next then break
+        block := block ++ "\n" ++ next
+        idx := idx + 1
+      if !variableShadowedByTheorem block theoremBinderNames then
+        let layerIdx := variableLayers.size - 1
+        let layer := variableLayers[layerIdx]!.push block
+        variableLayers := variableLayers.set! layerIdx layer
+    else
+      idx := idx + 1
+  let mut flat : Array String := #[]
+  for layer in variableLayers do
+    for v in layer do
+      flat := flat.push v
+  if flat.isEmpty then return ""
+  return "\n".intercalate flat.toList ++ "\n\n"
+
 /-! ## Render ChallengeDeps.lean -/
 
 def renderChallengeDeps (root : System.FilePath) (entry : EvalProblemMetadata)
@@ -1168,6 +1336,9 @@ private def renderWorkspaceSingleHole (root : System.FilePath) (entry : EvalProb
   let submissionImports :=
     if hasChallengeDeps then "import ChallengeDeps\nimport Submission.Helpers\n\n"
     else "import Mathlib\nimport Submission.Helpers\n\n"
+  let theoremBinderNames := binderIntroducedNames theoremStatement
+  let contextVariablesBlock :=
+    extractContextVariables sourceText (some extracted) theoremBinderNames
   let includeNamespaces := hasChallengeDeps || !localImports.isEmpty
   let contextOpenBlock ←
     extractContextOpens entry.id sourcePath sourceText (some extracted) includeNamespaces
@@ -1186,13 +1357,13 @@ private def renderWorkspaceSingleHole (root : System.FilePath) (entry : EvalProb
   let readmeLines := renderReadmeLines entry #[extracted] (multiHole := false)
   let readme := "\n".intercalate readmeLines.toList ++ "\n"
   let challengeFile :=
-    challengeImport ++ contextOpenBlock ++
+    challengeImport ++ contextOpenBlock ++ contextVariablesBlock ++
     s!"theorem {theoremName} {theoremStatement} := by\n  sorry\n"
   let solutionFile :=
-    solutionImports ++ contextOpenBlock ++
+    solutionImports ++ contextOpenBlock ++ contextVariablesBlock ++
     s!"theorem {theoremName} {theoremStatement} := by\n  exact {solutionExact}\n"
   let submissionFile :=
-    submissionImports ++ contextOpenBlock ++
+    submissionImports ++ contextOpenBlock ++ contextVariablesBlock ++
     "namespace Submission\n\n" ++
     s!"theorem {theoremName} {theoremStatement} := by\n  sorry\n\n" ++
     "end Submission\n"
