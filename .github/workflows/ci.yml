@@ -167,6 +167,9 @@ jobs:
       - name: Run Submission Policy Tests
         run: lake exe test_validate_submission
 
+      - name: Run Generate Tests
+        run: lake exe test_generate
+
       - name: Run Leaderboard Update Tests
         run: python -m unittest tests.test_update_leaderboard
 
