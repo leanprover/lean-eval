@@ -714,11 +714,30 @@ def Source.findKeywordBasename (s : Source) (keywords : Array String) (basename 
 
 /-! ## Context opens -/
 
-/-- Drop a trailing `--` line comment from `s`. Used to keep `in` tokens that
-appear in comments from being mistaken for the `open … in` scoping keyword.
-This is a deliberately simple heuristic: it does not understand block
-comments or string literals, neither of which can legitimately appear inside
-an `open` command. -/
+/-- Drop block comments `/- … -/` (nested-aware) that open and close on the
+same line. Multi-line block comments are left alone — they're handled by
+peeking through whole comment-only lines in the line scanner. -/
+private def stripSingleLineBlockComments (s : String) : String := Id.run do
+  let chars := s.toList.toArray
+  let n := chars.size
+  let mut out : String := ""
+  let mut i : Nat := 0
+  let mut depth : Nat := 0
+  while i < n do
+    if i + 1 < n && chars[i]! == '/' && chars[i + 1]! == '-' then
+      depth := depth + 1
+      i := i + 2
+    else if depth > 0 && i + 1 < n && chars[i]! == '-' && chars[i + 1]! == '/' then
+      depth := depth - 1
+      i := i + 2
+    else
+      if depth == 0 then out := out.push chars[i]!
+      i := i + 1
+  return out
+
+/-- Drop a trailing `--` line comment from `s`. Used together with
+`stripSingleLineBlockComments` to keep `in` tokens that appear in comments
+from being mistaken for the `open … in` scoping keyword. -/
 private def stripLineComment (s : String) : String :=
   match s.splitOn "--" with
   | x :: _ => x
@@ -730,7 +749,7 @@ token appearing somewhere after the leading `open` keyword. Top-level opens
 like `open Foo` or `open scoped Classical` return false. -/
 def isScopedOpenLine (stripped : String) : Bool := Id.run do
   if !(stripped.startsWith "open ") then return false
-  let toks := splitWhitespace (stripLineComment stripped)
+  let toks := splitWhitespace (stripLineComment (stripSingleLineBlockComments stripped))
   for i in [1:toks.size] do
     if toks[i]! == "in" then return true
   return false

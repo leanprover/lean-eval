@@ -55,6 +55,19 @@ def main : IO UInt32 := do
     pure <| assertEq "scoped"
       (isScopedOpenLine "open Foo in expr -- comment") true
 
+  -- Block comment containing `in` must not trigger a false positive.
+  check "isScopedOpenLine: block comment with 'in' is not scoped" passes fails do
+    pure <| assertEq "scoped"
+      (isScopedOpenLine "open Foo /- mentions in here -/") false
+
+  check "isScopedOpenLine: nested block comment is stripped" passes fails do
+    pure <| assertEq "scoped"
+      (isScopedOpenLine "open Foo /- outer /- inner in -/ still in -/") false
+
+  check "isScopedOpenLine: real scoped open with block comment is scoped" passes fails do
+    pure <| assertEq "scoped"
+      (isScopedOpenLine "open Foo /- note -/ in expr") true
+
   -- Regression for https://github.com/leanprover/lean-eval/issues/277:
   -- `open Classical in` inside an earlier def body must not leak into the
   -- collected context-open block.
