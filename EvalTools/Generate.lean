@@ -714,18 +714,72 @@ def Source.findKeywordBasename (s : Source) (keywords : Array String) (basename 
 
 /-! ## Context opens -/
 
+/-- Drop block comments `/- … -/` (nested-aware) that open and close on the
+same line. Multi-line block comments are left alone — they're handled by
+peeking through whole comment-only lines in the line scanner. -/
+private def stripSingleLineBlockComments (s : String) : String := Id.run do
+  let chars := s.toList.toArray
+  let n := chars.size
+  let mut out : String := ""
+  let mut i : Nat := 0
+  let mut depth : Nat := 0
+  while i < n do
+    if i + 1 < n && chars[i]! == '/' && chars[i + 1]! == '-' then
+      depth := depth + 1
+      i := i + 2
+    else if depth > 0 && i + 1 < n && chars[i]! == '-' && chars[i + 1]! == '/' then
+      depth := depth - 1
+      i := i + 2
+    else
+      if depth == 0 then out := out.push chars[i]!
+      i := i + 1
+  return out
+
+/-- Drop a trailing `--` line comment from `s`. Used together with
+`stripSingleLineBlockComments` to keep `in` tokens that appear in comments
+from being mistaken for the `open … in` scoping keyword. -/
+private def stripLineComment (s : String) : String :=
+  match s.splitOn "--" with
+  | x :: _ => x
+  | [] => s
+
+/-- True if `stripped` is a scoped `open … in …` line — the single-command
+form that binds an open to one following expression. Detected by an `in`
+token appearing somewhere after the leading `open` keyword. Top-level opens
+like `open Foo` or `open scoped Classical` return false. -/
+def isScopedOpenLine (stripped : String) : Bool := Id.run do
+  if !(stripped.startsWith "open ") then return false
+  let toks := splitWhitespace (stripLineComment (stripSingleLineBlockComments stripped))
+  for i in [1:toks.size] do
+    if toks[i]! == "in" then return true
+  return false
+
+/-- True if the upcoming lines starting at `peekIdx` (0-indexed) form the
+continuation of a scoped `open … in` — that is, after any blank or
+comment-only lines, the next syntactic line is `in` or begins with `in `.
+Used to catch the multi-line variant where `in` is on its own line. -/
+private def followingLineIsScopingIn (lines : Array String) (peekIdx : Nat) : Bool := Id.run do
+  let mut i := peekIdx
+  while i < lines.size do
+    let s := (lines[i]!).trimAscii.toString
+    if s.isEmpty || s.startsWith "--" then
+      i := i + 1
+    else
+      return s == "in" || s.startsWith "in "
+  return false
+
 def extractContextOpens (problemId : String) (sourcePath : System.FilePath)
     (source : String) (extracted? : Option ExtractedTheorem)
     (includeNamespaces : Bool) : IO String := do
   let _ := problemId
   let _ := sourcePath
-  let lines := source.splitOn "\n"
+  let lines := (source.splitOn "\n").toArray
   let targetLine? : Option Nat := extracted?.map fun e => e.startLine
   let mut namespaceStack : Array String := #[]
   let mut openLayers : Array (Array String) := #[#[]]
   let mut inBody := false
   let mut done := false
-  for idx in [1:lines.length + 1] do
+  for idx in [1:lines.size + 1] do
     if done then break
     if let some t := targetLine? then
       if idx ≥ t then break
@@ -760,6 +814,11 @@ def extractContextOpens (problemId : String) (sourcePath : System.FilePath)
         namespaceStack := namespaceStack.pop
         openLayers := openLayers.pop
     else if stripped.startsWith "open " then
+      if isScopedOpenLine stripped then continue
+      -- Multi-line scoped form: `open Foo` on one line, `in <body>` on a
+      -- following (possibly blank/comment-padded) line. Skip the whole
+      -- thing rather than emitting a dangling `open Foo` as top-level.
+      if followingLineIsScopingIn lines idx then continue
       let layerIdx := openLayers.size - 1
       let layer := openLayers[layerIdx]!.push line
       openLayers := openLayers.set! layerIdx layer

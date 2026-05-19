@@ -41,3 +41,8 @@ root = "EvalToolsTests.ValidateSubmissionTest"
 name = "test_check_comparator_installation"
 srcDir = "tests/lean"
 root = "EvalToolsTests.CheckComparatorInstallationTest"
+
+[[lean_exe]]
+name = "test_generate"
+srcDir = "tests/lean"
+root = "EvalToolsTests.GenerateTest"
