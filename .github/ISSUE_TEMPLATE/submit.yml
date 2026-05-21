@@ -1,5 +1,5 @@
-name: Submit benchmark solution (moved)
-description: Benchmark submissions now live in leanprover/lean-eval-submissions; this template just points you there.
+name: "Moved: submit at lean-eval-submissions"
+description: Benchmark submissions live in leanprover/lean-eval-submissions. This template only exists to catch stale links and redirect you there.
 title: "[wrong repo] please file at leanprover/lean-eval-submissions"
 body:
   - type: markdown
