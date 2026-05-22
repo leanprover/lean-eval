@@ -656,6 +656,16 @@ submitter = "Junyan Xu"
 source = "Jürgen Neukirch, Alexander Schmidt, Kay Wingberg. *Cohomology of Number Fields*, Theorem 12.2.1."
 
 [[problem]]
+id = "asymptotic_partition"
+title = "Hardy-Ramanujan asymptotic formula for the number of integer partitions"
+test = false
+module = "LeanEval.Combinatorics.PartitionAsymptotics"
+holes = ["isEquivalent_card_partition"]
+submitter = "Thomas K Waring"
+source = "G. H. Hardy, S. Ramanujan. *Asymptotic formulae in combinatory analysis*, 1918."
+informal_solution = "Evaluate the growth-rate of coefficients in the generating function by the so-called circle method."
+
+[[problem]]
 id = "balanceable_bounded_partitions"
 title = "Balanceable k-bounded partitions"
 test = false
