@@ -656,6 +656,16 @@ submitter = "Junyan Xu"
 source = "Jürgen Neukirch, Alexander Schmidt, Kay Wingberg. *Cohomology of Number Fields*, Theorem 12.2.1."
 
 [[problem]]
+id = "combinatoryLogic_intersectionTypes"
+title = "Intersection types for combinatory logic"
+test = false
+module = "LeanEval.Computation.IntersectionTypes"
+holes = ["SN_of_hasTy"]
+submitter = "Thomas Krishna Waring"
+source = "Mariangiola Dezani-Ciancaglini, J. Roger Hindley, *Intersection Types for Combinatory Logic*. Jean-Louis Krivine, *Lambda Calculus: types and models*, §3.2."
+informal_solution = "Standard argument by logical relations."
+
+[[problem]]
 id = "balanceable_bounded_partitions"
 title = "Balanceable k-bounded partitions"
 test = false
