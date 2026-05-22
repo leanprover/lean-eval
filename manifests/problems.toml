@@ -656,6 +656,38 @@ submitter = "Junyan Xu"
 source = "Jürgen Neukirch, Alexander Schmidt, Kay Wingberg. *Cohomology of Number Fields*, Theorem 12.2.1."
 
 [[problem]]
+id = "Place_isDiscreteValuationRing"
+title = "Places of function fields are discrete valuation rings"
+test = false
+module = "LeanEval.AlgebraicGeometry.FunctionField"
+holes = ["isDiscreteValuationRing"]
+submitter = "Junyan Xu"
+
+[[problem]]
+id = "Place_finite_setOf_notMem"
+title = "Elements in function fields have finitely many poles"
+test = false
+module = "LeanEval.AlgebraicGeometry.FunctionField"
+holes = ["finite_setOf_notMem"]
+submitter = "Junyan Xu"
+
+[[problem]]
+id = "FunctionField_genus_finite"
+title = "Genus of a function field is finite"
+test = false
+module = "LeanEval.AlgebraicGeometry.FunctionField"
+holes = ["genus_finite"]
+submitter = "Michael Stoll, Junyan Xu"
+
+[[problem]]
+id = "faltings"
+title = "Faltings' theorem (Mordell conjecture)"
+test = false
+module = "LeanEval.AlgebraicGeometry.FunctionField"
+holes = ["faltings"]
+submitter = "Junyan Xu"
+
+[[problem]]
 id = "balanceable_bounded_partitions"
 title = "Balanceable k-bounded partitions"
 test = false
