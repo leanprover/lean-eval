@@ -1,0 +1,26 @@
+name: "Moved: submit at lean-eval-submissions"
+description: Benchmark submissions live in leanprover/lean-eval-submissions. This template only exists to catch stale links and redirect you there.
+title: "[wrong repo] please file at leanprover/lean-eval-submissions"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Benchmark submissions have moved
+
+        The hosted submission pipeline (issue intake, fetch, evaluate, leaderboard
+        recording) is no longer in this repository. It now lives in:
+
+        **https://github.com/leanprover/lean-eval-submissions/issues/new?template=submit.yml**
+
+        Please open your submission there. Nothing filed here will be evaluated or
+        recorded on the leaderboard.
+
+        You can close this draft and follow the link above; there is nothing more
+        to do in this repository.
+  - type: checkboxes
+    id: ack
+    attributes:
+      label: Acknowledgement
+      options:
+        - label: I understand this repository no longer accepts submissions and I should file at leanprover/lean-eval-submissions instead.
+          required: true
