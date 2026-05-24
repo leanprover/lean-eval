@@ -682,3 +682,14 @@ module = "LeanEval.Geometry.Uniformization"
 holes = ["uniformization"]
 submitter = "Junyan Xu"
 source = "John Hamal Hubbard, *Teichmüller theory and applications to geometry, topology, and dynamics. Vol. 1*, Chapter 1."
+
+[[problem]]
+id = "burnside_normal_p_complement"
+title = "Burnside's normal p-complement theorem"
+test = false
+module = "LeanEval.GroupTheory.BurnsideNormalPComplement"
+holes = ["burnside_normal_p_complement"]
+submitter = "Kim Morrison"
+notes = "If a Sylow p-subgroup P of a finite group G is central in its normalizer, then G has a normal p-complement: a normal subgroup N ⊴ G with N ∩ P = 1, N P = G, and (|N|, p) = 1. W. Burnside, *Theory of groups of finite order*, 2nd ed., Cambridge (1911), §243 (the proof via transfer). The prototype transfer-based local-to-global argument and the historical seed of fusion theory (Alperin, Stallings, Mislin). Mathlib already contains the underlying construction `MonoidHom.ker_transferSylow_isComplement'` (Mathlib/GroupTheory/Transfer.lean); the eval problem is to assemble the named theorem statement from that machinery."
+source = "W. Burnside, *Theory of groups of finite order*, 2nd ed., Cambridge University Press (1911), §243. Modern textbook treatment: I. M. Isaacs, *Finite Group Theory*, AMS Graduate Studies in Math. 92 (2008), §5."
+informal_solution = "Let τ : G → P be the transfer homomorphism (averaging g over coset representatives of P in G). Under the hypothesis N_G(P) ≤ C_G(P), Burnside's transfer evaluation formula gives τ(p) = p for all p ∈ P, so τ restricted to P is the identity. Hence ker τ ⊓ P = 1 and ker τ · P = G; ker τ is normal in G (as the kernel of a homomorphism) and has order coprime to p (since |G : ker τ| = |P| is a p-power and |G| = |P| · |ker τ|). Therefore N := ker τ is the normal p-complement."
