@@ -24,9 +24,9 @@ The conclusion is captured in two clauses:
 * an existential over a prime `p`, an exponent `k`, and an isomorphism
   `G ≃* PSL(2, GaloisField p k)` with `p` odd and `p^k ≥ 5`.
 
-Since `GaloisField p k` requires the typeclass `Fact p.Prime`, we
-existentially bind a `Fact p.Prime` term and use it (via `letI`) to
-reach the `GaloisField`.
+Since `GaloisField p k` requires the typeclass `Fact p.Prime`, the
+existential binds a `Fact p.Prime` term directly (rather than the bare
+`p.Prime`), so the typeclass is available where `GaloisField` is used.
 -/
 
 /-- **Gorenstein–Walter theorem.** -/
