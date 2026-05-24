@@ -694,3 +694,13 @@ notes = "The order of a finite nonabelian simple group is bounded by a function 
 source = "R. Brauer and K. A. Fowler, On groups of even order, Ann. of Math. (2) 62 (1955), 565-583. https://doi.org/10.2307/1970080"
 informal_solution = "Counting argument. For an involution t in a finite simple group G with C := |C_G(t)|, every pair of involutions a, b generates a dihedral subgroup ⟨a,b⟩ of order 2k for some k ≥ 1; the product ab has order k. Use the class equation and orbit-counting on conjugates of t to show that |G| divides (2C^2)! or a similar explicit factorial of a polynomial in C — any such bound furnishes the required f."
 
+[[problem]]
+id = "fitting"
+title = "Fitting's theorem"
+test = false
+module = "LeanEval.GroupTheory.Fitting"
+holes = ["fitting"]
+submitter = "Kim Morrison"
+notes = "The join of two normal nilpotent subgroups of any group is nilpotent. H. Fitting, 'Beiträge zur Theorie der Gruppen endlicher Ordnung', Jahresbericht DMV 48 (1938), 77-141. Foundational: it justifies talking about *the* maximal normal nilpotent subgroup of a finite group (the Fitting subgroup F(G)), basic in CFSG local analysis through F(G) and the generalised Fitting subgroup F*(G) = F(G)·E(G) (Bender 1971). Statement uses Mathlib's `Group.IsNilpotent` and the subgroup lattice — no new definitions."
+source = "H. Fitting, Beiträge zur Theorie der Gruppen endlicher Ordnung, Jahresbericht der Deutschen Mathematiker-Vereinigung 48 (1938), 77-141. Modern treatment: D. Robinson, *A Course in the Theory of Groups* (Springer GTM 80), 2nd ed., 1996, §5.2."
+informal_solution = "Let c = nilpotencyClass H and d = nilpotencyClass K. Show by induction on c + d that H ⊔ K is nilpotent of class at most c + d. Base case c = 0 or d = 0: one of the subgroups is trivial, so the join equals the other and is nilpotent. Inductive step: use the commutator identity [HK, HK] = [H,H][H,K][K,K] (modulo lower terms); the outer factors are normal nilpotent subgroups of strictly smaller class, and [H,K] is contained in H ∩ K (both normal). Apply the inductive hypothesis to ⟨[H,H], [K,K], [H,K]⟩ and lift through the central extension. Alternatively use the upper-central-series characterization and show H ⊔ K is centralized at level c + d."
