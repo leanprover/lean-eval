@@ -7,11 +7,12 @@ namespace Defs
 /-- `pCore p G` is the largest normal `p`-subgroup of `G` — the supremum of
 all normal `p`-subgroups. Classically denoted `O_p(G)`.
 
-For a finite group this supremum is itself a `p`-group (any two normal
-`p`-subgroups generate a normal `p`-subgroup, and finiteness bounds the chain),
-so the definition agrees with the textbook one. For an infinite group the
-supremum may fail to be a `p`-group, but the definition still makes sense as
-the largest normal subgroup with the closure property required by Baer–Suzuki.
+This is itself a normal `p`-subgroup of `G`, with no finiteness hypothesis
+needed: the family of normal `p`-subgroups is *directed* under `≤` (the
+join of two normal `p`-subgroups is again a normal `p`-subgroup, using
+`Subgroup.sup_normal` and `IsPGroup.to_sup_of_normal_left`), so by
+`Subgroup.mem_iSup_of_directed` every element of the supremum already lies
+in one of the summands, and therefore has `p`-power order.
 -/
 def pCore (p : ℕ) (G : Type*) [Group G] : Subgroup G :=
   sSup {N : Subgroup G | N.Normal ∧ IsPGroup p N}
