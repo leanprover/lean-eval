@@ -32,12 +32,12 @@ def runCheckProblemBuildCmd (_ : Parsed) : IO UInt32 := do
 def runGenerateCmd (p : Parsed) : IO UInt32 := do
   let root ← requireRepoRoot
   let manifest? : Option String := p.flag? "manifest" |>.map fun f => f.as! String
-  -- The `--manifest` flag selects an alternative manifest path. The Lean port
-  -- supports only the repo-default `manifests/problems.toml`; non-default
+  -- The `--manifest` flag selects an alternative manifest directory. The Lean
+  -- port supports only the repo-default `manifests/problems/`; non-default
   -- paths would need a separate code path in `loadManifest`, which no caller
   -- has needed. Refuse the flag explicitly rather than silently ignoring it.
   if let some path := manifest? then
-    if path != "manifests/problems.toml" then
+    if path != "manifests/problems" then
       IO.eprintln s!"--manifest currently only supports the default path (got {path})."
       return 1
   let problem? : Option String := p.flag? "problem" |>.map fun f => f.as! String
@@ -84,7 +84,7 @@ def runCheckComparatorInstallationCmd (_ : Parsed) : IO UInt32 := do
 def runRunEvalCmd (p : Parsed) : IO UInt32 := do
   let manifest? : Option String := p.flag? "manifest" |>.map fun f => f.as! String
   if let some path := manifest? then
-    if path != "manifests/problems.toml" then
+    if path != "manifests/problems" then
       IO.eprintln s!"--manifest currently only supports the default path (got {path})."
       return 1
   let selected : Array String :=

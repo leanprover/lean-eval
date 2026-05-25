@@ -1,0 +1,9 @@
+id = "topological_classification_of_surfaces"
+title = "Topological classification of surfaces"
+test = false
+module = "LeanEval.Topology.ClassificationOfSurfaces"
+holes = ["classification_of_surfaces"]
+submitter = "Junyan Xu"
+notes = "A compact connected surface with boundary is homeomorphic to one of the representative surfaces that we formalize."
+source = "Jean Gallier & Dianna Xu, *A Guide to the Classification Theorem for Compact Surfaces*, https://www.cis.upenn.edu/~jean/surfclassif-root.pdf"
+informal_solution = "Show surfaces are triangulable and therefore homeomorphic to cell complexes, and show each cell complex is equivalent to one in normal form."

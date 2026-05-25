@@ -1,0 +1,7 @@
+id = "rado_riemannSurface"
+title = "Radó's theorem on Riemann surfaces"
+test = false
+module = "LeanEval.Geometry.RadoTheorem"
+holes = ["rado_riemannSurface"]
+submitter = "Junyan Xu"
+source = "John Hamal Hubbard, *Teichmüller theory and applications to geometry, topology, and dynamics. Vol. 1*, §1.3."

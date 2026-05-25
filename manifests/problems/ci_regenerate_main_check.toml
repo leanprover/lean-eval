@@ -1,0 +1,9 @@
+id = "ci_regenerate_main_check"
+title = "CI regenerate-main check"
+test = true
+module = "LeanEval.EasyProblems"
+holes = ["ci_regenerate_main_check"]
+submitter = "Kim Morrison"
+notes = "Internal trivial problem used to exercise the regenerate-main workflow end-to-end."
+source = "Internal CI check."
+informal_solution = "True is true."

@@ -9,7 +9,7 @@ on:
       - 'LeanEval/**'
       - 'EvalTools/**'
       - 'templates/**'
-      - 'manifests/problems.toml'
+      - 'manifests/problems/**'
       - 'lakefile.toml'
       - 'lean-toolchain'
   workflow_dispatch:

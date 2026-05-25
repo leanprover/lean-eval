@@ -1,0 +1,9 @@
+id = "cyclotomic_integer_house_between_two_and_76_33"
+title = "Real cyclotomic integer with house in (2, 76/33)"
+test = false
+module = "LeanEval.NumberTheory.SmallHouse"
+holes = ["cyclotomic_integer_house_between_two_and_76_33"]
+submitter = "Kim Morrison"
+notes = "The 2 < house < 76/33 branch of Theorem 1.0.5 from Calegari--Morrison--Snyder, stated using Mathlib's NumberField.house."
+source = "https://arxiv.org/pdf/1004.0665"
+informal_solution = "If the house lies in (2, 76/33), then it is one of the five explicitly listed values."

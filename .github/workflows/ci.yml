@@ -107,7 +107,7 @@ jobs:
             echo "generated_changed=true" >> "$GITHUB_OUTPUT"
           else
             CHANGED=$(git diff --name-only "$BASE"..HEAD)
-            if echo "$CHANGED" | grep -Eq '^(LeanEval/|EvalTools/|templates/|manifests/problems\.toml$|lakefile\.toml$|lean-toolchain$)'; then
+            if echo "$CHANGED" | grep -Eq '^(LeanEval/|EvalTools/|templates/|manifests/problems/.*\.toml$|lakefile\.toml$|lean-toolchain$)'; then
               echo "source_changed=true" >> "$GITHUB_OUTPUT"
             else
               echo "source_changed=false" >> "$GITHUB_OUTPUT"

@@ -1,0 +1,9 @@
+id = "dvd_card_connectedComponent_markoffGraph"
+title = "Chen theorem for Markoff graphs"
+test = false
+module = "LeanEval.Combinatorics.MarkoffGraph"
+holes = ["dvd_card_connectedComponent_markoffGraph"]
+submitter = "Kim Morrison"
+notes = "For prime p > 3, every connected component of the nonzero Markoff graph over ZMod p has cardinality divisible by p."
+source = "https://link.springer.com/article/10.1007/s00222-025-01346-9"
+informal_solution = "Exploit the Vieta involution symmetries of the Markoff graph over F_p and show each connected component has size divisible by p."

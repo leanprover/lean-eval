@@ -1,0 +1,7 @@
+id = "bakerWustholz_linearForms_logs"
+title = "Baker-Wüstholz theorem on linear forms in logarithms"
+test = false
+module = "LeanEval.NumberTheory.BakerWustholz"
+holes = ["bakerWustholz_linearForms_logs"]
+submitter = "Ralf Stephan"
+source = "A. Baker, G. Wüstholz, Logarithmic forms and group varieties, J. reine angew. Math. 442 (1993), 19-62."

@@ -1,0 +1,7 @@
+id = "variable_binder_example"
+title = "variable-binder minimal example"
+test = true
+module = "LeanEval.Sandbox.VariableBinderExample"
+holes = ["variable_binder_example"]
+submitter = "Kim Morrison"
+notes = "Regression for https://github.com/leanprover/lean-eval/issues/276. The theorem inherits implicit binders from a preceding `variable` declaration, which the extractor must re-emit in the generated workspace."

@@ -1,0 +1,9 @@
+id = "bvp_comparison"
+title = "Comparison principle for the Dirichlet BVP"
+test = false
+module = "LeanEval.Analysis.ODE.BVPComparison"
+holes = ["bvp_comparison"]
+submitter = "Kim Morrison"
+notes = "1D maximum principle: -u'' <= -v'' on (0,1) and u <= v at the endpoints implies u <= v on [0,1]."
+source = "Standard maximum-principle argument; Protter-Weinberger."
+informal_solution = "From -u'' <= -v'' we get (u - v)'' >= 0 on (0, 1), so u - v is convex on [0, 1] (using continuity at the endpoints). A convex function lies below its chord, which here is non-positive at both endpoints, so u - v <= chord <= 0. A perturbation form: psi := (u - v) - delta x (1 - x) is strictly convex (psi'' >= 2 delta > 0) and attains its supremum at the boundary, where psi <= 0; let delta -> 0+."

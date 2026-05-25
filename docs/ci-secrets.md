@@ -228,7 +228,7 @@ with a bogus check of the same name.
 - `regenerate-main.yml`'s pushes to `main` will *not* re-trigger
   `regenerate-main.yml` itself: that workflow's `paths:` filter only
   fires on source changes (`LeanEval/**`, `EvalTools/**`,
-  `templates/**`, `manifests/problems.toml`, `lakefile.toml`,
+  `templates/**`, `manifests/problems/**`, `lakefile.toml`,
   `lean-toolchain`), and the bot only writes under `generated/`. The
   bypass doesn't change this; the `paths:` filter is what prevents the
   loop.

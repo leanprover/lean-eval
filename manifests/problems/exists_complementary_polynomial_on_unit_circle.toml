@@ -1,0 +1,9 @@
+id = "exists_complementary_polynomial_on_unit_circle"
+title = "Complementary polynomial on the unit circle"
+test = false
+module = "LeanEval.ComplexAnalysis.ComplementaryPolynomials"
+holes = ["exists_complementary_polynomial_on_unit_circle"]
+submitter = "Kim Morrison"
+notes = "If a complex polynomial has modulus at most 1 on the unit circle, then there is a same-degree complementary polynomial whose squared moduli add to 1 on the circle."
+source = "https://link.springer.com/article/10.1007/s00220-025-05302-9"
+informal_solution = "Construct a polynomial Q so that |P(z)|^2 + |Q(z)|^2 = 1 for all z on the unit circle."

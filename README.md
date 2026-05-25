@@ -46,13 +46,15 @@ Current source modules live in topic folders such as:
 
 ### 3. Add the manifest entry
 
-Each tagged declaration must be listed by exactly one entry in
-[`manifests/problems.toml`](manifests/problems.toml). The `holes` array
-names every `@[eval_problem]`-tagged declaration in the module that the
-problem owns; for the common single-theorem case it has one element.
+Each tagged declaration must be listed by exactly one file under
+[`manifests/problems/`](manifests/problems/). One file per problem,
+named `<id>.toml`, with top-level keys (no `[[problem]]` wrapper). The
+filename stem must match the `id` field. The `holes` array names every
+`@[eval_problem]`-tagged declaration in the module that the problem
+owns; for the common single-theorem case it has one element.
 
 ```toml
-[[problem]]
+# manifests/problems/my_new_problem.toml
 id = "my_new_problem"
 title = "My new problem"
 test = false
@@ -66,12 +68,15 @@ informal_solution = "Optional proof sketch or reference."
 
 The required fields are:
 
-- `id`
+- `id` (must equal the filename stem)
 - `title`
 - `test`
 - `module`
 - `holes`
 - `submitter`
+
+The one-file-per-problem layout means two PRs adding distinct problems
+never conflict on the manifest.
 
 #### Multi-hole problems
 
@@ -254,7 +259,7 @@ In practice, solvers should normally work in `Submission.lean` and `Submission/`
 ## Repository Layout
 
 - [`LeanEval/`](/home/kim/lean-evals/LeanEval): trusted authored problem statements
-- [`manifests/problems.toml`](/home/kim/lean-evals/manifests/problems.toml): problem metadata
+- [`manifests/problems/`](manifests/problems/): one TOML file per problem, named `<id>.toml`
 - [`generated/`](/home/kim/lean-evals/generated): generated comparator workspaces
 - [`scripts/`](/home/kim/lean-evals/scripts): generation, validation, and scoring helpers
 - [`PLAN.md`](/home/kim/lean-evals/PLAN.md): deferred design and roadmap notes
