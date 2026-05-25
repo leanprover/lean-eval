@@ -1,0 +1,9 @@
+id = "koszul_formula"
+title = "Koszul formula"
+test = false
+module = "LeanEval.Geometry.KoszulFormula"
+holes = ["koszul_formula"]
+submitter = "Kim Morrison"
+notes = "§38 of Knill's 'Some Fundamental Theorems in Mathematics' (additional statement of the Riemannian-geometry section; the boxed main theorem is Levi-Civita). The Koszul formula: 2⟨∇_X Y, Z⟩ equals the cyclic sum of directional derivatives X·⟨Y,Z⟩ + Y·⟨X,Z⟩ − Z·⟨X,Y⟩ minus the Lie-bracket cyclic sum ⟨X,[Y,Z]⟩ + ⟨Y,[X,Z]⟩ − ⟨Z,[X,Y]⟩. The identity that forces uniqueness of the Levi-Civita connection. Mathlib has the covariant-derivative / Riemannian-bundle / Lie-bracket machinery but no metric-compatibility predicate and no Koszul formula. The Challenge ships one helper (IsMetricCompatible)."
+source = "J.-L. Koszul (course notes, 1950s); cf. do Carmo, Riemannian Geometry. Listed as §38 additional statement in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf)."
+informal_solution = "Direct algebraic manipulation from metric compatibility and torsion-freeness. Metric compatibility gives X·g(Y,Z) = g(∇_X Y, Z) + g(Y, ∇_X Z), and cyclic permutations Y·g(Z,X) and Z·g(X,Y). Torsion-freeness gives ∇_X Y − ∇_Y X = [X,Y] (and permutations). Form the linear combination X·g(Y,Z) + Y·g(X,Z) − Z·g(X,Y); expand each term via metric compatibility; substitute the torsion-free identities to convert ∇_X Z − ∇_Z X, ∇_Y Z − ∇_Z Y, and ∇_X Y − ∇_Y X into Lie brackets. The cross-terms ±g(∇_Y X, Z), ±g(∇_X Z, Y), ±g(∇_Y Z, X) collapse pairwise except for 2·g(∇_X Y, Z), yielding the formula."
