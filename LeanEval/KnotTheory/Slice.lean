@@ -4,23 +4,143 @@ namespace LeanEval
 namespace KnotTheory
 
 /-!
-# Piecewise-linear knots and slice-ness
+# Slice-ness in the smooth `Knot` world, bridged to `PLKnot`
 
-A parallel structure to the smooth `Knot` of `Prelude`. A `PLKnot` is an
-embedded closed polyline in `ℝ³`, specified by a finite list of vertices.
-The trade is: smoothness is gone (so we cannot apply the Mathlib smooth-map
-infrastructure directly), but we can now write down a specific knot — like
-the Conway knot — as a concrete `List R3`.
+Slice-ness, both smooth and topological, lives most naturally on the smooth
+`Knot` of `Prelude`: a smooth knot's image is a smooth `1`-submanifold of
+`ℝ³`, so a smooth properly embedded `2`-disk whose smooth boundary lies on
+the floor `ℝ³ × {0}` matches the knot image *as a set* without any corner
+pathology.
 
-Slice-ness is defined image-based: a PL knot is *smoothly slice* (resp.
-*topologically slice*) if the polyline's image in `ℝ³ = ℝ³ × {0}` is the
-boundary of a smoothly (resp. topologically, locally flatly) embedded
-2-disk in the upper half-space `ℝ³ × [0, ∞) ≃ B⁴ ∖ {pt}`.
+For specific named knots, however, we prefer the PL world: a `PLKnot` is a
+concrete `List R3` of polyline vertices, easy to write down for, e.g., the
+Conway knot. To state Piccirillo's theorem about the *Conway knot type*, we
+bridge: a PL knot is (smoothly / topologically) slice if it has a smooth
+representative of the same knot type which is (smoothly / topologically)
+slice in the standard smooth sense. "Same knot type" is encoded as
+topological ambient isotopy of subsets of `ℝ³`; for tame knots — and PL
+polylines are tame — this is classically equivalent to the smooth/PL knot
+type relation.
 -/
 
+/-! ## Topological ambient isotopy of subsets of `ℝ³` -/
+
+/-- A topological ambient isotopy of `ℝ³`: a one-parameter family of self-
+homeomorphisms of `ℝ³`, jointly continuous in `(t, x)`, with a jointly
+continuous inverse family, starting at the identity. The time domain is
+`ℝ` for consistency with `AmbientIsotopy` in `Prelude.lean`; only `H 0`
+and `H 1` matter for the isotopy relation. -/
+structure TopAmbientIsotopy where
+  /-- The forward family. -/
+  H : ℝ → R3 → R3
+  /-- The inverse family. -/
+  Hinv : ℝ → R3 → R3
+  /-- The forward family is jointly continuous in `(t, x)`. -/
+  continuous : Continuous (Function.uncurry H)
+  /-- The inverse family is jointly continuous in `(t, x)`. -/
+  continuous_inv : Continuous (Function.uncurry Hinv)
+  /-- `Hinv t` is a left inverse of `H t`. -/
+  inv_left : ∀ t x, Hinv t (H t x) = x
+  /-- `Hinv t` is a right inverse of `H t`. -/
+  inv_right : ∀ t x, H t (Hinv t x) = x
+  /-- The isotopy starts at the identity. -/
+  start : H 0 = id
+
+/-- Two subsets of `ℝ³` are *unoriented topologically ambient isotopic*
+if some topological ambient isotopy of `ℝ³` carries one onto the other.
+"Unoriented" because this is a set-level relation that forgets any
+parametrization. -/
+def Set.UnorientedTopAmbIsotopic (A B : Set R3) : Prop :=
+  ∃ Φ : TopAmbientIsotopy, Φ.H 1 '' A = B
+
+/-! ## The closed `2`-disk, unit circle, half-space, and model planes -/
+
+/-- The closed unit `2`-disk, the source of a slicing disk's parametrization. -/
+abbrev disk2 : Set (ℝ × ℝ) := Metric.closedBall (0 : ℝ × ℝ) 1
+
+/-- The unit circle in `ℝ²`, the source of the slicing disk's boundary. -/
+abbrev circle1 : Set (ℝ × ℝ) := Metric.sphere (0 : ℝ × ℝ) 1
+
+/-- The closed upper half-space `ℝ³ × [0, ∞)` in `ℝ³ × ℝ`. We identify
+`ℝ³ × [0, ∞)` with `B⁴ ∖ {pt}`, so slice disks live here. -/
+def upperHalf : Set (R3 × ℝ) := { q | 0 ≤ q.2 }
+
+/-- Model interior `2`-plane in `ℝ³ × ℝ`: the locus where the last two
+coordinates of `q.1` and `q.2` all vanish. Used to express interior local
+flatness of an embedded `2`-disk. -/
+def modelPlane2 : Set (R3 × ℝ) := { q | q.1 1 = 0 ∧ q.1 2 = 0 }
+
+/-- Model boundary half-plane in the upper half-space. The disk sits in
+the plane `q.1 1 = 0 ∧ q.1 2 = 0` (a copy of `ℝ × ℝ`, parametrized by
+`q.1 0` and `q.2`) and is restricted to the half-space `q.2 ≥ 0`. Used
+to express boundary local flatness of a proper embedded disk. -/
+def modelHalfPlane2 : Set (R3 × ℝ) := { q | q.1 1 = 0 ∧ q.1 2 = 0 ∧ 0 ≤ q.2 }
+
+/-! ## Smooth slice-ness on a smooth `Knot`
+
+A smooth knot `K` is smoothly slice if its image bounds a smooth properly
+embedded `2`-disk in the upper half-space `ℝ³ × [0, ∞)`. Because `K`'s
+image is a smooth `1`-submanifold, set-level boundary equality with the
+disk's smooth boundary image works cleanly.
+-/
+
+/-- **Smoothly slice (smooth knot version).** -/
+def Knot.SmoothlySlice (K : Knot) : Prop :=
+  ∃ D : ℝ × ℝ → R3 × ℝ,
+    ContDiff ℝ (⊤ : ℕ∞) D ∧
+    Set.InjOn D disk2 ∧
+    (∀ p ∈ disk2, 0 ≤ (D p).2) ∧
+    (∀ p ∈ disk2, (D p).2 = 0 ↔ p ∈ circle1) ∧
+    (∀ p ∈ disk2, Function.Injective (fderiv ℝ D p)) ∧
+    (fun p => (D p).1) '' circle1 = Set.range K.curve
+
+/-! ## Topological slice-ness on a smooth `Knot`
+
+Topological sliceness requires a *locally flat* topological proper embedding
+of the disk. Local flatness is encoded by `PartialHomeomorph` of `ℝ³ × ℝ`:
+at every disk point, a partial homeomorphism whose source is an open
+neighborhood of that point carries the disk image locally onto the model
+`2`-plane (interior case) or model half-plane in the half-space (boundary
+case). The boundary case is essential: a chart on all of `ℝ⁴` to a full
+plane does not encode proper boundary behaviour at points where the disk
+meets `ℝ³ × {0}`.
+-/
+
+/-- Local flatness of the disk image at an *interior* disk point `q`. -/
+def IsLocallyFlatInterior (D : ℝ × ℝ → R3 × ℝ) (q : R3 × ℝ) : Prop :=
+  ∃ h : OpenPartialHomeomorph (R3 × ℝ) (R3 × ℝ),
+    q ∈ h.source ∧
+    h.toFun '' (h.source ∩ D '' disk2) = h.target ∩ modelPlane2
+
+/-- Local flatness of the disk image at a *boundary* disk point `q`. The
+chart lives entirely inside the closed upper half-space, and the disk
+image maps onto the model half-plane in the half-space. -/
+def IsLocallyFlatBoundary (D : ℝ × ℝ → R3 × ℝ) (q : R3 × ℝ) : Prop :=
+  ∃ h : OpenPartialHomeomorph (R3 × ℝ) (R3 × ℝ),
+    q ∈ h.source ∧
+    h.source ⊆ upperHalf ∧
+    h.target ⊆ upperHalf ∧
+    h.toFun '' (h.source ∩ D '' disk2) = h.target ∩ modelHalfPlane2
+
+/-- **Topologically slice (smooth knot version).** A smooth knot is
+topologically slice if its image bounds a *locally flat* topologically
+embedded proper `2`-disk in the upper half-space, with interior and
+boundary points using the matching local model. -/
+def Knot.TopologicallySlice (K : Knot) : Prop :=
+  ∃ D : ℝ × ℝ → R3 × ℝ,
+    Continuous D ∧
+    Set.InjOn D disk2 ∧
+    (∀ p ∈ disk2, 0 ≤ (D p).2) ∧
+    (∀ p ∈ disk2, (D p).2 = 0 ↔ p ∈ circle1) ∧
+    (∀ p ∈ disk2 \ circle1, IsLocallyFlatInterior D (D p)) ∧
+    (∀ p ∈ circle1, IsLocallyFlatBoundary D (D p)) ∧
+    (fun p => (D p).1) '' circle1 = Set.range K.curve
+
+/-! ## Piecewise-linear knots -/
+
 /-- Linear interpolation across the closed polyline with `vertices.length`
-edges, each parametrized over unit time, extended periodically. Junk value
-`0` on the empty list. -/
+edges, each parametrized over unit time, extended periodically. Junk
+value `0` on the empty list. -/
 noncomputable def plCurve (vertices : List R3) (t : ℝ) : R3 :=
   if h : vertices.length = 0 then 0
   else
@@ -32,16 +152,16 @@ noncomputable def plCurve (vertices : List R3) (t : ℝ) : R3 :=
       α • vertices[(k + 1) % n]'(Nat.mod_lt _ (Nat.pos_of_ne_zero h))
 
 /-- A piecewise-linear closed knot in `ℝ³`: at least three vertices, traced
-as one polyline, embedded (the polyline is a simple closed curve). -/
+as one polyline, embedded as a simple closed curve. -/
 structure PLKnot where
   /-- The ordered list of polyline vertices. -/
   vertices : List R3
   /-- A closed polyline needs at least three vertices to be non-degenerate. -/
   three_le : 3 ≤ vertices.length
-  /-- The polyline is a simple closed curve: viewed as a map
-  `ℝ / vertices.length·ℤ → ℝ³`, it is injective. Equivalent to: all
-  vertices distinct, non-adjacent edges disjoint, adjacent edges meet
-  only at the shared vertex. -/
+  /-- The polyline is a simple closed curve: injective on a half-open
+  fundamental domain `[0, vertices.length)` for the periodic
+  parametrization. Equivalent to: all vertices distinct, non-adjacent
+  edges disjoint, adjacent edges meet only at the shared vertex. -/
   isSimple : ∀ s t : ℝ,
     s ∈ Set.Ico (0 : ℝ) (vertices.length : ℝ) →
     t ∈ Set.Ico (0 : ℝ) (vertices.length : ℝ) →
@@ -52,55 +172,34 @@ structure PLKnot where
 def PLKnot.image (K : PLKnot) : Set R3 :=
   plCurve K.vertices '' Set.Ico (0 : ℝ) (K.vertices.length : ℝ)
 
-/-- The closed unit `2`-disk, the source of a slicing disk's parametrization. -/
-abbrev disk2 : Set (ℝ × ℝ) := Metric.closedBall (0 : ℝ × ℝ) 1
+/-! ## Bridge to smooth slice-ness via a smooth knot representative
 
-/-- The unit circle in `ℝ²`, the source of the disk's boundary. -/
-abbrev circle1 : Set (ℝ × ℝ) := Metric.sphere (0 : ℝ × ℝ) 1
+The standard fact (PL = smooth = tame in dimension 3) underlies these
+definitions: every PL knot has a smooth knot ambient-isotopic to it, and
+the converse holds for tame smooth knots. We do not formalize that fact,
+but our `PLKnot.SmoothlySlice` and `PLKnot.TopologicallySlice` admit
+honest witnesses precisely when the PL polyline represents a slice
+knot type in the standard sense.
+-/
 
-/-- **Smoothly slice.** A PL knot is smoothly slice if its image bounds a
-smoothly properly embedded 2-disk in the upper half-space `ℝ³ × [0, ∞)`:
-there is a smooth `D : ℝ² → ℝ³ × ℝ` that is injective on the closed unit
-2-disk, takes values in the closed half-space, sends the disk boundary
-exactly to the half-space boundary, has injective differential everywhere
-on the closed 2-disk, and projects the boundary circle onto the knot's
-polyline image. -/
+/-- A smooth knot `J` is a *smooth representative* of the PL knot `K` if
+their images are unoriented topologically ambient isotopic in `ℝ³`. For
+tame curves (which both sides are by construction) this is equivalent to
+the usual smooth/PL knot type relation. -/
+def PLKnot.HasSmoothRepresentative (K : PLKnot) (J : Knot) : Prop :=
+  Set.UnorientedTopAmbIsotopic (Set.range J.curve) K.image
+
+/-- **Smoothly slice (PL knot version).** A PL knot is smoothly slice if
+some smooth knot of the same knot type is smoothly slice. This is
+Piccirillo's theorem about the Conway knot in the form most natural for
+a polyline witness. -/
 def PLKnot.SmoothlySlice (K : PLKnot) : Prop :=
-  ∃ D : ℝ × ℝ → R3 × ℝ,
-    ContDiff ℝ (⊤ : ℕ∞) D ∧
-    Set.InjOn D disk2 ∧
-    (∀ p ∈ disk2, 0 ≤ (D p).2) ∧
-    (∀ p ∈ disk2, (D p).2 = 0 ↔ p ∈ circle1) ∧
-    (∀ p ∈ disk2, Function.Injective (fderiv ℝ D p)) ∧
-    (fun p => (D p).1) '' circle1 = K.image
+  ∃ J : Knot, K.HasSmoothRepresentative J ∧ J.SmoothlySlice
 
-/-- **Topologically slice.** A PL knot is topologically slice if its image
-bounds a *locally flat* topologically embedded 2-disk in `ℝ³ × [0, ∞)`.
-
-The locally flat clause is essential: without it, the cone over any knot
-gives a topological disk (with a non-manifold cone point), so every knot
-would trivially be topologically slice. We encode local flatness via the
-existence of a self-homeomorphism of `ℝ³ × ℝ` that carries a neighborhood
-of each disk point onto the model 2-plane
-
-`{ q : R3 × ℝ | q.1 2 = 0 ∧ q.2 = 0 }`.
-
-This is slightly stronger than the textbook "locally homeomorphic to
-`(ℝ⁴, ℝ²)`" — the chart is a global homeomorphism of `ℝ³ × ℝ` rather
-than a chart on a local neighborhood — but the two are mathematically
-equivalent on a contractible ambient space. -/
+/-- **Topologically slice (PL knot version).** A PL knot is topologically
+slice if some smooth knot of the same knot type is topologically slice. -/
 def PLKnot.TopologicallySlice (K : PLKnot) : Prop :=
-  ∃ D : ℝ × ℝ → R3 × ℝ,
-    Continuous D ∧
-    Set.InjOn D disk2 ∧
-    (∀ p ∈ disk2, 0 ≤ (D p).2) ∧
-    (∀ p ∈ disk2, (D p).2 = 0 ↔ p ∈ circle1) ∧
-    (∀ p ∈ disk2,
-      ∃ V : Set (R3 × ℝ), IsOpen V ∧ D p ∈ V ∧
-        ∃ φ : (R3 × ℝ) ≃ₜ (R3 × ℝ),
-          φ '' (V ∩ (D '' disk2)) =
-            φ '' V ∩ { q : R3 × ℝ | q.1 2 = 0 ∧ q.2 = 0 }) ∧
-    (fun p => (D p).1) '' circle1 = K.image
+  ∃ J : Knot, K.HasSmoothRepresentative J ∧ J.TopologicallySlice
 
 end KnotTheory
 end LeanEval

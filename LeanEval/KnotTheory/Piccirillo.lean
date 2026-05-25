@@ -14,11 +14,13 @@ Combined with `ConwayTopologicallySlice`, this gives the first explicit
 witness in the smooth/topological slice gap.
 
 Piccirillo's strategy: exhibit a knot `K'` having the same `0`-trace as
-the Conway knot. Since the `0`-trace determines the smooth slice genus
-(up to 4-manifold-level work), `K'` has smooth slice genus equal to that
-of the Conway knot, and a direct computation shows Rasmussen's
-`s`-invariant satisfies `s(K') ≠ 0`. Standard slice obstructions of this
-flavour are Rasmussen's `s` and the Ozsváth–Szabó `τ`-invariant.
+the Conway knot. The trace-embedding argument then transfers sliceness:
+if the Conway knot were smoothly slice, `K'` would be smoothly slice as
+well. A direct Khovanov-homological computation shows Rasmussen's
+`s`-invariant satisfies `s(K') ≠ 0`, contradicting smooth sliceness of
+`K'`. Note that for the Conway knot itself the standard smooth slice
+obstructions `s` and `τ` both vanish, which is why this trace-embedding
+detour through `K'` is needed.
 -/
 
 /-- **Piccirillo, "The Conway knot is not slice."**

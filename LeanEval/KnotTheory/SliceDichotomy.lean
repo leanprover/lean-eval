@@ -14,12 +14,14 @@ asks only for some such knot; the celebrated specific witness — the
 Conway knot 11n34 — is the subject of `Piccirillo` and
 `ConwayTopologicallySlice`.
 
-Standard slice obstructions distinguishing smoothly and topologically
-slice include Rasmussen's `s`-invariant and the Ozsváth–Szabó
-`τ`-invariant (both vanish for topologically slice knots conditionally,
-but the obstruction direction here is `s ≠ 0 ⇒ not smoothly slice`);
-the easiest historical witness is the positive Whitehead double of the
-right-handed trefoil (Akbulut–Matveyev).
+Rasmussen's `s`-invariant and the Ozsváth–Szabó `τ`-invariant obstruct
+*smooth* sliceness: `s(K) ≠ 0` (or `τ(K) ≠ 0`) implies `K` is not
+smoothly slice. Topologically slice knots can perfectly well have
+nonzero `s` and `τ` — which is exactly how witnesses to this dichotomy
+are detected. The easiest historical example is the positive Whitehead
+double of the right-handed trefoil: trivial Alexander polynomial gives
+topological sliceness by Freedman, and `τ ≠ 0` rules out smooth
+sliceness (Akbulut–Matveyev).
 -/
 
 /-- **Existence of a topologically slice, not smoothly slice knot.**

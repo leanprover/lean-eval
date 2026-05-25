@@ -17,11 +17,14 @@ component containing position `1`.
 Coordinate layout. Strands sit at integer `x`-positions `1, …, n`. The
 braid box spans `z ∈ [-word.length, 0]`, one unit of `z`-depth per
 crossing. Over-strands lift to `y = 1`, under-strands stay at `y = 0`,
-so two strands at a crossing are vertically separated and the polyline
-is a simple closed curve in 3-space (modulo the standard caveat that
-non-cyclically-adjacent edges separated by `|y|` don't intersect — a
-consequence of the geometric spread of strand `x`-coordinates). Closure
-arcs swing through `y = 100`, well outside the braid box.
+designed so that the two strands of any crossing are `y`-separated.
+Closure arcs swing through `y = 100`, well outside the braid box.
+
+The layout *intends* to produce a simple polyline, but simplicity is not
+proved here; it is a separate obligation discharged by the user
+constructing a `PLKnot` (which carries an `isSimple` field). The
+function is silent on invalid input — `|w| = 0` or `|w| ≥ n` — and
+produces garbage in those cases.
 -/
 
 namespace BraidClosure
