@@ -3,6 +3,7 @@ import EvalTools.Markers
 
 namespace LeanEval
 namespace Geometry
+namespace WeakMorseInequality
 
 /-!
 # Weak Morse inequalities
@@ -101,5 +102,6 @@ theorem weak_morse_inequality
     bettiNumber M k ≤ morseCount I f k := by
   sorry
 
+end WeakMorseInequality
 end Geometry
 end LeanEval

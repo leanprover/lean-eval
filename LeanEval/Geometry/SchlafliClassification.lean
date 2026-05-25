@@ -3,6 +3,7 @@ import EvalTools.Markers
 
 namespace LeanEval
 namespace Geometry
+namespace SchlafliClassification
 
 /-!
 # Schläfli classification
@@ -110,5 +111,6 @@ theorem schlafli_classification :
         ∀ d, 5 ≤ d → platonicCount d = 3 := by
   sorry
 
+end SchlafliClassification
 end Geometry
 end LeanEval

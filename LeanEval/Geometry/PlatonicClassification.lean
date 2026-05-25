@@ -3,6 +3,7 @@ import EvalTools.Markers
 
 namespace LeanEval
 namespace Geometry
+namespace PlatonicClassification
 
 /-!
 # Platonic classification
@@ -113,5 +114,6 @@ theorem platonic_classification :
           ∀ d, 5 ≤ d → platonicCount d = 3 := by
   sorry
 
+end PlatonicClassification
 end Geometry
 end LeanEval

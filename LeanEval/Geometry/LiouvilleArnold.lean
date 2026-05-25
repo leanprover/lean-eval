@@ -3,6 +3,7 @@ import EvalTools.Markers
 
 namespace LeanEval
 namespace Geometry
+namespace LiouvilleArnold
 
 /-!
 # Liouville–Arnold theorem
@@ -84,5 +85,6 @@ theorem liouville_arnold
     Nonempty ((levelSet F c) ≃ₜ (Fin n → AddCircle (1 : ℝ))) := by
   sorry
 
+end LiouvilleArnold
 end Geometry
 end LeanEval

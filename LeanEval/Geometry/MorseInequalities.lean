@@ -3,6 +3,7 @@ import EvalTools.Markers
 
 namespace LeanEval
 namespace Geometry
+namespace MorseInequalities
 
 /-!
 # Morse inequalities (Marston Morse, 1934)
@@ -109,5 +110,6 @@ theorem morse_inequality
       alternatingPartialSum (morseCount I f) k := by
   sorry
 
+end MorseInequalities
 end Geometry
 end LeanEval

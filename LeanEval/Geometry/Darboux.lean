@@ -3,6 +3,7 @@ import EvalTools.Markers
 
 namespace LeanEval
 namespace Geometry
+namespace Darboux
 
 /-!
 # Darboux's theorem
@@ -82,5 +83,6 @@ theorem darboux {n : ℕ} {U : Set (E n)} (_hU : IsOpen U)
             (fderiv ℝ (φ.symm : E n → E n) z)) := by
   sorry
 
+end Darboux
 end Geometry
 end LeanEval

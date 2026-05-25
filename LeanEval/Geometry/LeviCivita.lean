@@ -3,6 +3,7 @@ import EvalTools.Markers
 
 namespace LeanEval
 namespace Geometry
+namespace LeviCivita
 
 /-!
 # Fundamental theorem of Riemannian geometry (Levi-Civita)
@@ -84,5 +85,6 @@ theorem levi_civita_exists_unique
         SameOnSmooth cov cov' := by
   sorry
 
+end LeviCivita
 end Geometry
 end LeanEval

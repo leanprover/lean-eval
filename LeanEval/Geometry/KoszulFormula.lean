@@ -3,6 +3,7 @@ import EvalTools.Markers
 
 namespace LeanEval
 namespace Geometry
+namespace KoszulFormula
 
 /-!
 # Koszul formula
@@ -75,5 +76,6 @@ theorem koszul_formula
       + inner ℝ (Z x) (mlieBracket I X Y x) := by
   sorry
 
+end KoszulFormula
 end Geometry
 end LeanEval
