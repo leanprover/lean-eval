@@ -1,0 +1,9 @@
+id = "conway_knot_topologically_slice"
+title = "The Conway knot is topologically slice"
+test = false
+module = "LeanEval.KnotTheory.ConwayTopologicallySlice"
+holes = ["conway_knot_topologically_slice"]
+submitter = "Kim Morrison"
+notes = "Freedman's theorem applied to the Conway knot 11n34, whose Alexander polynomial is trivial. The proof requires Freedman's full topological surgery machinery in dimension four; this is genuinely hard. Pairs with `conway_knot_not_smoothly_slice` (Piccirillo) to give the celebrated smooth/topological dichotomy for a specific named knot."
+source = "Freedman, *The topology of four-dimensional manifolds*, J. Diff. Geom. 17 (1982). See also Freedman-Quinn, *Topology of 4-Manifolds*, Princeton 1990."
+informal_solution = "Compute the Alexander polynomial of the Conway knot from a Seifert matrix and verify Delta(t) = 1. Apply Freedman's theorem: every knot in S^3 with Alexander polynomial 1 bounds a locally flat topological disk in B^4. Construct the resulting locally flat disk image inside R^3 x [0, infty) and verify the local flatness condition pointwise."

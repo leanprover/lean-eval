@@ -1,0 +1,9 @@
+id = "conway_knot_not_smoothly_slice"
+title = "The Conway knot is not smoothly slice"
+test = false
+module = "LeanEval.KnotTheory.Piccirillo"
+holes = ["conway_knot_not_smoothly_slice"]
+submitter = "Kim Morrison"
+notes = "Lisa Piccirillo, *The Conway knot is not slice*, Annals of Mathematics 191 (2020). Identifies the smallest non-slice knot and completes the classification of slice knots through 12 crossings. The Conway knot has trivial Alexander polynomial so is topologically slice (Freedman); Piccirillo's theorem shows the smooth/topological gap is realised by an explicit small knot. Pairs with `conway_knot_topologically_slice` for the dichotomy on a specific named witness."
+source = "https://arxiv.org/abs/1808.02923"
+informal_solution = "Piccirillo's strategy: construct a knot K' having the same 0-trace as the Conway knot. The 0-trace determines the smooth slice genus, so K' has the same smooth slice genus as the Conway knot. Compute Rasmussen's s-invariant of K' (a smooth slice obstruction, via Khovanov homology / Lee's perturbation); show s(K') != 0; conclude both K' and the Conway knot are not smoothly slice. Alternative obstructions: Ozsvath-Szabo tau, slice-Bennequin inequality applied carefully."
