@@ -1,0 +1,12 @@
+{
+  "id": "lidskii_inequality",
+  "module": "LeanEval.LinearAlgebra.LidskiiInequality",
+  "holes": [
+    {
+      "name": "LeanEval.LinearAlgebra.lidskii_inequality",
+      "basename": "lidskii_inequality",
+      "kind": "theorem",
+      "body": "/-- **Lidskii's inequality.** For two self-adjoint complex `n \u00d7 n` matrices\n`A, B`, with eigenvalues sorted in the same order and `p \u2265 1`,\n`\u2211\u2c7c |\u03b1\u2c7c \u2212 \u03b2\u2c7c|^p \u2264 \u2211\u2c7c |\u03b3\u2c7c|^p` where `\u03b3\u2c7c` are the eigenvalues of `B \u2212 A`. -/\ntheorem lidskii_inequality {n : Type*} [Fintype n] [DecidableEq n]\n    {A B : Matrix n n \u2102} (hA : A.IsHermitian) (hB : B.IsHermitian)\n    {p : \u211d} (_hp : 1 \u2264 p) :\n    \u2211 j, |hA.eigenvalues\u2080 j - hB.eigenvalues\u2080 j| ^ p \u2264\n      \u2211 j, |(hB.sub hA).eigenvalues\u2080 j| ^ p := by\n  sorry"
+    }
+  ]
+}

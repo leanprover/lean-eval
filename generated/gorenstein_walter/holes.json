@@ -1,0 +1,12 @@
+{
+  "id": "gorenstein_walter",
+  "module": "LeanEval.GroupTheory.GorensteinWalter",
+  "holes": [
+    {
+      "name": "LeanEval.GroupTheory.gorenstein_walter",
+      "basename": "gorenstein_walter",
+      "kind": "theorem",
+      "body": "/-- **Gorenstein\u2013Walter theorem.** -/\ntheorem gorenstein_walter\n    (G : Type) [Group G] [Finite G] [IsSimpleGroup G]\n    (hnonab : \u2203 a b : G, a * b \u2260 b * a)\n    (P : Sylow 2 G)\n    (_hdih : \u2203 n : \u2115, Nonempty ((P : Subgroup G) \u2243* DihedralGroup n)) :\n    Nonempty (G \u2243* alternatingGroup (Fin 7)) \u2228\n    \u2203 p k : \u2115, \u2203 _hp : Fact p.Prime, Odd p \u2227 5 \u2264 p ^ k \u2227\n      Nonempty (G \u2243* PSL(2, GaloisField p k)) := by\n  sorry"
+    }
+  ]
+}

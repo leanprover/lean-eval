@@ -1,0 +1,12 @@
+{
+  "id": "platonic_classification",
+  "module": "LeanEval.Geometry.PlatonicClassification",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.PlatonicClassification.platonic_classification",
+      "basename": "platonic_classification",
+      "kind": "theorem",
+      "body": "/-- **Platonic classification.** `p = (p_2, p_3, p_4, p_5, \u2026) = (\u221e, 5, 6, 3, 3, 3, \u2026)`. -/\ntheorem platonic_classification :\n    platonicCount 2 = \u22a4 \u2227\n      platonicCount 3 = 5 \u2227\n        platonicCount 4 = 6 \u2227\n          \u2200 d, 5 \u2264 d \u2192 platonicCount d = 3 := by\n  sorry"
+    }
+  ]
+}

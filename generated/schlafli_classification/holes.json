@@ -1,0 +1,12 @@
+{
+  "id": "schlafli_classification",
+  "module": "LeanEval.Geometry.SchlafliClassification",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.SchlafliClassification.schlafli_classification",
+      "basename": "schlafli_classification",
+      "kind": "theorem",
+      "body": "/-- **Schl\u00e4fli classification.** `p_3 = 5 \u2227 p_4 = 6 \u2227 \u2200 d \u2265 5, p_d = 3`. -/\ntheorem schlafli_classification :\n    platonicCount 3 = 5 \u2227\n      platonicCount 4 = 6 \u2227\n        \u2200 d, 5 \u2264 d \u2192 platonicCount d = 3 := by\n  sorry"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "brauer_suzuki",
+  "module": "LeanEval.GroupTheory.BrauerSuzuki",
+  "holes": [
+    {
+      "name": "LeanEval.GroupTheory.brauer_suzuki",
+      "basename": "brauer_suzuki",
+      "kind": "theorem",
+      "body": "/-- **Brauer\u2013Suzuki theorem (quaternion case).** -/\ntheorem brauer_suzuki {G : Type*} [Group G] [Finite G]\n    (n : \u2115) (hn : 3 \u2264 n)\n    (P : Sylow 2 G)\n    (hquat : Nonempty ((P : Subgroup G) \u2243* QuaternionGroup (2 ^ (n - 2))))\n    (t : G) (ht_mem : t \u2208 (P : Subgroup G)) (ht_ord : orderOf t = 2) :\n    (QuotientGroup.mk t : G \u29f8 oddCore G) \u2208\n      Subgroup.center (G \u29f8 oddCore G) := by\n  sorry"
+    }
+  ]
+}

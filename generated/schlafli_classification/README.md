@@ -1,0 +1,25 @@
+# `schlafli_classification`
+
+Schläfli classification of regular polytopes
+
+- Problem ID: `schlafli_classification`
+- Test Problem: no
+- Submitter: Kim Morrison
+- Notes: §42 of Knill's 'Some Fundamental Theorems in Mathematics'. Schläfli's dimension-by-dimension enumeration of the regular convex polytopes: p_3 = 5 (Euclid XIII — the five Platonic solids), p_4 = 6 (Schläfli's six regular 4-polytopes), and p_d = 3 for every d ≥ 5 (regular simplex, hypercube, cross-polytope). Companion to the broader Platonic classification problem, which additionally records p_2 = ∞. Mathlib has convexHull, extremePoints, IsExposed, vectorSpan, AffineIsometryEquiv, Set.encard but no convex-polytope datatype, no face lattice, no regular-polytope concept, and none of the classification counts. The Challenge ships ~1.5 pages of helper defs (ConvexPolytope, dim, IsFace, Flag, isSymmetry, IsRegular, Similar, regularPolytopes, regularSimilar, platonicCount).
+- Source: L. Schläfli, *Theorie der vielfachen Kontinuität* (1852, posthumously published 1901; first proof that p_3 = 5, p_4 = 6, and p_d = 3 for d ≥ 5). Listed as §42 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
+- Informal solution: p_3 = 5: any regular 3-polytope has Schläfli symbol {p, q} with p, q ≥ 3 and 1/p + 1/q > 1/2 (the spherical-angle-sum constraint at each vertex), giving exactly (3,3), (4,3), (3,4), (5,3), (3,5) — the five Platonic solids. p_4 = 6: any regular 4-polytope {p, q, r} satisfies the analogous spherical inequality, giving (3,3,3), (4,3,3), (3,3,4), (3,4,3), (5,3,3), (3,3,5) — Schläfli's six. p_d ≥ 5 = 3: in dim ≥ 5 the only solutions to the iterated angle constraint are the regular simplex {3, …, 3, 3}, hypercube {4, 3, …, 3}, and cross-polytope {3, …, 3, 4}. Existence of each candidate is by explicit construction (vertex coordinates); uniqueness within Schläfli class is by induction on dimension via vertex figures.
+
+Do not modify `Challenge.lean` or `Solution.lean`. Those files are part of the
+trusted benchmark and fixed by the repository.
+
+Write your solution in `Submission.lean` and any additional local modules under
+`Submission/`.
+
+Participants may use Mathlib freely. Any helper code not already available in
+Mathlib must be inlined into the submission workspace.
+
+Multi-file submissions are allowed through `Submission.lean` and additional local
+modules under `Submission/`.
+
+`lake test` runs comparator for this problem. The command expects a comparator
+binary in `PATH`, or in the `COMPARATOR_BIN` environment variable.

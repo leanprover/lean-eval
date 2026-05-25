@@ -1,5 +1,16 @@
 [
   {
+    "id": "baer_suzuki",
+    "title": "Baer\u2013Suzuki theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.GroupTheory.BaerSuzuki",
+    "holes": [
+      "baer_suzuki"
+    ],
+    "generated_path": "generated/baer_suzuki"
+  },
+  {
     "id": "bakerWustholz_linearForms_logs",
     "title": "Baker-W\u00fcstholz theorem on linear forms in logarithms",
     "test": false,
@@ -42,6 +53,28 @@
       "brauer_fowler"
     ],
     "generated_path": "generated/brauer_fowler"
+  },
+  {
+    "id": "brauer_suzuki",
+    "title": "Brauer\u2013Suzuki theorem (quaternion Sylow 2-subgroup)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.GroupTheory.BrauerSuzuki",
+    "holes": [
+      "brauer_suzuki"
+    ],
+    "generated_path": "generated/brauer_suzuki"
+  },
+  {
+    "id": "brouwer_fixed_point",
+    "title": "Brouwer fixed-point theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.Brouwer",
+    "holes": [
+      "brouwer_fixed_point"
+    ],
+    "generated_path": "generated/brouwer_fixed_point"
   },
   {
     "id": "bvp_comparison",
@@ -130,6 +163,17 @@
       "cyclotomic_integer_house_le_two"
     ],
     "generated_path": "generated/cyclotomic_integer_house_le_two"
+  },
+  {
+    "id": "darboux",
+    "title": "Darboux's theorem (symplectic forms are locally standard)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.Darboux",
+    "holes": [
+      "darboux"
+    ],
+    "generated_path": "generated/darboux"
   },
   {
     "id": "deBranges_theorem",
@@ -230,6 +274,17 @@
       "exists_nonisotopic_link"
     ],
     "generated_path": "generated/exists_nonisotopic_link"
+  },
+  {
+    "id": "feit_thompson",
+    "title": "Feit\u2013Thompson odd-order theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.GroupTheory.FeitThompson",
+    "holes": [
+      "feit_thompson"
+    ],
+    "generated_path": "generated/feit_thompson"
   },
   {
     "id": "fermat_last_theorem",
@@ -342,6 +397,28 @@
     "generated_path": "generated/gleason_theorem_separable"
   },
   {
+    "id": "gorenstein_walter",
+    "title": "Gorenstein\u2013Walter theorem (dihedral Sylow 2-subgroup)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.GroupTheory.GorensteinWalter",
+    "holes": [
+      "gorenstein_walter"
+    ],
+    "generated_path": "generated/gorenstein_walter"
+  },
+  {
+    "id": "green_tao",
+    "title": "Green\u2013Tao theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.GreenTao",
+    "holes": [
+      "green_tao"
+    ],
+    "generated_path": "generated/green_tao"
+  },
+  {
     "id": "heat_kernel_solves_heat_equation",
     "title": "Gaussian heat kernel solves the 1D heat equation",
     "test": false,
@@ -429,6 +506,72 @@
     "generated_path": "generated/jacobian_challenge_diffgeo"
   },
   {
+    "id": "jordan_brouwer",
+    "title": "Jordan\u2013Brouwer separation theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.JordanBrouwer",
+    "holes": [
+      "jordan_brouwer"
+    ],
+    "generated_path": "generated/jordan_brouwer"
+  },
+  {
+    "id": "jordan_curve",
+    "title": "Jordan curve theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.JordanCurve",
+    "holes": [
+      "jordan_curve"
+    ],
+    "generated_path": "generated/jordan_curve"
+  },
+  {
+    "id": "kakutani_fixed_point",
+    "title": "Kakutani fixed-point theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.Kakutani",
+    "holes": [
+      "kakutani_fixed_point"
+    ],
+    "generated_path": "generated/kakutani_fixed_point"
+  },
+  {
+    "id": "koszul_formula",
+    "title": "Koszul formula",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.KoszulFormula",
+    "holes": [
+      "koszul_formula"
+    ],
+    "generated_path": "generated/koszul_formula"
+  },
+  {
+    "id": "levi_civita_exists_unique",
+    "title": "Fundamental theorem of Riemannian geometry (Levi-Civita)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.LeviCivita",
+    "holes": [
+      "levi_civita_exists_unique"
+    ],
+    "generated_path": "generated/levi_civita_exists_unique"
+  },
+  {
+    "id": "lidskii_inequality",
+    "title": "Lidskii's inequality",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.LinearAlgebra.LidskiiInequality",
+    "holes": [
+      "lidskii_inequality"
+    ],
+    "generated_path": "generated/lidskii_inequality"
+  },
+  {
     "id": "linear_ode_asymptotic_stability",
     "title": "Linear ODE with negative-real-part eigenvalues is asymptotically stable",
     "test": false,
@@ -438,6 +581,17 @@
       "linear_ode_asymptotic_stability"
     ],
     "generated_path": "generated/linear_ode_asymptotic_stability"
+  },
+  {
+    "id": "liouville_arnold",
+    "title": "Liouville\u2013Arnold theorem on integrable systems",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.LiouvilleArnold",
+    "holes": [
+      "liouville_arnold"
+    ],
+    "generated_path": "generated/liouville_arnold"
   },
   {
     "id": "list_append_singleton_length",
@@ -473,6 +627,28 @@
     "generated_path": "generated/mem_convexHull_finset_extremePoints_of_mem_compact_convex"
   },
   {
+    "id": "milnor_exotic_sphere_seven",
+    "title": "Milnor's exotic 7-sphere",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.MilnorExoticSphereSeven",
+    "holes": [
+      "milnor_exotic_sphere_seven"
+    ],
+    "generated_path": "generated/milnor_exotic_sphere_seven"
+  },
+  {
+    "id": "morse_inequality",
+    "title": "Morse inequalities",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.MorseInequalities",
+    "holes": [
+      "morse_inequality"
+    ],
+    "generated_path": "generated/morse_inequality"
+  },
+  {
     "id": "mulCayley_connected_iff_closure_eq_top",
     "title": "Cayley graph connected iff generators generate the group",
     "test": false,
@@ -482,6 +658,17 @@
       "mulCayley_connected_iff_closure_eq_top"
     ],
     "generated_path": "generated/mulCayley_connected_iff_closure_eq_top"
+  },
+  {
+    "id": "nash_equilibrium_exists",
+    "title": "Nash equilibrium existence theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.GameTheory.Nash",
+    "holes": [
+      "nash_equilibrium_exists"
+    ],
+    "generated_path": "generated/nash_equilibrium_exists"
   },
   {
     "id": "neukirch_uchida",
@@ -504,6 +691,17 @@
       "oppenheim_inequality"
     ],
     "generated_path": "generated/oppenheim_inequality"
+  },
+  {
+    "id": "ornstein_weiss_rokhlin",
+    "title": "Ornstein\u2013Weiss \u2124\u1d48 Rokhlin lemma",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Dynamics.OrnsteinWeiss",
+    "holes": [
+      "ornstein_weiss_rokhlin"
+    ],
+    "generated_path": "generated/ornstein_weiss_rokhlin"
   },
   {
     "id": "permute_to_unimodal",
@@ -561,6 +759,61 @@
     "generated_path": "generated/pin_sphere_n_mulEquiv_int"
   },
   {
+    "id": "platonic_classification",
+    "title": "Platonic classification",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.PlatonicClassification",
+    "holes": [
+      "platonic_classification"
+    ],
+    "generated_path": "generated/platonic_classification"
+  },
+  {
+    "id": "poincare_3d_smooth",
+    "title": "3D smooth Poincar\u00e9 conjecture (Perelman)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.Poincare3DSmooth",
+    "holes": [
+      "poincare_3d_smooth"
+    ],
+    "generated_path": "generated/poincare_3d_smooth"
+  },
+  {
+    "id": "poincare_3d_topological",
+    "title": "3D topological Poincar\u00e9 conjecture (Perelman)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.Poincare3DTopological",
+    "holes": [
+      "poincare_3d_topological"
+    ],
+    "generated_path": "generated/poincare_3d_topological"
+  },
+  {
+    "id": "poincare_4d_topological",
+    "title": "4D topological Poincar\u00e9 conjecture (Freedman)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.Poincare4DTopological",
+    "holes": [
+      "poincare_4d_topological"
+    ],
+    "generated_path": "generated/poincare_4d_topological"
+  },
+  {
+    "id": "poincare_high_dim_topological",
+    "title": "Generalized topological Poincar\u00e9 conjecture in dimensions \u2265 5 (Smale)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.PoincareHighDimTopological",
+    "holes": [
+      "poincare_high_dim_topological"
+    ],
+    "generated_path": "generated/poincare_high_dim_topological"
+  },
+  {
     "id": "posSemidef_map_exp",
     "title": "Entrywise exponential of a PSD matrix is PSD",
     "test": false,
@@ -594,6 +847,17 @@
     "generated_path": "generated/riemann_hypothesis_iff_lagarias_elementary_criterion"
   },
   {
+    "id": "rokhlin_lemma",
+    "title": "Rokhlin lemma",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Dynamics.RokhlinLemma",
+    "holes": [
+      "rokhlin_lemma"
+    ],
+    "generated_path": "generated/rokhlin_lemma"
+  },
+  {
     "id": "rouche_zero_count_eq",
     "title": "Rouche theorem via zero counting",
     "test": false,
@@ -614,6 +878,28 @@
       "schauder_fixed_point"
     ],
     "generated_path": "generated/schauder_fixed_point"
+  },
+  {
+    "id": "schlafli_classification",
+    "title": "Schl\u00e4fli classification of regular polytopes",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.SchlafliClassification",
+    "holes": [
+      "schlafli_classification"
+    ],
+    "generated_path": "generated/schlafli_classification"
+  },
+  {
+    "id": "schoenflies",
+    "title": "Schoenflies theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.Schoenflies",
+    "holes": [
+      "schoenflies"
+    ],
+    "generated_path": "generated/schoenflies"
   },
   {
     "id": "schreier_conjecture",
@@ -671,6 +957,28 @@
     "generated_path": "generated/symAction_range_eq_centralizer_glAction"
   },
   {
+    "id": "symplectic_matrix_det",
+    "title": "Symplectic matrices have determinant 1",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.LinearAlgebra.SymplecticDet",
+    "holes": [
+      "symplectic_matrix_det"
+    ],
+    "generated_path": "generated/symplectic_matrix_det"
+  },
+  {
+    "id": "szemeredi",
+    "title": "Szemer\u00e9di's theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Combinatorics.Szemeredi",
+    "holes": [
+      "szemeredi"
+    ],
+    "generated_path": "generated/szemeredi"
+  },
+  {
     "id": "topological_classification_of_surfaces",
     "title": "Topological classification of surfaces",
     "test": false,
@@ -724,5 +1032,16 @@
       "vonNeumann_doubleCommutant_tfae"
     ],
     "generated_path": "generated/vonNeumann_doubleCommutant_tfae"
+  },
+  {
+    "id": "weak_morse_inequality",
+    "title": "Weak Morse inequalities",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.WeakMorseInequality",
+    "holes": [
+      "weak_morse_inequality"
+    ],
+    "generated_path": "generated/weak_morse_inequality"
   }
 ]

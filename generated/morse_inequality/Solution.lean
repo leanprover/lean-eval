@@ -1,0 +1,14 @@
+import ChallengeDeps
+import Submission
+
+open LeanEval.Geometry.MorseInequalities
+open scoped Manifold ContDiff Topology
+open CategoryTheory
+
+theorem morse_inequality {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+    {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
+    {M : Type} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+    [CompactSpace M] (f : M → ℝ) (_hf : IsMorseFunction I f) (k : ℕ) :
+    alternatingPartialSum (bettiNumber M) k ≤
+      alternatingPartialSum (morseCount I f) k := by
+  exact Submission.morse_inequality f _hf k

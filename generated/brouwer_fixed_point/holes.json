@@ -1,0 +1,12 @@
+{
+  "id": "brouwer_fixed_point",
+  "module": "LeanEval.Topology.Brouwer",
+  "holes": [
+    {
+      "name": "LeanEval.Topology.brouwer_fixed_point",
+      "basename": "brouwer_fixed_point",
+      "kind": "theorem",
+      "body": "/-- **Brouwer fixed-point theorem.** Every continuous self-map of a\nnonempty compact convex subset of `\u211d\u1d48` has a fixed point. -/\ntheorem brouwer_fixed_point {d : \u2115}\n    {K : Set (EuclideanSpace \u211d (Fin d))}\n    (_hK_compact : IsCompact K) (_hK_convex : Convex \u211d K)\n    (_hK_nonempty : K.Nonempty)\n    (f : EuclideanSpace \u211d (Fin d) \u2192 EuclideanSpace \u211d (Fin d))\n    (_hf_cont : ContinuousOn f K) (_hf_maps : MapsTo f K K) :\n    \u2203 x \u2208 K, f x = x := by\n  sorry"
+    }
+  ]
+}

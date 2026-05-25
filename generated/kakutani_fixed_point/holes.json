@@ -1,0 +1,12 @@
+{
+  "id": "kakutani_fixed_point",
+  "module": "LeanEval.Topology.Kakutani",
+  "holes": [
+    {
+      "name": "LeanEval.Topology.kakutani_fixed_point",
+      "basename": "kakutani_fixed_point",
+      "kind": "theorem",
+      "body": "/-- **Kakutani fixed-point theorem.** Every upper-hemicontinuous\ncorrespondence `F` from a nonempty compact convex `K \u2286 \u211d\u1d48` to itself, with\nnonempty convex closed values, has a fixed point `x \u2208 F x`. -/\ntheorem kakutani_fixed_point {d : \u2115}\n    {K : Set (EuclideanSpace \u211d (Fin d))}\n    (_hK_compact : IsCompact K) (_hK_convex : Convex \u211d K)\n    (_hK_nonempty : K.Nonempty)\n    (F : EuclideanSpace \u211d (Fin d) \u2192 Set (EuclideanSpace \u211d (Fin d)))\n    (_hF_uhc : IsUpperHemicontinuous F)\n    (_hF_nonempty : \u2200 x \u2208 K, (F x).Nonempty)\n    (_hF_convex : \u2200 x \u2208 K, Convex \u211d (F x))\n    (_hF_closed : \u2200 x \u2208 K, IsClosed (F x))\n    (_hF_maps : \u2200 x \u2208 K, F x \u2286 K) :\n    \u2203 x \u2208 K, x \u2208 F x := by\n  sorry"
+    }
+  ]
+}
