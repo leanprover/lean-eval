@@ -1,0 +1,12 @@
+{
+  "id": "poincare_high_dim_topological",
+  "module": "LeanEval.Topology.PoincareHighDimTopological",
+  "holes": [
+    {
+      "name": "LeanEval.Topology.poincare_high_dim_topological",
+      "basename": "poincare_high_dim_topological",
+      "kind": "theorem",
+      "body": "/-- **Generalized topological Poincar\u00e9 conjecture in dimensions \u2265 5**\n(Smale 1961; topological case Newman 1966 / Connell 1967). For `n \u2265 5`,\nevery Hausdorff `n`-manifold homotopy-equivalent to the standard `n`-sphere\n`\ud835\udd4a\u207f` is homeomorphic to `\ud835\udd4a\u207f`. -/\ntheorem poincare_high_dim_topological\n    {n : \u2115} (_h5 : 5 \u2264 n)\n    {M : Type*} [TopologicalSpace M] [T2Space M]\n    [ChartedSpace (EuclideanSpace \u211d (Fin n)) M]\n    (_h : M \u2243\u2095 sphere (0 : EuclideanSpace \u211d (Fin (n + 1))) 1) :\n    Nonempty (M \u2243\u209c sphere (0 : EuclideanSpace \u211d (Fin (n + 1))) 1) := by\n  sorry"
+    }
+  ]
+}

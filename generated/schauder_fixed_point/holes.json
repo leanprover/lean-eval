@@ -1,0 +1,12 @@
+{
+  "id": "schauder_fixed_point",
+  "module": "LeanEval.Topology.Schauder",
+  "holes": [
+    {
+      "name": "LeanEval.Topology.schauder_fixed_point",
+      "basename": "schauder_fixed_point",
+      "kind": "theorem",
+      "body": "/-- **Schauder fixed-point theorem.** Every continuous self-map of a\nnonempty compact convex subset of a real Banach space has a fixed\npoint. -/\ntheorem schauder_fixed_point {E : Type*}\n    [NormedAddCommGroup E] [NormedSpace \u211d E] [CompleteSpace E]\n    {K : Set E}\n    (_hK_compact : IsCompact K) (_hK_convex : Convex \u211d K)\n    (_hK_nonempty : K.Nonempty)\n    (f : E \u2192 E)\n    (_hf_cont : ContinuousOn f K) (_hf_maps : Set.MapsTo f K K) :\n    \u2203 x \u2208 K, f x = x := by\n  sorry"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+id = "milnor_exotic_sphere_seven"
+title = "Milnor's exotic 7-sphere"
+test = false
+module = "LeanEval.Topology.MilnorExoticSphereSeven"
+holes = ["milnor_exotic_sphere_seven"]
+submitter = "Kim Morrison"
+notes = "Existence of a smooth 7-manifold homeomorphic but not diffeomorphic to 𝕊⁷. Recorded as `proof_wanted exists_homeomorph_isEmpty_diffeomorph_sphere_seven` in `Mathlib/Geometry/Manifold/PoincareConjecture.lean`. Milnor's 1956 discovery and the birth of differential topology as a distinct subject. The construction uses S³-bundles over S⁴; the non-diffeomorphism is detected by Milnor's λ-invariant built from the signature of an 8-manifold bounding the candidate (Hirzebruch's signature theorem + an integrality / mod-7 argument)."
+source = "J. Milnor, On manifolds homeomorphic to the 7-sphere, Ann. of Math. 64 (1956), 399-405. Recorded as a `proof_wanted` in Mathlib/Geometry/Manifold/PoincareConjecture.lean at rev 5450b53e5ddc."
+informal_solution = "Milnor's construction: for k ∈ ℤ let M_k → S⁴ be the S³-bundle whose Euler number is k+1 and first Pontryagin class is 2(2k+1). Each M_k carries a natural smooth structure and is, by direct construction of a Morse function with two critical points, homeomorphic to S⁷. To detect that M_k is not diffeomorphic to S⁷ for k ≢ 0 (mod 7), Milnor introduced the invariant λ(M) ∈ ℤ/7 by computing λ(M) = (2σ(W) − p₁(W)²) / 7 mod 7 for any smooth 8-manifold W with ∂W = M (Hirzebruch's signature theorem makes 2σ(W) − p₁(W)² divisible by 7); a Mayer-Vietoris / cobordism argument shows λ is well-defined and a diffeomorphism invariant. For the bundles M_k a direct calculation gives λ(M_k) ≡ k(k+1) mod 7, which is nonzero for k = 1 (and many other k); the corresponding M_1 is therefore an exotic 7-sphere."

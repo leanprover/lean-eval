@@ -1,0 +1,8 @@
+id = "jacobian_challenge_alggeo"
+title = "Jacobian of a smooth proper curve (Merten challenge)"
+test = false
+module = "LeanEval.AlgebraicGeometry.JacobianChallenge"
+holes = ["AlgebraicGeometry.JacobianChallenge.genus", "AlgebraicGeometry.JacobianChallenge.Jacobian", "AlgebraicGeometry.JacobianChallenge.Jacobian.instGrpObj", "AlgebraicGeometry.JacobianChallenge.Jacobian.smoothOfRelativeDimension_genus", "AlgebraicGeometry.JacobianChallenge.Jacobian.instIsProper", "AlgebraicGeometry.JacobianChallenge.Jacobian.instGeometricallyIrreducible", "AlgebraicGeometry.JacobianChallenge.Jacobian.ofCurve", "AlgebraicGeometry.JacobianChallenge.Jacobian.comp_ofCurve", "AlgebraicGeometry.JacobianChallenge.Jacobian.exists_unique_ofCurve_comp"]
+submitter = "Christian Merten"
+source = "https://leanprover.zulipchat.com/#narrow/stream/583336-Autoformalization/topic/Jacobian%20challenge/near/587802685"
+informal_solution = "Build the Albanese variety of C as the universal abelian variety receiving a pointed map from C; Weil's construction of the Jacobian of a curve makes this concrete via Pic^0(C). The universal property is the no-cheating clamp."

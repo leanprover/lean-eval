@@ -27,12 +27,16 @@ structure EvalProblemMetadata where
   source : Option String := none
   informalSolution : Option String := none
 
+/-- The manifest directory, relative to the repository root. Each problem
+lives in its own file `manifests/problems/<id>.toml` with top-level keys. -/
 def manifestRelativePath : System.FilePath :=
-  "manifests" / "problems.toml"
+  "manifests" / "problems"
 
+/-- Walk up from `dir` searching for the manifest directory
+`manifests/problems/`. Returns the directory itself if found. -/
 partial def findManifestPath? (dir : System.FilePath) : IO (Option System.FilePath) := do
   let candidate := dir / manifestRelativePath
-  if ← candidate.pathExists then
+  if ← candidate.isDir then
     return some candidate
   match dir.parent with
   | none => return none
@@ -79,40 +83,28 @@ instance : DecodeToml EvalProblemMetadata where
 def decodeErrorsToString (errors : Array DecodeError) : String :=
   "\n".intercalate <| errors.toList.map fun err => err.msg
 
-def parseManifestMetadata (contents : String) (fileName : String := manifestRelativePath.toString) :
-    IO (Except String (Array EvalProblemMetadata)) := do
+/-- Parse a single per-problem TOML file (top-level keys: `id`, `title`,
+`test`, `module`, `holes`, `submitter`, optional `notes`, `source`,
+`informal_solution`). The caller is responsible for `id ↔ filename` and
+cross-file uniqueness checks (see `EvalTools.loadManifest`). -/
+def parseManifestEntry (contents : String) (fileName : String) :
+    IO (Except String EvalProblemMetadata) := do
   let inputCtx := mkInputContext contents fileName
   let table ←
     match (← Lake.Toml.loadToml inputCtx |>.toBaseIO) with
     | Except.ok table => pure table
     | Except.error err => return Except.error (← Lake.mkMessageLogString err)
   let decoded :
-      EStateM.Result Unit (Array DecodeError) (Array EvalProblemMetadata) :=
-    (Lake.Toml.Table.decode (α := Array EvalProblemMetadata) table `problem).run #[]
-  let blocks ←
-    match decoded with
-    | EStateM.Result.ok entries errors =>
-        if errors.isEmpty then
-          pure entries
-        else
-          return Except.error (decodeErrorsToString errors)
-    | EStateM.Result.error _ errors =>
+      EStateM.Result Unit (Array DecodeError) EvalProblemMetadata :=
+    (DecodeToml.decode (α := EvalProblemMetadata) (Lake.Toml.Value.table Syntax.missing table)).run #[]
+  match decoded with
+  | EStateM.Result.ok entry errors =>
+      if errors.isEmpty then
+        return Except.ok entry
+      else
         return Except.error (decodeErrorsToString errors)
-  let mut entries : Array EvalProblemMetadata := #[]
-  let mut seenIds : HashSet String := {}
-  let mut seenRefs : HashSet (String × String) := {}
-  for metadata in blocks do
-    if seenIds.contains metadata.id then
-      return Except.error s!"Duplicate problem id `{metadata.id}` in `manifests/problems.toml`."
-    seenIds := seenIds.insert metadata.id
-    for hole in metadata.holes do
-      let key := (metadata.moduleName, hole)
-      if seenRefs.contains key then
-        return Except.error
-          s!"Duplicate hole reference `{metadata.moduleName}:{hole}` in `manifests/problems.toml`."
-      seenRefs := seenRefs.insert key
-    entries := entries.push metadata
-  return Except.ok entries
+  | EStateM.Result.error _ errors =>
+      return Except.error (decodeErrorsToString errors)
 
 def moduleNameForDecl (env : Environment) (declName : Name) : String :=
   match env.getModuleIdxFor? declName with
@@ -129,10 +121,10 @@ def validateMatchingManifestEntry
     entry.moduleName == moduleName && entry.holes.any (holeMatches declName ·)
   if matchingEntries.isEmpty then
     throw
-      s!"The declaration `{declName}` is marked with @[eval_problem], but no entry in `manifests/problems.toml` lists it in `holes`.\nAdd a corresponding problem entry to the manifest."
+      s!"The declaration `{declName}` is marked with @[eval_problem], but no file in `manifests/problems/` lists it in `holes`.\nAdd a corresponding `manifests/problems/<id>.toml` file."
   if matchingEntries.size > 1 then
     throw
-      s!"The declaration `{declName}` is marked with @[eval_problem], but `manifests/problems.toml` has multiple matching entries in module `{moduleName}`."
+      s!"The declaration `{declName}` is marked with @[eval_problem], but `manifests/problems/` has multiple matching entries in module `{moduleName}`."
   match matchingEntries[0]? with
   | some metadata => return metadata
   | none => throw "internal error: missing manifest entry after nonempty match set"
@@ -274,14 +266,16 @@ def ensureEvalProblemManifestEntry (declName : Name) : AttrM EvalProblemMetadata
       throwError
         "The attribute @[eval_problem] may only be applied to theorem, opaque, def, or instance declarations, but `{declName}` is not one."
   let cwd ← IO.currentDir
-  let some manifestPath ← findManifestPath? cwd
+  let some manifestDir ← findManifestPath? cwd
     | throwError
-        "Could not find `manifests/problems.toml` while validating @[eval_problem] on `{declName}`."
-  let manifestContents ← IO.FS.readFile manifestPath
-  let entries ←
-    match ← parseManifestMetadata manifestContents manifestPath.toString with
-    | .ok entries => pure entries
-    | .error err => throwError "{err}"
+        "Could not find `manifests/problems/` while validating @[eval_problem] on `{declName}`."
+  let mut entries : Array EvalProblemMetadata := #[]
+  for entry in (← manifestDir.readDir) do
+    if entry.path.extension == some "toml" then
+      let contents ← IO.FS.readFile entry.path
+      match ← parseManifestEntry contents entry.path.toString with
+      | .ok m => entries := entries.push m
+      | .error err => throwError "{err}"
   let moduleName := moduleNameForDecl env declName
   match validateMatchingManifestEntry declName entries moduleName with
   | .ok metadata => pure metadata

@@ -1,0 +1,12 @@
+{
+  "id": "szemeredi",
+  "module": "LeanEval.Combinatorics.Szemeredi",
+  "holes": [
+    {
+      "name": "LeanEval.Combinatorics.szemeredi",
+      "basename": "szemeredi",
+      "kind": "theorem",
+      "body": "/-- **Szemer\u00e9di's theorem.** Every subset of `\u2115` of positive upper density\ncontains arbitrarily long arithmetic progressions. -/\ntheorem szemeredi (A : Set \u2115) (h : 0 < upperDensity A) :\n    ContainsArbitraryAPs A := by\n  sorry"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+id = "linear_ode_asymptotic_stability"
+title = "Linear ODE with negative-real-part eigenvalues is asymptotically stable"
+test = false
+module = "LeanEval.Analysis.ODE.LinearStability"
+holes = ["linear_ode_asymptotic_stability"]
+submitter = "Kim Morrison"
+notes = "If every eigenvalue of A has negative real part, every solution of x' = Ax decays to zero in norm."
+source = "Classical linear stability theory; Hirsch-Smale-Devaney."
+informal_solution = "Pass to the complexification; bring A to (Schur or Jordan) upper-triangular form; the matrix exponential satisfies ||exp(tA)|| <= C(1+t^{n-1}) exp(alpha t) for any alpha greater than the maximum real part of the spectrum, hence decays to 0. For any t_1 > 0, x(t) = exp((t - t_1) A) x(t_1) for t >= t_1 by uniqueness of the linear IVP, so ||x(t)|| -> 0 as t -> infty."

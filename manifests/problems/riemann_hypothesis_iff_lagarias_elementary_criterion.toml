@@ -1,0 +1,9 @@
+id = "riemann_hypothesis_iff_lagarias_elementary_criterion"
+title = "Lagarias criterion is equivalent to RH"
+test = false
+module = "LeanEval.NumberTheory.Lagarias"
+holes = ["riemann_hypothesis_iff_lagarias_elementary_criterion"]
+submitter = "Kim Morrison"
+notes = "Lagarias' elementary divisor-sum criterion stated using Mathlib's RiemannHypothesis, harmonic numbers, and sigma notation."
+source = "https://arxiv.org/abs/math/0008177"
+informal_solution = "Prove that the Riemann hypothesis is equivalent to the inequality σ(n) ≤ H_n + exp(H_n) log(H_n) for all positive integers n."

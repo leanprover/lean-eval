@@ -1,0 +1,9 @@
+id = "pi3_sphere_two_mulEquiv_int"
+title = "pi_3 of the 2-sphere is Z"
+test = false
+module = "LeanEval.Topology.HomotopyGroups"
+holes = ["pi3_sphere_two_mulEquiv_int"]
+submitter = "Kim Morrison"
+notes = "The classical computation pi_3(S^2) = Z, with an explicit basepoint."
+source = "Classical theorem in algebraic topology."
+informal_solution = "Use the Hopf fibration to identify the third homotopy group of the 2-sphere with the integers."

@@ -1,0 +1,9 @@
+id = "exists_chiral_knot"
+title = "Existence of a chiral oriented knot"
+test = false
+module = "LeanEval.KnotTheory.Chiral"
+holes = ["exists_chiral_knot"]
+submitter = "Kim Morrison"
+notes = "Challenge problem of the knot-theory benchmark. Asks for an oriented smooth knot whose image is not ambient-isotopic to its mirror image (under reflection through the xy-plane), using the benchmark's orientation-sensitive notion of isotopy induced by the parametrization. The model must construct an ambient-isotopy invariant that takes different values on a knot and its mirror -- the knot determinant and Alexander polynomial alone do not suffice, since the figure-eight is amphichiral in the usual unoriented sense."
+source = "Classical; see https://en.wikipedia.org/wiki/Chirality_(mathematics) and https://en.wikipedia.org/wiki/Trefoil_knot."
+informal_solution = "Take K = right-handed trefoil. Construct the knot signature sigma(K) from a Seifert matrix V as the signature of V + V^T, and verify that sigma is an ambient-isotopy invariant of knots that negates under mirror reflection. Compute sigma(right trefoil) = -2, so sigma(K) != sigma(mirror K) and K is chiral. (Alternatively, use the Jones polynomial V_K(t) = -t^{-4} + t^{-3} + t^{-1}, which is not symmetric under t <-> t^{-1}.)"

@@ -1,0 +1,12 @@
+{
+  "id": "liouville_arnold",
+  "module": "LeanEval.Geometry.LiouvilleArnold",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.LiouvilleArnold.liouville_arnold",
+      "basename": "liouville_arnold",
+      "kind": "theorem",
+      "body": "/-- **Liouville\u2013Arnold theorem.** For a Liouville integrable system on an\nopen `U \u2286 \u211d^{2n}`, every compact connected joint level set\n`M_c = {x \u2208 \u211d^{2n} : F\u2081(x) = c\u2081, \u2026, F_n(x) = c_n}` contained in `U` is\nhomeomorphic to the `n`-torus `T^n = (\u211d/\u2124)^n`.\n\nThe hypotheses *compact* and *connected* on the level set, and its\ncontainment in the open set where the derivatives are independent,\nrestore standard regularity assumptions that Knill elides; without them\nthe conclusion fails. -/\ntheorem liouville_arnold\n    {n : \u2115} (F : Fin n \u2192 E n \u2192 \u211d) (U : Set (E n)) (_hU : IsOpen U)\n    (_hLI : IsLiouvilleIntegrable F U)\n    (c : Fin n \u2192 \u211d)\n    (_hMc_sub : levelSet F c \u2286 U)\n    (_hMc_compact : IsCompact (levelSet F c))\n    (_hMc_connected : IsConnected (levelSet F c)) :\n    Nonempty ((levelSet F c) \u2243\u209c (Fin n \u2192 AddCircle (1 : \u211d))) := by\n  sorry"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+id = "def_hole_example"
+title = "def-hole minimal example"
+test = true
+module = "LeanEval.Sandbox.DefHoleExample"
+holes = ["foo", "foo_def"]
+submitter = "Kim Morrison"
+notes = "Minimal example exercising def + theorem holes through the comparator def-hole pipeline."

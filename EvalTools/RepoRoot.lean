@@ -3,10 +3,10 @@ namespace EvalTools
 set_option autoImplicit false
 
 /-- Walk up from `dir` searching for the lean-eval repository root, identified
-by the presence of both `lakefile.toml` and `manifests/problems.toml`. -/
+by the presence of both `lakefile.toml` and the `manifests/problems/` directory. -/
 partial def findRepoRoot? (dir : System.FilePath) : IO (Option System.FilePath) := do
   let hasLakefile ← (dir / "lakefile.toml").pathExists
-  let hasManifest ← (dir / "manifests" / "problems.toml").pathExists
+  let hasManifest ← (dir / "manifests" / "problems").isDir
   if hasLakefile && hasManifest then
     return some dir
   match dir.parent with

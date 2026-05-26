@@ -1,0 +1,12 @@
+{
+  "id": "erdos_unit_distance_conjecture_false",
+  "module": "LeanEval.Combinatorics.UnitDistanceConjectureFalse",
+  "holes": [
+    {
+      "name": "LeanEval.Combinatorics.erdos_unit_distance_conjecture_false",
+      "basename": "erdos_unit_distance_conjecture_false",
+      "kind": "theorem",
+      "body": "/-- **OpenAI (2026), Theorem 1.1: Erd\u0151s's unit-distance conjecture is\nfalse.**\n\nThere is an absolute `\u03b4 > 0` and infinitely many positive integers `n`\nfor which some `n`-point set `P \u2286 \u211d\u00b2` has at least `n^{1+\u03b4}`\nunit-distance pairs. Concretely: for every threshold `N` there exist\n`n \u2265 N` and a finite `P \u2286 \u211d\u00b2` with `|P| = n` and\n`n^{1+\u03b4} \u2264 unitDist P`. -/\ntheorem erdos_unit_distance_conjecture_false :\n    \u2203 \u03b4 : \u211d, 0 < \u03b4 \u2227\n      \u2200 N : \u2115, \u2203 (n : \u2115) (P : Finset E2),\n        N \u2264 n \u2227 P.card = n \u2227 (n : \u211d) ^ (1 + \u03b4) \u2264 (unitDist P : \u211d) := by\n  sorry"
+    }
+  ]
+}

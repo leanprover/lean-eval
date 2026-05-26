@@ -1,0 +1,9 @@
+id = "two_plus_two"
+title = "2 + 2 = 4"
+test = true
+module = "LeanEval.EasyProblems"
+holes = ["two_plus_two_eq_four"]
+submitter = "Kim Morrison"
+notes = "An easy problem to get you on the leaderboard."
+source = "Internal starter problem."
+informal_solution = "By computation."

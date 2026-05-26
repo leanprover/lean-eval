@@ -1,0 +1,12 @@
+{
+  "id": "nash_equilibrium_exists",
+  "module": "LeanEval.GameTheory.Nash",
+  "holes": [
+    {
+      "name": "LeanEval.GameTheory.nash_equilibrium_exists",
+      "basename": "nash_equilibrium_exists",
+      "kind": "theorem",
+      "body": "/-- **Nash equilibrium existence theorem.** Every finite `n`-player game\nwith nonempty finite pure-strategy sets and arbitrary real payoffs admits\nat least one mixed-strategy Nash equilibrium. -/\ntheorem nash_equilibrium_exists {n : \u2115} {S : Fin n \u2192 Type*}\n    [\u2200 i, Fintype (S i)] [\u2200 i, Nonempty (S i)]\n    (u : Fin n \u2192 StrategyProfile n S \u2192 \u211d) :\n    \u2203 \u03c3 : \u2200 i, S i \u2192 \u211d, IsNashEquilibrium u \u03c3 := by\n  sorry"
+    }
+  ]
+}

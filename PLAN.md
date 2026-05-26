@@ -1,31 +1,14 @@
 # PLAN
 
-This file tracks the pieces that should be designed carefully rather than improvised.
+This file tracks problem-set work that should be designed carefully
+rather than improvised.
 
-## 1. Pin external versions
+The submission pipeline now lives in
+[`leanprover/lean-eval-submissions`](https://github.com/leanprover/lean-eval-submissions);
+roadmap items for it belong there. External version pins are done and
+their bump procedure is documented in [`SECURITY.md`](SECURITY.md) §5.
 
-CI currently pulls several moving targets:
-
-- `go install github.com/zouuup/landrun/cmd/landrun@main`
-  (in both `ci.yml` and `submission.yml`)
-- `jlumbroso/free-disk-space@main` (in `submission.yml`; `ci.yml` is on `@v1.3.1`)
-- comparator and `lean4export` are not pinned to specific revisions
-
-Pick concrete versions, pin them, and write down the upgrade procedure.
-
-## 2. Native-Lean migration of lean-eval tooling
-
-The leaderboard *site* is native Lean, but the lean-eval-side tooling that
-produces the JSON it consumes is still Python:
-
-- `scripts/generate_projects.py` — workspace generator
-- `scripts/evaluate_submission.py` — evaluation driver
-- `scripts/update_leaderboard.py` — result writer
-- `scripts/fetch_submission.py`, `run_eval.py`
-
-Migrate the remaining scripts so the entire toolchain lives inside `lake`.
-
-## 3. Problem curation
+## Problem curation
 
 The repo currently ships ~33 workspaces across number theory, combinatorics,
 topology, complex analysis, group theory, convex geometry, linear algebra,

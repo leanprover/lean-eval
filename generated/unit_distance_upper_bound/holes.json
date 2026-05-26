@@ -1,0 +1,12 @@
+{
+  "id": "unit_distance_upper_bound",
+  "module": "LeanEval.Combinatorics.UnitDistanceUpperBound",
+  "holes": [
+    {
+      "name": "LeanEval.Combinatorics.unit_distance_upper_bound",
+      "basename": "unit_distance_upper_bound",
+      "kind": "theorem",
+      "body": "/-- **Spencer\u2013Szemer\u00e9di\u2013Trotter (1984).** The number of unit-distance\npairs in any finite planar set is `O(n^{4/3})`: there is an absolute\nconstant `C > 0` such that every finite `P \u2286 \u211d\u00b2` satisfies\n\n  `unitDist P \u2264 C \u00b7 |P|^{4/3}`. -/\ntheorem unit_distance_upper_bound :\n    \u2203 C : \u211d, 0 < C \u2227\n      \u2200 P : Finset E2, (unitDist P : \u211d) \u2264 C * (P.card : \u211d) ^ ((4 : \u211d) / 3) := by\n  sorry"
+    }
+  ]
+}

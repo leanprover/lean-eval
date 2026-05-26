@@ -1,0 +1,12 @@
+{
+  "id": "lidskii_last",
+  "module": "LeanEval.LinearAlgebra.Lidskii",
+  "holes": [
+    {
+      "name": "LeanEval.LinearAlgebra.lidskii_last",
+      "basename": "lidskii_last",
+      "kind": "theorem",
+      "body": "/-- **Lidskii\u2013Last theorem.** For two self-adjoint complex `n \u00d7 n` matrices\n`A, B`, with eigenvalues sorted in the same order,\n`\u2211\u2c7c |\u03b1\u2c7c \u2212 \u03b2\u2c7c| \u2264 \u2211\u1d62\u2c7c |A\u1d62\u2c7c \u2212 B\u1d62\u2c7c|`. -/\ntheorem lidskii_last {n : Type*} [Fintype n] [DecidableEq n]\n    {A B : Matrix n n \u2102} (hA : A.IsHermitian) (hB : B.IsHermitian) :\n    \u2211 j, |hA.eigenvalues\u2080 j - hB.eigenvalues\u2080 j| \u2264\n      \u2211 i, \u2211 j, \u2016A i j - B i j\u2016 := by\n  sorry"
+    }
+  ]
+}

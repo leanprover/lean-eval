@@ -1,0 +1,12 @@
+{
+  "id": "poincare_3d_topological",
+  "module": "LeanEval.Topology.Poincare3DTopological",
+  "holes": [
+    {
+      "name": "LeanEval.Topology.poincare_3d_topological",
+      "basename": "poincare_3d_topological",
+      "kind": "theorem",
+      "body": "/-- **3D topological Poincar\u00e9 conjecture** (Perelman, 2002\u20132003). Every\nsimply connected compact Hausdorff 3-manifold is homeomorphic to the\nstandard 3-sphere `\ud835\udd4a\u00b3`. -/\ntheorem poincare_3d_topological\n    {M : Type*} [TopologicalSpace M] [T2Space M]\n    [ChartedSpace (EuclideanSpace \u211d (Fin 3)) M]\n    [SimplyConnectedSpace M] [CompactSpace M] :\n    Nonempty (M \u2243\u209c sphere (0 : EuclideanSpace \u211d (Fin 4)) 1) := by\n  sorry"
+    }
+  ]
+}
