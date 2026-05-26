@@ -23,9 +23,6 @@ homeomorphism class of surfaces, obtained by gluing certain arcs in the boundary
 
 + `handlebody₃`: a representative 3-dimensional handlebody for each genus.
 See https://en.wikipedia.org/wiki/Handlebody#3-dimensional_handlebodies.
-
-We pose it as a LeanEval problem to show that the boundary of the handlebody is homeomorphic
-to the corresponding representative surface.
 -/
 
 section Topology
@@ -131,27 +128,5 @@ open Set
 def handlebody₃ (g : ℕ) : Set (ℝ × ℝ × ℝ) :=
   Icc 0 1 ×ˢ (Icc 0 (2 * (g : ℝ) + 1) ×ˢ Icc 0 3 \
     ⋃ i : Fin g, Ioo (2 * (i : ℝ) + 1) (2 * i + 2) ×ˢ Ioo 1 2)
-
-@[eval_problem]
-def frontierHandlebody₃HomeomorphOrientableRepr (g : ℕ) (hg : g ≠ 0) :
-    frontier (handlebody₃ g) ≃ₜ Surface.OrientableRepr g 0 := by
-  sorry
-
-@[eval_problem]
-def frontierHandlebody₃HomeomorphSphere :
-    frontier (handlebody₃ 0) ≃ₜ Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1 := by
-  sorry
-
-@[eval_problem]
-def frontierHandlebody₃HomeomorphAddCircleProd :
-    frontier (handlebody₃ 1) ≃ₜ AddCircle (1 : ℝ) × AddCircle (1 : ℝ) := by
-  sorry
-
-/-- The complement of our handlebody in ℝ³ is homeomorphic to the interior of a handlebody
-with a point removed. -/
-@[eval_problem]
-def complHandlebody₃Homeomorph (g : ℕ) :
-    ↥(handlebody₃ g)ᶜ ≃ₜ ↥(interior (handlebody₃ g) \ {(0.5, 0.5, 1.5)}) := by
-  sorry
 
 end LeanEval.Topology
