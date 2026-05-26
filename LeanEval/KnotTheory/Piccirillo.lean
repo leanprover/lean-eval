@@ -8,10 +8,13 @@ namespace KnotTheory
 # The Conway knot is not smoothly slice
 
 Lisa Piccirillo, *The Conway knot is not slice* (Annals of Mathematics,
-2020; arXiv 1808.02923). The Conway knot 11n34 is the smallest non-slice
-knot, completing the classification of slice knots through 12 crossings.
-Combined with `ConwayTopologicallySlice`, this gives the first explicit
-witness in the smooth/topological slice gap.
+2020; arXiv 1808.02923). Piccirillo resolved the last remaining case in
+the classification of slice knots through 12 crossings by showing the
+Conway knot 11n34 is not smoothly slice. Combined with
+`ConwayTopologicallySlice`, this is a celebrated small witness in the
+smooth/topological slice gap (earlier explicit witnesses such as the
+Akbulut–Matveyev positive Whitehead doubles existed; Conway is notable
+for its low crossing number and its history as a long-standing open case).
 
 Piccirillo's strategy: exhibit a knot `K'` having the same `0`-trace as
 the Conway knot. The trace-embedding argument then transfers sliceness:

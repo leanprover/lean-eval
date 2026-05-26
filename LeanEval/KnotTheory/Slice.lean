@@ -113,13 +113,14 @@ def IsLocallyFlatInterior (D : ℝ × ℝ → R3 × ℝ) (q : R3 × ℝ) : Prop 
     h.toFun '' (h.source ∩ D '' disk2) = h.target ∩ modelPlane2
 
 /-- Local flatness of the disk image at a *boundary* disk point `q`. The
-chart lives entirely inside the closed upper half-space, and the disk
-image maps onto the model half-plane in the half-space. -/
+chart is ambient-open in `ℝ³ × ℝ` (it cannot be contained in the closed
+half-space because `q.2 = 0` forces any open neighborhood of `q` to
+escape the half-space), but it preserves the half-space and maps the
+disk image onto the model half-plane in the half-space. -/
 def IsLocallyFlatBoundary (D : ℝ × ℝ → R3 × ℝ) (q : R3 × ℝ) : Prop :=
   ∃ h : OpenPartialHomeomorph (R3 × ℝ) (R3 × ℝ),
     q ∈ h.source ∧
-    h.source ⊆ upperHalf ∧
-    h.target ⊆ upperHalf ∧
+    h.toFun '' (h.source ∩ upperHalf) = h.target ∩ upperHalf ∧
     h.toFun '' (h.source ∩ D '' disk2) = h.target ∩ modelHalfPlane2
 
 /-- **Topologically slice (smooth knot version).** A smooth knot is
