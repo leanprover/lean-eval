@@ -143,6 +143,28 @@
     "generated_path": "generated/contractibleSpace_houseWithTwoRooms"
   },
   {
+    "id": "conway_knot_not_smoothly_slice",
+    "title": "The Conway knot is not smoothly slice",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.KnotTheory.Piccirillo",
+    "holes": [
+      "conway_knot_not_smoothly_slice"
+    ],
+    "generated_path": "generated/conway_knot_not_smoothly_slice"
+  },
+  {
+    "id": "conway_knot_topologically_slice",
+    "title": "The Conway knot is topologically slice",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.KnotTheory.ConwayTopologicallySlice",
+    "holes": [
+      "conway_knot_topologically_slice"
+    ],
+    "generated_path": "generated/conway_knot_topologically_slice"
+  },
+  {
     "id": "cubic_decay_asymptotic",
     "title": "Polynomial decay rate of y' = -y^3",
     "test": false,
@@ -296,6 +318,17 @@
       "exists_nonisotopic_link"
     ],
     "generated_path": "generated/exists_nonisotopic_link"
+  },
+  {
+    "id": "exists_topologically_slice_not_smoothly_slice",
+    "title": "Existence of a topologically slice, not smoothly slice knot",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.KnotTheory.SliceDichotomy",
+    "holes": [
+      "exists_topologically_slice_not_smoothly_slice"
+    ],
+    "generated_path": "generated/exists_topologically_slice_not_smoothly_slice"
   },
   {
     "id": "feit_thompson",

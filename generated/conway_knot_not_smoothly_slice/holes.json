@@ -1,0 +1,12 @@
+{
+  "id": "conway_knot_not_smoothly_slice",
+  "module": "LeanEval.KnotTheory.Piccirillo",
+  "holes": [
+    {
+      "name": "LeanEval.KnotTheory.conway_knot_not_smoothly_slice",
+      "basename": "conway_knot_not_smoothly_slice",
+      "kind": "theorem",
+      "body": "/-- **Piccirillo, \"The Conway knot is not slice.\"**\n\nThe Conway knot 11n34 does not bound a smoothly properly embedded 2-disk\nin `\u211d\u00b3 \u00d7 [0, \u221e)`. -/\ntheorem conway_knot_not_smoothly_slice : \u00ac conwayKnot.SmoothlySlice := by\n  sorry"
+    }
+  ]
+}
