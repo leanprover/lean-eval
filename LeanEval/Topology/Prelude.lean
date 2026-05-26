@@ -3,7 +3,6 @@ import Mathlib.Algebra.Category.Grp.Abelian
 import Mathlib.AlgebraicTopology.SingularHomology.Basic
 import Mathlib.Analysis.Complex.Circle
 import Mathlib.Analysis.InnerProductSpace.PiL2
-import EvalTools.Markers
 
 /-!
 # Basic definitions in topology
