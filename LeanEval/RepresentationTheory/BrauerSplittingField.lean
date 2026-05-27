@@ -33,7 +33,6 @@ theorem brauer_splitting_field
     ∃ (φ : CyclotomicField (Monoid.exponent G) ℚ →+* ℂ)
       (W : Type) (_ : AddCommGroup W)
       (_ : Module (CyclotomicField (Monoid.exponent G) ℚ) W)
-      (_ : FiniteDimensional (CyclotomicField (Monoid.exponent G) ℚ) W)
       (σ : Representation (CyclotomicField (Monoid.exponent G) ℚ) G W),
       letI : Algebra (CyclotomicField (Monoid.exponent G) ℚ) ℂ := φ.toAlgebra
       ∃ (f : (ℂ ⊗[CyclotomicField (Monoid.exponent G) ℚ] W) ≃ₗ[ℂ] V),
