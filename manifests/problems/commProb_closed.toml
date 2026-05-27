@@ -6,4 +6,4 @@ holes = ["commProb_closed"]
 submitter = "Thomas Browning"
 notes = "The set of commuting probabilities of finite groups is closed."
 source = "https://arxiv.org/abs/2201.09402"
-informal_solution = "Neumann's theorem describes the structure of finite groups with bounded below commuting probability. Then pass to a subsequence."
+informal_solution = "Neumann's theorem describes the structure of finite groups with bounded below commuting probability. Then pass to subsequences of groups with similar structure."
