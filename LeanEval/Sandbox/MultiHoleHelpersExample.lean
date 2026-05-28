@@ -2,25 +2,39 @@ import Mathlib
 import EvalTools.Markers
 
 /-!
-Minimal example exercising multi-hole problems with **trusted helper
-declarations**. `magicNumber` is not a `@[eval_problem]` hole; both
-holes depend on it. The multi-hole generator factors it into
-`ChallengeDeps.lean` so `Submission` and `Solution` reference the same
-canonical declaration (rather than each carrying its own copy as
-`Submission.MultiHoleHelpersExample.magicNumber` vs
-`MultiHoleHelpersExample.magicNumber` — distinct types that wouldn't
-unify).
+Regression test for the multi-hole / trusted-helpers pipeline. Exercises
+three failure modes the generator used to have:
+
+1. **Root-level helpers** (`rootHelper`) — no enclosing namespace, so the
+   generator must *not* emit a spurious `open` for them.
+
+2. **Helpers in a namespace that differs from the module's last path
+   component** (`Helpers.preHole`, `Helpers.postHole`) — the injected
+   `open` line must be derived from the helper names, not from
+   `lastComponentStr entry.moduleName`.
+
+3. **A helper that appears in source order *after* a hole**
+   (`Helpers.postHole` between `first` and `second_eq`) — helper byte
+   ranges computed from the raw source must remain valid when applied
+   alongside hole-body replacement; a sequential strip-then-replace
+   pipeline (with ranges derived from `.ilean`) would corrupt this case.
 -/
 
-namespace MultiHoleHelpersExample
+def rootHelper : Nat := 41
 
-/-- Trusted helper: a fixed natural number both holes refer to. -/
-def magicNumber : Nat := 42
+namespace Helpers
 
-@[eval_problem]
-def step : Nat := sorry
+def preHole : Nat := 100
 
 @[eval_problem]
-theorem step_eq : step = magicNumber := sorry
+def first : Nat := sorry
 
-end MultiHoleHelpersExample
+def postHole : Nat := 1000
+
+@[eval_problem]
+theorem second_eq : first + rootHelper + preHole = first + 141 := sorry
+
+@[eval_problem]
+theorem third_eq : postHole = 1000 := sorry
+
+end Helpers

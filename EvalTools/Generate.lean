@@ -539,15 +539,30 @@ def topLevelNamespaces (body userNamespace : String) : Array String := Id.run do
 
 /-- Wrap `source`'s body in `namespace Submission ... end Submission`.
 Mirrors `_wrap_body_in_submission_namespace`. -/
-def wrapBodyInSubmissionNamespace (source userNamespace : String) : String := Id.run do
+def wrapBodyInSubmissionNamespace (source userNamespace : String)
+    (extraOpens : Array String := #[]) : String := Id.run do
   let lines := splitLinesKeepEnds source
   let (_, bodyStart) := scanHeader lines
   if bodyStart ≥ lines.size then return source
   let head := (lines.extract 0 bodyStart).foldl (· ++ ·) ""
   let mut body := (lines.extract bodyStart lines.size).foldl (· ++ ·) ""
   if !body.endsWith "\n" then body := body ++ "\n"
-  let opens := (topLevelNamespaces body userNamespace).foldl
-    (fun acc ns => acc ++ s!"open {ns}\n") ""
+  -- Open `extraOpens` (the `_root_`-qualified enclosing namespaces of trusted
+  -- helpers now living in `ChallengeDeps`) together with the source's own
+  -- top-level namespaces (so cross-namespace references in the wrapped body
+  -- still resolve). `extraOpens` come first and are authoritative: a bare
+  -- auto-open of the same base name is redundant (it would resolve to the
+  -- wrapped `Submission.X`, not the helper's `_root_.X`) and is dropped.
+  let normalize := fun (s : String) =>
+    if s.startsWith "_root_." then (s.drop 7).toString else s
+  let mut openNamespaces : Array String := #[]
+  let mut seenBase : Std.HashSet String := {}
+  for ns in extraOpens ++ topLevelNamespaces body userNamespace do
+    let base := normalize ns
+    if seenBase.contains base then continue
+    openNamespaces := openNamespaces.push ns
+    seenBase := seenBase.insert base
+  let opens := openNamespaces.foldl (fun acc ns => acc ++ s!"open {ns}\n") ""
   return head ++ "\nnamespace Submission\n\n" ++ opens ++ body ++ "\nend Submission\n"
 
 /-! ## Theorem statement / binder parsing -/
@@ -1002,6 +1017,135 @@ def extractContextVariables (source : String) (extracted? : Option ExtractedTheo
 
 /-! ## Render ChallengeDeps.lean -/
 
+/-- The byte range `[start, stop)` of a single source declaration in `sourceText`,
+keyed by the declaration's full name. `stop` is either the next declaration's
+`start` (taken from `.ilean`) or the matching top-level `end ...` line. -/
+structure DeclSpan where
+  name : String
+  start : Nat
+  stop : Nat
+  deriving Inhabited
+
+/-- Load every top-level declaration range from the module's `.ilean`, mapped
+into character-offset spans against `sourceSrc`. Used everywhere the generator
+needs to slice the source by declaration. -/
+def loadDeclSpans (root : System.FilePath) (entry : EvalProblemMetadata)
+    (sourceSrc : Source) : IO (Array DeclSpan) := do
+  let declRanges ← loadIleanDeclRanges root entry.moduleName
+  let mut startsBuf : Array (String × Nat) := #[]
+  for ileanEntry in declRanges do
+    let off ← sourceSrc.offsetForLineColumn ileanEntry.startLine ileanEntry.startColumn
+    startsBuf := startsBuf.push (ileanEntry.name, off)
+  let starts := startsBuf.qsort (fun a b => a.2 < b.2)
+  let mut spans : Array DeclSpan := #[]
+  for i in [0:starts.size] do
+    let (name, start) := starts[i]!
+    let stop :=
+      if i + 1 < starts.size then starts[i+1]!.2
+      else findTopLevelEndOffset sourceSrc start
+    spans := spans.push { name, start, stop }
+  return spans
+
+/-- Apply a list of `(start, stop, replacement)` edits to `sourceText`. Edits
+are sorted right-to-left and applied in that order so earlier offsets remain
+valid. Edits must not overlap. Use `replacement = ""` for a pure deletion. -/
+def applyEdits (sourceText : String) (edits : Array (Nat × Nat × String)) : String := Id.run do
+  let edits := edits.qsort (fun a b => a.1 > b.1)
+  let mut result := sourceText
+  for (start, stop, replacement) in edits do
+    let src := Source.ofString result
+    result := Source.slice src 0 start ++ replacement ++ Source.slice src stop src.size
+  return result
+
+/-- Tighten the upper bound of a declaration's byte range. `.ilean` only
+records each declaration's *start*, so `loadDeclSpans` derives the stop as
+the next declaration's start (or the module's top-level `end`) — which can
+overshoot, eating intervening `namespace ...` / `end ...` lines when one
+declaration sits at root namespace and the next sits inside a nested
+namespace.
+
+This heuristic walks forward from `declStart`, line by line, until it hits
+either (a) a blank line (whitespace-only), or (b) a line starting with a
+top-level structural keyword (`namespace `, `end `, `end\n`). Either marks
+the end of the declaration's "paragraph". The result lies in
+`[declStart, cap]` and is safe to use for stripping a single declaration
+out of source text while preserving the surrounding namespace scaffolding. -/
+def declTightEnd (sourceSrc : Source) (declStart cap : Nat) : Nat := Id.run do
+  let n := min cap sourceSrc.size
+  let mut i := declStart
+  while i < n do
+    while i < n && sourceSrc[i]! != '\n' do
+      i := i + 1
+    if i >= n then return n
+    let afterNewline := i + 1
+    if afterNewline >= n then return afterNewline
+    let mut j := afterNewline
+    while j < n && (sourceSrc[j]! == ' ' || sourceSrc[j]! == '\t') do
+      j := j + 1
+    if j >= n || sourceSrc[j]! == '\n' then
+      return afterNewline
+    let probeEnd := min (j + 12) n
+    let probe := Source.slice sourceSrc j probeEnd
+    if probe.startsWith "namespace " || probe.startsWith "end " ||
+       probe.startsWith "end\n" then
+      return afterNewline
+    i := afterNewline
+  return n
+
+/-- Shared core of single- and multi-hole `ChallengeDeps.lean` rendering.
+
+* `keepDeclarations` are the names whose source text we want to *retain*
+  (i.e. trusted helpers).
+* `protectedRanges` overrides the `.ilean`-derived span for a named decl
+  with a precise `(start, stop)` byte range (used by single-hole for the
+  extracted theorem and by multi-hole for every hole, where `.ilean`'s
+  start-of-next heuristic is wrong for non-final decls). -/
+def renderChallengeDepsCore (root : System.FilePath) (entry : EvalProblemMetadata)
+    (sourceText : String) (localImports : Array String)
+    (keepDeclarations : Std.HashSet String)
+    (protectedRanges : Std.HashMap String (Nat × Nat)) :
+    IO (Option String) := do
+  let mut parts : Array String := #[]
+  for imported in localImports do
+    let importedPath := moduleSourcePath root imported
+    let importedText ← IO.FS.readFile importedPath
+    let importedSrc := Source.ofString importedText
+    let prelude := importPreludeLength importedSrc
+    let afterPrelude := Source.slice importedSrc prelude importedSrc.size
+    let body := (stripProblemMarkers afterPrelude).trimAsciiStart.toString
+    let body := if !body.isEmpty && !body.endsWith "\n" then body ++ "\n" else body
+    if !body.isEmpty then
+      parts := parts.push body
+  if !keepDeclarations.isEmpty then
+    let sourceSrc := Source.ofString sourceText
+    let bodyStart := importPreludeLength sourceSrc
+    let spans ← loadDeclSpans root entry sourceSrc
+    let mut removeRangesRaw : Array (Nat × Nat) := #[]
+    for span in spans do
+      if keepDeclarations.contains span.name then continue
+      match protectedRanges[span.name]? with
+      | some (s, e) => removeRangesRaw := removeRangesRaw.push (s, e)
+      | none => removeRangesRaw := removeRangesRaw.push (span.start, span.stop)
+    let removeRanges := removeRangesRaw.qsort
+      (fun a b => a.1 < b.1 || (a.1 == b.1 && a.2 < b.2))
+    let mut pieces : Array String := #[]
+    let mut cursor := bodyStart
+    for (s, e) in removeRanges do
+      if e ≤ bodyStart then continue
+      let s := if s < bodyStart then bodyStart else s
+      if s < cursor then continue
+      pieces := pieces.push (Source.slice sourceSrc cursor s)
+      cursor := e
+    pieces := pieces.push (Source.slice sourceSrc cursor sourceSrc.size)
+    let body := (pieces.foldl (· ++ ·) "").trimAsciiStart.toString
+    let body := if !body.isEmpty && !body.endsWith "\n" then body ++ "\n" else body
+    if !body.isEmpty then
+      parts := parts.push body
+  if parts.isEmpty then return none
+  let joined := "\n".intercalate (parts.toList.map (·.trimAsciiEnd.toString))
+  return some ("import Mathlib\n\n" ++ joined ++ "\n")
+
+/-- Render `ChallengeDeps.lean` for a single-hole problem. -/
 def renderChallengeDeps (root : System.FilePath) (entry : EvalProblemMetadata)
     (extracted : ExtractedTheorem) (localImports : Array String) :
     IO (Option String) := do
@@ -1010,179 +1154,37 @@ def renderChallengeDeps (root : System.FilePath) (entry : EvalProblemMetadata)
     throw <| IO.userError
       s!"Source file for module '{entry.moduleName}' not found: {sourcePath}"
   let sourceText ← IO.FS.readFile sourcePath
-  let mut parts : Array String := #[]
-  for imported in localImports do
-    let importedPath := moduleSourcePath root imported
-    let importedText ← IO.FS.readFile importedPath
-    let importedSrc := Source.ofString importedText
-    let prelude := importPreludeLength importedSrc
-    let afterPrelude := Source.slice importedSrc prelude importedSrc.size
-    let body := (stripProblemMarkers afterPrelude).trimAsciiStart.toString
-    let body := if !body.isEmpty && !body.endsWith "\n" then body ++ "\n" else body
-    if !body.isEmpty then
-      parts := parts.push body
   let keepDeclarations : Std.HashSet String :=
     extracted.sameModuleDependencies.foldl (·.insert ·) {}
-  if !keepDeclarations.isEmpty then
-    let sourceSrc := Source.ofString sourceText
-    let bodyStart := importPreludeLength sourceSrc
-    let declRanges ← loadIleanDeclRanges root entry.moduleName
-    let mut declStartsRaw : Array (String × Nat) := #[]
-    for ileanEntry in declRanges do
-      let off ← sourceSrc.offsetForLineColumn ileanEntry.startLine ileanEntry.startColumn
-      declStartsRaw := declStartsRaw.push (ileanEntry.name, off)
-    let declStarts := declStartsRaw.qsort (fun a b => a.2 < b.2)
-    let theoremStart ← sourceSrc.offsetForLineColumn extracted.startLine extracted.startColumn
-    let theoremEnd ← sourceSrc.offsetForLineColumn extracted.endLine extracted.endColumn
-    let mut removeRangesRaw : Array (Nat × Nat) := #[]
-    for i in [0:declStarts.size] do
-      let (declName, declStart) := declStarts[i]!
-      if keepDeclarations.contains declName then continue
-      if declName == extracted.declarationName then
-        removeRangesRaw := removeRangesRaw.push (theoremStart, theoremEnd)
-        continue
-      let nextStart :=
-        if i + 1 < declStarts.size then declStarts[i+1]!.2
-        else findTopLevelEndOffset sourceSrc declStart
-      removeRangesRaw := removeRangesRaw.push (declStart, nextStart)
-    let removeRanges := removeRangesRaw.qsort
-      (fun a b => a.1 < b.1 || (a.1 == b.1 && a.2 < b.2))
-    let mut pieces : Array String := #[]
-    let mut cursor := bodyStart
-    for (s, e) in removeRanges do
-      if e ≤ bodyStart then continue
-      let s := if s < bodyStart then bodyStart else s
-      if s < cursor then continue
-      pieces := pieces.push (Source.slice sourceSrc cursor s)
-      cursor := e
-    pieces := pieces.push (Source.slice sourceSrc cursor sourceSrc.size)
-    let challengeDepsBody := (pieces.foldl (· ++ ·) "").trimAsciiStart.toString
-    let challengeDepsBody :=
-      if !challengeDepsBody.isEmpty && !challengeDepsBody.endsWith "\n" then
-        challengeDepsBody ++ "\n"
-      else challengeDepsBody
-    if !challengeDepsBody.isEmpty then
-      parts := parts.push challengeDepsBody
-  if parts.isEmpty then return none
-  let joined := "\n".intercalate (parts.toList.map (·.trimAsciiEnd.toString))
-  return some ("import Mathlib\n\n" ++ joined ++ "\n")
-
-/-- Render `ChallengeDeps.lean` for a multi-hole problem: extract from
-`sourceText` every declaration whose name is *not* in `holeNames` and that
-*is* a `sameModuleDependencies` entry of at least one hole. Mirrors
-`renderChallengeDeps` but takes the holes' precise source ranges via
-`holeRanges` instead of a single `ExtractedTheorem`. -/
-def renderChallengeDepsMulti (root : System.FilePath) (entry : EvalProblemMetadata)
-    (extracteds : Array ExtractedTheorem) (localImports : Array String) :
-    IO (Option String) := do
-  let sourcePath := moduleSourcePath root entry.moduleName
-  if !(← sourcePath.pathExists) then
-    throw <| IO.userError
-      s!"Source file for module '{entry.moduleName}' not found: {sourcePath}"
-  let sourceText ← IO.FS.readFile sourcePath
-  let mut parts : Array String := #[]
-  for imported in localImports do
-    let importedPath := moduleSourcePath root imported
-    let importedText ← IO.FS.readFile importedPath
-    let importedSrc := Source.ofString importedText
-    let prelude := importPreludeLength importedSrc
-    let afterPrelude := Source.slice importedSrc prelude importedSrc.size
-    let body := (stripProblemMarkers afterPrelude).trimAsciiStart.toString
-    let body := if !body.isEmpty && !body.endsWith "\n" then body ++ "\n" else body
-    if !body.isEmpty then
-      parts := parts.push body
-  -- Union of `sameModuleDependencies` across all holes, minus the holes
-  -- themselves: a hole that is another hole's dependency is not a trusted
-  -- helper but a sibling delegation target.
-  let holeNames : Std.HashSet String :=
-    extracteds.foldl (init := {}) fun acc e => acc.insert e.declarationName
-  let keepDeclarations : Std.HashSet String :=
-    extracteds.foldl (init := {}) fun acc e =>
-      e.sameModuleDependencies.foldl
-        (fun a n => if holeNames.contains n then a else a.insert n) acc
-  if !keepDeclarations.isEmpty then
-    let sourceSrc := Source.ofString sourceText
-    let bodyStart := importPreludeLength sourceSrc
-    let declRanges ← loadIleanDeclRanges root entry.moduleName
-    let mut declStartsRaw : Array (String × Nat) := #[]
-    for ileanEntry in declRanges do
-      let off ← sourceSrc.offsetForLineColumn ileanEntry.startLine ileanEntry.startColumn
-      declStartsRaw := declStartsRaw.push (ileanEntry.name, off)
-    let declStarts := declStartsRaw.qsort (fun a b => a.2 < b.2)
-    -- Precise (start, end) for each hole, by declaration name.
-    let mut holeRanges : Std.HashMap String (Nat × Nat) := {}
-    for e in extracteds do
-      let s ← sourceSrc.offsetForLineColumn e.startLine e.startColumn
-      let t ← sourceSrc.offsetForLineColumn e.endLine e.endColumn
-      holeRanges := holeRanges.insert e.declarationName (s, t)
-    let mut removeRangesRaw : Array (Nat × Nat) := #[]
-    for i in [0:declStarts.size] do
-      let (declName, declStart) := declStarts[i]!
-      if keepDeclarations.contains declName then continue
-      match holeRanges[declName]? with
-      | some (theoremStart, theoremEnd) =>
-          removeRangesRaw := removeRangesRaw.push (theoremStart, theoremEnd)
-      | none =>
-          let nextStart :=
-            if i + 1 < declStarts.size then declStarts[i+1]!.2
-            else findTopLevelEndOffset sourceSrc declStart
-          removeRangesRaw := removeRangesRaw.push (declStart, nextStart)
-    let removeRanges := removeRangesRaw.qsort
-      (fun a b => a.1 < b.1 || (a.1 == b.1 && a.2 < b.2))
-    let mut pieces : Array String := #[]
-    let mut cursor := bodyStart
-    for (s, e) in removeRanges do
-      if e ≤ bodyStart then continue
-      let s := if s < bodyStart then bodyStart else s
-      if s < cursor then continue
-      pieces := pieces.push (Source.slice sourceSrc cursor s)
-      cursor := e
-    pieces := pieces.push (Source.slice sourceSrc cursor sourceSrc.size)
-    let challengeDepsBody := (pieces.foldl (· ++ ·) "").trimAsciiStart.toString
-    let challengeDepsBody :=
-      if !challengeDepsBody.isEmpty && !challengeDepsBody.endsWith "\n" then
-        challengeDepsBody ++ "\n"
-      else challengeDepsBody
-    if !challengeDepsBody.isEmpty then
-      parts := parts.push challengeDepsBody
-  if parts.isEmpty then return none
-  let joined := "\n".intercalate (parts.toList.map (·.trimAsciiEnd.toString))
-  return some ("import Mathlib\n\n" ++ joined ++ "\n")
-
-/-- Remove the source declaration regions of every name in `helperNames`
-from `sourceText`. Used by the multi-hole pipeline to factor trusted
-helpers out of `Challenge`/`Solution`/`Submission` and into `ChallengeDeps`. -/
-def stripHelperDecls (root : System.FilePath) (entry : EvalProblemMetadata)
-    (sourceText : String) (helperNames : Std.HashSet String) : IO String := do
-  if helperNames.isEmpty then return sourceText
   let sourceSrc := Source.ofString sourceText
-  let bodyStart := importPreludeLength sourceSrc
-  let declRanges ← loadIleanDeclRanges root entry.moduleName
-  let mut declStartsRaw : Array (String × Nat) := #[]
-  for ileanEntry in declRanges do
-    let off ← sourceSrc.offsetForLineColumn ileanEntry.startLine ileanEntry.startColumn
-    declStartsRaw := declStartsRaw.push (ileanEntry.name, off)
-  let declStarts := declStartsRaw.qsort (fun a b => a.2 < b.2)
-  let mut removeRangesRaw : Array (Nat × Nat) := #[]
-  for i in [0:declStarts.size] do
-    let (declName, declStart) := declStarts[i]!
-    if !helperNames.contains declName then continue
-    let nextStart :=
-      if i + 1 < declStarts.size then declStarts[i+1]!.2
-      else findTopLevelEndOffset sourceSrc declStart
-    removeRangesRaw := removeRangesRaw.push (declStart, nextStart)
-  let removeRanges := removeRangesRaw.qsort
-    (fun a b => a.1 < b.1 || (a.1 == b.1 && a.2 < b.2))
-  let mut pieces : Array String := #[Source.slice sourceSrc 0 bodyStart]
-  let mut cursor := bodyStart
-  for (s, e) in removeRanges do
-    if e ≤ bodyStart then continue
-    let s := if s < bodyStart then bodyStart else s
-    if s < cursor then continue
-    pieces := pieces.push (Source.slice sourceSrc cursor s)
-    cursor := e
-  pieces := pieces.push (Source.slice sourceSrc cursor sourceSrc.size)
-  return pieces.foldl (· ++ ·) ""
+  let theoremStart ← sourceSrc.offsetForLineColumn extracted.startLine extracted.startColumn
+  let theoremEnd ← sourceSrc.offsetForLineColumn extracted.endLine extracted.endColumn
+  let protectedRanges : Std.HashMap String (Nat × Nat) :=
+    ({} : Std.HashMap String (Nat × Nat)).insert extracted.declarationName
+      (theoremStart, theoremEnd)
+  renderChallengeDepsCore root entry sourceText localImports keepDeclarations protectedRanges
+
+
+/-- For each helper name in `helperNames`, return its enclosing namespace
+`_root_`-qualified (the dotted prefix, all components except the last). Used
+to inject `open ...` lines so that helpers — declared at root namespace in
+`ChallengeDeps.lean` — resolve from unqualified references inside `namespace
+Submission`. The `_root_.` qualification is essential: a bare `open Helpers`
+inside `namespace Submission` would resolve to `Submission.Helpers` (which
+holds the holes), not `_root_.Helpers` (which holds the helpers). Root-level
+helpers (no dotted prefix) contribute no `open` — they resolve via `_root_`
+automatically. -/
+def derivedHelperOpens (helperNames : Std.HashSet String) : Array String := Id.run do
+  let mut opens : Array String := #[]
+  let mut seen : Std.HashSet String := {}
+  for name in helperNames.toList do
+    let parts := name.splitOn "."
+    if parts.length ≤ 1 then continue
+    let prefix' := ".".intercalate (parts.take (parts.length - 1))
+    if seen.contains prefix' then continue
+    opens := opens.push s!"_root_.{prefix'}"
+    seen := seen.insert prefix'
+  return opens
 
 /-! ## Python-compatible JSON pretty-printer
 
@@ -1392,58 +1394,69 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
     throw <| IO.userError
       s!"Source file for module '{entry.moduleName}' not found: {sourcePath}"
   let sourceText ← IO.FS.readFile sourcePath
-  -- Multi-hole problems may carry trusted helper declarations (decls in the
-  -- same module that the holes depend on but that are not themselves holes).
-  -- Factor them into `ChallengeDeps.lean` so `Submission` and `Solution`
-  -- reference the same canonical declaration; otherwise the helpers get
-  -- duplicated by the `namespace Submission` wrap below and types fail to
-  -- unify between sides.
-  let localImports ← repoLocalImportModules root entry.moduleName
-  let challengeDeps? ← renderChallengeDepsMulti root entry extracteds localImports
-  let hasChallengeDeps := challengeDeps?.isSome
-  -- A hole that is also another hole's dependency is *not* a helper; the
-  -- delegation chain handles it. Helpers are dependencies that are not
-  -- themselves holes.
-  let holeNames : Std.HashSet String :=
-    extracteds.foldl (init := {}) fun acc e => acc.insert e.declarationName
-  let helperNames : Std.HashSet String :=
-    extracteds.foldl (init := {}) fun acc e =>
-      e.sameModuleDependencies.foldl
-        (fun a n => if holeNames.contains n then a else a.insert n) acc
   let src := Source.ofString sourceText
-  -- compute (start, end, fullName, kind) for each hole in the raw source,
-  -- sorted by start. These ranges remain valid through both hole-body
-  -- replacement (done right-to-left) and helper stripping (applied last via
-  -- declaration names rather than offsets).
+  -- Hole byte ranges in raw source.
   let mut holesRaw : Array (Nat × Nat × String × String) := #[]
   for e in extracteds do
     let s ← src.offsetForLineColumn e.startLine e.startColumn
     let eo ← src.offsetForLineColumn e.endLine e.endColumn
     holesRaw := holesRaw.push (s, eo, e.declarationName, e.kind)
   let holesWithRanges := holesRaw.qsort (fun a b => a.1 < b.1)
-  -- theorem vs definition names
   let mut theoremNames : Array String := #[]
   let mut definitionNames : Array String := #[]
   for (_, _, name, kind) in holesWithRanges do
     if kind == "theorem" then theoremNames := theoremNames.push name
     else definitionNames := definitionNames.push name
-  let baseImport := if hasChallengeDeps then "import ChallengeDeps\n\n" else "import Mathlib\n\n"
-  -- Challenge body: source (helpers stripped) minus markers; ensure header
-  -- import present.
-  let challengeRawStripped ← stripHelperDecls root entry sourceText helperNames
-  let challengeBodyStripped := stripProblemMarkers challengeRawStripped
-  let challengeBody :=
-    if !(challengeBodyStripped.trimAsciiStart.toString.startsWith "import ") then
-      baseImport ++ challengeBodyStripped
-    else if hasChallengeDeps then
-      injectAfterImports challengeBodyStripped "import ChallengeDeps\n"
-    else challengeBodyStripped
-  -- Solution body: replace each hole's body with delegation to Submission.<name>
-  let mut solutionText := sourceText
-  -- iterate holes in reverse order so earlier offsets stay valid
-  let mut i : Int := holesWithRanges.size - 1
-  while i ≥ 0 do
-    let (startOff, endOff, fullName, kind) := holesWithRanges[i.toNat]!
+  -- Multi-hole problems may carry trusted helper declarations (decls in the
+  -- same module that some hole depends on but that are not themselves holes).
+  -- Factor them into `ChallengeDeps.lean` so `Submission` and `Solution`
+  -- reference the same canonical declaration; otherwise the helpers get
+  -- duplicated by the `namespace Submission` wrap and types fail to unify.
+  -- A hole that is also another hole's dependency is *not* a helper; the
+  -- delegation chain handles it.
+  let holeNames : Std.HashSet String :=
+    extracteds.foldl (init := {}) fun acc e => acc.insert e.declarationName
+  let helperNames : Std.HashSet String :=
+    extracteds.foldl (init := {}) fun acc e =>
+      e.sameModuleDependencies.foldl
+        (fun a n => if holeNames.contains n then a else a.insert n) acc
+  -- Load declaration spans from raw source once and validate every declared
+  -- helper is actually present (catches stale metadata / source mismatch
+  -- early rather than as a confusing Lean build error downstream).
+  let spans ← if helperNames.isEmpty then pure (#[] : Array DeclSpan)
+              else loadDeclSpans root entry src
+  if !helperNames.isEmpty then
+    let declNameSet : Std.HashSet String :=
+      spans.foldl (init := {}) fun acc s => acc.insert s.name
+    let missing : Array String := helperNames.toList.foldl (init := #[]) fun acc n =>
+      if declNameSet.contains n then acc else acc.push n
+    if !missing.isEmpty then
+      throw <| IO.userError
+        s!"Multi-hole problem '{entry.id}': declared helper dependencies not \
+           found in source module: {", ".intercalate missing.toList}"
+  let helperRanges : Array (Nat × Nat) :=
+    spans.filterMap fun s =>
+      if helperNames.contains s.name then some (s.start, declTightEnd src s.start s.stop)
+      else none
+  let helperOpens := derivedHelperOpens helperNames
+  let localImports ← repoLocalImportModules root entry.moduleName
+  -- Render ChallengeDeps via the shared core, passing precise hole ranges so
+  -- the helper-extraction slicing knows where the hole bodies live (the
+  -- `.ilean`-derived "next decl start" is wrong for non-final holes).
+  let mut holeRanges : Std.HashMap String (Nat × Nat) := {}
+  for (s, eo, name, _) in holesWithRanges do
+    holeRanges := holeRanges.insert name (s, eo)
+  let challengeDeps? ←
+    renderChallengeDepsCore root entry sourceText localImports helperNames holeRanges
+  let hasChallengeDeps := challengeDeps?.isSome
+  -- Compute Solution's edit set against raw source: helper removals plus
+  -- hole-body replacements (delegations to `Submission.<name>`). Applied in
+  -- a single right-to-left pass so all offsets stay valid even if a hole
+  -- appears earlier in source than a helper.
+  let helperEdits : Array (Nat × Nat × String) :=
+    helperRanges.map fun (s, e) => (s, e, "")
+  let mut solutionEdits : Array (Nat × Nat × String) := helperEdits
+  for (startOff, endOff, fullName, kind) in holesWithRanges do
     let declText := Source.slice src startOff endOff
     let basename := lastComponentStr fullName
     let mut signature ← holeDeclSignature declText basename
@@ -1456,7 +1469,6 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
           let sigSrc := Source.ofString signature
           signature := (Source.slice sigSrc 0 kwStart) ++ "@[reducible] "
             ++ (Source.slice sigSrc kwStart sigSrc.size)
-    -- find decl keyword in source decl text to extract statement portion
     let declSrc := Source.ofString declText
     let some (_, kwEnd) := Source.findKeywordBasename declSrc
       #["def", "instance", "theorem", "opaque", "lemma", "abbrev", "class", "example"] basename
@@ -1472,35 +1484,37 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
       if explicitArgs.isEmpty then s!"Submission.{fullName}"
       else s!"Submission.{fullName} " ++ " ".intercalate explicitArgs.toList
     let newDecl := signature ++ applied
-    let solSrc := Source.ofString solutionText
-    solutionText := Source.slice solSrc 0 startOff ++ newDecl
-      ++ Source.slice solSrc endOff solSrc.size
-    i := i - 1
-  -- Solution body: source with each hole body replaced by a `Submission.<hole> args`
-  -- delegation; then strip trusted helpers (they now live in `ChallengeDeps`)
-  -- and inject the `Submission` and (if present) `ChallengeDeps` imports.
-  let solutionStrippedHelpers ← stripHelperDecls root entry solutionText helperNames
-  let solutionBody := stripProblemMarkers solutionStrippedHelpers
+    solutionEdits := solutionEdits.push (startOff, endOff, newDecl)
+  let solutionText := applyEdits sourceText solutionEdits
+  -- Challenge and Submission only need helper removals.
+  let helperStripped := applyEdits sourceText helperEdits
+  let baseImport := if hasChallengeDeps then "import ChallengeDeps\n\n" else "import Mathlib\n\n"
+  let challengeBodyStripped := stripProblemMarkers helperStripped
+  let challengeBody :=
+    if !(challengeBodyStripped.trimAsciiStart.toString.startsWith "import ") then
+      baseImport ++ challengeBodyStripped
+    else if hasChallengeDeps then
+      injectAfterImports challengeBodyStripped "import ChallengeDeps\n"
+    else challengeBodyStripped
+  let solutionBody := stripProblemMarkers solutionText
   let solutionBody := injectAfterImports solutionBody "import Submission\n"
   let solutionBody :=
     if hasChallengeDeps then injectAfterImports solutionBody "import ChallengeDeps\n"
     else solutionBody
-  -- Submission body: source minus helpers, wrapped in `namespace Submission`,
-  -- with `Submission.Helpers` (and `ChallengeDeps` if present) imported.
-  -- When `ChallengeDeps` is present, also inject `open <userNamespace>` so
-  -- that unqualified helper names inside the wrapped `namespace Submission`
-  -- block resolve to `_root_.<userNamespace>.<helper>` from `ChallengeDeps`
-  -- rather than to a (non-existent) `Submission.<userNamespace>.<helper>`.
-  let submissionRawStripped ← stripHelperDecls root entry sourceText helperNames
-  let submissionStripped := stripProblemMarkers submissionRawStripped
+  -- Submission: source minus helpers, wrapped in `namespace Submission`, with
+  -- `Submission.Helpers` and (if present) `ChallengeDeps` imported. When
+  -- ChallengeDeps is present, inject one `open <ns>` per distinct helper
+  -- enclosing namespace so unqualified helper references inside the wrap
+  -- resolve to `_root_.<ns>.<helper>` rather than the (non-existent)
+  -- `Submission.<ns>.<helper>`.
+  let submissionStripped := stripProblemMarkers helperStripped
   let submissionWithHelpers := injectAfterImports submissionStripped "import Submission.Helpers\n"
-  let userNamespace := lastComponentStr entry.moduleName
   let submissionWithHelpers :=
-    if hasChallengeDeps then
-      injectAfterImports submissionWithHelpers
-        s!"import ChallengeDeps\n\nopen {userNamespace}\n"
+    if hasChallengeDeps then injectAfterImports submissionWithHelpers "import ChallengeDeps\n"
     else submissionWithHelpers
-  let submissionBody := wrapBodyInSubmissionNamespace submissionWithHelpers userNamespace
+  let userNamespace := lastComponentStr entry.moduleName
+  let submissionBody :=
+    wrapBodyInSubmissionNamespace submissionWithHelpers userNamespace (extraOpens := helperOpens)
   -- config
   let mut configPairs : Array (String × OJson) := #[
     ("challenge_module", ojStr "Challenge"),
