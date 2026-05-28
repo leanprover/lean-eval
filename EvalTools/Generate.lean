@@ -1067,6 +1067,123 @@ def renderChallengeDeps (root : System.FilePath) (entry : EvalProblemMetadata)
   let joined := "\n".intercalate (parts.toList.map (·.trimAsciiEnd.toString))
   return some ("import Mathlib\n\n" ++ joined ++ "\n")
 
+/-- Render `ChallengeDeps.lean` for a multi-hole problem: extract from
+`sourceText` every declaration whose name is *not* in `holeNames` and that
+*is* a `sameModuleDependencies` entry of at least one hole. Mirrors
+`renderChallengeDeps` but takes the holes' precise source ranges via
+`holeRanges` instead of a single `ExtractedTheorem`. -/
+def renderChallengeDepsMulti (root : System.FilePath) (entry : EvalProblemMetadata)
+    (extracteds : Array ExtractedTheorem) (localImports : Array String) :
+    IO (Option String) := do
+  let sourcePath := moduleSourcePath root entry.moduleName
+  if !(← sourcePath.pathExists) then
+    throw <| IO.userError
+      s!"Source file for module '{entry.moduleName}' not found: {sourcePath}"
+  let sourceText ← IO.FS.readFile sourcePath
+  let mut parts : Array String := #[]
+  for imported in localImports do
+    let importedPath := moduleSourcePath root imported
+    let importedText ← IO.FS.readFile importedPath
+    let importedSrc := Source.ofString importedText
+    let prelude := importPreludeLength importedSrc
+    let afterPrelude := Source.slice importedSrc prelude importedSrc.size
+    let body := (stripProblemMarkers afterPrelude).trimAsciiStart.toString
+    let body := if !body.isEmpty && !body.endsWith "\n" then body ++ "\n" else body
+    if !body.isEmpty then
+      parts := parts.push body
+  -- Union of `sameModuleDependencies` across all holes, minus the holes
+  -- themselves: a hole that is another hole's dependency is not a trusted
+  -- helper but a sibling delegation target.
+  let holeNames : Std.HashSet String :=
+    extracteds.foldl (init := {}) fun acc e => acc.insert e.declarationName
+  let keepDeclarations : Std.HashSet String :=
+    extracteds.foldl (init := {}) fun acc e =>
+      e.sameModuleDependencies.foldl
+        (fun a n => if holeNames.contains n then a else a.insert n) acc
+  if !keepDeclarations.isEmpty then
+    let sourceSrc := Source.ofString sourceText
+    let bodyStart := importPreludeLength sourceSrc
+    let declRanges ← loadIleanDeclRanges root entry.moduleName
+    let mut declStartsRaw : Array (String × Nat) := #[]
+    for ileanEntry in declRanges do
+      let off ← sourceSrc.offsetForLineColumn ileanEntry.startLine ileanEntry.startColumn
+      declStartsRaw := declStartsRaw.push (ileanEntry.name, off)
+    let declStarts := declStartsRaw.qsort (fun a b => a.2 < b.2)
+    -- Precise (start, end) for each hole, by declaration name.
+    let mut holeRanges : Std.HashMap String (Nat × Nat) := {}
+    for e in extracteds do
+      let s ← sourceSrc.offsetForLineColumn e.startLine e.startColumn
+      let t ← sourceSrc.offsetForLineColumn e.endLine e.endColumn
+      holeRanges := holeRanges.insert e.declarationName (s, t)
+    let mut removeRangesRaw : Array (Nat × Nat) := #[]
+    for i in [0:declStarts.size] do
+      let (declName, declStart) := declStarts[i]!
+      if keepDeclarations.contains declName then continue
+      match holeRanges[declName]? with
+      | some (theoremStart, theoremEnd) =>
+          removeRangesRaw := removeRangesRaw.push (theoremStart, theoremEnd)
+      | none =>
+          let nextStart :=
+            if i + 1 < declStarts.size then declStarts[i+1]!.2
+            else findTopLevelEndOffset sourceSrc declStart
+          removeRangesRaw := removeRangesRaw.push (declStart, nextStart)
+    let removeRanges := removeRangesRaw.qsort
+      (fun a b => a.1 < b.1 || (a.1 == b.1 && a.2 < b.2))
+    let mut pieces : Array String := #[]
+    let mut cursor := bodyStart
+    for (s, e) in removeRanges do
+      if e ≤ bodyStart then continue
+      let s := if s < bodyStart then bodyStart else s
+      if s < cursor then continue
+      pieces := pieces.push (Source.slice sourceSrc cursor s)
+      cursor := e
+    pieces := pieces.push (Source.slice sourceSrc cursor sourceSrc.size)
+    let challengeDepsBody := (pieces.foldl (· ++ ·) "").trimAsciiStart.toString
+    let challengeDepsBody :=
+      if !challengeDepsBody.isEmpty && !challengeDepsBody.endsWith "\n" then
+        challengeDepsBody ++ "\n"
+      else challengeDepsBody
+    if !challengeDepsBody.isEmpty then
+      parts := parts.push challengeDepsBody
+  if parts.isEmpty then return none
+  let joined := "\n".intercalate (parts.toList.map (·.trimAsciiEnd.toString))
+  return some ("import Mathlib\n\n" ++ joined ++ "\n")
+
+/-- Remove the source declaration regions of every name in `helperNames`
+from `sourceText`. Used by the multi-hole pipeline to factor trusted
+helpers out of `Challenge`/`Solution`/`Submission` and into `ChallengeDeps`. -/
+def stripHelperDecls (root : System.FilePath) (entry : EvalProblemMetadata)
+    (sourceText : String) (helperNames : Std.HashSet String) : IO String := do
+  if helperNames.isEmpty then return sourceText
+  let sourceSrc := Source.ofString sourceText
+  let bodyStart := importPreludeLength sourceSrc
+  let declRanges ← loadIleanDeclRanges root entry.moduleName
+  let mut declStartsRaw : Array (String × Nat) := #[]
+  for ileanEntry in declRanges do
+    let off ← sourceSrc.offsetForLineColumn ileanEntry.startLine ileanEntry.startColumn
+    declStartsRaw := declStartsRaw.push (ileanEntry.name, off)
+  let declStarts := declStartsRaw.qsort (fun a b => a.2 < b.2)
+  let mut removeRangesRaw : Array (Nat × Nat) := #[]
+  for i in [0:declStarts.size] do
+    let (declName, declStart) := declStarts[i]!
+    if !helperNames.contains declName then continue
+    let nextStart :=
+      if i + 1 < declStarts.size then declStarts[i+1]!.2
+      else findTopLevelEndOffset sourceSrc declStart
+    removeRangesRaw := removeRangesRaw.push (declStart, nextStart)
+  let removeRanges := removeRangesRaw.qsort
+    (fun a b => a.1 < b.1 || (a.1 == b.1 && a.2 < b.2))
+  let mut pieces : Array String := #[Source.slice sourceSrc 0 bodyStart]
+  let mut cursor := bodyStart
+  for (s, e) in removeRanges do
+    if e ≤ bodyStart then continue
+    let s := if s < bodyStart then bodyStart else s
+    if s < cursor then continue
+    pieces := pieces.push (Source.slice sourceSrc cursor s)
+    cursor := e
+  pieces := pieces.push (Source.slice sourceSrc cursor sourceSrc.size)
+  return pieces.foldl (· ++ ·) ""
+
 /-! ## Python-compatible JSON pretty-printer
 
 `Lean.Json` stores objects in an `RBNode`, which reorders keys
@@ -1275,8 +1392,29 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
     throw <| IO.userError
       s!"Source file for module '{entry.moduleName}' not found: {sourcePath}"
   let sourceText ← IO.FS.readFile sourcePath
+  -- Multi-hole problems may carry trusted helper declarations (decls in the
+  -- same module that the holes depend on but that are not themselves holes).
+  -- Factor them into `ChallengeDeps.lean` so `Submission` and `Solution`
+  -- reference the same canonical declaration; otherwise the helpers get
+  -- duplicated by the `namespace Submission` wrap below and types fail to
+  -- unify between sides.
+  let localImports ← repoLocalImportModules root entry.moduleName
+  let challengeDeps? ← renderChallengeDepsMulti root entry extracteds localImports
+  let hasChallengeDeps := challengeDeps?.isSome
+  -- A hole that is also another hole's dependency is *not* a helper; the
+  -- delegation chain handles it. Helpers are dependencies that are not
+  -- themselves holes.
+  let holeNames : Std.HashSet String :=
+    extracteds.foldl (init := {}) fun acc e => acc.insert e.declarationName
+  let helperNames : Std.HashSet String :=
+    extracteds.foldl (init := {}) fun acc e =>
+      e.sameModuleDependencies.foldl
+        (fun a n => if holeNames.contains n then a else a.insert n) acc
   let src := Source.ofString sourceText
-  -- compute (start, end, fullName, kind) for each hole, sorted by start
+  -- compute (start, end, fullName, kind) for each hole in the raw source,
+  -- sorted by start. These ranges remain valid through both hole-body
+  -- replacement (done right-to-left) and helper stripping (applied last via
+  -- declaration names rather than offsets).
   let mut holesRaw : Array (Nat × Nat × String × String) := #[]
   for e in extracteds do
     let s ← src.offsetForLineColumn e.startLine e.startColumn
@@ -1289,11 +1427,16 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
   for (_, _, name, kind) in holesWithRanges do
     if kind == "theorem" then theoremNames := theoremNames.push name
     else definitionNames := definitionNames.push name
-  -- Challenge body: source verbatim minus markers; ensure `import Mathlib` present
-  let challengeBodyStripped := stripProblemMarkers sourceText
+  let baseImport := if hasChallengeDeps then "import ChallengeDeps\n\n" else "import Mathlib\n\n"
+  -- Challenge body: source (helpers stripped) minus markers; ensure header
+  -- import present.
+  let challengeRawStripped ← stripHelperDecls root entry sourceText helperNames
+  let challengeBodyStripped := stripProblemMarkers challengeRawStripped
   let challengeBody :=
     if !(challengeBodyStripped.trimAsciiStart.toString.startsWith "import ") then
-      "import Mathlib\n\n" ++ challengeBodyStripped
+      baseImport ++ challengeBodyStripped
+    else if hasChallengeDeps then
+      injectAfterImports challengeBodyStripped "import ChallengeDeps\n"
     else challengeBodyStripped
   -- Solution body: replace each hole's body with delegation to Submission.<name>
   let mut solutionText := sourceText
@@ -1333,11 +1476,30 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
     solutionText := Source.slice solSrc 0 startOff ++ newDecl
       ++ Source.slice solSrc endOff solSrc.size
     i := i - 1
-  let solutionBody := stripProblemMarkers solutionText
+  -- Solution body: source with each hole body replaced by a `Submission.<hole> args`
+  -- delegation; then strip trusted helpers (they now live in `ChallengeDeps`)
+  -- and inject the `Submission` and (if present) `ChallengeDeps` imports.
+  let solutionStrippedHelpers ← stripHelperDecls root entry solutionText helperNames
+  let solutionBody := stripProblemMarkers solutionStrippedHelpers
   let solutionBody := injectAfterImports solutionBody "import Submission\n"
-  let submissionStripped := stripProblemMarkers sourceText
+  let solutionBody :=
+    if hasChallengeDeps then injectAfterImports solutionBody "import ChallengeDeps\n"
+    else solutionBody
+  -- Submission body: source minus helpers, wrapped in `namespace Submission`,
+  -- with `Submission.Helpers` (and `ChallengeDeps` if present) imported.
+  -- When `ChallengeDeps` is present, also inject `open <userNamespace>` so
+  -- that unqualified helper names inside the wrapped `namespace Submission`
+  -- block resolve to `_root_.<userNamespace>.<helper>` from `ChallengeDeps`
+  -- rather than to a (non-existent) `Submission.<userNamespace>.<helper>`.
+  let submissionRawStripped ← stripHelperDecls root entry sourceText helperNames
+  let submissionStripped := stripProblemMarkers submissionRawStripped
   let submissionWithHelpers := injectAfterImports submissionStripped "import Submission.Helpers\n"
   let userNamespace := lastComponentStr entry.moduleName
+  let submissionWithHelpers :=
+    if hasChallengeDeps then
+      injectAfterImports submissionWithHelpers
+        s!"import ChallengeDeps\n\nopen {userNamespace}\n"
+    else submissionWithHelpers
   let submissionBody := wrapBodyInSubmissionNamespace submissionWithHelpers userNamespace
   -- config
   let mut configPairs : Array (String × OJson) := #[
@@ -1355,10 +1517,10 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
     if challengeBody.endsWith "\n" then challengeBody else challengeBody ++ "\n"
   let readmeLines := renderReadmeLines entry extracteds (multiHole := true)
   let readme := "\n".intercalate readmeLines.toList ++ "\n"
-  return #[
+  let mut files : Array (String × String) := #[
     ("README.md", readme),
     ("lean-toolchain", toolchain'),
-    ("lakefile.toml", lakefileToml entry.id mathlibDep (withChallengeDeps := false)),
+    ("lakefile.toml", lakefileToml entry.id mathlibDep (withChallengeDeps := hasChallengeDeps)),
     ("Challenge.lean", challenge),
     ("Solution.lean", solutionBody),
     ("Submission.lean", submissionBody),
@@ -1366,6 +1528,9 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
     ("WorkspaceTest.lean", workspaceTest),
     ("config.json", OJson.pretty config ++ "\n")
   ]
+  if let some cd := challengeDeps? then
+    files := files.push ("ChallengeDeps.lean", cd)
+  return files
 
 /-! ## Single-hole rendering -/
 

@@ -1,0 +1,7 @@
+id = "multi_hole_helpers_example"
+title = "multi-hole-with-helpers minimal example"
+test = true
+module = "LeanEval.Sandbox.MultiHoleHelpersExample"
+holes = ["MultiHoleHelpersExample.step", "MultiHoleHelpersExample.step_eq"]
+submitter = "Kim Morrison"
+notes = "Minimal example exercising multi-hole problems with trusted (non-hole) helper declarations. `MultiHoleHelpersExample.magicNumber` is the helper; both holes depend on it. The generator must factor `magicNumber` into `ChallengeDeps.lean` so that `Submission` and `Solution` reference the same canonical declaration rather than each carrying its own duplicate copy. A submission defines `Submission.MultiHoleHelpersExample.step := 42` and proves `Submission.MultiHoleHelpersExample.step_eq`; comparator should accept it."
