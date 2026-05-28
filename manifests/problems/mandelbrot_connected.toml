@@ -1,0 +1,9 @@
+id = "mandelbrot_connected"
+title = "Mandelbrot set is connected (Douady–Hubbard)"
+test = false
+module = "LeanEval.ComplexAnalysis.Mandelbrot"
+holes = ["mandelbrot_connected"]
+submitter = "Kim Morrison"
+notes = "§62 of Knill's 'Some Fundamental Theorems in Mathematics' (main theorem). The Mandelbrot set M = { c ∈ ℂ | (T_c)^n(0) stays bounded } for T_c(z) = z² + c is a connected subset of ℂ. The file ships two helper definitions: Tc (the quadratic iterator) and Mandelbrot (the connectedness locus). Mathlib has Function.iterate and standard metric / connectedness API on ℂ, but no Mandelbrot, Julia, or Multibrot definitions, and no Böttcher-coordinate construction; grep -ri mandelbrot / julia returns nothing. The proof goes through Böttcher coordinates at infinity, exhibiting the complement of M as a simply-connected domain on the Riemann sphere. Aristotle and Codex audits returned clean / inconclusive both ways."
+source = "A. Douady and J. H. Hubbard, *Étude dynamique des polynômes complexes I, II*, Publ. Math. Orsay 84-02, 85-04 (1984, 1985). Listed as §62 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf). I did not find a Lean formalisation."
+informal_solution = "Standard Douady–Hubbard proof: construct the Böttcher coordinate Φ_c : ℂ \\ K_c → ℂ \\ closedBall 0 1 at the (super-)attracting fixed point ∞ of T_c by solving Φ_c ∘ T_c = Φ_c² (Schröder equation at ∞). Show Φ_c extends continuously and locally biholomorphically across ℂ \\ M to give a uniformiser Φ : ℂ \\ M ≃ᴮⁱʰᵒˡ ℂ \\ closedBall 0 1, sending c ↦ Φ_c(c). The complement of M is thus biholomorphic to the punctured disc, hence simply connected; by Alexander duality on S² = ℂ ∪ {∞}, M is connected."
