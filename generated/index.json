@@ -132,6 +132,17 @@
     "generated_path": "generated/ci_regenerate_main_check"
   },
   {
+    "id": "commProb_closed",
+    "title": "Commuting probabilities are closed",
+    "test": false,
+    "submitter": "Thomas Browning",
+    "module": "LeanEval.GroupTheory.CommProbClosed",
+    "holes": [
+      "commProb_closed"
+    ],
+    "generated_path": "generated/commProb_closed"
+  },
+  {
     "id": "contractibleSpace_houseWithTwoRooms",
     "title": "Bing's house with two rooms is contractible",
     "test": false,
