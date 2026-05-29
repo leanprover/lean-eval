@@ -1,0 +1,12 @@
+{
+  "id": "kolmogorov_arnold_superposition",
+  "module": "LeanEval.Analysis.KolmogorovArnold",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.kolmogorov_arnold",
+      "basename": "kolmogorov_arnold",
+      "kind": "theorem",
+      "body": "/-- **Kolmogorov\u2013Arnold superposition theorem (non-universal Lorentz\nform).** For `n \u2265 1`, every continuous `f` on the unit cube `[0, 1]\u207f`\nadmits a representation\n`f(x) = \u2211_{k=0}^{2n} g(\u2211_{l=1}^{n} \u03c6_{k,l}(x_l))` with a single\ncontinuous outer function `g : \u211d \u2192 \u211d` and continuous inner functions\n`\u03c6_{k,l} : \u211d \u2192 \u211d`. -/\ntheorem kolmogorov_arnold (n : \u2115) (_hn : 1 \u2264 n)\n    (f : (Fin n \u2192 \u211d) \u2192 \u211d) (_hf : ContinuousOn f (Set.Icc 0 1)) :\n    \u2203 (g : \u211d \u2192 \u211d) (\u03c6 : Fin (2 * n + 1) \u2192 Fin n \u2192 \u211d \u2192 \u211d),\n      Continuous g \u2227 (\u2200 k l, Continuous (\u03c6 k l)) \u2227\n      \u2200 x \u2208 Set.Icc (0 : Fin n \u2192 \u211d) 1,\n        f x = \u2211 k, g (\u2211 l, \u03c6 k l (x l)) := by\n  sorry"
+    }
+  ]
+}

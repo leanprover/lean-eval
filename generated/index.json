@@ -616,6 +616,17 @@
     "generated_path": "generated/kakutani_fixed_point"
   },
   {
+    "id": "kolmogorov_arnold_superposition",
+    "title": "Kolmogorov\u2013Arnold superposition theorem (non-universal Lorentz form)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.KolmogorovArnold",
+    "holes": [
+      "kolmogorov_arnold"
+    ],
+    "generated_path": "generated/kolmogorov_arnold_superposition"
+  },
+  {
     "id": "koszul_formula",
     "title": "Koszul formula",
     "test": false,
@@ -1001,6 +1012,17 @@
       "rouche_zero_count_eq"
     ],
     "generated_path": "generated/rouche_zero_count_eq"
+  },
+  {
+    "id": "runge_theorem",
+    "title": "Runge's theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.ComplexAnalysis.Runge",
+    "holes": [
+      "runge"
+    ],
+    "generated_path": "generated/runge_theorem"
   },
   {
     "id": "schauder_fixed_point",
