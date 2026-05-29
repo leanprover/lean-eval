@@ -1428,8 +1428,20 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
   if !helperNames.isEmpty then
     let declNameSet : Std.HashSet String :=
       spans.foldl (init := {}) fun acc s => acc.insert s.name
+    -- A helper name `Foo.bar` whose strict prefix `Foo` is *both* a declared
+    -- name *and* itself a kept helper is an auto-generated companion of
+    -- `Foo` (constructor, field accessor, recursor, ...); stripping `Foo`
+    -- from source removes them transparently. Requiring the parent be in
+    -- `helperNames` (not just any declared name) prevents an unrelated stale
+    -- `Foo.bar.baz` from being silently accepted because some unrelated
+    -- `Foo` happens to be declared in the same module.
+    let hasKeptHelperParent : String → Bool := fun n =>
+      let parts := n.splitOn "."
+      (List.range (parts.length - 1)).any fun i =>
+        let p := ".".intercalate (parts.take (i + 1))
+        helperNames.contains p && declNameSet.contains p
     let missing : Array String := helperNames.toList.foldl (init := #[]) fun acc n =>
-      if declNameSet.contains n then acc else acc.push n
+      if declNameSet.contains n || hasKeptHelperParent n then acc else acc.push n
     if !missing.isEmpty then
       throw <| IO.userError
         s!"Multi-hole problem '{entry.id}': declared helper dependencies not \
