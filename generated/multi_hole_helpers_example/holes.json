@@ -18,7 +18,7 @@
       "name": "Helpers.third_eq",
       "basename": "third_eq",
       "kind": "theorem",
-      "body": "theorem third_eq : postHole = 1000 := sorry"
+      "body": "theorem third_eq : postHole + ({ value := 0 } : WithCompanions).value = 1000 := sorry"
     }
   ]
 }

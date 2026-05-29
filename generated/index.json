@@ -353,6 +353,18 @@
     "generated_path": "generated/exists_topologically_slice_not_smoothly_slice"
   },
   {
+    "id": "families_of_maps_b01",
+    "title": "Morrison\u2013Walker Lemma B.0.1: adapting families of maps to open covers",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.FamiliesOfMapsB01",
+    "holes": [
+      "FamiliesOfMapsB01.continuous",
+      "FamiliesOfMapsB01.biLipschitz"
+    ],
+    "generated_path": "generated/families_of_maps_b01"
+  },
+  {
     "id": "fatou_julia_dichotomy",
     "title": "Fatou\u2013Julia / Cantor dichotomy",
     "test": false,

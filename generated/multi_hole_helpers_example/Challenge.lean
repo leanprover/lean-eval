@@ -2,7 +2,7 @@ import Mathlib
 import ChallengeDeps
 /-!
 Regression test for the multi-hole / trusted-helpers pipeline. Exercises
-three failure modes the generator used to have:
+four failure modes the generator used to have:
 
 1. **Root-level helpers** (`rootHelper`) — no enclosing namespace, so the
    generator must *not* emit a spurious `open` for them.
@@ -17,12 +17,18 @@ three failure modes the generator used to have:
    ranges computed from the raw source must remain valid when applied
    alongside hole-body replacement; a sequential strip-then-replace
    pipeline (with ranges derived from `.ilean`) would corrupt this case.
+
+4. **A `structure` helper whose auto-generated companions appear in a
+   hole's `sameModuleDependencies`** (`Helpers.WithCompanions.mk`,
+   `Helpers.WithCompanions.value`) — companion names are not standalone
+   `.ilean` entries; the helper validation accepts them iff their parent
+   structure is itself a kept helper.
 -/
 
 
 namespace Helpers
 def first : Nat := sorry
 theorem second_eq : first + rootHelper + preHole = first + 141 := sorry
-theorem third_eq : postHole = 1000 := sorry
+theorem third_eq : postHole + ({ value := 0 } : WithCompanions).value = 1000 := sorry
 
 end Helpers
