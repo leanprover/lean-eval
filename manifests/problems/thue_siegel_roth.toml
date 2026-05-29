@@ -1,0 +1,9 @@
+id = "thue_siegel_roth"
+title = "Thue–Siegel–Roth theorem (irrationality measure ≤ 2 for algebraic irrationals)"
+test = false
+module = "LeanEval.NumberTheory.ThueSiegelRoth"
+holes = ["thueSiegelRoth"]
+submitter = "Kim Morrison"
+notes = "Every irrational algebraic real is Diophantine: for every ε > 0 there exists C > 0 with C / q^(2+ε) < |x − p/q| for every p ∈ ℤ and q ∈ ℤ_{>0}. Equivalently, the irrationality measure of an algebraic irrational is at most 2. The sharp ∀ ε > 0 form is the content of Roth's theorem; the weaker ∃ ε > 0 form captures only `x is not Liouville', which is the 1844 Liouville theorem already in mathlib. §65 of Knill's *Some Fundamental Theorems in Mathematics*."
+source = "Klaus Roth, 'Rational approximations to algebraic numbers' (Mathematika, 1955; Fields Medal 1958), building on Thue 1909, Siegel 1921, Dyson 1947. Listed as §65 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf)."
+informal_solution = "Roth's proof is a contradiction argument: assume some irrational algebraic x with degree d ≥ 2 admits infinitely many good rationals p_i/q_i with |x − p/q| ≤ 1/q^(2+ε). The technical core is the construction of an auxiliary polynomial P(x₁, …, x_m) with controlled degrees (m large, chosen relative to ε and d) that vanishes to high order at (x, …, x). Combining (i) the index theorem (Roth's lemma, bounding the index of P at the rational point (p_1/q_1, …, p_m/q_m) from above) with (ii) a non-vanishing argument using the size of the approximations (bounding the same index from below), one obtains a contradiction once the q_i grow rapidly enough. Mathlib has Liouville (`Liouville.transcendental`), Dirichlet (`Real.infinite_rat_abs_sub_lt_one_div_den_sq_of_irrational`), and the metric `ae_not_liouvilleWith`, but no Roth-style auxiliary polynomial machinery, no Roth's lemma, and no `IsDiophantine` predicate."
