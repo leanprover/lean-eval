@@ -5,23 +5,12 @@ namespace LeanEval
 namespace ComplexAnalysis
 
 /-!
-# Mandelbrot set is connected (Douady–Hubbard, 1982)
+# Mandelbrot set is connected (Douady–Hubbard)
 
-§62 of Knill's *Some Fundamental Theorems in Mathematics*. The
-**Mandelbrot set** `M = { c ∈ ℂ | T_c^n(0) stays bounded }`, where
-`T_c(z) = z² + c`, is a connected subset of ℂ.
-
-Mathlib has `Function.iterate` (with notation `f^[n]`) and the standard
-metric / connectedness API on `ℂ`, but no `Mandelbrot`, no Julia set,
-and no Multibrot definitions; `grep -ri mandelbrot` / `julia` in
-mathlib returns nothing. The proof in mathlib is absent.
-
-The Douady–Hubbard proof goes through Böttcher coordinates: the map
-`Φ : ℂ \ M → ℂ \ closedBall 0 1` defined via the conformal Böttcher
-coordinate at infinity is a biholomorphic uniformiser of the
-complement, exhibiting `M` as the complement of a simply-connected
-domain on the Riemann sphere. The connectedness of `M` is then a
-consequence of the simple connectivity of `ℂ \ M`.
+The Mandelbrot set `M = { c ∈ ℂ | T_c^n(0) stays bounded }`, where
+`T_c(z) = z² + c`, is the parameter set for which the critical orbit
+of `0` under the quadratic family is bounded. Douady and Hubbard proved
+in 1982 (full development 1984–85) that `M` is connected.
 -/
 
 open Function
@@ -33,7 +22,7 @@ def Tc (c : ℂ) (z : ℂ) : ℂ := z ^ 2 + c
 def Mandelbrot : Set ℂ :=
   { c : ℂ | ∃ M : ℝ, ∀ n : ℕ, ‖(Tc c)^[n] 0‖ ≤ M }
 
-/-- **Mandelbrot set is connected** (Douady–Hubbard, 1982). -/
+/-- **Mandelbrot set is connected** (Douady–Hubbard). -/
 @[eval_problem]
 theorem mandelbrot_connected : IsConnected Mandelbrot := by
   sorry
