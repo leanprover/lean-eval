@@ -1,0 +1,12 @@
+{
+  "id": "mergelyan_theorem",
+  "module": "LeanEval.ComplexAnalysis.Mergelyan",
+  "holes": [
+    {
+      "name": "LeanEval.ComplexAnalysis.mergelyan",
+      "basename": "mergelyan",
+      "kind": "theorem",
+      "body": "/-- **Mergelyan's theorem.** For a compact `K \u2286 \u2102` with connected\ncomplement and `f : \u2102 \u2192 \u2102` continuous on `K` and analytic on the\ninterior of `K`, every `\u03b5 > 0` admits a complex polynomial `p` with\n`\u2016f z \u2212 p(z)\u2016 < \u03b5` on `K`. -/\ntheorem mergelyan (K : Set \u2102) (_hK : IsCompact K) (_hKc : IsConnected (K\u1d9c))\n    (f : \u2102 \u2192 \u2102) (_hfc : ContinuousOn f K) (_hfh : AnalyticOnNhd \u2102 f (interior K))\n    (\u03b5 : \u211d) (_h\u03b5 : 0 < \u03b5) :\n    \u2203 p : \u2102[X], \u2200 z \u2208 K, \u2016f z - p.eval z\u2016 < \u03b5 := by\n  sorry"
+    }
+  ]
+}

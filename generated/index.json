@@ -737,6 +737,17 @@
     "generated_path": "generated/mem_convexHull_finset_extremePoints_of_mem_compact_convex"
   },
   {
+    "id": "mergelyan_theorem",
+    "title": "Mergelyan's theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.ComplexAnalysis.Mergelyan",
+    "holes": [
+      "mergelyan"
+    ],
+    "generated_path": "generated/mergelyan_theorem"
+  },
+  {
     "id": "milnor_exotic_sphere_seven",
     "title": "Milnor's exotic 7-sphere",
     "test": false,
@@ -957,6 +968,17 @@
       "poincare_high_dim_topological"
     ],
     "generated_path": "generated/poincare_high_dim_topological"
+  },
+  {
+    "id": "poincare_siegel_linearisation",
+    "title": "Poincar\u00e9\u2013Siegel linearisation theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.ComplexAnalysis.PoincareSiegel",
+    "holes": [
+      "poincare_siegel"
+    ],
+    "generated_path": "generated/poincare_siegel_linearisation"
   },
   {
     "id": "posSemidef_map_exp",

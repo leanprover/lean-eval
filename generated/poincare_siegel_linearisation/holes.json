@@ -1,0 +1,12 @@
+{
+  "id": "poincare_siegel_linearisation",
+  "module": "LeanEval.ComplexAnalysis.PoincareSiegel",
+  "holes": [
+    {
+      "name": "LeanEval.ComplexAnalysis.poincare_siegel",
+      "basename": "poincare_siegel",
+      "kind": "theorem",
+      "body": "/-- **Poincar\u00e9\u2013Siegel linearisation theorem.** If `\u03b1` is Diophantine,\n`\u03bb = e^{2\u03c0i\u03b1}`, and `f` is holomorphic near `0` with `f 0 = 0` and\n`f'(0) = \u03bb`, then there is a holomorphic germ `u` with `u 0 = 0`,\n`u'(0) = 1`, and `f(u z) = u(\u03bb z)` for `z` near `0`. -/\ntheorem poincare_siegel\n    (\u03b1 : \u211d) (_h\u03b1 : IsDiophantine \u03b1)\n    (lam : \u2102) (_hlam : lam = Complex.exp (2 * Real.pi * Complex.I * (\u03b1 : \u2102)))\n    (f : \u2102 \u2192 \u2102) (_hf : AnalyticAt \u2102 f 0) (_hf0 : f 0 = 0)\n    (_hmult : deriv f 0 = lam) :\n    \u2203 u : \u2102 \u2192 \u2102, AnalyticAt \u2102 u 0 \u2227 u 0 = 0 \u2227 deriv u 0 = 1 \u2227\n      \u2200\u1da0 z in nhds (0 : \u2102), f (u z) = u (lam * z) := by\n  sorry"
+    }
+  ]
+}
