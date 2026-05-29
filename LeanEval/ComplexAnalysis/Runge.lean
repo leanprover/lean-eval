@@ -5,32 +5,24 @@ namespace LeanEval
 namespace ComplexAnalysis
 
 /-!
-# Runge's theorem (Carl Runge, 1885)
+# Runge's theorem
 
-§64 (additional statement 3) of Knill's *Some Fundamental Theorems in
-Mathematics*. For a compact set `K ⊆ ℂ` and a function `f` holomorphic
-on an open neighbourhood `U ⊇ K`, `f` is the uniform limit on `K` of
-rational functions whose poles avoid `K`.
+Basic Runge approximation theorem for compact subsets of `ℂ`: if `K` is
+compact and `f` is analytic on an open neighbourhood of `K`, then `f`
+can be uniformly approximated on `K` by rational functions with no
+poles on `K`.
 
-The submitted statement is the basic Runge form (rational
-approximations with poles in `ℂ \ K`); the sharper pole-control
-version (one pole per connected component of `ℂ \ K`) is the standard
-strengthening but is harder to phrase without further setup.
-
-Mathlib has Weierstrass / Stone–Weierstrass and the Bernstein
-approximation for `C([a, b], ℝ)`, but nothing for compact-set rational
-approximation in `ℂ`. `grep -rn 'runge\|Runge'` in mathlib returns no
-hits. Aristotle closed the single-ball case `runge_of_subset_ball`
-sorry-free; the general "patch ball-by-ball into one rational
-function" step needs Cauchy integral over a general cycle or
-Hahn–Banach + Riesz, neither in mathlib.
+This is the basic form. It does not include the standard pole-control
+refinement, where poles may be chosen from prescribed points, one in
+each connected component of `ℂ \ K`.
 -/
 
 open scoped Polynomial
 
-/-- **Runge's theorem.** For a compact `K ⊆ ℂ` and `f` analytic on an
-open neighbourhood `U` of `K`, every `ε > 0` admits a rational function
-`p/q` with `q` non-vanishing on `K` and `‖f z − p(z)/q(z)‖ < ε` on `K`. -/
+/-- **Runge's theorem.** If `K ⊆ ℂ` is compact and `f` is analytic on
+an open neighbourhood of `K`, then for every `ε > 0`, `f` is uniformly
+approximated on `K` by a rational function `p / q` with `q` non-vanishing
+on `K`. -/
 @[eval_problem]
 theorem runge (K : Set ℂ) (_hK : IsCompact K) (U : Set ℂ) (_hU : IsOpen U)
     (_hKU : K ⊆ U) (f : ℂ → ℂ) (_hf : AnalyticOnNhd ℂ f U)
