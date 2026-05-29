@@ -1,0 +1,6 @@
+id = "handlebody_boundary_sphere"
+title = "Boundary of a 3-dimensional handlebody with zero genus"
+test = false
+module = "LeanEval.Topology.Handlebody3"
+holes = ["frontierHandlebody₃HomeomorphSphere"]
+submitter = "Junyan Xu"
