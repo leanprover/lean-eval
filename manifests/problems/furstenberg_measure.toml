@@ -1,0 +1,9 @@
+id = "furstenberg_measure"
+title = "Furstenberg measure-preserving multiple recurrence"
+test = false
+module = "LeanEval.Dynamics.FurstenbergMeasure"
+holes = ["furstenberg_measure_recurrence"]
+submitter = "Kim Morrison"
+notes = "Furstenberg's 1977 measure-preserving multiple recurrence theorem. For every measure-preserving T on a probability space (Ω, μ), every measurable A with μ A > 0, and every d ≥ 1, some n ≥ 1 satisfies μ(A ∩ T^{-n}A ∩ T^{-2n}A ∩ ⋯ ∩ T^{-d·n}A) > 0. §56 (additional statement) of Knill's 'Some Fundamental Theorems in Mathematics'. Knill states the automorphism/image version; this file uses the standard preimage formulation for a general measure-preserving transformation. For invertible T the two are equivalent (apply the statement to T⁻¹, or shift the intersection by an iterate). The d = 1 case is the classical Poincaré recurrence theorem."
+source = "H. Furstenberg, *Ergodic behavior of diagonal measures and a theorem of Szemerédi on arithmetic progressions*, Journal d'Analyse Mathématique 31 (1977), 204-256. Listed as §56 (additional statement 1) in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf)."
+informal_solution = "Furstenberg's structure-theorem proof decomposes the measure-preserving system (Ω, μ, T) into a transfinite tower of relatively compact (Kronecker) extensions and weakly-mixing extensions. Multiple recurrence is established for each layer — for compact factors via uniform almost-periodicity and equidistribution; for weakly-mixing extensions via van der Corput estimates — and lifted through the tower by a Furstenberg–Zimmer-style relative theorem. Furstenberg used this multiple recurrence theorem to give the first ergodic-theoretic proof of Szemerédi's theorem on arithmetic progressions."
