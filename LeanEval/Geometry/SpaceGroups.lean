@@ -10,16 +10,16 @@ namespace SpaceGroupsProblem
 
 In dimension 3, there are exactly 230 space groups, reducing to 219 if
 enantiomorphic (chiral) pairs are identified, with 65 of the 230 being
-orientation-preserving. §94 in Knill's *Some Fundamental Theorems in
-Mathematics*; main work due to E. Fedorov (1891) and A. Schoenflies
-(1891), independently.
+*Sohncke* groups — those whose isometries are all orientation-
+preserving. §94 in Knill's *Some Fundamental Theorems in Mathematics*;
+main work due to E. Fedorov (1891) and A. Schoenflies (1891),
+independently.
 
 The three counts correspond to two equivalences on crystallographic
 groups: `AffinelyEquivalent` (Aff(ℝ³)-conjugacy, count = 219) and
 `AffOPEquivalent` (orientation-preserving Aff(ℝ³)-conjugacy, count =
-230). The "65 orientation-preserving" count restricts the underlying
-groups to those whose elements are all orientation-preserving
-isometries.
+230). The "65 Sohncke groups" count restricts the underlying groups to
+those whose elements are all orientation-preserving isometries.
 -/
 
 /-- The Euclidean model space `ℝᵈ`. -/
