@@ -13,12 +13,13 @@ of the Euclidean motion group `E_2` (planar affine isometries), counted
 up to affine equivalence. Pólya–Niggli 1924; §94 in Knill's *Some
 Fundamental Theorems in Mathematics*.
 
-The discreteness definition uses properly-discontinuous-action
-(positive minimal distance from each orbit point) rather than the
-topology-on-`E_d` formulation, since mathlib does not equip the
-affine-isometry equivalence type with a default topology. The two
-formulations agree for subgroups of `E_d` once `E_d` is given the
-standard Lie-group topology.
+The discreteness definition uses a properly discontinuous action
+(local finiteness of the return set at each point: for every `x` and
+every `ε > 0`, only finitely many group elements move `x` by at most
+`ε`) rather than a topological formulation on the Euclidean motion
+group, since mathlib does not equip the affine-isometry equivalence
+type with a default topology. The two formulations agree for subgroups
+of `E_d` once `E_d` is given the standard Lie-group topology.
 -/
 
 /-- The Euclidean model space `ℝᵈ`. -/
