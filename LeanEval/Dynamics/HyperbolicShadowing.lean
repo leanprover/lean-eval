@@ -67,10 +67,10 @@ def IsHyperbolic (T : E d ≃ₜ E d) (K : Set (E d)) : Prop :=
 def IsPseudoOrbit (T : E d → E d) (ε : ℝ) (x : ℕ → E d) : Prop :=
   ∀ n : ℕ, ‖x (n + 1) - T (x n)‖ < ε
 
-/-- `K ⊆ ℝᵈ` has the **shadowing property** for `T`: there exists an
-open neighbourhood `U ⊇ K` such that, for every accuracy `δ > 0`, some
-tolerance `ε > 0` makes every `ε`-pseudo orbit in `U` `δ`-close to a
-real forward `T`-orbit. -/
+/-- `K ⊆ ℝᵈ` has the **shadowing property** for `T`: some neighbourhood
+`U ⊇ K` (open in `ℝᵈ`) admits, for every accuracy `δ > 0`, a tolerance
+`ε > 0` such that every `ε`-pseudo orbit inside `U` stays within `δ` of
+a real forward `T`-orbit. -/
 def HasShadowing (T : E d → E d) (K : Set (E d)) : Prop :=
   ∃ U : Set (E d), IsOpen U ∧ K ⊆ U ∧
     ∀ δ > 0, ∃ ε > 0, ∀ x : ℕ → E d,
