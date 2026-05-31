@@ -15,11 +15,10 @@ weakly mixing automorphism is ergodic. Paul Halmos, *In general a
 measure-preserving transformation is mixing*, Ann. of Math. **45**
 (1944). §90 in Knill's *Some Fundamental Theorems in Mathematics*.
 
-The `[NoAtoms m]` hypothesis is essential: on an atomic probability
-space (e.g. `Bool` with `m({true}) = m({false}) = 1/2`) the
-automorphism group is finite (`{id, swap}`) and the weak topology is
-discrete, so `Dense G` forces `G = univ`; but `id` is not weakly
-mixing.
+The `[NoAtoms m]` hypothesis is essential. For example, on `Bool` with
+`m({true}) = m({false}) = 1/2` the automorphism group is finite
+(`{id, swap}`) and the weak topology is discrete, so `Dense G` would
+force `G = univ`; but `id` is not weakly mixing.
 -/
 
 open MeasureTheory Filter Topology
@@ -63,8 +62,10 @@ implies ergodic. -/
 @[eval_problem]
 theorem generic_weakly_mixing [StandardBorelSpace X]
     (m : Measure X) [IsProbabilityMeasure m] [NoAtoms m] :
-    ∃ G : Set (Automorphism m), IsGδ G ∧ Dense G ∧
-      ∀ T ∈ G, IsWeaklyMixing m T ∧ Ergodic (T.toEquiv : X → X) m := by
+    (∃ G : Set (Automorphism m), IsGδ G ∧ Dense G ∧
+      ∀ T ∈ G, IsWeaklyMixing m T) ∧
+    (∀ T : Automorphism m, IsWeaklyMixing m T →
+      Ergodic (T.toEquiv : X → X) m) := by
   sorry
 
 end HalmosGenericWeakMixingProblem
