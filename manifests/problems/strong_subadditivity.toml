@@ -1,0 +1,7 @@
+id = "strong_subadditivity"
+title = "Strong Subadditivity of von Neumann Entropy"
+test = false
+module = "LeanEval.Physics"
+holes = ["strong_subadditivity"]
+submitter = "Alex Meiburg"
+notes = "This fact is 'equivalent' to other facts such as the joint convexity of quantum relative entropy. This formulation states the problem for all PSD matrices (over non-empty, finite index types) instead of unnecessarily restricting to normalized matrices of trace one. First proved in 1973 by E.H. Lieb and M.B. Ruskai, but at least half-a-dozen alternate proofs have been published, with varied techniques."
