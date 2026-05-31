@@ -221,9 +221,11 @@ v4.30.0-rc2 toolchain). This must match the toolchain that builds the workspace,
 because comparator builds `Challenge.olean` with the workspace toolchain and then
 reads it back with `lean4export`. If the two differ you get
 `failed to read file '.../Challenge.olean', incompatible header` — that error
-always means a version mismatch, never a problem with your proof. If you hit it,
-rebuild `lean4export` (and `comparator`) at the pinned commits with the rc2
-toolchain rather than your `elan` default.
+means a Lean/olean version mismatch (or a stale `.lake` artifact left over from
+an earlier toolchain), never a problem with your proof. If you hit it, rebuild
+`lean4export` (and `comparator`) at the pinned commits with the rc2 toolchain
+rather than your `elan` default, and clear the affected workspace's `.lake/build`
+before retrying.
 
 Once the tools are on your `PATH`, verify the whole pipeline against the starter
 problem before attempting a real one — this builds and scores `two_plus_two` end
@@ -234,7 +236,8 @@ lake exe lean-eval check-comparator-installation
 ```
 
 If you keep the comparator binary somewhere off your `PATH`, point `lake test` at
-it explicitly:
+it explicitly (`landrun` and `lean4export` must still be on `PATH`, since
+comparator invokes them):
 
 ```bash
 COMPARATOR_BIN=/path/to/comparator lake test
