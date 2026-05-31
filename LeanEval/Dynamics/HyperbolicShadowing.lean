@@ -13,13 +13,16 @@ an open neighbourhood on which every approximate orbit is `δ`-close to
 a true `T`-orbit. Anosov 1967; Bowen 1975. §67 in Knill's *Some
 Fundamental Theorems in Mathematics*.
 
-Knill's setting is "smooth manifold"; we formalise on
-`E d := EuclideanSpace ℝ (Fin d)`. Shadowing is local near the
-hyperbolic set, and any compact hyperbolic set on a smooth manifold
-embeds into some `ℝᵈ` via Whitney embedding, so the Euclidean
-formulation captures Knill's content without introducing manifold-with-
-corners / tangent-bundle-splitting machinery that is not yet usable in
-mathlib.
+The statement here is the Euclidean special case on
+`E d := EuclideanSpace ℝ (Fin d)` — a faithful finite-dimensional local
+model that captures the hyperbolic-dynamics content while avoiding the
+smooth-manifold and tangent-bundle infrastructure mathlib does not yet
+package. The hyperbolic-set predicate is bundled as a `HyperbolicStructure`:
+a pointwise stable/unstable splitting with the uniform exponential
+contraction/expansion estimates of Anosov's original definition. The
+textbook definition additionally asks for the splitting to be continuous
+in `x`; we encode only the pointwise content with uniform constants,
+which is the minimal data the shadowing proof depends on.
 -/
 
 open scoped Topology
@@ -78,10 +81,11 @@ def HasShadowing (T : E d → E d) (K : Set (E d)) : Prop :=
       ∃ y : E d, ∀ n : ℕ, ‖x n - T^[n] y‖ < δ
 
 /-- **Anosov–Bowen shadowing lemma** (Anosov 1967; Bowen 1975). Every
-hyperbolic invariant set has the shadowing property. -/
+compact hyperbolic invariant set has the shadowing property. -/
 @[eval_problem]
 theorem hyperbolic_has_shadowing
-    (T : E d ≃ₜ E d) (K : Set (E d)) (_hK : IsHyperbolic T K) :
+    (T : E d ≃ₜ E d) (K : Set (E d))
+    (_hKc : IsCompact K) (_hK : IsHyperbolic T K) :
     HasShadowing (T : E d → E d) K := by
   sorry
 
