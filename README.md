@@ -186,26 +186,62 @@ that tells comparator to check your theorem from the `Submission` namespace.
 lake test
 ```
 
-If the comparator binary is not on your `PATH`, set it explicitly:
+`lake test` shells out to three external tools that you must install yourself:
+`landrun` (the sandbox), `lean4export` (exports oleans to text), and `comparator`
+(the verifier). All three are pinned to immutable commits; the authoritative pin
+table lives in [`SECURITY.md`](SECURITY.md) ("Trusted dependencies and pin
+policy"), and CI installs exactly these in
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml). Reproduce that setup
+locally:
 
 ```bash
-COMPARATOR_BIN=/path/to/comparator lake test
+# landrun — install at the pinned commit (NOT @main; the version string is
+# unreliable, and tagged releases through v0.1.15 lack fixes comparator needs).
+go install github.com/zouuup/landrun/cmd/landrun@5ed4a3db3a4ad930d577215c6b9abaa19df7f99f
+export PATH="$(go env GOPATH)/bin:$PATH"
+
+# lean4export — clone, check out the pin, and build.
+git clone https://github.com/leanprover/lean4export.git
+( cd lean4export
+  git checkout 12581a6b680d8478175596338eb2d53383a323e3
+  lake build lean4export )
+export PATH="$PWD/lean4export/.lake/build/bin:$PATH"
+
+# comparator — clone, check out the pin (adds `def`-hole support), and build.
+git clone https://github.com/leanprover/comparator.git
+( cd comparator
+  git checkout 71b52ec29e06d4b7d882726553b1ceb99a2499e0
+  lake build comparator )
+export PATH="$PWD/comparator/.lake/build/bin:$PATH"
 ```
 
-You can verify the installation against the starter problem from the repo root with:
+`lean4export` and `comparator` are Lean programs: `lake build` compiles each with
+the Lean toolchain pinned in *its own* `lean-toolchain` at the commit above (the
+v4.30.0-rc2 toolchain). This must match the toolchain that builds the workspace,
+because comparator builds `Challenge.olean` with the workspace toolchain and then
+reads it back with `lean4export`. If the two differ you get
+`failed to read file '.../Challenge.olean', incompatible header` — that error
+means a Lean/olean version mismatch (or a stale `.lake` artifact left over from
+an earlier toolchain), never a problem with your proof. If you hit it, rebuild
+`lean4export` (and `comparator`) at the pinned commits with the rc2 toolchain
+rather than your `elan` default, and clear the affected workspace's `.lake/build`
+before retrying.
+
+Once the tools are on your `PATH`, verify the whole pipeline against the starter
+problem before attempting a real one — this builds and scores `two_plus_two` end
+to end, so it isolates an install problem from a proof problem:
 
 ```bash
 lake exe lean-eval check-comparator-installation
 ```
 
-Comparator setup also requires the upstream external tools, including `landrun` and
-`lean4export`. Install `landrun` from its git `main` branch
-(`go install github.com/zouuup/landrun/cmd/landrun@main`); the latest tagged
-release (v0.1.15) is missing fixes that comparator's sandbox relies on.
+If you keep the comparator binary somewhere off your `PATH`, point `lake test` at
+it explicitly (`landrun` and `lean4export` must still be on `PATH`, since
+comparator invokes them):
 
-CI pins `lean4export` to tag `v4.30.0-rc2` and `comparator` to commit
-`71b52ec29e06d4b7d882726553b1ceb99a2499e0` (which adds support for
-`def`-shaped holes).
+```bash
+COMPARATOR_BIN=/path/to/comparator lake test
+```
 
 ### 6. Check your local score
 
