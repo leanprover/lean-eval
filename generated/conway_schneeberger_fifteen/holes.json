@@ -1,0 +1,12 @@
+{
+  "id": "conway_schneeberger_fifteen",
+  "module": "LeanEval.NumberTheory.ConwaySchneebergerFifteen",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.ConwaySchneebergerFifteenProblem.conway_schneeberger_fifteen",
+      "basename": "conway_schneeberger_fifteen",
+      "kind": "theorem",
+      "body": "/-- **Conway\u2013Schneeberger fifteen theorem** (Conway\u2013Schneeberger 1993,\nproof Bhargava 2000). A positive-definite integer-matrix quadratic form\nis universal iff it represents every integer in `{1, 2, \u2026, 15}`.\n\nThe forward direction is immediate; the content is the converse \u2014 15 is\nthe smallest `N` such that representing `{1, \u2026, N}` implies representing\nevery positive integer. Bhargava's refinement reduces the critical set\nto `{1, 2, 3, 5, 6, 7, 10, 14, 15}` (9 elements). -/\ntheorem conway_schneeberger_fifteen {n : \u2115}\n    (Q : Matrix (Fin n) (Fin n) \u2124)\n    (_hsymm : Q.IsSymm) (_hpos : IsPositiveQ Q) :\n    IsUniversal Q \u2194 \u2200 k \u2208 Finset.Icc (1 : \u2124) 15, Represents Q k := by\n  sorry"
+    }
+  ]
+}

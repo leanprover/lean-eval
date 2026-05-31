@@ -187,6 +187,17 @@
     "generated_path": "generated/conway_knot_topologically_slice"
   },
   {
+    "id": "conway_schneeberger_fifteen",
+    "title": "Conway\u2013Schneeberger fifteen theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.ConwaySchneebergerFifteen",
+    "holes": [
+      "conway_schneeberger_fifteen"
+    ],
+    "generated_path": "generated/conway_schneeberger_fifteen"
+  },
+  {
     "id": "cubic_decay_asymptotic",
     "title": "Polynomial decay rate of y' = -y^3",
     "test": false,
