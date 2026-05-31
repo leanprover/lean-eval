@@ -1387,5 +1387,16 @@
       "weak_morse_inequality"
     ],
     "generated_path": "generated/weak_morse_inequality"
+  },
+  {
+    "id": "wigner_semicircle",
+    "title": "Wigner semicircle law",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.WignerSemicircle",
+    "holes": [
+      "wigner_semicircle"
+    ],
+    "generated_path": "generated/wigner_semicircle"
   }
 ]
