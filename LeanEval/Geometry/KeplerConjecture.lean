@@ -10,8 +10,9 @@ namespace KeplerConjectureProblem
 
 The optimal sphere-packing density in three dimensions is `π / √18`,
 achieved by the face-centred-cubic packing. Conjectured by Johannes
-Kepler (1611); proved by Thomas Hales (1998); formally verified in
-HOL Light + Isabelle by the *Flyspeck* project, completed August 2014.
+Kepler (1611); announced by Thomas Hales in 1998 and published as
+Hales 2005; formally verified in HOL Light + Isabelle by the
+*Flyspeck* project, completed August 2014.
 Wiedijk-1000 #209; §96 in Knill's *Some Fundamental Theorems in
 Mathematics*.
 
