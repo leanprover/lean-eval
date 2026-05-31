@@ -1279,6 +1279,17 @@
     "generated_path": "generated/szemeredi"
   },
   {
+    "id": "thue_siegel_roth",
+    "title": "Thue\u2013Siegel\u2013Roth theorem (irrationality measure \u2264 2 for algebraic irrationals)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.ThueSiegelRoth",
+    "holes": [
+      "thueSiegelRoth"
+    ],
+    "generated_path": "generated/thue_siegel_roth"
+  },
+  {
     "id": "topological_classification_of_surfaces",
     "title": "Topological classification of surfaces",
     "test": false,
