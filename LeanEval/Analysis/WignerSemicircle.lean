@@ -12,14 +12,17 @@ For an iid family `X i j : Ω → ℝ` (`i ≤ j`) of mean-`0`, variance-`1`
 random variables, the empirical spectral measure of the rescaled
 real-symmetric matrix `W_n / √n` (with `W_n(i, j) = X (min i j) (max i j)`)
 converges weakly, almost surely as `n → ∞`, to the **semicircle measure**
-on `[−2, 2]` with density `√(4 − x²) / (2π)`. Wigner 1955; universality
-established by Wigner–Pastur 1972, Bai–Yin 1988, and the
-Erdős–Schlein–Yau program. §102 in Knill's *Some Fundamental Theorems
-in Mathematics*.
+on `[−2, 2]` with density `√(4 − x²) / (2π)`. Wigner 1955 for the
+Gaussian case; Pastur 1972 extended it to all variances under finite
+second moments. §102 in Knill's *Some Fundamental Theorems in
+Mathematics*.
 
-Weak convergence is encoded directly in Knill's "test-function" form:
-for every bounded continuous `f`, almost surely
-`∫ f dμ_n → ∫ f dμ_∞`.
+Weak convergence is encoded against bounded continuous test functions:
+almost surely `∫ f dμ_n → ∫ f dμ_∞` for every bounded continuous `f`.
+The integrability hypotheses on the entries make the mean and variance
+identities genuine (mathlib's Bochner integral defaults to `0` on
+non-integrable integrands, so a bare `∫ X² = 1` is satisfiable
+vacuously without them).
 -/
 
 open scoped ENNReal NNReal Topology
@@ -65,6 +68,8 @@ theorem wigner_semicircle
       (fun ij : {p : ℕ × ℕ // p.1 ≤ p.2} => X ij.val.1 ij.val.2) μ)
     (_hX_iid : ∀ i j i' j', i ≤ j → i' ≤ j' →
       ProbabilityTheory.IdentDistrib (X i j) (X i' j') μ μ)
+    (_hX_int : ∀ i j, i ≤ j → Integrable (X i j) μ)
+    (_hX_sq_int : ∀ i j, i ≤ j → Integrable (fun ω => (X i j ω) ^ 2) μ)
     (_hX_mean : ∀ i j, i ≤ j → ∫ ω, X i j ω ∂μ = 0)
     (_hX_var : ∀ i j, i ≤ j → ∫ ω, (X i j ω) ^ 2 ∂μ = 1) :
     ∀ᵐ ω ∂μ,
