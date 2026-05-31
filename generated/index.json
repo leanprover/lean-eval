@@ -132,6 +132,17 @@
     "generated_path": "generated/cerf_gamma_four"
   },
   {
+    "id": "chebyshev_sign_change",
+    "title": "Hardy\u2013Littlewood sign-change for the prime race mod 4",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.ChebyshevSignChange",
+    "holes": [
+      "chebyshev_sign_change"
+    ],
+    "generated_path": "generated/chebyshev_sign_change"
+  },
+  {
     "id": "chudnovsky_formula_for_pi_inv",
     "title": "Chudnovsky formula for pi inverse",
     "test": false,
