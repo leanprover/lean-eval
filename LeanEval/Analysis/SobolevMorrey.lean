@@ -11,13 +11,14 @@ namespace SobolevMorreyProblem
 When `n < p` and `r + α < k − n/p`, every `W^{k,p}(ℝⁿ)` function has a
 `C^{r,α}` representative — the Sobolev embedding into Hölder spaces.
 Charles Morrey, *Functions of several variables and absolute
-continuity, II*, Duke Math. J. **6** (1940). §111 in Knill's *Some
-Fundamental Theorems in Mathematics*.
+continuity, II*, Duke Math. J. **6** (1940). The theorem is listed as
+§111 in Knill's *Some Fundamental Theorems in Mathematics*.
 
 The `LocallyIntegrable f` conjunct in `MemSobolevWk` is essential to
 faithfulness: without it, a non-a.e.-measurable `f` would make every
-pairing `∫ f · D^m φ` evaluate to Lean's junk value `0`, so
-`IsWeakDeriv f 0 m` would hold vacuously and `f` would spuriously
+distributional pairing `∫ f · D^m φ` collapse to the default value
+that Lean's Bochner integral assigns outside integrability hypotheses,
+so `IsWeakDeriv f 0 m` would hold vacuously and `f` would spuriously
 satisfy `W^{k,p}` membership while having no a.e.-equal continuous
 representative.
 
