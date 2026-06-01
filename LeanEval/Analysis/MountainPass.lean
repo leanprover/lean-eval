@@ -11,14 +11,15 @@ namespace MountainPassProblem
 A `C¹` functional `f` on a real Banach space `E` satisfying the
 Palais–Smale compactness condition and having a *mountain range*
 geometry separating two points `a, b` admits a critical point at the
-mini-max level `c = inf_γ max_t f(γ t)`, and `c ≥ ε > 0`.
-Ambrosetti–Rabinowitz 1973. §119 in Knill's *Some Fundamental Theorems
-in Mathematics*.
+mini-max level `c = inf_γ sup_t f(γ t)`, and `c ≥ ε > 0`.
+Ambrosetti–Rabinowitz 1973. The statement is listed as §119 in Knill's
+*Some Fundamental Theorems in Mathematics*.
 
 Knill writes the far point condition as "`f(b) ≤ 0` for some `|b| > ε`".
 The radius of the sphere is `r`, not `ε`, so `|b| > ε` is a
 transcription slip for `r < ‖b − a‖`. The faithful condition encoded
-here is the standard Ambrosetti–Rabinowitz geometry `a = 0`, `‖b‖ > r`.
+here is the translated Ambrosetti–Rabinowitz geometry: `f a = 0`,
+`f ≥ ε` on `Metric.sphere a r`, and `r < ‖b − a‖`.
 -/
 
 open scoped unitInterval
