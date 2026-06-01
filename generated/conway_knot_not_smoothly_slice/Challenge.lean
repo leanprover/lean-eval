@@ -1,5 +1,5 @@
-import LeanEval.KnotTheory.ConwayKnot
 import ChallengeDeps
+
 namespace LeanEval
 namespace KnotTheory
 

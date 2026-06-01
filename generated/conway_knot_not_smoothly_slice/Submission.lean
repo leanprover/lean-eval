@@ -1,4 +1,4 @@
-import LeanEval.KnotTheory.ConwayKnot
+import Mathlib
 import Submission.Helpers
 import ChallengeDeps
 
