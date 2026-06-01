@@ -3,6 +3,12 @@
   "module": "LeanEval.KnotTheory.Piccirillo",
   "holes": [
     {
+      "name": "LeanEval.KnotTheory.conwayKnot_isSimple",
+      "basename": "conwayKnot_isSimple",
+      "kind": "theorem",
+      "body": "/-- **The Conway-knot polyline is a simple closed curve.**\n\nA finite \u2014 if laborious \u2014 check on the fixed 78-vertex braid-closure\npolyline: all vertices distinct, non-adjacent edges disjoint, adjacent\nedges meeting only at their shared vertex. This certifies that `conwayKnot`\nis a genuine embedded knot \u2014 the subject the slice question is about \u2014 and\nis posed as its own hole so that the proof lives in the submission rather\nthan as an unchecked field of `conwayKnot`. -/\ntheorem conwayKnot_isSimple : conwayKnot.IsSimple := by\n  sorry"
+    },
+    {
       "name": "LeanEval.KnotTheory.conway_knot_not_smoothly_slice",
       "basename": "conway_knot_not_smoothly_slice",
       "kind": "theorem",

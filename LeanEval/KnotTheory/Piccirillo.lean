@@ -26,6 +26,18 @@ obstructions `s` and `τ` both vanish, which is why this trace-embedding
 detour through `K'` is needed.
 -/
 
+/-- **The Conway-knot polyline is a simple closed curve.**
+
+A finite — if laborious — check on the fixed 78-vertex braid-closure
+polyline: all vertices distinct, non-adjacent edges disjoint, adjacent
+edges meeting only at their shared vertex. This certifies that `conwayKnot`
+is a genuine embedded knot — the subject the slice question is about — and
+is posed as its own hole so that the proof lives in the submission rather
+than as an unchecked field of `conwayKnot`. -/
+@[eval_problem]
+theorem conwayKnot_isSimple : conwayKnot.IsSimple := by
+  sorry
+
 /-- **Piccirillo, "The Conway knot is not slice."**
 
 The Conway knot 11n34 does not bound a smoothly properly embedded 2-disk

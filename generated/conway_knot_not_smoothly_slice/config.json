@@ -2,7 +2,8 @@
   "challenge_module": "Challenge",
   "solution_module": "Solution",
   "theorem_names": [
-    "conway_knot_not_smoothly_slice"
+    "LeanEval.KnotTheory.conwayKnot_isSimple",
+    "LeanEval.KnotTheory.conway_knot_not_smoothly_slice"
   ],
   "permitted_axioms": [
     "propext",
