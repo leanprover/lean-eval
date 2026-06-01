@@ -1257,6 +1257,17 @@
     "generated_path": "generated/smale_conjecture"
   },
   {
+    "id": "sobolev_embedding_morrey",
+    "title": "Sobolev embedding theorem (Morrey regime)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.SobolevMorrey",
+    "holes": [
+      "sobolev_embedding"
+    ],
+    "generated_path": "generated/sobolev_embedding_morrey"
+  },
+  {
     "id": "solvable_by_radicals_converse",
     "title": "Solvable extensions \u2194 solvable groups (the missing converse in Abel\u2013Ruffini)",
     "test": false,
