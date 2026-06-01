@@ -1465,7 +1465,13 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
     spans.filterMap fun s =>
       if helperNames.contains s.name then some (s.start, declTightEnd src s.start s.stop)
       else none
-  let helperOpens := derivedHelperOpens helperNames
+  -- Open the enclosing namespaces of both the helpers *and* the holes. The
+  -- holes' enclosing namespace (e.g. `LeanEval.KnotTheory`) is where the
+  -- trusted deps they reference live in `ChallengeDeps`; when a problem has no
+  -- in-module helpers but pulls its trusted deps from an imported library
+  -- module, `helperNames` is empty and only the hole namespaces supply the
+  -- needed `open`. (Duplicates across the two are dropped downstream.)
+  let helperOpens := derivedHelperOpens helperNames ++ derivedHelperOpens holeNames
   let localImports ← repoLocalImportModules root entry.moduleName
   -- Render ChallengeDeps via the shared core, passing precise hole ranges so
   -- the helper-extraction slicing knows where the hole bodies live (the

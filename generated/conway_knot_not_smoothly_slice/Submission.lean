@@ -4,6 +4,7 @@ import ChallengeDeps
 
 namespace Submission
 
+open _root_.LeanEval.KnotTheory
 open LeanEval
 namespace LeanEval
 namespace KnotTheory
