@@ -23,10 +23,6 @@ well. A direct Khovanov-homological computation shows Rasmussen's
 `K'`. Note that for the Conway knot itself the standard smooth slice
 obstructions `s` and `τ` both vanish, which is why this trace-embedding
 detour through `K'` is needed.
-
-We'd like to thank Lorenzo Luccioli (using Aristotle) for identifying a
-mis-formalization of the notion of smoothly slice in an earlier version of
-this problem.
 -/
 
 /-- **The Conway-knot polyline is a simple closed curve.**
