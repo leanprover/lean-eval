@@ -10,10 +10,15 @@ namespace KnotTheory
 The Conway knot has braid index 4 and a standard 4-braid representation in
 KnotInfo. We package the resulting polyline as a `PLKnot`.
 
-Both `three_le` and `isSimple` are auxiliary `sorry`s: discharging them
-amounts to verifying basic combinatorial / geometric facts about a fixed
-finite vertex list, work that is independent of the slice-theoretic
-content of the three problems that use `conwayKnot`.
+`conwayKnot` is now a trusted, `sorry`-free term: its only proof field,
+`three_le`, is discharged by kernel computation of the (78-vertex) list
+length. Simplicity of the polyline — an embedded simple closed curve —
+is a `PLKnot.IsSimple` fact rather than a structure field, and is posed
+as the separate benchmark hole `conwayKnot_isSimple` in `Piccirillo`
+rather than carried here as an unchecked proof field. The topological
+problem `conway_knot_topologically_slice` reuses this same trusted
+`conwayKnot`; a solver there must likewise establish simplicity in order
+to exhibit a smooth representative.
 -/
 
 /-- A braid word for the Conway knot 11n34, on 4 strands, of length 11
@@ -28,12 +33,14 @@ braid length 11, and writhe `-1`. Sliceness is mirror-invariant, so either
 braid word is a valid witness for `conway_knot_not_smoothly_slice`. -/
 def conwayBraidWord : List ℤ := [-1, -1, 2, -1, 2, -1, 3, -2, -2, 3, 3]
 
+set_option maxRecDepth 10000 in
 /-- The Conway knot 11n34 as a piecewise-linear closed polyline in `ℝ³`,
 realized as the braid closure of `conwayBraidWord` on 4 strands. -/
 noncomputable def conwayKnot : PLKnot where
   vertices := braidClosure 4 conwayBraidWord
-  three_le := by sorry
-  isSimple := by sorry
+  three_le := by
+    have h : (braidClosure 4 conwayBraidWord).length = 78 := by rfl
+    omega
 
 end KnotTheory
 end LeanEval
