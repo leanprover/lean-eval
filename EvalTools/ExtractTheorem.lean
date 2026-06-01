@@ -61,7 +61,14 @@ def resolveDeclName (env : Environment) (moduleName declName : Name) : IO Name :
 
 /-- Compute the set of names of declarations in `moduleName` that are reachable from
 the type or value of `start`, following the same-module subgraph of the constant
-dependency relation. The starting declaration itself is excluded from the result. -/
+dependency relation. The starting declaration itself is excluded from the result.
+
+Internal compiler-generated auxiliaries (`._proof_1`, `._eq_1`, `.match_1`, …)
+are traversed through — so genuine helpers they reference are still found — but
+excluded from the returned set: they have no user source span to extract and are
+regenerated automatically when their parent declaration is re-elaborated. (A
+`noncomputable def` over a `Finset` sum, for instance, emits a `._proof_1` whose
+prefix would otherwise be mistaken for a helper namespace to `open`.) -/
 def collectSameModuleDependencies (env : Environment) (moduleName start : Name) :
     Array Name := Id.run do
   let some moduleIdx := env.getModuleIdx? moduleName | return #[]
@@ -77,7 +84,7 @@ def collectSameModuleDependencies (env : Environment) (moduleName start : Name) 
       if env.getModuleIdxFor? c == some moduleIdx
           && c != current && !closure.contains c then
         stack := stack.push c
-  return (closure.erase start).toArray
+  return (closure.erase start).toArray.filter (fun n => !n.isInternalDetail)
 
 def extractTheorem (moduleNameText declNameText : String) : IO ExtractedTheorem := do
   let moduleName := parseName moduleNameText
