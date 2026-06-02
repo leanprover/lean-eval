@@ -1,0 +1,12 @@
+{
+  "id": "fang_xia_tiling_partition_transitive",
+  "module": "LeanEval.Combinatorics.FangXiaTiling",
+  "holes": [
+    {
+      "name": "LeanEval.Combinatorics.FangXiaTilingProblem.fang_xia_partition_transitive_of_tiling",
+      "basename": "fang_xia_partition_transitive_of_tiling",
+      "kind": "theorem",
+      "body": "/-- **Fang\u2013Xia, Theorem 1.4.** A tiling `(T_n, Y)` of `S_n` forces\n\u03bb-transitivity of `Y` for every partition `\u03bb` of `n` whose Young-\ndiagram content sum is nonnegative. -/\ntheorem fang_xia_partition_transitive_of_tiling\n    {n : \u2115} {Y : Set (Equiv.Perm (Fin n))}\n    (_h : IsTiling (transpositionsWithOne n) Y) :\n    \u2200 lam : PartitionShape n, 0 \u2264 lam.contentSum \u2192 IsPartitionTransitive Y lam := by\n  sorry"
+    }
+  ]
+}

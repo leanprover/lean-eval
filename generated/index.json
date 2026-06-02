@@ -432,6 +432,17 @@
     "generated_path": "generated/families_of_maps_b01"
   },
   {
+    "id": "fang_xia_tiling_partition_transitive",
+    "title": "Fang\u2013Xia: tiling of the symmetric group by transpositions implies \u03bb-transitivity",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Combinatorics.FangXiaTiling",
+    "holes": [
+      "fang_xia_partition_transitive_of_tiling"
+    ],
+    "generated_path": "generated/fang_xia_tiling_partition_transitive"
+  },
+  {
     "id": "fatou_julia_dichotomy",
     "title": "Fatou\u2013Julia / Cantor dichotomy",
     "test": false,
