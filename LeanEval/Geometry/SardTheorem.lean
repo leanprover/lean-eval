@@ -6,20 +6,30 @@ namespace Geometry
 namespace SardTheoremProblem
 
 /-!
-# Sard's theorem (Morse 1939 / Sard 1942)
+# Sard's theorem (Morse 1939 / Sard 1942), Knill's rank-deficient form
 
-For a smooth map `f : ℝᵐ → ℝⁿ`, the image of the set where the Jacobian
-`df(x)` does not have full rank — equivalently, where the rank is less
-than both `m` and `n`, so `df(x)` is neither injective nor surjective —
-has Lebesgue measure zero. The manifold form follows from the
-finite-dimensional Euclidean version chart-by-chart, so the substance
-of the theorem lives at the Euclidean level used here. §125 of Knill's
-*Some Fundamental Theorems in Mathematics*.
+For a smooth map `f : ℝᵐ → ℝⁿ`, the image of the rank-deficient set
+`{x | rank df(x) < m ∧ rank df(x) < n}` — points where the Jacobian
+`df(x)` is neither injective nor surjective — has Lebesgue measure
+zero. The manifold form follows from this Euclidean version
+chart-by-chart, so the substance of the theorem lives at the
+Euclidean level used here. §125 of Knill's *Some Fundamental Theorems
+in Mathematics*.
 
-Mathlib has the equal-dimension case `μ (f '' s) = 0` when `det (f' x) = 0`
-on `s` (`MeasureTheory.addHaar_image_eq_zero_of_det_fderivWithin_eq_zero`),
+This is Knill's specific phrasing: "rank smaller than both `m` and
+`n`". The standard textbook Sard theorem instead defines critical
+points by `rank df(x) < n` (failure of surjectivity), which is a
+weaker condition than Knill's and produces a larger critical set; the
+textbook statement therefore *implies* the form proved here. The two
+agree when `m ≥ n`; for `m < n` a smooth immersion has every point
+critical under the textbook definition but no critical points under
+Knill's.
+
+Mathlib has the equal-dimension case `μ (f '' s) = 0` when
+`det (f' x) = 0` on `s`
+(`MeasureTheory.addHaar_image_eq_zero_of_det_fderivWithin_eq_zero`)
 plus topological corollaries via Hausdorff dimension, but no general
-critical-set / Sard statement.
+critical-value / Sard statement.
 -/
 
 open MeasureTheory Module
@@ -32,21 +42,24 @@ abbrev E (n : ℕ) := EuclideanSpace ℝ (Fin n)
 noncomputable def fderivRank {m n : ℕ} (f : E m → E n) (x : E m) : ℕ :=
   finrank ℝ (LinearMap.range (fderiv ℝ f x).toLinearMap)
 
-/-- A **critical point** of `f`: a point where `df(x)` has rank less
-than both `m` and `n`, so `df(x)` fails to have full rank `min m n`. -/
+/-- A **critical point** of `f` (Knill's definition): a point where
+`df(x)` has rank less than both `m` and `n`, so `df(x)` fails to have
+full rank `min m n`. Weaker than the textbook condition
+`rank df(x) < n`; see the module docstring. -/
 def IsCriticalPoint {m n : ℕ} (f : E m → E n) (x : E m) : Prop :=
   fderivRank f x < m ∧ fderivRank f x < n
 
-/-- The **critical set** of `f`: the image in `ℝⁿ` of the set of
-critical points (the "critical values"). -/
-def criticalSet {m n : ℕ} (f : E m → E n) : Set (E n) :=
+/-- The **critical values** of `f`: the image in `ℝⁿ` of the
+rank-deficient locus. -/
+def criticalValues {m n : ℕ} (f : E m → E n) : Set (E n) :=
   f '' {x | IsCriticalPoint f x}
 
-/-- **Sard's theorem** (Morse 1939 / Sard 1942). The critical set of a
-smooth map `f : ℝᵐ → ℝⁿ` has zero Lebesgue measure in `ℝⁿ`. -/
+/-- **Sard's theorem** (Morse 1939 / Sard 1942), Knill's rank-
+deficient form. The image of the rank-deficient locus of a smooth
+map `f : ℝᵐ → ℝⁿ` has Lebesgue measure zero. -/
 @[eval_problem]
 theorem sard {m n : ℕ} (f : E m → E n) (_hf : ContDiff ℝ ∞ f) :
-    volume (criticalSet f) = 0 := by
+    volume (criticalValues f) = 0 := by
   sorry
 
 end SardTheoremProblem
