@@ -16,8 +16,12 @@ A knot is a smooth, regular, simple, `2π`-periodic curve `r : ℝ → ℝ³`,
 simple on one half-open fundamental interval `[0, 2π)`. Its curvature
 is `κ(t) = ‖r'(t) × r''(t)‖ / ‖r'(t)‖³`; total curvature is the
 arc-length integral `∫₀^{2π} κ(t) · ‖r'(t)‖ dt`. Unknottedness is
-encoded by a smooth isotopy through smooth knots from `r` to the
-standard unit circle.
+encoded as a smooth isotopy through smooth (parametrised) knots from
+`r` to the standard unit circle — every intermediate stage is itself a
+smooth knot. By the smooth isotopy-extension theorem this is
+classically equivalent to ambient isotopy of `ℝ³` (the form encoded by
+the existing `LeanEval.KnotTheory.Prelude` `AmbientIsotopy`), but the
+parametrised form is the natural data-level statement at this section.
 
 Mathlib has `deriv`, interval integrals, `ContDiff`, `crossProduct`,
 and the Euclidean norm, but no knot-total-curvature or unknottedness
