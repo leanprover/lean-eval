@@ -21,10 +21,10 @@ designed so that the two strands of any crossing are `y`-separated.
 Closure arcs swing through `y = 100`, well outside the braid box.
 
 The layout *intends* to produce a simple polyline, but simplicity is not
-proved here; it is a separate obligation discharged by the user
-constructing a `PLKnot` (which carries an `isSimple` field). The
-function is silent on invalid input — `|w| = 0` or `|w| ≥ n` — and
-produces garbage in those cases.
+proved here; it is a separate obligation, expressed by `PLKnot.IsSimple`
+and discharged where needed (e.g. the `conwayKnot_isSimple` benchmark
+hole). The function is silent on invalid input — `|w| = 0` or `|w| ≥ n`
+— and produces garbage in those cases.
 -/
 
 namespace BraidClosure

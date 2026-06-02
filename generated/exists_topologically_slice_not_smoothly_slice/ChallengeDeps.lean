@@ -179,11 +179,22 @@ def Set.UnorientedTopAmbIsotopic (A B : Set R3) : Prop :=
 
 /-! ## The closed `2`-disk, unit circle, half-space, and model planes -/
 
-/-- The closed unit `2`-disk, the source of a slicing disk's parametrization. -/
-abbrev disk2 : Set (ℝ × ℝ) := Metric.closedBall (0 : ℝ × ℝ) 1
+/-- The closed unit Euclidean `2`-disk `{(x, y) | x² + y² ≤ 1}`, the source
+of a slicing disk's parametrization.
 
-/-- The unit circle in `ℝ²`, the source of the slicing disk's boundary. -/
-abbrev circle1 : Set (ℝ × ℝ) := Metric.sphere (0 : ℝ × ℝ) 1
+We spell the disk and its boundary out explicitly via `x² + y² ≤ 1` / `= 1`
+rather than as `Metric.closedBall`/`Metric.sphere` on `ℝ × ℝ`: the product
+norm on `ℝ × ℝ` is the *sup* norm, so `Metric.closedBall 0 1` would be the
+*square* `[-1, 1]²` and `Metric.sphere 0 1` its cornered boundary. Smooth
+slice-ness over a cornered domain is vacuously unsatisfiable — at a corner
+no smooth immersion can match a corner-free smooth knot boundary while
+keeping an injective derivative — which would make `Knot.SmoothlySlice`
+false for *every* knot. -/
+abbrev disk2 : Set (ℝ × ℝ) := {p | p.1 ^ 2 + p.2 ^ 2 ≤ 1}
+
+/-- The unit Euclidean circle `{(x, y) | x² + y² = 1}` in `ℝ²`, the source of
+the slicing disk's boundary. -/
+abbrev circle1 : Set (ℝ × ℝ) := {p | p.1 ^ 2 + p.2 ^ 2 = 1}
 
 /-- The closed upper half-space `ℝ³ × [0, ∞)` in `ℝ³ × ℝ`. We identify
 `ℝ³ × [0, ∞)` with `B⁴ ∖ {pt}`, so slice disks live here. -/
@@ -276,26 +287,34 @@ noncomputable def plCurve (vertices : List R3) (t : ℝ) : R3 :=
     (1 - α) • vertices[k % n]'(Nat.mod_lt _ (Nat.pos_of_ne_zero h)) +
       α • vertices[(k + 1) % n]'(Nat.mod_lt _ (Nat.pos_of_ne_zero h))
 
-/-- A piecewise-linear closed knot in `ℝ³`: at least three vertices, traced
-as one polyline, embedded as a simple closed curve. -/
+/-- A piecewise-linear closed polyline in `ℝ³` with at least three vertices.
+
+Simplicity (being an embedded simple closed curve) is *not* bundled into the
+structure; it is expressed separately as `PLKnot.IsSimple`. Keeping it out of
+the structure lets named polylines such as `conwayKnot` be written down as
+trusted, `sorry`-free data, with the finite-but-laborious simplicity proof
+posed as its own benchmark obligation rather than carried as an unchecked
+proof field. -/
 structure PLKnot where
   /-- The ordered list of polyline vertices. -/
   vertices : List R3
   /-- A closed polyline needs at least three vertices to be non-degenerate. -/
   three_le : 3 ≤ vertices.length
-  /-- The polyline is a simple closed curve: injective on a half-open
-  fundamental domain `[0, vertices.length)` for the periodic
-  parametrization. Equivalent to: all vertices distinct, non-adjacent
-  edges disjoint, adjacent edges meet only at the shared vertex. -/
-  isSimple : ∀ s t : ℝ,
-    s ∈ Set.Ico (0 : ℝ) (vertices.length : ℝ) →
-    t ∈ Set.Ico (0 : ℝ) (vertices.length : ℝ) →
-    plCurve vertices s = plCurve vertices t →
-    s = t
 
 /-- The image of the PL knot in `ℝ³` (the trace of the polyline). -/
 def PLKnot.image (K : PLKnot) : Set R3 :=
   plCurve K.vertices '' Set.Ico (0 : ℝ) (K.vertices.length : ℝ)
+
+/-- The polyline is a *simple closed curve*: the periodic parametrization is
+injective on a half-open fundamental domain `[0, vertices.length)`.
+Equivalent to: all vertices distinct, non-adjacent edges disjoint, adjacent
+edges meet only at their shared vertex. -/
+def PLKnot.IsSimple (K : PLKnot) : Prop :=
+  ∀ s t : ℝ,
+    s ∈ Set.Ico (0 : ℝ) (K.vertices.length : ℝ) →
+    t ∈ Set.Ico (0 : ℝ) (K.vertices.length : ℝ) →
+    plCurve K.vertices s = plCurve K.vertices t →
+    s = t
 
 /-! ## Bridge to smooth slice-ness via a smooth knot representative
 

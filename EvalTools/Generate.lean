@@ -323,17 +323,32 @@ private def isEvalToolsMarkersImport (stripped : String) : Bool := Id.run do
   if !after.toList.head!.isWhitespace then return false
   return after.trimAscii.toString == "EvalTools.Markers"
 
-/-- Strip `@[eval_problem]` attribute lines and `import EvalTools.Markers`
-lines from `source`. Blank lines immediately before and after a stripped
-line are also dropped — mirroring the greedy `\s*` runs that bracket the
-attribute in Python's `_strip_problem_markers` regex. -/
-def stripProblemMarkers (source : String) : String := Id.run do
+/-- True if the line is `import <m>` for some module `m` in `locals`, allowing
+arbitrary intra-line whitespace between `import` and the module name. Used to
+drop imports of repo-local modules whose declarations are inlined into
+`ChallengeDeps`, so the generated workspace files don't import the (absent)
+`LeanEval` library. -/
+private def isLocalImport (stripped : String) (locals : Array String) : Bool := Id.run do
+  if !(stripped.startsWith "import") then return false
+  let after := (stripped.drop "import".length).toString
+  if after.isEmpty then return false
+  if !after.toList.head!.isWhitespace then return false
+  let modName := ((after.trimAscii.toString.splitOn " ").head!).trimAscii.toString
+  return locals.contains modName
+
+/-- Strip `@[eval_problem]` attribute lines, `import EvalTools.Markers` lines,
+and `import <m>` lines for each repo-local module `m` in `localImports` from
+`source`. Blank lines immediately before and after a stripped line are also
+dropped — mirroring the greedy `\s*` runs that bracket the attribute in
+Python's `_strip_problem_markers` regex. -/
+def stripProblemMarkers (source : String) (localImports : Array String := #[]) : String := Id.run do
   let lines := source.splitOn "\n"
   let mut out : Array String := #[]
   let mut eatBlanks := false
   for line in lines do
     let stripped := line.trimAscii.toString
-    if stripped == "@[eval_problem]" || isEvalToolsMarkersImport stripped then
+    if stripped == "@[eval_problem]" || isEvalToolsMarkersImport stripped
+        || isLocalImport stripped localImports then
       -- Drop blank lines we already pushed that immediately precede this
       -- marker line; the Python regex's leading `^\s*` consumes them too.
       while out.size > 0 && out[out.size - 1]!.trimAscii.toString.isEmpty do
@@ -1450,8 +1465,18 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
     spans.filterMap fun s =>
       if helperNames.contains s.name then some (s.start, declTightEnd src s.start s.stop)
       else none
-  let helperOpens := derivedHelperOpens helperNames
   let localImports ← repoLocalImportModules root entry.moduleName
+  -- Open the enclosing namespaces of the in-module helpers. When the problem
+  -- also pulls trusted deps from imported library modules (`localImports`
+  -- non-empty), those deps live in the holes' own enclosing namespace, which
+  -- then exists in `ChallengeDeps` at `_root_`; open it too so unqualified
+  -- references (e.g. `conwayKnot`) resolve. We must *not* open hole namespaces
+  -- when there are no such imports: a namespace containing only holes does not
+  -- exist at `_root_` once the holes move under `Submission`, and `open
+  -- _root_.<that>` would be an unknown-namespace error (e.g. the all-holes
+  -- `jacobian_challenge_*` problems). Duplicates are dropped downstream. -/
+  let helperOpens := derivedHelperOpens helperNames ++
+    (if localImports.isEmpty then #[] else derivedHelperOpens holeNames)
   -- Render ChallengeDeps via the shared core, passing precise hole ranges so
   -- the helper-extraction slicing knows where the hole bodies live (the
   -- `.ilean`-derived "next decl start" is wrong for non-final holes).
@@ -1501,14 +1526,14 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
   -- Challenge and Submission only need helper removals.
   let helperStripped := applyEdits sourceText helperEdits
   let baseImport := if hasChallengeDeps then "import ChallengeDeps\n\n" else "import Mathlib\n\n"
-  let challengeBodyStripped := stripProblemMarkers helperStripped
+  let challengeBodyStripped := stripProblemMarkers helperStripped localImports
   let challengeBody :=
     if !(challengeBodyStripped.trimAsciiStart.toString.startsWith "import ") then
       baseImport ++ challengeBodyStripped
     else if hasChallengeDeps then
       injectAfterImports challengeBodyStripped "import ChallengeDeps\n"
     else challengeBodyStripped
-  let solutionBody := stripProblemMarkers solutionText
+  let solutionBody := stripProblemMarkers solutionText localImports
   let solutionBody := injectAfterImports solutionBody "import Submission\n"
   let solutionBody :=
     if hasChallengeDeps then injectAfterImports solutionBody "import ChallengeDeps\n"
@@ -1519,7 +1544,7 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
   -- enclosing namespace so unqualified helper references inside the wrap
   -- resolve to `_root_.<ns>.<helper>` rather than the (non-existent)
   -- `Submission.<ns>.<helper>`.
-  let submissionStripped := stripProblemMarkers helperStripped
+  let submissionStripped := stripProblemMarkers helperStripped localImports
   let submissionWithHelpers := injectAfterImports submissionStripped "import Submission.Helpers\n"
   let submissionWithHelpers :=
     if hasChallengeDeps then injectAfterImports submissionWithHelpers "import ChallengeDeps\n"
