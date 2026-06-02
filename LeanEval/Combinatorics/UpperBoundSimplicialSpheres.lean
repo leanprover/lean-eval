@@ -6,16 +6,26 @@ namespace Combinatorics
 namespace UpperBoundSimplicialSpheresProblem
 
 /-!
-# Upper bound theorem for simplicial spheres (Stanley 1975)
+# Upper bound theorem for simplicial spheres (Stanley 1975),
+geometrically-embedded variant
 
 Among finite `(d − 1)`-dimensional simplicial spheres with `n`
 vertices, the cyclic polytope `C(n, d)` maximises every face number
 `f_k`. Conjectured by Motzkin (1957); McMullen 1970 for the polytope
-case; Stanley 1975 extended to all simplicial spheres via the
-Stanley–Reisner / face-ring proof. §142 in Knill's *Some Fundamental
+case; Stanley 1975 extended to all finite simplicial spheres via the
+Stanley–Reisner face-ring proof. §142 in Knill's *Some Fundamental
 Theorems in Mathematics*.
 
-Mathlib has substantial finite-simplicial-complex substrate
+The Lean encoding `FiniteSimplicialSphere d` uses mathlib's
+`Geometry.SimplicialComplex ℝ (EuclideanSpace ℝ (Fin d))` — finite
+geometric complexes linearly embedded in `ℝᵈ` whose underlying space
+is homeomorphic to the unit sphere in `ℝᵈ`. Stanley's full theorem
+applies to *all* finite abstract simplicial spheres, and our
+geometric class is a subset (not every abstract finite simplicial
+sphere embeds linearly in `ℝᵈ`), so Stanley 1975 *implies* the
+statement here.
+
+Mathlib has the finite-simplicial-complex substrate
 (`AbstractSimplicialComplex`, `Geometry.SimplicialComplex` with
 `faces` / `vertices` / `facets` / `space`) but no cyclic polytopes,
 h-vectors, g-vectors, Dehn–Sommerville, face rings, or upper bound
