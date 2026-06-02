@@ -1546,6 +1546,17 @@
     "generated_path": "generated/unit_distance_upper_bound"
   },
   {
+    "id": "upper_bound_simplicial_spheres",
+    "title": "Upper bound theorem for geometric simplicial spheres (Stanley 1975)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Combinatorics.UpperBoundSimplicialSpheres",
+    "holes": [
+      "upper_bound_theorem_simplicial_spheres"
+    ],
+    "generated_path": "generated/upper_bound_simplicial_spheres"
+  },
+  {
     "id": "variable_binder_example",
     "title": "variable-binder minimal example",
     "test": true,
