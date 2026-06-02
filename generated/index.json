@@ -1315,6 +1315,17 @@
     "generated_path": "generated/runge_theorem"
   },
   {
+    "id": "sard_theorem",
+    "title": "Sard's theorem (critical-set image has measure zero)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.SardTheorem",
+    "holes": [
+      "sard"
+    ],
+    "generated_path": "generated/sard_theorem"
+  },
+  {
     "id": "schauder_fixed_point",
     "title": "Schauder fixed-point theorem",
     "test": false,
