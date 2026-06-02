@@ -1590,6 +1590,17 @@
     "generated_path": "generated/weak_morse_inequality"
   },
   {
+    "id": "weinstein_conjecture_dim3",
+    "title": "Weinstein conjecture in dimension three (Taubes 2007)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.WeinsteinConjecture3D",
+    "holes": [
+      "weinstein_conjecture_dim_three"
+    ],
+    "generated_path": "generated/weinstein_conjecture_dim3"
+  },
+  {
     "id": "whitney_embedding",
     "title": "Whitney embedding theorem (strong form, dimension 2n)",
     "test": false,
