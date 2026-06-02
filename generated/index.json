@@ -215,6 +215,7 @@
     "submitter": "Kim Morrison",
     "module": "LeanEval.KnotTheory.Piccirillo",
     "holes": [
+      "conwayKnot_isSimple",
       "conway_knot_not_smoothly_slice"
     ],
     "generated_path": "generated/conway_knot_not_smoothly_slice"
