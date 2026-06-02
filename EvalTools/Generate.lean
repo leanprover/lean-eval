@@ -1465,14 +1465,18 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
     spans.filterMap fun s =>
       if helperNames.contains s.name then some (s.start, declTightEnd src s.start s.stop)
       else none
-  -- Open the enclosing namespaces of both the helpers *and* the holes. The
-  -- holes' enclosing namespace (e.g. `LeanEval.KnotTheory`) is where the
-  -- trusted deps they reference live in `ChallengeDeps`; when a problem has no
-  -- in-module helpers but pulls its trusted deps from an imported library
-  -- module, `helperNames` is empty and only the hole namespaces supply the
-  -- needed `open`. (Duplicates across the two are dropped downstream.)
-  let helperOpens := derivedHelperOpens helperNames ++ derivedHelperOpens holeNames
   let localImports ← repoLocalImportModules root entry.moduleName
+  -- Open the enclosing namespaces of the in-module helpers. When the problem
+  -- also pulls trusted deps from imported library modules (`localImports`
+  -- non-empty), those deps live in the holes' own enclosing namespace, which
+  -- then exists in `ChallengeDeps` at `_root_`; open it too so unqualified
+  -- references (e.g. `conwayKnot`) resolve. We must *not* open hole namespaces
+  -- when there are no such imports: a namespace containing only holes does not
+  -- exist at `_root_` once the holes move under `Submission`, and `open
+  -- _root_.<that>` would be an unknown-namespace error (e.g. the all-holes
+  -- `jacobian_challenge_*` problems). Duplicates are dropped downstream. -/
+  let helperOpens := derivedHelperOpens helperNames ++
+    (if localImports.isEmpty then #[] else derivedHelperOpens holeNames)
   -- Render ChallengeDeps via the shared core, passing precise hole ranges so
   -- the helper-extraction slicing knows where the hole bodies live (the
   -- `.ilean`-derived "next decl start" is wrong for non-final holes).
