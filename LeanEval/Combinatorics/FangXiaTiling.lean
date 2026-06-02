@@ -15,7 +15,8 @@ symmetric group `S_n` (every element of `S_n` has a unique factorisation
 **λ-transitive** in the Martin–Sagan sense: every pair of ordered set
 partitions of shape `λ` is connected by exactly a fixed positive number
 of permutations in `Y`. Fang–Xia, *Tiling the symmetric group by
-transpositions*, Crelle's Journal **829** (2025).
+transpositions*, Bull. London Math. Soc. **58**(5) (2026); DOI
+`10.1112/blms.70366`; arXiv:2506.00360.
 -/
 
 open scoped BigOperators
