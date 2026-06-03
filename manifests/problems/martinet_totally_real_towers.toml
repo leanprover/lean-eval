@@ -1,0 +1,9 @@
+id = "martinet_totally_real_towers"
+title = "Martinet's totally real class-field towers"
+test = false
+module = "LeanEval.NumberTheory.MartinetTowers"
+holes = ["martinet_totally_real_towers"]
+submitter = "Adam Topaz"
+source = "Jacques Martinet, *Tours de corps de classes et estimations de discriminants*, Invent. Math. 44 (1978), 65--73. DOI: 10.1007/BF01389902."
+notes = "The Lean statement is the bounded-root-discriminant totally-real tower theorem used as the explicit Martinet hypothesis in the sum-product formalization."
+informal_solution = "Martinet constructs a totally real number field with an infinite unramified 2-class-field tower and root discriminant < 1059. Finite layers in the tower remain totally real, have unbounded degrees, and preserve root discriminant because the extensions are unramified at all finite primes and real at the real places."
