@@ -443,6 +443,17 @@
     "generated_path": "generated/fang_xia_tiling_partition_transitive"
   },
   {
+    "id": "fary_milnor",
+    "title": "F\u00e1ry\u2013Milnor theorem (knot total curvature \u2264 4\u03c0 implies unknotted)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.FaryMilnor",
+    "holes": [
+      "fary_milnor_total_curvature"
+    ],
+    "generated_path": "generated/fary_milnor"
+  },
+  {
     "id": "fatou_julia_dichotomy",
     "title": "Fatou\u2013Julia / Cantor dichotomy",
     "test": false,
