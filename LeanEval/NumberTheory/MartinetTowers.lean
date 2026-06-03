@@ -10,6 +10,12 @@ Jacques Martinet's construction of a totally real number field with an infinite 
 bounded root discriminant. This is the classical input used as the explicit hypothesis in the
 formalization of the real sum-product counterexample.
 
+Assuming Martinet's Proposition 4.1 and Example 4.2: there is a totally real degree-four field
+`k'` with an infinite unramified 2-class-field tower and root discriminant
+`ρ = 4 * sqrt (3 * 5 * 7 * 23 * 29) < 1059`. Finite layers `K / k'` in the tower have unbounded
+degrees, remain totally real, and are unramified at finite primes, so
+`|discr K| = |discr k'| ^ [K : k'] = ρ ^ [K : ℚ]`. Hence `C = ρ` works.
+
 Reference: Jacques Martinet, *Tours de corps de classes et estimations de discriminants*,
 Inventiones Mathematicae 44 (1978), 65--73, especially §4, Proposition 4.1 and Example 4.2.
 -/
