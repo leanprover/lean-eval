@@ -10,9 +10,10 @@ namespace BooneHigmanSimpleProblem
 solvable word problem
 
 A finitely presented *simple* group has a decidable word problem.
-A.V. Kuznetsov (1958); the full Boone–Higman characterisation was
-completed by Boone–Higman (1974). §122 in Knill's *Some Fundamental
-Theorems in Mathematics*.
+This is Kuznetsov's theorem (A.V. Kuznetsov, 1958); the later
+Boone–Higman characterisation (W.W. Boone and G. Higman, 1974) gives
+the full iff statement situating Kuznetsov's result. §122 in Knill's
+*Some Fundamental Theorems in Mathematics*.
 
 A word in the generators `g₁, …, gₙ` and their inverses is encoded as
 `List (Fin n × Bool)`, which is `Primcodable`. The word problem of a
@@ -36,8 +37,8 @@ def WordProblemSolvable {G : Type*} [Group G] {n : ℕ}
     (φ : FreeGroup (Fin n) →* G) : Prop :=
   ComputablePred (fun w : List (Fin n × Bool) => φ (FreeGroup.mk w) = 1)
 
-/-- **Kuznetsov / Boone–Higman theorem** (Kuznetsov 1958, Boone–Higman
-1974). A finitely presented simple group has a solvable word problem. -/
+/-- **Kuznetsov's theorem** (A.V. Kuznetsov, 1958). A finitely presented
+simple group has a solvable word problem. -/
 @[eval_problem]
 theorem boone_higman_simple
     {G : Type*} [Group G] [IsSimpleGroup G]
