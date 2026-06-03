@@ -1,0 +1,12 @@
+{
+  "id": "higman_infinite_simple",
+  "module": "LeanEval.GroupTheory.HigmanInfiniteSimple",
+  "holes": [
+    {
+      "name": "LeanEval.GroupTheory.HigmanInfiniteSimpleProblem.higman_infinite_simple",
+      "basename": "higman_infinite_simple",
+      "kind": "theorem",
+      "body": "/-- **Higman's infinite simple group** (G. Higman 1951/1974). There\nexists an infinite finitely presented simple group. -/\ntheorem higman_infinite_simple :\n    \u2203 (n : \u2115) (rels : Set (FreeGroup (Fin n))),\n      rels.Finite \u2227 IsSimpleGroup (PresentedGroup rels) \u2227\n        Infinite (PresentedGroup rels) := by\n  sorry"
+    }
+  ]
+}

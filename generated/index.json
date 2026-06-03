@@ -697,6 +697,17 @@
     "generated_path": "generated/heat_kernel_solves_heat_equation"
   },
   {
+    "id": "higman_infinite_simple",
+    "title": "Higman's infinite finitely-presented simple group",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.GroupTheory.HigmanInfiniteSimple",
+    "holes": [
+      "higman_infinite_simple"
+    ],
+    "generated_path": "generated/higman_infinite_simple"
+  },
+  {
     "id": "hopf_rinow",
     "title": "Hopf\u2013Rinow theorem",
     "test": false,
