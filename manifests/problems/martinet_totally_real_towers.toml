@@ -1,0 +1,9 @@
+id = "martinet_totally_real_towers"
+title = "Martinet's asymptotically-good totally real towers"
+test = false
+module = "LeanEval.NumberTheory.MartinetTotallyRealTowers"
+holes = ["exists_totallyReal_discr_le"]
+submitter = "Kim Morrison"
+notes = "There is an absolute C > 0 such that for infinitely many degrees d there is a totally real number field K of degree d over ℚ with |Δ_K| ≤ C^d, i.e. a family of totally real fields of growing degree with bounded root discriminant rd_K = |Δ_K|^{1/d} ≤ C. This is the sole classical input taken as an axiom in the sum_product formalization of Bloom–Sawin–Schildkraut–Zhelezov's refutation of the sum-product conjecture over ℝ (SumProduct.exists_totallyReal_discr_le). Removing it would require formalizing Martinet's tower construction (asymptotically-good totally real towers from class field theory / Golod–Shafarevich), not currently in Mathlib. The statement was reviewed for faithfulness against arXiv:2605.28781 Theorem 3.2."
+source = "Theorem 3.2 of T. F. Bloom, W. Sawin, C. Schildkraut, D. Zhelezov, *The sum-product conjecture is false for real numbers*, arXiv:2605.28781. Lean axiom: https://github.com/mathlib-initiative/sum_product (SumProduct.exists_totallyReal_discr_le). Underlying result: J. Martinet, *Tours de corps de classes et estimations de discriminants*, Invent. Math. 44 (1978), 65–73."
+informal_solution = "Build asymptotically-good totally real towers via class field theory. Following Hajir–Maire / Martinet: start from a totally real base field admitting an infinite unramified pro-p tower (kept infinite by Golod–Shafarevich, r(G) > d(G)²/4 forcing the maximal unramified pro-p Galois group to be infinite), so the tower fields have constant root discriminant; pick a cofinal sequence of degrees d and take K to be the corresponding tower field, whose discriminant satisfies |Δ_K| = rd^d ≤ C^d for the absolute constant C = rd."
