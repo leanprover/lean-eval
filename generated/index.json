@@ -983,6 +983,17 @@
     "generated_path": "generated/mandelbrot_connected"
   },
   {
+    "id": "martinet_totally_real_towers",
+    "title": "Martinet's asymptotically-good totally real towers",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.MartinetTotallyRealTowers",
+    "holes": [
+      "exists_totallyReal_discr_le"
+    ],
+    "generated_path": "generated/martinet_totally_real_towers"
+  },
+  {
     "id": "mem_convexHull_finset_extremePoints_of_mem_compact_convex",
     "title": "Minkowski-Caratheodory theorem",
     "test": false,
