@@ -5,5 +5,5 @@ module = "LeanEval.NumberTheory.MartinetTowers"
 holes = ["martinet_totally_real_towers"]
 submitter = "Adam Topaz"
 source = "Jacques Martinet, *Tours de corps de classes et estimations de discriminants*, Invent. Math. 44 (1978), 65--73. DOI: 10.1007/BF01389902."
-notes = "The Lean statement is the bounded-root-discriminant totally-real tower theorem used as the explicit Martinet hypothesis in the sum-product formalization."
+notes = "The Lean statement is Martinet's bounded-root-discriminant theorem for totally real class-field towers."
 informal_solution = "By Proposition 4.1 and Example 4.2, Martinet constructs a totally real degree-four field k' with an infinite unramified 2-class-field tower and root discriminant rho = 4 sqrt(3*5*7*23*29) < 1059. Finite tower layers K/k' remain totally real and have unbounded degrees; since they are unramified at finite primes, |D_K| = |D_k'|^[K:k'] = rho^[K:Q]. Thus C = rho works."
