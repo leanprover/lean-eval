@@ -1,10 +1,10 @@
-import EvalTools.Markers
+-- import EvalTools.Markers
 import Mathlib.Analysis.Matrix.HermitianFunctionalCalculus
 import Mathlib.LinearAlgebra.Matrix.PosDef
 
-/-! # Strong additivity of quantum entropy
+/-! # Strong subadditivity of quantum entropy
 
-States that `S(ρ_ABC) + S(ρ_B) ≤ S(ρ_AB) + S(ρ_C)` where S is the von Neumman entropy.
+States that `S(ρ_ABC) + S(ρ_B) ≤ S(ρ_AB) + S(ρ_BC)` where S is the von Neumann entropy.
 
 [Wikipedia article](https://en.wikipedia.org/wiki/Strong_subadditivity_of_quantum_entropy) on
 the significance of this inequality.
@@ -22,12 +22,12 @@ variable [Nonempty A] [Nonempty B] [Nonempty C]
 noncomputable section
 
 /-- Partial trace on the left of a matrix -/
-def Matrix.traceLeft (M : Matrix (A × B) (A × B) ℂ) : Matrix B B ℂ :=
-  Matrix.of fun i j ↦ ∑ k, ∑ l, M (k, i) (l, j)
+def _root_.Matrix.traceLeft (M : Matrix (A × B) (A × C) ℂ) : Matrix B C ℂ :=
+  Matrix.of fun i j ↦ ∑ k, M (k, i) (k, j)
 
 /-- Partial trace on the right of a matrix -/
-def Matrix.traceRight (M : Matrix (A × B) (A × B) ℂ) : Matrix A A ℂ :=
-  Matrix.of fun i j ↦ ∑ k, ∑ l, M (i, k) (j, l)
+def _root_.Matrix.traceRight (M : Matrix (A × B) (C × B) ℂ) : Matrix A C ℂ :=
+  Matrix.of fun i j ↦ ∑ k, M (i, k) (j, k)
 
 /-- Von Neumann entropy of a quantum state -/
 def entropy (M : Matrix A A ℂ) : ℝ :=
@@ -46,6 +46,8 @@ theorem strong_subadditivity (M_ABC : Matrix (A × B × C) (A × B × C) ℂ) (h
     let M_B : Matrix B B ℂ := M_BC.traceRight
     entropy M_ABC + entropy M_B ≤ entropy M_AB + entropy M_BC := by
   sorry
+
+end
 
 end Physics
 end LeanEval
