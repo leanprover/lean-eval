@@ -1,0 +1,9 @@
+id = "newton_potential_differentiable"
+title = "Differentiability of the Newton potential"
+test = false
+module = "LeanEval.Analysis.NewtonPotential"
+holes = ["newtonPotential_differentiable"]
+submitter = "Kim Morrison"
+notes = "For n ≥ 2, f ∈ Lᵖ(ℝⁿ) with p > n, and any harmonic h, the Poisson solution K_f = G ⋆ f + h (G the Newton kernel) is everywhere differentiable — the gain-of-one-derivative result in elliptic regularity for −Δu = f. The trusted helpers (newtonKernel, newtonPotential, poissonSolution) are non-holes. Mathlib has MemLp, HarmonicOnNhd, and convolution but no Newton kernel/potential and no Calderón–Zygmund Lᵖ→W^{2,p} or Morrey W^{2,p}↪C^{1,α} (p>n) embedding. Candidate from §75 of the Knill survey."
+source = "Classical elliptic regularity (Newton/Green potential theory); see Gilbarg–Trudinger, *Elliptic Partial Differential Equations of Second Order*, Ch. 4. Knill, *Some fundamental theorems in mathematics*, §75."
+informal_solution = "Standard elliptic regularity. The harmonic part h is smooth (Weyl's lemma / mean-value property), so it suffices to differentiate the Newton potential u = G ⋆ f. The Newton potential maps Lᵖ → W^{2,p}_loc (Calderón–Zygmund: second derivatives of u are singular integrals of f, bounded on Lᵖ for 1<p<∞). For p > n the Morrey/Sobolev embedding W^{2,p} ↪ C^{1,α} with α = 1 − n/p ∈ (0,1] gives that u is C¹, in particular differentiable; adding the smooth h preserves differentiability. Concretely: ∇u = (∇G) ⋆ f with ∇G ∈ L^{q}_loc for the conjugate range, and Hölder + the p>n condition give continuity of ∇u via a dominated-convergence/equicontinuity argument."
