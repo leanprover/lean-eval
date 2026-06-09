@@ -9,7 +9,7 @@ namespace LeanEval.KnotTheory.Quadrisecant
 `smooth_knot_has_quadrisecant`: every smooth knot that is not the unknot has a
 quadrisecant (a line meeting it in four points). Trusted helpers (`IsSmoothKnot`,
 `IsUnknotted`, `HasQuadrisecant`, …) are non-holes. Mathlib has no knot theory.
-(The companion Fáry–Milnor total-curvature theorem is already in lean-eval.)
+(The Fáry–Milnor total-curvature theorem of §161 is a separate lean-eval problem.)
 Category-(b) candidate from §161 of the Knill survey.
 -/
 
