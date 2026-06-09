@@ -1,0 +1,8 @@
+id = "morley_theorem"
+title = "Morley's trisector theorem"
+test = false
+module = "LeanEval.Geometry.Morley"
+holes = ["morley_theorem"]
+submitter = "Kim Morrison"
+notes = "The triangle formed by the adjacent angle-trisectors of any nondegenerate Euclidean triangle is equilateral. Trusted helpers (IsEquilateralTriple, LiesInTriangle, IsMorleyConfiguration) are non-holes. Mathlib has Euclidean angles but not Morley's theorem. Candidate from §162 of the Knill survey."
+source = "F. Morley (c. 1899). Knill, §162."
