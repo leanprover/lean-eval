@@ -1,0 +1,9 @@
+id = "choquet_representation_theorem"
+title = "Choquet's representation theorem"
+test = false
+module = "LeanEval.Analysis.Choquet"
+holes = ["choquet"]
+submitter = "Kim Morrison"
+notes = "In a Banach space, every point of a compact convex set K is the barycenter ∫ y ∂μ of a probability measure μ supported on the extreme points of K (μ (ext K)ᶜ = 0). A norm-compact set is metrizable, so the extreme points are Borel and Choquet's theorem proper applies; the literal 'supported on ext K' rendering is faithful. Mathlib has Krein–Milman (closure_convexHull_extremePoints) and Convex.integral_mem but not Choquet's theorem, and no measure-theoretic barycenter operator. No new definitions beyond Mathlib's Set.extremePoints, IsProbabilityMeasure, and the Bochner integral. Candidate from §88 of the Knill survey."
+source = "G. Choquet, *Existence et unicité des représentations intégrales au moyen des points extrémaux dans les cônes convexes*, Séminaire Bourbaki (1956). Knill, *Some fundamental theorems in mathematics*, §88."
+informal_solution = "For metrizable compact convex K, build the representing measure by the classical Choquet argument: choose a strictly convex lower-semicontinuous function and maximize ∫ over probability measures with barycenter x; a maximizer is supported on the extreme points (a non-extreme support point would admit a dilation strictly increasing the integral). Concretely, take a strictly convex continuous f, let μ maximize ∫ f over the (weak-* compact, convex) set of probability measures with barycenter x; maximality forces μ to be supported on the set where f equals its concave envelope, which is exactly ext K. Use Krein–Milman / Bauer's maximum principle and the Choquet ordering on measures."
