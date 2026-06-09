@@ -1,0 +1,9 @@
+id = "bertrand_central_force"
+title = "Bertrand's theorem on central-force motion"
+test = false
+module = "LeanEval.Dynamics.Bertrand"
+holes = ["bertrand_central_force"]
+submitter = "Kim Morrison"
+notes = "Among central potentials admitting a non-circular bounded non-collision orbit, those for which every bounded non-collision orbit is periodic are exactly the Hooke (harmonic) and Kepler (inverse-radius) potentials. Trusted helpers (velocity, acceleration, centralAcceleration, IsCentralOrbit, IsBoundedOrbit, IsPeriodicOrbit, AllBoundedOrbitsPeriodic, HasNonCircularBoundedOrbit, IsBertrandPotential) are non-holes; the non-degeneracy hypothesis HasNonCircularBoundedOrbit is essential (else V≡0 is a vacuous counterexample). Mathlib has no central-force/Bertrand theory. Candidate from §156 of the Knill survey."
+source = "J. Bertrand, *Théorème relatif au mouvement d'un point attiré vers un centre fixe*, C. R. Acad. Sci. 77 (1873). Knill, *Some fundamental theorems in mathematics*, §156."
+informal_solution = "Reduce to the radial equation: with angular momentum L, the orbit radius obeys d²u/dθ² + u = -F(1/u)/(L²u²) where u = 1/ρ. Circular orbits exist where the effective potential has a minimum; the apsidal angle Δθ between successive perihelia, linearized about a circular orbit of radius ρ, is π/√(3 + ρ V''/V'). For all bounded orbits to close, Δθ must be a constant rational multiple of π for all ρ, forcing ρ V''/V' = const, i.e. a power law V ∝ ρ^k. A finite-amplitude (non-perturbative) closure analysis then pins k ∈ {2, -1}: Hooke and Kepler. Requires ODE/orbit theory absent from Mathlib."
