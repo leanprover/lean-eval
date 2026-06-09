@@ -92,7 +92,7 @@
     "title": "Character values of finite groups lie in cyclotomic fields",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.RepresentationTheory.BrauerSplittingField",
+    "module": "LeanEval.RepresentationTheory.BrauerCharacterInCyclotomic",
     "holes": [
       "brauer_character_in_cyclotomic"
     ],
@@ -108,6 +108,17 @@
       "brauer_fowler"
     ],
     "generated_path": "generated/brauer_fowler"
+  },
+  {
+    "id": "brauer_splitting_field",
+    "title": "Brauer's splitting field theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.RepresentationTheory.BrauerSplittingField",
+    "holes": [
+      "brauer_splitting_field"
+    ],
+    "generated_path": "generated/brauer_splitting_field"
   },
   {
     "id": "brauer_suzuki",
