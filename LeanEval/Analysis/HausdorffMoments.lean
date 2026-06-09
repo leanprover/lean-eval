@@ -34,18 +34,15 @@ These are category-(b) candidates from §115 of the Knill survey
 open MeasureTheory
 open scoped BigOperators NNReal
 
-/-- The model space `ℝᵈ`. -/
-abbrev E (d : ℕ) := EuclideanSpace ℝ (Fin d)
-
 /-- The closed unit cube `Iᵈ = [0,1]ᵈ ⊆ ℝᵈ`. -/
-def cube (d : ℕ) : Set (E d) := {x | ∀ i, x i ∈ Set.Icc (0 : ℝ) 1}
+def cube (d : ℕ) : Set (EuclideanSpace ℝ (Fin d)) := {x | ∀ i, x i ∈ Set.Icc (0 : ℝ) 1}
 
 /-- The monomial `xⁿ = ∏ᵢ xᵢ^{nᵢ}` indexed by a multi-index `n ∈ ℕᵈ`. -/
-def monomial {d : ℕ} (n : Fin d → ℕ) (x : E d) : ℝ := ∏ i, (x i) ^ (n i)
+def monomial {d : ℕ} (n : Fin d → ℕ) (x : EuclideanSpace ℝ (Fin d)) : ℝ := ∏ i, (x i) ^ (n i)
 
 /-- The `n`-th moment `∫_{Iᵈ} xⁿ dμ` of a (positive) measure `μ`, integrated
 over the cube. -/
-noncomputable def momentOf {d : ℕ} (μ : Measure (E d)) (n : Fin d → ℕ) : ℝ :=
+noncomputable def momentOf {d : ℕ} (μ : Measure (EuclideanSpace ℝ (Fin d))) (n : Fin d → ℕ) : ℝ :=
   ∫ x in cube d, monomial n x ∂μ
 
 /-- `a` is a **moment configuration** of a signed (bounded-variation) measure on
@@ -53,7 +50,7 @@ the cube: there are finite positive measures `μ, ν` with
 `aₙ = ∫ xⁿ dμ − ∫ xⁿ dν` for all `n` (the Jordan decomposition of the realizing
 signed measure). -/
 def IsMomentConfiguration {d : ℕ} (a : (Fin d → ℕ) → ℝ) : Prop :=
-  ∃ μ ν : Measure (E d), IsFiniteMeasure μ ∧ IsFiniteMeasure ν ∧
+  ∃ μ ν : Measure (EuclideanSpace ℝ (Fin d)), IsFiniteMeasure μ ∧ IsFiniteMeasure ν ∧
     ∀ n, a n = momentOf μ n - momentOf ν n
 
 /-- The multi-index binomial coefficient `C(n,k) = ∏ᵢ C(nᵢ, kᵢ)`. -/
@@ -76,7 +73,7 @@ def HausdorffBounded {d : ℕ} (a : (Fin d → ℕ) → ℝ) : Prop :=
 /-- `a` is a **positive** moment configuration: realized by a single finite
 *positive* measure on the cube. -/
 def IsPositiveMomentConfiguration {d : ℕ} (a : (Fin d → ℕ) → ℝ) : Prop :=
-  ∃ μ : Measure (E d), IsFiniteMeasure μ ∧ ∀ n, a n = momentOf μ n
+  ∃ μ : Measure (EuclideanSpace ℝ (Fin d)), IsFiniteMeasure μ ∧ ∀ n, a n = momentOf μ n
 
 /-- **Hausdorff–Hildebrandt–Schoenberg theorem.** A multi-indexed real sequence
 is the moment sequence of a signed bounded-variation measure on the unit cube
