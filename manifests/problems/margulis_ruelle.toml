@@ -1,0 +1,9 @@
+id = "margulis_ruelle"
+title = "Margulis–Ruelle inequality"
+test = false
+module = "LeanEval.Dynamics.LaiSangYoung"
+holes = ["margulis_ruelle"]
+submitter = "Kim Morrison"
+notes = "Margulis (1968) / Ruelle (1978): for a C²-diffeomorphism T of a compact surface and a T-invariant ergodic probability measure μ, the Kolmogorov–Sinai entropy is bounded by the sum of the positive parts of the Lyapunov exponents, h_μ(T) ≤ λ₁⁺ + λ₂⁺. Shares the §103 trusted helpers (kolmogorovSinaiEntropy, lyapunov* via totalized sSup/limsup; genuine in the compact-C² regime). Not in Mathlib (no KS entropy, no Lyapunov exponents). Candidate from §103 of the Knill survey."
+source = "D. Ruelle, *An inequality for the entropy of differentiable maps*, Bol. Soc. Brasil. Mat. 9 (1978); G. A. Margulis (1968, unpublished). Knill, *Some fundamental theorems in mathematics*, §103."
+informal_solution = "Ruelle's inequality. Cover the manifold by a fine partition and estimate the number of partition atoms an orbit can be distinguished into after n steps: the differential DT^n expands volumes by at most ∏ⱼ exp(n·λⱼ⁺) up to subexponential factors, so the n-step refinement ∨_{k<n} T^{-k}P has at most exp(n·∑λⱼ⁺ + o(n)) essential atoms. Hence (1/n)H_μ(∨ T^{-k}P) ≤ ∑λⱼ⁺ + o(1), and taking the partition-supremum gives h_μ ≤ ∑λⱼ⁺. Uses Oseledec exponents and the volume-growth bound; not in Mathlib."
