@@ -730,6 +730,28 @@
     "generated_path": "generated/halmos_generic_weak_mixing"
   },
   {
+    "id": "hausdorff_hildebrandt_schoenberg",
+    "title": "The Hausdorff\u2013Hildebrandt\u2013Schoenberg moment theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.HausdorffMoments",
+    "holes": [
+      "hausdorff_hildebrandt_schoenberg"
+    ],
+    "generated_path": "generated/hausdorff_hildebrandt_schoenberg"
+  },
+  {
+    "id": "hausdorff_positivity_criterion",
+    "title": "The Hausdorff positivity (complete-monotonicity) criterion",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.HausdorffMoments",
+    "holes": [
+      "hausdorff_positivity"
+    ],
+    "generated_path": "generated/hausdorff_positivity_criterion"
+  },
+  {
     "id": "heat_kernel_solves_heat_equation",
     "title": "Gaussian heat kernel solves the 1D heat equation",
     "test": false,
@@ -949,6 +971,28 @@
     "generated_path": "generated/lidskii_last"
   },
   {
+    "id": "lindemann",
+    "title": "Lindemann's theorem (e and \u03c0 transcendental)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.Lindemann",
+    "holes": [
+      "lindemann"
+    ],
+    "generated_path": "generated/lindemann"
+  },
+  {
+    "id": "lindemann_weierstrass",
+    "title": "The Lindemann\u2013Weierstrass theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.Lindemann",
+    "holes": [
+      "lindemann_weierstrass"
+    ],
+    "generated_path": "generated/lindemann_weierstrass"
+  },
+  {
     "id": "linear_ode_asymptotic_stability",
     "title": "Linear ODE with negative-real-part eigenvalues is asymptotically stable",
     "test": false,
@@ -1080,6 +1124,17 @@
       "monge_kantorovich_exists"
     ],
     "generated_path": "generated/monge_kantorovich"
+  },
+  {
+    "id": "moran_equality_affine",
+    "title": "Moran's equality for affine-symmetric iterated function systems",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Dynamics.MoranDimension",
+    "holes": [
+      "moran_equality_affine"
+    ],
+    "generated_path": "generated/moran_equality_affine"
   },
   {
     "id": "morley_categoricity_theorem",

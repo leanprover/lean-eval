@@ -1,0 +1,12 @@
+{
+  "id": "hausdorff_positivity_criterion",
+  "module": "LeanEval.Analysis.HausdorffMoments",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.hausdorff_positivity",
+      "basename": "hausdorff_positivity",
+      "kind": "theorem",
+      "body": "/-- **Hausdorff positivity criterion** (Hausdorff 1921). A moment configuration\ncomes from a positive measure iff all its iterated backward differences are\nnonnegative \u2014 i.e. the sequence is *completely monotone*: `(\u0394\u1d4fa)\u2099 \u2265 0` for all\n`k \u2264 n`. -/\ntheorem hausdorff_positivity {d : \u2115} (a : (Fin d \u2192 \u2115) \u2192 \u211d) :\n    IsPositiveMomentConfiguration a \u2194 \u2200 k n : Fin d \u2192 \u2115, k \u2264 n \u2192 0 \u2264 diff a k n := by\n  sorry"
+    }
+  ]
+}
