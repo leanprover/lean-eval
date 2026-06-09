@@ -1,0 +1,9 @@
+id = "sphere_theorem_topological"
+title = "Topological sphere theorem (Berger–Klingenberg–Rauch)"
+test = false
+module = "LeanEval.Geometry.SphereTheorem"
+holes = ["sphere_theorem"]
+submitter = "Kim Morrison"
+notes = "A closed, simply-connected, strictly quarter-pinched (sectional curvature in (1,4]) smooth Riemannian d-manifold (d ≥ 2) is homeomorphic to the standard d-sphere. Trusted helpers IsMetricCompatible, curv (Riemann curvature tensor), QuarterPinched (non-holes); following §38 the Levi-Civita connection is hypothesized as a smooth torsion-free metric-compatible covariant derivative (Mathlib has the interface but does not construct Levi-Civita). Mathlib has no Riemann/sectional curvature or pinching. Candidate from §121 of the Knill survey."
+source = "M. Berger; W. Klingenberg; H. E. Rauch (topological sphere theorem, 1951–1961). Knill, *Some fundamental theorems in mathematics*, §121."
+informal_solution = "Classical sphere theorem via Toponogov/Klingenberg. From strict quarter-pinching, Klingenberg's injectivity-radius estimate gives inj(M) ≥ π/√(max K). Cover M by two metric balls around a point and its farthest point; Toponogov's triangle comparison shows each is a disk and they glue along a sphere, exhibiting M as a twisted sphere, hence homeomorphic to Sᵈ (Brown's theorem / Reeb). Needs the curvature comparison geometry (Toponogov, Rauch, Klingenberg injectivity radius) absent from Mathlib."
