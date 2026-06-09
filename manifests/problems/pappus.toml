@@ -1,0 +1,9 @@
+id = "pappus"
+title = "Pappus's hexagon theorem"
+test = false
+module = "LeanEval.Geometry.PascalPappus"
+holes = ["pappus"]
+submitter = "Kim Morrison"
+notes = "With A₁,A₂,A₃ collinear and B₁,B₂,B₃ collinear, the three intersection points Aᵢ Bⱼ ∩ Aⱼ Bᵢ are collinear — the degenerate-conic limit of Pascal. Shares the §146 trusted helpers (SamePoint, OnConic, meet, Collinear3). Not in Mathlib. Candidate from §146 (additional 1)."
+source = "Pappus of Alexandria, *Collection*, Book VII (c. 320 AD). Knill, *Some fundamental theorems in mathematics*, §146."
+informal_solution = "The degenerate case of Pascal with the conic = a pair of lines (the two triples of collinear points). Algebraically the collinearity of the three meet points is a multilinear identity in the six points' homogeneous coordinates given the two collinearity constraints; provable by direct cross-product computation (meet = (a×b)×(c×d), collinearity = triple product zero) and elimination, or as the projective incidence theorem underlying the commutativity of the coordinate field (Hilbert). Not in Mathlib."
