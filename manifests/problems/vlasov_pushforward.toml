@@ -1,0 +1,9 @@
+id = "vlasov_pushforward"
+title = "The Vlasov pushforward theorem"
+test = false
+module = "LeanEval.Dynamics.Vlasov"
+holes = ["vlasov_pushforward_solves"]
+submitter = "Kim Morrison"
+notes = "If X_t solves the Vlasov Hamiltonian system with initial probability measure m, then the pushforward P^t := (X_t)_* m is a weak (Lagrangian) solution of the Vlasov integro-differential equation — the kinetic-theory method of characteristics. Stated on the model phase space ℝᵈ × ℝᵈ. The trusted helpers (Phase, IsVlasovHamiltonianFlow, vlasovMeanField, IsVlasovWeakSolution) are non-holes. Mathlib has gradients, pushforward measures, Picard–Lindelöf, and integral curves, but nothing Vlasov-shaped (no kinetic equation, no weak transport PDE, no mean-field limit). Candidate from §78 of the Knill survey."
+source = "Knill attributes the identity to Maxwell; the underlying mean-field flow is W. Braun and K. Hepp, *The Vlasov dynamics and its fluctuations in the 1/N limit of interacting classical particles*, Comm. Math. Phys. 56 (1977). Knill, *Some fundamental theorems in mathematics*, §78."
+informal_solution = "Method of characteristics in kinetic theory. For a smooth compactly supported test function φ, the pushforward formula gives ∫ φ dP_t = ∫ φ(X_t z) dm(z). Differentiate in t under the integral (dominated convergence, using smoothness/compact support of φ and the Hamiltonian ODE for X), apply the chain rule with the Vlasov vector field (d/dt)(X_t z) = (g, ∫∇V(f(x)−f(y))dm) = (y, W(x)) along the flow, and recognize the result as ∫ (y·∇_x φ + W(x)·∇_y φ) dP_t after pushing the mean field through the pushforward (Fubini). This yields the weak Vlasov identity."
