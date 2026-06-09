@@ -1,0 +1,8 @@
+id = "tverberg_theorem"
+title = "Tverberg's theorem"
+test = false
+module = "LeanEval.Combinatorics.Tverberg"
+holes = ["tverberg_theorem"]
+submitter = "Kim Morrison"
+notes = "Any (r-1)(d+1)+1 points in ℝ^d can be partitioned into r parts whose convex hulls share a common point. Trusted helper HasTverbergPartition (non-hole). Mathlib has Radon's theorem (the r=2 case) but not Tverberg. Candidate from §169 of the Knill survey."
+source = "H. Tverberg, *A generalization of Radon's theorem*, J. London Math. Soc. 41 (1966). Knill, §169."
