@@ -1,0 +1,9 @@
+id = "lindemann_weierstrass"
+title = "The Lindemann–Weierstrass theorem"
+test = false
+module = "LeanEval.NumberTheory.Lindemann"
+holes = ["lindemann_weierstrass"]
+submitter = "Kim Morrison"
+notes = "If x₁,…,xₙ ∈ ℂ are algebraic over ℚ and ℚ-linearly independent, then e^{x₁},…,e^{xₙ} are algebraically independent over ℚ. Mathlib has AlgebraicIndependent and the analytic scaffolding (LindemannWeierstrass namespace in AnalyticalPart.lean) but not the theorem. No new definitions needed. Candidate from §55 of the Knill survey."
+source = "F. Lindemann (1882); K. Weierstrass (1885). Knill, *Some fundamental theorems in mathematics*, §55."
+informal_solution = "The Hermite–Lindemann–Weierstrass argument. Reduce algebraic independence of the e^{xᵢ} to: for distinct algebraic exponents β₁,…,β_m and nonzero algebraic coefficients, ∑ cⱼ e^{βⱼ} ≠ 0. Symmetrize over the Galois conjugates to get rational (then integer) coefficients, and bound the resulting nonzero algebraic integer below (it is a nonzero norm) while bounding it above using Hermite's polynomial-integral construction ∫ e^{-t}f(t)dt with f built from the βⱼ to large power p; the p! divisibility makes the main term a nonzero integer and the tail < 1, a contradiction. Mathlib's AnalyticalPart provides the integral estimates."

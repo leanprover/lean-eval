@@ -1,0 +1,9 @@
+id = "lindemann"
+title = "Lindemann's theorem (e and π transcendental)"
+test = false
+module = "LeanEval.NumberTheory.Lindemann"
+holes = ["lindemann"]
+submitter = "Kim Morrison"
+notes = "Both e = exp 1 and π are transcendental over ℤ (Lindemann 1882). Mathlib has Transcendental and the analytic scaffolding of the Lindemann–Weierstrass proof (Mathlib.NumberTheory.Transcendental.Lindemann.AnalyticalPart) but no transcendence statement for e or π. No new definitions needed. Candidate from §55 of the Knill survey. (The companion irrationality of π is already in Mathlib as irrational_pi.)"
+source = "F. Lindemann, *Über die Zahl π*, Math. Ann. 20 (1882). Knill, *Some fundamental theorems in mathematics*, §55."
+informal_solution = "Transcendence of e and π via the Hermite–Lindemann method, the x=1 / x=iπ special cases of Lindemann–Weierstrass. For e: assume a polynomial relation ∑ aₖ eᵏ = 0 and derive a contradiction using Hermite's integral ∫ e^{-t} f(t) dt with f a high-power polynomial, getting a nonzero integer of absolute value < 1. For π: if π were algebraic so would be iπ; apply the symmetric-function/Galois argument to ∏(1 + e^{αⱼ}) where αⱼ are the conjugates of iπ, using e^{iπ} = −1, again reducing to a nonzero integer that is too small. Mathlib's AnalyticalPart supplies the integral estimates; the symmetric-function finish is the missing piece."
