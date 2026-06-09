@@ -7,7 +7,7 @@ namespace NumberTheory
 /-!
 # Wieferich's theorem `g(3) = 9`
 
-`wieferich_g_three` is Wieferich's theorem (Wieferich 1912, completed by
+`wieferich_g_three` is Wieferich's theorem (Wieferich 1909, completed by
 Kempner 1912): every natural number is a sum of nine cubes, and nine is the
 smallest such bound — `23` requires nine cubes (`23 = 2·2³ + 7·1³`, with no
 representation using eight or fewer cubes). This is the `k = 3` case of the
