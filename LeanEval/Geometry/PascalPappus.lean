@@ -43,16 +43,4 @@ theorem pascal
     Collinear3 (meet a₁ b₂ a₂ b₁) (meet a₁ b₃ a₃ b₁) (meet a₂ b₃ a₃ b₂) := by
   sorry
 
-/-- **Pappus's hexagon theorem.** With `A₁,A₂,A₃` collinear and `B₁,B₂,B₃`
-collinear, the three intersection points `Aᵢ Bⱼ ∩ Aⱼ Bᵢ` are collinear. -/
-@[eval_problem]
-theorem pappus
-    (a₁ a₂ a₃ b₁ b₂ b₃ : Fin 3 → ℝ)
-    (ha₁ : a₁ ≠ 0) (ha₂ : a₂ ≠ 0) (ha₃ : a₃ ≠ 0)
-    (hb₁ : b₁ ≠ 0) (hb₂ : b₂ ≠ 0) (hb₃ : b₃ ≠ 0)
-    (hdist : [a₁, a₂, a₃, b₁, b₂, b₃].Pairwise (fun v w => ¬ SamePoint v w))
-    (hA : Collinear3 a₁ a₂ a₃) (hB : Collinear3 b₁ b₂ b₃) :
-    Collinear3 (meet a₁ b₂ a₂ b₁) (meet a₁ b₃ a₃ b₁) (meet a₂ b₃ a₃ b₂) := by
-  sorry
-
 end LeanEval.Geometry.PascalPappus
