@@ -34,14 +34,11 @@ structure VolumePreservingEquiv (d : ℕ) where
   measurePreserving :
     MeasurePreserving toMeasurableEquiv (volume : Measure (Torus d)) volume
 
-instance instCoeFunVPE (d : ℕ) :
-    CoeFun (VolumePreservingEquiv d) (fun _ => Torus d → Torus d) where
-  coe T := T.toMeasurableEquiv
 
 /-- Knill's metric `δ`: the essential supremum of the pointwise torus-distance
 `d(T x, S x)`. -/
 noncomputable def deltaDist {d : ℕ} (T S : VolumePreservingEquiv d) : ℝ≥0∞ :=
-  essSup (fun x => edist (T x) (S x)) (volume : Measure (Torus d))
+  essSup (fun x => edist (T.toMeasurableEquiv x) (S.toMeasurableEquiv x)) (volume : Measure (Torus d))
 
 /-- A **toral dynamical system**: a volume-preserving homeomorphism of `𝕋^d`. -/
 structure ToralDynamicalSystem (d : ℕ) where
@@ -72,7 +69,7 @@ def IsCyclicCubeExchange {d : ℕ} (T : VolumePreservingEquiv d) (n : ℕ) : Pro
   ∃ σ : Equiv.Perm (Fin d → Fin n),
     σ.IsCycle ∧ σ.support = Finset.univ ∧
     ∀ k : Fin d → Fin n, ∀ x ∈ cube n k, ∀ i,
-      T x i = x i + cubeShift n σ k i
+      T.toMeasurableEquiv x i = x i + cubeShift n σ k i
 
 /-- **Lax's approximation theorem.** Every toral dynamical system on `𝕋^d`
 (`d ≥ 1`) is approximated arbitrarily well in the metric `δ` by cyclic cube
