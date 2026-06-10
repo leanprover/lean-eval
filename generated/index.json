@@ -1425,6 +1425,17 @@
     "generated_path": "generated/parallel_postulate_independent"
   },
   {
+    "id": "pascal",
+    "title": "Pascal's theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.PascalPappus",
+    "holes": [
+      "pascal"
+    ],
+    "generated_path": "generated/pascal"
+  },
+  {
     "id": "pell_solution_convergent",
     "title": "Pell solutions are convergents of \u221ad",
     "test": false,
