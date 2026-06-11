@@ -30,7 +30,7 @@ four failure modes the generator used to have:
 namespace Helpers
 
 
-@[reducible] def first : Nat := Submission.Helpers.first
+@[reducible] noncomputable def first : Nat := Submission.Helpers.first
 
 
 

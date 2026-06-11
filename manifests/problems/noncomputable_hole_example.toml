@@ -1,0 +1,7 @@
+id = "noncomputable_hole_example"
+title = "noncomputable-hole minimal example"
+test = true
+module = "LeanEval.Sandbox.NoncomputableHoleExample"
+holes = ["RWidget", "instInhabitedRWidget", "rwidgetPoint", "rwidgetPoint_default"]
+submitter = "Kim Morrison"
+notes = "Minimal example exercising noncomputable def/instance holes; the generated Solution.lean delegations must be noncomputable so that honest (noncomputable) submissions compile."

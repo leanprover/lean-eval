@@ -1403,6 +1403,20 @@
     "generated_path": "generated/neukirch_uchida"
   },
   {
+    "id": "noncomputable_hole_example",
+    "title": "noncomputable-hole minimal example",
+    "test": true,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Sandbox.NoncomputableHoleExample",
+    "holes": [
+      "RWidget",
+      "instInhabitedRWidget",
+      "rwidgetPoint",
+      "rwidgetPoint_default"
+    ],
+    "generated_path": "generated/noncomputable_hole_example"
+  },
+  {
     "id": "novikov_unsolvable",
     "title": "Novikov's theorem: the word problem is undecidable for finitely presented groups",
     "test": false,

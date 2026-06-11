@@ -8,6 +8,6 @@ defines `Submission.foo := 37` and proves `Submission.foo_def`; comparator
 should accept it.
 -/
 
-@[reducible] def foo : Nat := Submission.foo
+@[reducible] noncomputable def foo : Nat := Submission.foo
 
 theorem foo_def : foo = 37 := Submission.foo_def

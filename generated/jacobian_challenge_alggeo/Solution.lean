@@ -57,12 +57,12 @@ variable {k : Type u} [Field k] {C : Over (Spec (.of k))}
 
 -- data
 /-- The genus of a smooth proper curve. -/
-@[reducible] def genus (C : Over (Spec (.of k))) [IsProper C.hom] [SmoothOfRelativeDimension 1 C.hom]
+@[reducible] noncomputable def genus (C : Over (Spec (.of k))) [IsProper C.hom] [SmoothOfRelativeDimension 1 C.hom]
     [GeometricallyIrreducible C.hom] : ℕ := Submission.AlgebraicGeometry.JacobianChallenge.genus C
 
 -- data
 /-- The Jacobian of a smooth, proper curve over a field `k`. -/
-@[reducible] def Jacobian (C : Over (Spec (.of k))) [IsProper C.hom] [SmoothOfRelativeDimension 1 C.hom]
+@[reducible] noncomputable def Jacobian (C : Over (Spec (.of k))) [IsProper C.hom] [SmoothOfRelativeDimension 1 C.hom]
     [GeometricallyIrreducible C.hom] : Over (Spec (.of k)) := Submission.AlgebraicGeometry.JacobianChallenge.Jacobian C
 
 namespace Jacobian
@@ -71,7 +71,7 @@ namespace Jacobian
 
 -- data
 /-- The group scheme structure on the Jacobian of the curve `C`. -/
-@[reducible] instance instGrpObj : GrpObj (Jacobian C) := Submission.AlgebraicGeometry.JacobianChallenge.Jacobian.instGrpObj
+@[reducible] noncomputable instance instGrpObj : GrpObj (Jacobian C) := Submission.AlgebraicGeometry.JacobianChallenge.Jacobian.instGrpObj
 
 /-- The Jacobian of `C` is smooth of relative dimension `g` over `k`, where `g` is the
 genus of `C`. -/
@@ -87,7 +87,7 @@ instance instGeometricallyIrreducible : GeometricallyIrreducible (Jacobian C).ho
 -- data
 /-- The Abel-Jacobi map from a smooth, proper curve to its Jacobian associated
 to a `k`-rational point of `C`. -/
-@[reducible] def ofCurve (P : 𝟙_ (Over (Spec (.of k))) ⟶ C) : C ⟶ Jacobian C := Submission.AlgebraicGeometry.JacobianChallenge.Jacobian.ofCurve P
+@[reducible] noncomputable def ofCurve (P : 𝟙_ (Over (Spec (.of k))) ⟶ C) : C ⟶ Jacobian C := Submission.AlgebraicGeometry.JacobianChallenge.Jacobian.ofCurve P
 
 /-- The Abel-Jacobi map sends the `k`-rational point `P` to `0`, where `0` (denoted by `η` below) is
 the neutral element of the group scheme `Jacobian C`. -/

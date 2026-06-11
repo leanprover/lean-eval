@@ -742,6 +742,33 @@ def Source.findKeywordBasename (s : Source) (keywords : Array String) (basename 
     i := i + 1
   return none
 
+/-- Rewrite a non-theorem hole signature for the `Solution.lean` delegation:
+inject `@[reducible] noncomputable` immediately before the declaration
+keyword. The delegation must be `noncomputable` because honest solutions to
+data holes are frequently noncomputable (e.g. `genus` in the Jacobian
+challenge), and a computable `def` whose body references a noncomputable
+`Submission.<name>` fails to compile; comparator never sees computability,
+so the marker is invisible to scoring. An existing `noncomputable` modifier
+in the source signature is folded into the rewrite — Lean's grammar puts
+attributes before `noncomputable`, so leaving it in place would produce the
+invalid `noncomputable @[reducible] def`. Returns `none` when no
+`def`/`instance`/`abbrev` keyword anchors the basename. -/
+def injectSolutionHoleModifiers (signature basename : String) : Option String := do
+  let sigSrc := Source.ofString signature
+  let (kwStart, _) ← Source.findKeywordBasename sigSrc #["def", "instance", "abbrev"] basename
+  let prefixText := Source.slice sigSrc 0 kwStart
+  let trimmed := prefixText.trimAsciiEnd.toString
+  let noncomputableKw := "noncomputable"
+  let prefixText :=
+    if trimmed == noncomputableKw then
+      ""
+    else if trimmed.endsWith noncomputableKw &&
+        (trimmed.dropRight noncomputableKw.length).back.isWhitespace then
+      trimmed.dropRight noncomputableKw.length
+    else
+      prefixText
+  return prefixText ++ "@[reducible] noncomputable " ++ Source.slice sigSrc kwStart sigSrc.size
+
 /-! ## Context opens -/
 
 /-- Drop block comments `/- … -/` (nested-aware) that open and close on the
@@ -1498,14 +1525,13 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
     let basename := lastComponentStr fullName
     let mut signature ← holeDeclSignature declText basename
     if kind != "theorem" then
-      match Source.findKeywordBasename (Source.ofString signature) #["def", "instance", "abbrev"] basename with
+      match injectSolutionHoleModifiers signature basename with
       | none =>
           throw <| IO.userError
-            s!"Could not anchor `@[reducible]` injection in signature for hole '{fullName}'."
-      | some (kwStart, _) =>
-          let sigSrc := Source.ofString signature
-          signature := (Source.slice sigSrc 0 kwStart) ++ "@[reducible] "
-            ++ (Source.slice sigSrc kwStart sigSrc.size)
+            s!"Could not anchor `@[reducible] noncomputable` injection in signature for \
+               hole '{fullName}'."
+      | some rewritten =>
+          signature := rewritten
     let declSrc := Source.ofString declText
     let some (_, kwEnd) := Source.findKeywordBasename declSrc
       #["def", "instance", "theorem", "opaque", "lemma", "abbrev", "class", "example"] basename

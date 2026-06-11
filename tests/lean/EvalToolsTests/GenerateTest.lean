@@ -152,6 +152,34 @@ def main : IO UInt32 := do
     let hasOpenPolynomial := (block.find? "open Polynomial").isSome
     pure <| assertEq "top-level open with 'in' comment kept" hasOpenPolynomial true
 
+  check "injectSolutionHoleModifiers: plain def gains both modifiers" passes fails do
+    pure <| assertEq "rewritten"
+      (injectSolutionHoleModifiers "def foo : Nat := " "foo")
+      (some "@[reducible] noncomputable def foo : Nat := ")
+
+  check "injectSolutionHoleModifiers: existing noncomputable is folded" passes fails do
+    pure <| assertEq "rewritten"
+      (injectSolutionHoleModifiers "noncomputable def foo : Nat := " "foo")
+      (some "@[reducible] noncomputable def foo : Nat := ")
+
+  check "injectSolutionHoleModifiers: instance with doc comment" passes fails do
+    pure <| assertEq "rewritten"
+      (injectSolutionHoleModifiers
+        "/-- doc -/\nnoncomputable instance instFoo : Inhabited Nat := " "instFoo")
+      (some "/-- doc -/\n@[reducible] noncomputable instance instFoo : Inhabited Nat := ")
+
+  -- The word `noncomputable` at the end of a doc comment is not a modifier
+  -- and must not be stripped.
+  check "injectSolutionHoleModifiers: doc comment mentioning noncomputable" passes fails do
+    pure <| assertEq "rewritten"
+      (injectSolutionHoleModifiers "/-- might be noncomputable -/\ndef foo : Nat := " "foo")
+      (some "/-- might be noncomputable -/\n@[reducible] noncomputable def foo : Nat := ")
+
+  check "injectSolutionHoleModifiers: no def/instance/abbrev anchor" passes fails do
+    pure <| assertEq "rewritten"
+      (injectSolutionHoleModifiers "theorem foo : True := " "foo")
+      none
+
   let passCount ← passes.get
   let failCount ← fails.get
   IO.println s!"\n{passCount} passed, {failCount} failed."

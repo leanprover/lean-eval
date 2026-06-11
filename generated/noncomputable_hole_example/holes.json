@@ -1,0 +1,30 @@
+{
+  "id": "noncomputable_hole_example",
+  "module": "LeanEval.Sandbox.NoncomputableHoleExample",
+  "holes": [
+    {
+      "name": "RWidget",
+      "basename": "RWidget",
+      "kind": "def",
+      "body": "def RWidget : Type := sorry"
+    },
+    {
+      "name": "instInhabitedRWidget",
+      "basename": "instInhabitedRWidget",
+      "kind": "def",
+      "body": "noncomputable instance instInhabitedRWidget : Inhabited RWidget := sorry"
+    },
+    {
+      "name": "rwidgetPoint",
+      "basename": "rwidgetPoint",
+      "kind": "def",
+      "body": "noncomputable def rwidgetPoint : RWidget := sorry"
+    },
+    {
+      "name": "rwidgetPoint_default",
+      "basename": "rwidgetPoint_default",
+      "kind": "theorem",
+      "body": "theorem rwidgetPoint_default : rwidgetPoint = (default : RWidget) := sorry"
+    }
+  ]
+}

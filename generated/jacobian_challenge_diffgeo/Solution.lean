@@ -42,7 +42,7 @@ variable {X : Type u} [TopologicalSpace X] [T2Space X] [CompactSpace X] [Connect
   [ChartedSpace ℂ X] [IsManifold (modelWithCornersSelf ℂ ℂ) ω X]
 
 -- data
-@[reducible] def genus (X : Type u) [TopologicalSpace X] [T2Space X] [CompactSpace X] [ConnectedSpace X]
+@[reducible] noncomputable def genus (X : Type u) [TopologicalSpace X] [T2Space X] [CompactSpace X] [ConnectedSpace X]
     [Nonempty X] [ChartedSpace ℂ X] [IsManifold (modelWithCornersSelf ℂ ℂ) ω X] : ℕ := Submission.JacobianChallenge.genus X
 
 -- this proof avoids the hack answer `∀ X, genus X = 0`
@@ -51,16 +51,16 @@ theorem genus_eq_zero_iff_homeo :
     genus X = 0 ↔ Nonempty (X ≃ₜ (Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1)) := Submission.JacobianChallenge.genus_eq_zero_iff_homeo
 
 -- data
-@[reducible] def Jacobian (X : Type u) [TopologicalSpace X] [T2Space X] [CompactSpace X] [ConnectedSpace X]
+@[reducible] noncomputable def Jacobian (X : Type u) [TopologicalSpace X] [T2Space X] [CompactSpace X] [ConnectedSpace X]
     [Nonempty X] [ChartedSpace ℂ X] [IsManifold (modelWithCornersSelf ℂ ℂ) ω X] : Type u := Submission.JacobianChallenge.Jacobian X
 
 namespace Jacobian
 
 -- data
-@[reducible] instance instAddCommGroup : AddCommGroup (Jacobian X) := Submission.JacobianChallenge.Jacobian.instAddCommGroup
+@[reducible] noncomputable instance instAddCommGroup : AddCommGroup (Jacobian X) := Submission.JacobianChallenge.Jacobian.instAddCommGroup
 
 -- data
-@[reducible] instance instTopologicalSpace : TopologicalSpace (Jacobian X) := Submission.JacobianChallenge.Jacobian.instTopologicalSpace
+@[reducible] noncomputable instance instTopologicalSpace : TopologicalSpace (Jacobian X) := Submission.JacobianChallenge.Jacobian.instTopologicalSpace
 
 -- Prop
 instance instT2Space : T2Space (Jacobian X) := Submission.JacobianChallenge.Jacobian.instT2Space
@@ -68,7 +68,7 @@ instance instT2Space : T2Space (Jacobian X) := Submission.JacobianChallenge.Jaco
 -- Prop
 instance instCompactSpace : CompactSpace (Jacobian X) := Submission.JacobianChallenge.Jacobian.instCompactSpace
 
-@[reducible] instance instChartedSpace : ChartedSpace (Fin (genus X) → ℂ) (Jacobian X) := Submission.JacobianChallenge.Jacobian.instChartedSpace
+@[reducible] noncomputable instance instChartedSpace : ChartedSpace (Fin (genus X) → ℂ) (Jacobian X) := Submission.JacobianChallenge.Jacobian.instChartedSpace
 
 -- Prop
 instance instIsManifold :
@@ -78,7 +78,7 @@ instance instIsManifold :
 instance instLieAddGroup :
     LieAddGroup (modelWithCornersSelf ℂ (Fin (genus X) → ℂ)) ω (Jacobian X) := Submission.JacobianChallenge.Jacobian.instLieAddGroup
 
-@[reducible] def ofCurve (P : X) : X → Jacobian X := Submission.JacobianChallenge.Jacobian.ofCurve P
+@[reducible] noncomputable def ofCurve (P : X) : X → Jacobian X := Submission.JacobianChallenge.Jacobian.ofCurve P
 
 theorem ofCurve_contMDiff (P : X) :
     ContMDiff (modelWithCornersSelf ℂ ℂ)
@@ -94,7 +94,7 @@ variable {Y : Type v} [TopologicalSpace Y] [T2Space Y] [CompactSpace Y] [Connect
 
 variable (f : X → Y) (hf : ContMDiff (modelWithCornersSelf ℂ ℂ) (modelWithCornersSelf ℂ ℂ) ω f)
 
-@[reducible] def pushforward (f : X → Y)
+@[reducible] noncomputable def pushforward (f : X → Y)
     (hf : ContMDiff (modelWithCornersSelf ℂ ℂ) (modelWithCornersSelf ℂ ℂ) ω f) :
     Jacobian X →ₜ+ Jacobian Y := Submission.JacobianChallenge.Jacobian.pushforward f hf
 
@@ -120,7 +120,7 @@ theorem pushforward_comp_apply (f : X → Y)
 
 -- if f is constant then the pullback should be the zero map, otherwise it's
 -- the usual pullback
-@[reducible] def pullback (f : X → Y)
+@[reducible] noncomputable def pullback (f : X → Y)
     (hf : ContMDiff (modelWithCornersSelf ℂ ℂ) (modelWithCornersSelf ℂ ℂ) ω f) :
     Jacobian Y →ₜ+ Jacobian X := Submission.JacobianChallenge.Jacobian.pullback f hf
 
@@ -138,7 +138,7 @@ theorem pullback_comp_apply (f : X → Y)
     (P : Jacobian Z) :
     pullback (g.comp f) (hg.comp hf) P = pullback f hf (pullback g hg P) := Submission.JacobianChallenge.Jacobian.pullback_comp_apply f hf g hg P
 
-@[reducible] def degree (f : X → Y)
+@[reducible] noncomputable def degree (f : X → Y)
     (hf : ContMDiff (modelWithCornersSelf ℂ ℂ) (modelWithCornersSelf ℂ ℂ) ω f) : ℕ := Submission.JacobianChallenge.Jacobian.degree f hf -- 0 for constant case
 
 theorem pushforward_pullback (f : X → Y)
