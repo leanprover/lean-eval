@@ -38,7 +38,7 @@ def IsMetricCompatible
   ∀ (Y Z : Π x : M, TangentSpace I x),
     CMDiff ∞ (T% Y) → CMDiff ∞ (T% Z) →
     ∀ (x : M) (v : TangentSpace I x),
-      extDerivFun (fun y : M => inner ℝ (Y y) (Z y)) x v =
+      mvfderiv I (fun y : M => inner ℝ (Y y) (Z y)) x v =
         inner ℝ (cov Y x v) (Z x) + inner ℝ (Y x) (cov Z x v)
 
 /-- The **Riemann curvature tensor** of `cov` on smooth vector fields:

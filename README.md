@@ -217,7 +217,7 @@ export PATH="$PWD/comparator/.lake/build/bin:$PATH"
 
 `lean4export` and `comparator` are Lean programs: `lake build` compiles each with
 the Lean toolchain pinned in *its own* `lean-toolchain` at the commit above (the
-v4.30.0-rc2 toolchain). This must match the toolchain that builds the workspace,
+v4.30.0 toolchain). This must match the toolchain that builds the workspace,
 because comparator builds `Challenge.olean` with the workspace toolchain and then
 reads it back with `lean4export`. If the two differ you get
 `failed to read file '.../Challenge.olean', incompatible header` — that error

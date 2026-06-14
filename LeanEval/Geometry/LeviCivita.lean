@@ -15,7 +15,7 @@ the metric — the **Levi-Civita connection**.
 
 mathlib has `CovariantDerivative` on a tangent bundle,
 `CovariantDerivative.torsion`, `ContMDiffCovariantDerivative`,
-`RiemannianBundle`, `IsContMDiffRiemannianBundle`, and `extDerivFun` — but
+`RiemannianBundle`, `IsContMDiffRiemannianBundle`, and `mvfderiv` — but
 no metric-compatibility predicate, no Levi-Civita existence/uniqueness, and
 no Koszul formula (`grep -ri LeviCivita\|metric.compatible`: no relevant
 hits). One helper definition (`IsMetricCompatible`, ~½ page) and an
@@ -53,7 +53,7 @@ def IsMetricCompatible
   ∀ (Y Z : Π x : M, TangentSpace I x),
     CMDiff ∞ (T% Y) → CMDiff ∞ (T% Z) →
     ∀ (x : M) (v : TangentSpace I x),
-      extDerivFun (fun y : M => inner ℝ (Y y) (Z y)) x v =
+      mvfderiv I (fun y : M => inner ℝ (Y y) (Z y)) x v =
         inner ℝ (cov Y x v) (Z x) + inner ℝ (Y x) (cov Z x v)
 
 /-- Two covariant derivatives **agree on smooth sections** if they produce

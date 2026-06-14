@@ -29,7 +29,7 @@ theorem vonNeumann_doubleCommutant_tfae
     List.TFAE
       [ Set.centralizer (Set.centralizer (S : Set (H →L[ℂ] H))) = S
       , IsClosed
-          (ContinuousLinearMap.toWOT (RingHom.id ℂ) H H '' (S : Set (H →L[ℂ] H)))
+          (ContinuousLinearMapWOT.ofCLM '' (S : Set (H →L[ℂ] H)))
       , IsClosed
           (ContinuousLinearMap.toPointwiseConvergenceCLM ℂ (RingHom.id ℂ) H H ''
             (S : Set (H →L[ℂ] H))) ] := by

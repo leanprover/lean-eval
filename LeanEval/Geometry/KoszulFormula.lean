@@ -45,7 +45,7 @@ def IsMetricCompatible
   ∀ (Y Z : Π x : M, TangentSpace I x),
     CMDiff ∞ (T% Y) → CMDiff ∞ (T% Z) →
     ∀ (x : M) (v : TangentSpace I x),
-      extDerivFun (fun y : M => inner ℝ (Y y) (Z y)) x v =
+      mvfderiv I (fun y : M => inner ℝ (Y y) (Z y)) x v =
         inner ℝ (cov Y x v) (Z x) + inner ℝ (Y x) (cov Z x v)
 
 /-- **Koszul formula.** For any smooth torsion-free metric-compatible
@@ -68,9 +68,9 @@ theorem koszul_formula
     (_hX : CMDiff ∞ (T% X)) (_hY : CMDiff ∞ (T% Y)) (_hZ : CMDiff ∞ (T% Z))
     (x : M) :
     2 * inner ℝ (cov Y x (X x)) (Z x) =
-      extDerivFun (fun y : M => inner ℝ (Y y) (Z y)) x (X x)
-      + extDerivFun (fun y : M => inner ℝ (X y) (Z y)) x (Y x)
-      - extDerivFun (fun y : M => inner ℝ (X y) (Y y)) x (Z x)
+      mvfderiv I (fun y : M => inner ℝ (Y y) (Z y)) x (X x)
+      + mvfderiv I (fun y : M => inner ℝ (X y) (Z y)) x (Y x)
+      - mvfderiv I (fun y : M => inner ℝ (X y) (Y y)) x (Z x)
       - inner ℝ (X x) (mlieBracket I Y Z x)
       - inner ℝ (Y x) (mlieBracket I X Z x)
       + inner ℝ (Z x) (mlieBracket I X Y x) := by
