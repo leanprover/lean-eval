@@ -25,6 +25,16 @@ dimensional Riemannian Hilbert manifolds. The `IsRiemannianManifold I M`
 hypothesis ties `edist` to `riemannianEDist`; full smoothness of the
 metric is needed for the proof to construct minimising geodesics via
 Picard–Lindelöf on the geodesic ODE.
+
+The `[I.Boundaryless]` hypothesis is also essential: on a manifold *with*
+boundary the equivalence fails. The closed interval `[0, 1]` (modelled on
+`𝓡∂ 1`) is metrically complete but not geodesically complete — a geodesic
+running toward an endpoint cannot extend to all of `ℝ` — so the backward
+direction `CompleteSpace M → IsGeodesicallyComplete M` breaks without it.
+
+This statement was corrected on 2026-06-14: the original omitted
+`[I.Boundaryless]`, and Lorenzo Luccioli, using Harmonic's Aristotle,
+gave a formal disproof via the `[0, 1]` counterexample. Thanks to both.
 -/
 
 /-- A path `γ : ℝ → M` is a **(constant-speed) geodesic** if there is
@@ -48,13 +58,14 @@ def IsGeodesicallyComplete (M : Type*) [EMetricSpace M] : Prop :=
     ∃ γext : ℝ → M, IsGeodesic γext ∧ ∀ t ∈ Set.Ioo a b, γext t = γ t
 
 /-- **Hopf–Rinow theorem.** For a connected, locally compact,
-finite-dimensional smooth Riemannian manifold `M`, metric completeness
-and geodesic completeness are equivalent. -/
+finite-dimensional smooth Riemannian manifold `M` *without boundary*,
+metric completeness and geodesic completeness are equivalent. -/
 @[eval_problem]
 theorem hopf_rinow
     {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     [FiniteDimensional ℝ E]
     {H : Type*} [TopologicalSpace H] (I : ModelWithCorners ℝ E H)
+    [I.Boundaryless]
     (M : Type*) [EMetricSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
     [Bundle.RiemannianBundle (fun x : M => TangentSpace I x)]
     [IsRiemannianManifold I M]
