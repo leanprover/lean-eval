@@ -38,6 +38,15 @@ The trusted supporting definitions (`Supported`, `AdaptedTo`,
 `IsPolyhedron`, `Subdivision`, `closedCell`, `IsBoundarySubpolyhedron`)
 are factored into `ChallengeDeps.lean` automatically by the multi-hole
 generator.
+
+This statement was corrected on 2026-06-14: the original
+`IsBoundarySubpolyhedron` admitted any convex hull of frontier points,
+including single non-vertex points of `∂P`, for which condition 4's
+support hypothesis is vacuous and spuriously forced the homotopy to
+freeze those points in time — making the lemma false. Lorenzo Luccioli,
+using Harmonic's Aristotle, gave a formal disproof. The repair restricts
+boundary subpolyhedra to genuine faces of `P` (`IsExtreme ℝ P`), matching
+the paper's "convex linear subpolyhedron of `∂P`". Thanks to both.
 -/
 
 open Set unitInterval Geometry
@@ -74,12 +83,17 @@ structure Subdivision (P : Set (Fin k → ℝ)) where
 def closedCell (P : Set (Fin k → ℝ)) (D : Finset (Fin k → ℝ)) : Set P :=
   { p | (p : Fin k → ℝ) ∈ convexHull ℝ (D : Set (Fin k → ℝ)) }
 
-/-- A *boundary subpolyhedron* of `P`: a subset of `P` whose image in `ℝᵏ`
-is itself a polyhedron and lies in the *intrinsic* frontier of `P`. -/
+/-- A *boundary subpolyhedron* of `P`: a **face** of `P` (an `IsExtreme`
+subset, the paper's "convex linear subpolyhedron of `∂P`") whose image in
+`ℝᵏ` is a polyhedron and lies in the *intrinsic* frontier of `P`. The
+face condition is what the construction keeps invariant (`u (I × Q × X) ⊆
+Q`); without it single interior points of `∂P` would qualify and condition
+4 would vacuously force the homotopy to freeze them in time. -/
 def IsBoundarySubpolyhedron {P : Set (Fin k → ℝ)} (Q : Set P) : Prop :=
   (∃ S : Finset (Fin k → ℝ),
       ((↑) : P → Fin k → ℝ) '' Q = convexHull ℝ (S : Set (Fin k → ℝ))) ∧
-    ((↑) : P → Fin k → ℝ) '' Q ⊆ intrinsicFrontier ℝ P
+    ((↑) : P → Fin k → ℝ) '' Q ⊆ intrinsicFrontier ℝ P ∧
+    IsExtreme ℝ P (((↑) : P → Fin k → ℝ) '' Q)
 
 /-- **Lemma B.0.1** of Morrison–Walker, *The Blob Complex*
 (arXiv:1009.5025, §B), continuous case. -/
