@@ -436,10 +436,17 @@ def repoLocalImportModules (root : System.FilePath) (moduleName : String) :
 
 /-! ## ILean metadata -/
 
+/-- A declaration's source range from the `.ilean`, as
+`[startLine, startColumn, endLine, endColumn]` (`.ilean` records these
+0-indexed; we convert lines to 1-indexed to match `offsetForLineColumn`).
+The range spans the *whole* declaration, doc comment through the end of the
+body, so `(endLine, endColumn)` is the precise end — no heuristic needed. -/
 structure IleanDeclEntry where
   name : String
   startLine : Nat
   startColumn : Nat
+  endLine : Nat
+  endColumn : Nat
   deriving Inhabited
 
 def loadIleanDeclRanges (root : System.FilePath) (moduleName : String) :
@@ -466,10 +473,12 @@ def loadIleanDeclRanges (root : System.FilePath) (moduleName : String) :
     | .error _ => continue
     | .ok arr =>
         if arr.size < 4 then continue
-        match arr[0]!.getNat?, arr[1]!.getNat? with
-        | .ok line, .ok col =>
-            out := out.push { name, startLine := line + 1, startColumn := col }
-        | _, _ => continue
+        match arr[0]!.getNat?, arr[1]!.getNat?, arr[2]!.getNat?, arr[3]!.getNat? with
+        | .ok line, .ok col, .ok endLine, .ok endCol =>
+            out := out.push
+              { name, startLine := line + 1, startColumn := col
+                endLine := endLine + 1, endColumn := endCol }
+        | _, _, _, _ => continue
   return out
 
 /-! ## Header scanning, namespace ops -/
@@ -1066,6 +1075,13 @@ structure DeclSpan where
   name : String
   start : Nat
   stop : Nat
+  /-- The precise end of the declaration (doc comment through end of body),
+  taken directly from the `.ilean` range. Unlike `stop` (the next
+  declaration's start, which overshoots), this ends exactly at the last
+  token, so removing `[start, declEnd)` deletes the whole declaration —
+  including a multi-paragraph doc comment — without truncating at an
+  interior blank line. -/
+  declEnd : Nat
   deriving Inhabited
 
 /-- Load every top-level declaration range from the module's `.ilean`, mapped
@@ -1074,18 +1090,19 @@ needs to slice the source by declaration. -/
 def loadDeclSpans (root : System.FilePath) (entry : EvalProblemMetadata)
     (sourceSrc : Source) : IO (Array DeclSpan) := do
   let declRanges ← loadIleanDeclRanges root entry.moduleName
-  let mut startsBuf : Array (String × Nat) := #[]
+  let mut startsBuf : Array (String × Nat × Nat) := #[]
   for ileanEntry in declRanges do
     let off ← sourceSrc.offsetForLineColumn ileanEntry.startLine ileanEntry.startColumn
-    startsBuf := startsBuf.push (ileanEntry.name, off)
-  let starts := startsBuf.qsort (fun a b => a.2 < b.2)
+    let endOff ← sourceSrc.offsetForLineColumn ileanEntry.endLine ileanEntry.endColumn
+    startsBuf := startsBuf.push (ileanEntry.name, off, endOff)
+  let starts := startsBuf.qsort (fun a b => a.2.1 < b.2.1)
   let mut spans : Array DeclSpan := #[]
   for i in [0:starts.size] do
-    let (name, start) := starts[i]!
+    let (name, start, declEnd) := starts[i]!
     let stop :=
-      if i + 1 < starts.size then starts[i+1]!.2
+      if i + 1 < starts.size then starts[i+1]!.2.1
       else findTopLevelEndOffset sourceSrc start
-    spans := spans.push { name, start, stop }
+    spans := spans.push { name, start, stop, declEnd }
   return spans
 
 /-- Apply a list of `(start, stop, replacement)` edits to `sourceText`. Edits
@@ -1099,40 +1116,6 @@ def applyEdits (sourceText : String) (edits : Array (Nat × Nat × String)) : St
     result := Source.slice src 0 start ++ replacement ++ Source.slice src stop src.size
   return result
 
-/-- Tighten the upper bound of a declaration's byte range. `.ilean` only
-records each declaration's *start*, so `loadDeclSpans` derives the stop as
-the next declaration's start (or the module's top-level `end`) — which can
-overshoot, eating intervening `namespace ...` / `end ...` lines when one
-declaration sits at root namespace and the next sits inside a nested
-namespace.
-
-This heuristic walks forward from `declStart`, line by line, until it hits
-either (a) a blank line (whitespace-only), or (b) a line starting with a
-top-level structural keyword (`namespace `, `end `, `end\n`). Either marks
-the end of the declaration's "paragraph". The result lies in
-`[declStart, cap]` and is safe to use for stripping a single declaration
-out of source text while preserving the surrounding namespace scaffolding. -/
-def declTightEnd (sourceSrc : Source) (declStart cap : Nat) : Nat := Id.run do
-  let n := min cap sourceSrc.size
-  let mut i := declStart
-  while i < n do
-    while i < n && sourceSrc[i]! != '\n' do
-      i := i + 1
-    if i >= n then return n
-    let afterNewline := i + 1
-    if afterNewline >= n then return afterNewline
-    let mut j := afterNewline
-    while j < n && (sourceSrc[j]! == ' ' || sourceSrc[j]! == '\t') do
-      j := j + 1
-    if j >= n || sourceSrc[j]! == '\n' then
-      return afterNewline
-    let probeEnd := min (j + 12) n
-    let probe := Source.slice sourceSrc j probeEnd
-    if probe.startsWith "namespace " || probe.startsWith "end " ||
-       probe.startsWith "end\n" then
-      return afterNewline
-    i := afterNewline
-  return n
 
 /-- Shared core of single- and multi-hole `ChallengeDeps.lean` rendering.
 
@@ -1490,7 +1473,7 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
            found in source module: {", ".intercalate missing.toList}"
   let helperRanges : Array (Nat × Nat) :=
     spans.filterMap fun s =>
-      if helperNames.contains s.name then some (s.start, declTightEnd src s.start s.stop)
+      if helperNames.contains s.name then some (s.start, s.declEnd)
       else none
   let localImports ← repoLocalImportModules root entry.moduleName
   -- Open the enclosing namespaces of the in-module helpers. When the problem
