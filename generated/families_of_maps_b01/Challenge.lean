@@ -37,6 +37,15 @@ The trusted supporting definitions (`Supported`, `AdaptedTo`,
 `IsPolyhedron`, `Subdivision`, `closedCell`, `IsBoundarySubpolyhedron`)
 are factored into `ChallengeDeps.lean` automatically by the multi-hole
 generator.
+
+This statement was corrected on 2026-06-14: the original
+`IsBoundarySubpolyhedron` admitted any convex hull of frontier points,
+including single non-vertex points of `∂P`, for which condition 4's
+support hypothesis is vacuous and spuriously forced the homotopy to
+freeze those points in time — making the lemma false. Lorenzo Luccioli,
+using Harmonic's Aristotle, gave a formal disproof. The repair restricts
+boundary subpolyhedra to genuine faces of `P` (`IsExtreme ℝ P`), matching
+the paper's "convex linear subpolyhedron of `∂P`". Thanks to both.
 -/
 
 open Set unitInterval Geometry
