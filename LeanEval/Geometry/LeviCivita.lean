@@ -23,6 +23,16 @@ hits). One helper definition (`IsMetricCompatible`, ~½ page) and an
 `CovariantDerivative` is bundled over all sections including non-smooth
 ones, so uniqueness is stated on the smooth-section subspace) are added
 here.
+
+A `[T2Space M]` hypothesis was added on 2026-06-14. We are not certain the
+statement is wrong without it, but it looks suspicious: uniqueness on
+smooth sections reduces to global smooth vector fields spanning every
+tangent space, which (given how mathlib's bump-function machinery works)
+needs `M` Hausdorff, and mathlib does not bundle Hausdorffness into
+`IsManifold`. Since the classical Levi-Civita theorem is always stated for
+(Hausdorff) manifolds, the original intent is better reflected with
+`[T2Space M]`, so we add it now. Lorenzo Luccioli, using Harmonic's
+Aristotle, flagged the missing hypothesis. Thanks to both.
 -/
 
 open scoped Manifold ContDiff Bundle Topology
@@ -72,7 +82,7 @@ theorem levi_civita_exists_unique
     {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
       [FiniteDimensional ℝ E] [CompleteSpace E]
     {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
-    {M : Type*} [TopologicalSpace M] [ChartedSpace H M]
+    {M : Type*} [TopologicalSpace M] [T2Space M] [ChartedSpace H M]
       [IsManifold I ∞ M]
     [RiemannianBundle (fun (x : M) ↦ TangentSpace I x)]
     [IsContMDiffRiemannianBundle I ∞ E (fun (x : M) ↦ TangentSpace I x)] :
