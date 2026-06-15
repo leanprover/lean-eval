@@ -984,6 +984,20 @@ private def variableShadowedByTheorem (varText : String)
     if !theoremBinderNames.contains name then return false
   return true
 
+/-- Top-level command keywords that begin a fresh declaration/command. A
+whitespace-indented line opening with one of these is never a continuation of a
+preceding `variable`/`universe` block (Lean permits indented top-level
+commands), so the block scanner must stop before absorbing it. -/
+private def startsWithCommandKeyword (stripped : String) : Bool := Id.run do
+  if stripped.startsWith "@[" then return true
+  let kws := #["def", "theorem", "lemma", "instance", "abbrev", "opaque",
+    "axiom", "class", "structure", "inductive", "namespace", "section", "end",
+    "variable", "universe", "open", "example", "noncomputable", "private",
+    "protected", "scoped", "attribute", "macro", "notation", "syntax"]
+  for kw in kws do
+    if startsWithKeyword stripped kw then return true
+  return false
+
 /-- Walk `source` up to `extracted?`'s start line, collecting top-level command
 blocks that begin with `keyword` (e.g. `variable` or `universe`), respecting
 `section`/`namespace` scoping: a block declared inside a `section`/`namespace`
@@ -1055,6 +1069,7 @@ def extractScopedCommandBlocks (source : String) (extracted? : Option ExtractedT
         let next := lines[idx]!
         if next.trimAscii.toString.isEmpty then break
         if !isLineStartingWithWhitespace next then break
+        if startsWithCommandKeyword next.trimAsciiStart.toString then break
         block := block ++ "\n" ++ next
         idx := idx + 1
       if keep block then

@@ -221,6 +221,26 @@ def main : IO UInt32 := do
     let block := extractContextUniverses source (some extracted)
     pure <| assertEq "out-of-scope universe dropped" block ""
 
+  -- An indented top-level declaration following `universe` is a fresh command,
+  -- not a continuation of the binder list, and must not be absorbed into the
+  -- emitted block (which would produce malformed `Challenge.lean`).
+  check "extractContextUniverses stops at indented declaration" passes fails do
+    let source :=
+      "import Mathlib\n" ++
+      "universe u\n" ++
+      "  def Foo := Type u\n" ++
+      "theorem target : True := trivial\n"
+    let extracted : ExtractedTheorem := {
+      declarationName := "target"
+      module := "Demo"
+      startLine := 4, startColumn := 0
+      endLine := 4, endColumn := 30
+      sameModuleDependencies := #[]
+      kind := "theorem"
+    }
+    let block := extractContextUniverses source (some extracted)
+    pure <| assertEq "universe line only" block "universe u\n\n"
+
   let passCount ← passes.get
   let failCount ← fails.get
   IO.println s!"\n{passCount} passed, {failCount} failed."
