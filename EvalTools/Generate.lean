@@ -984,14 +984,32 @@ private def variableShadowedByTheorem (varText : String)
     if !theoremBinderNames.contains name then return false
   return true
 
-def extractContextVariables (source : String) (extracted? : Option ExtractedTheorem)
-    (theoremBinderNames : Array String) : String := Id.run do
+/-- Top-level command keywords that begin a fresh declaration/command. A
+whitespace-indented line opening with one of these is never a continuation of a
+preceding `variable`/`universe` block (Lean permits indented top-level
+commands), so the block scanner must stop before absorbing it. -/
+private def startsWithCommandKeyword (stripped : String) : Bool := Id.run do
+  if stripped.startsWith "@[" then return true
+  let kws := #["def", "theorem", "lemma", "instance", "abbrev", "opaque",
+    "axiom", "class", "structure", "inductive", "namespace", "section", "end",
+    "variable", "universe", "open", "example", "noncomputable", "private",
+    "protected", "scoped", "attribute", "macro", "notation", "syntax"]
+  for kw in kws do
+    if startsWithKeyword stripped kw then return true
+  return false
+
+/-- Walk `source` up to `extracted?`'s start line, collecting top-level command
+blocks that begin with `keyword` (e.g. `variable` or `universe`), respecting
+`section`/`namespace` scoping: a block declared inside a `section`/`namespace`
+goes out of scope at the matching `end`. Multi-line blocks absorb following
+whitespace-indented continuation lines. Each collected block is filtered through
+`keep`; only blocks for which `keep` returns true are emitted. Returns the kept
+blocks joined by newlines with a trailing blank line, or `""` if none. -/
+def extractScopedCommandBlocks (source : String) (extracted? : Option ExtractedTheorem)
+    (keyword : String) (keep : String → Bool) : String := Id.run do
   let lines := source.splitOn "\n"
   let targetLine? : Option Nat := extracted?.map fun e => e.startLine
-  -- One layer per `section`/`namespace` we are still inside. A `variable`
-  -- declared in a `section`/`namespace` goes out of scope at the matching
-  -- `end`; treating both the same way matches Lean's scoping for `variable`.
-  let mut variableLayers : Array (Array String) := #[#[]]
+  let mut layers : Array (Array String) := #[#[]]
   let mut frameDepth : Nat := 0
   let mut inBlockComment := false
   let mut idx : Nat := 0
@@ -1034,14 +1052,14 @@ def extractContextVariables (source : String) (extracted? : Option ExtractedTheo
       continue
     if startsWithKeyword stripped "namespace" || startsWithKeyword stripped "section" then
       frameDepth := frameDepth + 1
-      variableLayers := variableLayers.push #[]
+      layers := layers.push #[]
       idx := idx + 1
     else if startsWithKeyword stripped "end" then
       if frameDepth > 0 then
         frameDepth := frameDepth - 1
-        variableLayers := variableLayers.pop
+        layers := layers.pop
       idx := idx + 1
-    else if startsWithKeyword stripped "variable" then
+    else if startsWithKeyword stripped keyword then
       let mut block := line
       idx := idx + 1
       while idx < lines.length do
@@ -1051,20 +1069,37 @@ def extractContextVariables (source : String) (extracted? : Option ExtractedTheo
         let next := lines[idx]!
         if next.trimAscii.toString.isEmpty then break
         if !isLineStartingWithWhitespace next then break
+        if startsWithCommandKeyword next.trimAsciiStart.toString then break
         block := block ++ "\n" ++ next
         idx := idx + 1
-      if !variableShadowedByTheorem block theoremBinderNames then
-        let layerIdx := variableLayers.size - 1
-        let layer := variableLayers[layerIdx]!.push block
-        variableLayers := variableLayers.set! layerIdx layer
+      if keep block then
+        let layerIdx := layers.size - 1
+        let layer := layers[layerIdx]!.push block
+        layers := layers.set! layerIdx layer
     else
       idx := idx + 1
   let mut flat : Array String := #[]
-  for layer in variableLayers do
+  for layer in layers do
     for v in layer do
       flat := flat.push v
   if flat.isEmpty then return ""
   return "\n".intercalate flat.toList ++ "\n\n"
+
+def extractContextVariables (source : String) (extracted? : Option ExtractedTheorem)
+    (theoremBinderNames : Array String) : String :=
+  -- One layer per `section`/`namespace` we are still inside, matching Lean's
+  -- scoping for `variable`. Blocks shadowed by the theorem's own binders are
+  -- dropped (they would otherwise be flagged as unused).
+  extractScopedCommandBlocks source extracted? "variable"
+    (fun block => !variableShadowedByTheorem block theoremBinderNames)
+
+/-- Collect top-level `universe` commands in scope at the theorem. A source
+module may declare `universe u v` and refer to `u`/`v` in a theorem whose
+reconstructed `Challenge.lean` slice (`theorem … := by sorry`) would otherwise
+have no binder for them, failing with `unknown universe level`. Re-emitting the
+in-scope `universe` commands restores them. -/
+def extractContextUniverses (source : String) (extracted? : Option ExtractedTheorem) : String :=
+  extractScopedCommandBlocks source extracted? "universe" (fun _ => true)
 
 /-! ## Render ChallengeDeps.lean -/
 
@@ -1621,6 +1656,8 @@ private def renderWorkspaceSingleHole (root : System.FilePath) (entry : EvalProb
     if hasChallengeDeps then "import ChallengeDeps\nimport Submission.Helpers\n\n"
     else "import Mathlib\nimport Submission.Helpers\n\n"
   let theoremBinderNames := binderIntroducedNames theoremStatement
+  let contextUniverseBlock :=
+    extractContextUniverses sourceText (some extracted)
   let contextVariablesBlock :=
     extractContextVariables sourceText (some extracted) theoremBinderNames
   let includeNamespaces := hasChallengeDeps || !localImports.isEmpty
@@ -1641,13 +1678,13 @@ private def renderWorkspaceSingleHole (root : System.FilePath) (entry : EvalProb
   let readmeLines := renderReadmeLines entry #[extracted] (multiHole := false)
   let readme := "\n".intercalate readmeLines.toList ++ "\n"
   let challengeFile :=
-    challengeImport ++ contextOpenBlock ++ contextVariablesBlock ++
+    challengeImport ++ contextOpenBlock ++ contextUniverseBlock ++ contextVariablesBlock ++
     s!"theorem {theoremName} {theoremStatement} := by\n  sorry\n"
   let solutionFile :=
-    solutionImports ++ contextOpenBlock ++ contextVariablesBlock ++
+    solutionImports ++ contextOpenBlock ++ contextUniverseBlock ++ contextVariablesBlock ++
     s!"theorem {theoremName} {theoremStatement} := by\n  exact {solutionExact}\n"
   let submissionFile :=
-    submissionImports ++ contextOpenBlock ++ contextVariablesBlock ++
+    submissionImports ++ contextOpenBlock ++ contextUniverseBlock ++ contextVariablesBlock ++
     "namespace Submission\n\n" ++
     s!"theorem {theoremName} {theoremStatement} := by\n  sorry\n\n" ++
     "end Submission\n"

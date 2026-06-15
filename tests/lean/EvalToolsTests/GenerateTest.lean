@@ -180,6 +180,67 @@ def main : IO UInt32 := do
       (injectSolutionHoleModifiers "theorem foo : True := " "foo")
       none
 
+  -- Regression for https://github.com/leanprover/lean-eval/issues/421:
+  -- a top-level `universe` command in scope at the theorem must be re-emitted,
+  -- or the reconstructed single-hole `Challenge.lean` slice fails with
+  -- `unknown universe level`.
+  check "extractContextUniverses keeps top-level universe in scope" passes fails do
+    let source :=
+      "import Mathlib\n" ++
+      "universe v u\n" ++
+      "def IsTopos (E : Type u) : Prop := True\n" ++
+      "theorem target {E : Type u} : True := trivial\n"
+    let extracted : ExtractedTheorem := {
+      declarationName := "target"
+      module := "Demo"
+      startLine := 4, startColumn := 0
+      endLine := 4, endColumn := 40
+      sameModuleDependencies := #[]
+      kind := "theorem"
+    }
+    let block := extractContextUniverses source (some extracted)
+    pure <| assertEq "universe line emitted" ((block.find? "universe v u").isSome) true
+
+  -- A `universe` declared inside a `section`/`namespace` that has already been
+  -- closed before the theorem is out of scope and must not be re-emitted.
+  check "extractContextUniverses drops out-of-scope universe" passes fails do
+    let source :=
+      "import Mathlib\n" ++
+      "section\n" ++
+      "universe w\n" ++
+      "end\n" ++
+      "theorem target : True := trivial\n"
+    let extracted : ExtractedTheorem := {
+      declarationName := "target"
+      module := "Demo"
+      startLine := 5, startColumn := 0
+      endLine := 5, endColumn := 30
+      sameModuleDependencies := #[]
+      kind := "theorem"
+    }
+    let block := extractContextUniverses source (some extracted)
+    pure <| assertEq "out-of-scope universe dropped" block ""
+
+  -- An indented top-level declaration following `universe` is a fresh command,
+  -- not a continuation of the binder list, and must not be absorbed into the
+  -- emitted block (which would produce malformed `Challenge.lean`).
+  check "extractContextUniverses stops at indented declaration" passes fails do
+    let source :=
+      "import Mathlib\n" ++
+      "universe u\n" ++
+      "  def Foo := Type u\n" ++
+      "theorem target : True := trivial\n"
+    let extracted : ExtractedTheorem := {
+      declarationName := "target"
+      module := "Demo"
+      startLine := 4, startColumn := 0
+      endLine := 4, endColumn := 30
+      sameModuleDependencies := #[]
+      kind := "theorem"
+    }
+    let block := extractContextUniverses source (some extracted)
+    pure <| assertEq "universe line only" block "universe u\n\n"
+
   let passCount ← passes.get
   let failCount ← fails.get
   IO.println s!"\n{passCount} passed, {failCount} failed."
