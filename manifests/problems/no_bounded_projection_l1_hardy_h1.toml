@@ -1,9 +1,0 @@
-id = "no_bounded_projection_l1_hardy_h1"
-title = "No bounded projection from L^1 onto H^1"
-test = false
-module = "LeanEval.Analysis.HardyProjection"
-holes = ["no_bounded_projection_L1_hardyH1"]
-submitter = "Yongxi Lin"
-notes = "The problem uses the boundary model of the Hardy space on the disk. The ambient space is L^1 of the unit circle, represented as mathlib's Lp space over normalized Haar measure on AddCircle 1. The subspace H^1 is defined by vanishing of all negative Fourier coefficients. The theorem is phrased as nonexistence of a topological complement via Submodule.IsTopCompl, whose continuous_projection field packages the bounded projection associated to an algebraic complement."
-source = "D. J. Newman, 'The nonexistence of projections from L^1 to H^1', Proc. Amer. Math. Soc.; W. Rudin, Fourier Analysis on Groups; Yongxi Lin, Hardy Space Thesis, Theorem 2.8."
-informal_solution = "Assume H^1 has a topological complement in L^1. The associated continuous projection P from L^1 onto H^1 can be averaged over rotations of the circle to obtain a bounded projection commuting with translations. A translation-invariant bounded operator on the circle acts diagonally on Fourier coefficients. Since the range is H^1 and the operator is a projection fixing H^1, its multiplier is 1 on nonnegative frequencies and 0 on negative frequencies, so on trigonometric polynomials it agrees with the Riesz projection. But the Riesz projection is not bounded on L^1 (equivalently, the Hilbert transform is not bounded on L^1), giving a contradiction."

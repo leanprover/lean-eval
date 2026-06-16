@@ -1,0 +1,7 @@
+id = "H1_not_closedComplemented"
+title = "No bounded projection from L^1 onto H^1"
+test = false
+module = "LeanEval.Analysis.HardySpace"
+holes = ["H1_not_closedComplemented"]
+submitter = "Yongxi Lin"
+source = "D. J. Newman, 'The nonexistence of projections from L^1 to H^1', Proc. Amer. Math. Soc.; W. Rudin, Fourier Analysis on Groups; Yongxi Lin, Hardy Space and Hartogs Triangle, Theorem 2.8."
