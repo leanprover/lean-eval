@@ -1,9 +1,8 @@
 id = "riesz_brothers_theorem"
-title = "F. and M. Riesz brothers theorem"
+title = "Riesz brothers' theorem"
 test = false
 module = "LeanEval.Analysis.RieszBrothers"
 holes = ["riesz_brothers_theorem"]
 submitter = "Yongxi Lin"
-notes = "The theorem is stated for complex measures on the unit circle, represented as AddCircle 1. The hypothesis uses vector-measure integration to encode the vanishing analytic moments int z^n dmu = 0 for n >= 1. The conclusion strengthens absolute continuity by giving an H^1 density h with mu = m.withDensityᵥ h and vanishing negative Fourier coefficients."
-source = "F. and M. Riesz, 1916; W. Rudin, Real and Complex Analysis; N. K. Nikolski, Operators, Functions, and Systems: An Easy Reading, Volume I: Hardy, Hankel, and Toeplitz."
-informal_solution = "One proof, as in Rudin's Real and Complex Analysis, uses the Poisson integral of the measure. The vanishing analytic moments force the Poisson integral to be the real part of an analytic H^1 function, and uniqueness of the Poisson integral representation identifies the measure with the boundary density h dm. Another operator-theoretic proof, as in Nikolski's Operators, Functions, and Systems, Volume I, interprets the moment condition through the unilateral shift/invariant subspace picture and is closely related to Wold's decomposition."
+source = "W. Rudin, Real and Complex Analysis; N. K. Nikolski, Operators, Functions, and Systems: An Easy Reading, Volume I: Hardy, Hankel, and Toeplitz."
+informal_solution = "One proof, given in Rudin's Real and Complex Analysis, uses the uniqueness of the Poisson integral representation. Another proof presented in Nikolski's book relies on Wold's decomposition."
