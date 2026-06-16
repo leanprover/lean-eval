@@ -1,0 +1,9 @@
+id = "semilinear_poisson_radial_symmetry"
+title = "Radial symmetry for positive semilinear Poisson solutions"
+test = false
+module = "LeanEval.Analysis.PDE"
+holes = ["semilinear_poisson_radial_symmetry"]
+submitter = "Yongxi Lin"
+notes = "The theorem is stated on the open unit ball in EuclideanSpace R (Fin n). The semilinear Dirichlet problem is encoded using mathlib's inner-product-space Laplacian: -Delta u = f(u) in the open ball and u = 0 on the unit sphere. The conclusion packages radiality as the existence of a nonnegative strictly decreasing profile v on [0,1] with u x = v ||x|| on the closed unit ball."
+source = "B. Gidas, W. M. Ni, and L. Nirenberg, Symmetry and related properties via the maximum principle, Comm. Math. Phys. 68 (1979), 209-243. Also stated as Theorem 2 (Radial symmetry) in L. C. Evans, Partial Differential Equations, Section 9 on nonvariational techniques."
+informal_solution = "Use the method of moving planes. Compare u with its reflection across a moving hyperplane. The Lipschitz condition on f lets the difference satisfy a linear elliptic inequality, so the maximum principle and Hopf boundary lemma force one-sided monotonicity until the plane reaches the center. Repeating this in every direction shows that u is invariant under all rotations, hence u x depends only on ||x||. The Hopf lemma and the moving-plane comparison give strict decrease of the radial profile as the radius increases."
