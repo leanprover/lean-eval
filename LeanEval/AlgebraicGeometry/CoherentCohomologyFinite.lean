@@ -26,7 +26,10 @@ open CategoryTheory AlgebraicGeometry TensorProduct
 namespace LeanEval
 namespace AlgebraicGeometry
 
-variable (X : Scheme.{0}) (M : X.Modules)
+-- `X` and `M` are implicit at the variable level so that the eval pipeline's
+-- generated `Solution.lean` can delegate to `Submission` without threading `X`
+-- and `M` through every call: they are inferred from `f` and the conclusion.
+variable {X : Scheme.{0}} {M : X.Modules}
 
 /-- The category of abelian sheaves on `X` has enough injectives, hence
 `Ext`-groups, hence the sheaf cohomology `Sheaf.H` used below is available. -/
