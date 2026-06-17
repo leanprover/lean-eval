@@ -1,13 +1,11 @@
-/-
-Copyright (c) 2026 Brian Nugent. All rights reserved.
-Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Brian Nugent
--/
 import Mathlib
 import EvalTools.Markers
 
 /-!
 # Finite-dimensionality of coherent cohomology
+
+Author: Brian Nugent.
+
 
 Brian Nugent's formalization of the statement that a coherent sheaf on a scheme
 proper over `ℚ` has finite-dimensional cohomology in every degree (Grothendieck's
