@@ -1,0 +1,12 @@
+{
+  "id": "coherent_cohomology_finite_dimensional",
+  "module": "LeanEval.AlgebraicGeometry.CoherentCohomologyFinite",
+  "holes": [
+    {
+      "name": "LeanEval.AlgebraicGeometry.coherent_cohomology_finite_dimensional",
+      "basename": "coherent_cohomology_finite_dimensional",
+      "kind": "theorem",
+      "body": "/-- A coherent sheaf `M` (here: quasi-coherent and of finite type, which on the\nlocally Noetherian `X` is coherent) on a scheme `X` proper over `\u211a` has\nfinite-dimensional cohomology in every degree. -/\ntheorem coherent_cohomology_finite_dimensional\n    (f : X \u27f6 Spec (CommRingCat.of \u211a)) [IsProper f]\n    [M.IsFiniteType] [M.IsQuasicoherent] (n : \u2115) :\n    Module.Finite \u211a (\u211a \u2297[\u2124] M.sheaf.H n) := by\n  sorry"
+    }
+  ]
+}

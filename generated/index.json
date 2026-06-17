@@ -253,6 +253,17 @@
     "generated_path": "generated/ci_regenerate_main_check"
   },
   {
+    "id": "coherent_cohomology_finite_dimensional",
+    "title": "Coherent cohomology of a proper scheme over \u211a is finite-dimensional",
+    "test": false,
+    "submitter": "Brian Nugent",
+    "module": "LeanEval.AlgebraicGeometry.CoherentCohomologyFinite",
+    "holes": [
+      "coherent_cohomology_finite_dimensional"
+    ],
+    "generated_path": "generated/coherent_cohomology_finite_dimensional"
+  },
+  {
     "id": "commProb_closed",
     "title": "Commuting probabilities are closed",
     "test": false,
