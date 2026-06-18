@@ -1,0 +1,9 @@
+id = "annulus_theorem"
+title = "The Annulus Theorem"
+test = false
+module = "LeanEval.Topology.AnnulusTheorem"
+holes = ["annulus_theorem"]
+submitter = "Kim Morrison"
+notes = "The closed region between two disjoint, nested, locally flat embedded n-spheres in ℝⁿ⁺¹ is homeomorphic to Sⁿ × [0,1]. Local flatness is essential (the Alexander horned sphere is a counterexample without it). This was the hard core of Kirby's stable-homeomorphism work in ambient dimension ≥ 5; the ambient-dimension-4 case (n+1 = 4) is Quinn's, building on Freedman. The 'inside' of a sphere is defined via bounded complementary components rather than the Jordan–Brouwer theorem, which Mathlib lacks."
+source = "R. C. Kirby, *Stable homeomorphisms and the annulus conjecture*, Ann. of Math. 89 (1969); F. Quinn, *Ends of maps III: dimensions 4 and 5*, J. Differential Geom. 17 (1982). Low dimensions are classical (Radó, Moise)."
+informal_solution = "No formalization is feasible today: there is no Jordan–Brouwer separation, no theory of locally flat embeddings, no handle/torus-trick machinery, and no Freedman–Quinn 4-dimensional topology in Mathlib. The 'inside' definition is unconditional, so the statement is meaningful, but a proof would require essentially all of geometric topology in this range."
