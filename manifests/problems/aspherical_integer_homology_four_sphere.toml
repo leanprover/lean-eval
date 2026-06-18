@@ -1,0 +1,9 @@
+id = "aspherical_integer_homology_four_sphere"
+title = "Existence of an aspherical integer homology 4-sphere"
+test = false
+module = "LeanEval.Topology.AsphericalHomologySphere"
+holes = ["aspherical_integer_homology_four_sphere"]
+submitter = "Kim Morrison"
+notes = "Resolves [Kir97, Problem 4.17]: is there a closed aspherical 4-manifold that is an integer homology 4-sphere? Tschantz constructed such manifolds; they even admit metrics of non-positive curvature. We bundle a closed topological 4-manifold and ask for it to be aspherical (all higher homotopy groups vanish) and to have the integral singular homology of S⁴ in every degree."
+source = "J. G. Ratcliffe and S. T. Tschantz, *On the Davis hyperbolic 4-manifold*, Topology Appl. 111 (2001); see also the discussion of [Kir97, Problem 4.17] in the K3 problem list. Earlier, F. Luo constructed an aspherical rational homology 4-sphere (1988)."
+informal_solution = "No formalization is feasible today: Mathlib has no construction of aspherical 4-manifolds, no hyperbolic geometry in dimension 4, and nothing resembling the Davis/Tschantz manifolds. The intended witness is a closed hyperbolic-flavoured 4-manifold whose fundamental group is a 4-dimensional duality group with the integral homology of S⁴."
