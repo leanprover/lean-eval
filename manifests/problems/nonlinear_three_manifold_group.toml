@@ -1,0 +1,9 @@
+id = "nonlinear_three_manifold_group"
+title = "A 3-manifold group with no faithful representation into GL(4, ℝ)"
+test = false
+module = "LeanEval.Topology.NonlinearThreeManifoldGroup"
+holes = ["nonlinear_three_manifold_group"]
+submitter = "Kim Morrison"
+notes = "Resolves [Kir97, Problem 3.33] (Thurston): does every finitely generated 3-manifold group admit a faithful representation into GL(4, ℝ)? The answer is no. Button exhibited closed graph manifolds whose fundamental groups have no faithful representation into GL(4, k) for any field k; here we state the negative answer over ℝ. A path-component of a topological 3-manifold is itself a closed 3-manifold, so connectedness need not be assumed."
+source = "J. O. Button, *Aspherical 3-manifold groups not in GL(4, k) for any field k*, arXiv:1404.4639 (2014). See the discussion of [Kir97, Problem 3.33] in the K3 problem list."
+informal_solution = "No formalization is feasible today: Mathlib has no graph manifolds and none of the obstruction theory (the structure of 3-manifold groups, behaviour under JSJ decomposition) Button uses. The intended witness is a closed graph manifold whose fundamental group cannot embed in any GL(4, k)."
