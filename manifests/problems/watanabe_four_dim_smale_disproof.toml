@@ -1,0 +1,9 @@
+id = "watanabe_four_dim_smale_disproof"
+title = "Watanabe's disproof of the 4-dimensional Smale conjecture"
+test = false
+module = "LeanEval.Topology.WatanabeSmaleDisproof"
+holes = ["watanabe_four_dim_smale_disproof"]
+submitter = "Kim Morrison"
+notes = "Resolves [Kir97, Problems 4.34 and 4.126] negatively: the 4-dimensional generalized Smale conjecture (O(5) ↪ Diff(S⁴) is a homotopy equivalence, equivalently Diff(D⁴ rel ∂) is contractible) is false. Watanabe showed πₖ(Diff(D⁴ rel ∂)) ⊗ ℚ ≠ 0 for many k, including k = 1, via configuration-space integrals. We state this as the negation of the exact four-dimensional analogue of the (true) S³ Smale conjecture in SmaleConjecture.lean — relative parameterized form, because Mathlib has no C^∞ topology on diffeomorphism groups yet."
+source = "T. Watanabe, *Some exotic nontrivial elements of the rational homotopy groups of Diff(S⁴)*, arXiv:1812.02448 (2018). Pairs with the positive S³ statement of Hatcher (Ann. of Math. 117, 1983) in SmaleConjecture.lean."
+informal_solution = "No formalization is feasible today: this needs the C^∞ topology on diffeomorphism groups, configuration-space integrals / Kontsevich classes, and the graph-cohomology machinery Watanabe uses. The statement is the negation of the parameterized homotopy-equivalence claim, which Watanabe's nontriviality result refutes."
