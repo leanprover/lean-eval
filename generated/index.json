@@ -33,6 +33,17 @@
     "generated_path": "generated/anosov_bowen_shadowing"
   },
   {
+    "id": "aspherical_integer_homology_four_sphere",
+    "title": "Existence of an aspherical integer homology 4-sphere",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.AsphericalHomologySphere",
+    "holes": [
+      "aspherical_integer_homology_four_sphere"
+    ],
+    "generated_path": "generated/aspherical_integer_homology_four_sphere"
+  },
+  {
     "id": "baer_suzuki",
     "title": "Baer\u2013Suzuki theorem",
     "test": false,
@@ -1428,6 +1439,17 @@
     "generated_path": "generated/noncomputable_hole_example"
   },
   {
+    "id": "nonlinear_three_manifold_group",
+    "title": "A 3-manifold group with no faithful representation into GL(4, \u211d)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.NonlinearThreeManifoldGroup",
+    "holes": [
+      "nonlinear_three_manifold_group"
+    ],
+    "generated_path": "generated/nonlinear_three_manifold_group"
+  },
+  {
     "id": "novikov_unsolvable",
     "title": "Novikov's theorem: the word problem is undecidable for finitely presented groups",
     "test": false,
@@ -2086,6 +2108,17 @@
       "there_are_17_wallpaper_groups"
     ],
     "generated_path": "generated/wallpaper_groups_17"
+  },
+  {
+    "id": "watanabe_four_dim_smale_disproof",
+    "title": "Watanabe's disproof of the 4-dimensional Smale conjecture",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.WatanabeSmaleDisproof",
+    "holes": [
+      "watanabe_four_dim_smale_disproof"
+    ],
+    "generated_path": "generated/watanabe_four_dim_smale_disproof"
   },
   {
     "id": "weak_morse_inequality",
