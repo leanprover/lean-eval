@@ -1,6 +1,7 @@
 import Mathlib
 
 open scoped Manifold ENNReal ContDiff
+open Bundle
 
 namespace LeanEval
 namespace Geometry
@@ -21,9 +22,20 @@ bounded open interval extends to all of `ℝ`, the metric analogue of
 
 Finite dimensionality is essential: Hopf–Rinow fails on infinite-
 dimensional Riemannian Hilbert manifolds. The `IsRiemannianManifold I M`
-hypothesis ties `edist` to `riemannianEDist`; full smoothness of the
-metric is needed for the proof to construct minimising geodesics via
-Picard–Lindelöf on the geodesic ODE.
+hypothesis ties `edist` to `riemannianEDist`.
+
+Smoothness of the metric tensor is also essential, and a bare
+`Bundle.RiemannianBundle` does not provide it: it equips each fibre with an
+inner product but imposes no regularity across base points, so the metric may
+be arbitrarily rough. We therefore require
+`[IsContMDiffRiemannianBundle I ∞ E …]` (with its companion
+`[IsContinuousRiemannianBundle E …]`). Without it the equivalence is false: a
+flat metric cone of apex angle `< 2π` is topologically `ℝ²`, hence a
+boundaryless smooth manifold, and is connected, proper, locally compact and
+complete; but a radial geodesic running into the apex admits no extension, so
+it is metrically complete yet not geodesically complete. The smooth metric is
+exactly what lets the proof construct minimising geodesics via Picard–Lindelöf
+on the geodesic ODE.
 
 The `[I.Boundaryless]` hypothesis is also essential: on a manifold *with*
 boundary the equivalence fails. The closed interval `[0, 1]` (modelled on
@@ -31,9 +43,11 @@ boundary the equivalence fails. The closed interval `[0, 1]` (modelled on
 running toward an endpoint cannot extend to all of `ℝ` — so the backward
 direction `CompleteSpace M → IsGeodesicallyComplete M` breaks without it.
 
-This statement was corrected on 2026-06-14: the original omitted
-`[I.Boundaryless]`, and Lorenzo Luccioli, using Harmonic's Aristotle,
-gave a formal disproof via the `[0, 1]` counterexample. Thanks to both.
+This statement was corrected twice, both times thanks to Lorenzo Luccioli using
+Harmonic's Aristotle. On 2026-06-14 the missing `[I.Boundaryless]` was added,
+after a formal disproof via the `[0, 1]` counterexample. On 2026-06-18 the
+missing metric-smoothness hypotheses were added, after Aristotle flagged the
+flat-cone counterexample described above. Thanks to both.
 -/
 
 /-- A path `γ : ℝ → M` is a **(constant-speed) geodesic** if there is

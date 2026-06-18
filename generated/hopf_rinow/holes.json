@@ -6,7 +6,7 @@
       "name": "LeanEval.Geometry.hopf_rinow",
       "basename": "hopf_rinow",
       "kind": "theorem",
-      "body": "/-- **Hopf\u2013Rinow theorem.** For a connected, locally compact,\nfinite-dimensional smooth Riemannian manifold `M` *without boundary*,\nmetric completeness and geodesic completeness are equivalent. -/\ntheorem hopf_rinow\n    {E : Type*} [NormedAddCommGroup E] [NormedSpace \u211d E]\n    [FiniteDimensional \u211d E]\n    {H : Type*} [TopologicalSpace H] (I : ModelWithCorners \u211d E H)\n    [I.Boundaryless]\n    (M : Type*) [EMetricSpace M] [ChartedSpace H M] [IsManifold I \u221e M]\n    [Bundle.RiemannianBundle (fun x : M => TangentSpace I x)]\n    [IsRiemannianManifold I M]\n    [LocallyCompactSpace M] [ConnectedSpace M] :\n    IsGeodesicallyComplete M \u2194 CompleteSpace M := by\n  sorry"
+      "body": "/-- **Hopf\u2013Rinow theorem.** For a connected, locally compact,\nfinite-dimensional smooth Riemannian manifold `M` *without boundary*,\nmetric completeness and geodesic completeness are equivalent. -/\ntheorem hopf_rinow\n    {E : Type*} [NormedAddCommGroup E] [NormedSpace \u211d E]\n    [FiniteDimensional \u211d E]\n    {H : Type*} [TopologicalSpace H] (I : ModelWithCorners \u211d E H)\n    [I.Boundaryless]\n    (M : Type*) [EMetricSpace M] [ChartedSpace H M] [IsManifold I \u221e M]\n    [Bundle.RiemannianBundle (fun x : M => TangentSpace I x)]\n    [IsContMDiffRiemannianBundle I \u221e E (fun x : M => TangentSpace I x)]\n    [IsContinuousRiemannianBundle E (fun x : M => TangentSpace I x)]\n    [IsRiemannianManifold I M]\n    [LocallyCompactSpace M] [ConnectedSpace M] :\n    IsGeodesicallyComplete M \u2194 CompleteSpace M := by\n  sorry"
     }
   ]
 }
