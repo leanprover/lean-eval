@@ -22,6 +22,28 @@
     "generated_path": "generated/alternating_sign_matrix_count"
   },
   {
+    "id": "annulus_theorem_dim_four",
+    "title": "The Annulus Theorem in dimension 4 (Quinn)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.AnnulusTheoremDimFour",
+    "holes": [
+      "annulus_theorem_dim_four"
+    ],
+    "generated_path": "generated/annulus_theorem_dim_four"
+  },
+  {
+    "id": "annulus_theorem_high_dim",
+    "title": "The Annulus Theorem in dimension \u2265 5 (Kirby)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.AnnulusTheoremHighDim",
+    "holes": [
+      "annulus_theorem_high_dim"
+    ],
+    "generated_path": "generated/annulus_theorem_high_dim"
+  },
+  {
     "id": "anosov_bowen_shadowing",
     "title": "Anosov\u2013Bowen shadowing lemma",
     "test": false,
@@ -1245,6 +1267,17 @@
       "mandelbrot_connected"
     ],
     "generated_path": "generated/mandelbrot_connected"
+  },
+  {
+    "id": "manolescu_triangulation_disproof",
+    "title": "Manolescu's disproof of the triangulation conjecture",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.ManolescuTriangulation",
+    "holes": [
+      "manolescu_triangulation_disproof"
+    ],
+    "generated_path": "generated/manolescu_triangulation_disproof"
   },
   {
     "id": "margulis_ruelle",

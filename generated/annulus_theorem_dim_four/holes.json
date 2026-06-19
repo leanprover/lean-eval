@@ -1,0 +1,12 @@
+{
+  "id": "annulus_theorem_dim_four",
+  "module": "LeanEval.Topology.AnnulusTheoremDimFour",
+  "holes": [
+    {
+      "name": "LeanEval.Topology.annulus_theorem_dim_four",
+      "basename": "annulus_theorem_dim_four",
+      "kind": "theorem",
+      "body": "/-- **The Annulus Theorem in dimension `4`** (Quinn, 1982, building on Freedman).\nLet `f` be a locally flat embedded `3`-sphere in `\u211d\u2074` and `g` a second one nested\nstrictly inside `f`: the two images are disjoint and `g`'s image lies in the\ninside of `f`. Then the closed region between them is homeomorphic to the product\n`S\u00b3 \u00d7 [0,1]`. -/\ntheorem annulus_theorem_dim_four\n    (f g : FlatSphere 4)\n    (hdisj : Disjoint (Set.range f.toFun) (Set.range g.toFun))\n    (hnest : Set.range g.toFun \u2286 inside (Set.range f.toFun)) :\n    Nonempty ((regionBetween f g) \u2243\u209c (Sph 4 \u00d7 I)) := by\n  sorry"
+    }
+  ]
+}

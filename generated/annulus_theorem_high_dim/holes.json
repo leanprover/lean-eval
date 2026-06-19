@@ -1,0 +1,12 @@
+{
+  "id": "annulus_theorem_high_dim",
+  "module": "LeanEval.Topology.AnnulusTheoremHighDim",
+  "holes": [
+    {
+      "name": "LeanEval.Topology.annulus_theorem_high_dim",
+      "basename": "annulus_theorem_high_dim",
+      "kind": "theorem",
+      "body": "/-- **The Annulus Theorem in dimension `\u2265 5`** (Kirby, 1969). Let `f` be a\nlocally flat embedded `(n-1)`-sphere in `\u211d\u207f` (`n \u2265 5`) and `g` a second one\nnested strictly inside `f`: the two images are disjoint and `g`'s image lies in\nthe inside of `f`. Then the closed region between them is homeomorphic to the\nproduct `S\u207f\u207b\u00b9 \u00d7 [0,1]`. -/\ntheorem annulus_theorem_high_dim {n : \u2115} [NeZero n] (hn : 5 \u2264 n)\n    (f g : FlatSphere n)\n    (hdisj : Disjoint (Set.range f.toFun) (Set.range g.toFun))\n    (hnest : Set.range g.toFun \u2286 inside (Set.range f.toFun)) :\n    Nonempty ((regionBetween f g) \u2243\u209c (Sph n \u00d7 I)) := by\n  sorry"
+    }
+  ]
+}
