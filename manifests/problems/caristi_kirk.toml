@@ -1,0 +1,9 @@
+id = "caristi_kirk"
+title = "Caristi-Kirk fixed point theorem"
+test = false
+module = "LeanEval.Topology.CaristiKirk"
+holes = ["caristi_kirk"]
+submitter = "Kim Morrison"
+notes = "Every self-map T of a nonempty complete metric space that satisfies the Caristi inward condition has a fixed point: there is a nonnegative lower-semicontinuous potential φ with dist x (T x) ≤ φ x - φ (T x) for all x. The helper HasCaristiInwardPotential bundles this hypothesis. Mathlib has metric spaces, completeness, lower semicontinuity, and IsFixedPt, but no Caristi/Ekeland fixed-point theorem. Listed as §228 of the Knill survey."
+source = "J. Caristi, Fixed point theorems for mappings satisfying inwardness conditions, Trans. Amer. Math. Soc. 215 (1976). Listed as §228 in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf). Knill, §228."
+informal_solution = "Define a partial order x ⪯ y iff dist x y ≤ φ y - φ x; the Caristi condition says T x ⪯ x for every x. The potential φ is bounded below by 0 and lower-semicontinuous, so every chain has a lower bound (a Cauchy argument using completeness, since along a descending chain the φ-values decrease and the metric tail is controlled by the φ-drop). By Zorn's lemma there is a minimal element x₀. Then T x₀ ⪯ x₀ and minimality force T x₀ = x₀, i.e. x₀ is a fixed point. Equivalently, derive it from Ekeland's variational principle. Mathlib lacks both Ekeland's principle and this order-theoretic fixed-point packaging."
