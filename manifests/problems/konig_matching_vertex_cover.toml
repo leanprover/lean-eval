@@ -1,0 +1,9 @@
+id = "konig_matching_vertex_cover"
+title = "König's theorem: maximum matching equals minimum vertex cover"
+test = false
+module = "LeanEval.Combinatorics.KonigMatching"
+holes = ["konig_matching_vertex_cover"]
+submitter = "Kim Morrison"
+notes = "In a finite bipartite graph, the maximum size of a matching equals the minimum size of a vertex cover. The trusted helper matchingNumber (the supremum of edge counts over matching subgraphs) is a non-hole. Mathlib has SimpleGraph.Subgraph.IsMatching and a vertex-cover number but not König's min-max theorem. Candidate from §172 of the Knill survey."
+source = "D. König, *Gráfok és mátrixok*, Mat. Fiz. Lapok 38 (1931). Knill, *Some fundamental theorems in mathematics*, §172."
+informal_solution = "The ≤ direction (matching number ≤ vertex cover number) holds for any graph: a vertex cover must touch every edge of any matching, and distinct matching edges are vertex-disjoint, so each needs its own cover vertex. The ≥ direction uses bipartiteness, via the augmenting-path / max-flow-min-cut argument: a maximum matching with no augmenting path induces, through alternating reachability from unmatched left vertices, a vertex cover of size equal to the matching. Equivalently it is the integral max-flow-min-cut theorem on the bipartite flow network. Mathlib lacks this min-max theorem."
