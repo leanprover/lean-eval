@@ -1,0 +1,9 @@
+id = "bourgain_polynomial_ergodic"
+title = "Bourgain's polynomial ergodic theorem"
+test = false
+module = "LeanEval.Dynamics.BourgainErgodic"
+holes = ["bourgain_polynomial_ergodic"]
+submitter = "Kim Morrison"
+notes = "For a measure-preserving system on a probability space, every integer-polynomial iterate sequence a, and every f ∈ L^p with p > 1, the polynomial ergodic averages (1/n) ∑_{k<n} f(T^[a k] x) converge pointwise almost everywhere. Trusted helpers (IsIntegerPolynomialSequence, polynomialErgodicAverage) are non-holes. Mathlib has Birkhoff's pointwise ergodic theorem but not Bourgain's polynomial extension. Candidate from §173 of the Knill survey."
+source = "J. Bourgain, *Pointwise ergodic theorems for arithmetic sets*, Publ. Math. IHÉS 69 (1989). Knill, *Some fundamental theorems in mathematics*, §173."
+informal_solution = "Reduce, via a transfer/Calderón principle, to a maximal inequality for the discrete polynomial averaging operators on ℤ. Bourgain's proof establishes the L^p (p > 1) bound for the associated maximal function using circle-method / Hardy–Littlewood estimates: split the Fourier multiplier into major arcs (where it is approximated by a continuous averaging multiplier controlled by the Dunford–Schwartz/Wiener maximal theorem) and minor arcs (controlled by Weyl-type exponential sum bounds and a variational/oscillation argument). The maximal inequality, together with pointwise convergence on a dense subclass (e.g. eigenfunctions / bounded functions), yields a.e. convergence of the averages for all f ∈ L^p by the Banach principle. The limit F is the pointwise limit. Requires harmonic-analysis machinery absent from Mathlib."
