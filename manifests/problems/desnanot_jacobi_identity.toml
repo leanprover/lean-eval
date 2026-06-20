@@ -1,0 +1,9 @@
+id = "desnanot_jacobi_identity"
+title = "Desnanot–Jacobi determinant identity"
+test = false
+module = "LeanEval.LinearAlgebra.DesnanotJacobi"
+holes = ["desnanot_jacobi_identity"]
+submitter = "Kim Morrison"
+notes = "For an (n + 2) × (n + 2) matrix over a commutative ring, det(A) times the central boundary-deleted minor equals the 2 × 2 determinant of the four corner minors: det(A)·det(A_{boundary deleted}) = det(A_{11})·det(A_{nn}) − det(A_{n1})·det(A_{1n}). Trusted helpers (interiorFin, deleteFirstFirst, deleteLastLast, deleteFirstLast, deleteLastFirst, deleteBoundaryBoundary) are non-holes. Mathlib has determinants and submatrices but not the Desnanot–Jacobi / Dodgson condensation identity. Candidate from §201 of the Knill survey."
+source = "P. Desnanot (1819); C. G. J. Jacobi (1833); the basis of Dodgson (Lewis Carroll) condensation. Knill, *Some fundamental theorems in mathematics*, §201."
+informal_solution = "The identity is a special case of Sylvester's determinant identity / the Plücker relations among maximal minors. One standard proof uses the Jacobi complementary-minor theorem: for the adjugate of A, the minor on the corner index pairs equals det(A)^{k-1} times the complementary minor of A. Specialising Jacobi's identity to the two boundary rows/columns of A yields exactly det(A)·det(M) = det(A_{11})det(A_{nn}) − det(A_{n1})det(A_{1n}) where M is the central minor. Alternatively, expand both sides as polynomials in the matrix entries and match coefficients. Mathlib lacks this identity."
