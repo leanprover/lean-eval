@@ -1,0 +1,9 @@
+id = "artin_mazur_zeta"
+title = "Artin–Mazur / Bowen–Lanford zeta identity"
+test = false
+module = "LeanEval.Dynamics.ArtinMazurZeta"
+holes = ["artin_mazur_zeta"]
+submitter = "Kim Morrison"
+notes = "For a complex k × k matrix A, the Artin–Mazur zeta series ζ(t) = exp(∑_{n ≥ 1} tr(Aⁿ) tⁿ / n) equals 1 / det(1 − tA) as a formal power series, where det(1 − tA) is the reversed characteristic polynomial A.charpolyRev. The helper traceSeries packages the exponent. This is the companion (b) statement of the §263 Parry–Sullivan section (the main flow-equivalence theorem is category (c), not stateable within budget). Mathlib has Matrix.charpolyRev, PowerSeries.exp/log/subst, and the field power-series inverse, but not the Bowen–Lanford identity. Category-(b) candidate."
+source = "Knill, *Some fundamental theorems in mathematics*, §263."
+informal_solution = "A purely algebraic identity of formal power series. Take logs: it suffices to show log(1/det(1 − tA)) = ∑_{n ≥ 1} tr(Aⁿ) tⁿ / n, i.e. −log det(1 − tA) = ∑ₙ tr(Aⁿ)tⁿ/n. Using det = exp tr log (or, eigenvalue-wise, det(1 − tA) = ∏ᵢ(1 − λᵢ t)), −log det(1 − tA) = −∑ᵢ log(1 − λᵢ t) = ∑ᵢ ∑_{n≥1} (λᵢ t)ⁿ/n = ∑_{n≥1} (∑ᵢ λᵢⁿ) tⁿ/n = ∑_{n≥1} tr(Aⁿ) tⁿ/n, since tr(Aⁿ) = ∑ᵢ λᵢⁿ. Exponentiating gives the claimed identity."
