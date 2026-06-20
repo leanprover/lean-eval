@@ -1,0 +1,9 @@
+id = "erdos_szekeres"
+title = "Erdős–Szekeres monotone subsequence theorem (finite form)"
+test = false
+module = "LeanEval.Combinatorics.ErdosSzekeres"
+holes = ["erdos_szekeres"]
+submitter = "Kim Morrison"
+notes = "Any sequence of n² + 1 distinct real numbers contains a strictly increasing subsequence of length n + 1 or a strictly decreasing subsequence of length n + 1, encoded by a strictly monotone index map g : Fin (n + 1) → Fin (n² + 1). No helper defs beyond the statement. Mathlib has only the infinitary Erdős–Szekeres theorem (exists_increasing_or_nonincreasing_subseq); the finite quantitative bound is absent. Candidate from §16 of the Knill survey."
+source = "P. Erdős and G. Szekeres, *A combinatorial problem in geometry*, Compositio Math. 2 (1935). Knill, *Some fundamental theorems in mathematics*, §16."
+informal_solution = "To each index i assign the pair (a_i, b_i) where a_i is the length of the longest strictly increasing subsequence ending at i and b_i the length of the longest strictly decreasing subsequence ending at i. Distinctness makes the map i ↦ (a_i, b_i) injective: if i < j then either f i < f j (forcing a_i < a_j) or f i > f j (forcing b_i < b_j). With n² + 1 indices, by pigeonhole some a_i or some b_i exceeds n, i.e. reaches n + 1, yielding the desired monotone subsequence. Only the infinitary version is in Mathlib."
