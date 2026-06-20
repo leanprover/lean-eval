@@ -1,0 +1,9 @@
+id = "wiener_inverse_closed"
+title = "Wiener's 1/f theorem"
+test = false
+module = "LeanEval.Analysis.WienerOneOverF"
+holes = ["wiener_inverse_closed"]
+submitter = "Kim Morrison"
+notes = "Wiener's lemma for the circle algebra: if a continuous function f on the additive circle has absolutely summable Fourier coefficients (i.e. lies in the Wiener algebra, `InWienerAlgebra f := Summable (fourierCoeff f)`) and is nowhere zero, then its pointwise reciprocal 1/f again belongs to the Wiener algebra. mathlib has the additive circle, `fourier`, `fourierCoeff`, and `hasSum_fourier_series_of_summable`, but not the Wiener algebra or spectral invariance."
+source = "N. Wiener, Tauberian theorems, Ann. of Math. 33 (1932), 1-100. Listed as §226 in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf). Knill, §226."
+informal_solution = "The Wiener algebra A(T) is the Banach algebra of absolutely convergent Fourier series with the l¹ norm of the coefficients. Wiener's lemma is the statement that its Gelfand spectrum is exactly the circle (point evaluations), so an element is invertible in A(T) iff it never vanishes. The classical elementary proof (Gelfand's gives it via Banach-algebra theory; Newman's gives a direct localization) covers the circle by short arcs, on each of which f is close to a nonzero constant, inverts a local truncation whose remainder has small Wiener norm, and patches with a smooth partition of unity, using that 1/(1-h) = ∑ hⁿ converges in A(T) when ‖h‖ < 1."
