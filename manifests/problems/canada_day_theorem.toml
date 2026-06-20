@@ -1,0 +1,9 @@
+id = "canada_day_theorem"
+title = "Canada Day theorem on sums of matrix minors"
+test = false
+module = "LeanEval.LinearAlgebra.CanadaDay"
+holes = ["canada_day_theorem"]
+submitter = "Kim Morrison"
+notes = "For every symmetric integer matrix A, the sum of all k × k minors of A equals the sum of the principal k × k minors of T * A, where T is the fixed lower-triangular matrix with entries 1, 2, and 0. Trusted helpers (canadaDayT, SubsetCard, subsetEmbedding, minorDet, allMinorSum, principalMinorSum) are non-holes. Mathlib has determinants and submatrices but not this minor-sum identity. Candidate from §186 of the Knill survey."
+source = "The Canada Day theorem (so named by O. Knill). Knill, *Some fundamental theorems in mathematics*, §186."
+informal_solution = "Expand each principal minor of T·A on row set I via the Cauchy–Binet formula: det((T·A)_{I,I}) = Σ_J det(T_{I,J})·det(A_{J,I}). Summing over all I and using symmetry of A (so det(A_{J,I}) = det(A_{I,J})) reduces the principal-minor sum of T·A to Σ_{I,J} det(T_{I,J})·det(A_{I,J}). The combinatorial content is that the matrix of minors of the fixed triangular T with entries 1, 2, 0 acts as an all-ones aggregator on the minor matrix of A, collapsing the double sum to Σ_{I,J} det(A_{I,J}), the sum of all k × k minors. Mathlib lacks both the Cauchy–Binet expansion and this identity."
