@@ -1,0 +1,9 @@
+id = "lagrange_cauchy_binet"
+title = "Lagrange / Cauchy–Binet identity for det(FᵀF)"
+test = false
+module = "LeanEval.LinearAlgebra.CauchyBinet"
+holes = ["lagrange_cauchy_binet"]
+submitter = "Kim Morrison"
+notes = "For an n × m real matrix F, det(FᵀF) equals the sum over all m-element row-subsets S ⊆ Fin n of the squared maximal minor det(F_S)². This is the Cauchy–Binet formula applied to Fᵀ * F (the Lagrange identity in det² form), with no helper defs beyond the statement. Mathlib does not yet have the Cauchy–Binet determinant formula (the subject of an in-flight PR, leanprover-community/mathlib4#40473); the indexing mirrors the prospective Matrix.det_mul_cauchyBinet. Candidate from §2 of the Knill survey."
+source = "Cauchy–Binet formula; J.-L. Lagrange's identity. See leanprover-community/mathlib4#40473 (Matrix.det_mul_cauchyBinet). Knill, *Some fundamental theorems in mathematics*, §2."
+informal_solution = "Apply the Cauchy–Binet formula to the product Fᵀ * F: det(Fᵀ F) = Σ_{|S|=m} det((Fᵀ)_{·,S}) · det(F_{S,·}), where the sum ranges over m-element subsets S of the row index set Fin n. Since (Fᵀ)_{·,S} is the transpose of F_{S,·}, each term is det(F_S)·det(F_S) = det(F_S)², giving the stated sum of squared maximal minors. The general Cauchy–Binet determinant expansion is not yet in Mathlib."
