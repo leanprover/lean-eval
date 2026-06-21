@@ -16,17 +16,18 @@ of the Knill survey.
 
 open MvPolynomial Matrix
 
-variable (G : Type*) [Group G] [Fintype G] [DecidableEq G]
 
 /-- The **group matrix** of Dedekind/Frobenius: a `G × G` matrix over the
 polynomial ring `ℂ[x_g : g ∈ G]`, with entry `(g, h)` the variable indexed by
 the product `g * h`. -/
-noncomputable def groupMatrix : Matrix G G (MvPolynomial G ℂ) :=
+noncomputable def groupMatrix (G : Type*) [Group G] [Fintype G] [DecidableEq G] :
+    Matrix G G (MvPolynomial G ℂ) :=
   fun g h => MvPolynomial.X (g * h)
 
 /-- The **group determinant** `Θ(G) = det(A)`, a polynomial in the variables
 `x_g`. -/
-noncomputable def groupDeterminant : MvPolynomial G ℂ :=
+noncomputable def groupDeterminant (G : Type*) [Group G] [Fintype G] [DecidableEq G] :
+    MvPolynomial G ℂ :=
   (groupMatrix G).det
 
 /-- **Frobenius determinant theorem** (§171). The group determinant factors as
@@ -35,7 +36,8 @@ a product of irreducible polynomials, each appearing to the power of its own
 (*distinct*) and their number equal to the number of conjugacy classes of `G`.
 -/
 @[eval_problem]
-theorem frobenius_group_determinant :
+theorem frobenius_group_determinant
+    (G : Type*) [Group G] [Fintype G] [DecidableEq G] :
     ∃ (r : ℕ) (p : Fin r → MvPolynomial G ℂ),
       r = Nat.card (ConjClasses G) ∧
       (∀ j, Irreducible (p j)) ∧
