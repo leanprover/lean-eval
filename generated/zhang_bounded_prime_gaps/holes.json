@@ -1,0 +1,12 @@
+{
+  "id": "zhang_bounded_prime_gaps",
+  "module": "LeanEval.NumberTheory.BoundedPrimeGaps",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.BoundedPrimeGaps.zhang_bounded_prime_gaps",
+      "basename": "zhang_bounded_prime_gaps",
+      "kind": "theorem",
+      "body": "/-- **Bounded gaps between primes.** For every `n` there is a pair of primes\n`p < q` with `n \u2264 p` and `q - p \u2264 246`. -/\ntheorem zhang_bounded_prime_gaps :\n    \u2200 n : \u2115, \u2203 p q : \u2115, n \u2264 p \u2227 p.Prime \u2227 q.Prime \u2227 p < q \u2227 q - p \u2264 246 := by\n  sorry"
+    }
+  ]
+}

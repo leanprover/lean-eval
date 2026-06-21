@@ -1,0 +1,16 @@
+import ChallengeDeps
+import Submission
+
+open LeanEval.Topology.KirkNormalStructure
+open Function
+
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+
+theorem kirk_normal_structure [CompleteSpace E]
+    (hE_reflexive : Function.Surjective (NormedSpace.inclusionInDoubleDual ℝ E))
+    (K : Set E) (hK_nonempty : K.Nonempty) (hK_closed : IsClosed K)
+    (hK_bounded : Bornology.IsBounded K) (hK_convex : Convex ℝ K)
+    (hK_normal : HasNormalStructure K) (T : K → K)
+    (hT : IsNonexpansiveSelfMap K T) :
+    ∃ x : K, IsFixedPt T x := by
+  exact Submission.kirk_normal_structure hE_reflexive K hK_nonempty hK_closed hK_bounded hK_convex hK_normal T hT

@@ -1,0 +1,12 @@
+{
+  "id": "shannon_capacity_pentagon",
+  "module": "LeanEval.Combinatorics.ShannonCapacityPentagon",
+  "holes": [
+    {
+      "name": "LeanEval.Combinatorics.ShannonCapacityPentagon.shannon_capacity_pentagon",
+      "basename": "shannon_capacity_pentagon",
+      "kind": "theorem",
+      "body": "/-- **Lov\u00e1sz's theorem on Shannon capacity of the pentagon** (\u00a7238).\nThe Shannon capacity of the five-cycle is `\u221a5`. -/\ntheorem shannon_capacity_pentagon :\n    HasShannonCapacity (SimpleGraph.cycleGraph 5) (Real.sqrt 5) := by\n  sorry"
+    }
+  ]
+}

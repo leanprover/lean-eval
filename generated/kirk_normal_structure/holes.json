@@ -1,0 +1,12 @@
+{
+  "id": "kirk_normal_structure",
+  "module": "LeanEval.Topology.KirkNormalStructure",
+  "holes": [
+    {
+      "name": "LeanEval.Topology.KirkNormalStructure.kirk_normal_structure",
+      "basename": "kirk_normal_structure",
+      "kind": "theorem",
+      "body": "/-- **Kirk's normal-structure fixed-point theorem** (\u00a7228).  A nonexpansive\nself-map of a nonempty bounded closed convex subset of a reflexive Banach\nspace with normal structure has a fixed point. -/\ntheorem kirk_normal_structure [CompleteSpace E]\n    (hE_reflexive : Function.Surjective (NormedSpace.inclusionInDoubleDual \u211d E))\n    (K : Set E) (hK_nonempty : K.Nonempty) (hK_closed : IsClosed K)\n    (hK_bounded : Bornology.IsBounded K) (hK_convex : Convex \u211d K)\n    (hK_normal : HasNormalStructure K) (T : K \u2192 K)\n    (hT : IsNonexpansiveSelfMap K T) :\n    \u2203 x : K, IsFixedPt T x := by\n  sorry"
+    }
+  ]
+}

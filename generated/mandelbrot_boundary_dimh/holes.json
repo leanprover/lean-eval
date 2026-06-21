@@ -1,0 +1,12 @@
+{
+  "id": "mandelbrot_boundary_dimh",
+  "module": "LeanEval.Dynamics.MandelbrotBoundary",
+  "holes": [
+    {
+      "name": "LeanEval.Dynamics.MandelbrotBoundary.mandelbrot_boundary_dimh",
+      "basename": "mandelbrot_boundary_dimh",
+      "kind": "theorem",
+      "body": "/-- **Shishikura's theorem** (\u00a7260). The boundary of the Mandelbrot set has\nHausdorff dimension `2`. -/\ntheorem mandelbrot_boundary_dimh :\n    dimH (frontier Mandelbrot) = 2 := by\n  sorry"
+    }
+  ]
+}

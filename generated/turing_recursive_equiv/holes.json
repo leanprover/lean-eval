@@ -1,0 +1,12 @@
+{
+  "id": "turing_recursive_equiv",
+  "module": "LeanEval.ModelTheory.TuringRecursive",
+  "holes": [
+    {
+      "name": "LeanEval.ModelTheory.TuringRecursive.turing_recursive_equiv",
+      "basename": "turing_recursive_equiv",
+      "kind": "theorem",
+      "body": "/-- **General recursive = Turing computable** (total form). A total function\n`f : \u2115 \u2192 \u2115` is recursive (`Computable`, i.e. partial recursive as a partial\nfunction) **iff** it is computed by some Turing machine (mathlib's `FinTM2`\nmodel) under the standard binary encoding of `\u2115`. This is Knill's class\nequality; the backward direction (TM-computable \u21d2 recursive) is absent from\nmathlib. -/\ntheorem turing_recursive_equiv (f : \u2115 \u2192 \u2115) :\n    Computable f \u2194 Nonempty (TM2Computable encodeNat encodeNat f) := by\n  sorry"
+    }
+  ]
+}

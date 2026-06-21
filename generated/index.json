@@ -253,6 +253,17 @@
     "generated_path": "generated/chebyshev_sign_change"
   },
   {
+    "id": "chen_theorem",
+    "title": "Chen's theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.ChenTheorem",
+    "holes": [
+      "chen_theorem"
+    ],
+    "generated_path": "generated/chen_theorem"
+  },
+  {
     "id": "choquet_representation_theorem",
     "title": "Choquet's representation theorem",
     "test": false,
@@ -306,6 +317,17 @@
       "commProb_closed"
     ],
     "generated_path": "generated/commProb_closed"
+  },
+  {
+    "id": "compact_group_semisimple",
+    "title": "Complete reducibility for compact groups",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.RepresentationTheory.CompactGroupSemisimple",
+    "holes": [
+      "compact_group_semisimple"
+    ],
+    "generated_path": "generated/compact_group_semisimple"
   },
   {
     "id": "contractibleSpace_houseWithTwoRooms",
@@ -1092,6 +1114,17 @@
     "generated_path": "generated/kepler_conjecture"
   },
   {
+    "id": "kirk_normal_structure",
+    "title": "Kirk's normal-structure fixed point theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.KirkNormalStructure",
+    "holes": [
+      "kirk_normal_structure"
+    ],
+    "generated_path": "generated/kirk_normal_structure"
+  },
+  {
     "id": "kolmogorov_arnold_superposition",
     "title": "Kolmogorov\u2013Arnold superposition theorem (non-universal Lorentz form)",
     "test": false,
@@ -1256,6 +1289,17 @@
       "mandelbar_not_path_connected"
     ],
     "generated_path": "generated/mandelbar_not_path_connected"
+  },
+  {
+    "id": "mandelbrot_boundary_dimh",
+    "title": "Hausdorff dimension of the Mandelbrot boundary (Shishikura)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Dynamics.MandelbrotBoundary",
+    "holes": [
+      "mandelbrot_boundary_dimh"
+    ],
+    "generated_path": "generated/mandelbrot_boundary_dimh"
   },
   {
     "id": "mandelbrot_connected",
@@ -1492,6 +1536,17 @@
       "novikov_unsolvable"
     ],
     "generated_path": "generated/novikov_unsolvable"
+  },
+  {
+    "id": "nyquist_shannon_sampling",
+    "title": "Nyquist\u2013Shannon sampling theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.NyquistShannon",
+    "holes": [
+      "nyquist_shannon_sampling"
+    ],
+    "generated_path": "generated/nyquist_shannon_sampling"
   },
   {
     "id": "oppenheim_inequality",
@@ -1868,6 +1923,17 @@
     "generated_path": "generated/shafarevich_relation_rank_bound"
   },
   {
+    "id": "shannon_capacity_pentagon",
+    "title": "Shannon capacity of the pentagon",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Combinatorics.ShannonCapacityPentagon",
+    "holes": [
+      "shannon_capacity_pentagon"
+    ],
+    "generated_path": "generated/shannon_capacity_pentagon"
+  },
+  {
     "id": "smale_conjecture",
     "title": "Smale conjecture (Hatcher) in relative parameterized form",
     "test": false,
@@ -2055,6 +2121,17 @@
     "generated_path": "generated/topological_classification_of_surfaces"
   },
   {
+    "id": "turing_recursive_equiv",
+    "title": "General recursive equals Turing computable",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.ModelTheory.TuringRecursive",
+    "holes": [
+      "turing_recursive_equiv"
+    ],
+    "generated_path": "generated/turing_recursive_equiv"
+  },
+  {
     "id": "tverberg_theorem",
     "title": "Tverberg's theorem",
     "test": false,
@@ -2218,5 +2295,16 @@
       "wigner_semicircle"
     ],
     "generated_path": "generated/wigner_semicircle"
+  },
+  {
+    "id": "zhang_bounded_prime_gaps",
+    "title": "Bounded gaps between primes",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.BoundedPrimeGaps",
+    "holes": [
+      "zhang_bounded_prime_gaps"
+    ],
+    "generated_path": "generated/zhang_bounded_prime_gaps"
   }
 ]
