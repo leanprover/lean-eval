@@ -1,0 +1,12 @@
+{
+  "id": "bourgain_polynomial_ergodic",
+  "module": "LeanEval.Dynamics.BourgainErgodic",
+  "holes": [
+    {
+      "name": "LeanEval.Dynamics.BourgainErgodic.bourgain_polynomial_ergodic",
+      "basename": "bourgain_polynomial_ergodic",
+      "kind": "theorem",
+      "body": "/-- Bourgain's polynomial ergodic theorem: for every integer-polynomial\niterate sequence and every `L^p`, `p > 1`, function, the polynomial ergodic\naverages converge pointwise almost everywhere. -/\ntheorem bourgain_polynomial_ergodic\n    [IsProbabilityMeasure \u03bc] {p : \u211d\u22650\u221e} (hp : 1 < p) (hp_ne_top : p \u2260 \u221e)\n    {T : X \u2192 X} (hT : MeasurePreserving T \u03bc \u03bc)\n    {a : \u2115 \u2192 \u2115} (ha : IsIntegerPolynomialSequence a)\n    {f : X \u2192 \u211d} (hf : MemLp f p \u03bc) :\n    \u2203 F : X \u2192 \u211d,\n      \u2200\u1d50 x \u2202\u03bc,\n        Tendsto (fun n : \u2115 => polynomialErgodicAverage a T f (n + 1) x) atTop (\ud835\udcdd (F x)) := by\n  sorry"
+    }
+  ]
+}

@@ -154,6 +154,17 @@
     "generated_path": "generated/boone_higman_simple"
   },
   {
+    "id": "bourgain_polynomial_ergodic",
+    "title": "Bourgain's polynomial ergodic theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Dynamics.BourgainErgodic",
+    "holes": [
+      "bourgain_polynomial_ergodic"
+    ],
+    "generated_path": "generated/bourgain_polynomial_ergodic"
+  },
+  {
     "id": "brauer_character_in_cyclotomic",
     "title": "Character values of finite groups lie in cyclotomic fields",
     "test": false,
@@ -207,6 +218,17 @@
       "brouwer_fixed_point"
     ],
     "generated_path": "generated/brouwer_fixed_point"
+  },
+  {
+    "id": "brun_constant_converges",
+    "title": "Brun's theorem (convergence of the twin-prime reciprocal sum)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.BrunConstant",
+    "holes": [
+      "brun_constant_converges"
+    ],
+    "generated_path": "generated/brun_constant_converges"
   },
   {
     "id": "bvp_comparison",
@@ -497,6 +519,17 @@
     "generated_path": "generated/entropy_dimension_lyapunov"
   },
   {
+    "id": "equichordal_point_unique",
+    "title": "Equichordal point theorem (convex curves have a unique equichordal point)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.Equichordal",
+    "holes": [
+      "equichordal_point_unique"
+    ],
+    "generated_path": "generated/equichordal_point_unique"
+  },
+  {
     "id": "erdos_unit_distance_conjecture_false",
     "title": "Erd\u0151s's unit-distance conjecture is false",
     "test": false,
@@ -750,6 +783,17 @@
       "g2_irrep_tensor_square_decomp"
     ],
     "generated_path": "generated/g2_irrep_tensor_square_decomp"
+  },
+  {
+    "id": "gauss_wantzel_constructible_polygon",
+    "title": "Gauss-Wantzel constructible regular polygon theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.GaussWantzel",
+    "holes": [
+      "gauss_wantzel_constructible_polygon"
+    ],
+    "generated_path": "generated/gauss_wantzel_constructible_polygon"
   },
   {
     "id": "glAction_range_eq_centralizer_symAction",
@@ -1527,6 +1571,17 @@
     "generated_path": "generated/nonlinear_three_manifold_group"
   },
   {
+    "id": "normal_spectral_theorem",
+    "title": "Normal spectral theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.LinearAlgebra.NormalSpectralTheorem",
+    "holes": [
+      "normal_spectral_theorem"
+    ],
+    "generated_path": "generated/normal_spectral_theorem"
+  },
+  {
     "id": "novikov_unsolvable",
     "title": "Novikov's theorem: the word problem is undecidable for finitely presented groups",
     "test": false,
@@ -1591,6 +1646,17 @@
       "pascal"
     ],
     "generated_path": "generated/pascal"
+  },
+  {
+    "id": "peano_existence",
+    "title": "Peano existence theorem for ODEs",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.PeanoExistence",
+    "holes": [
+      "peano_existence"
+    ],
+    "generated_path": "generated/peano_existence"
   },
   {
     "id": "pell_solution_convergent",
@@ -2121,6 +2187,17 @@
     "generated_path": "generated/topological_classification_of_surfaces"
   },
   {
+    "id": "trace_cayley_hamilton_newton",
+    "title": "Trace Cayley-Hamilton / Newton identity",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.LinearAlgebra.TraceNewton",
+    "holes": [
+      "trace_cayley_hamilton_newton"
+    ],
+    "generated_path": "generated/trace_cayley_hamilton_newton"
+  },
+  {
     "id": "turing_recursive_equiv",
     "title": "General recursive equals Turing computable",
     "test": false,
@@ -2284,6 +2361,28 @@
       "wiener_atom_detection"
     ],
     "generated_path": "generated/wiener_atom_detection"
+  },
+  {
+    "id": "wiener_inverse_closed",
+    "title": "Wiener's 1/f theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.WienerOneOverF",
+    "holes": [
+      "wiener_inverse_closed"
+    ],
+    "generated_path": "generated/wiener_inverse_closed"
+  },
+  {
+    "id": "wiener_levy_analytic_calculus",
+    "title": "Wiener\u2013L\u00e9vy theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.WienerLevy",
+    "holes": [
+      "wiener_levy_analytic_calculus"
+    ],
+    "generated_path": "generated/wiener_levy_analytic_calculus"
   },
   {
     "id": "wigner_semicircle",

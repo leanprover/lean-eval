@@ -1,0 +1,12 @@
+{
+  "id": "normal_spectral_theorem",
+  "module": "LeanEval.LinearAlgebra.NormalSpectralTheorem",
+  "holes": [
+    {
+      "name": "LeanEval.LinearAlgebra.NormalSpectralTheorem.normal_spectral_theorem",
+      "basename": "normal_spectral_theorem",
+      "kind": "theorem",
+      "body": "/-- **Spectral theorem** (\u00a714). A complex matrix `A` is **normal**\n(`A\u1d34 A = A A\u1d34`, i.e. `IsStarNormal A`) **iff** it is **unitarily\ndiagonalizable**: there is a unitary `U` and a diagonal matrix `diagonal d`\nwith `A = U (diagonal d) U\u1d34`. -/\ntheorem normal_spectral_theorem (A : Matrix n n \u2102) :\n    IsStarNormal A \u2194\n      \u2203 U \u2208 unitary (Matrix n n \u2102), \u2203 d : n \u2192 \u2102,\n        A = U * diagonal d * star U := by\n  sorry"
+    }
+  ]
+}

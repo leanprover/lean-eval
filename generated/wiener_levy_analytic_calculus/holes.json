@@ -1,0 +1,12 @@
+{
+  "id": "wiener_levy_analytic_calculus",
+  "module": "LeanEval.Analysis.WienerLevy",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.WienerLevy.wiener_levy_analytic_calculus",
+      "basename": "wiener_levy_analytic_calculus",
+      "kind": "theorem",
+      "body": "/-- **Wiener\u2013L\u00e9vy theorem.** If `\u03c6` is complex-analytic on a neighbourhood of\nthe range of a Wiener-algebra function `f`, then the composed function\n`\u03c6 \u2218 f` is again in the Wiener algebra. -/\ntheorem wiener_levy_analytic_calculus (f : C(AddCircle T, \u2102))\n    (\u03c6 : \u2102 \u2192 \u2102) (U : Set \u2102) (hf : InWienerAlgebra f)\n    (hU : IsOpen U) (hrange : range f \u2286 U)\n    (h\u03c6 : AnalyticOnNhd \u2102 \u03c6 U) :\n    \u2203 g : C(AddCircle T, \u2102),\n      (\u2200 x, g x = \u03c6 (f x)) \u2227 InWienerAlgebra g := by\n  sorry"
+    }
+  ]
+}

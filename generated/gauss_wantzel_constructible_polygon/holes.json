@@ -1,0 +1,12 @@
+{
+  "id": "gauss_wantzel_constructible_polygon",
+  "module": "LeanEval.NumberTheory.GaussWantzel",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.GaussWantzel.gauss_wantzel_constructible_polygon",
+      "basename": "gauss_wantzel_constructible_polygon",
+      "kind": "theorem",
+      "body": "/-- **Gauss-Wantzel constructible polygon theorem** (\u00a7174): a regular `n`-gon\nis straightedge-and-compass constructible exactly for the Gauss-Wantzel\nintegers. -/\ntheorem gauss_wantzel_constructible_polygon (n : \u2115) (hn : 3 \u2264 n) :\n    IsConstructible (Real.cos (2 * Real.pi / n)) \u2194 GaussWantzelNumber n := by\n  sorry"
+    }
+  ]
+}
