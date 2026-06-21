@@ -1,0 +1,9 @@
+id = "normal_spectral_theorem"
+title = "Normal spectral theorem"
+test = false
+module = "LeanEval.LinearAlgebra.NormalSpectralTheorem"
+holes = ["normal_spectral_theorem"]
+submitter = "Kim Morrison"
+notes = "A complex matrix A is normal (IsStarNormal A, i.e. Aᴴ A = A Aᴴ) iff it is unitarily diagonalizable, A = U (diagonal d) Uᴴ with U unitary. Mathlib has the Hermitian special case (Matrix.IsHermitian.spectral_theorem) and all conjugation/diagonal machinery, but not the normal generalization (no Matrix.IsStarNormal.spectral_theorem). The forward implication (a normal matrix admits an orthonormal eigenbasis) is the substantive content; the converse is a short computation. No new definitions beyond IsStarNormal, unitary, and Matrix.diagonal. Category-(b) candidate."
+source = "Knill, *Some fundamental theorems in mathematics*, §14."
+informal_solution = "Forward: a normal matrix commutes with its conjugate transpose, so by simultaneous unitary triangularization (Schur) the triangular factor is itself normal, hence diagonal; the columns of the Schur unitary form an orthonormal eigenbasis, giving A = U (diagonal d) Uᴴ. Reverse: if A = U (diagonal d) Uᴴ with U unitary, then Aᴴ = U (diagonal d̄) Uᴴ and the two diagonal matrices commute, so A and Aᴴ commute, i.e. A is normal."
