@@ -1,0 +1,8 @@
+id = "riesz_brothers_theorem"
+title = "Riesz brothers' theorem"
+test = false
+module = "LeanEval.Analysis.RieszBrothers"
+holes = ["riesz_brothers_theorem"]
+submitter = "Yongxi Lin"
+source = "W. Rudin, Real and Complex Analysis; N. K. Nikolski, Operators, Functions, and Systems: An Easy Reading, Volume I: Hardy, Hankel, and Toeplitz."
+informal_solution = "One proof, given in Rudin's Real and Complex Analysis, uses the uniqueness of the Poisson integral representation. Another proof presented in Nikolski's book relies on Wold's decomposition."
