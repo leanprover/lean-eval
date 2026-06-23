@@ -1,5 +1,16 @@
 [
   {
+    "id": "H1_not_closedComplemented",
+    "title": "No bounded projection from L^1 onto H^1",
+    "test": false,
+    "submitter": "Yongxi Lin",
+    "module": "LeanEval.Analysis.HardySpace",
+    "holes": [
+      "H1_not_closedComplemented"
+    ],
+    "generated_path": "generated/H1_not_closedComplemented"
+  },
+  {
     "id": "abel_ruffini",
     "title": "Abel\u2013Ruffini theorem",
     "test": false,
@@ -1890,6 +1901,17 @@
     "generated_path": "generated/riemann_hypothesis_iff_lagarias_elementary_criterion"
   },
   {
+    "id": "riesz_brothers_theorem",
+    "title": "Riesz brothers' theorem",
+    "test": false,
+    "submitter": "Yongxi Lin",
+    "module": "LeanEval.Analysis.RieszBrothers",
+    "holes": [
+      "riesz_brothers_theorem"
+    ],
+    "generated_path": "generated/riesz_brothers_theorem"
+  },
+  {
     "id": "rising_sun_lemma",
     "title": "Riesz's rising sun lemma",
     "test": false,
@@ -1987,6 +2009,17 @@
       "schreier_conjecture"
     ],
     "generated_path": "generated/schreier_conjecture"
+  },
+  {
+    "id": "semilinear_poisson_radial_symmetry",
+    "title": "Radial symmetry for positive semilinear Poisson solutions",
+    "test": false,
+    "submitter": "Yongxi Lin",
+    "module": "LeanEval.Analysis.PDE.RadialSymmetry",
+    "holes": [
+      "semilinear_poisson_radial_symmetry"
+    ],
+    "generated_path": "generated/semilinear_poisson_radial_symmetry"
   },
   {
     "id": "shafarevich_relation_rank_bound",
