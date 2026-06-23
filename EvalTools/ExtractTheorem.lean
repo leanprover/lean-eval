@@ -59,6 +59,27 @@ def resolveDeclName (env : Environment) (moduleName declName : Name) : IO Name :
       return candidate
   findDeclByBasename env moduleName declName
 
+/-- Last components of the coercion type classes. A coercion (`↑`/`⇑`) is
+unfolded during elaboration, so the instance backing it never appears in the
+elaborated term's `getUsedConstantsAsSet` — even when a kept helper's *source
+text* relies on it (e.g. `T x` where `instCoeFun … : CoeFun …`). The generated
+`ChallengeDeps.lean` reproduces source text, so it must carry these instances;
+we recover them structurally rather than from the dependency closure. -/
+def coercionClassLastComponents : Array String :=
+  #["Coe", "CoeTC", "CoeHead", "CoeTail", "CoeHTCT", "CoeHTC", "CoeOut",
+    "CoeDep", "CoeT", "CoeFun", "CoeSort"]
+
+def isCoercionClassName (n : Name) : Bool :=
+  match lastComponent? n with
+  | some s => coercionClassLastComponents.contains s
+  | none => false
+
+/-- The head constant of a (possibly dependent) type's conclusion: strip leading
+`∀`/`→` binders and return the application head. -/
+partial def conclusionHead : Expr → Option Name
+  | .forallE _ _ body _ => conclusionHead body
+  | e => e.getAppFn.constName?
+
 /-- Compute the set of names of declarations in `moduleName` that are reachable from
 the type or value of `start`, following the same-module subgraph of the constant
 dependency relation. The starting declaration itself is excluded from the result.
@@ -68,23 +89,62 @@ are traversed through — so genuine helpers they reference are still found — 
 excluded from the returned set: they have no user source span to extract and are
 regenerated automatically when their parent declaration is re-elaborated. (A
 `noncomputable def` over a `Finset` sum, for instance, emits a `._proof_1` whose
-prefix would otherwise be mistaken for a helper namespace to `open`.) -/
-def collectSameModuleDependencies (env : Environment) (moduleName start : Name) :
-    Array Name := Id.run do
+prefix would otherwise be mistaken for a helper namespace to `open`.)
+
+Coercion instances (see `coercionClassLastComponents`) are pulled in separately
+via `coeCandidates`: once the closure contains a constant, any candidate whose
+type mentions that constant is added (and re-closed over). Such instances vanish
+from elaborated terms but are still needed by the source text the generator
+re-emits. `coeCandidates` pairs each candidate with the constants appearing in
+its type, and is gathered (and source-order filtered) by the caller. -/
+def collectSameModuleDependencies (env : Environment) (moduleName start : Name)
+    (coeCandidates : Array (Name × Array Name)) : Array Name := Id.run do
   let some moduleIdx := env.getModuleIdx? moduleName | return #[]
   let mut closure : NameSet := {}
   let mut stack : Array Name := #[start]
-  while !stack.isEmpty do
-    let current := stack.back!
-    stack := stack.pop
-    if closure.contains current then continue
-    closure := closure.insert current
-    let some info := env.find? current | continue
-    for c in info.getUsedConstantsAsSet do
-      if env.getModuleIdxFor? c == some moduleIdx
-          && c != current && !closure.contains c then
-        stack := stack.push c
+  let mut progress := true
+  while progress do
+    progress := false
+    -- Direct dependency closure over the same-module subgraph.
+    while !stack.isEmpty do
+      let current := stack.back!
+      stack := stack.pop
+      if closure.contains current then continue
+      closure := closure.insert current
+      let some info := env.find? current | continue
+      for c in info.getUsedConstantsAsSet do
+        if env.getModuleIdxFor? c == some moduleIdx
+            && c != current && !closure.contains c then
+          stack := stack.push c
+    -- Pull in coercion candidates now reachable, then re-close.
+    for (inst, typeConsts) in coeCandidates do
+      if closure.contains inst then continue
+      if typeConsts.any closure.contains then
+        stack := stack.push inst
+        progress := true
   return (closure.erase start).toArray.filter (fun n => !n.isInternalDetail)
+
+/-- Gather the same-module coercion providers (see `coercionClassLastComponents`)
+that are declared *before* `beforeLine`, paired with the constants in their type.
+
+Restricting to declarations preceding the extracted hole matches Lean scoping: a
+coercion used by a kept helper must be declared before that helper, hence before
+the hole. It also prevents leaking declarations that follow the hole into
+`ChallengeDeps.lean`. Detected structurally by the conclusion head of the type —
+`Lean.Meta.isInstanceCore` is unreliable against the bare environment produced by
+`importModules` (the instance extension state is not materialised). -/
+def gatherCoercionCandidates (env : Environment) (moduleName : Name) (beforeLine : Nat) :
+    CoreM (Array (Name × Array Name)) := do
+  let some moduleIdx := env.getModuleIdx? moduleName | return #[]
+  let mut cands : Array (Name × Array Name) := #[]
+  for (c, info) in env.constants do
+    if env.getModuleIdxFor? c == some moduleIdx then
+      if let some cls := conclusionHead info.type then
+        if isCoercionClassName cls then
+          if let some r ← findDeclarationRanges? c then
+            if r.range.pos.line < beforeLine then
+              cands := cands.push (c, info.type.getUsedConstants)
+  return cands
 
 def extractTheorem (moduleNameText declNameText : String) : IO ExtractedTheorem := do
   let moduleName := parseName moduleNameText
@@ -94,8 +154,13 @@ def extractTheorem (moduleNameText declNameText : String) : IO ExtractedTheorem 
   let resolvedDeclName ← resolveDeclName env moduleName declName
   let some constantInfo := env.find? resolvedDeclName
     | throw <| IO.userError s!"Resolved declaration '{resolvedDeclName}' disappeared unexpectedly."
-  let some declRanges ← ({ env := env } : PPContext).runCoreM do
-    findDeclarationRanges? resolvedDeclName
+  let (declRanges?, coeCandidates) ← ({ env := env } : PPContext).runCoreM do
+    let declRanges? ← findDeclarationRanges? resolvedDeclName
+    let coeCandidates ← match declRanges? with
+      | some r => gatherCoercionCandidates env moduleName r.range.pos.line
+      | none => pure #[]
+    return (declRanges?, coeCandidates)
+  let some declRanges := declRanges?
     | throw <| IO.userError s!"Declaration ranges for '{resolvedDeclName}' were not available."
   let sourceRange : SourceRange := {
     startLine := declRanges.range.pos.line
@@ -110,7 +175,7 @@ def extractTheorem (moduleNameText declNameText : String) : IO ExtractedTheorem 
     | _ => none
   match kind? with
   | some kind =>
-      let deps := collectSameModuleDependencies env moduleName resolvedDeclName
+      let deps := collectSameModuleDependencies env moduleName resolvedDeclName coeCandidates
       return {
         declarationName := toString resolvedDeclName
         module := moduleNameText
