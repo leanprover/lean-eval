@@ -168,7 +168,7 @@ def pushEvalProblemHoverInfo (declName : Name) (attrStx : Syntax) (metadata : Ev
       isBinder := false
       isDisplayableTerm := false
     }
-    docString? := some (formatManifestHover metadata)
+    mkDocString? := some (fun _ => pure (formatManifestHover metadata))
     explicit := true
   }
   Elab.pushInfoLeaf info

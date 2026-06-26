@@ -25,7 +25,7 @@ def markoffGraph (p : ℕ) : SimpleGraph (MarkoffTriple p) where
       ((y.1 0 = (3 : ZMod p) * x.1 1 * x.1 2 - x.1 0 ∧ y.1 1 = x.1 1 ∧ y.1 2 = x.1 2) ∨
        (y.1 1 = (3 : ZMod p) * x.1 0 * x.1 2 - x.1 1 ∧ y.1 0 = x.1 0 ∧ y.1 2 = x.1 2) ∨
        (y.1 2 = (3 : ZMod p) * x.1 0 * x.1 1 - x.1 2 ∧ y.1 0 = x.1 0 ∧ y.1 1 = x.1 1))
-  symm := by
+  symm.symm := by
     intro x y hxy
     rcases hxy with ⟨hneq, hmove | hmove | hmove⟩
     · constructor

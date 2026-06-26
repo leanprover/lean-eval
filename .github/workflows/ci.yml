@@ -50,9 +50,9 @@ jobs:
         run: |
           git clone https://github.com/leanprover/lean4export.git .ci/lean4export
           cd .ci/lean4export
-          # lean4export pinned to a3e35a58 (= refs/tags/v4.30.0 as of 2026-06-14).
+          # lean4export pinned to 3de59f10 (= refs/tags/v4.32.0-rc1 as of 2026-06-27).
           # Bump procedure: SECURITY.md > "Bumping pinned dependencies".
-          git checkout a3e35a584f59b390667db7269cd37fca8575e4bf  # pin-audit: exempt -- SHA, see comment
+          git checkout 3de59f10bc4b4a0f2de698597aeb1246caa0df0a  # pin-audit: exempt -- SHA, see comment
           lake build lean4export
           echo "$PWD/.lake/build/bin" >> "$GITHUB_PATH"
 

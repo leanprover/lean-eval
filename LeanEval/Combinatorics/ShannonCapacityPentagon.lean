@@ -29,7 +29,7 @@ when they are distinct and every coordinate is either equal or confusable in
 the base graph. -/
 def strongPower {V : Type*} (G : SimpleGraph V) (k : ℕ) : SimpleGraph (Fin k → V) where
   Adj x y := x ≠ y ∧ ∀ i, x i = y i ∨ G.Adj (x i) (y i)
-  symm x y := by
+  symm.symm x y := by
     rintro ⟨hxy, hcoord⟩
     exact ⟨hxy.symm, fun i => (hcoord i).imp Eq.symm SimpleGraph.Adj.symm⟩
   loopless := ⟨fun x h => h.1 rfl⟩

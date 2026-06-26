@@ -195,7 +195,7 @@ upstream publisher controls our supply chain.
 | Dependency | Repo | Pinned to | Purpose | Last bumped |
 |---|---|---|---|---|
 | landrun | zouuup/landrun | `5ed4a3db3a4ad930d577215c6b9abaa19df7f99f` | Linux landlock sandbox | 2026-05-04 |
-| lean4export | leanprover/lean4export | `a3e35a584f59b390667db7269cd37fca8575e4bf` | exports olean to text | 2026-06-14 |
+| lean4export | leanprover/lean4export | `3de59f10bc4b4a0f2de698597aeb1246caa0df0a` | exports olean to text | 2026-06-27 |
 | comparator | leanprover/comparator | `71b52ec29e06d4b7d882726553b1ceb99a2499e0` | the verifier | pre-2026-05 |
 | `jlumbroso/free-disk-space` | (action) | `54081f138730dfa15788a46383842cd2f914a1be` | runner disk cleanup | 2026-05-04 |
 | `actions/checkout` | (action) | `11bd71901bbe5b1630ceea73d27597364c9af683` | repo checkout | 2026-05-04 |

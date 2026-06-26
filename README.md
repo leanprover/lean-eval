@@ -203,7 +203,7 @@ export PATH="$(go env GOPATH)/bin:$PATH"
 # lean4export — clone, check out the pin, and build.
 git clone https://github.com/leanprover/lean4export.git
 ( cd lean4export
-  git checkout 12581a6b680d8478175596338eb2d53383a323e3
+  git checkout 3de59f10bc4b4a0f2de698597aeb1246caa0df0a
   lake build lean4export )
 export PATH="$PWD/lean4export/.lake/build/bin:$PATH"
 
@@ -217,13 +217,13 @@ export PATH="$PWD/comparator/.lake/build/bin:$PATH"
 
 `lean4export` and `comparator` are Lean programs: `lake build` compiles each with
 the Lean toolchain pinned in *its own* `lean-toolchain` at the commit above (the
-v4.30.0 toolchain). This must match the toolchain that builds the workspace,
+v4.32.0-rc1 toolchain). This must match the toolchain that builds the workspace,
 because comparator builds `Challenge.olean` with the workspace toolchain and then
 reads it back with `lean4export`. If the two differ you get
 `failed to read file '.../Challenge.olean', incompatible header` — that error
 means a Lean/olean version mismatch (or a stale `.lake` artifact left over from
 an earlier toolchain), never a problem with your proof. If you hit it, rebuild
-`lean4export` (and `comparator`) at the pinned commits with the rc2 toolchain
+`lean4export` (and `comparator`) at the pinned commits with the v4.32.0-rc1 toolchain
 rather than your `elan` default, and clear the affected workspace's `.lake/build`
 before retrying.
 
