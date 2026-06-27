@@ -1,0 +1,9 @@
+id = "koukoulopoulos_maynard"
+title = "Duffin–Schaeffer theorem (Koukoulopoulos–Maynard)"
+test = false
+module = "LeanEval.NumberTheory.KoukoulopoulosMaynard"
+holes = ["koukoulopoulos_maynard"]
+submitter = "Bolton Bailey/Project Numina"
+source = "https://en.wikipedia.org/wiki/Duffin%E2%80%93Schaeffer_theorem"
+# TODO(notes): optional notes about the problem
+# TODO(informal_solution): optional proof sketch or reference
