@@ -8,6 +8,7 @@ namespace Submission
 theorem m23_irrep_tensor_square_decomp :
     ∃ (G : Type) (_ : Group G) (_ : Fintype G),
       Fintype.card G = 10200960 ∧
+      IsSimpleGroup G ∧
       ∃ (V : Type) (_ : AddCommGroup V) (_ : Module ℂ V) (ρ : Representation ℂ G V),
         Module.finrank ℂ V = 22 ∧
         ρ.IsIrreducible ∧

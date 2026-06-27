@@ -28,11 +28,25 @@ irreducible summands.
 Mathlib does not yet construct `M₂₃` directly, so any solution must build the
 group from scratch (e.g. as a subgroup of `S₂₃` via generators of the Steiner
 system `S(4,7,23)`, or from the automorphism group of an extended ternary Golay
-code, etc.). The statement does not pin down `M₂₃` uniquely (other groups of
-the same order with a 22-dim irrep of the right tensor-square structure would
-also satisfy the existential), but while this does not technically require
-constructing `M₂₃` and studying its representation theory, we suspect that in
-practice it does.
+code, etc.).
+
+This statement was corrected on 2026-06-27. An earlier version omitted the
+`IsSimpleGroup G` hypothesis and constrained `G` only by its order. That version
+did *not* pin down `M₂₃`: Lorenzo Luccioli, using Harmonic's Aristotle, found a
+clever solution that never builds `M₂₃` at all, exploiting that every quantity in
+the conclusion is multiplicative under external tensor product. Taking
+`G = SL(2, 𝔽₃) × (C₂₃ ⋊ C₁₁) × C₁₆₈₀` — a *solvable* group of order
+`24 · 253 · 1680 = 10 200 960` — and `V` the external tensor product of a 2-,
+11-, and 1-dimensional irreducible yields `dim V = 2 · 11 · 1 = 22` and a
+tensor-square isotypic count of `2 · 2 · 1 = 4`, satisfying the old existential
+with none of the intended `M₂₃` content. Our thanks to Lorenzo and Aristotle for
+the disproof.
+
+The repair adds `IsSimpleGroup G`. A nontrivial direct product is never simple,
+so every such decomposable witness is excluded; and by the classification of
+finite simple groups the unique simple group of order `10 200 960` is `M₂₃`, so
+the statement now genuinely requires constructing `M₂₃` and studying its
+representation theory.
 
 The `G`-action is carried by a `Representation ℂ G V`. The diagonal action on
 the tensor square is `ρ.tprod ρ` (`(ρ.tprod ρ) g = TensorProduct.map (ρ g) (ρ g)`),
@@ -56,6 +70,7 @@ extractor does not carry onto the generated `Challenge.lean`).
 theorem m23_irrep_tensor_square_decomp :
     ∃ (G : Type) (_ : Group G) (_ : Fintype G),
       Fintype.card G = 10200960 ∧
+      IsSimpleGroup G ∧
       ∃ (V : Type) (_ : AddCommGroup V) (_ : Module ℂ V) (ρ : Representation ℂ G V),
         Module.finrank ℂ V = 22 ∧
         ρ.IsIrreducible ∧

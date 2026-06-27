@@ -6,7 +6,7 @@
       "name": "LeanEval.RepresentationTheory.m23_irrep_tensor_square_decomp",
       "basename": "m23_irrep_tensor_square_decomp",
       "kind": "theorem",
-      "body": "theorem m23_irrep_tensor_square_decomp :\n    \u2203 (G : Type) (_ : Group G) (_ : Fintype G),\n      Fintype.card G = 10200960 \u2227\n      \u2203 (V : Type) (_ : AddCommGroup V) (_ : Module \u2102 V) (\u03c1 : Representation \u2102 G V),\n        Module.finrank \u2102 V = 22 \u2227\n        \u03c1.IsIrreducible \u2227\n        (@isotypicComponents (MonoidAlgebra \u2102 G) (V \u2297[\u2102] V) _ _\n          (Module.compHom (V \u2297[\u2102] V)\n            (Representation.asAlgebraHom (\u03c1.tprod \u03c1)).toRingHom)).ncard = 4 := by\n  sorry"
+      "body": "theorem m23_irrep_tensor_square_decomp :\n    \u2203 (G : Type) (_ : Group G) (_ : Fintype G),\n      Fintype.card G = 10200960 \u2227\n      IsSimpleGroup G \u2227\n      \u2203 (V : Type) (_ : AddCommGroup V) (_ : Module \u2102 V) (\u03c1 : Representation \u2102 G V),\n        Module.finrank \u2102 V = 22 \u2227\n        \u03c1.IsIrreducible \u2227\n        (@isotypicComponents (MonoidAlgebra \u2102 G) (V \u2297[\u2102] V) _ _\n          (Module.compHom (V \u2297[\u2102] V)\n            (Representation.asAlgebraHom (\u03c1.tprod \u03c1)).toRingHom)).ncard = 4 := by\n  sorry"
     }
   ]
 }
