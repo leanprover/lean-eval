@@ -1,0 +1,9 @@
+id = "two_ninety_theorem"
+title = "The 290 theorem"
+test = false
+module = "LeanEval.NumberTheory.TwoNinetyTheorem"
+holes = ["two_ninety_theorem"]
+submitter = "Bolton Bailey/Project Numina"
+source = "https://en.wikipedia.org/wiki/15_and_290_theorems"
+# TODO(notes): optional notes about the problem
+# TODO(informal_solution): optional proof sketch or reference

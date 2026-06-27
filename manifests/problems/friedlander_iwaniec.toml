@@ -1,0 +1,9 @@
+id = "friedlander_iwaniec"
+title = "Friedlander–Iwaniec theorem"
+test = false
+module = "LeanEval.NumberTheory.FriedlanderIwaniec"
+holes = ["friedlander_iwaniec"]
+submitter = "Bolton Bailey/Project Numina"
+source = "https://en.wikipedia.org/wiki/Friedlander%E2%80%93Iwaniec_theorem"
+# TODO(notes): optional notes about the problem
+# TODO(informal_solution): optional proof sketch or reference

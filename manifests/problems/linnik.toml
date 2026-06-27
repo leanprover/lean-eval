@@ -1,0 +1,9 @@
+id = "linnik"
+title = "Linnik's theorem"
+test = false
+module = "LeanEval.NumberTheory.Linnik"
+holes = ["linnik"]
+submitter = "Bolton Bailey/Project Numina"
+source = "https://en.wikipedia.org/wiki/Linnik's_theorem"
+# TODO(notes): optional notes about the problem
+# TODO(informal_solution): optional proof sketch or reference
