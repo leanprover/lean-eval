@@ -4,6 +4,5 @@ test = false
 module = "LeanEval.NumberTheory.KoukoulopoulosMaynard"
 holes = ["koukoulopoulos_maynard"]
 submitter = "Bolton Bailey/Project Numina"
-source = "https://en.wikipedia.org/wiki/Duffin%E2%80%93Schaeffer_theorem"
-# TODO(notes): optional notes about the problem
-# TODO(informal_solution): optional proof sketch or reference
+notes = "The Duffin–Schaeffer theorem, proved in full by Koukoulopoulos and Maynard (2020): for a positive approximating function `f`, almost every real `x` is approximable by infinitely many reduced fractions `p/q` with `|x - p/q| < f(q)/q` if and only if the series `∑ φ(n) f(n) / n` diverges."
+source = "Dimitris Koukoulopoulos, James Maynard 'On the Duffin-Schaeffer conjecture,' Annals of Mathematics, Ann. of Math. (2) 192(1), 251-307, (July 2020). https://doi.org/10.4007/annals.2020.192.1.5"
