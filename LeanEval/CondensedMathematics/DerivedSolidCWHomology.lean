@@ -30,6 +30,10 @@ The `sorry`ed declarations (the holes of this multi-hole problem) are:
   derived functor of degreewise solidification;
 * `derivedSolidificationAdjunction` — derived solidification is left adjoint to the derived
   inclusion;
+* `derivedSolidificationFreeCWFunctor` — the functor on CW complexes whose values are the derived
+  inclusion of the derived solidification of the free light condensed abelian group;
+* `derivedSolidificationFreeCWFunctorSpec` — an isomorphism identifying
+  `derivedSolidificationFreeCWFunctor` with the expected composite functor;
 * `derivedSolidification_free_CW_derivedNatIso` — naturally in a CW complex `X`, the derived
   inclusion of the derived solidification of `ℤ[X]` is isomorphic in the derived category of light
   condensed abelian groups to the integral singular chain complex of `X`, viewed as a complex of
@@ -402,18 +406,25 @@ abbrev toTopCat : CWTopCat ⥤ TopCat := isCWTopCat.ι
 
 end CWTopCat
 
-/-- The functor sending a CW complex to the derived inclusion of the derived solidification of the
-free light condensed abelian group on it. -/
-noncomputable abbrev derivedSolidificationFreeCWFunctor : CWTopCat ⥤ DLightCondAb :=
-  CWTopCat.toTopCat ⋙ freeLightCondAbOfTopFunctor ⋙ DerivedCategory.singleFunctor LightCondAb 0 ⋙
-    derivedSolidification ⋙ derivedInclusion
+/-- **Hole 8.** The functor sending a CW complex to the derived inclusion of the derived
+solidification of the free light condensed abelian group on it. -/
+@[eval_problem]
+noncomputable abbrev derivedSolidificationFreeCWFunctor : CWTopCat ⥤ DLightCondAb := sorry
+
+/-- **Hole 9.** The specification identifying `derivedSolidificationFreeCWFunctor` with the
+expected composite functor. -/
+@[eval_problem]
+noncomputable abbrev derivedSolidificationFreeCWFunctorSpec :
+    derivedSolidificationFreeCWFunctor ≅
+      CWTopCat.toTopCat ⋙ freeLightCondAbOfTopFunctor ⋙ DerivedCategory.singleFunctor LightCondAb 0 ⋙
+        derivedSolidification ⋙ derivedInclusion := sorry
 
 /-- The integral singular chains functor on CW complexes, viewed in the derived category of light
 condensed abelian groups. -/
 noncomputable abbrev singularChainsLightCondAbCWDerivedFunctor : CWTopCat ⥤ DLightCondAb :=
   CWTopCat.toTopCat ⋙ singularChainsLightCondAbDerivedFunctor
 
-/-- **Hole 8.** The derived comparison theorem, naturally in a CW complex `X`: after applying the
+/-- **Hole 10.** The derived comparison theorem, naturally in a CW complex `X`: after applying the
 exact derived inclusion from solid light condensed abelian groups to light condensed abelian groups,
 the derived solidification of the free light condensed abelian group on `X` is the integral singular
 chain complex of `X` as a derived object of light condensed abelian groups. -/
@@ -428,9 +439,10 @@ noncomputable def derivedSolidification_free_CW_derivedIso
       (derivedSolidification.obj
         ((DerivedCategory.singleFunctor LightCondAb 0).obj (freeLightCondAbOfTop X))) ≅
       singularChainsLightCondAbDerived X :=
-  derivedSolidification_free_CW_derivedNatIso.app ⟨X, ⟨inferInstance⟩⟩
+  (derivedSolidificationFreeCWFunctorSpec.app ⟨X, ⟨inferInstance⟩⟩).symm.trans
+    (derivedSolidification_free_CW_derivedNatIso.app ⟨X, ⟨inferInstance⟩⟩)
 
-/-- **Hole 9.** For a CW complex `X`, the homology of the derived solidification of the free
+/-- **Hole 11.** For a CW complex `X`, the homology of the derived solidification of the free
 light condensed abelian group on `X` is integral singular homology.  Since the derived category
 is cohomologically indexed, the `n`-th singular homology group occurs in degree `-n`. -/
 @[eval_problem]
@@ -442,7 +454,7 @@ noncomputable def derivedSolidification_free_CW_homologyIso
           ((DerivedCategory.singleFunctor LightCondAb 0).obj (freeLightCondAbOfTop X)))) ≅
       singularHomologyLightCondAb X n := sorry
 
-/-- **Hole 10.** The theorem form of `derivedSolidification_free_CW_homologyIso`: the derived
+/-- **Hole 12.** The theorem form of `derivedSolidification_free_CW_homologyIso`: the derived
 solidification of the free light condensed abelian group on a CW complex computes integral
 singular homology. -/
 @[eval_problem]
