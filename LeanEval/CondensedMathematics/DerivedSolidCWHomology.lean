@@ -409,12 +409,12 @@ end CWTopCat
 /-- **Hole 8.** The functor sending a CW complex to the derived inclusion of the derived
 solidification of the free light condensed abelian group on it. -/
 @[eval_problem]
-noncomputable abbrev derivedSolidificationFreeCWFunctor : CWTopCat ⥤ DLightCondAb := sorry
+noncomputable def derivedSolidificationFreeCWFunctor : CWTopCat ⥤ DLightCondAb := sorry
 
 /-- **Hole 9.** The specification identifying `derivedSolidificationFreeCWFunctor` with the
 expected composite functor. -/
 @[eval_problem]
-noncomputable abbrev derivedSolidificationFreeCWFunctorSpec :
+noncomputable def derivedSolidificationFreeCWFunctorSpec :
     derivedSolidificationFreeCWFunctor ≅
       CWTopCat.toTopCat ⋙ freeLightCondAbOfTopFunctor ⋙ DerivedCategory.singleFunctor LightCondAb 0 ⋙
         derivedSolidification ⋙ derivedInclusion := sorry
