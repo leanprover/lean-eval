@@ -294,7 +294,7 @@ abbrev DSolid := DerivedCategory Solid
 
 /-- **Hole 1.** The solidification functor, left adjoint to the inclusion of solid objects. -/
 @[eval_problem]
-noncomputable def solidification : LightCondAb ⥤ Solid := sorry
+def solidification : LightCondAb ⥤ Solid := sorry
 
 /-- **Hole 2.** The solidification functor is additive.  (This follows from the adjunction of the
 next hole, but is needed as an instance to state the holes below.) -/
@@ -304,15 +304,15 @@ instance solidification_additive : solidification.Additive := sorry
 /-- **Hole 3.** The solidification adjunction: solidification is left adjoint to the inclusion of
 solid objects in light condensed abelian groups. -/
 @[eval_problem]
-noncomputable def solidificationAdjunction : solidification ⊣ isSolid.ι := sorry
+def solidificationAdjunction : solidification ⊣ isSolid.ι := sorry
 
 /-- **Hole 4.** The derived solidification functor. -/
 @[eval_problem]
-noncomputable def derivedSolidification : DLightCondAb ⥤ DSolid := sorry
+def derivedSolidification : DLightCondAb ⥤ DSolid := sorry
 
 /-- **Hole 5.** The comparison map from derived solidification to degreewise solidification. -/
 @[eval_problem]
-noncomputable def derivedSolidificationCounit :
+def derivedSolidificationCounit :
     DerivedCategory.Q ⋙ derivedSolidification ⟶
       solidification.mapHomologicalComplex (ComplexShape.up ℤ) ⋙ DerivedCategory.Q := sorry
 
@@ -324,22 +324,22 @@ instance derivedSolidification_isLeftDerivedFunctor :
       (HomologicalComplex.quasiIso LightCondAb (ComplexShape.up ℤ)) := sorry
 
 /-- The inclusion of solid abelian groups, applied degreewise to cochain complexes. -/
-noncomputable abbrev inclusionComplexes :
+abbrev inclusionComplexes :
     CochainComplex Solid ℤ ⥤ CochainComplex LightCondAb ℤ :=
   isSolid.ι.mapHomologicalComplex (ComplexShape.up ℤ)
 
 /-- The exact functor on derived categories induced by the inclusion `Solid ⥤ LightCondAb`. -/
-noncomputable abbrev derivedInclusion : DSolid ⥤ DLightCondAb :=
+abbrev derivedInclusion : DSolid ⥤ DLightCondAb :=
   isSolid.ι.mapDerivedCategory
 
 /-- The derived inclusion is induced by applying the inclusion degreewise to complexes. -/
-noncomputable abbrev derivedInclusionFactors :
+abbrev derivedInclusionFactors :
     DerivedCategory.Q ⋙ derivedInclusion ≅ inclusionComplexes ⋙ DerivedCategory.Q :=
   isSolid.ι.mapDerivedCategoryFactors
 
 /-- The comparison map exhibiting `derivedInclusion` as a right derived functor of the degreewise
 inclusion. -/
-noncomputable abbrev derivedInclusionComparison :
+abbrev derivedInclusionComparison :
     inclusionComplexes ⋙ DerivedCategory.Q ⟶ DerivedCategory.Q ⋙ derivedInclusion :=
   derivedInclusionFactors.inv
 
@@ -354,27 +354,27 @@ instance derivedInclusion_isRightDerivedFunctor :
 /-- **Hole 7.** The derived solidification adjunction: derived solidification is left adjoint to
 the derived inclusion. -/
 @[eval_problem]
-noncomputable def derivedSolidificationAdjunction : derivedSolidification ⊣ derivedInclusion :=
+def derivedSolidificationAdjunction : derivedSolidification ⊣ derivedInclusion :=
   sorry
 
 /-- The free light condensed abelian group on a topological space. -/
-noncomputable abbrev freeLightCondAbOfTop (X : TopCat) : LightCondAb :=
+abbrev freeLightCondAbOfTop (X : TopCat) : LightCondAb :=
   (free ℤ).obj X.toLightCondSet
 
 /-- The free light condensed abelian group on a topological space, functorially in the space. -/
-noncomputable abbrev freeLightCondAbOfTopFunctor : TopCat ⥤ LightCondAb :=
+abbrev freeLightCondAbOfTopFunctor : TopCat ⥤ LightCondAb :=
   topCatToLightCondSet ⋙ free ℤ
 
 /-- Integral singular homology of a topological space, viewed as a discrete light condensed
 abelian group. -/
-noncomputable abbrev singularHomologyLightCondAb (X : TopCat) (n : ℕ) : LightCondAb :=
+abbrev singularHomologyLightCondAb (X : TopCat) (n : ℕ) : LightCondAb :=
   (LightCondensed.discrete (ModuleCat ℤ)).obj
     (((AlgebraicTopology.singularHomologyFunctor (ModuleCat ℤ) n).obj (ModuleCat.of ℤ ℤ)).obj X)
 
 /-- The integral singular chain complex of a topological space, viewed as a cochain complex of
 light condensed abelian groups by applying the discrete functor degreewise and placing homological
 chain degree `n` in cohomological degree `-n`. -/
-noncomputable abbrev singularChainsLightCondAbComplexFunctor :
+abbrev singularChainsLightCondAbComplexFunctor :
     TopCat ⥤ CochainComplex LightCondAb ℤ :=
   ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat ℤ)).obj (ModuleCat.of ℤ ℤ)) ⋙
     (LightCondensed.discrete (ModuleCat ℤ)).mapHomologicalComplex (ComplexShape.down ℕ) ⋙
@@ -382,11 +382,11 @@ noncomputable abbrev singularChainsLightCondAbComplexFunctor :
 
 /-- The integral singular chain complex of a topological space as an object of the derived category
 of light condensed abelian groups. -/
-noncomputable abbrev singularChainsLightCondAbDerivedFunctor : TopCat ⥤ DLightCondAb :=
+abbrev singularChainsLightCondAbDerivedFunctor : TopCat ⥤ DLightCondAb :=
   singularChainsLightCondAbComplexFunctor ⋙ DerivedCategory.Q
 
 /-- The integral singular chain complex of a topological space as a derived object. -/
-noncomputable abbrev singularChainsLightCondAbDerived (X : TopCat) : DLightCondAb :=
+abbrev singularChainsLightCondAbDerived (X : TopCat) : DLightCondAb :=
   singularChainsLightCondAbDerivedFunctor.obj X
 
 /-- The property of topological spaces admitting a classical CW complex structure. -/
@@ -398,7 +398,7 @@ abbrev CWTopCat : Type _ := isCWTopCat.FullSubcategory
 
 namespace CWTopCat
 
-noncomputable instance (X : CWTopCat) : Topology.CWComplex (Set.univ : Set X.obj) :=
+instance (X : CWTopCat) : Topology.CWComplex (Set.univ : Set X.obj) :=
   Classical.choice X.property
 
 /-- The inclusion of CW spaces into topological spaces. -/
@@ -409,19 +409,19 @@ end CWTopCat
 /-- **Hole 8.** The functor sending a CW complex to the derived inclusion of the derived
 solidification of the free light condensed abelian group on it. -/
 @[eval_problem]
-noncomputable def derivedSolidificationFreeCWFunctor : CWTopCat ⥤ DLightCondAb := sorry
+def derivedSolidificationFreeCWFunctor : CWTopCat ⥤ DLightCondAb := sorry
 
 /-- **Hole 9.** The specification identifying `derivedSolidificationFreeCWFunctor` with the
 expected composite functor. -/
 @[eval_problem]
-noncomputable def derivedSolidificationFreeCWFunctorSpec :
+def derivedSolidificationFreeCWFunctorSpec :
     derivedSolidificationFreeCWFunctor ≅
       CWTopCat.toTopCat ⋙ freeLightCondAbOfTopFunctor ⋙ DerivedCategory.singleFunctor LightCondAb 0 ⋙
         derivedSolidification ⋙ derivedInclusion := sorry
 
 /-- The integral singular chains functor on CW complexes, viewed in the derived category of light
 condensed abelian groups. -/
-noncomputable abbrev singularChainsLightCondAbCWDerivedFunctor : CWTopCat ⥤ DLightCondAb :=
+abbrev singularChainsLightCondAbCWDerivedFunctor : CWTopCat ⥤ DLightCondAb :=
   CWTopCat.toTopCat ⋙ singularChainsLightCondAbDerivedFunctor
 
 /-- **Hole 10.** The derived comparison theorem, naturally in a CW complex `X`: after applying the
@@ -429,11 +429,11 @@ exact derived inclusion from solid light condensed abelian groups to light conde
 the derived solidification of the free light condensed abelian group on `X` is the integral singular
 chain complex of `X` as a derived object of light condensed abelian groups. -/
 @[eval_problem]
-noncomputable def derivedSolidification_free_CW_derivedNatIso :
+def derivedSolidification_free_CW_derivedNatIso :
     derivedSolidificationFreeCWFunctor ≅ singularChainsLightCondAbCWDerivedFunctor := sorry
 
 /-- The pointwise component of `derivedSolidification_free_CW_derivedNatIso`. -/
-noncomputable def derivedSolidification_free_CW_derivedIso
+def derivedSolidification_free_CW_derivedIso
     (X : TopCat) [Topology.CWComplex (Set.univ : Set X)] :
     derivedInclusion.obj
       (derivedSolidification.obj
@@ -446,7 +446,7 @@ noncomputable def derivedSolidification_free_CW_derivedIso
 light condensed abelian group on `X` is integral singular homology.  Since the derived category
 is cohomologically indexed, the `n`-th singular homology group occurs in degree `-n`. -/
 @[eval_problem]
-noncomputable def derivedSolidification_free_CW_homologyIso
+def derivedSolidification_free_CW_homologyIso
     (X : TopCat) [Topology.CWComplex (Set.univ : Set X)] (n : ℕ) :
     isSolid.ι.obj
       ((DerivedCategory.homologyFunctor Solid (-(n : ℤ))).obj
@@ -470,3 +470,5 @@ theorem derivedSolidification_free_CW_homology
 end Solid
 
 end LightCondensed
+
+end
