@@ -1,0 +1,8 @@
+id = "uniformization_key"
+title = "Uniformization theorem for Riemann surfaces (key step)"
+test = false
+module = "LeanEval.Geometry.Uniformization"
+holes = ["uniformization_key"]
+submitter = "Junyan Xu"
+note = "This is a key step in the proof of the uniformization theorem, which just needs to be combined with the Riemann mapping theorem and Radó's theorem to yield a full proof."
+source = "Cipriana Anghel, Rares Stan, *Uniformization of Riemann surfaces revisited*, https://arxiv.org/abs/2008.12189."

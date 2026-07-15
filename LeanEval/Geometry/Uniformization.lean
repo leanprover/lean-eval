@@ -1,4 +1,4 @@
-import Mathlib.AlgebraicTopology.FundamentalGroupoid.FundamentalGroup
+import Mathlib.AlgebraicTopology.FundamentalGroupoid.SimplyConnected
 import Mathlib.Analysis.Complex.Basic
 import Mathlib.Analysis.Complex.UpperHalfPlane.Manifold
 import Mathlib.Geometry.Manifold.Diffeomorph
@@ -26,8 +26,15 @@ theorem (Riemann surfaces are second-countable), which is another LeanEval probl
 (`LeanEval.Geometry.rado_riemannSurface`). To avoid the overlap, we assume the
 Riemann surface is second countable in our statement here.
 
+[AnghelStan] presents a self-contained proof of the a priori weaker statement that every
+non-compact simply-connected Riemann surface is biholomorphic to a domain in ℂ. The proof
+uses Sard's lemma together with the Riemann mapping theorem to circumvent certain prerequisites
+in the proof in [Hubbard]. Full Lean proofs of the Riemann mapping theorem can be found in
+https://github.com/vbeffara/RMT4/ or https://github.com/leanprover-community/mathlib4/pull/33505.
+
 Reference:
 [Hubbard] John Hamal Hubbard, *Teichmüller theory and applications to geometry, topology, and dynamics. Vol. 1*
+[AnghelStan] Cipriana Anghel, Rares Stan, *Uniformization of Riemann surfaces revisited*, https://arxiv.org/abs/2008.12189
 -/
 
 namespace LeanEval.Geometry
@@ -36,10 +43,17 @@ noncomputable abbrev mℂ := modelWithCornersSelf ℂ ℂ
 
 open scoped Manifold ContDiff
 
+variable {X : Type*} [TopologicalSpace X] [T2Space X] [ConnectedSpace X]
+variable [SecondCountableTopology X] [ChartedSpace ℂ X] [IsManifold mℂ 1 X]
+
 @[eval_problem]
-theorem uniformization {X : Type*} [TopologicalSpace X] [T2Space X] [ConnectedSpace X]
-    [SecondCountableTopology X] [ChartedSpace ℂ X] [IsManifold mℂ 1 X]
-    (hX : ¬ CompactSpace X) (x : X) [Subsingleton <| Additive (FundamentalGroup X x) →+ ℝ] :
+theorem uniformization_key (hX : ¬ CompactSpace X) [SimplyConnectedSpace X] :
+    ∃ D : TopologicalSpace.Opens ℂ, Nonempty (X ≃ₘ⟮mℂ, mℂ⟯ D) := by
+  sorry
+
+@[eval_problem]
+theorem uniformization (hX : ¬ CompactSpace X) (x : X)
+    [Subsingleton <| Additive (FundamentalGroup X x) →+ ℝ] :
     Nonempty (X ≃ₘ⟮mℂ, mℂ⟯ ℂ) ∨ Nonempty (X ≃ₘ⟮mℂ, mℂ⟯ UpperHalfPlane) := by
   sorry
 
