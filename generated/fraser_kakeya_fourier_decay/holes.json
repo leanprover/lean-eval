@@ -1,0 +1,12 @@
+{
+  "id": "fraser_kakeya_fourier_decay",
+  "module": "LeanEval.Combinatorics.FraserKakeya",
+  "holes": [
+    {
+      "name": "LeanEval.Combinatorics.FraserKakeyaProblem.fraser_kakeya_fourier_decay_and_sharp",
+      "basename": "fraser_kakeya_fourier_decay_and_sharp",
+      "kind": "theorem",
+      "body": "/-- **Fraser, Theorem 2.4.** Every finite-field Kakeya set in\ndimension `d \u2265 2` supports a probability measure with finite-field\nFourier transform bounded by `q^{-1}` at every nonzero frequency, and\nthis exponent is sharp in every dimension `d \u2265 2`: for every\n`\u03ba \u2208 (0, 1)` there is a threshold `Q` such that every finite field\n`F'` with `|F'| \u2265 Q` admits a Kakeya set `K' \u2286 F'^d` on which every\nprobability measure has some nonzero frequency at which the Fourier\ntransform satisfies `\u2016\u03bc\u0302(\u03be)\u2016 \u2265 \u03ba \u00b7 q'^{-1}`. -/\ntheorem fraser_kakeya_fourier_decay_and_sharp\n    {d : \u2115} (_hd : 2 \u2264 d) {K : Set (Space F d)} (_hK : IsKakeya K)\n    (\u03c7 : AddChar F \u2102) (_h\u03c7 : \u03c7 \u2260 1) :\n    (\u2203 \u03bc : Space F d \u2192 \u211d, IsProbabilityMeasureOn K \u03bc \u2227\n      \u2200 \u03be : Space F d, \u03be \u2260 0 \u2192\n        \u2016fourier \u03c7 \u03bc \u03be\u2016 \u2264 (Fintype.card F : \u211d)\u207b\u00b9) \u2227\n    (\u2200 \u03ba : \u211d, 0 < \u03ba \u2192 \u03ba < 1 \u2192\n      \u2203 Q : \u2115, \u2200 (F' : Type*) [Field F'] [Fintype F'] [DecidableEq F'],\n        Q \u2264 Fintype.card F' \u2192\n          \u2203 K' : Set (Space F' d), IsKakeya K' \u2227\n            \u2200 \u03bc : Space F' d \u2192 \u211d, IsProbabilityMeasureOn K' \u03bc \u2192\n              \u2203 \u03be : Space F' d, \u03be \u2260 0 \u2227\n                \u03ba * (Fintype.card F' : \u211d)\u207b\u00b9 \u2264\n                  \u2016fourier (AddChar.FiniteField.primitiveChar_to_Complex F') \u03bc \u03be\u2016) := by\n  sorry"
+    }
+  ]
+}

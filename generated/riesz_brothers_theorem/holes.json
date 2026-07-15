@@ -1,0 +1,12 @@
+{
+  "id": "riesz_brothers_theorem",
+  "module": "LeanEval.Analysis.RieszBrothers",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.riesz_brothers_theorem",
+      "basename": "riesz_brothers_theorem",
+      "kind": "theorem",
+      "body": "/-- **Riesz brothers' theorem.** Let `\u03bc` be a complex Borel measure on\nthe unit circle such that `\u222b z^n d\u03bc = 0` for every `n \u2265 1`. Then `\u03bc` is\nabsolutely continuous with respect to Haar measure, and more precisely\n`d\u03bc = h dm` for some `h \u2208 H^1`, i.e. some integrable density whose negative\nFourier coefficients vanish. -/\ntheorem riesz_brothers_theorem (\u03bc : ComplexMeasure UnitAddCircle)\n    (h\u03bc : \u2200 n : \u2115, 1 \u2264 n \u2192 \u222b\u1d5b z, fourier n z \u2202[ContinuousLinearMap.mul \u211d \u2102; \u03bc] = 0) :\n    \u03bc \u226a\u1d65 AddCircle.haarAddCircle.toENNRealVectorMeasure := by\n  sorry"
+    }
+  ]
+}

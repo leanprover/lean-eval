@@ -1,0 +1,12 @@
+{
+  "id": "hippocrates_lunes",
+  "module": "LeanEval.Geometry.HippocratesLunes",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.HippocratesLunes.hippocrates_lunes",
+      "basename": "hippocrates_lunes",
+      "kind": "theorem",
+      "body": "/-- **Hippocrates' theorem on lunes.** For a right triangle, the two lunes'\nareas sum to the triangle's area. -/\ntheorem hippocrates_lunes (a b : \u211d) (ha : 0 < a) (hb : 0 < b) :\n    volume (horizontalLune a b) + volume (verticalLune a b) =\n      volume (rightTriangle a b) := by\n  sorry"
+    }
+  ]
+}

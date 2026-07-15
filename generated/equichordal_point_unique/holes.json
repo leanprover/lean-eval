@@ -1,0 +1,12 @@
+{
+  "id": "equichordal_point_unique",
+  "module": "LeanEval.Geometry.Equichordal",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.Equichordal.equichordal_point_unique",
+      "basename": "equichordal_point_unique",
+      "kind": "theorem",
+      "body": "/-- **Equichordal point theorem** (\u00a7205).  A convex planar curve cannot have\ntwo distinct equichordal points. -/\ntheorem equichordal_point_unique {K : Set Plane}\n    (hK : IsCompact K) (hconv : Convex \u211d K) (hne : (interior K).Nonempty) :\n    \u00ac \u2203 P Q : Plane,\n      P \u2260 Q \u2227 IsEquichordalPoint K P \u2227 IsEquichordalPoint K Q := by\n  sorry"
+    }
+  ]
+}

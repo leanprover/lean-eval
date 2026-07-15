@@ -1,0 +1,12 @@
+{
+  "id": "levi_civita_exists_unique",
+  "module": "LeanEval.Geometry.LeviCivita",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.LeviCivita.levi_civita_exists_unique",
+      "basename": "levi_civita_exists_unique",
+      "kind": "theorem",
+      "body": "/-- **Fundamental theorem of Riemannian geometry** (Levi-Civita). On a\n`C^\u221e` finite-dimensional Riemannian manifold there exists a smooth\ntorsion-free metric-compatible covariant derivative on `TM`, and any other\nsuch connection agrees with it on smooth vector fields. -/\ntheorem levi_civita_exists_unique\n    {E : Type*} [NormedAddCommGroup E] [NormedSpace \u211d E]\n      [FiniteDimensional \u211d E] [CompleteSpace E]\n    {H : Type*} [TopologicalSpace H] {I : ModelWithCorners \u211d E H}\n    {M : Type*} [TopologicalSpace M] [T2Space M] [ChartedSpace H M]\n      [IsManifold I \u221e M]\n    [RiemannianBundle (fun (x : M) \u21a6 TangentSpace I x)]\n    [IsContMDiffRiemannianBundle I \u221e E (fun (x : M) \u21a6 TangentSpace I x)] :\n    \u2203 cov : CovariantDerivative I E (TangentSpace I (M := M)),\n      (ContMDiffCovariantDerivative cov \u221e \u2227\n        cov.torsion = 0 \u2227 IsMetricCompatible cov) \u2227\n      \u2200 cov' : CovariantDerivative I E (TangentSpace I (M := M)),\n        (ContMDiffCovariantDerivative cov' \u221e \u2227\n          cov'.torsion = 0 \u2227 IsMetricCompatible cov') \u2192\n        SameOnSmooth cov cov' := by\n  sorry"
+    }
+  ]
+}

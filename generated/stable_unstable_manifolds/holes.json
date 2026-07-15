@@ -1,0 +1,12 @@
+{
+  "id": "stable_unstable_manifolds",
+  "module": "LeanEval.Dynamics.StableUnstableManifolds",
+  "holes": [
+    {
+      "name": "LeanEval.Dynamics.StableUnstableManifoldsProblem.stable_unstable_manifolds_exist",
+      "basename": "stable_unstable_manifolds_exist",
+      "kind": "theorem",
+      "body": "/-- **Local stable and unstable sets at a hyperbolic fixed point**\n(set-level Hadamard\u2013Perron). For a `C\u00b9` map `f` with an invertible\nhyperbolic fixed point at `x\u2080`, some open neighbourhood `U \u220b x\u2080`\ncarries the local stable set `W\u02e2` (points whose forward orbit stays in\n`U` and converges to `x\u2080`) and the local unstable set `W\u1d58` (points\nadmitting a backward orbit staying in `U` and converging to `x\u2080`), and\n`W\u02e2 \u2229 W\u1d58 = {x\u2080}`. -/\ntheorem stable_unstable_manifolds_exist (n : \u2115) (f : E n \u2192 E n) (x\u2080 : E n)\n    (_hf : ContDiffAt \u211d 1 f x\u2080)\n    (_hfix : f x\u2080 = x\u2080)\n    (_hhyp : IsHyperbolicLinear (fderiv \u211d f x\u2080))\n    (_hf_inv : (fderiv \u211d f x\u2080).IsInvertible) :\n    \u2203 U : Set (E n), IsOpen U \u2227 x\u2080 \u2208 U \u2227\n      \u2203 Ws Wu : Set (E n),\n        Ws = {x | (\u2200 k : \u2115, f^[k] x \u2208 U) \u2227\n                  Tendsto (fun k => f^[k] x) atTop (\ud835\udcdd x\u2080)} \u2227\n        Wu = {x | \u2203 y : \u2115 \u2192 E n,\n                    y 0 = x \u2227\n                    (\u2200 k : \u2115, y k \u2208 U) \u2227\n                    (\u2200 k : \u2115, f (y (k + 1)) = y k) \u2227\n                    Tendsto y atTop (\ud835\udcdd x\u2080)} \u2227\n        Ws \u2229 Wu = {x\u2080} := by\n  sorry"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "hadwiger",
+  "module": "LeanEval.ConvexGeometry.Hadwiger",
+  "holes": [
+    {
+      "name": "LeanEval.ConvexGeometry.hadwiger",
+      "basename": "hadwiger",
+      "kind": "theorem",
+      "body": "/-- **Hadwiger's theorem.** The space of continuous rigid-motion-invariant\nvaluations on convex bodies in `\u211d\u207f` is `(n+1)`-dimensional. -/\ntheorem hadwiger (n : \u2115) : Module.finrank \u211d (valuations n) = n + 1 := by\n  sorry"
+    }
+  ]
+}

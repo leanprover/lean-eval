@@ -1,0 +1,12 @@
+{
+  "id": "lindemann_weierstrass",
+  "module": "LeanEval.NumberTheory.Lindemann",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.Lindemann.lindemann_weierstrass",
+      "basename": "lindemann_weierstrass",
+      "kind": "theorem",
+      "body": "/-- **Lindemann\u2013Weierstrass theorem.** If `x\u2081, \u2026, x\u2099 \u2208 \u2102` are algebraic over `\u211a`\nand \u211a-linearly independent, then `e^{x\u2081}, \u2026, e^{x\u2099}` are algebraically\nindependent over `\u211a`. -/\ntheorem lindemann_weierstrass {n : \u2115} (x : Fin n \u2192 \u2102)\n    (h_alg : \u2200 i, IsAlgebraic \u211a (x i))\n    (h_lin : LinearIndependent \u211a x) :\n    AlgebraicIndependent \u211a (fun i => Complex.exp (x i)) := by\n  sorry"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "halmos_generic_weak_mixing",
+  "module": "LeanEval.Dynamics.HalmosGenericWeakMixing",
+  "holes": [
+    {
+      "name": "LeanEval.Dynamics.HalmosGenericWeakMixingProblem.generic_weakly_mixing",
+      "basename": "generic_weakly_mixing",
+      "kind": "theorem",
+      "body": "/-- **Halmos's generic-weak-mixing theorem** (Halmos 1944). On a non-\natomic standard probability space, the set of weakly mixing\nautomorphisms is generic in the weak topology, and weakly mixing\nimplies ergodic. -/\ntheorem generic_weakly_mixing [StandardBorelSpace X]\n    (m : Measure X) [IsProbabilityMeasure m] [NoAtoms m] :\n    (\u2203 G : Set (Automorphism m), IsG\u03b4 G \u2227 Dense G \u2227\n      \u2200 T \u2208 G, IsWeaklyMixing m T) \u2227\n    (\u2200 T : Automorphism m, IsWeaklyMixing m T \u2192\n      Ergodic (T.toEquiv : X \u2192 X) m) := by\n  sorry"
+    }
+  ]
+}

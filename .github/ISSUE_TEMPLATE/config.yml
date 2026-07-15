@@ -1,5 +1,8 @@
 blank_issues_enabled: true
 contact_links:
+  - name: Submit a benchmark solution
+    url: https://github.com/leanprover/lean-eval-submissions/issues/new?template=submit.yml
+    about: Benchmark submissions are filed in leanprover/lean-eval-submissions, not here.
   - name: Discussion on Zulip
     url: https://leanprover.zulipchat.com/#narrow/channel/583341-Model-comparisons-for-Lean/topic/LeanEval/with/594108910
     about: General questions and discussion about lean-eval happen in the #Model-comparisons-for-Lean > LeanEval topic on the Lean Zulip.

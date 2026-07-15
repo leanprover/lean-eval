@@ -1,0 +1,12 @@
+{
+  "id": "darboux",
+  "module": "LeanEval.Geometry.Darboux",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.Darboux.darboux",
+      "basename": "darboux",
+      "kind": "theorem",
+      "body": "/-- **Darboux's theorem.** Every symplectic form on an open subset\n`U \u2286 \u211d^{2n}` is locally symplectomorphic to the standard symplectic form\n`\u03c9\u2080`. Formally: for every `x \u2208 U` there is a smooth local diffeomorphism\n`\u03c6` (`OpenPartialHomeomorph`, smooth in both directions) whose source lies\nin `U` and contains `x`, such that on the target the pullback of `\u03b1` by\n`\u03c6\u207b\u00b9` is in Darboux normal form (and hence equals `\u03c9\u2080`) at every point. -/\ntheorem darboux {n : \u2115} {U : Set (E n)} (_hU : IsOpen U)\n    (\u03b1 : E n \u2192 E n [\u22c0^Fin 2]\u2192L[\u211d] \u211d) (_h\u03b1 : IsSymplecticOn \u03b1 U)\n    {x : E n} (_hx : x \u2208 U) :\n    \u2203 \u03c6 : OpenPartialHomeomorph (E n) (E n),\n      x \u2208 \u03c6.source \u2227 \u03c6.source \u2286 U \u2227\n      ContDiffOn \u211d \u221e (\u03c6 : E n \u2192 E n) \u03c6.source \u2227\n      ContDiffOn \u211d \u221e (\u03c6.symm : E n \u2192 E n) \u03c6.target \u2227\n      \u2200 z \u2208 \u03c6.target,\n        IsDarbouxNormal\n          ((\u03b1 (\u03c6.symm z)).compContinuousLinearMap\n            (fderiv \u211d (\u03c6.symm : E n \u2192 E n) z)) := by\n  sorry"
+    }
+  ]
+}

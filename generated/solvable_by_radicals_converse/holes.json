@@ -1,0 +1,12 @@
+{
+  "id": "solvable_by_radicals_converse",
+  "module": "LeanEval.Algebra.SolvableByRadicals",
+  "holes": [
+    {
+      "name": "LeanEval.Algebra.solvable_iff_solvableByRad",
+      "basename": "solvable_iff_solvableByRad",
+      "kind": "theorem",
+      "body": "/-- **Solvable extensions \u2194 solvable groups.** For a field `F` of\ncharacteristic zero and a nonzero `p : F[X]`, every root of `p` in\n`AlgebraicClosure F` lies in `solvableByRad F (AlgebraicClosure F)`\niff `p.Gal` is solvable. -/\ntheorem solvable_iff_solvableByRad (F : Type*) [Field F] [CharZero F]\n    (p : F[X]) (_hp : p \u2260 0) :\n    (\u2200 x : AlgebraicClosure F, aeval x p = 0 \u2192\n        x \u2208 solvableByRad F (AlgebraicClosure F)) \u2194 IsSolvable p.Gal := by\n  sorry"
+    }
+  ]
+}

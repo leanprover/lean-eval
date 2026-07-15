@@ -1,0 +1,9 @@
+id = "kepler_conjecture"
+title = "Kepler conjecture (optimal sphere packing in ℝ³)"
+test = false
+module = "LeanEval.Geometry.KeplerConjecture"
+holes = ["kepler_conjecture"]
+submitter = "Kim Morrison"
+notes = "The optimal sphere-packing density in three dimensions equals π / √18, the density of the face-centred-cubic packing. The packing is taken over arbitrary (not necessarily lattice) sets of centres in ℝ³, with density defined via the limsup of the fraction of B_R(0) covered by the union of unit balls. §96 of Knill's *Some Fundamental Theorems in Mathematics*. The d = 8 (Viazovska) sphere-packing case is being formalised separately in `thefundamentaltheor3m/Sphere-Packing-Lean` and is excluded from this submission per the dedicated-external-project rule."
+source = "Kepler conjecture 1611 (J. Kepler, *Strena seu de Nive Sexangula*); proof T. Hales, 'A proof of the Kepler conjecture', Ann. of Math. (2) 162 (2005) 1065–1185; formal verification in HOL Light + Isabelle by the Flyspeck project (T. Hales et al., completed August 2014), Forum Math. Pi 5 (2017) e2. Wiedijk-1000 #209; listed as §96 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf)."
+informal_solution = "Hales's proof reduces the global density bound to a finite collection of local nonlinear inequalities on decomposition stars built from Voronoi–Delaunay data around each packing centre, then certifies these inequalities by interval arithmetic and linear programming over roughly 100 000 subproblems. The Flyspeck formalisation (HOL Light core + Isabelle/HOL for the LP component) discharged both the geometric reduction and the computational certificates. Mathlib has Lebesgue volume on `EuclideanSpace ℝ (Fin 3)`, ZLattice covolume, and limsup, but no packing density, no Voronoi/Delaunay machinery, no nonlinear-LP framework, and no Flyspeck-style certified interval arithmetic."

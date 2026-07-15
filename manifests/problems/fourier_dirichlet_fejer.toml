@@ -1,0 +1,9 @@
+id = "fourier_dirichlet_fejer"
+title = "Pointwise and Cesàro convergence of Fourier series (Dirichlet, Fejér)"
+test = false
+module = "LeanEval.Analysis.FourierConvergence"
+holes = ["dirichlet_pointwise", "fejer"]
+submitter = "Kim Morrison"
+notes = "§46 of Oliver Knill's 'Some Fundamental Theorems in Mathematics' records two Fourier convergence theorems for complex-valued 2π-periodic functions. Dirichlet's theorem says that if f is C¹, the symmetric Fourier partial sums S_N(f)(x) = ∑_{n=-N}^N f̂_n e^{inx} converge pointwise to f(x). Fejér's theorem says that if f is merely continuous, the Cesàro means (S_0 + ⋯ + S_N)/(N+1) converge uniformly to f. Mathlib has Fourier coefficients, Fourier characters, L² Fourier theory, and uniform convergence from summable coefficients (the C¹ bound |f̂_n| ≤ C/n is not ℓ¹-summable, so that route does not apply), but not the Dirichlet-kernel pointwise theorem, Fejér kernels/Cesàro means, or Fejér's theorem."
+source = "P. G. L. Dirichlet (1829) and L. Fejér (1900). Listed as §46 in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf)."
+informal_solution = "Dirichlet: write S_N(f)(x) = (1/2π) ∫ f(x−t) D_N(t) dt with the Dirichlet kernel D_N(t) = ∑_{n=−N}^N e^{int} = sin((N+½)t)/sin(t/2). Then S_N(f)(x) − f(x) = (1/2π) ∫ (f(x−t) − f(x)) D_N(t) dt; for C¹ f the difference quotient (f(x−t)−f(x))/sin(t/2) is bounded and integrable, so by the Riemann–Lebesgue lemma the integral against sin((N+½)t) tends to 0. Fejér: the Cesàro means satisfy σ_N(f)(x) = (1/2π) ∫ f(x−t) F_N(t) dt with the Fejér kernel F_N(t) = (1/(N+1)) (sin((N+1)t/2)/sin(t/2))², which is a nonnegative approximate identity (F_N ≥ 0, total mass 1, mass concentrating at 0). Convolution of a continuous (hence uniformly continuous) periodic f with an approximate identity converges uniformly, giving σ_N(f) → f uniformly."

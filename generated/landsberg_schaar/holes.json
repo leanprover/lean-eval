@@ -1,0 +1,12 @@
+{
+  "id": "landsberg_schaar",
+  "module": "LeanEval.NumberTheory.LandsbergSchaar",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.LandsbergSchaar.landsberg_schaar",
+      "basename": "landsberg_schaar",
+      "kind": "theorem",
+      "body": "/-- **Landsberg\u2013Schaar relation.** For positive odd integers `p, q`,\n`S(2q, p) = e^{i\u03c0/4} \u00b7 S(\u2212p, 2q)`. -/\ntheorem landsberg_schaar (p q : \u2115) (hp : Odd p) (hq : Odd q) :\n    gaussS (2 * q : \u2115) p\n      = Complex.exp ((Real.pi : \u2102) * Complex.I / 4) * gaussS (-(p : \u2124)) (2 * q) := by\n  sorry"
+    }
+  ]
+}

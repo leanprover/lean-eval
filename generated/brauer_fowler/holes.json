@@ -1,0 +1,12 @@
+{
+  "id": "brauer_fowler",
+  "module": "LeanEval.GroupTheory.BrauerFowler",
+  "holes": [
+    {
+      "name": "LeanEval.GroupTheory.brauer_fowler",
+      "basename": "brauer_fowler",
+      "kind": "theorem",
+      "body": "/-- **Brauer\u2013Fowler theorem.** There is a function bounding the order\nof a finite nonabelian simple group by the order of any involution\ncentralizer. -/\ntheorem brauer_fowler :\n    \u2203 f : \u2115 \u2192 \u2115, \u2200 (G : Type) [Group G] [Finite G],\n      IsSimpleGroup G \u2192 (\u2203 a b : G, a * b \u2260 b * a) \u2192\n      \u2200 t : G, orderOf t = 2 \u2192\n        Nat.card G \u2264 f (Nat.card (Subgroup.centralizer ({t} : Set G))) := by\n  sorry"
+    }
+  ]
+}

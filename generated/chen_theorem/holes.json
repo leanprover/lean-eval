@@ -1,0 +1,12 @@
+{
+  "id": "chen_theorem",
+  "module": "LeanEval.NumberTheory.ChenTheorem",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.ChenTheorem.chen_theorem",
+      "basename": "chen_theorem",
+      "kind": "theorem",
+      "body": "/-- **Chen's theorem.** There are infinitely many primes `p` for which `p + 2`\nhas at most two prime factors. -/\ntheorem chen_theorem :\n    {p : \u2115 | p.Prime \u2227 HasAtMostTwoPrimeFactors (p + 2)}.Infinite := by\n  sorry"
+    }
+  ]
+}

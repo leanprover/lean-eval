@@ -46,13 +46,15 @@ Current source modules live in topic folders such as:
 
 ### 3. Add the manifest entry
 
-Each tagged declaration must be listed by exactly one entry in
-[`manifests/problems.toml`](manifests/problems.toml). The `holes` array
-names every `@[eval_problem]`-tagged declaration in the module that the
-problem owns; for the common single-theorem case it has one element.
+Each tagged declaration must be listed by exactly one file under
+[`manifests/problems/`](manifests/problems/). One file per problem,
+named `<id>.toml`, with top-level keys (no `[[problem]]` wrapper). The
+filename stem must match the `id` field. The `holes` array names every
+`@[eval_problem]`-tagged declaration in the module that the problem
+owns; for the common single-theorem case it has one element.
 
 ```toml
-[[problem]]
+# manifests/problems/my_new_problem.toml
 id = "my_new_problem"
 title = "My new problem"
 test = false
@@ -66,12 +68,15 @@ informal_solution = "Optional proof sketch or reference."
 
 The required fields are:
 
-- `id`
+- `id` (must equal the filename stem)
 - `title`
 - `test`
 - `module`
 - `holes`
 - `submitter`
+
+The one-file-per-problem layout means two PRs adding distinct problems
+never conflict on the manifest.
 
 #### Multi-hole problems
 
@@ -181,26 +186,62 @@ that tells comparator to check your theorem from the `Submission` namespace.
 lake test
 ```
 
-If the comparator binary is not on your `PATH`, set it explicitly:
+`lake test` shells out to three external tools that you must install yourself:
+`landrun` (the sandbox), `lean4export` (exports oleans to text), and `comparator`
+(the verifier). All three are pinned to immutable commits; the authoritative pin
+table lives in [`SECURITY.md`](SECURITY.md) ("Trusted dependencies and pin
+policy"), and CI installs exactly these in
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml). Reproduce that setup
+locally:
 
 ```bash
-COMPARATOR_BIN=/path/to/comparator lake test
+# landrun — install at the pinned commit (NOT @main; the version string is
+# unreliable, and tagged releases through v0.1.15 lack fixes comparator needs).
+go install github.com/zouuup/landrun/cmd/landrun@5ed4a3db3a4ad930d577215c6b9abaa19df7f99f
+export PATH="$(go env GOPATH)/bin:$PATH"
+
+# lean4export — clone, check out the pin, and build.
+git clone https://github.com/leanprover/lean4export.git
+( cd lean4export
+  git checkout 3de59f10bc4b4a0f2de698597aeb1246caa0df0a
+  lake build lean4export )
+export PATH="$PWD/lean4export/.lake/build/bin:$PATH"
+
+# comparator — clone, check out the pin (adds `def`-hole support), and build.
+git clone https://github.com/leanprover/comparator.git
+( cd comparator
+  git checkout 71b52ec29e06d4b7d882726553b1ceb99a2499e0
+  lake build comparator )
+export PATH="$PWD/comparator/.lake/build/bin:$PATH"
 ```
 
-You can verify the installation against the starter problem from the repo root with:
+`lean4export` and `comparator` are Lean programs: `lake build` compiles each with
+the Lean toolchain pinned in *its own* `lean-toolchain` at the commit above (the
+v4.32.0-rc1 toolchain). This must match the toolchain that builds the workspace,
+because comparator builds `Challenge.olean` with the workspace toolchain and then
+reads it back with `lean4export`. If the two differ you get
+`failed to read file '.../Challenge.olean', incompatible header` — that error
+means a Lean/olean version mismatch (or a stale `.lake` artifact left over from
+an earlier toolchain), never a problem with your proof. If you hit it, rebuild
+`lean4export` (and `comparator`) at the pinned commits with the v4.32.0-rc1 toolchain
+rather than your `elan` default, and clear the affected workspace's `.lake/build`
+before retrying.
+
+Once the tools are on your `PATH`, verify the whole pipeline against the starter
+problem before attempting a real one — this builds and scores `two_plus_two` end
+to end, so it isolates an install problem from a proof problem:
 
 ```bash
 lake exe lean-eval check-comparator-installation
 ```
 
-Comparator setup also requires the upstream external tools, including `landrun` and
-`lean4export`. Install `landrun` from its git `main` branch
-(`go install github.com/zouuup/landrun/cmd/landrun@main`); the latest tagged
-release (v0.1.15) is missing fixes that comparator's sandbox relies on.
+If you keep the comparator binary somewhere off your `PATH`, point `lake test` at
+it explicitly (`landrun` and `lean4export` must still be on `PATH`, since
+comparator invokes them):
 
-CI pins `lean4export` to tag `v4.30.0-rc2` and `comparator` to commit
-`71b52ec29e06d4b7d882726553b1ceb99a2499e0` (which adds support for
-`def`-shaped holes).
+```bash
+COMPARATOR_BIN=/path/to/comparator lake test
+```
 
 ### 6. Check your local score
 
@@ -216,13 +257,23 @@ The scorer prefers `workspaces/<problem-id>/` when present and falls back to
 
 ## Submission Rules
 
+To **submit a solution** to the public leaderboard, open a submission issue on
+the submissions repository:
+
+> **[github.com/leanprover/lean-eval-submissions](https://github.com/leanprover/lean-eval-submissions)**
+
+That repository owns the hosted submission pipeline and the stored results.
+This repository (`leanprover/lean-eval`) holds only the problem set and the
+comparator/sandbox integration.
+
 Participants may use Mathlib freely.
 
 If a proof needs helper code that is not already in Mathlib, that code must be included
 inside the submission workspace itself. Multi-file submissions are allowed through
 `Submission.lean` and extra local modules under `Submission/`.
 
-For benchmark-repo submissions, validate changed paths with:
+For benchmark-repo submissions (a PR that edits a `generated/` workspace in place),
+validate changed paths with:
 
 ```bash
 lake exe lean-eval validate-submission --file generated/two_plus_two/Solution.lean
@@ -244,7 +295,7 @@ In practice, solvers should normally work in `Submission.lean` and `Submission/`
 ## Repository Layout
 
 - [`LeanEval/`](/home/kim/lean-evals/LeanEval): trusted authored problem statements
-- [`manifests/problems.toml`](/home/kim/lean-evals/manifests/problems.toml): problem metadata
+- [`manifests/problems/`](manifests/problems/): one TOML file per problem, named `<id>.toml`
 - [`generated/`](/home/kim/lean-evals/generated): generated comparator workspaces
 - [`scripts/`](/home/kim/lean-evals/scripts): generation, validation, and scoring helpers
 - [`PLAN.md`](/home/kim/lean-evals/PLAN.md): deferred design and roadmap notes

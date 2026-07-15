@@ -4,35 +4,40 @@ import EvalTools.Markers
 namespace LeanEval
 namespace RepresentationTheory
 
+open scoped TensorProduct
+
 /-!
-Brauer's theorem on character values.
+Brauer's splitting field theorem.
 
-For a finite group `G` of exponent `n`, every value of every complex
-character of `G` lies in (the image of) the cyclotomic field `ℚ(ζₙ)`.
-Concretely: there is a ring embedding `φ : ℚ(ζₙ) →+* ℂ` whose range
-contains `tr ρ(g)` for every finite-dimensional complex representation
-`ρ` of `G` and every `g ∈ G`.
+For a finite group `G` of exponent `n`, every finite-dimensional complex
+representation of `G` descends to `ℚ(ζₙ)`. Concretely: there is a ring
+embedding `φ : CyclotomicField n ℚ →+* ℂ`, a `ℚ(ζₙ)`-representation
+`(W, σ)` of `G`, and a `ℂ`-linear, `G`-equivariant isomorphism
+`ℂ ⊗[ℚ(ζₙ)] W ≃ V`, where ℂ is regarded as a `ℚ(ζₙ)`-algebra via `φ`.
 
-This is a consequence of Brauer's induction theorem (every character is a
-ℤ-combination of characters induced from elementary subgroups, whose values
-are visibly cyclotomic).
+Brauer (1945) proved this using his induction theorem.
 
-The full Brauer "splitting field" theorem says more — that `ℚ(ζₙ)` is in fact
-a *splitting field* for the group algebra, i.e. every irreducible complex
-representation admits a `ℚ(ζₙ)`-form. The character-value statement below
-is implied by the splitting-field statement and is the part most cleanly
-expressible in Mathlib's current API; the full splitting-field statement
-would additionally require scalar-extension scaffolding around
-`CyclotomicField n ℚ → ℂ`.
+The weaker "character values lie in `φ.range`" statement
+(`brauer_character_in_cyclotomic`) is a corollary, and is in fact
+elementary: `ρ g ^ n = 1` makes `ρ g` diagonalisable with `n`-th-root-of-
+unity eigenvalues, so its trace is already a sum of `n`-th roots of unity.
+The descent statement here is the deep content (Schur index 1 over
+`ℚ(ζₙ)` for every irreducible complex representation of `G`).
 -/
 
 @[eval_problem]
-theorem brauer_character_in_cyclotomic
-    (G : Type) [Group G] [Fintype G] :
-    ∃ φ : CyclotomicField (Monoid.exponent G) ℚ →+* ℂ,
-      ∀ (V : Type) (_ : AddCommGroup V) (_ : Module ℂ V) (_ : FiniteDimensional ℂ V)
-        (ρ : Representation ℂ G V) (g : G),
-        LinearMap.trace ℂ V (ρ g) ∈ φ.range := by
+theorem brauer_splitting_field
+    (G : Type) [Group G] [Fintype G]
+    (V : Type) [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
+    (ρ : Representation ℂ G V) :
+    ∃ (φ : CyclotomicField (Monoid.exponent G) ℚ →+* ℂ)
+      (W : Type) (_ : AddCommGroup W)
+      (_ : Module (CyclotomicField (Monoid.exponent G) ℚ) W)
+      (σ : Representation (CyclotomicField (Monoid.exponent G) ℚ) G W),
+      letI : Algebra (CyclotomicField (Monoid.exponent G) ℚ) ℂ := φ.toAlgebra
+      ∃ (f : (ℂ ⊗[CyclotomicField (Monoid.exponent G) ℚ] W) ≃ₗ[ℂ] V),
+        ∀ (g : G) (x : ℂ ⊗[CyclotomicField (Monoid.exponent G) ℚ] W),
+          f ((σ g).baseChange ℂ x) = ρ g (f x) := by
   sorry
 
 end RepresentationTheory

@@ -1,0 +1,12 @@
+{
+  "id": "whitney_embedding",
+  "module": "LeanEval.Geometry.WhitneyEmbedding",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.WhitneyEmbeddingProblem.whitney_embedding",
+      "basename": "whitney_embedding",
+      "kind": "theorem",
+      "body": "/-- **Whitney embedding theorem** (Whitney 1944). Every smooth\n`n`-manifold (`n \u2265 1`, Hausdorff, second-countable) admits a smooth\nembedding into `\u211d^{2n}`. -/\ntheorem whitney_embedding (n : \u2115) (_hn : 1 \u2264 n)\n    {M : Type*} [TopologicalSpace M]\n    [ChartedSpace (EuclideanSpace \u211d (Fin n)) M] [IsManifold (\ud835\udce1 n) \u221e M]\n    [T2Space M] [SecondCountableTopology M] :\n    \u2203 e : M \u2192 EuclideanSpace \u211d (Fin (2 * n)),\n      ContMDiff (\ud835\udce1 n) (\ud835\udce1 (2 * n)) \u221e e \u2227\n      IsEmbedding e \u2227\n      \u2200 x : M, Function.Injective (mfderiv (\ud835\udce1 n) (\ud835\udce1 (2 * n)) e x) := by\n  sorry"
+    }
+  ]
+}

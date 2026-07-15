@@ -1,0 +1,9 @@
+id = "pick"
+title = "Pick's theorem"
+test = false
+module = "LeanEval.Geometry.PicksTheorem"
+holes = ["pick"]
+submitter = "Kim Morrison"
+notes = "A simple lattice polygon with n ≥ 3 vertices has area I + B/2 − 1, with I/B the interior/boundary lattice-point counts. Trusted helpers (toPlane, latPoly, inside, area, Adjacent, IsSimple, boundaryPts, interiorPts) are non-holes; the simplicity hypothesis is mandatory (the formula is false for self-intersecting polygons). Mathlib has Polygon and its boundary but no polygon interior, lattice counts, or Pick's theorem (formalized in Isabelle/HOL but not Lean). Candidate from §154 of the Knill survey."
+source = "G. Pick, *Geometrisches zur Zahlenlehre* (1899). Knill, *Some fundamental theorems in mathematics*, §154."
+informal_solution = "Additivity + triangulation. Pick's measure P(poly) = I + B/2 − 1 is additive when gluing polygons along an edge (shared boundary points are double-counted as boundary then become interior, and the −1 terms combine correctly). Triangulate the simple polygon into lattice triangles; reduce to elementary (no interior/edge lattice points) triangles, each of area 1/2 with P = 0 + 3/2 − 1 = 1/2. Since both area and P are additive over the triangulation and agree on elementary triangles, they agree on the polygon. Requires the lattice triangulation + additivity machinery, absent from Mathlib."

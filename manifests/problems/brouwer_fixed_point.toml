@@ -1,0 +1,9 @@
+id = "brouwer_fixed_point"
+title = "Brouwer fixed-point theorem"
+test = false
+module = "LeanEval.Topology.Brouwer"
+holes = ["brouwer_fixed_point"]
+submitter = "Kim Morrison"
+notes = "§33 of Oliver Knill's 'Some Fundamental Theorems in Mathematics' (additional statement of the game-theory section; Brouwer underlies Nash's 1950 proof of equilibrium existence). Every continuous self-map of a nonempty compact convex K ⊆ ℝᵈ has a fixed point. Mathlib has the Banach fixed-point theorem (strictly weaker — needs Lipschitz < 1); `grep -ri brouwer` returns only Brouwerian lattices/logics. Brouwer is theorem #36 on Freek Wiedijk's 'Formalizing 100 Theorems' list and is formalized in Lean outside mathlib (per docs/100.yaml `links` entry), in Isabelle/AFP, HOL Light, and Coq."
+source = "L. E. J. Brouwer, Über Abbildung von Mannigfaltigkeiten, Math. Ann. 71 (1912). Listed as §33 in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf); also #36 on Freek Wiedijk's 100 list (https://www.cs.ru.nl/~freek/100/)."
+informal_solution = "Reduce to the closed unit ball B^d via a homeomorphism (any nonempty compact convex K ⊆ ℝᵈ is homeomorphic to a closed ball of the appropriate dimension). On the ball, suppose for contradiction f has no fixed point; then for each x ∈ B^d the ray from f(x) through x meets ∂B^d in a unique point r(x), defining a continuous retraction r : B^d → ∂B^d with r|∂B^d = id. Such a retraction is impossible by a homotopy/homology argument (the sphere S^{d-1} is not contractible / has H_{d-1} = ℤ while the ball has trivial reduced homology), giving a contradiction. Alternative proofs go through Sperner's lemma, simplicial approximation, or homotopy invariance of degree."

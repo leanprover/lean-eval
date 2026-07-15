@@ -1,0 +1,25 @@
+# `gorenstein_walter`
+
+Gorenstein–Walter theorem (dihedral Sylow 2-subgroup)
+
+- Problem ID: `gorenstein_walter`
+- Test Problem: no
+- Submitter: Kim Morrison
+- Notes: A finite nonabelian simple group with dihedral Sylow 2-subgroups is isomorphic to PSL₂(q) for some odd prime power q ≥ 5, or to A₇. D. Gorenstein and J. H. Walter, 'The characterization of finite groups with dihedral Sylow 2-subgroups', J. Algebra 2 (1965), 85-151, 218-270, 354-393 (in three parts, ~250 pages). The first major application of the Bender method in CFSG and a template for the later Sylow-2-structure papers. No new definitions: uses Mathlib's PSL notation, DihedralGroup, alternatingGroup, GaloisField, and Sylow.
+- Source: D. Gorenstein and J. H. Walter, The characterization of finite groups with dihedral Sylow 2-subgroups, J. Algebra 2 (1965), 85-151, 218-270, 354-393. https://doi.org/10.1016/0021-8693(65)90027-X
+- Informal solution: Three-part argument. Part I (Gorenstein-Walter): if G has dihedral Sylow 2-subgroup, then either G ≅ A₇, or O(G) — the largest normal subgroup of odd order — has G/O(G) of a very specific structure: an extension of PSL₂(q) for some odd q ≥ 5 by an outer automorphism. Part II rules out the outer-automorphism case using Brauer's theory of blocks of defect one and the analysis of involution centralizers (this is where the Bender method first appears). Part III shows O(G) = 1 under the simplicity hypothesis, using the Z*-theorem and signalizer functor methods. Combined, the simple G is isomorphic to PSL₂(q) for some odd q ≥ 5 or to A₇.
+
+Do not modify `Challenge.lean` or `Solution.lean`. Those files are part of the
+trusted benchmark and fixed by the repository.
+
+Write your solution in `Submission.lean` and any additional local modules under
+`Submission/`.
+
+Participants may use Mathlib freely. Any helper code not already available in
+Mathlib must be inlined into the submission workspace.
+
+Multi-file submissions are allowed through `Submission.lean` and additional local
+modules under `Submission/`.
+
+`lake test` runs comparator for this problem. The command expects a comparator
+binary in `PATH`, or in the `COMPARATOR_BIN` environment variable.

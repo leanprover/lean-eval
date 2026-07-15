@@ -1,0 +1,12 @@
+{
+  "id": "frobenius_group_determinant",
+  "module": "LeanEval.RepresentationTheory.FrobeniusDeterminant",
+  "holes": [
+    {
+      "name": "LeanEval.RepresentationTheory.FrobeniusDeterminant.frobenius_group_determinant",
+      "basename": "frobenius_group_determinant",
+      "kind": "theorem",
+      "body": "/-- **Frobenius determinant theorem** (\u00a7171). The group determinant factors as\na product of irreducible polynomials, each appearing to the power of its own\n(total) degree `d_j = deg p_j`, with the factors pairwise non-associated\n(*distinct*) and their number equal to the number of conjugacy classes of `G`.\n-/\ntheorem frobenius_group_determinant\n    (G : Type*) [Group G] [Fintype G] [DecidableEq G] :\n    \u2203 (r : \u2115) (p : Fin r \u2192 MvPolynomial G \u2102),\n      r = Nat.card (ConjClasses G) \u2227\n      (\u2200 j, Irreducible (p j)) \u2227\n      (\u2200 i j, i \u2260 j \u2192 \u00ac Associated (p i) (p j)) \u2227\n      groupDeterminant G = \u220f j, (p j) ^ (p j).totalDegree := by\n  sorry"
+    }
+  ]
+}

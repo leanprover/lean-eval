@@ -1,0 +1,7 @@
+id = "instance_hole_example"
+title = "instance-hole minimal example"
+test = true
+module = "LeanEval.Sandbox.InstanceHoleExample"
+holes = ["WidgetCarrier", "instInhabitedWidget"]
+submitter = "Kim Morrison"
+notes = "Minimal example exercising instance + theorem holes; instances must be named so the comparator can address them."

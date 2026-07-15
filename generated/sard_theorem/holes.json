@@ -1,0 +1,12 @@
+{
+  "id": "sard_theorem",
+  "module": "LeanEval.Geometry.SardTheorem",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.SardTheoremProblem.sard",
+      "basename": "sard",
+      "kind": "theorem",
+      "body": "/-- **Sard's theorem** (Morse 1939 / Sard 1942), Knill's rank-\ndeficient form. The image of the rank-deficient locus of a smooth\nmap `f : \u211d\u1d50 \u2192 \u211d\u207f` has Lebesgue measure zero. -/\ntheorem sard {m n : \u2115} (f : E m \u2192 E n) (_hf : ContDiff \u211d \u221e f) :\n    volume (criticalValues f) = 0 := by\n  sorry"
+    }
+  ]
+}

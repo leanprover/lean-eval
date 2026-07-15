@@ -1,6 +1,6 @@
 {
   "id": "brauer_character_in_cyclotomic",
-  "module": "LeanEval.RepresentationTheory.BrauerSplittingField",
+  "module": "LeanEval.RepresentationTheory.BrauerCharacterInCyclotomic",
   "holes": [
     {
       "name": "LeanEval.RepresentationTheory.brauer_character_in_cyclotomic",

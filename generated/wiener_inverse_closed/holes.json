@@ -1,0 +1,12 @@
+{
+  "id": "wiener_inverse_closed",
+  "module": "LeanEval.Analysis.WienerOneOverF",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.WienerOneOverF.wiener_inverse_closed",
+      "basename": "wiener_inverse_closed",
+      "kind": "theorem",
+      "body": "/-- **Wiener's `1/f` theorem.** If a function on the circle belongs to the\nWiener algebra and has no zero on the circle, then its pointwise reciprocal\nagain belongs to the Wiener algebra. -/\ntheorem wiener_inverse_closed (f : C(AddCircle T, \u2102))\n    (hf : InWienerAlgebra f) (hzero : \u2200 x, f x \u2260 0) :\n    \u2203 g : C(AddCircle T, \u2102),\n      (\u2200 x, g x = (f x)\u207b\u00b9) \u2227 InWienerAlgebra g := by\n  sorry"
+    }
+  ]
+}

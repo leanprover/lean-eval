@@ -1,0 +1,12 @@
+{
+  "id": "parallel_postulate_independent",
+  "module": "LeanEval.Geometry.ParallelPostulate",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.parallel_postulate_independent",
+      "basename": "parallel_postulate_independent",
+      "kind": "theorem",
+      "body": "/-- **Independence of the parallel postulate** (Freek #12). The Euclidean\naxiom `A10` is logically independent of Tarski's absolute axioms `A1`\u2013`A9`\nand `A11`: there is a model of the absolute axioms in which the parallel\npostulate holds (the real coordinate plane) and one in which it fails (the\nKlein\u2013Beltrami disk, or any other hyperbolic-plane model). -/\ntheorem parallel_postulate_independent :\n    (\u2203 (M : Type) (T : TarskiAbsolute M), Euclidean M T) \u2227\n    (\u2203 (M : Type) (T : TarskiAbsolute M), \u00ac Euclidean M T) := by\n  sorry"
+    }
+  ]
+}

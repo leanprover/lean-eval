@@ -1,0 +1,12 @@
+{
+  "id": "upper_bound_simplicial_spheres",
+  "module": "LeanEval.Combinatorics.UpperBoundSimplicialSpheres",
+  "holes": [
+    {
+      "name": "LeanEval.Combinatorics.UpperBoundSimplicialSpheresProblem.upper_bound_theorem_simplicial_spheres",
+      "basename": "upper_bound_theorem_simplicial_spheres",
+      "kind": "theorem",
+      "body": "/-- **Upper bound theorem for simplicial spheres** (Stanley 1975).\nEvery `k`-face count of a finite simplicial `(d \u2212 1)`-sphere with `n`\nvertices is bounded above by the corresponding face count of the\ncyclic polytope `C(n, d)`. -/\ntheorem upper_bound_theorem_simplicial_spheres\n    {d n k : \u2115} (X : FiniteSimplicialSphere d)\n    (_hn : faceCount X 0 = n) (_hk : k < d) :\n    faceCount X k \u2264 cyclicPolytopeFaceCount n d k := by\n  sorry"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "monge_kantorovich",
+  "module": "LeanEval.Analysis.OptimalTransport",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.monge_kantorovich_exists",
+      "basename": "monge_kantorovich_exists",
+      "kind": "theorem",
+      "body": "/-- **Monge\u2013Kantorovich existence theorem** (\u00a773). For Polish probability spaces\n`(X, P)` and `(Y, Q)` and a continuous cost `c : X \u00d7 Y \u2192 [0, \u221e]`, the Kantorovich\nfunctional `I(\u03c0) = \u222b c d\u03c0` attains its infimum on the set of couplings `\u03a0(P, Q)`\nof `P` and `Q`. -/\ntheorem monge_kantorovich_exists\n    {X Y : Type*}\n    [TopologicalSpace X] [PolishSpace X] [MeasurableSpace X] [BorelSpace X]\n    [TopologicalSpace Y] [PolishSpace Y] [MeasurableSpace Y] [BorelSpace Y]\n    (P : Measure X) (Q : Measure Y)\n    [IsProbabilityMeasure P] [IsProbabilityMeasure Q]\n    (c : X \u00d7 Y \u2192 ENNReal) (_hc : Continuous c) :\n    \u2203 \u03c0 \u2208 Couplings P Q,\n      \u2200 \u03c0' \u2208 Couplings P Q, kantorovichCost c \u03c0 \u2264 kantorovichCost c \u03c0' := by\n  sorry"
+    }
+  ]
+}

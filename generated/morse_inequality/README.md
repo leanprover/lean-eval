@@ -1,0 +1,25 @@
+# `morse_inequality`
+
+Morse inequalities
+
+- Problem ID: `morse_inequality`
+- Test Problem: no
+- Submitter: Kim Morrison
+- Notes: §40 of Knill's 'Some Fundamental Theorems in Mathematics' (Marston Morse, 1934). For a Morse function f on a closed smooth finite-dimensional manifold M, ∑_{j≤k}(−1)^{k−j} c_j(f) ≥ ∑_{j≤k}(−1)^{k−j} b_j(M) for every k. Mathlib has the smooth-manifold framework, mfderiv, higher Fréchet derivatives, and singularHomologyFunctor but no Morse functions, Morse index, critical-point counts, Betti numbers as a named definition, or the Morse inequalities. The Challenge ships seven helper definitions (IsCriticalPoint, localHessian, IsNondegenerateCritical, IsMorseFunction, morseIndex, morseCount, bettiNumber, alternatingPartialSum).
+- Source: M. Morse, The Calculus of Variations in the Large, AMS Colloq. Publ. 18 (1934). Listed as §40 in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
+- Informal solution: Strong Morse inequality via the Morse-Smale complex: order the critical points by increasing critical value t_1 < t_2 < … < t_N and consider the sublevel sets M_t = f⁻¹((−∞,t]). Crossing a critical value attaches a k-cell where k is the Morse index, so M_t is obtained from M_{t−} by attaching one k-cell per index-k critical point at level t (Morse lemma + handle attachment). This gives a CW structure on M with c_k cells in dimension k, hence a chain complex C_k = ℤ^{c_k} computing H_k(M; ℤ). The strong inequality follows from the rank-nullity-style relation rank H_k = c_k − rank ∂_{k+1} − rank ∂_k applied to alternating partial sums, combined with subadditivity of rank under boundary maps.
+
+Do not modify `Challenge.lean` or `Solution.lean`. Those files are part of the
+trusted benchmark and fixed by the repository.
+
+Write your solution in `Submission.lean` and any additional local modules under
+`Submission/`.
+
+Participants may use Mathlib freely. Any helper code not already available in
+Mathlib must be inlined into the submission workspace.
+
+Multi-file submissions are allowed through `Submission.lean` and additional local
+modules under `Submission/`.
+
+`lake test` runs comparator for this problem. The command expects a comparator
+binary in `PATH`, or in the `COMPARATOR_BIN` environment variable.

@@ -1,0 +1,9 @@
+id = "finite_graph_ramsey_theorem"
+title = "Finite Ramsey theorem for graphs"
+test = false
+module = "LeanEval.Combinatorics.Ramsey"
+holes = ["finite_graph_ramsey_theorem"]
+submitter = "Kim Morrison"
+notes = "States finite Ramsey existence for red/blue edge colourings of complete graphs, encoded by a graph and its complement."
+source = "Classical theorem in Ramsey theory."
+informal_solution = "Show that for every r and s there is an n such that every graph on n vertices contains either a clique of size r or an independent set of size s."

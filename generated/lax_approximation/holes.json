@@ -1,0 +1,12 @@
+{
+  "id": "lax_approximation",
+  "module": "LeanEval.Dynamics.LaxApproximation",
+  "holes": [
+    {
+      "name": "LeanEval.Dynamics.LaxApproximation.lax_approximation",
+      "basename": "lax_approximation",
+      "kind": "theorem",
+      "body": "/-- **Lax's approximation theorem.** Every toral dynamical system on `\ud835\udd4b^d`\n(`d \u2265 1`) is approximated arbitrarily well in the metric `\u03b4` by cyclic cube\nexchange transformations. -/\ntheorem lax_approximation {d : \u2115} (hd : 0 < d) (T : ToralDynamicalSystem d)\n    {\u03b5 : \u211d\u22650\u221e} (h\u03b5 : 0 < \u03b5) :\n    \u2203 (n : \u2115) (S : VolumePreservingEquiv d),\n      IsCyclicCubeExchange S n \u2227 deltaDist T.toVolumePreservingEquiv S < \u03b5 := by\n  sorry"
+    }
+  ]
+}

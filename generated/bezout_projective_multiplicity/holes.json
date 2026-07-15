@@ -1,0 +1,12 @@
+{
+  "id": "bezout_projective_multiplicity",
+  "module": "LeanEval.AlgebraicGeometry.Bezout",
+  "holes": [
+    {
+      "name": "LeanEval.AlgebraicGeometry.bezout_multiplicity",
+      "basename": "bezout_multiplicity",
+      "kind": "theorem",
+      "body": "/-- **B\u00e9zout's theorem (with multiplicity).** Given `n` homogeneous\npolynomials `f_k` in `n + 1` variables, each of total degree exactly\n`d_k \u2265 1`, over an algebraically closed field with finite common\nprojective zero set, the sum of intersection multiplicities equals\n`\u220f d_k`. The `totalDegree` hypothesis rules out the zero polynomial\n(which is `IsHomogeneous d` for every `d` but has `totalDegree = 0`). -/\ntheorem bezout_multiplicity [IsAlgClosed K] {n : \u2115}\n    (f : Fin n \u2192 MvPolynomial (Fin (n + 1)) K)\n    (d : Fin n \u2192 \u2115) (_hd : \u2200 k, (f k).IsHomogeneous (d k))\n    (_hdeg : \u2200 k, (f k).totalDegree = d k)\n    (_hd_pos : \u2200 k, 1 \u2264 d k)\n    (_hfin : (\u22c2 k, vanishingSet (f k)).Finite) :\n    \u2211\u1da0 p \u2208 (\u22c2 k, vanishingSet (f k)), intersectionMultiplicity f p\n      = (\u220f k, d k : \u2115\u221e) := by\n  sorry"
+    }
+  ]
+}

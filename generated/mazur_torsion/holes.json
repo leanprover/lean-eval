@@ -1,0 +1,12 @@
+{
+  "id": "mazur_torsion",
+  "module": "LeanEval.NumberTheory.MazurTorsion",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.MazurTorsion.mazur_torsion",
+      "basename": "mazur_torsion",
+      "kind": "theorem",
+      "body": "/-- **Mazur's torsion theorem.** The torsion subgroup of `E(\u211a)` lies in the\nMazur class. -/\ntheorem mazur_torsion (E : WeierstrassCurve \u211a) [E.IsElliptic] :\n    IsInMazurClass \u21a5(AddCommGroup.torsion (WeierstrassCurve.Affine.Point E)) := by\n  sorry"
+    }
+  ]
+}

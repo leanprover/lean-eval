@@ -1,0 +1,12 @@
+{
+  "id": "brauer_splitting_field",
+  "module": "LeanEval.RepresentationTheory.BrauerSplittingField",
+  "holes": [
+    {
+      "name": "LeanEval.RepresentationTheory.brauer_splitting_field",
+      "basename": "brauer_splitting_field",
+      "kind": "theorem",
+      "body": "theorem brauer_splitting_field\n    (G : Type) [Group G] [Fintype G]\n    (V : Type) [AddCommGroup V] [Module \u2102 V] [FiniteDimensional \u2102 V]\n    (\u03c1 : Representation \u2102 G V) :\n    \u2203 (\u03c6 : CyclotomicField (Monoid.exponent G) \u211a \u2192+* \u2102)\n      (W : Type) (_ : AddCommGroup W)\n      (_ : Module (CyclotomicField (Monoid.exponent G) \u211a) W)\n      (\u03c3 : Representation (CyclotomicField (Monoid.exponent G) \u211a) G W),\n      letI : Algebra (CyclotomicField (Monoid.exponent G) \u211a) \u2102 := \u03c6.toAlgebra\n      \u2203 (f : (\u2102 \u2297[CyclotomicField (Monoid.exponent G) \u211a] W) \u2243\u2097[\u2102] V),\n        \u2200 (g : G) (x : \u2102 \u2297[CyclotomicField (Monoid.exponent G) \u211a] W),\n          f ((\u03c3 g).baseChange \u2102 x) = \u03c1 g (f x) := by\n  sorry"
+    }
+  ]
+}

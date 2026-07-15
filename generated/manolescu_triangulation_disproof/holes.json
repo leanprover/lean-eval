@@ -1,0 +1,12 @@
+{
+  "id": "manolescu_triangulation_disproof",
+  "module": "LeanEval.Topology.ManolescuTriangulation",
+  "holes": [
+    {
+      "name": "LeanEval.Topology.manolescu_triangulation_disproof",
+      "basename": "manolescu_triangulation_disproof",
+      "kind": "theorem",
+      "body": "/-- **Manolescu's theorem (2016): the triangulation conjecture is false**, in\nevery dimension `\u2265 5`. For each `n \u2265 5` there is a closed connected topological\n`n`-manifold that is not homeomorphic to any simplicial complex. -/\ntheorem manolescu_triangulation_disproof :\n    \u2200 n : \u2115, 5 \u2264 n \u2192 \u2203 M : ClosedTopManifold n, \u00ac Triangulable M := by\n  sorry"
+    }
+  ]
+}

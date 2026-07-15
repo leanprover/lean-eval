@@ -1,0 +1,12 @@
+{
+  "id": "bauer_extreme_point_uniqueness",
+  "module": "LeanEval.Analysis.Choquet",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.bauer_unique",
+      "basename": "bauer_unique",
+      "kind": "theorem",
+      "body": "/-- **Bauer's uniqueness at extreme points.** If `x` is an extreme point of a\ncompact convex set `K` and `\u03bc` is a probability measure supported on `K`\n(`\u03bc K\u1d9c = 0`) with barycenter `x = \u222b y, y \u2202\u03bc`, then `\u03bc` is the Dirac mass at\n`x`. (The support hypothesis is the weaker `\u03bc K\u1d9c = 0`, making this a\nstrengthening of the textbook statement: uniqueness among all ambient Borel\nprobability measures on `K`, not only those already supported on `ext K`.) -/\ntheorem bauer_unique [MeasurableSpace X] [BorelSpace X]\n    (K : Set X) (hK_cpt : IsCompact K) (hK_cvx : Convex \u211d K)\n    {x : X} (hx : x \u2208 K.extremePoints \u211d)\n    (\u03bc : Measure X) [IsProbabilityMeasure \u03bc]\n    (h\u03bc : \u03bc K\u1d9c = 0) (hbar : x = \u222b y, y \u2202\u03bc) :\n    \u03bc = Measure.dirac x := by\n  sorry"
+    }
+  ]
+}

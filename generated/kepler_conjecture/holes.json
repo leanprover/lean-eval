@@ -1,0 +1,12 @@
+{
+  "id": "kepler_conjecture",
+  "module": "LeanEval.Geometry.KeplerConjecture",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.KeplerConjectureProblem.kepler_conjecture",
+      "basename": "kepler_conjecture",
+      "kind": "theorem",
+      "body": "/-- **Kepler conjecture** (Hales 1998, Flyspeck 2014). The optimal\nsphere-packing density in three dimensions equals `\u03c0 / \u221a18`. -/\ntheorem kepler_conjecture : \u0394 3 = Real.pi / Real.sqrt 18 := by\n  sorry"
+    }
+  ]
+}

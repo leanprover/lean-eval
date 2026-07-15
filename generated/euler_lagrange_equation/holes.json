@@ -1,0 +1,12 @@
+{
+  "id": "euler_lagrange_equation",
+  "module": "LeanEval.Analysis.EulerLagrange",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.euler_lagrange_equation",
+      "basename": "euler_lagrange_equation",
+      "kind": "theorem",
+      "body": "/-- **Euler\u2013Lagrange equation** (\u00a744). On an interval `a < b`, every `C\u00b2`\nvariational extremum `x` of the action `I(y) = \u222b_a^b L(t, y(t), y'(t)) dt`, with\n`C\u00b2` Lagrangian `L`, satisfies the pointwise equation\n`\u2202L/\u2202x (t, x(t), x'(t)) = (d/dt)(\u2202L/\u2202x' (t, x(t), x'(t)))` on `(a, b)`. -/\ntheorem euler_lagrange_equation\n    {a b : \u211d} (L : \u211d \u2192 \u211d \u2192 \u211d \u2192 \u211d) (x : \u211d \u2192 \u211d) (_hab : a < b)\n    (_hL : ContDiff \u211d 2 (fun p : \u211d \u00d7 \u211d \u00d7 \u211d => L p.1 p.2.1 p.2.2))\n    (_hx : ContDiff \u211d 2 x)\n    (_hxe : IsVariationalExtremum a b L x) :\n    \u2200 t \u2208 Set.Ioo a b,\n      lagrangianPartialX L x t = deriv (lagrangianPartialV L x) t := by\n  sorry"
+    }
+  ]
+}

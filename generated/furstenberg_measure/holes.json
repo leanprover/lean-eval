@@ -1,0 +1,12 @@
+{
+  "id": "furstenberg_measure",
+  "module": "LeanEval.Dynamics.FurstenbergMeasure",
+  "holes": [
+    {
+      "name": "LeanEval.Dynamics.furstenberg_measure_recurrence",
+      "basename": "furstenberg_measure_recurrence",
+      "kind": "theorem",
+      "body": "/-- **Furstenberg's multiple recurrence theorem** (measure-preserving\nversion). For every measure-preserving `T` on a probability space,\nevery measurable `A` of positive measure, and every `d \u2265 1`, some\n`n \u2265 1` satisfies `\u03bc(A \u2229 \u22c2_{j=1}^{d} T^[j n] \u207b\u00b9' A) > 0`. -/\ntheorem furstenberg_measure_recurrence {\u03a9 : Type*}\n    [MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9)\n    [MeasureTheory.IsProbabilityMeasure \u03bc]\n    {T : \u03a9 \u2192 \u03a9} (_hT : MeasureTheory.MeasurePreserving T \u03bc \u03bc)\n    {A : Set \u03a9} (_hA : MeasurableSet A) (_h0 : 0 < \u03bc A)\n    (d : \u2115) (_hd : 1 \u2264 d) :\n    \u2203 n : \u2115, 1 \u2264 n \u2227\n      0 < \u03bc (A \u2229 \u22c2 j \u2208 Finset.Icc 1 d, T^[j * n] \u207b\u00b9' A) := by\n  sorry"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+id = "zhang_bounded_prime_gaps"
+title = "Bounded gaps between primes"
+test = false
+module = "LeanEval.NumberTheory.BoundedPrimeGaps"
+holes = ["zhang_bounded_prime_gaps"]
+submitter = "Kim Morrison"
+notes = "Zhang's bounded-gaps theorem, sharpened by Maynard and the Polymath8 project: for every `n` there exist primes `p < q` with `n ≤ p` and `q - p ≤ 246`, the post-Polymath bound recorded by Knill. Equivalently, infinitely many prime pairs differ by at most 246. mathlib has `Nat.Prime` and prime-counting estimates, but no Selberg/GPY sieve."
+source = "Y. Zhang, Bounded gaps between primes, Ann. of Math. 179 (2014), 1121-1174; J. Maynard, Small gaps between primes, Ann. of Math. 181 (2015), 383-413; D. H. J. Polymath, Variants of the Selberg sieve, and bounded intervals containing many primes, Res. Math. Sci. 1 (2014), Art. 12. Listed as §224 in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf). Knill, §224."
+informal_solution = "Use the GPY/Maynard multidimensional sieve. Choose an admissible k-tuple of linear forms and a sieve weight optimizing a ratio of two quadratic forms in a smooth cutoff; Maynard's variational argument shows that for k large enough the weighted count guarantees at least two primes among the shifted forms in infinitely many translates. The Polymath8 optimization of the cutoff and the choice of an admissible 50-tuple yields the explicit gap bound 246."

@@ -1,0 +1,12 @@
+{
+  "id": "golod_shafarevich_inequality",
+  "module": "LeanEval.GroupTheory.GolodShafarevich",
+  "holes": [
+    {
+      "name": "LeanEval.GroupTheory.golod_shafarevich_inequality",
+      "basename": "golod_shafarevich_inequality",
+      "kind": "theorem",
+      "body": "/-- **Golod\u2013Shafarevich inequality.**\n\nFor every prime `p` and every nontrivial finite `p`-group `Q`,\n\n```\nd(Q) ^ 2 < 4 r(Q),\n```\n\nwhere `d(Q) = generatorRank Q` is the generator rank and\n`r(Q) = relationRank p Q` is the relation rank `dim_{\ud835\udd3d_p} H\u00b2(Q; \ud835\udd3d_p)`.\n\nA finite `p`-group is presented as a topological group with the discrete\ntopology (`[DiscreteTopology Q] [Finite Q]`), in which setting both ranks\nagree with their abstract group-theoretic counterparts.\n\nReferences: NSW, Theorem 3.9.7; Serre, Chapter I, Appendix 2, Theorem 1. -/\ntheorem golod_shafarevich_inequality\n    (p : \u2115) [Fact p.Prime] (Q : Type)\n    [Group Q] [TopologicalSpace Q] [IsTopologicalGroup Q]\n    [DiscreteTopology Q] [Finite Q] :\n    IsPGroup p Q \u2192 Nontrivial Q \u2192\n      (generatorRank Q : \u211d) ^ 2 < 4 * (relationRank p Q : \u211d) := by\n  sorry"
+    }
+  ]
+}

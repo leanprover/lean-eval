@@ -1,0 +1,12 @@
+{
+  "id": "wallpaper_groups_17",
+  "module": "LeanEval.Geometry.WallpaperGroups",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.WallpaperGroupsProblem.there_are_17_wallpaper_groups",
+      "basename": "there_are_17_wallpaper_groups",
+      "kind": "theorem",
+      "body": "/-- **There are exactly 17 wallpaper groups** (P\u00f3lya\u2013Niggli 1924). -/\ntheorem there_are_17_wallpaper_groups :\n    crystallographicCount 2 = 17 := by\n  sorry"
+    }
+  ]
+}

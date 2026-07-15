@@ -7,12 +7,12 @@ autoImplicit = false
 [[require]]
 name = "mathlib"
 git = "https://github.com/leanprover-community/mathlib4.git"
-rev = "5450b53e5ddc"
+rev = "360da6fa66c1273b76b6b2d8c5666fd5ac2e3b56"
 
 [[require]]
 name = "Cli"
 git = "https://github.com/leanprover/lean4-cli"
-rev = "v4.30.0-rc2"
+rev = "v4.32.0-rc1"
 
 [[lean_lib]]
 name = "LeanEval"
@@ -31,3 +31,18 @@ root = "EvalTools.ProblemInventory"
 [[lean_exe]]
 name = "lean-eval"
 root = "EvalTools.Main"
+
+[[lean_exe]]
+name = "test_validate_submission"
+srcDir = "tests/lean"
+root = "EvalToolsTests.ValidateSubmissionTest"
+
+[[lean_exe]]
+name = "test_check_comparator_installation"
+srcDir = "tests/lean"
+root = "EvalToolsTests.CheckComparatorInstallationTest"
+
+[[lean_exe]]
+name = "test_generate"
+srcDir = "tests/lean"
+root = "EvalToolsTests.GenerateTest"

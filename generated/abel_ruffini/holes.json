@@ -1,0 +1,12 @@
+{
+  "id": "abel_ruffini",
+  "module": "LeanEval.Algebra.AbelRuffini",
+  "holes": [
+    {
+      "name": "LeanEval.Algebra.abel_ruffini",
+      "basename": "abel_ruffini",
+      "kind": "theorem",
+      "body": "/-- **Abel\u2013Ruffini theorem** (\u00a757). For each positive `n`, every root in `\u2102` of\nevery nonzero rational polynomial of degree `n` lies in `solvableByRad \u211a \u2102` iff\n`n \u2264 4`. The forward direction packages the explicit Cardano/Ferrari radical\nformulas; the reverse is the classical insolvability of the general quintic. -/\ntheorem abel_ruffini (n : \u2115) (_hn : 1 \u2264 n) :\n    (\u2200 p : \u211a[X], p.natDegree = n \u2192 \u2200 x : \u2102, aeval x p = 0 \u2192\n        x \u2208 solvableByRad \u211a \u2102) \u2194 n \u2264 4 := by\n  sorry"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+id = "annulus_theorem_dim_four"
+title = "The Annulus Theorem in dimension 4 (Quinn)"
+test = false
+module = "LeanEval.Topology.AnnulusTheoremDimFour"
+holes = ["annulus_theorem_dim_four"]
+submitter = "Kim Morrison"
+notes = "The closed region between two disjoint, nested, locally flat embedded 3-spheres in ℝ⁴ is homeomorphic to S³ × [0,1]. This is the four-dimensional annulus theorem, of an entirely different difficulty from the n ≥ 5 case: it was settled by Quinn (1982), building on Freedman's topology of 4-manifolds. Same infrastructure as annulus_theorem_high_dim; local flatness is essential, and 'inside' is defined via bounded complementary components rather than the (absent) Jordan–Brouwer theorem."
+source = "F. Quinn, *Ends of maps III: dimensions 4 and 5*, J. Differential Geom. 17 (1982), building on M. H. Freedman, *The topology of four-dimensional manifolds*, J. Differential Geom. 17 (1982)."
+informal_solution = "No formalization is feasible today: this needs Freedman–Quinn 4-dimensional topology (Casson handles, the disk embedding theorem), none of which is in Mathlib, on top of the missing Jordan–Brouwer separation and locally-flat-embedding theory."

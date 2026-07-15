@@ -1,0 +1,12 @@
+{
+  "id": "space_groups_230",
+  "module": "LeanEval.Geometry.SpaceGroups",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.SpaceGroupsProblem.space_groups",
+      "basename": "space_groups",
+      "kind": "theorem",
+      "body": "/-- **230 space groups** (Fedorov 1891; Schoenflies 1891). In\ndimension 3 there are 230 space groups (orientation-preserving\nequivalence), 219 (general affine equivalence), and 65 orientation-\npreserving subfamily. -/\ntheorem space_groups :\n    crystallographicCountOP 3 = 230 \u2227\n      crystallographicCount 3 = 219 \u2227\n        crystallographicCountOPOnly 3 = 65 := by\n  sorry"
+    }
+  ]
+}

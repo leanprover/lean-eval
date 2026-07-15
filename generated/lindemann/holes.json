@@ -1,0 +1,12 @@
+{
+  "id": "lindemann",
+  "module": "LeanEval.NumberTheory.Lindemann",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.Lindemann.lindemann",
+      "basename": "lindemann",
+      "kind": "theorem",
+      "body": "/-- **Lindemann's theorem.** Both `e = exp 1` and `\u03c0` are transcendental over\n`\u2124`. -/\ntheorem lindemann :\n    Transcendental \u2124 (Real.exp 1) \u2227 Transcendental \u2124 Real.pi := by\n  sorry"
+    }
+  ]
+}

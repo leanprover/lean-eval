@@ -1,0 +1,12 @@
+{
+  "id": "dehn_sommerville",
+  "module": "LeanEval.Combinatorics.DehnSommerville",
+  "holes": [
+    {
+      "name": "LeanEval.Combinatorics.DehnSommerville.dehn_sommerville",
+      "basename": "dehn_sommerville",
+      "kind": "theorem",
+      "body": "/-- **Dehn\u2013Sommerville equations.** The h-vector of a finite simplicial sphere\nis symmetric: `h_j = h_{d-j}`. -/\ntheorem dehn_sommerville\n    {d j : \u2115} (X : FiniteSimplicialSphere d) (hj : j \u2264 d) :\n    hVector X j = hVector X (d - j) := by\n  sorry"
+    }
+  ]
+}

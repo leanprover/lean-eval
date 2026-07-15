@@ -1,0 +1,12 @@
+{
+  "id": "milnor_exotic_sphere_seven",
+  "module": "LeanEval.Topology.MilnorExoticSphereSeven",
+  "holes": [
+    {
+      "name": "LeanEval.Topology.milnor_exotic_sphere_seven",
+      "basename": "milnor_exotic_sphere_seven",
+      "kind": "theorem",
+      "body": "/-- **Milnor's exotic 7-sphere.** There exists a smooth 7-manifold\nhomeomorphic to the standard 7-sphere `\ud835\udd4a\u2077` but not diffeomorphic to it. -/\ntheorem milnor_exotic_sphere_seven :\n    \u2203 (M : Type) (_ : TopologicalSpace M)\n      (_ : ChartedSpace (EuclideanSpace \u211d (Fin 7)) M)\n      (_ : IsManifold (\ud835\udce1 7) \u221e M)\n      (_homeo : M \u2243\u209c sphere (0 : EuclideanSpace \u211d (Fin 8)) 1),\n      IsEmpty (M \u2243\u2098\u27ee\ud835\udce1 7, \ud835\udce1 7\u27ef sphere (0 : EuclideanSpace \u211d (Fin 8)) 1) := by\n  sorry"
+    }
+  ]
+}

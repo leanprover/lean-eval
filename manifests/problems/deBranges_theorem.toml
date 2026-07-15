@@ -1,0 +1,7 @@
+id = "deBranges_theorem"
+title = "De Branges's theorem (Bieberbach conjecture)"
+test = false
+module = "LeanEval.ComplexAnalysis.DeBranges"
+holes = ["deBranges"]
+submitter = "Junyan Xu"
+source = "John B. Conway, *Functions of One Complex Variable II*, Chapter 17."

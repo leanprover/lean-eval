@@ -1,0 +1,12 @@
+{
+  "id": "symplectic_matrix_det",
+  "module": "LeanEval.LinearAlgebra.SymplecticDet",
+  "holes": [
+    {
+      "name": "LeanEval.LinearAlgebra.symplectic_matrix_det",
+      "basename": "symplectic_matrix_det",
+      "kind": "theorem",
+      "body": "/-- **Symplectic matrices have determinant 1.** For any commutative ring `R`\nand `2n \u00d7 2n` symplectic matrix `A` over `R`, `A.det = 1`. -/\ntheorem symplectic_matrix_det\n    {l R : Type*} [DecidableEq l] [Fintype l] [CommRing R]\n    {A : Matrix (l \u2295 l) (l \u2295 l) R} (_hA : A \u2208 Matrix.symplecticGroup l R) :\n    A.det = 1 := by\n  sorry"
+    }
+  ]
+}

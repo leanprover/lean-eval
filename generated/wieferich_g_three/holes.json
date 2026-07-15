@@ -1,0 +1,12 @@
+{
+  "id": "wieferich_g_three",
+  "module": "LeanEval.NumberTheory.WieferichNineCubes",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.wieferich_g_three",
+      "basename": "wieferich_g_three",
+      "kind": "theorem",
+      "body": "/-- **Wieferich's theorem `g(3) = 9`.** Every natural number is a sum of nine\ncubes, and nine is necessary: some `n` (namely `23`) is not a sum of eight\ncubes. -/\ntheorem wieferich_g_three :\n    (\u2200 n : \u2115, IsSumOfCubes 9 n) \u2227 \u2203 n : \u2115, \u00ac IsSumOfCubes 8 n := by\n  sorry"
+    }
+  ]
+}

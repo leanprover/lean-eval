@@ -1,0 +1,25 @@
+# `whitney_embedding`
+
+Whitney embedding theorem (strong form, dimension 2n)
+
+- Problem ID: `whitney_embedding`
+- Test Problem: no
+- Submitter: Kim Morrison
+- Notes: Every smooth n-manifold (n ≥ 1, Hausdorff, second-countable) admits a smooth embedding into ℝ^(2n). The smooth-embedding triple — smooth, topological embedding (mathlib's `IsEmbedding`), and immersion (`mfderiv` injective at every point) — follows the same pattern as mathlib's compact-finite-dimensional embedding theorem `SmoothBumpCovering.exists_embedding_euclidean_of_compact`, which uses the stronger `IsClosedEmbedding` because the source is compact and produces an embedding into some `ℝ^k` with no dimension bound. The sharp 2n bound here is the *strong* Whitney theorem. The n = 0 case is excluded because the 2n bound fails there (a two-point discrete 0-manifold embeds in `ℝ¹` but not in `ℝ⁰`). §112 of Knill's *Some Fundamental Theorems in Mathematics*.
+- Source: H. Whitney, 'The self-intersections of a smooth n-manifold in 2n-space', Ann. of Math. (2) 45 (1944) 220–246. Earlier 2n+1 form: H. Whitney, 'Differentiable manifolds', Ann. of Math. (2) 37 (1936) 645–680. Listed as §112 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
+- Informal solution: The classical proof has three steps. (1) **Weak 2n+1 embedding** (Whitney 1936): start from any immersion M → ℝ^N with N large, then use a Sard-style transversality / generic-projection argument to drop dimension to 2n+1 — at each step, the bad locus of projection directions causing immersion or injection failures has measure zero in S^(N−1). (2) **Whitney trick**: in dimension 2n with n ≥ 3, pairs of opposite-sign transverse self-intersections of a generic 2n-immersion M^n → ℝ^(2n) can be cancelled by an isotopy supported in a Whitney disk pairing the two intersection points. (3) **Low dimensions** (n = 1, 2): handled separately by direct classical arguments (1-manifolds embed by classification of curves; 2-manifolds — compact orientable, compact non-orientable, and open — each via a separate construction, since the Whitney trick requires n ≥ 3). Mathlib has `SmoothBumpCovering.exists_embedding_euclidean_of_compact` (compact-finite-dimensional Whitney with no dimension bound) but no Sard's theorem (the `Mathlib/Geometry/Manifold/WhitneyEmbedding.lean` file's own `## TODO` flags this gap explicitly), no generic-projection argument, and no Whitney trick.
+
+Do not modify `Challenge.lean` or `Solution.lean`. Those files are part of the
+trusted benchmark and fixed by the repository.
+
+Write your solution in `Submission.lean` and any additional local modules under
+`Submission/`.
+
+Participants may use Mathlib freely. Any helper code not already available in
+Mathlib must be inlined into the submission workspace.
+
+Multi-file submissions are allowed through `Submission.lean` and additional local
+modules under `Submission/`.
+
+`lake test` runs comparator for this problem. The command expects a comparator
+binary in `PATH`, or in the `COMPARATOR_BIN` environment variable.

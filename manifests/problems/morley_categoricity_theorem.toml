@@ -1,0 +1,9 @@
+id = "morley_categoricity_theorem"
+title = "Morley's categoricity theorem"
+test = false
+module = "LeanEval.ModelTheory.MorleyCategoricity"
+holes = ["morley_categoricity_theorem"]
+submitter = "A. M. Berns"
+notes = "A complete theory in a countable language with only infinite models that is categorical in some uncountable cardinal is categorical in every uncountable cardinal."
+source = "M. Ramsey, *Morley's Categoricity Theorem* (UChicago VIGRE REU 2010), Corollary 7.3. https://www.math.uchicago.edu/~may/VIGRE/VIGRE2010/REUPapers/RamseyN.pdf"
+informal_solution = "Show that categoricity in an uncountable cardinal forces the theory to be ω-stable, and then use Vaughtian pairs to prove that any two models of the same uncountable size are isomorphic and categoricity transfers to all uncountable cardinals."

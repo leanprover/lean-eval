@@ -1,0 +1,25 @@
+# `unit_distance_upper_bound`
+
+Spencer-Szemerédi-Trotter unit-distance upper bound
+
+- Problem ID: `unit_distance_upper_bound`
+- Test Problem: no
+- Submitter: Kim Morrison
+- Notes: For a finite set P ⊆ ℝ² write ν(P) for the number of unordered pairs at Euclidean distance 1, and ν(n) = max over n-point sets. Erdős posed the unit-distance problem in 1946 alongside the dual distinct-distances problem (resolved up to log factors by Guth-Katz, 2015). The first nontrivial upper bound ν(n) = O(n^{3/2}) follows from the Kővári-Sós-Turán theorem applied to the K_{2,3}-free unit-distance graph. Spencer-Szemerédi-Trotter (1984) sharpened this to ν(n) = O(n^{4/3}) using the Szemerédi-Trotter incidence bound for points and lines; Székely later gave a short crossing-number proof of the same exponent. The exponent 4/3 has stood since 1984 with only constant-factor improvements (Ágoston-Pálvölgyi, 2022). The matching lower bound is widely conjectured to lie much closer to the upper bound — see the companion problem `erdos_unit_distance_conjecture_false`.
+- Source: J. Spencer, E. Szemerédi, W. T. Trotter Jr., *Unit distances in the Euclidean plane*, in Graph Theory and Combinatorics (Cambridge 1983), Academic Press, 1984. Short crossing-number proof: L. A. Székely, *Crossing numbers and hard Erdős problems in discrete geometry*, Combin. Probab. Comput. 6 (1997). Best constant: P. Ágoston, D. Pálvölgyi, *An improved constant factor for the unit distance problem*, Studia Sci. Math. Hungar. 59 (2022).
+- Informal solution: Build the bipartite incidence structure of P with the family of unit circles centred at points of P: each unit-distance pair (x, y) corresponds to the incidence (y, C_x), where C_x is the unit circle centred at x. Two unit circles intersect in at most two points, so the incidence graph is K_{2,3}-free. Apply the Szemerédi-Trotter theorem (any n points and n curves with bounded pairwise intersection number have O(n^{4/3}) incidences) — or equivalently, Székely's crossing-number argument: draw the unit-distance graph with circular arcs, count crossings two ways, and conclude via the crossing-number inequality. Either route gives ν(n) ≤ C · n^{4/3}.
+
+Do not modify `Challenge.lean` or `Solution.lean`. Those files are part of the
+trusted benchmark and fixed by the repository.
+
+Write your solution in `Submission.lean` and any additional local modules under
+`Submission/`.
+
+Participants may use Mathlib freely. Any helper code not already available in
+Mathlib must be inlined into the submission workspace.
+
+Multi-file submissions are allowed through `Submission.lean` and additional local
+modules under `Submission/`.
+
+`lake test` runs comparator for this problem. The command expects a comparator
+binary in `PATH`, or in the `COMPARATOR_BIN` environment variable.

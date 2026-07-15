@@ -1,0 +1,12 @@
+{
+  "id": "hopf_umlaufsatz",
+  "module": "LeanEval.Geometry.HopfUmlaufsatz",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.HopfUmlaufsatz.hopf_umlaufsatz",
+      "basename": "hopf_umlaufsatz",
+      "kind": "theorem",
+      "body": "/-- **Hopf Umlaufsatz.** A positively oriented simple closed unit-speed plane\ncurve has total signed curvature `2\u03c0`. -/\ntheorem hopf_umlaufsatz\n    {r : \u211d \u2192 Plane} {\u03b1 : \u211d \u2192 \u211d}\n    (_hr : IsPositiveSimpleClosedUnitSpeedCurve r)\n    (_h\u03b1 : IsTangentAngleLift r \u03b1) :\n    totalCurvature \u03b1 = 2 * Real.pi := by\n  sorry"
+    }
+  ]
+}

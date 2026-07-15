@@ -1,0 +1,12 @@
+{
+  "id": "sobolev_embedding_morrey",
+  "module": "LeanEval.Analysis.SobolevMorrey",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.SobolevMorreyProblem.sobolev_embedding",
+      "basename": "sobolev_embedding",
+      "kind": "theorem",
+      "body": "/-- **Sobolev embedding theorem (Morrey regime).** If `n < p`,\n`0 < \u03b1 \u2264 1` and `r + \u03b1 < k \u2212 n/p`, then every `W^{k,p}(\u211d\u207f)` function\nhas a `C^{r,\u03b1}` representative. -/\ntheorem sobolev_embedding {n k r : \u2115} {\u03b1 p : \u211d}\n    (_hp : (n : \u211d) < p) (_h\u03b1 : 0 < \u03b1) (_h\u03b11 : \u03b1 \u2264 1)\n    (_hgap : (r : \u211d) + \u03b1 < (k : \u211d) - n / p)\n    (f : E n \u2192 \u211d) (_hf : MemSobolevWk k (ENNReal.ofReal p) f) :\n    \u2203 g : E n \u2192 \u211d, f =\u1d50[volume] g \u2227 MemHolder r \u03b1 g := by\n  sorry"
+    }
+  ]
+}

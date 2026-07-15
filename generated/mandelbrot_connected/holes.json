@@ -1,0 +1,12 @@
+{
+  "id": "mandelbrot_connected",
+  "module": "LeanEval.ComplexAnalysis.Mandelbrot",
+  "holes": [
+    {
+      "name": "LeanEval.ComplexAnalysis.MandelbrotProblem.mandelbrot_connected",
+      "basename": "mandelbrot_connected",
+      "kind": "theorem",
+      "body": "/-- **Mandelbrot set is connected** (Douady\u2013Hubbard). -/\ntheorem mandelbrot_connected : IsConnected Mandelbrot := by\n  sorry"
+    }
+  ]
+}

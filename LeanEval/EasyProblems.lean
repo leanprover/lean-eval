@@ -20,8 +20,8 @@ theorem list_append_singleton_length :
   sorry
 
 /--
-error: The declaration `LeanEval.eval_problem_manifest_guard` is marked with @[eval_problem], but no entry in `manifests/problems.toml` lists it in `holes`.
-Add a corresponding problem entry to the manifest.
+error: The declaration `LeanEval.eval_problem_manifest_guard` is marked with @[eval_problem], but no file in `manifests/problems/` lists it in `holes`.
+Add a corresponding `manifests/problems/<id>.toml` file.
 -/
 #guard_msgs in
 @[eval_problem]
@@ -42,8 +42,8 @@ theorem eval_problem_implicit_binder_guard {n : Nat} [NeZero n] : True := by
   trivial
 
 /--
-error: The declaration `LeanEval.eval_problem_inferable_implicit_guard` is marked with @[eval_problem], but no entry in `manifests/problems.toml` lists it in `holes`.
-Add a corresponding problem entry to the manifest.
+error: The declaration `LeanEval.eval_problem_inferable_implicit_guard` is marked with @[eval_problem], but no file in `manifests/problems/` lists it in `holes`.
+Add a corresponding `manifests/problems/<id>.toml` file.
 -/
 #guard_msgs in
 @[eval_problem]

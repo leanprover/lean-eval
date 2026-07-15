@@ -1,0 +1,9 @@
+id = "frobenius_group_determinant"
+title = "Frobenius determinant theorem"
+test = false
+module = "LeanEval.RepresentationTheory.FrobeniusDeterminant"
+holes = ["frobenius_group_determinant"]
+submitter = "Kim Morrison"
+notes = "Dedekind's group determinant: the determinant of the group matrix A_{gh} = x_{gh} (over ℂ[x_g : g ∈ G]) factors into irreducible polynomials, each to the power of its own total degree, with factors pairwise non-associated and their number equal to the number of conjugacy classes of G. The helpers groupMatrix and groupDeterminant encode the statement; over ℂ this is the algebraically-closed characteristic-zero form where Frobenius's theorem and the character correspondence d_j = deg p_j live. Mathlib has MvPolynomial, Matrix.det, unique factorization, character theory, and ConjClasses, but not the group determinant or its factorization. Category-(b) candidate."
+source = "Knill, *Some fundamental theorems in mathematics*, §171."
+informal_solution = "This is the genesis of representation theory. By Maschke and Wedderburn the group algebra ℂ[G] decomposes as a product of matrix algebras ⨁ⱼ M_{dⱼ}(ℂ), one per irreducible representation ρⱼ of dimension dⱼ. The group matrix is the matrix of left regular multiplication by the generic element ∑_g x_g g, so its determinant is the product over the regular-representation blocks, det = ∏ⱼ det(ρⱼ(∑_g x_g g))^{dⱼ}. Each factor pⱼ = det(ρⱼ(∑_g x_g g)) is an irreducible polynomial of total degree dⱼ, the factors are pairwise non-associated, and the number of irreducibles equals the number of conjugacy classes of G."

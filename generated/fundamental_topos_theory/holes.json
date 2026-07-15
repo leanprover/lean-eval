@@ -1,0 +1,12 @@
+{
+  "id": "fundamental_topos_theory",
+  "module": "LeanEval.CategoryTheory.FundamentalTopos",
+  "holes": [
+    {
+      "name": "LeanEval.ToposTheory.fundamental_topos_theory",
+      "basename": "fundamental_topos_theory",
+      "kind": "theorem",
+      "body": "/-- **Fundamental theorem of topos theory.** The slice category `E/X` of an\nelementary topos `E` is again an elementary topos. -/\ntheorem fundamental_topos_theory {E : Type*} [Category E]\n    (hE : IsTopos E) (X : E) : IsTopos (Over X) := by\n  sorry"
+    }
+  ]
+}

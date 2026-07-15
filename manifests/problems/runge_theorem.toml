@@ -1,0 +1,9 @@
+id = "runge_theorem"
+title = "Runge's theorem"
+test = false
+module = "LeanEval.ComplexAnalysis.Runge"
+holes = ["runge"]
+submitter = "Kim Morrison"
+notes = "Basic Runge approximation theorem for compact subsets of ℂ. The statement uses polynomials p q : ℂ[X] and requires q to be nonvanishing on K, expressing rational functions with no poles on K. This does not include the standard pole-control refinement (one pole per connected component of ℂ \\ K)."
+source = "C. Runge, *Zur Theorie der eindeutigen analytischen Funktionen*, Acta Math. 6 (1885), 229-244. Listed as §64 (additional statement 3) in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf)."
+informal_solution = "Show that rational functions with poles outside K are dense in the algebra of functions holomorphic on a neighbourhood of K, with respect to the uniform norm on K. Classical proofs go via Cauchy integral approximation or via Hahn–Banach / Riesz duality."

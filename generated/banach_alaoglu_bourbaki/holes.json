@@ -1,0 +1,12 @@
+{
+  "id": "banach_alaoglu_bourbaki",
+  "module": "LeanEval.Analysis.BanachAlaoglu",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.banach_alaoglu_bourbaki",
+      "basename": "banach_alaoglu_bourbaki",
+      "kind": "theorem",
+      "body": "/-- **Bourbaki's locally convex extension of Banach\u2013Alaoglu** (\u00a7137). The\nweak-star polar of a zero-neighbourhood `U` in a real locally convex space `E`\nis weak-star compact. -/\ntheorem banach_alaoglu_bourbaki (E : Type*) [AddCommGroup E] [Module \u211d E]\n    [TopologicalSpace E] [ContinuousAdd E] [ContinuousSMul \u211d E]\n    [LocallyConvexSpace \u211d E] (U : Set E) (_hU : U \u2208 \ud835\udcdd (0 : E)) :\n    IsCompact (weakStarPolar E U) := by\n  sorry"
+    }
+  ]
+}

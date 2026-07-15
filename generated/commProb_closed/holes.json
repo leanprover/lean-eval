@@ -1,0 +1,12 @@
+{
+  "id": "commProb_closed",
+  "module": "LeanEval.GroupTheory.CommProbClosed",
+  "holes": [
+    {
+      "name": "LeanEval.GroupTheory.commProb_closed",
+      "basename": "commProb_closed",
+      "kind": "theorem",
+      "body": "/-- The set of commuting probabilities of finite groups is closed. -/\ntheorem commProb_closed : IsClosed ({p : \u211d | \u2203 (G : Type) (hG : Group G), commProb G = p}) := by\n  sorry"
+    }
+  ]
+}

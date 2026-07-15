@@ -1,0 +1,9 @@
+id = "darboux"
+title = "Darboux's theorem (symplectic forms are locally standard)"
+test = false
+module = "LeanEval.Geometry.Darboux"
+holes = ["darboux"]
+submitter = "Kim Morrison"
+notes = "§39 of Oliver Knill's 'Some Fundamental Theorems in Mathematics'. Every symplectic form on an open U ⊆ ℝ^{2n} is locally symplectomorphic to the standard symplectic form ω₀ = ∑_i dxᵢ ∧ dx_{n+i}. The local content lives on open subsets of ℝ^{2n}; formalized against mathlib's normed-space differential-form machinery (continuous alternating maps, extDeriv, OpenPartialHomeomorph). Mathlib has all the supporting infrastructure but no symplectic forms, no ω₀, and no Darboux theorem (Analysis/Calculus/Darboux.lean is the unrelated derivative-IVT theorem). No formalization of Darboux's theorem was found in any other proof assistant."
+source = "J. G. Darboux, Sur le problème de Pfaff, Bull. Sci. Math. 6 (1882), 14-36, 49-68. Listed as §39 in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf)."
+informal_solution = "Moser's trick: choose linear coordinates at x ∈ U so that α(x) equals ω₀ on tangent vectors at x (possible because α is non-degenerate, by linear-algebraic normalization of an alternating bilinear form). Define the path of 2-forms αₜ := (1 − t)·ω₀ + t·α; each αₜ is closed and equals α at t = 1, ω₀ at t = 0, and αₜ(x) = ω₀(x) for all t. The closedness lets one write α − ω₀ = dβ for some 1-form β near x; non-degeneracy of αₜ near x lets one solve ι_{Xₜ} αₜ = -β for a time-dependent vector field Xₜ. Integrate Xₜ for t ∈ [0,1] starting at x to get a flow φ_t; then (φ_1)*α = ω₀ on a neighborhood, giving the desired symplectomorphism (after restricting to the open set where the flow is defined and bijective)."

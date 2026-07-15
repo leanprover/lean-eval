@@ -1,0 +1,12 @@
+{
+  "id": "smooth_knot_has_quadrisecant",
+  "module": "LeanEval.KnotTheory.Quadrisecant",
+  "holes": [
+    {
+      "name": "LeanEval.KnotTheory.Quadrisecant.smooth_knot_has_quadrisecant",
+      "basename": "smooth_knot_has_quadrisecant",
+      "kind": "theorem",
+      "body": "/-- **Quadrisecant theorem** (Pannwitz\u2013Kuperberg). Every smooth nontrivial knot\nhas a quadrisecant. -/\ntheorem smooth_knot_has_quadrisecant\n    {r : \u211d \u2192 Space} (_hknot : IsSmoothKnot r) (_hnontrivial : \u00ac IsUnknotted r) :\n    HasQuadrisecant r := by\n  sorry"
+    }
+  ]
+}

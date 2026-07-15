@@ -1,5 +1,5 @@
 import Mathlib.LinearAlgebra.TensorPower.Basic
-import Mathlib.LinearAlgebra.PiTensorProduct
+import Mathlib.LinearAlgebra.PiTensorProduct.Basic
 import Mathlib.Algebra.Algebra.Subalgebra.Centralizer
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import EvalTools.Markers

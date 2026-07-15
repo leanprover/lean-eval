@@ -7,6 +7,6 @@ has no non-hole declarations and the generator does not need a
 `ChallengeDeps` split.
 -/
 
-@[reducible] def WidgetCarrier : Type := Submission.WidgetCarrier
+@[reducible] noncomputable def WidgetCarrier : Type := Submission.WidgetCarrier
 
-@[reducible] instance instInhabitedWidget : Inhabited WidgetCarrier := Submission.instInhabitedWidget
+@[reducible] noncomputable instance instInhabitedWidget : Inhabited WidgetCarrier := Submission.instInhabitedWidget

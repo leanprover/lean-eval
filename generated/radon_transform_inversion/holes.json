@@ -1,0 +1,12 @@
+{
+  "id": "radon_transform_inversion",
+  "module": "LeanEval.Analysis.RadonTransform",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.RadonTransform.radon_can_be_diagonalized_and_pseudo_inverted",
+      "basename": "radon_can_be_diagonalized_and_pseudo_inverted",
+      "kind": "theorem",
+      "body": "/-- **Radon's theorem (diagonalization + pseudo-inversion).** The Fourier slice\ntheorem diagonalizes the Radon transform, and the transform admits a left\ninverse on the Schwartz space. -/\ntheorem radon_can_be_diagonalized_and_pseudo_inverted :\n    (\u2200 \u03c6 : SchwartzMap (\u211d \u00d7 \u211d) \u2102, \u2200 \u03b8 k : \u211d,\n        fourier1 (fun p => radon (\u03c6 : \u211d \u00d7 \u211d \u2192 \u2102) (p, \u03b8)) k =\n          fourier2 (\u03c6 : \u211d \u00d7 \u211d \u2192 \u2102) (k * Real.cos \u03b8, k * Real.sin \u03b8)) \u2227\n    (\u2203 Rinv : (\u211d \u00d7 \u211d \u2192 \u2102) \u2192 (\u211d \u00d7 \u211d \u2192 \u2102),\n        \u2200 \u03c6 : SchwartzMap (\u211d \u00d7 \u211d) \u2102,\n          Rinv (radon (\u03c6 : \u211d \u00d7 \u211d \u2192 \u2102)) = (\u03c6 : \u211d \u00d7 \u211d \u2192 \u2102)) := by\n  sorry"
+    }
+  ]
+}

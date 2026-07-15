@@ -1,0 +1,12 @@
+{
+  "id": "peano_existence",
+  "module": "LeanEval.Analysis.PeanoExistence",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.PeanoExistence.peano_existence",
+      "basename": "peano_existence",
+      "kind": "theorem",
+      "body": "/-- **Peano existence theorem.** Replacing the Lipschitz condition with mere\ncontinuity still yields a local solution of `x' = f(x)`, `x(0) = x\u2080` \u2014 but\nuniqueness may fail (e.g. `x' = \u221ax`, `x(0) = 0`). Stated for a\nfinite-dimensional space: Peano's theorem requires local compactness and is\nfalse in general (infinite-dimensional) Banach spaces. -/\ntheorem peano_existence\n    {E : Type*} [NormedAddCommGroup E] [NormedSpace \u211d E] [FiniteDimensional \u211d E]\n    {f : E \u2192 E} (hf : Continuous f) (x\u2080 : E) :\n    \u2203 a : \u211d, 0 < a \u2227 \u2203 \u03b1 : \u211d \u2192 E, \u03b1 0 = x\u2080 \u2227\n      \u2200 t \u2208 Ioo (-a) a, HasDerivAt \u03b1 (f (\u03b1 t)) t := by\n  sorry"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "morley_theorem",
+  "module": "LeanEval.Geometry.Morley",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.Morley.morley_theorem",
+      "basename": "morley_theorem",
+      "kind": "theorem",
+      "body": "/-- **Morley's theorem.** The adjacent-trisector triangle `PQR` of a\nnondegenerate triangle `ABC` is equilateral. -/\ntheorem morley_theorem (A B C P Q R : Plane)\n    (h : IsMorleyConfiguration A B C P Q R) :\n    IsEquilateralTriple P Q R := by\n  sorry"
+    }
+  ]
+}

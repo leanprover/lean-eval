@@ -1,0 +1,12 @@
+{
+  "id": "fatou_julia_dichotomy",
+  "module": "LeanEval.ComplexAnalysis.FatouJulia",
+  "holes": [
+    {
+      "name": "LeanEval.ComplexAnalysis.FatouJuliaProblem.julia_cantor_dichotomy",
+      "basename": "julia_cantor_dichotomy",
+      "kind": "theorem",
+      "body": "/-- **Fatou\u2013Julia dichotomy.** For the quadratic family, `c \u2208 M` implies\nthe filled Julia set `K_c` is connected; `c \u2209 M` implies `K_c` is\nhomeomorphic to the Cantor space `\u2115 \u2192 Bool`. -/\ntheorem julia_cantor_dichotomy (c : \u2102) :\n    (c \u2208 Mandelbrot \u2192 IsConnected (FilledJulia c)) \u2227\n    (c \u2209 Mandelbrot \u2192 Nonempty ((FilledJulia c) \u2243\u209c (\u2115 \u2192 Bool))) := by\n  sorry"
+    }
+  ]
+}

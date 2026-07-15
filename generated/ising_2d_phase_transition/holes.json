@@ -1,0 +1,12 @@
+{
+  "id": "ising_2d_phase_transition",
+  "module": "LeanEval.Analysis.IsingPhaseTransition",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.IsingPhaseTransition.ising_2d_phase_transition",
+      "basename": "ising_2d_phase_transition",
+      "kind": "theorem",
+      "body": "/-- **Onsager's 2D Ising phase transition.** The thermodynamic-limit free\nenergy exists for all `\u03b2` and is non-analytic at some positive `\u03b2c`. -/\ntheorem ising_2d_phase_transition :\n    \u2203 (F : \u211d \u2192 \u211d) (\u03b2c : \u211d),\n      0 < \u03b2c \u2227\n        (\u2200 \u03b2 : \u211d,\n          Tendsto (fun n : \u2115 => finiteIsingFreeEnergySeq n \u03b2) atTop (\ud835\udcdd (F \u03b2))) \u2227\n        \u00ac AnalyticAt \u211d F \u03b2c := by\n  sorry"
+    }
+  ]
+}

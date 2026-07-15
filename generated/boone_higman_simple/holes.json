@@ -1,0 +1,12 @@
+{
+  "id": "boone_higman_simple",
+  "module": "LeanEval.GroupTheory.BooneHigmanSimple",
+  "holes": [
+    {
+      "name": "LeanEval.GroupTheory.BooneHigmanSimpleProblem.boone_higman_simple",
+      "basename": "boone_higman_simple",
+      "kind": "theorem",
+      "body": "/-- **Kuznetsov's theorem** (A.V. Kuznetsov, 1958). A finitely presented\nsimple group has a solvable word problem. -/\ntheorem boone_higman_simple\n    {G : Type*} [Group G] [IsSimpleGroup G]\n    {n : \u2115} (\u03c6 : FreeGroup (Fin n) \u2192* G)\n    (_hsurj : Function.Surjective \u03c6)\n    (_hker : (MonoidHom.ker \u03c6).IsNormalClosureFG) :\n    WordProblemSolvable \u03c6 := by\n  sorry"
+    }
+  ]
+}

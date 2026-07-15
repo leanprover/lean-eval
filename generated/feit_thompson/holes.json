@@ -1,0 +1,12 @@
+{
+  "id": "feit_thompson",
+  "module": "LeanEval.GroupTheory.FeitThompson",
+  "holes": [
+    {
+      "name": "LeanEval.GroupTheory.feit_thompson",
+      "basename": "feit_thompson",
+      "kind": "theorem",
+      "body": "/-- **Feit\u2013Thompson odd-order theorem.** Every finite group of odd order is\nsolvable. -/\ntheorem feit_thompson {G : Type*} [Group G] [Finite G]\n    (_h : Odd (Nat.card G)) : IsSolvable G := by\n  sorry"
+    }
+  ]
+}

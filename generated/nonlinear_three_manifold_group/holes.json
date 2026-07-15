@@ -1,0 +1,12 @@
+{
+  "id": "nonlinear_three_manifold_group",
+  "module": "LeanEval.Topology.NonlinearThreeManifoldGroup",
+  "holes": [
+    {
+      "name": "LeanEval.Topology.nonlinear_three_manifold_group",
+      "basename": "nonlinear_three_manifold_group",
+      "kind": "theorem",
+      "body": "/-- **A non-linear 3-manifold group** (Button, answering `[Kir97, Problem 3.33]`\nnegatively). There is a closed connected topological 3-manifold `M` and a\nbasepoint `x` such that the fundamental group `\u03c0\u2081(M, x)` admits no faithful\n(injective) representation into `GL(4, \u211d)`. -/\ntheorem nonlinear_three_manifold_group :\n    \u2203 (M : Closed3Manifold) (x : M.carrier),\n      \u2200 f : FundamentalGroup M.carrier x \u2192* GL (Fin 4) \u211d, \u00ac Function.Injective f := by\n  sorry"
+    }
+  ]
+}

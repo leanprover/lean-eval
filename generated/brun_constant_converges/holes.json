@@ -1,0 +1,12 @@
+{
+  "id": "brun_constant_converges",
+  "module": "LeanEval.NumberTheory.BrunConstant",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.BrunConstant.brun_constant_converges",
+      "basename": "brun_constant_converges",
+      "kind": "theorem",
+      "body": "/-- **Brun's theorem.** The reciprocal sum over twin-prime pairs converges. -/\ntheorem brun_constant_converges :\n    Summable twinPrimeReciprocalTerm := by\n  sorry"
+    }
+  ]
+}

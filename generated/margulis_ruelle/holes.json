@@ -1,0 +1,12 @@
+{
+  "id": "margulis_ruelle",
+  "module": "LeanEval.Dynamics.LaiSangYoung",
+  "holes": [
+    {
+      "name": "LeanEval.Dynamics.margulis_ruelle",
+      "basename": "margulis_ruelle",
+      "kind": "theorem",
+      "body": "/-- **Margulis\u2013Ruelle inequality (1968/1978).** `h_\u03bc(T) \u2264 \u03bb\u2081\u207a + \u03bb\u2082\u207a`. -/\ntheorem margulis_ruelle\n    (T T_inv : EucPlane \u2192 EucPlane)\n    (hT_smooth : ContDiff \u211d 2 T)\n    (hT_inv_smooth : ContDiff \u211d 2 T_inv)\n    (hT_left : Function.LeftInverse T_inv T)\n    (hT_right : Function.RightInverse T_inv T)\n    (K : Set EucPlane)\n    (hK_compact : IsCompact K)\n    (hK_inv : T '' K = K)\n    (\u03bc : Measure EucPlane) [IsProbabilityMeasure \u03bc]\n    (h\u03bc_supp : \u03bc K\u1d9c = 0)\n    (h\u03bc_pres : MeasurePreserving T \u03bc \u03bc)\n    (h\u03bc_erg : Ergodic T \u03bc) :\n    kolmogorovSinaiEntropy \u03bc T\n      \u2264 max 0 (\u222b x, lyapunovUpperAt T x \u2202\u03bc)\n          + max 0 (\u222b x, lyapunovLowerAt T x \u2202\u03bc) := by\n  sorry"
+    }
+  ]
+}

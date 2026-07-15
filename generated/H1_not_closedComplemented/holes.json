@@ -1,0 +1,12 @@
+{
+  "id": "H1_not_closedComplemented",
+  "module": "LeanEval.Analysis.HardySpace",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.H1_not_closedComplemented",
+      "basename": "H1_not_closedComplemented",
+      "kind": "theorem",
+      "body": "/-- There is no bounded projection from `L^1` onto `H^1`. In the language of\ntopological vector spaces, `H^1` has no topological complement in `L^1`. -/\ntheorem H1_not_closedComplemented :\n    \u00ac H1.ClosedComplemented := by\n  sorry"
+    }
+  ]
+}

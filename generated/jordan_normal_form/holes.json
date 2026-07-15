@@ -1,0 +1,12 @@
+{
+  "id": "jordan_normal_form",
+  "module": "LeanEval.LinearAlgebra.JordanNormalForm",
+  "holes": [
+    {
+      "name": "LeanEval.LinearAlgebra.JordanNormalForm.jordan_normal_form",
+      "basename": "jordan_normal_form",
+      "kind": "theorem",
+      "body": "/-- **Jordan normal form.** Over an algebraically closed field, every\nendomorphism of `K\u207f` admits a Jordan-chain basis. -/\ntheorem jordan_normal_form {K : Type*} [Field K] [IsAlgClosed K] (n : \u2115)\n    (f : Module.End K (StdSpace K n)) :\n    Nonempty (JordanChainBasis f) := by\n  sorry"
+    }
+  ]
+}

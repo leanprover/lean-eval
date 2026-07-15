@@ -1,278 +1,267 @@
 [
   {
-    "id": "two_plus_two",
-    "title": "2 + 2 = 4",
-    "test": true,
-    "submitter": "Kim Morrison",
-    "module": "LeanEval.EasyProblems",
+    "id": "H1_not_closedComplemented",
+    "title": "No bounded projection from L^1 onto H^1",
+    "test": false,
+    "submitter": "Yongxi Lin",
+    "module": "LeanEval.Analysis.HardySpace",
     "holes": [
-      "two_plus_two_eq_four"
+      "H1_not_closedComplemented"
     ],
-    "generated_path": "generated/two_plus_two"
+    "generated_path": "generated/H1_not_closedComplemented"
   },
   {
-    "id": "ci_regenerate_main_check",
-    "title": "CI regenerate-main check",
-    "test": true,
-    "submitter": "Kim Morrison",
-    "module": "LeanEval.EasyProblems",
-    "holes": [
-      "ci_regenerate_main_check"
-    ],
-    "generated_path": "generated/ci_regenerate_main_check"
-  },
-  {
-    "id": "list_append_singleton_length",
-    "title": "Appending a singleton increases the list length",
-    "test": true,
-    "submitter": "Kim Morrison",
-    "module": "LeanEval.EasyProblems",
-    "holes": [
-      "list_append_singleton_length"
-    ],
-    "generated_path": "generated/list_append_singleton_length"
-  },
-  {
-    "id": "chudnovsky_formula_for_pi_inv",
-    "title": "Chudnovsky formula for pi inverse",
+    "id": "abel_ruffini",
+    "title": "Abel\u2013Ruffini theorem",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.Analysis.Chudnovsky",
+    "module": "LeanEval.Algebra.AbelRuffini",
     "holes": [
-      "chudnovsky_formula_for_pi_inv"
+      "abel_ruffini"
     ],
-    "generated_path": "generated/chudnovsky_formula_for_pi_inv"
+    "generated_path": "generated/abel_ruffini"
   },
   {
-    "id": "pi1_circle_mulEquiv_int",
-    "title": "pi_1 of the circle is Z",
+    "id": "alternating_sign_matrix_count",
+    "title": "The alternating sign matrix theorem",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.Topology.HomotopyGroups",
+    "module": "LeanEval.Combinatorics.AlternatingSignMatrix",
     "holes": [
-      "pi1_circle_mulEquiv_int"
+      "alternating_sign_matrix_count"
     ],
-    "generated_path": "generated/pi1_circle_mulEquiv_int"
+    "generated_path": "generated/alternating_sign_matrix_count"
   },
   {
-    "id": "finite_graph_ramsey_theorem",
-    "title": "Finite Ramsey theorem for graphs",
+    "id": "annulus_theorem_dim_four",
+    "title": "The Annulus Theorem in dimension 4 (Quinn)",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.Combinatorics.Ramsey",
+    "module": "LeanEval.Topology.AnnulusTheoremDimFour",
     "holes": [
-      "finite_graph_ramsey_theorem"
+      "annulus_theorem_dim_four"
     ],
-    "generated_path": "generated/finite_graph_ramsey_theorem"
+    "generated_path": "generated/annulus_theorem_dim_four"
   },
   {
-    "id": "substInv_X_sub_X_sq_eq_catalan",
-    "title": "Catalan generating function via compositional inversion",
+    "id": "annulus_theorem_high_dim",
+    "title": "The Annulus Theorem in dimension \u2265 5 (Kirby)",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.Combinatorics.CatalanSubstInv",
+    "module": "LeanEval.Topology.AnnulusTheoremHighDim",
     "holes": [
-      "substInv_X_sub_X_sq_eq_catalan"
+      "annulus_theorem_high_dim"
     ],
-    "generated_path": "generated/substInv_X_sub_X_sq_eq_catalan"
+    "generated_path": "generated/annulus_theorem_high_dim"
   },
   {
-    "id": "riemann_hypothesis_iff_lagarias_elementary_criterion",
-    "title": "Lagarias criterion is equivalent to RH",
+    "id": "anosov_bowen_shadowing",
+    "title": "Anosov\u2013Bowen shadowing lemma",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.NumberTheory.Lagarias",
+    "module": "LeanEval.Dynamics.HyperbolicShadowing",
     "holes": [
-      "riemann_hypothesis_iff_lagarias_elementary_criterion"
+      "hyperbolic_has_shadowing"
     ],
-    "generated_path": "generated/riemann_hypothesis_iff_lagarias_elementary_criterion"
+    "generated_path": "generated/anosov_bowen_shadowing"
   },
   {
-    "id": "dvd_card_connectedComponent_markoffGraph",
-    "title": "Chen theorem for Markoff graphs",
+    "id": "aspherical_integer_homology_four_sphere",
+    "title": "Existence of an aspherical integer homology 4-sphere",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.Combinatorics.MarkoffGraph",
+    "module": "LeanEval.Topology.AsphericalHomologySphere",
     "holes": [
-      "dvd_card_connectedComponent_markoffGraph"
+      "aspherical_integer_homology_four_sphere"
     ],
-    "generated_path": "generated/dvd_card_connectedComponent_markoffGraph"
+    "generated_path": "generated/aspherical_integer_homology_four_sphere"
   },
   {
-    "id": "mulCayley_connected_iff_closure_eq_top",
-    "title": "Cayley graph connected iff generators generate the group",
+    "id": "baer_suzuki",
+    "title": "Baer\u2013Suzuki theorem",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.Combinatorics.CayleyConnected",
+    "module": "LeanEval.GroupTheory.BaerSuzuki",
     "holes": [
-      "mulCayley_connected_iff_closure_eq_top"
+      "baer_suzuki"
     ],
-    "generated_path": "generated/mulCayley_connected_iff_closure_eq_top"
+    "generated_path": "generated/baer_suzuki"
   },
   {
-    "id": "pi3_sphere_two_mulEquiv_int",
-    "title": "pi_3 of the 2-sphere is Z",
+    "id": "bakerWustholz_linearForms_logs",
+    "title": "Baker-W\u00fcstholz theorem on linear forms in logarithms",
     "test": false,
-    "submitter": "Kim Morrison",
-    "module": "LeanEval.Topology.HomotopyGroups",
+    "submitter": "Ralf Stephan",
+    "module": "LeanEval.NumberTheory.BakerWustholz",
     "holes": [
-      "pi3_sphere_two_mulEquiv_int"
+      "bakerWustholz_linearForms_logs"
     ],
-    "generated_path": "generated/pi3_sphere_two_mulEquiv_int"
+    "generated_path": "generated/bakerWustholz_linearForms_logs"
   },
   {
-    "id": "pin_sphere_n_mulEquiv_int",
-    "title": "pi_n of the n-sphere is Z",
+    "id": "balanceable_bounded_partitions",
+    "title": "Balanceable k-bounded partitions",
     "test": false,
-    "submitter": "Kim Morrison",
-    "module": "LeanEval.Topology.HomotopyGroups",
+    "submitter": "Julia M. Himmel",
+    "module": "LeanEval.Combinatorics.BalanceableBoundedPartitions",
     "holes": [
-      "pin_sphere_n_mulEquiv_int"
+      "minimal_balanceable_of_bounded"
     ],
-    "generated_path": "generated/pin_sphere_n_mulEquiv_int"
+    "generated_path": "generated/balanceable_bounded_partitions"
   },
   {
-    "id": "pi_succ_sphere_n_mulEquiv_zmod_two",
-    "title": "pi_(n+1) of S^n is Z/2 for n at least 3",
+    "id": "banach_alaoglu_bourbaki",
+    "title": "Bourbaki's locally convex extension of Banach\u2013Alaoglu",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.Topology.HomotopyGroups",
+    "module": "LeanEval.Analysis.BanachAlaoglu",
     "holes": [
-      "pi_succ_sphere_n_mulEquiv_zmod_two"
+      "banach_alaoglu_bourbaki"
     ],
-    "generated_path": "generated/pi_succ_sphere_n_mulEquiv_zmod_two"
+    "generated_path": "generated/banach_alaoglu_bourbaki"
   },
   {
-    "id": "finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow",
-    "title": "Burnside p^a q^b theorem",
+    "id": "bauer_extreme_point_uniqueness",
+    "title": "Bauer's uniqueness at extreme points",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.GroupTheory.Burnside",
+    "module": "LeanEval.Analysis.Choquet",
     "holes": [
-      "finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow"
+      "bauer_unique"
     ],
-    "generated_path": "generated/finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow"
+    "generated_path": "generated/bauer_extreme_point_uniqueness"
   },
   {
-    "id": "rouche_zero_count_eq",
-    "title": "Rouche theorem via zero counting",
+    "id": "bezout_projective_multiplicity",
+    "title": "B\u00e9zout's theorem (projective, with multiplicity)",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.ComplexAnalysis.Rouche",
+    "module": "LeanEval.AlgebraicGeometry.Bezout",
     "holes": [
-      "rouche_zero_count_eq"
+      "bezout_multiplicity"
     ],
-    "generated_path": "generated/rouche_zero_count_eq"
+    "generated_path": "generated/bezout_projective_multiplicity"
   },
   {
-    "id": "mem_convexHull_finset_extremePoints_of_mem_compact_convex",
-    "title": "Minkowski-Caratheodory theorem",
+    "id": "boone_higman_embedding",
+    "title": "Boone\u2013Higman theorem (easy direction)",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.ConvexGeometry.MinkowskiCaratheodory",
+    "module": "LeanEval.GroupTheory.BooneHigmanEmbedding",
     "holes": [
-      "mem_convexHull_finset_extremePoints_of_mem_compact_convex"
+      "boone_higman_embedding"
     ],
-    "generated_path": "generated/mem_convexHull_finset_extremePoints_of_mem_compact_convex"
+    "generated_path": "generated/boone_higman_embedding"
   },
   {
-    "id": "irreducible_nonnegative_matrix_has_positive_eigenvector_at_spectralRadius",
-    "title": "Perron-Frobenius for irreducible nonnegative matrices",
+    "id": "boone_higman_simple",
+    "title": "Kuznetsov's theorem: finitely presented simple groups have solvable word problem",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.LinearAlgebra.PerronFrobenius",
+    "module": "LeanEval.GroupTheory.BooneHigmanSimple",
     "holes": [
-      "irreducible_nonnegative_matrix_has_positive_eigenvector_at_spectralRadius"
+      "boone_higman_simple"
     ],
-    "generated_path": "generated/irreducible_nonnegative_matrix_has_positive_eigenvector_at_spectralRadius"
+    "generated_path": "generated/boone_higman_simple"
   },
   {
-    "id": "exists_complementary_polynomial_on_unit_circle",
-    "title": "Complementary polynomial on the unit circle",
+    "id": "bourgain_polynomial_ergodic",
+    "title": "Bourgain's polynomial ergodic theorem",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.ComplexAnalysis.ComplementaryPolynomials",
+    "module": "LeanEval.Dynamics.BourgainErgodic",
     "holes": [
-      "exists_complementary_polynomial_on_unit_circle"
+      "bourgain_polynomial_ergodic"
     ],
-    "generated_path": "generated/exists_complementary_polynomial_on_unit_circle"
+    "generated_path": "generated/bourgain_polynomial_ergodic"
   },
   {
-    "id": "posSemidef_map_exp",
-    "title": "Entrywise exponential of a PSD matrix is PSD",
+    "id": "brauer_character_in_cyclotomic",
+    "title": "Character values of finite groups lie in cyclotomic fields",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.LinearAlgebra.EntrywiseExpPSD",
+    "module": "LeanEval.RepresentationTheory.BrauerCharacterInCyclotomic",
     "holes": [
-      "posSemidef_map_exp"
+      "brauer_character_in_cyclotomic"
     ],
-    "generated_path": "generated/posSemidef_map_exp"
+    "generated_path": "generated/brauer_character_in_cyclotomic"
   },
   {
-    "id": "oppenheim_inequality",
-    "title": "Oppenheim's inequality for Hadamard products",
+    "id": "brauer_fowler",
+    "title": "Brauer\u2013Fowler theorem",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.LinearAlgebra.Oppenheim",
+    "module": "LeanEval.GroupTheory.BrauerFowler",
     "holes": [
-      "oppenheim_inequality"
+      "brauer_fowler"
     ],
-    "generated_path": "generated/oppenheim_inequality"
+    "generated_path": "generated/brauer_fowler"
   },
   {
-    "id": "vonNeumann_doubleCommutant_tfae",
-    "title": "von Neumann double commutant theorem",
+    "id": "brauer_splitting_field",
+    "title": "Brauer's splitting field theorem",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.Analysis.VonNeumannDoubleCommutant",
+    "module": "LeanEval.RepresentationTheory.BrauerSplittingField",
     "holes": [
-      "vonNeumann_doubleCommutant_tfae"
+      "brauer_splitting_field"
     ],
-    "generated_path": "generated/vonNeumann_doubleCommutant_tfae"
+    "generated_path": "generated/brauer_splitting_field"
   },
   {
-    "id": "symAction_range_eq_centralizer_glAction",
-    "title": "Schur-Weyl duality: S_k image equals centralizer of GL(V) image",
+    "id": "brauer_suzuki",
+    "title": "Brauer\u2013Suzuki theorem (quaternion Sylow 2-subgroup)",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.RepresentationTheory.SchurWeyl",
+    "module": "LeanEval.GroupTheory.BrauerSuzuki",
     "holes": [
-      "symAction_range_eq_centralizer_glAction"
+      "brauer_suzuki"
     ],
-    "generated_path": "generated/symAction_range_eq_centralizer_glAction"
+    "generated_path": "generated/brauer_suzuki"
   },
   {
-    "id": "glAction_range_eq_centralizer_symAction",
-    "title": "Schur-Weyl duality: GL(V) image equals centralizer of S_k image",
+    "id": "brouwer_fixed_point",
+    "title": "Brouwer fixed-point theorem",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.RepresentationTheory.SchurWeyl",
+    "module": "LeanEval.Topology.Brouwer",
     "holes": [
-      "glAction_range_eq_centralizer_symAction"
+      "brouwer_fixed_point"
     ],
-    "generated_path": "generated/glAction_range_eq_centralizer_symAction"
+    "generated_path": "generated/brouwer_fixed_point"
   },
   {
-    "id": "g2_irrep_tensor_square_decomp",
-    "title": "Existence of a 64-dim irreducible g\u2082-representation with 14 tensor-square isotypic components",
+    "id": "brun_constant_converges",
+    "title": "Brun's theorem (convergence of the twin-prime reciprocal sum)",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.RepresentationTheory.ExceptionalLieTensorSquare",
+    "module": "LeanEval.NumberTheory.BrunConstant",
     "holes": [
-      "g2_irrep_tensor_square_decomp"
+      "brun_constant_converges"
     ],
-    "generated_path": "generated/g2_irrep_tensor_square_decomp"
+    "generated_path": "generated/brun_constant_converges"
   },
   {
-    "id": "e8_irrep_tensor_square_decomp",
-    "title": "Existence of a 779247-dim irreducible e\u2088-representation with 40 tensor-square isotypic components",
+    "id": "bvp_comparison",
+    "title": "Comparison principle for the Dirichlet BVP",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.RepresentationTheory.ExceptionalLieTensorSquare",
+    "module": "LeanEval.Analysis.ODE.BVPComparison",
     "holes": [
-      "e8_irrep_tensor_square_decomp"
+      "bvp_comparison"
     ],
-    "generated_path": "generated/e8_irrep_tensor_square_decomp"
+    "generated_path": "generated/bvp_comparison"
+  },
+  {
+    "id": "cauchy_kovalevskaya",
+    "title": "Cauchy\u2013Kovalevskaya theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.CauchyKovalevskaya",
+    "holes": [
+      "cauchy_kovalevskaya"
+    ],
+    "generated_path": "generated/cauchy_kovalevskaya"
   },
   {
     "id": "cerf_gamma_four",
@@ -286,15 +275,159 @@
     "generated_path": "generated/cerf_gamma_four"
   },
   {
-    "id": "smale_conjecture",
-    "title": "Smale conjecture (Hatcher) in relative parameterized form",
+    "id": "chebyshev_sign_change",
+    "title": "Hardy\u2013Littlewood sign-change for the prime race mod 4",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.Topology.SmaleConjecture",
+    "module": "LeanEval.NumberTheory.ChebyshevSignChange",
     "holes": [
-      "smale_conjecture"
+      "chebyshev_sign_change"
     ],
-    "generated_path": "generated/smale_conjecture"
+    "generated_path": "generated/chebyshev_sign_change"
+  },
+  {
+    "id": "chen_theorem",
+    "title": "Chen's theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.ChenTheorem",
+    "holes": [
+      "chen_theorem"
+    ],
+    "generated_path": "generated/chen_theorem"
+  },
+  {
+    "id": "choquet_representation_theorem",
+    "title": "Choquet's representation theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.Choquet",
+    "holes": [
+      "choquet"
+    ],
+    "generated_path": "generated/choquet_representation_theorem"
+  },
+  {
+    "id": "chudnovsky_formula_for_pi_inv",
+    "title": "Chudnovsky formula for pi inverse",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.Chudnovsky",
+    "holes": [
+      "chudnovsky_formula_for_pi_inv"
+    ],
+    "generated_path": "generated/chudnovsky_formula_for_pi_inv"
+  },
+  {
+    "id": "ci_regenerate_main_check",
+    "title": "CI regenerate-main check",
+    "test": true,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.EasyProblems",
+    "holes": [
+      "ci_regenerate_main_check"
+    ],
+    "generated_path": "generated/ci_regenerate_main_check"
+  },
+  {
+    "id": "coherent_cohomology_finite_dimensional",
+    "title": "Coherent cohomology of a proper scheme over \u211a is finite-dimensional",
+    "test": false,
+    "submitter": "Brian Nugent",
+    "module": "LeanEval.AlgebraicGeometry.CoherentCohomologyFinite",
+    "holes": [
+      "coherent_cohomology_finite_dimensional"
+    ],
+    "generated_path": "generated/coherent_cohomology_finite_dimensional"
+  },
+  {
+    "id": "commProb_closed",
+    "title": "Commuting probabilities are closed",
+    "test": false,
+    "submitter": "Thomas Browning",
+    "module": "LeanEval.GroupTheory.CommProbClosed",
+    "holes": [
+      "commProb_closed"
+    ],
+    "generated_path": "generated/commProb_closed"
+  },
+  {
+    "id": "compact_group_semisimple",
+    "title": "Complete reducibility for compact groups",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.RepresentationTheory.CompactGroupSemisimple",
+    "holes": [
+      "compact_group_semisimple"
+    ],
+    "generated_path": "generated/compact_group_semisimple"
+  },
+  {
+    "id": "contractibleSpace_houseWithTwoRooms",
+    "title": "Bing's house with two rooms is contractible",
+    "test": false,
+    "submitter": "Junyan Xu",
+    "module": "LeanEval.Topology.HouseWithTwoRooms",
+    "holes": [
+      "contractibleSpace_houseWithTwoRooms"
+    ],
+    "generated_path": "generated/contractibleSpace_houseWithTwoRooms"
+  },
+  {
+    "id": "conway_knot_not_smoothly_slice",
+    "title": "The Conway knot is not smoothly slice",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.KnotTheory.Piccirillo",
+    "holes": [
+      "conwayKnot_isSimple",
+      "conway_knot_not_smoothly_slice"
+    ],
+    "generated_path": "generated/conway_knot_not_smoothly_slice"
+  },
+  {
+    "id": "conway_knot_topologically_slice",
+    "title": "The Conway knot is topologically slice",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.KnotTheory.ConwayTopologicallySlice",
+    "holes": [
+      "conway_knot_topologically_slice"
+    ],
+    "generated_path": "generated/conway_knot_topologically_slice"
+  },
+  {
+    "id": "conway_schneeberger_fifteen",
+    "title": "Conway\u2013Schneeberger fifteen theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.ConwaySchneebergerFifteen",
+    "holes": [
+      "conway_schneeberger_fifteen"
+    ],
+    "generated_path": "generated/conway_schneeberger_fifteen"
+  },
+  {
+    "id": "cubic_decay_asymptotic",
+    "title": "Polynomial decay rate of y' = -y^3",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.ODE.CubicDecay",
+    "holes": [
+      "cubic_decay_asymptotic"
+    ],
+    "generated_path": "generated/cubic_decay_asymptotic"
+  },
+  {
+    "id": "cyclotomic_integer_house_between_two_and_76_33",
+    "title": "Real cyclotomic integer with house in (2, 76/33)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.SmallHouse",
+    "holes": [
+      "cyclotomic_integer_house_between_two_and_76_33"
+    ],
+    "generated_path": "generated/cyclotomic_integer_house_between_two_and_76_33"
   },
   {
     "id": "cyclotomic_integer_house_le_two",
@@ -308,15 +441,403 @@
     "generated_path": "generated/cyclotomic_integer_house_le_two"
   },
   {
-    "id": "cyclotomic_integer_house_between_two_and_76_33",
-    "title": "Real cyclotomic integer with house in (2, 76/33)",
+    "id": "darboux",
+    "title": "Darboux's theorem (symplectic forms are locally standard)",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.NumberTheory.SmallHouse",
+    "module": "LeanEval.Geometry.Darboux",
     "holes": [
-      "cyclotomic_integer_house_between_two_and_76_33"
+      "darboux"
     ],
-    "generated_path": "generated/cyclotomic_integer_house_between_two_and_76_33"
+    "generated_path": "generated/darboux"
+  },
+  {
+    "id": "deBranges_theorem",
+    "title": "De Branges's theorem (Bieberbach conjecture)",
+    "test": false,
+    "submitter": "Junyan Xu",
+    "module": "LeanEval.ComplexAnalysis.DeBranges",
+    "holes": [
+      "deBranges"
+    ],
+    "generated_path": "generated/deBranges_theorem"
+  },
+  {
+    "id": "def_hole_example",
+    "title": "def-hole minimal example",
+    "test": true,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Sandbox.DefHoleExample",
+    "holes": [
+      "foo",
+      "foo_def"
+    ],
+    "generated_path": "generated/def_hole_example"
+  },
+  {
+    "id": "dehn_sommerville",
+    "title": "Dehn\u2013Sommerville equations for simplicial spheres",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Combinatorics.DehnSommerville",
+    "holes": [
+      "dehn_sommerville"
+    ],
+    "generated_path": "generated/dehn_sommerville"
+  },
+  {
+    "id": "dirichlet_eigenvalues_eq_nat_sq",
+    "title": "Dirichlet eigenvalues of -y'' = lambda y on [0,pi] are n^2",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.ODE.DirichletEigenvalues",
+    "holes": [
+      "dirichlet_eigenvalues_eq_nat_sq"
+    ],
+    "generated_path": "generated/dirichlet_eigenvalues_eq_nat_sq"
+  },
+  {
+    "id": "dvd_card_connectedComponent_markoffGraph",
+    "title": "Chen theorem for Markoff graphs",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Combinatorics.MarkoffGraph",
+    "holes": [
+      "dvd_card_connectedComponent_markoffGraph"
+    ],
+    "generated_path": "generated/dvd_card_connectedComponent_markoffGraph"
+  },
+  {
+    "id": "e8_irrep_tensor_square_decomp",
+    "title": "Existence of a 779247-dim irreducible e\u2088-representation with 40 tensor-square isotypic components",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.RepresentationTheory.ExceptionalLieTensorSquare",
+    "holes": [
+      "e8_irrep_tensor_square_decomp"
+    ],
+    "generated_path": "generated/e8_irrep_tensor_square_decomp"
+  },
+  {
+    "id": "entropy_dimension_lyapunov",
+    "title": "Lai-Sang Young entropy\u2013dimension\u2013Lyapunov theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Dynamics.LaiSangYoung",
+    "holes": [
+      "entropy_dimension_lyapunov"
+    ],
+    "generated_path": "generated/entropy_dimension_lyapunov"
+  },
+  {
+    "id": "equichordal_point_unique",
+    "title": "Equichordal point theorem (convex curves have a unique equichordal point)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.Equichordal",
+    "holes": [
+      "equichordal_point_unique"
+    ],
+    "generated_path": "generated/equichordal_point_unique"
+  },
+  {
+    "id": "erdos_unit_distance_conjecture_false",
+    "title": "Erd\u0151s's unit-distance conjecture is false",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Combinatorics.UnitDistanceConjectureFalse",
+    "holes": [
+      "erdos_unit_distance_conjecture_false"
+    ],
+    "generated_path": "generated/erdos_unit_distance_conjecture_false"
+  },
+  {
+    "id": "euler_lagrange_equation",
+    "title": "Euler\u2013Lagrange equation",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.EulerLagrange",
+    "holes": [
+      "euler_lagrange_equation"
+    ],
+    "generated_path": "generated/euler_lagrange_equation"
+  },
+  {
+    "id": "exists_chiral_knot",
+    "title": "Existence of a chiral oriented knot",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.KnotTheory.Chiral",
+    "holes": [
+      "exists_chiral_knot"
+    ],
+    "generated_path": "generated/exists_chiral_knot"
+  },
+  {
+    "id": "exists_complementary_polynomial_on_unit_circle",
+    "title": "Complementary polynomial on the unit circle",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.ComplexAnalysis.ComplementaryPolynomials",
+    "holes": [
+      "exists_complementary_polynomial_on_unit_circle"
+    ],
+    "generated_path": "generated/exists_complementary_polynomial_on_unit_circle"
+  },
+  {
+    "id": "exists_nonisotopic_knots",
+    "title": "Existence of a non-isotopic pair of oriented knots",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.KnotTheory.NonIsotopicKnots",
+    "holes": [
+      "exists_nonisotopic_knots"
+    ],
+    "generated_path": "generated/exists_nonisotopic_knots"
+  },
+  {
+    "id": "exists_nonisotopic_link",
+    "title": "Existence of a non-isotopic pair of oriented two-component links",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.KnotTheory.Linking",
+    "holes": [
+      "exists_nonisotopic_link"
+    ],
+    "generated_path": "generated/exists_nonisotopic_link"
+  },
+  {
+    "id": "exists_topologically_slice_not_smoothly_slice",
+    "title": "Existence of a topologically slice, not smoothly slice knot",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.KnotTheory.SliceDichotomy",
+    "holes": [
+      "exists_topologically_slice_not_smoothly_slice"
+    ],
+    "generated_path": "generated/exists_topologically_slice_not_smoothly_slice"
+  },
+  {
+    "id": "families_of_maps_b01",
+    "title": "Morrison\u2013Walker Lemma B.0.1: adapting families of maps to open covers",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.FamiliesOfMapsB01",
+    "holes": [
+      "FamiliesOfMapsB01.continuous",
+      "FamiliesOfMapsB01.biLipschitz"
+    ],
+    "generated_path": "generated/families_of_maps_b01"
+  },
+  {
+    "id": "fang_xia_tiling_partition_transitive",
+    "title": "Fang\u2013Xia: tiling of the symmetric group by transpositions implies \u03bb-transitivity",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Combinatorics.FangXiaTiling",
+    "holes": [
+      "fang_xia_partition_transitive_of_tiling"
+    ],
+    "generated_path": "generated/fang_xia_tiling_partition_transitive"
+  },
+  {
+    "id": "fary_milnor",
+    "title": "F\u00e1ry\u2013Milnor theorem (knot total curvature \u2264 4\u03c0 implies unknotted)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.FaryMilnor",
+    "holes": [
+      "fary_milnor_total_curvature"
+    ],
+    "generated_path": "generated/fary_milnor"
+  },
+  {
+    "id": "fatou_julia_dichotomy",
+    "title": "Fatou\u2013Julia / Cantor dichotomy",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.ComplexAnalysis.FatouJulia",
+    "holes": [
+      "julia_cantor_dichotomy"
+    ],
+    "generated_path": "generated/fatou_julia_dichotomy"
+  },
+  {
+    "id": "feit_thompson",
+    "title": "Feit\u2013Thompson odd-order theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.GroupTheory.FeitThompson",
+    "holes": [
+      "feit_thompson"
+    ],
+    "generated_path": "generated/feit_thompson"
+  },
+  {
+    "id": "fermat_last_theorem",
+    "title": "Fermat's Last Theorem",
+    "test": false,
+    "submitter": "Xuanji Li",
+    "module": "LeanEval.NumberTheory.FermatLastTheorem",
+    "holes": [
+      "fermat_last_theorem"
+    ],
+    "generated_path": "generated/fermat_last_theorem"
+  },
+  {
+    "id": "finite_graph_ramsey_theorem",
+    "title": "Finite Ramsey theorem for graphs",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Combinatorics.Ramsey",
+    "holes": [
+      "finite_graph_ramsey_theorem"
+    ],
+    "generated_path": "generated/finite_graph_ramsey_theorem"
+  },
+  {
+    "id": "finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow",
+    "title": "Burnside p^a q^b theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.GroupTheory.Burnside",
+    "holes": [
+      "finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow"
+    ],
+    "generated_path": "generated/finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow"
+  },
+  {
+    "id": "five_transitive_card_classification",
+    "title": "Possible orders of 5-transitive finite permutation groups",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.GroupTheory.MultiplyTransitive",
+    "holes": [
+      "five_transitive_card_classification"
+    ],
+    "generated_path": "generated/five_transitive_card_classification"
+  },
+  {
+    "id": "fourier_dirichlet_fejer",
+    "title": "Pointwise and Ces\u00e0ro convergence of Fourier series (Dirichlet, Fej\u00e9r)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.FourierConvergence",
+    "holes": [
+      "dirichlet_pointwise",
+      "fejer"
+    ],
+    "generated_path": "generated/fourier_dirichlet_fejer"
+  },
+  {
+    "id": "fraser_kakeya_fourier_decay",
+    "title": "Fraser: Fourier decay for finite-field Kakeya sets is q^{-1} and sharp",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Combinatorics.FraserKakeya",
+    "holes": [
+      "fraser_kakeya_fourier_decay_and_sharp"
+    ],
+    "generated_path": "generated/fraser_kakeya_fourier_decay"
+  },
+  {
+    "id": "frobenius_group_determinant",
+    "title": "Frobenius determinant theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.RepresentationTheory.FrobeniusDeterminant",
+    "holes": [
+      "frobenius_group_determinant"
+    ],
+    "generated_path": "generated/frobenius_group_determinant"
+  },
+  {
+    "id": "frobenius_kernel_isNormal",
+    "title": "Frobenius's theorem: the Frobenius kernel is normal",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.GroupTheory.Frobenius",
+    "holes": [
+      "frobenius_kernel_isNormal"
+    ],
+    "generated_path": "generated/frobenius_kernel_isNormal"
+  },
+  {
+    "id": "fundamental_topos_theory",
+    "title": "Fundamental theorem of topos theory",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.CategoryTheory.FundamentalTopos",
+    "holes": [
+      "fundamental_topos_theory"
+    ],
+    "generated_path": "generated/fundamental_topos_theory"
+  },
+  {
+    "id": "furstenberg_measure",
+    "title": "Furstenberg measure-preserving multiple recurrence",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Dynamics.FurstenbergMeasure",
+    "holes": [
+      "furstenberg_measure_recurrence"
+    ],
+    "generated_path": "generated/furstenberg_measure"
+  },
+  {
+    "id": "furstenberg_topological",
+    "title": "Furstenberg\u2013Weiss topological multiple recurrence (single-transformation form)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Dynamics.FurstenbergTopological",
+    "holes": [
+      "furstenberg_topological_recurrence"
+    ],
+    "generated_path": "generated/furstenberg_topological"
+  },
+  {
+    "id": "g2_irrep_tensor_square_decomp",
+    "title": "Existence of a 64-dim irreducible g\u2082-representation with 14 tensor-square isotypic components",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.RepresentationTheory.ExceptionalLieTensorSquare",
+    "holes": [
+      "g2_irrep_tensor_square_decomp"
+    ],
+    "generated_path": "generated/g2_irrep_tensor_square_decomp"
+  },
+  {
+    "id": "gauss_wantzel_constructible_polygon",
+    "title": "Gauss-Wantzel constructible regular polygon theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.GaussWantzel",
+    "holes": [
+      "gauss_wantzel_constructible_polygon"
+    ],
+    "generated_path": "generated/gauss_wantzel_constructible_polygon"
+  },
+  {
+    "id": "glAction_range_eq_centralizer_symAction",
+    "title": "Schur-Weyl duality: GL(V) image equals centralizer of S_k image",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.RepresentationTheory.SchurWeyl",
+    "holes": [
+      "glAction_range_eq_centralizer_symAction"
+    ],
+    "generated_path": "generated/glAction_range_eq_centralizer_symAction"
+  },
+  {
+    "id": "glauberman_zStar",
+    "title": "Glauberman's Z* theorem for isolated involutions",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.GroupTheory.GlaubermanZStar",
+    "holes": [
+      "glauberman_zStar"
+    ],
+    "generated_path": "generated/glauberman_zStar"
   },
   {
     "id": "gleason_theorem_finite",
@@ -339,6 +860,224 @@
       "gleason_theorem_separable"
     ],
     "generated_path": "generated/gleason_theorem_separable"
+  },
+  {
+    "id": "golod_shafarevich_inequality",
+    "title": "The Golod\u2013Shafarevich inequality",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.GroupTheory.GolodShafarevich",
+    "holes": [
+      "golod_shafarevich_inequality"
+    ],
+    "generated_path": "generated/golod_shafarevich_inequality"
+  },
+  {
+    "id": "gorenstein_walter",
+    "title": "Gorenstein\u2013Walter theorem (dihedral Sylow 2-subgroup)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.GroupTheory.GorensteinWalter",
+    "holes": [
+      "gorenstein_walter"
+    ],
+    "generated_path": "generated/gorenstein_walter"
+  },
+  {
+    "id": "green_tao",
+    "title": "Green\u2013Tao theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.GreenTao",
+    "holes": [
+      "green_tao"
+    ],
+    "generated_path": "generated/green_tao"
+  },
+  {
+    "id": "hadwiger",
+    "title": "Hadwiger's theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.ConvexGeometry.Hadwiger",
+    "holes": [
+      "hadwiger"
+    ],
+    "generated_path": "generated/hadwiger"
+  },
+  {
+    "id": "halmos_generic_weak_mixing",
+    "title": "Halmos's generic weak-mixing theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Dynamics.HalmosGenericWeakMixing",
+    "holes": [
+      "generic_weakly_mixing"
+    ],
+    "generated_path": "generated/halmos_generic_weak_mixing"
+  },
+  {
+    "id": "hausdorff_absolute_continuity",
+    "title": "Hausdorff moment problem: absolute-continuity criterion",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.HausdorffAbsoluteContinuity",
+    "holes": [
+      "hausdorff_absolute_continuity"
+    ],
+    "generated_path": "generated/hausdorff_absolute_continuity"
+  },
+  {
+    "id": "hausdorff_hildebrandt_schoenberg",
+    "title": "The Hausdorff\u2013Hildebrandt\u2013Schoenberg moment theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.HausdorffMoments",
+    "holes": [
+      "hausdorff_hildebrandt_schoenberg"
+    ],
+    "generated_path": "generated/hausdorff_hildebrandt_schoenberg"
+  },
+  {
+    "id": "hausdorff_positivity_criterion",
+    "title": "The Hausdorff positivity (complete-monotonicity) criterion",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.HausdorffMoments",
+    "holes": [
+      "hausdorff_positivity"
+    ],
+    "generated_path": "generated/hausdorff_positivity_criterion"
+  },
+  {
+    "id": "heat_kernel_solves_heat_equation",
+    "title": "Gaussian heat kernel solves the 1D heat equation",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.ODE.HeatKernel",
+    "holes": [
+      "heat_kernel_solves_heat_equation"
+    ],
+    "generated_path": "generated/heat_kernel_solves_heat_equation"
+  },
+  {
+    "id": "higman_infinite_simple",
+    "title": "Higman's infinite finitely-presented simple group",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.GroupTheory.HigmanInfiniteSimple",
+    "holes": [
+      "higman_infinite_simple"
+    ],
+    "generated_path": "generated/higman_infinite_simple"
+  },
+  {
+    "id": "hippocrates_lunes",
+    "title": "Hippocrates' theorem on lunes",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.HippocratesLunes",
+    "holes": [
+      "hippocrates_lunes"
+    ],
+    "generated_path": "generated/hippocrates_lunes"
+  },
+  {
+    "id": "hopf_rinow",
+    "title": "Hopf\u2013Rinow theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.HopfRinow",
+    "holes": [
+      "hopf_rinow"
+    ],
+    "generated_path": "generated/hopf_rinow"
+  },
+  {
+    "id": "hopf_umlaufsatz",
+    "title": "The Hopf Umlaufsatz (theorem of turning tangents)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.HopfUmlaufsatz",
+    "holes": [
+      "hopf_umlaufsatz"
+    ],
+    "generated_path": "generated/hopf_umlaufsatz"
+  },
+  {
+    "id": "hurewicz_h1_abelianization",
+    "title": "Hurewicz theorem in degree 1 (H\u2081 = abelianization of \u03c0\u2081)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.Hurewicz",
+    "holes": [
+      "hurewicz_h1_abelianization"
+    ],
+    "generated_path": "generated/hurewicz_h1_abelianization"
+  },
+  {
+    "id": "instance_hole_example",
+    "title": "instance-hole minimal example",
+    "test": true,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Sandbox.InstanceHoleExample",
+    "holes": [
+      "WidgetCarrier",
+      "instInhabitedWidget"
+    ],
+    "generated_path": "generated/instance_hole_example"
+  },
+  {
+    "id": "irreducible_nonnegative_matrix_has_positive_eigenvector_at_spectralRadius",
+    "title": "Perron-Frobenius for irreducible nonnegative matrices",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.LinearAlgebra.PerronFrobenius",
+    "holes": [
+      "irreducible_nonnegative_matrix_has_positive_eigenvector_at_spectralRadius"
+    ],
+    "generated_path": "generated/irreducible_nonnegative_matrix_has_positive_eigenvector_at_spectralRadius"
+  },
+  {
+    "id": "ising_2d_phase_transition",
+    "title": "Onsager's 2D Ising phase transition",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.IsingPhaseTransition",
+    "holes": [
+      "ising_2d_phase_transition"
+    ],
+    "generated_path": "generated/ising_2d_phase_transition"
+  },
+  {
+    "id": "isoperimetric_inequality",
+    "title": "Isoperimetric inequality (n-dim, topological-frontier form)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.IsoperimetricInequality",
+    "holes": [
+      "isoperimetric"
+    ],
+    "generated_path": "generated/isoperimetric_inequality"
+  },
+  {
+    "id": "jacobian_challenge_alggeo",
+    "title": "Jacobian of a smooth proper curve (Merten challenge)",
+    "test": false,
+    "submitter": "Christian Merten",
+    "module": "LeanEval.AlgebraicGeometry.JacobianChallenge",
+    "holes": [
+      "AlgebraicGeometry.JacobianChallenge.genus",
+      "AlgebraicGeometry.JacobianChallenge.Jacobian",
+      "AlgebraicGeometry.JacobianChallenge.Jacobian.instGrpObj",
+      "AlgebraicGeometry.JacobianChallenge.Jacobian.smoothOfRelativeDimension_genus",
+      "AlgebraicGeometry.JacobianChallenge.Jacobian.instIsProper",
+      "AlgebraicGeometry.JacobianChallenge.Jacobian.instGeometricallyIrreducible",
+      "AlgebraicGeometry.JacobianChallenge.Jacobian.ofCurve",
+      "AlgebraicGeometry.JacobianChallenge.Jacobian.comp_ofCurve",
+      "AlgebraicGeometry.JacobianChallenge.Jacobian.exists_unique_ofCurve_comp"
+    ],
+    "generated_path": "generated/jacobian_challenge_alggeo"
   },
   {
     "id": "jacobian_challenge_diffgeo",
@@ -375,212 +1114,180 @@
     "generated_path": "generated/jacobian_challenge_diffgeo"
   },
   {
-    "id": "jacobian_challenge_alggeo",
-    "title": "Jacobian of a smooth proper curve (Merten challenge)",
-    "test": false,
-    "submitter": "Christian Merten",
-    "module": "LeanEval.AlgebraicGeometry.JacobianChallenge",
-    "holes": [
-      "AlgebraicGeometry.JacobianChallenge.genus",
-      "AlgebraicGeometry.JacobianChallenge.Jacobian",
-      "AlgebraicGeometry.JacobianChallenge.Jacobian.instGrpObj",
-      "AlgebraicGeometry.JacobianChallenge.Jacobian.smoothOfRelativeDimension_genus",
-      "AlgebraicGeometry.JacobianChallenge.Jacobian.instIsProper",
-      "AlgebraicGeometry.JacobianChallenge.Jacobian.instGeometricallyIrreducible",
-      "AlgebraicGeometry.JacobianChallenge.Jacobian.ofCurve",
-      "AlgebraicGeometry.JacobianChallenge.Jacobian.comp_ofCurve",
-      "AlgebraicGeometry.JacobianChallenge.Jacobian.exists_unique_ofCurve_comp"
-    ],
-    "generated_path": "generated/jacobian_challenge_alggeo"
-  },
-  {
-    "id": "def_hole_example",
-    "title": "def-hole minimal example",
-    "test": true,
-    "submitter": "Kim Morrison",
-    "module": "LeanEval.Sandbox.DefHoleExample",
-    "holes": [
-      "foo",
-      "foo_def"
-    ],
-    "generated_path": "generated/def_hole_example"
-  },
-  {
-    "id": "instance_hole_example",
-    "title": "instance-hole minimal example",
-    "test": true,
-    "submitter": "Kim Morrison",
-    "module": "LeanEval.Sandbox.InstanceHoleExample",
-    "holes": [
-      "WidgetCarrier",
-      "instInhabitedWidget"
-    ],
-    "generated_path": "generated/instance_hole_example"
-  },
-  {
-    "id": "exists_nonisotopic_link",
-    "title": "Existence of a non-isotopic pair of oriented two-component links",
+    "id": "jordan_brouwer",
+    "title": "Jordan\u2013Brouwer separation theorem",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.KnotTheory.Linking",
+    "module": "LeanEval.Topology.JordanBrouwer",
     "holes": [
-      "exists_nonisotopic_link"
+      "jordan_brouwer"
     ],
-    "generated_path": "generated/exists_nonisotopic_link"
+    "generated_path": "generated/jordan_brouwer"
   },
   {
-    "id": "exists_nonisotopic_knots",
-    "title": "Existence of a non-isotopic pair of oriented knots",
+    "id": "jordan_curve",
+    "title": "Jordan curve theorem",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.KnotTheory.NonIsotopicKnots",
+    "module": "LeanEval.Topology.JordanCurve",
     "holes": [
-      "exists_nonisotopic_knots"
+      "jordan_curve"
     ],
-    "generated_path": "generated/exists_nonisotopic_knots"
+    "generated_path": "generated/jordan_curve"
   },
   {
-    "id": "exists_chiral_knot",
-    "title": "Existence of a chiral oriented knot",
+    "id": "jordan_normal_form",
+    "title": "Jordan normal form",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.KnotTheory.Chiral",
+    "module": "LeanEval.LinearAlgebra.JordanNormalForm",
     "holes": [
-      "exists_chiral_knot"
+      "jordan_normal_form"
     ],
-    "generated_path": "generated/exists_chiral_knot"
+    "generated_path": "generated/jordan_normal_form"
   },
   {
-    "id": "brauer_character_in_cyclotomic",
-    "title": "Character values of finite groups lie in cyclotomic fields",
+    "id": "kakutani_fixed_point",
+    "title": "Kakutani fixed-point theorem",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.RepresentationTheory.BrauerSplittingField",
+    "module": "LeanEval.Topology.Kakutani",
     "holes": [
-      "brauer_character_in_cyclotomic"
+      "kakutani_fixed_point"
     ],
-    "generated_path": "generated/brauer_character_in_cyclotomic"
+    "generated_path": "generated/kakutani_fixed_point"
   },
   {
-    "id": "m23_irrep_tensor_square_decomp",
-    "title": "Existence of an order-10200960 group with a 22-dim irrep whose tensor square has 4 isotypic components",
+    "id": "kam_invariant_curve",
+    "title": "KAM persistence of an invariant curve",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.RepresentationTheory.M23TensorSquare",
+    "module": "LeanEval.Dynamics.KAM",
     "holes": [
-      "m23_irrep_tensor_square_decomp"
+      "kam_invariant_curve"
     ],
-    "generated_path": "generated/m23_irrep_tensor_square_decomp"
+    "generated_path": "generated/kam_invariant_curve"
   },
   {
-    "id": "frobenius_kernel_isNormal",
-    "title": "Frobenius's theorem: the Frobenius kernel is normal",
+    "id": "kepler_conjecture",
+    "title": "Kepler conjecture (optimal sphere packing in \u211d\u00b3)",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.GroupTheory.Frobenius",
+    "module": "LeanEval.Geometry.KeplerConjecture",
     "holes": [
-      "frobenius_kernel_isNormal"
+      "kepler_conjecture"
     ],
-    "generated_path": "generated/frobenius_kernel_isNormal"
+    "generated_path": "generated/kepler_conjecture"
   },
   {
-    "id": "glauberman_zStar",
-    "title": "Glauberman's Z* theorem for isolated involutions",
+    "id": "kirk_normal_structure",
+    "title": "Kirk's normal-structure fixed point theorem",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.GroupTheory.GlaubermanZStar",
+    "module": "LeanEval.Topology.KirkNormalStructure",
     "holes": [
-      "glauberman_zStar"
+      "kirk_normal_structure"
     ],
-    "generated_path": "generated/glauberman_zStar"
+    "generated_path": "generated/kirk_normal_structure"
   },
   {
-    "id": "schreier_conjecture",
-    "title": "Schreier's conjecture: outer automorphism group of a finite simple group is solvable",
+    "id": "kolmogorov_arnold_superposition",
+    "title": "Kolmogorov\u2013Arnold superposition theorem (non-universal Lorentz form)",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.GroupTheory.SchreierConjecture",
+    "module": "LeanEval.Analysis.KolmogorovArnold",
     "holes": [
-      "schreier_conjecture"
+      "kolmogorov_arnold"
     ],
-    "generated_path": "generated/schreier_conjecture"
+    "generated_path": "generated/kolmogorov_arnold_superposition"
   },
   {
-    "id": "five_transitive_card_classification",
-    "title": "Possible orders of 5-transitive finite permutation groups",
+    "id": "koszul_formula",
+    "title": "Koszul formula",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.GroupTheory.MultiplyTransitive",
+    "module": "LeanEval.Geometry.KoszulFormula",
     "holes": [
-      "five_transitive_card_classification"
+      "koszul_formula"
     ],
-    "generated_path": "generated/five_transitive_card_classification"
+    "generated_path": "generated/koszul_formula"
   },
   {
-    "id": "topological_classification_of_surfaces",
-    "title": "Topological classification of surfaces",
-    "test": false,
-    "submitter": "Junyan Xu",
-    "module": "LeanEval.Topology.ClassificationOfSurfaces",
-    "holes": [
-      "classification_of_surfaces"
-    ],
-    "generated_path": "generated/topological_classification_of_surfaces"
-  },
-  {
-    "id": "deBranges_theorem",
-    "title": "De Branges's theorem (Bieberbach conjecture)",
-    "test": false,
-    "submitter": "Junyan Xu",
-    "module": "LeanEval.ComplexAnalysis.DeBranges",
-    "holes": [
-      "deBranges"
-    ],
-    "generated_path": "generated/deBranges_theorem"
-  },
-  {
-    "id": "cubic_decay_asymptotic",
-    "title": "Polynomial decay rate of y' = -y^3",
+    "id": "landsberg_schaar",
+    "title": "The Landsberg\u2013Schaar relation",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.Analysis.ODE.CubicDecay",
+    "module": "LeanEval.NumberTheory.LandsbergSchaar",
     "holes": [
-      "cubic_decay_asymptotic"
+      "landsberg_schaar"
     ],
-    "generated_path": "generated/cubic_decay_asymptotic"
+    "generated_path": "generated/landsberg_schaar"
   },
   {
-    "id": "bakerWustholz_linearForms_logs",
-    "title": "Baker-W\u00fcstholz theorem on linear forms in logarithms",
-    "test": false,
-    "submitter": "Ralf Stephan",
-    "module": "LeanEval.NumberTheory.BakerWustholz",
-    "holes": [
-      "bakerWustholz_linearForms_logs"
-    ],
-    "generated_path": "generated/bakerWustholz_linearForms_logs"
-  },
-  {
-    "id": "sturm_separation",
-    "title": "Sturm separation theorem",
+    "id": "lax_approximation",
+    "title": "Lax's approximation theorem for toral homeomorphisms",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.Analysis.ODE.SturmSeparation",
+    "module": "LeanEval.Dynamics.LaxApproximation",
     "holes": [
-      "sturm_separation"
+      "lax_approximation"
     ],
-    "generated_path": "generated/sturm_separation"
+    "generated_path": "generated/lax_approximation"
   },
   {
-    "id": "dirichlet_eigenvalues_eq_nat_sq",
-    "title": "Dirichlet eigenvalues of -y'' = lambda y on [0,pi] are n^2",
+    "id": "levi_civita_exists_unique",
+    "title": "Fundamental theorem of Riemannian geometry (Levi-Civita)",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.Analysis.ODE.DirichletEigenvalues",
+    "module": "LeanEval.Geometry.LeviCivita",
     "holes": [
-      "dirichlet_eigenvalues_eq_nat_sq"
+      "levi_civita_exists_unique"
     ],
-    "generated_path": "generated/dirichlet_eigenvalues_eq_nat_sq"
+    "generated_path": "generated/levi_civita_exists_unique"
+  },
+  {
+    "id": "lidskii_inequality",
+    "title": "Lidskii's inequality",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.LinearAlgebra.LidskiiInequality",
+    "holes": [
+      "lidskii_inequality"
+    ],
+    "generated_path": "generated/lidskii_inequality"
+  },
+  {
+    "id": "lidskii_last",
+    "title": "Lidskii\u2013Last eigenvalue-perturbation theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.LinearAlgebra.Lidskii",
+    "holes": [
+      "lidskii_last"
+    ],
+    "generated_path": "generated/lidskii_last"
+  },
+  {
+    "id": "lindemann",
+    "title": "Lindemann's theorem (e and \u03c0 transcendental)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.Lindemann",
+    "holes": [
+      "lindemann"
+    ],
+    "generated_path": "generated/lindemann"
+  },
+  {
+    "id": "lindemann_weierstrass",
+    "title": "The Lindemann\u2013Weierstrass theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.Lindemann",
+    "holes": [
+      "lindemann_weierstrass"
+    ],
+    "generated_path": "generated/lindemann_weierstrass"
   },
   {
     "id": "linear_ode_asymptotic_stability",
@@ -594,59 +1301,260 @@
     "generated_path": "generated/linear_ode_asymptotic_stability"
   },
   {
-    "id": "bvp_comparison",
-    "title": "Comparison principle for the Dirichlet BVP",
+    "id": "liouville_arnold",
+    "title": "Liouville\u2013Arnold theorem on integrable systems",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.Analysis.ODE.BVPComparison",
+    "module": "LeanEval.Geometry.LiouvilleArnold",
     "holes": [
-      "bvp_comparison"
+      "liouville_arnold"
     ],
-    "generated_path": "generated/bvp_comparison"
+    "generated_path": "generated/liouville_arnold"
   },
   {
-    "id": "heat_kernel_solves_heat_equation",
-    "title": "Gaussian heat kernel solves the 1D heat equation",
+    "id": "list_append_singleton_length",
+    "title": "Appending a singleton increases the list length",
+    "test": true,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.EasyProblems",
+    "holes": [
+      "list_append_singleton_length"
+    ],
+    "generated_path": "generated/list_append_singleton_length"
+  },
+  {
+    "id": "lp_maximum_principle",
+    "title": "Linear programming: maximum principle and vertex optimality",
     "test": false,
     "submitter": "Kim Morrison",
-    "module": "LeanEval.Analysis.ODE.HeatKernel",
+    "module": "LeanEval.ConvexGeometry.LinearProgramming",
     "holes": [
-      "heat_kernel_solves_heat_equation"
+      "lp_maximum_principle",
+      "simplex_algorithm"
     ],
-    "generated_path": "generated/heat_kernel_solves_heat_equation"
+    "generated_path": "generated/lp_maximum_principle"
   },
   {
-    "id": "contractibleSpace_houseWithTwoRooms",
-    "title": "Bing's house with two rooms is contractible",
+    "id": "m23_irrep_tensor_square_decomp",
+    "title": "Existence of a simple group of order 10200960 with a 22-dim irrep whose tensor square has 4 isotypic components",
     "test": false,
-    "submitter": "Junyan Xu",
-    "module": "LeanEval.Topology.HouseWithTwoRooms",
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.RepresentationTheory.M23TensorSquare",
     "holes": [
-      "contractibleSpace_houseWithTwoRooms"
+      "m23_irrep_tensor_square_decomp"
     ],
-    "generated_path": "generated/contractibleSpace_houseWithTwoRooms"
+    "generated_path": "generated/m23_irrep_tensor_square_decomp"
   },
   {
-    "id": "fermat_last_theorem",
-    "title": "Fermat's Last Theorem",
+    "id": "mandelbar_not_path_connected",
+    "title": "Mandelbar (tricorn) is not path-connected (Hubbard\u2013Schleicher)",
     "test": false,
-    "submitter": "Xuanji Li",
-    "module": "LeanEval.NumberTheory.FermatLastTheorem",
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.ComplexAnalysis.Mandelbar",
     "holes": [
-      "fermat_last_theorem"
+      "mandelbar_not_path_connected"
     ],
-    "generated_path": "generated/fermat_last_theorem"
+    "generated_path": "generated/mandelbar_not_path_connected"
   },
   {
-    "id": "rado_riemannSurface",
-    "title": "Rad\u00f3's theorem on Riemann surfaces",
+    "id": "mandelbrot_boundary_dimh",
+    "title": "Hausdorff dimension of the Mandelbrot boundary (Shishikura)",
     "test": false,
-    "submitter": "Junyan Xu",
-    "module": "LeanEval.Geometry.RadoTheorem",
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Dynamics.MandelbrotBoundary",
     "holes": [
-      "rado_riemannSurface"
+      "mandelbrot_boundary_dimh"
     ],
-    "generated_path": "generated/rado_riemannSurface"
+    "generated_path": "generated/mandelbrot_boundary_dimh"
+  },
+  {
+    "id": "mandelbrot_connected",
+    "title": "Mandelbrot set is connected (Douady\u2013Hubbard)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.ComplexAnalysis.Mandelbrot",
+    "holes": [
+      "mandelbrot_connected"
+    ],
+    "generated_path": "generated/mandelbrot_connected"
+  },
+  {
+    "id": "manolescu_triangulation_disproof",
+    "title": "Manolescu's disproof of the triangulation conjecture",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.ManolescuTriangulation",
+    "holes": [
+      "manolescu_triangulation_disproof"
+    ],
+    "generated_path": "generated/manolescu_triangulation_disproof"
+  },
+  {
+    "id": "margulis_ruelle",
+    "title": "Margulis\u2013Ruelle inequality",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Dynamics.LaiSangYoung",
+    "holes": [
+      "margulis_ruelle"
+    ],
+    "generated_path": "generated/margulis_ruelle"
+  },
+  {
+    "id": "martinet_totally_real_towers",
+    "title": "Martinet's asymptotically-good totally real towers",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.MartinetTotallyRealTowers",
+    "holes": [
+      "exists_totallyReal_discr_le"
+    ],
+    "generated_path": "generated/martinet_totally_real_towers"
+  },
+  {
+    "id": "mazur_torsion",
+    "title": "Mazur's torsion theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.MazurTorsion",
+    "holes": [
+      "mazur_torsion"
+    ],
+    "generated_path": "generated/mazur_torsion"
+  },
+  {
+    "id": "mem_convexHull_finset_extremePoints_of_mem_compact_convex",
+    "title": "Minkowski-Caratheodory theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.ConvexGeometry.MinkowskiCaratheodory",
+    "holes": [
+      "mem_convexHull_finset_extremePoints_of_mem_compact_convex"
+    ],
+    "generated_path": "generated/mem_convexHull_finset_extremePoints_of_mem_compact_convex"
+  },
+  {
+    "id": "mergelyan_theorem",
+    "title": "Mergelyan's theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.ComplexAnalysis.Mergelyan",
+    "holes": [
+      "mergelyan"
+    ],
+    "generated_path": "generated/mergelyan_theorem"
+  },
+  {
+    "id": "milnor_exotic_sphere_seven",
+    "title": "Milnor's exotic 7-sphere",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.MilnorExoticSphereSeven",
+    "holes": [
+      "milnor_exotic_sphere_seven"
+    ],
+    "generated_path": "generated/milnor_exotic_sphere_seven"
+  },
+  {
+    "id": "monge_kantorovich",
+    "title": "Monge\u2013Kantorovich existence theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.OptimalTransport",
+    "holes": [
+      "monge_kantorovich_exists"
+    ],
+    "generated_path": "generated/monge_kantorovich"
+  },
+  {
+    "id": "moran_equality_affine",
+    "title": "Moran's equality for affine-symmetric iterated function systems",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Dynamics.MoranDimension",
+    "holes": [
+      "moran_equality_affine"
+    ],
+    "generated_path": "generated/moran_equality_affine"
+  },
+  {
+    "id": "morley_categoricity_theorem",
+    "title": "Morley's categoricity theorem",
+    "test": false,
+    "submitter": "A. M. Berns",
+    "module": "LeanEval.ModelTheory.MorleyCategoricity",
+    "holes": [
+      "morley_categoricity_theorem"
+    ],
+    "generated_path": "generated/morley_categoricity_theorem"
+  },
+  {
+    "id": "morley_theorem",
+    "title": "Morley's trisector theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.Morley",
+    "holes": [
+      "morley_theorem"
+    ],
+    "generated_path": "generated/morley_theorem"
+  },
+  {
+    "id": "morse_inequality",
+    "title": "Morse inequalities",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.MorseInequalities",
+    "holes": [
+      "morse_inequality"
+    ],
+    "generated_path": "generated/morse_inequality"
+  },
+  {
+    "id": "mountain_pass",
+    "title": "Mountain Pass Theorem (Ambrosetti\u2013Rabinowitz 1973)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.MountainPass",
+    "holes": [
+      "mountain_pass"
+    ],
+    "generated_path": "generated/mountain_pass"
+  },
+  {
+    "id": "mulCayley_connected_iff_closure_eq_top",
+    "title": "Cayley graph connected iff generators generate the group",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Combinatorics.CayleyConnected",
+    "holes": [
+      "mulCayley_connected_iff_closure_eq_top"
+    ],
+    "generated_path": "generated/mulCayley_connected_iff_closure_eq_top"
+  },
+  {
+    "id": "multi_hole_helpers_example",
+    "title": "multi-hole-with-helpers regression example",
+    "test": true,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Sandbox.MultiHoleHelpersExample",
+    "holes": [
+      "Helpers.first",
+      "Helpers.second_eq",
+      "Helpers.third_eq"
+    ],
+    "generated_path": "generated/multi_hole_helpers_example"
+  },
+  {
+    "id": "nash_equilibrium_exists",
+    "title": "Nash equilibrium existence theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.GameTheory.Nash",
+    "holes": [
+      "nash_equilibrium_exists"
+    ],
+    "generated_path": "generated/nash_equilibrium_exists"
   },
   {
     "id": "neukirch_uchida",
@@ -660,15 +1568,128 @@
     "generated_path": "generated/neukirch_uchida"
   },
   {
-    "id": "balanceable_bounded_partitions",
-    "title": "Balanceable k-bounded partitions",
-    "test": false,
-    "submitter": "Julia M. Himmel",
-    "module": "LeanEval.Combinatorics.BalanceableBoundedPartitions",
+    "id": "noncomputable_hole_example",
+    "title": "noncomputable-hole minimal example",
+    "test": true,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Sandbox.NoncomputableHoleExample",
     "holes": [
-      "minimal_balanceable_of_bounded"
+      "RWidget",
+      "instInhabitedRWidget",
+      "rwidgetPoint",
+      "rwidgetPoint_default"
     ],
-    "generated_path": "generated/balanceable_bounded_partitions"
+    "generated_path": "generated/noncomputable_hole_example"
+  },
+  {
+    "id": "nonlinear_three_manifold_group",
+    "title": "A 3-manifold group with no faithful representation into GL(4, \u211d)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.NonlinearThreeManifoldGroup",
+    "holes": [
+      "nonlinear_three_manifold_group"
+    ],
+    "generated_path": "generated/nonlinear_three_manifold_group"
+  },
+  {
+    "id": "normal_spectral_theorem",
+    "title": "Normal spectral theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.LinearAlgebra.NormalSpectralTheorem",
+    "holes": [
+      "normal_spectral_theorem"
+    ],
+    "generated_path": "generated/normal_spectral_theorem"
+  },
+  {
+    "id": "novikov_unsolvable",
+    "title": "Novikov's theorem: the word problem is undecidable for finitely presented groups",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.GroupTheory.NovikovUnsolvable",
+    "holes": [
+      "novikov_unsolvable"
+    ],
+    "generated_path": "generated/novikov_unsolvable"
+  },
+  {
+    "id": "nyquist_shannon_sampling",
+    "title": "Nyquist\u2013Shannon sampling theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.NyquistShannon",
+    "holes": [
+      "nyquist_shannon_sampling"
+    ],
+    "generated_path": "generated/nyquist_shannon_sampling"
+  },
+  {
+    "id": "oppenheim_inequality",
+    "title": "Oppenheim's inequality for Hadamard products",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.LinearAlgebra.Oppenheim",
+    "holes": [
+      "oppenheim_inequality"
+    ],
+    "generated_path": "generated/oppenheim_inequality"
+  },
+  {
+    "id": "ornstein_weiss_rokhlin",
+    "title": "Ornstein\u2013Weiss \u2124\u1d48 Rokhlin lemma",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Dynamics.OrnsteinWeiss",
+    "holes": [
+      "ornstein_weiss_rokhlin"
+    ],
+    "generated_path": "generated/ornstein_weiss_rokhlin"
+  },
+  {
+    "id": "parallel_postulate_independent",
+    "title": "Independence of the parallel postulate",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.ParallelPostulate",
+    "holes": [
+      "parallel_postulate_independent"
+    ],
+    "generated_path": "generated/parallel_postulate_independent"
+  },
+  {
+    "id": "pascal",
+    "title": "Pascal's theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.PascalPappus",
+    "holes": [
+      "pascal"
+    ],
+    "generated_path": "generated/pascal"
+  },
+  {
+    "id": "peano_existence",
+    "title": "Peano existence theorem for ODEs",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.PeanoExistence",
+    "holes": [
+      "peano_existence"
+    ],
+    "generated_path": "generated/peano_existence"
+  },
+  {
+    "id": "pell_solution_convergent",
+    "title": "Pell solutions are convergents of \u221ad",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.PellConvergent",
+    "holes": [
+      "pell_solution_is_convergent"
+    ],
+    "generated_path": "generated/pell_solution_convergent"
   },
   {
     "id": "permute_to_unimodal",
@@ -682,6 +1703,578 @@
     "generated_path": "generated/permute_to_unimodal"
   },
   {
+    "id": "pesin_formula",
+    "title": "Pesin entropy formula (symplectic surface case)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Dynamics.LaiSangYoung",
+    "holes": [
+      "pesin_formula"
+    ],
+    "generated_path": "generated/pesin_formula"
+  },
+  {
+    "id": "pi1_circle_mulEquiv_int",
+    "title": "pi_1 of the circle is Z",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.HomotopyGroups",
+    "holes": [
+      "pi1_circle_mulEquiv_int"
+    ],
+    "generated_path": "generated/pi1_circle_mulEquiv_int"
+  },
+  {
+    "id": "pi3_sphere_two_mulEquiv_int",
+    "title": "pi_3 of the 2-sphere is Z",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.HomotopyGroups",
+    "holes": [
+      "pi3_sphere_two_mulEquiv_int"
+    ],
+    "generated_path": "generated/pi3_sphere_two_mulEquiv_int"
+  },
+  {
+    "id": "pi_succ_sphere_n_mulEquiv_zmod_two",
+    "title": "pi_(n+1) of S^n is Z/2 for n at least 3",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.HomotopyGroups",
+    "holes": [
+      "pi_succ_sphere_n_mulEquiv_zmod_two"
+    ],
+    "generated_path": "generated/pi_succ_sphere_n_mulEquiv_zmod_two"
+  },
+  {
+    "id": "pick",
+    "title": "Pick's theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.PicksTheorem",
+    "holes": [
+      "pick"
+    ],
+    "generated_path": "generated/pick"
+  },
+  {
+    "id": "pin_sphere_n_mulEquiv_int",
+    "title": "pi_n of the n-sphere is Z",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.HomotopyGroups",
+    "holes": [
+      "pin_sphere_n_mulEquiv_int"
+    ],
+    "generated_path": "generated/pin_sphere_n_mulEquiv_int"
+  },
+  {
+    "id": "platonic_classification",
+    "title": "Platonic classification",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.PlatonicClassification",
+    "holes": [
+      "platonic_classification"
+    ],
+    "generated_path": "generated/platonic_classification"
+  },
+  {
+    "id": "poincare_3d_smooth",
+    "title": "3D smooth Poincar\u00e9 conjecture (Perelman)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.Poincare3DSmooth",
+    "holes": [
+      "poincare_3d_smooth"
+    ],
+    "generated_path": "generated/poincare_3d_smooth"
+  },
+  {
+    "id": "poincare_3d_topological",
+    "title": "3D topological Poincar\u00e9 conjecture (Perelman)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.Poincare3DTopological",
+    "holes": [
+      "poincare_3d_topological"
+    ],
+    "generated_path": "generated/poincare_3d_topological"
+  },
+  {
+    "id": "poincare_4d_topological",
+    "title": "4D topological Poincar\u00e9 conjecture (Freedman)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.Poincare4DTopological",
+    "holes": [
+      "poincare_4d_topological"
+    ],
+    "generated_path": "generated/poincare_4d_topological"
+  },
+  {
+    "id": "poincare_bendixson",
+    "title": "Poincar\u00e9\u2013Bendixson theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Dynamics.PoincareBendixson",
+    "holes": [
+      "poincare_bendixson"
+    ],
+    "generated_path": "generated/poincare_bendixson"
+  },
+  {
+    "id": "poincare_high_dim_topological",
+    "title": "Generalized topological Poincar\u00e9 conjecture in dimensions \u2265 5 (Smale)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.PoincareHighDimTopological",
+    "holes": [
+      "poincare_high_dim_topological"
+    ],
+    "generated_path": "generated/poincare_high_dim_topological"
+  },
+  {
+    "id": "poincare_siegel_linearisation",
+    "title": "Poincar\u00e9\u2013Siegel linearisation theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.ComplexAnalysis.PoincareSiegel",
+    "holes": [
+      "poincare_siegel"
+    ],
+    "generated_path": "generated/poincare_siegel_linearisation"
+  },
+  {
+    "id": "posSemidef_map_exp",
+    "title": "Entrywise exponential of a PSD matrix is PSD",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.LinearAlgebra.EntrywiseExpPSD",
+    "holes": [
+      "posSemidef_map_exp"
+    ],
+    "generated_path": "generated/posSemidef_map_exp"
+  },
+  {
+    "id": "rado_riemannSurface",
+    "title": "Rad\u00f3's theorem on Riemann surfaces",
+    "test": false,
+    "submitter": "Junyan Xu",
+    "module": "LeanEval.Geometry.RadoTheorem",
+    "holes": [
+      "rado_riemannSurface"
+    ],
+    "generated_path": "generated/rado_riemannSurface"
+  },
+  {
+    "id": "radon_transform_inversion",
+    "title": "Radon transform: Fourier-slice diagonalization and pseudo-inversion",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.RadonTransform",
+    "holes": [
+      "radon_can_be_diagonalized_and_pseudo_inverted"
+    ],
+    "generated_path": "generated/radon_transform_inversion"
+  },
+  {
+    "id": "regular_value_ae",
+    "title": "Sard's regular-value corollary",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.RegularValue",
+    "holes": [
+      "regular_value_ae"
+    ],
+    "generated_path": "generated/regular_value_ae"
+  },
+  {
+    "id": "riemann_hypothesis_iff_lagarias_elementary_criterion",
+    "title": "Lagarias criterion is equivalent to RH",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.Lagarias",
+    "holes": [
+      "riemann_hypothesis_iff_lagarias_elementary_criterion"
+    ],
+    "generated_path": "generated/riemann_hypothesis_iff_lagarias_elementary_criterion"
+  },
+  {
+    "id": "riesz_brothers_theorem",
+    "title": "Riesz brothers' theorem",
+    "test": false,
+    "submitter": "Yongxi Lin",
+    "module": "LeanEval.Analysis.RieszBrothers",
+    "holes": [
+      "riesz_brothers_theorem"
+    ],
+    "generated_path": "generated/riesz_brothers_theorem"
+  },
+  {
+    "id": "rising_sun_lemma",
+    "title": "Riesz's rising sun lemma",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.RisingSun",
+    "holes": [
+      "rising_sun_lemma"
+    ],
+    "generated_path": "generated/rising_sun_lemma"
+  },
+  {
+    "id": "rokhlin_lemma",
+    "title": "Rokhlin lemma",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Dynamics.RokhlinLemma",
+    "holes": [
+      "rokhlin_lemma"
+    ],
+    "generated_path": "generated/rokhlin_lemma"
+  },
+  {
+    "id": "rouche_zero_count_eq",
+    "title": "Rouche theorem via zero counting",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.ComplexAnalysis.Rouche",
+    "holes": [
+      "rouche_zero_count_eq"
+    ],
+    "generated_path": "generated/rouche_zero_count_eq"
+  },
+  {
+    "id": "runge_theorem",
+    "title": "Runge's theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.ComplexAnalysis.Runge",
+    "holes": [
+      "runge"
+    ],
+    "generated_path": "generated/runge_theorem"
+  },
+  {
+    "id": "sard_theorem",
+    "title": "Sard's theorem (critical-set image has measure zero)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.SardTheorem",
+    "holes": [
+      "sard"
+    ],
+    "generated_path": "generated/sard_theorem"
+  },
+  {
+    "id": "schauder_fixed_point",
+    "title": "Schauder fixed-point theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.Schauder",
+    "holes": [
+      "schauder_fixed_point"
+    ],
+    "generated_path": "generated/schauder_fixed_point"
+  },
+  {
+    "id": "schlafli_classification",
+    "title": "Schl\u00e4fli classification of regular polytopes",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.SchlafliClassification",
+    "holes": [
+      "schlafli_classification"
+    ],
+    "generated_path": "generated/schlafli_classification"
+  },
+  {
+    "id": "schoenflies",
+    "title": "Schoenflies theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.Schoenflies",
+    "holes": [
+      "schoenflies"
+    ],
+    "generated_path": "generated/schoenflies"
+  },
+  {
+    "id": "schreier_conjecture",
+    "title": "Schreier's conjecture: outer automorphism group of a finite simple group is solvable",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.GroupTheory.SchreierConjecture",
+    "holes": [
+      "schreier_conjecture"
+    ],
+    "generated_path": "generated/schreier_conjecture"
+  },
+  {
+    "id": "semilinear_poisson_radial_symmetry",
+    "title": "Radial symmetry for positive semilinear Poisson solutions",
+    "test": false,
+    "submitter": "Yongxi Lin",
+    "module": "LeanEval.Analysis.PDE.RadialSymmetry",
+    "holes": [
+      "semilinear_poisson_radial_symmetry"
+    ],
+    "generated_path": "generated/semilinear_poisson_radial_symmetry"
+  },
+  {
+    "id": "shafarevich_relation_rank_bound",
+    "title": "Shafarevich's relation-rank bound",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.ShafarevichRelationRank",
+    "holes": [
+      "shafarevich_relation_rank_bound"
+    ],
+    "generated_path": "generated/shafarevich_relation_rank_bound"
+  },
+  {
+    "id": "shannon_capacity_pentagon",
+    "title": "Shannon capacity of the pentagon",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Combinatorics.ShannonCapacityPentagon",
+    "holes": [
+      "shannon_capacity_pentagon"
+    ],
+    "generated_path": "generated/shannon_capacity_pentagon"
+  },
+  {
+    "id": "smale_conjecture",
+    "title": "Smale conjecture (Hatcher) in relative parameterized form",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.SmaleConjecture",
+    "holes": [
+      "smale_conjecture"
+    ],
+    "generated_path": "generated/smale_conjecture"
+  },
+  {
+    "id": "smooth_knot_has_quadrisecant",
+    "title": "Pannwitz\u2013Kuperberg quadrisecant theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.KnotTheory.Quadrisecant",
+    "holes": [
+      "smooth_knot_has_quadrisecant"
+    ],
+    "generated_path": "generated/smooth_knot_has_quadrisecant"
+  },
+  {
+    "id": "sobolev_embedding_morrey",
+    "title": "Sobolev embedding theorem (Morrey regime)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.SobolevMorrey",
+    "holes": [
+      "sobolev_embedding"
+    ],
+    "generated_path": "generated/sobolev_embedding_morrey"
+  },
+  {
+    "id": "solvable_by_radicals_converse",
+    "title": "Solvable extensions \u2194 solvable groups (the missing converse in Abel\u2013Ruffini)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Algebra.SolvableByRadicals",
+    "holes": [
+      "solvable_iff_solvableByRad"
+    ],
+    "generated_path": "generated/solvable_by_radicals_converse"
+  },
+  {
+    "id": "space_groups_230",
+    "title": "230 space groups (Fedorov 1891 / Schoenflies 1891)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.SpaceGroups",
+    "holes": [
+      "space_groups"
+    ],
+    "generated_path": "generated/space_groups_230"
+  },
+  {
+    "id": "sphere_theorem_differentiable",
+    "title": "Differentiable sphere theorem (Brendle\u2013Schoen)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.SphereTheorem",
+    "holes": [
+      "differentiable_sphere_theorem"
+    ],
+    "generated_path": "generated/sphere_theorem_differentiable"
+  },
+  {
+    "id": "sphere_theorem_topological",
+    "title": "Topological sphere theorem (Berger\u2013Klingenberg\u2013Rauch)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.SphereTheorem",
+    "holes": [
+      "sphere_theorem"
+    ],
+    "generated_path": "generated/sphere_theorem_topological"
+  },
+  {
+    "id": "stable_unstable_manifolds",
+    "title": "Local stable/unstable sets at a hyperbolic fixed point (set-level Hadamard\u2013Perron)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Dynamics.StableUnstableManifolds",
+    "holes": [
+      "stable_unstable_manifolds_exist"
+    ],
+    "generated_path": "generated/stable_unstable_manifolds"
+  },
+  {
+    "id": "strong_subadditivity",
+    "title": "Strong Subadditivity of von Neumann Entropy",
+    "test": false,
+    "submitter": "Alex Meiburg",
+    "module": "LeanEval.Physics.StrongSubadditivity",
+    "holes": [
+      "strong_subadditivity"
+    ],
+    "generated_path": "generated/strong_subadditivity"
+  },
+  {
+    "id": "sturm",
+    "title": "Sturm's theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Algebra.Sturm",
+    "holes": [
+      "sturm"
+    ],
+    "generated_path": "generated/sturm"
+  },
+  {
+    "id": "sturm_separation",
+    "title": "Sturm separation theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.ODE.SturmSeparation",
+    "holes": [
+      "sturm_separation"
+    ],
+    "generated_path": "generated/sturm_separation"
+  },
+  {
+    "id": "substInv_X_sub_X_sq_eq_catalan",
+    "title": "Catalan generating function via compositional inversion",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Combinatorics.CatalanSubstInv",
+    "holes": [
+      "substInv_X_sub_X_sq_eq_catalan"
+    ],
+    "generated_path": "generated/substInv_X_sub_X_sq_eq_catalan"
+  },
+  {
+    "id": "symAction_range_eq_centralizer_glAction",
+    "title": "Schur-Weyl duality: S_k image equals centralizer of GL(V) image",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.RepresentationTheory.SchurWeyl",
+    "holes": [
+      "symAction_range_eq_centralizer_glAction"
+    ],
+    "generated_path": "generated/symAction_range_eq_centralizer_glAction"
+  },
+  {
+    "id": "symplectic_matrix_det",
+    "title": "Symplectic matrices have determinant 1",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.LinearAlgebra.SymplecticDet",
+    "holes": [
+      "symplectic_matrix_det"
+    ],
+    "generated_path": "generated/symplectic_matrix_det"
+  },
+  {
+    "id": "szemeredi",
+    "title": "Szemer\u00e9di's theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Combinatorics.Szemeredi",
+    "holes": [
+      "szemeredi"
+    ],
+    "generated_path": "generated/szemeredi"
+  },
+  {
+    "id": "thue_siegel_roth",
+    "title": "Thue\u2013Siegel\u2013Roth theorem (irrationality measure \u2264 2 for algebraic irrationals)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.ThueSiegelRoth",
+    "holes": [
+      "thueSiegelRoth"
+    ],
+    "generated_path": "generated/thue_siegel_roth"
+  },
+  {
+    "id": "topological_classification_of_surfaces",
+    "title": "Topological classification of surfaces",
+    "test": false,
+    "submitter": "Junyan Xu",
+    "module": "LeanEval.Topology.ClassificationOfSurfaces",
+    "holes": [
+      "classification_of_surfaces"
+    ],
+    "generated_path": "generated/topological_classification_of_surfaces"
+  },
+  {
+    "id": "trace_cayley_hamilton_newton",
+    "title": "Trace Cayley-Hamilton / Newton identity",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.LinearAlgebra.TraceNewton",
+    "holes": [
+      "trace_cayley_hamilton_newton"
+    ],
+    "generated_path": "generated/trace_cayley_hamilton_newton"
+  },
+  {
+    "id": "turing_recursive_equiv",
+    "title": "General recursive equals Turing computable",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.ModelTheory.TuringRecursive",
+    "holes": [
+      "turing_recursive_equiv"
+    ],
+    "generated_path": "generated/turing_recursive_equiv"
+  },
+  {
+    "id": "tverberg_theorem",
+    "title": "Tverberg's theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Combinatorics.Tverberg",
+    "holes": [
+      "tverberg_theorem"
+    ],
+    "generated_path": "generated/tverberg_theorem"
+  },
+  {
+    "id": "two_plus_two",
+    "title": "2 + 2 = 4",
+    "test": true,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.EasyProblems",
+    "holes": [
+      "two_plus_two_eq_four"
+    ],
+    "generated_path": "generated/two_plus_two"
+  },
+  {
     "id": "uniformization",
     "title": "Uniformization theorem for Riemann surfaces",
     "test": false,
@@ -691,5 +2284,170 @@
       "uniformization"
     ],
     "generated_path": "generated/uniformization"
+  },
+  {
+    "id": "unit_distance_upper_bound",
+    "title": "Spencer-Szemer\u00e9di-Trotter unit-distance upper bound",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Combinatorics.UnitDistanceUpperBound",
+    "holes": [
+      "unit_distance_upper_bound"
+    ],
+    "generated_path": "generated/unit_distance_upper_bound"
+  },
+  {
+    "id": "upper_bound_simplicial_spheres",
+    "title": "Upper bound theorem for geometric simplicial spheres (Stanley 1975)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Combinatorics.UpperBoundSimplicialSpheres",
+    "holes": [
+      "upper_bound_theorem_simplicial_spheres"
+    ],
+    "generated_path": "generated/upper_bound_simplicial_spheres"
+  },
+  {
+    "id": "variable_binder_example",
+    "title": "variable-binder minimal example",
+    "test": true,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Sandbox.VariableBinderExample",
+    "holes": [
+      "variable_binder_example"
+    ],
+    "generated_path": "generated/variable_binder_example"
+  },
+  {
+    "id": "vonNeumann_doubleCommutant_tfae",
+    "title": "von Neumann double commutant theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.VonNeumannDoubleCommutant",
+    "holes": [
+      "vonNeumann_doubleCommutant_tfae"
+    ],
+    "generated_path": "generated/vonNeumann_doubleCommutant_tfae"
+  },
+  {
+    "id": "wallpaper_groups_17",
+    "title": "Seventeen wallpaper groups (P\u00f3lya\u2013Niggli 1924)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.WallpaperGroups",
+    "holes": [
+      "there_are_17_wallpaper_groups"
+    ],
+    "generated_path": "generated/wallpaper_groups_17"
+  },
+  {
+    "id": "watanabe_four_dim_smale_disproof",
+    "title": "Watanabe's disproof of the 4-dimensional Smale conjecture",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Topology.WatanabeSmaleDisproof",
+    "holes": [
+      "watanabe_four_dim_smale_disproof"
+    ],
+    "generated_path": "generated/watanabe_four_dim_smale_disproof"
+  },
+  {
+    "id": "weak_morse_inequality",
+    "title": "Weak Morse inequalities",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.WeakMorseInequality",
+    "holes": [
+      "weak_morse_inequality"
+    ],
+    "generated_path": "generated/weak_morse_inequality"
+  },
+  {
+    "id": "weinstein_conjecture_dim3",
+    "title": "Weinstein conjecture in dimension three (Taubes 2007)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.WeinsteinConjecture3D",
+    "holes": [
+      "weinstein_conjecture_dim_three"
+    ],
+    "generated_path": "generated/weinstein_conjecture_dim3"
+  },
+  {
+    "id": "whitney_embedding",
+    "title": "Whitney embedding theorem (strong form, dimension 2n)",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.WhitneyEmbedding",
+    "holes": [
+      "whitney_embedding"
+    ],
+    "generated_path": "generated/whitney_embedding"
+  },
+  {
+    "id": "wieferich_g_three",
+    "title": "Wieferich's theorem g(3) = 9",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.WieferichNineCubes",
+    "holes": [
+      "wieferich_g_three"
+    ],
+    "generated_path": "generated/wieferich_g_three"
+  },
+  {
+    "id": "wiener_atom_detection",
+    "title": "Wiener's atom-detection formula",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.WienerAtom",
+    "holes": [
+      "wiener_atom_detection"
+    ],
+    "generated_path": "generated/wiener_atom_detection"
+  },
+  {
+    "id": "wiener_inverse_closed",
+    "title": "Wiener's 1/f theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.WienerOneOverF",
+    "holes": [
+      "wiener_inverse_closed"
+    ],
+    "generated_path": "generated/wiener_inverse_closed"
+  },
+  {
+    "id": "wiener_levy_analytic_calculus",
+    "title": "Wiener\u2013L\u00e9vy theorem",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.WienerLevy",
+    "holes": [
+      "wiener_levy_analytic_calculus"
+    ],
+    "generated_path": "generated/wiener_levy_analytic_calculus"
+  },
+  {
+    "id": "wigner_semicircle",
+    "title": "Wigner semicircle law",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Analysis.WignerSemicircle",
+    "holes": [
+      "wigner_semicircle"
+    ],
+    "generated_path": "generated/wigner_semicircle"
+  },
+  {
+    "id": "zhang_bounded_prime_gaps",
+    "title": "Bounded gaps between primes",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.NumberTheory.BoundedPrimeGaps",
+    "holes": [
+      "zhang_bounded_prime_gaps"
+    ],
+    "generated_path": "generated/zhang_bounded_prime_gaps"
   }
 ]

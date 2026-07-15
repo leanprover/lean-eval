@@ -1,0 +1,12 @@
+{
+  "id": "poincare_4d_topological",
+  "module": "LeanEval.Topology.Poincare4DTopological",
+  "holes": [
+    {
+      "name": "LeanEval.Topology.poincare_4d_topological",
+      "basename": "poincare_4d_topological",
+      "kind": "theorem",
+      "body": "/-- **4D topological Poincar\u00e9 conjecture** (Freedman, 1982). Every Hausdorff\n4-manifold that is homotopy-equivalent to the standard 4-sphere `\ud835\udd4a\u2074` is\nhomeomorphic to `\ud835\udd4a\u2074`. -/\ntheorem poincare_4d_topological\n    {M : Type*} [TopologicalSpace M] [T2Space M]\n    [ChartedSpace (EuclideanSpace \u211d (Fin 4)) M]\n    (_h : M \u2243\u2095 sphere (0 : EuclideanSpace \u211d (Fin 5)) 1) :\n    Nonempty (M \u2243\u209c sphere (0 : EuclideanSpace \u211d (Fin 5)) 1) := by\n  sorry"
+    }
+  ]
+}

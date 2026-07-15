@@ -1,0 +1,24 @@
+{
+  "id": "multi_hole_helpers_example",
+  "module": "LeanEval.Sandbox.MultiHoleHelpersExample",
+  "holes": [
+    {
+      "name": "Helpers.first",
+      "basename": "first",
+      "kind": "def",
+      "body": "def first : Nat := sorry"
+    },
+    {
+      "name": "Helpers.second_eq",
+      "basename": "second_eq",
+      "kind": "theorem",
+      "body": "theorem second_eq : first + rootHelper + preHole = first + 141 := sorry"
+    },
+    {
+      "name": "Helpers.third_eq",
+      "basename": "third_eq",
+      "kind": "theorem",
+      "body": "theorem third_eq : postHole + ({ value := 0 } : WithCompanions).value = 1000 := sorry"
+    }
+  ]
+}

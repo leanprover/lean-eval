@@ -1,0 +1,18 @@
+{
+  "id": "fourier_dirichlet_fejer",
+  "module": "LeanEval.Analysis.FourierConvergence",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.dirichlet_pointwise",
+      "basename": "dirichlet_pointwise",
+      "kind": "theorem",
+      "body": "/-- **Dirichlet's pointwise convergence theorem** (\u00a746). For every `C\u00b9`\n2\u03c0-periodic complex function `f`, the symmetric Fourier partial sums `S_N(f)(x)`\nconverge to `f(x)` at every point `x \u2208 \u211d`. -/\ntheorem dirichlet_pointwise\n    {f : \u211d \u2192 \u2102} (_hperiod : Function.Periodic f (2 * Real.pi)) (_hC1 : ContDiff \u211d 1 f)\n    (x : \u211d) :\n    Tendsto (fun N : \u2115 => fourierPartialSum f N x) atTop (\ud835\udcdd (f x)) := by\n  sorry"
+    },
+    {
+      "name": "LeanEval.Analysis.fejer",
+      "basename": "fejer",
+      "kind": "theorem",
+      "body": "/-- **Fej\u00e9r's theorem** (\u00a746). For every *continuous* 2\u03c0-periodic complex\nfunction `f` \u2014 without the `C\u00b9` hypothesis of Dirichlet's theorem \u2014 the Ces\u00e0ro\nmeans `\u03c3_N(f)` of the symmetric Fourier partial sums converge to `f` uniformly\non `\u211d`. -/\ntheorem fejer\n    {f : \u211d \u2192 \u2102} (_hperiod : Function.Periodic f (2 * Real.pi)) (_hcont : Continuous f) :\n    TendstoUniformly (fun N : \u2115 => fourierCesaroMean f N) f atTop := by\n  sorry"
+    }
+  ]
+}

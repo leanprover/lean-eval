@@ -8,9 +8,10 @@ namespace EvalTools
 
 set_option autoImplicit false
 
-/-- Path of the manifest, relative to the repository root. -/
+/-- Path of the manifest directory, relative to the repository root.
+Each problem lives in its own file `manifests/problems/<id>.toml`. -/
 def defaultManifestRelativePath : System.FilePath :=
-  "manifests" / "problems.toml"
+  "manifests" / "problems"
 
 private def isAsciiAlnum (c : Char) : Bool :=
   c.isAlpha || c.isDigit
@@ -21,21 +22,57 @@ private def isValidProblemId (s : String) : Bool :=
     && isAsciiAlnum s.front
     && s.all (fun c => isAsciiAlnum c || c == '_' || c == '-')
 
-/-- Load and validate the manifest. Wraps `parseManifestMetadata` (which
-already enforces required fields, non-empty holes, and `id` / hole-reference
-uniqueness) and adds the ASCII `ID_PATTERN` check from
-`scripts/generate_projects.py`. -/
+/-- Stem of a `*.toml` file (basename without the trailing `.toml`). -/
+private def tomlStem (path : System.FilePath) : String :=
+  let base := path.fileName.getD ""
+  if base.endsWith ".toml" then (base.dropEnd 5).toString else base
+
+/-- Load and validate the manifest directory. Walks
+`manifests/problems/*.toml` in sorted order, parses each file as a
+single problem entry, and enforces:
+
+* `id` matches the filename stem (catches copy-paste typos);
+* `id` satisfies the ASCII `ID_PATTERN` from `scripts/generate_projects.py`;
+* required fields and non-empty `holes` (via `parseManifestEntry`);
+* `id` and `(module, hole)` uniqueness across all entries. -/
 def loadManifest (root : System.FilePath) : IO (Array EvalProblemMetadata) := do
-  let manifestPath := root / defaultManifestRelativePath
-  let contents ← IO.FS.readFile manifestPath
-  match ← parseManifestMetadata contents manifestPath.toString with
-  | .error err => throw <| IO.userError err
-  | .ok entries =>
-      for entry in entries do
-        unless isValidProblemId entry.id do
-          throw <| IO.userError
-            s!"Problem id '{entry.id}' is invalid. Use only letters, digits, '_' or '-'."
-      return entries
+  let manifestDir := root / defaultManifestRelativePath
+  unless ← manifestDir.isDir do
+    throw <| IO.userError
+      s!"Manifest directory `{manifestDir}` does not exist or is not a directory."
+  let mut rawFiles : Array System.FilePath := #[]
+  for entry in (← manifestDir.readDir) do
+    if entry.path.extension == some "toml" then
+      rawFiles := rawFiles.push entry.path
+  let files := rawFiles.qsort fun a b =>
+    (a.fileName.getD "") < (b.fileName.getD "")
+  let mut entries : Array EvalProblemMetadata := #[]
+  let mut seenIds : Std.HashSet String := {}
+  let mut seenRefs : Std.HashSet (String × String) := {}
+  for file in files do
+    let contents ← IO.FS.readFile file
+    let entry ←
+      match ← parseManifestEntry contents file.toString with
+      | .ok m => pure m
+      | .error err => throw <| IO.userError err
+    let expectedId := tomlStem file
+    unless entry.id == expectedId do
+      throw <| IO.userError
+        s!"Manifest entry in `{file}` has id `{entry.id}` but filename stem is `{expectedId}`; the two must match."
+    unless isValidProblemId entry.id do
+      throw <| IO.userError
+        s!"Problem id '{entry.id}' is invalid. Use only letters, digits, '_' or '-'."
+    if seenIds.contains entry.id then
+      throw <| IO.userError s!"Duplicate problem id `{entry.id}` across files in `manifests/problems/`."
+    seenIds := seenIds.insert entry.id
+    for hole in entry.holes do
+      let key := (entry.moduleName, hole)
+      if seenRefs.contains key then
+        throw <| IO.userError
+          s!"Duplicate hole reference `{entry.moduleName}:{hole}` across files in `manifests/problems/`."
+      seenRefs := seenRefs.insert key
+    entries := entries.push entry
+  return entries
 
 /-- Preserve the order of first occurrence (matches Python's `unique_modules`). -/
 def uniqueModules (entries : Array EvalProblemMetadata) : Array String := Id.run do
@@ -116,6 +153,6 @@ def validateManifestAgainstInventory
     let sorted := untracked.qsort (· < ·)
     let joined := ", ".intercalate sorted.toList
     throw <| IO.userError
-      s!"Tagged @[eval_problem] declaration(s) are missing from manifests/problems.toml: {joined}"
+      s!"Tagged @[eval_problem] declaration(s) are missing from manifests/problems/: {joined}"
 
 end EvalTools

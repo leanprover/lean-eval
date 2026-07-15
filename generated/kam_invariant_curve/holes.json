@@ -1,0 +1,12 @@
+{
+  "id": "kam_invariant_curve",
+  "module": "LeanEval.Dynamics.KAM",
+  "holes": [
+    {
+      "name": "LeanEval.Dynamics.kam_invariant_curve",
+      "basename": "kam_invariant_curve",
+      "kind": "theorem",
+      "body": "/-- **KAM theorem (persistence of an invariant curve).** For real-analytic,\n`1`-periodic, non-constant, mean-zero `f` and Diophantine `\u03b1`, for all small\n`|c|` the twist-map functional equation\n`q(t+\u03b1) \u2212 2q(t) + q(t\u2212\u03b1) = c\u00b7f(q(t))` has a smooth strictly increasing solution\n`q` with `q \u2212 id` periodic \u2014 the `c = 0` curve `q\u2080(t) = t` persists as a smooth\ninvariant curve of rotation number `\u03b1`. -/\ntheorem kam_invariant_curve\n    (\u03b1 : \u211d) (_h\u03b1 : IsDiophantine \u03b1)\n    (f : \u211d \u2192 \u211d)\n    (_hf_analytic : AnalyticOnNhd \u211d f Set.univ)\n    (_hf_per : Function.Periodic f 1)\n    (_hf_nonconst : \u00ac \u2203 k : \u211d, \u2200 x, f x = k)\n    (_hf_mean : \u222b x in (0 : \u211d)..1, f x = 0) :\n    \u2203 c\u2080 : \u211d, 0 < c\u2080 \u2227 \u2200 c : \u211d, |c| < c\u2080 \u2192\n      \u2203 q : \u211d \u2192 \u211d,\n        ContDiff \u211d \u221e q \u2227 StrictMono q \u2227\n        Function.Periodic (fun t => q t - t) 1 \u2227\n        \u2200 t : \u211d, q (t + \u03b1) - 2 * q t + q (t - \u03b1) = c * f (q t) := by\n  sorry"
+    }
+  ]
+}

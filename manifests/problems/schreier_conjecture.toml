@@ -1,0 +1,9 @@
+id = "schreier_conjecture"
+title = "Schreier's conjecture: outer automorphism group of a finite simple group is solvable"
+test = false
+module = "LeanEval.GroupTheory.SchreierConjecture"
+holes = ["schreier_conjecture"]
+submitter = "Kim Morrison"
+notes = "For every finite non-abelian simple group S, Out(S) := Aut(S)/Inn(S) is solvable. The statement requires the normality of Inn(S) ⊴ Aut(S), which is supplied by a local instance with a one-line proof (the conjugate of conj(s) by α equals conj(α(s))). Verified case-by-case via CFSG; no CFSG-free proof is known."
+source = "O. Schreier, Über die Erweiterung von Gruppen II, Abh. Math. Sem. Univ. Hamburg 4 (1926); CFSG, completed c. 2004."
+informal_solution = "Use the classification of finite simple groups. For each family — alternating Aₙ, classical Lie type, exceptional Lie type, sporadic — inspect the known Out(S) and verify it is solvable. For Aₙ (n ≥ 5, n ≠ 6), Out = ℤ/2; for A₆, Out = (ℤ/2)²; for groups of Lie type, Out is built from diagonal, field, and graph automorphisms (each step solvable); for sporadics, Out is trivial or ℤ/2."

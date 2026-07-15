@@ -1,0 +1,12 @@
+{
+  "id": "strong_subadditivity",
+  "module": "LeanEval.Physics.StrongSubadditivity",
+  "holes": [
+    {
+      "name": "LeanEval.Physics.strong_subadditivity",
+      "basename": "strong_subadditivity",
+      "kind": "theorem",
+      "body": "/-- Strong subadditivity of quantum entropy. We relax the common assumption that M is a normalized\n density matrix to the simpler statement that it's PSD, which holds since normalization just produces\n a positive affine transformation on the entropy. -/\ntheorem strong_subadditivity (M_ABC : Matrix (A \u00d7 B \u00d7 C) (A \u00d7 B \u00d7 C) \u2102) (h : M_ABC.PosSemidef) :\n    let M_AB : Matrix (A \u00d7 B) (A \u00d7 B) \u2102 :=\n      .traceRight <| M_ABC.reindex (.symm <| .prodAssoc ..) (.symm <| .prodAssoc ..)\n    let M_BC : Matrix (B \u00d7 C) (B \u00d7 C) \u2102 := M_ABC.traceLeft\n    let M_B : Matrix B B \u2102 := M_BC.traceRight\n    entropy M_ABC + entropy M_B \u2264 entropy M_AB + entropy M_BC := by\n  sorry"
+    }
+  ]
+}

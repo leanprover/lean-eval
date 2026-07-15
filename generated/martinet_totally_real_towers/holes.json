@@ -1,0 +1,12 @@
+{
+  "id": "martinet_totally_real_towers",
+  "module": "LeanEval.NumberTheory.MartinetTotallyRealTowers",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.exists_totallyReal_discr_le",
+      "basename": "exists_totallyReal_discr_le",
+      "kind": "theorem",
+      "body": "/-- **Theorem 3.2 (Martinet).**\n\nThere is an absolute constant `C > 0` such that for infinitely many degrees `d`\nthere is a totally real number field `K` of degree `d` over `\u211a` whose\ndiscriminant satisfies `|\u0394_K| \u2264 C ^ d`.\n\n\"Infinitely many `d`\" is expressed as: for every `N` there is a degree `d \u2265 N`\nthat works. -/\ntheorem exists_totallyReal_discr_le :\n    \u2203 C : \u211d, 0 < C \u2227 \u2200 N : \u2115, \u2203 d : \u2115, N \u2264 d \u2227\n      \u2203 (K : Type) (_ : Field K) (_ : NumberField K) (_ : NumberField.IsTotallyReal K),\n        Module.finrank \u211a K = d \u2227 |(NumberField.discr K : \u211d)| \u2264 C ^ d := by\n  sorry"
+    }
+  ]
+}

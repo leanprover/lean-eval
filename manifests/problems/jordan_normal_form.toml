@@ -1,0 +1,8 @@
+id = "jordan_normal_form"
+title = "Jordan normal form"
+test = false
+module = "LeanEval.LinearAlgebra.JordanNormalForm"
+holes = ["jordan_normal_form"]
+submitter = "Kim Morrison"
+notes = "Over an algebraically closed field, every endomorphism of Kⁿ has a Jordan-chain basis (every n×n matrix is similar to a block-diagonal Jordan matrix). Trusted helpers (StdSpace, JordanChainBasis) are non-holes. Mathlib has the Jordan–Chevalley–Dunford decomposition but not the Jordan-chain-basis/Jordan normal form. Candidate from §165 of the Knill survey."
+source = "C. Jordan (1870). Knill, §165."

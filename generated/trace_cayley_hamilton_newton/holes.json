@@ -1,0 +1,12 @@
+{
+  "id": "trace_cayley_hamilton_newton",
+  "module": "LeanEval.LinearAlgebra.TraceNewton",
+  "holes": [
+    {
+      "name": "LeanEval.LinearAlgebra.TraceNewton.trace_cayley_hamilton_newton",
+      "basename": "trace_cayley_hamilton_newton",
+      "kind": "theorem",
+      "body": "/-- The trace Cayley-Hamilton / Newton identity:\n`k c_k + \u2211_{j=1}^k tr(A^j) c_{k-j} = 0`, where\n`\u03c7_A(X) = X^N + c\u2081 X^(N-1) + ... + c_N`.\n\nFor `k > N`, `c_k = 0`, and the remaining relation is the trace of\nCayley-Hamilton multiplied by a power of `A`. -/\ntheorem trace_cayley_hamilton_newton {R : Type*} [CommRing R]\n    (A : Matrix n n R) {k : \u2115} (hk : 1 \u2264 k) :\n    (k : R) * charpolyDescendingCoeff A k +\n        \u2211 j \u2208 Finset.Icc 1 k,\n          trace (A ^ j) * charpolyDescendingCoeff A (k - j) = 0 := by\n  sorry"
+    }
+  ]
+}

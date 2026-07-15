@@ -1,0 +1,12 @@
+{
+  "id": "furstenberg_topological",
+  "module": "LeanEval.Dynamics.FurstenbergTopological",
+  "holes": [
+    {
+      "name": "LeanEval.Dynamics.furstenberg_topological_recurrence",
+      "basename": "furstenberg_topological_recurrence",
+      "kind": "theorem",
+      "body": "/-- **Furstenberg\u2013Weiss topological multiple recurrence** (single-\ntransformation form). Every homeomorphism `T` of a nonempty compact\nmetric space `X` has a multiply recurrent point. -/\ntheorem furstenberg_topological_recurrence {X : Type*} [MetricSpace X]\n    [CompactSpace X] [Nonempty X] (T : X \u2243\u209c X) :\n    \u2203 x : X, IsMultiplyRecurrent (T : X \u2192 X) x := by\n  sorry"
+    }
+  ]
+}

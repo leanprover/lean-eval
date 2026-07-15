@@ -1,0 +1,12 @@
+{
+  "id": "regular_value_ae",
+  "module": "LeanEval.Geometry.RegularValue",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.RegularValue.regular_value_ae",
+      "basename": "regular_value_ae",
+      "kind": "theorem",
+      "body": "/-- **Regular value corollary (Sard).** For a smooth `f : \u211d\u1d50 \u2192 \u211d`, almost every\n`c \u2208 \u211d` is a regular value. -/\ntheorem regular_value_ae {m : \u2115} (f : EuclideanSpace \u211d (Fin m) \u2192 \u211d)\n    (hf : ContDiff \u211d \u221e f) :\n    \u2200\u1d50 c \u2202(volume : Measure \u211d), IsRegularValue f c := by\n  sorry"
+    }
+  ]
+}

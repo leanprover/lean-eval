@@ -1,0 +1,12 @@
+{
+  "id": "novikov_unsolvable",
+  "module": "LeanEval.GroupTheory.NovikovUnsolvable",
+  "holes": [
+    {
+      "name": "LeanEval.GroupTheory.NovikovUnsolvableProblem.novikov_unsolvable",
+      "basename": "novikov_unsolvable",
+      "kind": "theorem",
+      "body": "/-- **Novikov's theorem** (P.S. Novikov 1955; independently W.W. Boone\n1958). There exists a finite presentation with undecidable word\nproblem. -/\ntheorem novikov_unsolvable :\n    \u2203 (n : \u2115) (rels : Set (FreeGroup (Fin n))),\n      rels.Finite \u2227 \u00ac WordProblemSolvable (PresentedGroup.mk rels) := by\n  sorry"
+    }
+  ]
+}

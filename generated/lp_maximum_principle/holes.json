@@ -1,0 +1,18 @@
+{
+  "id": "lp_maximum_principle",
+  "module": "LeanEval.ConvexGeometry.LinearProgramming",
+  "holes": [
+    {
+      "name": "LeanEval.ConvexGeometry.lp_maximum_principle",
+      "basename": "lp_maximum_principle",
+      "kind": "theorem",
+      "body": "/-- **Maximum principle for linear programming** (\u00a7101). A local maximiser of\nthe LP objective on the feasible region is automatically a global maximiser; and\nwhenever the objective is non-constant (`c \u2260 0`), the maximiser lies on the\ntopological frontier of the feasible region. -/\ntheorem lp_maximum_principle {m n : \u2115} (lp : LinearProgram m n)\n    (x : Fin m \u2192 \u211d) (_hx : x \u2208 lp.feasible)\n    (_hlocal : IsLocalMaxOn lp.objective lp.feasible x) :\n    IsMaxOn lp.objective lp.feasible x \u2227\n      (lp.c \u2260 0 \u2192 x \u2208 frontier lp.feasible) := by\n  sorry"
+    },
+    {
+      "name": "LeanEval.ConvexGeometry.simplex_algorithm",
+      "basename": "simplex_algorithm",
+      "kind": "theorem",
+      "body": "/-- **Vertex optimality** (\u00a7101; the existence content of Dantzig's 1947 simplex\nalgorithm). Every linear program with a nonempty bounded feasible region admits a\nglobal maximiser that is an extreme point (vertex) of the feasible region. -/\ntheorem simplex_algorithm {m n : \u2115} (lp : LinearProgram m n)\n    (_hfeas : lp.feasible.Nonempty) (_hbdd : Bornology.IsBounded lp.feasible) :\n    \u2203 x \u2208 lp.feasible, IsMaxOn lp.objective lp.feasible x \u2227\n      x \u2208 Set.extremePoints \u211d lp.feasible := by\n  sorry"
+    }
+  ]
+}

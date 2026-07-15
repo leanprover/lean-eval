@@ -1,0 +1,12 @@
+{
+  "id": "anosov_bowen_shadowing",
+  "module": "LeanEval.Dynamics.HyperbolicShadowing",
+  "holes": [
+    {
+      "name": "LeanEval.Dynamics.HyperbolicShadowingProblem.hyperbolic_has_shadowing",
+      "basename": "hyperbolic_has_shadowing",
+      "kind": "theorem",
+      "body": "/-- **Anosov\u2013Bowen shadowing lemma** (Anosov 1967; Bowen 1975). Every\ncompact hyperbolic invariant set has the shadowing property. -/\ntheorem hyperbolic_has_shadowing\n    (T : E d \u2243\u209c E d) (K : Set (E d))\n    (_hKc : IsCompact K) (_hK : IsHyperbolic T K) :\n    HasShadowing (T : E d \u2192 E d) K := by\n  sorry"
+    }
+  ]
+}

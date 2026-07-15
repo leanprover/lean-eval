@@ -1,0 +1,12 @@
+{
+  "id": "poincare_bendixson",
+  "module": "LeanEval.Dynamics.PoincareBendixson",
+  "holes": [
+    {
+      "name": "LeanEval.Dynamics.poincare_bendixson",
+      "basename": "poincare_bendixson",
+      "kind": "theorem",
+      "body": "/-- **Poincar\u00e9\u2013Bendixson theorem.** For a `C\u00b9` autonomous vector field\n`F : \u211d\u00b2 \u2192 \u211d\u00b2` and a forward integral curve `\u03b3` on `[0, \u221e)`, either the\nforward orbit is unbounded, or the \u03c9-limit set contains an equilibrium\nof `F`, or the \u03c9-limit set equals the range of a non-constant periodic\nintegral curve of `F`. -/\ntheorem poincare_bendixson\n    (F : Plane \u2192 Plane) (_hF : ContDiff \u211d 1 F)\n    (\u03b3 : \u211d \u2192 Plane)\n    (_h\u03b3 : IsIntegralCurveOn \u03b3 (fun _ x => F x) (Set.Ici 0)) :\n    \u00ac Bornology.IsBounded (\u03b3 '' Set.Ici 0)\n    \u2228 (\u2203 x\u2080, F x\u2080 = 0 \u2227 x\u2080 \u2208 \u22c2 s : \u211d, closure (\u03b3 '' Set.Ici s))\n    \u2228 (\u2203 T : \u211d, 0 < T \u2227 \u2203 \u03b2 : \u211d \u2192 Plane,\n        IsIntegralCurve \u03b2 (fun _ x => F x) \u2227\n        (\u2200 t, \u03b2 (t + T) = \u03b2 t) \u2227\n        F (\u03b2 0) \u2260 0 \u2227\n        (\u22c2 s : \u211d, closure (\u03b3 '' Set.Ici s)) = Set.range \u03b2) := by\n  sorry"
+    }
+  ]
+}

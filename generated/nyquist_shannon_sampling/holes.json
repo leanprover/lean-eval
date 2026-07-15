@@ -1,0 +1,12 @@
+{
+  "id": "nyquist_shannon_sampling",
+  "module": "LeanEval.Analysis.NyquistShannon",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.NyquistShannon.nyquist_shannon_sampling",
+      "basename": "nyquist_shannon_sampling",
+      "kind": "theorem",
+      "body": "/-- **Nyquist--Shannon sampling theorem / Whittaker--Shannon interpolation\nformula** for Schwartz functions with Fourier support in the mathlib-convention\nNyquist band `[-1/2, 1/2]`.\n\nThe explicit `Summable` conjunct records the convergence content of the\ncardinal series, rather than relying only on Lean's total `tsum`.\n-/\ntheorem nyquist_shannon_sampling (f : \ud835\udce2(\u211d, \u2102)) (hf : FourierSupportedInNyquist f) :\n    \u2200 t : \u211d,\n      Summable (fun n : \u2124 \u21a6 f (n : \u211d) * sinc (Real.pi * ((n : \u211d) - t))) \u2227\n        f t =\n          \u2211' n : \u2124, f (n : \u211d) * sinc (Real.pi * ((n : \u211d) - t)) := by\n  sorry"
+    }
+  ]
+}

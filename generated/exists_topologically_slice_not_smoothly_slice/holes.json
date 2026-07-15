@@ -1,0 +1,12 @@
+{
+  "id": "exists_topologically_slice_not_smoothly_slice",
+  "module": "LeanEval.KnotTheory.SliceDichotomy",
+  "holes": [
+    {
+      "name": "LeanEval.KnotTheory.exists_topologically_slice_not_smoothly_slice",
+      "basename": "exists_topologically_slice_not_smoothly_slice",
+      "kind": "theorem",
+      "body": "/-- **Existence of a topologically slice, not smoothly slice knot.**\n\nThere exists a piecewise-linear knot in `\u211d\u00b3` that bounds a locally flat\ntopological 2-disk in `\u211d\u00b3 \u00d7 [0, \u221e)` but no smoothly properly embedded\n2-disk in `\u211d\u00b3 \u00d7 [0, \u221e)`.\n\nThis was first established by Casson; explicit examples were given by\nAkbulut\u2013Matveyev and Hedden\u2013Kirk\u2013Livingston. The solver may take any\nwitness \u2014 historically tractable ones are positive Whitehead doubles\nof certain knots (Akbulut\u2013Matveyev, 1997). -/\ntheorem exists_topologically_slice_not_smoothly_slice :\n    \u2203 K : PLKnot, K.TopologicallySlice \u2227 \u00ac K.SmoothlySlice := by\n  sorry"
+    }
+  ]
+}

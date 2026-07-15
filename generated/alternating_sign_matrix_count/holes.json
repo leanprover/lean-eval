@@ -1,0 +1,12 @@
+{
+  "id": "alternating_sign_matrix_count",
+  "module": "LeanEval.Combinatorics.AlternatingSignMatrix",
+  "holes": [
+    {
+      "name": "LeanEval.Combinatorics.AlternatingSignMatrix.alternating_sign_matrix_count",
+      "basename": "alternating_sign_matrix_count",
+      "kind": "theorem",
+      "body": "/-- **Alternating sign matrix theorem.** The number of `n \u00d7 n` ASMs equals the\nRobbins product. -/\ntheorem alternating_sign_matrix_count (n : \u2115) :\n    (Nat.card (ASMatrix n) : \u211a) = robbinsProduct n := by\n  sorry"
+    }
+  ]
+}

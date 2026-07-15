@@ -1,0 +1,12 @@
+{
+  "id": "baer_suzuki",
+  "module": "LeanEval.GroupTheory.BaerSuzuki",
+  "holes": [
+    {
+      "name": "LeanEval.GroupTheory.baer_suzuki",
+      "basename": "baer_suzuki",
+      "kind": "theorem",
+      "body": "/-- **Baer\u2013Suzuki theorem.** An element `x` of a finite group `G` lies in\nthe `p`-core `O_p(G)` iff every pair `(x, x^g)` of conjugates generates a\n`p`-group. -/\ntheorem baer_suzuki {G : Type*} [Group G] [Finite G]\n    {p : \u2115} [Fact p.Prime] (x : G) :\n    x \u2208 pCore p G \u2194\n      \u2200 g : G, IsPGroup p\n        (Subgroup.closure ({x, g * x * g\u207b\u00b9} : Set G)) := by\n  sorry"
+    }
+  ]
+}

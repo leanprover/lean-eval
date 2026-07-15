@@ -1,0 +1,12 @@
+{
+  "id": "hausdorff_hildebrandt_schoenberg",
+  "module": "LeanEval.Analysis.HausdorffMoments",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.hausdorff_hildebrandt_schoenberg",
+      "basename": "hausdorff_hildebrandt_schoenberg",
+      "kind": "theorem",
+      "body": "/-- **Hausdorff\u2013Hildebrandt\u2013Schoenberg theorem.** A multi-indexed real sequence\nis the moment sequence of a signed bounded-variation measure on the unit cube\n`I\u1d48` iff its moments are Hausdorff bounded. -/\ntheorem hausdorff_hildebrandt_schoenberg {d : \u2115} (a : (Fin d \u2192 \u2115) \u2192 \u211d) :\n    IsMomentConfiguration a \u2194 HausdorffBounded a := by\n  sorry"
+    }
+  ]
+}

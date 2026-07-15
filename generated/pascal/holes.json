@@ -1,0 +1,12 @@
+{
+  "id": "pascal",
+  "module": "LeanEval.Geometry.PascalPappus",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.PascalPappus.pascal",
+      "basename": "pascal",
+      "kind": "theorem",
+      "body": "/-- **Pascal's theorem.** Six distinct points on a non-singular conic determine\nthree collinear intersection points `A\u1d62 B\u2c7c \u2229 A\u2c7c B\u1d62`. -/\ntheorem pascal\n    (M : Matrix (Fin 3) (Fin 3) \u211d) (hMsymm : M.IsSymm) (hMdet : M.det \u2260 0)\n    (a\u2081 a\u2082 a\u2083 b\u2081 b\u2082 b\u2083 : Fin 3 \u2192 \u211d)\n    (ha\u2081 : a\u2081 \u2260 0) (ha\u2082 : a\u2082 \u2260 0) (ha\u2083 : a\u2083 \u2260 0)\n    (hb\u2081 : b\u2081 \u2260 0) (hb\u2082 : b\u2082 \u2260 0) (hb\u2083 : b\u2083 \u2260 0)\n    (hdist : [a\u2081, a\u2082, a\u2083, b\u2081, b\u2082, b\u2083].Pairwise (fun v w => \u00ac SamePoint v w))\n    (hA\u2081 : OnConic M a\u2081) (hA\u2082 : OnConic M a\u2082) (hA\u2083 : OnConic M a\u2083)\n    (hB\u2081 : OnConic M b\u2081) (hB\u2082 : OnConic M b\u2082) (hB\u2083 : OnConic M b\u2083) :\n    Collinear3 (meet a\u2081 b\u2082 a\u2082 b\u2081) (meet a\u2081 b\u2083 a\u2083 b\u2081) (meet a\u2082 b\u2083 a\u2083 b\u2082) := by\n  sorry"
+    }
+  ]
+}

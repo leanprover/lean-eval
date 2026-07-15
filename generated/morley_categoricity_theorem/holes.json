@@ -1,0 +1,12 @@
+{
+  "id": "morley_categoricity_theorem",
+  "module": "LeanEval.ModelTheory.MorleyCategoricity",
+  "holes": [
+    {
+      "name": "LeanEval.ModelTheory.morley_categoricity_theorem",
+      "basename": "morley_categoricity_theorem",
+      "kind": "theorem",
+      "body": "theorem morley_categoricity_theorem\n    (L : FirstOrder.Language.{0, 0}) (hL : L.card \u2264 \u2135\u2080)\n    (T : L.Theory) (hT : T.IsComplete)\n    (hInf : \u2200 M : FirstOrder.Language.Theory.ModelType.{0, 0, 0} T, Infinite M)\n    {\u03ba : Cardinal.{0}} (h\u03ba : \u2135\u2080 < \u03ba) (hcat : \u03ba.Categorical T)\n    {\u03bc : Cardinal.{0}} (h\u03bc : \u2135\u2080 < \u03bc) :\n    \u03bc.Categorical T := by\n  sorry"
+    }
+  ]
+}

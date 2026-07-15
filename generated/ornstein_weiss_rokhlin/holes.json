@@ -1,0 +1,12 @@
+{
+  "id": "ornstein_weiss_rokhlin",
+  "module": "LeanEval.Dynamics.OrnsteinWeiss",
+  "holes": [
+    {
+      "name": "LeanEval.Dynamics.ornstein_weiss_rokhlin",
+      "basename": "ornstein_weiss_rokhlin",
+      "kind": "theorem",
+      "body": "/-- **Ornstein\u2013Weiss `\u2124\u1d48` Rokhlin lemma.** For every free\nmeasure-preserving `\u2124\u1d48`-action `T` on a standard Borel probability\nspace (with `d \u2265 1`, identity axiom `T 0 = id`, and the homomorphism\naxiom), every box size `N \u2265 1`, and every `\u03b5 > 0`, there is a\nmeasurable base `B` such that the translates `T v '' B` for\n`v \u2208 [0, N)\u1d48` are pairwise disjoint and their union has measure at\nleast `1 \u2212 \u03b5`. -/\ntheorem ornstein_weiss_rokhlin {\u03a9 : Type*} [MeasurableSpace \u03a9]\n    [StandardBorelSpace \u03a9]\n    {d : \u2115} (_hd : 1 \u2264 d) (\u03bc : Measure \u03a9) [IsProbabilityMeasure \u03bc]\n    (T : (Fin d \u2192 \u2124) \u2192 \u03a9 \u2192 \u03a9)\n    (_hid : \u2200 x, T 0 x = x)\n    (_hT : \u2200 v, MeasurePreserving (T v) \u03bc \u03bc)\n    (_hgrp : \u2200 u v x, T (u + v) x = T u (T v x))\n    (_hfree : IsFreeAction \u03bc T)\n    (N : \u2115) (_hN : 1 \u2264 N) {\u03b5 : ENNReal} (_h\u03b5 : 0 < \u03b5) :\n    \u2203 B : Set \u03a9,\n      MeasurableSet B \u2227\n      ((boxShape d N : Finset (Fin d \u2192 \u2124)) : Set (Fin d \u2192 \u2124)).PairwiseDisjoint\n        (fun v => T v '' B) \u2227\n      \u03bc (\u22c3 v \u2208 boxShape d N, T v '' B) \u2265 1 - \u03b5 := by\n  sorry"
+    }
+  ]
+}

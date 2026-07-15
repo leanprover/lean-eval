@@ -1,0 +1,12 @@
+{
+  "id": "rokhlin_lemma",
+  "module": "LeanEval.Dynamics.RokhlinLemma",
+  "holes": [
+    {
+      "name": "LeanEval.Dynamics.rokhlin_lemma",
+      "basename": "rokhlin_lemma",
+      "kind": "theorem",
+      "body": "/-- **Rokhlin lemma.** For every aperiodic measure-preserving\nautomorphism `T` of a standard Borel probability space `(\u03a9, \u03bc)`, every\nheight `n \u2265 1`, and every `\u03b5 > 0`, there is a Rokhlin tower of height\n`n` whose union has measure at least `1 \u2212 \u03b5`. -/\ntheorem rokhlin_lemma {\u03a9 : Type*} [MeasurableSpace \u03a9]\n    [StandardBorelSpace \u03a9]\n    (\u03bc : Measure \u03a9) [IsProbabilityMeasure \u03bc] (T : \u03a9 \u2192 \u03a9)\n    (_hT : MeasurePreserving T \u03bc \u03bc) (_hap : IsAperiodic T \u03bc)\n    (n : \u2115) (_hn : 1 \u2264 n) {\u03b5 : ENNReal} (_h\u03b5 : 0 < \u03b5) :\n    \u2203 B : Set \u03a9, IsRokhlinTower T B n \u2227\n      \u03bc (towerUnion T B n) \u2265 1 - \u03b5 := by\n  sorry"
+    }
+  ]
+}

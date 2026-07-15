@@ -1,0 +1,12 @@
+{
+  "id": "sphere_theorem_differentiable",
+  "module": "LeanEval.Geometry.SphereTheorem",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.SphereTheorem.differentiable_sphere_theorem",
+      "basename": "differentiable_sphere_theorem",
+      "kind": "theorem",
+      "body": "/-- **Differentiable sphere theorem** (Brendle\u2013Schoen 2007). Under the same\nhypotheses, `M` is diffeomorphic to the standard `d`-sphere. -/\ntheorem differentiable_sphere_theorem\n    [I.Boundaryless] [T2Space M] [CompactSpace M] [SimplyConnectedSpace M]\n    (hdim : 2 \u2264 Module.finrank \u211d E)\n    (cov : CovariantDerivative I E (TangentSpace I (M := M)))\n    [ContMDiffCovariantDerivative cov \u221e]\n    (_htor : cov.torsion = 0) (_hmet : IsMetricCompatible cov)\n    (_hpinch : QuarterPinched cov) :\n    Nonempty\n      (M \u2243\u2098\u27eeI, \ud835\udce1 (Module.finrank \u211d E)\u27ef\n        (sphere (0 : EuclideanSpace \u211d (Fin (Module.finrank \u211d E + 1))) 1)) := by\n  sorry"
+    }
+  ]
+}

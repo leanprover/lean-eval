@@ -1,0 +1,12 @@
+{
+  "id": "choquet_representation_theorem",
+  "module": "LeanEval.Analysis.Choquet",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.choquet",
+      "basename": "choquet",
+      "kind": "theorem",
+      "body": "/-- **Choquet's representation theorem.** Every point `x` of a compact convex\nset `K` in a Banach space is the barycenter of a probability measure supported\non the extreme points of `K`: there is a probability measure `\u03bc` with\n`\u03bc (ext K)\u1d9c = 0` whose barycenter `\u222b y, y \u2202\u03bc` equals `x`. -/\ntheorem choquet [MeasurableSpace X] [BorelSpace X]\n    (K : Set X) (hK_cpt : IsCompact K) (hK_cvx : Convex \u211d K)\n    {x : X} (hx : x \u2208 K) :\n    \u2203 \u03bc : Measure X, IsProbabilityMeasure \u03bc \u2227\n      \u03bc (K.extremePoints \u211d)\u1d9c = 0 \u2227\n      x = \u222b y, y \u2202\u03bc := by\n  sorry"
+    }
+  ]
+}

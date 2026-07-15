@@ -1,0 +1,12 @@
+{
+  "id": "green_tao",
+  "module": "LeanEval.NumberTheory.GreenTao",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.green_tao",
+      "basename": "green_tao",
+      "kind": "theorem",
+      "body": "/-- **Green\u2013Tao theorem.** The set of primes contains arbitrarily long\narithmetic progressions. -/\ntheorem green_tao : ContainsArbitraryAPs {p : \u2115 | Nat.Prime p} := by\n  sorry"
+    }
+  ]
+}

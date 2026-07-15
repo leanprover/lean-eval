@@ -1,0 +1,12 @@
+{
+  "id": "compact_group_semisimple",
+  "module": "LeanEval.RepresentationTheory.CompactGroupSemisimple",
+  "holes": [
+    {
+      "name": "LeanEval.RepresentationTheory.CompactGroupSemisimple.compact_group_semisimple",
+      "basename": "compact_group_semisimple",
+      "kind": "theorem",
+      "body": "/-- **Representations of compact groups are semisimple** (complete\nreducibility / the unitarian trick). A continuous representation of a compact\ntopological group on a finite-dimensional real vector space is semisimple:\nevery subrepresentation has a `G`-invariant complement, so the representation\ndecomposes as a direct sum of irreducible finite-dimensional\nsubrepresentations. -/\ntheorem compact_group_semisimple\n    {G V : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G]\n    [NormedAddCommGroup V] [NormedSpace \u211d V] [FiniteDimensional \u211d V]\n    (\u03c1 : Representation \u211d G V)\n    (h\u03c1 : Continuous fun p : G \u00d7 V => \u03c1 p.1 p.2) :\n    \u03c1.IsSemisimpleRepresentation := by\n  sorry"
+    }
+  ]
+}

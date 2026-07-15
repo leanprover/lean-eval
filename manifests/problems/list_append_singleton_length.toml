@@ -1,0 +1,9 @@
+id = "list_append_singleton_length"
+title = "Appending a singleton increases the list length"
+test = true
+module = "LeanEval.EasyProblems"
+holes = ["list_append_singleton_length"]
+submitter = "Kim Morrison"
+notes = "A simple list problem that exercises notation in generated files."
+source = "Internal starter problem."
+informal_solution = "Compute the length after append."

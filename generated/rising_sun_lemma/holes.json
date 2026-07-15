@@ -1,0 +1,12 @@
+{
+  "id": "rising_sun_lemma",
+  "module": "LeanEval.Analysis.RisingSun",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.RisingSun.rising_sun_lemma",
+      "basename": "rising_sun_lemma",
+      "kind": "theorem",
+      "body": "/-- **Riesz's rising sun lemma.** Every continuous real function on a compact\ninterval has the rising-sun property. -/\ntheorem rising_sun_lemma {a b : \u211d} (hab : a < b) {f : \u211d \u2192 \u211d}\n    (hf : ContinuousOn f (Icc a b)) :\n    HasRisingSunProperty a b f := by\n  sorry"
+    }
+  ]
+}

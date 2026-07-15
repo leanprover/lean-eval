@@ -1,0 +1,12 @@
+{
+  "id": "fary_milnor",
+  "module": "LeanEval.Geometry.FaryMilnor",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.FaryMilnorProblem.fary_milnor_total_curvature",
+      "basename": "fary_milnor_total_curvature",
+      "kind": "theorem",
+      "body": "/-- **F\u00e1ry\u2013Milnor theorem** (F\u00e1ry 1949 / Milnor 1950). A smooth knot\nwith total curvature at most `4\u03c0` is unknotted. -/\ntheorem fary_milnor_total_curvature\n    {r : \u211d \u2192 Space} (_hknot : IsSmoothKnot r)\n    (_hK : totalCurvature r \u2264 4 * Real.pi) :\n    IsUnknotted r := by\n  sorry"
+    }
+  ]
+}

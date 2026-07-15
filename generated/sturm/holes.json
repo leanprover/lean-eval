@@ -1,0 +1,12 @@
+{
+  "id": "sturm",
+  "module": "LeanEval.Algebra.Sturm",
+  "holes": [
+    {
+      "name": "LeanEval.Algebra.sturm",
+      "basename": "sturm",
+      "kind": "theorem",
+      "body": "/-- **Sturm's theorem.** For a squarefree real polynomial `p` and an interval\n`(a, b)` with `a < b` whose endpoints are not roots of `p`, the number of\ndistinct roots of `p` in `(a, b)` equals `\u03c3(a) \u2212 \u03c3(b)`. -/\ntheorem sturm (p : \u211d[X]) (hp : Squarefree p) {a b : \u211d} (hab : a < b)\n    (ha : p.eval a \u2260 0) (hb : p.eval b \u2260 0) :\n    ((p.roots.toFinset).filter (fun x => a < x \u2227 x < b)).card =\n      sigma p a - sigma p b := by\n  sorry"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "weinstein_conjecture_dim3",
+  "module": "LeanEval.Geometry.WeinsteinConjecture3D",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.WeinsteinConjecture3DProblem.weinstein_conjecture_dim_three",
+      "basename": "weinstein_conjecture_dim_three",
+      "kind": "theorem",
+      "body": "/-- **Weinstein conjecture in dimension three** (Taubes 2007). Every\nReeb vector field of a contact form on a closed smooth 3-manifold has\na closed periodic orbit. -/\ntheorem weinstein_conjecture_dim_three\n    (E' : Type*) [NormedAddCommGroup E'] [NormedSpace \u211d E']\n    [FiniteDimensional \u211d E']\n    (H' : Type*) [TopologicalSpace H']\n    (I' : ModelWithCorners \u211d E' H')\n    (M' : Type*) [TopologicalSpace M'] [ChartedSpace H' M'] [IsManifold I' \u221e M']\n    [T2Space M'] [CompactSpace M'] [Nonempty M'] [Fact (Module.finrank \u211d E' = 3)]\n    [I'.Boundaryless]\n    (\u03b1 : OneForm I' (M := M')) (d\u03b1 : TwoForm I' (M := M'))\n    (R : \u2200 x : M', TangentSpace I' x)\n    (_hcontact : IsContactForm3 I' \u03b1 d\u03b1)\n    (_hReeb : IsReebVectorField I' \u03b1 d\u03b1 R) :\n    HasClosedReebOrbit I' R := by\n  sorry"
+    }
+  ]
+}

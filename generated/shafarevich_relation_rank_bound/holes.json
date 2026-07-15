@@ -1,0 +1,12 @@
+{
+  "id": "shafarevich_relation_rank_bound",
+  "module": "LeanEval.NumberTheory.ShafarevichRelationRank",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.shafarevich_relation_rank_bound",
+      "basename": "shafarevich_relation_rank_bound",
+      "kind": "theorem",
+      "body": "/-- **Shafarevich's relation-rank bound** (odd `p`, empty-`S` specialization).\n\nFor a number field `F` and an odd prime `p`, with `G = Gal(F^{un,p}/F)` the\nGalois group of the maximal unramified pro-`p` extension, the relation rank is\nfinite and\n\n```\nr(G) \u2264 d(G) + (r\u2081 + r\u2082 - 1) + \u03b4_p(F),\n```\n\nwhere `r\u2081 = nrRealPlaces F`, `r\u2082 = nrComplexPlaces F`, and `\u03b4_p(F) = 1` iff `F`\ncontains a primitive `p`-th root of unity.\n\nReferences: Mayer, Theorem 5.1 (`S = \u2205`); Koch, Theorems 11.5 and 11.8. -/\ntheorem shafarevich_relation_rank_bound\n    (F : Type) [Field F] [NumberField F] (p : \u2115) [Fact p.Prime] (_hpOdd : Odd p) :\n    H2Finite p (MaxUnramifiedProPGaloisGroup F p) \u2227\n      (open Classical in\n       relationRank p (MaxUnramifiedProPGaloisGroup F p) \u2264\n        generatorRank (MaxUnramifiedProPGaloisGroup F p) +\n          (NumberField.InfinitePlace.nrRealPlaces F +\n            NumberField.InfinitePlace.nrComplexPlaces F - 1) +\n          (if \u2203 \u03b6 : F, IsPrimitiveRoot \u03b6 p then 1 else 0)) := by\n  sorry"
+    }
+  ]
+}

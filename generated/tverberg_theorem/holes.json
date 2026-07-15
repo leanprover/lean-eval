@@ -1,0 +1,12 @@
+{
+  "id": "tverberg_theorem",
+  "module": "LeanEval.Combinatorics.Tverberg",
+  "holes": [
+    {
+      "name": "LeanEval.Combinatorics.Tverberg.tverberg_theorem",
+      "basename": "tverberg_theorem",
+      "kind": "theorem",
+      "body": "/-- **Tverberg's theorem.** Any `(r-1)(d+1)+1` points in `\u211d^d` admit an\n`r`-part Tverberg partition. -/\ntheorem tverberg_theorem (d r : \u2115) (hr : 1 \u2264 r)\n    (f : Fin ((r - 1) * (d + 1) + 1) \u2192 Space d) :\n    HasTverbergPartition (r := r) f := by\n  sorry"
+    }
+  ]
+}

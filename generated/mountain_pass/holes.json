@@ -1,0 +1,12 @@
+{
+  "id": "mountain_pass",
+  "module": "LeanEval.Analysis.MountainPass",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.MountainPassProblem.mountain_pass",
+      "basename": "mountain_pass",
+      "kind": "theorem",
+      "body": "/-- **Mountain Pass Theorem** (Ambrosetti\u2013Rabinowitz 1973). A `C\u00b9`\nfunctional on a real Banach space satisfying Palais\u2013Smale with mountain\nrange geometry has a critical point at the mini-max level\n`c \u2265 \u03b5 > 0`. -/\ntheorem mountain_pass (f : E \u2192 \u211d) (_hf : ContDiff \u211d 1 f) (_hps : PalaisSmale f)\n    {a b : E} {\u03b5 r : \u211d} (_hmr : MountainRange f a b \u03b5 r) :\n    \u2203 x : E, IsCriticalPoint f x \u2227\n      f x = mountainPassLevel f a b \u2227 \u03b5 \u2264 mountainPassLevel f a b := by\n  sorry"
+    }
+  ]
+}

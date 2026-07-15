@@ -1,0 +1,12 @@
+{
+  "id": "moran_equality_affine",
+  "module": "LeanEval.Dynamics.MoranDimension",
+  "holes": [
+    {
+      "name": "LeanEval.Dynamics.moran_equality_affine",
+      "basename": "moran_equality_affine",
+      "kind": "theorem",
+      "body": "/-- **Moran's equality for affine-symmetric IFS.** For an affine-symmetric IFS\non `\u211d\u1d48` with common contraction factor `\u03bb \u2208 (0,1)`, orthogonal linear parts, and\nthe open set condition, the Hausdorff dimension of the attractor is\n`\u2212log n / log \u03bb` (positive since `\u03bb < 1`). -/\ntheorem moran_equality_affine\n    {d n : \u2115} (hn : 1 \u2264 n)\n    (f : Fin n \u2192 EuclideanSpace \u211d (Fin d) \u2192 EuclideanSpace \u211d (Fin d)) (lam : \u211d)\n    (h_aff : IsAffineSymmetricIFS f lam)\n    (h_osc : OpenSetCondition f)\n    {S : Set (EuclideanSpace \u211d (Fin d))} (hS : IsAttractor f S) :\n    dimH S = ENNReal.ofReal (- Real.log n / Real.log lam) := by\n  sorry"
+    }
+  ]
+}

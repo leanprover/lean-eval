@@ -1,0 +1,12 @@
+{
+  "id": "pick",
+  "module": "LeanEval.Geometry.PicksTheorem",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.PicksTheorem.pick",
+      "basename": "pick",
+      "kind": "theorem",
+      "body": "/-- **Pick's theorem.** A simple lattice polygon with `n \u2265 3` vertices has area\n`I + B/2 \u2212 1`. -/\ntheorem pick {n : \u2115} (hn : 3 \u2264 n) (v : Fin n \u2192 \u2124 \u00d7 \u2124)\n    (hsimple : IsSimple (latPoly v)) :\n    area ((latPoly v).boundary (R := \u211d))\n      = (interiorPts v : \u211d) + (boundaryPts v : \u211d) / 2 - 1 := by\n  sorry"
+    }
+  ]
+}

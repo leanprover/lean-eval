@@ -1,0 +1,18 @@
+{
+  "id": "families_of_maps_b01",
+  "module": "LeanEval.Topology.FamiliesOfMapsB01",
+  "holes": [
+    {
+      "name": "FamiliesOfMapsB01.continuous",
+      "basename": "continuous",
+      "kind": "theorem",
+      "body": "/-- **Lemma B.0.1** of Morrison\u2013Walker, *The Blob Complex*\n(arXiv:1009.5025, \u00a7B), continuous case. -/\ntheorem continuous\n    {P : Set (Fin k \u2192 \u211d)} (_hP : IsPolyhedron P)\n    [CompactSpace X]\n    (U : \u03b9 \u2192 Set X) (_hUopen : \u2200 \u03b1, IsOpen (U \u03b1))\n    (\u03c1 : PartitionOfUnity \u03b9 X univ) (_h\u03c1 : \u03c1.IsSubordinate U)\n    (f : C(P \u00d7 X, T)) :\n    \u2203 F : C(I \u00d7 P \u00d7 X, T),\n      (\u2200 p : P, \u2200 x : X, F (0, p, x) = f (p, x)) \u2227\n      (\u2203 K : Subdivision P,\n         \u2200 D \u2208 K.complex.facets,\n            AdaptedTo U k\n              (fun q : closedCell P D \u00d7 X => F (1, q.1.1, q.2))) \u2227\n      (\u2200 S : Set X, Supported (f := f.toFun) S \u2192\n          Supported (fun q : (I \u00d7 P) \u00d7 X => F (q.1.1, q.1.2, q.2)) S) \u2227\n      (\u2200 Q : Set P, IsBoundarySubpolyhedron Q \u2192\n        \u2200 S' : Set X,\n          Supported (fun q : Q \u00d7 X => f (q.1.1, q.2)) S' \u2192\n            Supported (fun q : (I \u00d7 Q) \u00d7 X => F (q.1.1, q.1.2.1, q.2)) S') := by\n  sorry"
+    },
+    {
+      "name": "FamiliesOfMapsB01.biLipschitz",
+      "basename": "biLipschitz",
+      "kind": "theorem",
+      "body": "/-- **Lemma B.0.1**, bi-Lipschitz variant (part 4 of the paper). -/\ntheorem biLipschitz\n    {X T : Type*} [MetricSpace X] [MetricSpace T] [CompactSpace X]\n    {P : Set (Fin k \u2192 \u211d)} (_hP : IsPolyhedron P)\n    {\u03b9 : Type*}\n    (U : \u03b9 \u2192 Set X) (_hUopen : \u2200 \u03b1, IsOpen (U \u03b1))\n    (\u03c1 : PartitionOfUnity \u03b9 X univ) (_h\u03c1 : \u03c1.IsSubordinate U)\n    (f : C(P \u00d7 X, T))\n    (slice : P \u2192 (X \u2243\u209c T))\n    (_h_slice_eq : \u2200 p : P, \u2200 x : X, f (p, x) = slice p x)\n    (L : NNReal)\n    (_hf_joint     : LipschitzWith L f.toFun)\n    (_hf_slice_inv : \u2200 p : P, LipschitzWith L (slice p).symm) :\n    \u2203 F : C(I \u00d7 P \u00d7 X, T), \u2203 L' : NNReal, \u2203 Slice : I \u00d7 P \u2192 (X \u2243\u209c T),\n      (\u2200 p : P, \u2200 x : X, F (0, p, x) = f (p, x)) \u2227\n      (\u2200 t : I, \u2200 p : P, \u2200 x : X, F (t, p, x) = Slice (t, p) x) \u2227\n      (\u2203 K : Subdivision P,\n         \u2200 D \u2208 K.complex.facets,\n            AdaptedTo U k\n              (fun q : closedCell P D \u00d7 X => F (1, q.1.1, q.2))) \u2227\n      (\u2200 S : Set X, Supported (f := f.toFun) S \u2192\n          Supported (fun q : (I \u00d7 P) \u00d7 X => F (q.1.1, q.1.2, q.2)) S) \u2227\n      (\u2200 Q : Set P, IsBoundarySubpolyhedron Q \u2192\n        \u2200 S' : Set X,\n          Supported (fun q : Q \u00d7 X => f (q.1.1, q.2)) S' \u2192\n            Supported (fun q : (I \u00d7 Q) \u00d7 X => F (q.1.1, q.1.2.1, q.2)) S') \u2227\n      (\u2200 tp : I \u00d7 P, LipschitzWith L' (Slice tp)) \u2227\n      (\u2200 tp : I \u00d7 P, LipschitzWith L' (Slice tp).symm) := by\n  sorry"
+    }
+  ]
+}

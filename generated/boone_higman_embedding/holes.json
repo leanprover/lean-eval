@@ -1,0 +1,12 @@
+{
+  "id": "boone_higman_embedding",
+  "module": "LeanEval.GroupTheory.BooneHigmanEmbedding",
+  "holes": [
+    {
+      "name": "LeanEval.GroupTheory.BooneHigmanEmbedding.boone_higman_embedding",
+      "basename": "boone_higman_embedding",
+      "kind": "theorem",
+      "body": "/-- **Boone\u2013Higman theorem (easy direction).** If a finitely presented group `G`\nembeds (via injective `f`) into a simple group `H`, which embeds (via injective\n`g`) into a finitely presented group `K`, then the word problem of `G` is\nsolvable. -/\ntheorem boone_higman_embedding\n    {G H K : Type*} [Group G] [Group H] [Group K]\n    [IsSimpleGroup H] [Group.IsFinitelyPresented K]\n    (f : G \u2192* H) (hf : Function.Injective f)\n    (g : H \u2192* K) (hg : Function.Injective g)\n    {n : \u2115} (\u03c6 : FreeGroup (Fin n) \u2192* G)\n    (hsurj : Function.Surjective \u03c6)\n    (hker : (MonoidHom.ker \u03c6).IsNormalClosureFG) :\n    WordProblemSolvable \u03c6 := by\n  sorry"
+    }
+  ]
+}

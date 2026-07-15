@@ -1,0 +1,12 @@
+{
+  "id": "aspherical_integer_homology_four_sphere",
+  "module": "LeanEval.Topology.AsphericalHomologySphere",
+  "holes": [
+    {
+      "name": "LeanEval.Topology.aspherical_integer_homology_four_sphere",
+      "basename": "aspherical_integer_homology_four_sphere",
+      "kind": "theorem",
+      "body": "/-- **Existence of an aspherical integer homology 4-sphere** (Tschantz, answering\n`[Kir97, Problem 4.17]`). There is a closed topological 4-manifold that is both\naspherical and an integer homology 4-sphere. -/\ntheorem aspherical_integer_homology_four_sphere :\n    \u2203 M : Closed4Manifold, M.IsAspherical \u2227 M.IsIntegerHomologySphere := by\n  sorry"
+    }
+  ]
+}

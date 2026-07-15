@@ -1,0 +1,12 @@
+{
+  "id": "wigner_semicircle",
+  "module": "LeanEval.Analysis.WignerSemicircle",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.WignerSemicircleProblem.wigner_semicircle",
+      "basename": "wigner_semicircle",
+      "kind": "theorem",
+      "body": "/-- **Wigner's semicircle law** (Wigner 1955). For an iid family of\nmean-`0`, variance-`1` real random variables, the empirical spectral\nmeasure of the rescaled real-symmetric matrix `W_n / \u221an` converges\nweakly, almost surely, to the semicircle measure on `[\u22122, 2]`. -/\ntheorem wigner_semicircle\n    {\u03a9 : Type*} [MeasurableSpace \u03a9]\n    (\u03bc : Measure \u03a9) [IsProbabilityMeasure \u03bc]\n    (X : \u2115 \u2192 \u2115 \u2192 \u03a9 \u2192 \u211d)\n    (_hX_meas : \u2200 i j, Measurable (X i j))\n    (_hX_indep : iIndepFun\n      (fun ij : {p : \u2115 \u00d7 \u2115 // p.1 \u2264 p.2} => X ij.val.1 ij.val.2) \u03bc)\n    (_hX_iid : \u2200 i j i' j', i \u2264 j \u2192 i' \u2264 j' \u2192\n      ProbabilityTheory.IdentDistrib (X i j) (X i' j') \u03bc \u03bc)\n    (_hX_int : \u2200 i j, i \u2264 j \u2192 Integrable (X i j) \u03bc)\n    (_hX_sq_int : \u2200 i j, i \u2264 j \u2192 Integrable (fun \u03c9 => (X i j \u03c9) ^ 2) \u03bc)\n    (_hX_mean : \u2200 i j, i \u2264 j \u2192 \u222b \u03c9, X i j \u03c9 \u2202\u03bc = 0)\n    (_hX_var : \u2200 i j, i \u2264 j \u2192 \u222b \u03c9, (X i j \u03c9) ^ 2 \u2202\u03bc = 1) :\n    \u2200\u1d50 \u03c9 \u2202\u03bc,\n      \u2200 (f : \u211d \u2192 \u211d), Continuous f \u2192 (\u2203 M, \u2200 x, \u2016f x\u2016 \u2264 M) \u2192\n        Tendsto\n          (fun n : \u2115 =>\n            \u222b x, f x \u2202 (empiricalSpectralMeasureHerm\n              (wignerMatrix_isHermitian X n \u03c9)).map\n                (fun x : \u211d => x / Real.sqrt n))\n          atTop (\ud835\udcdd (\u222b x, f x \u2202semicircleLaw)) := by\n  sorry"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "mandelbar_not_path_connected",
+  "module": "LeanEval.ComplexAnalysis.Mandelbar",
+  "holes": [
+    {
+      "name": "LeanEval.ComplexAnalysis.mandelbar_not_path_connected",
+      "basename": "mandelbar_not_path_connected",
+      "kind": "theorem",
+      "body": "/-- **The mandelbar (tricorn) is not path-connected** (Hubbard\u2013Schleicher). -/\ntheorem mandelbar_not_path_connected : \u00ac IsPathConnected Mandelbar := by\n  sorry"
+    }
+  ]
+}

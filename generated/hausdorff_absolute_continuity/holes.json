@@ -1,0 +1,12 @@
+{
+  "id": "hausdorff_absolute_continuity",
+  "module": "LeanEval.Analysis.HausdorffAbsoluteContinuity",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.HausdorffAbsoluteContinuity.hausdorff_absolute_continuity",
+      "basename": "hausdorff_absolute_continuity",
+      "kind": "theorem",
+      "body": "/-- **Absolute continuity criterion (Hausdorff moment problem).** A positive\nprobability measure `\u03bc` on the cube is uniformly absolutely continuous w.r.t.\nLebesgue measure iff there is `C` with `(\u0394\u1d4f\u03bc)\u2099 \u2264 C\u00b7(\u0394\u1d4f\u03bd)\u2099` for all `k \u2264 n`. -/\ntheorem hausdorff_absolute_continuity {d : \u2115}\n    (\u03bc : Measure (EuclideanSpace \u211d (Fin d)))\n    [IsProbabilityMeasure \u03bc] (h\u03bc : \u03bc ((cube d)\u1d9c) = 0) :\n    UniformlyAbsolutelyContinuous \u03bc (volume.restrict (cube d)) \u2194\n      \u2203 C : \u211d, \u2200 k n : Fin d \u2192 \u2115, k \u2264 n \u2192\n        diff (momentOf \u03bc) k n \u2264 C * diff (momentOf (volume.restrict (cube d))) k n := by\n  sorry"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+id = "semilinear_poisson_radial_symmetry"
+title = "Radial symmetry for positive semilinear Poisson solutions"
+test = false
+module = "LeanEval.Analysis.PDE.RadialSymmetry"
+holes = ["semilinear_poisson_radial_symmetry"]
+submitter = "Yongxi Lin"
+source = "B. Gidas, W. M. Ni, and L. Nirenberg, Symmetry and related properties via the maximum principle, Comm. Math. Phys. 68 (1979), 209-243. Also stated as Theorem 2 (Radial symmetry) in L. C. Evans, Partial Differential Equations, Section 9 on nonvariational techniques."
+informal_solution = "Use the method of moving planes. Compare u with its reflection across a moving hyperplane."

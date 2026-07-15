@@ -1,0 +1,12 @@
+{
+  "id": "semilinear_poisson_radial_symmetry",
+  "module": "LeanEval.Analysis.PDE.RadialSymmetry",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.PDE.semilinear_poisson_radial_symmetry",
+      "basename": "semilinear_poisson_radial_symmetry",
+      "kind": "theorem",
+      "body": "/-- **Radial symmetry theorem.** Let `u \u2208 C^2(closedBall 0 1)` be a positive\nsolution of the semilinear Poisson problem `-\u0394 u = f(u)` in the open unit ball,\nwith zero Dirichlet boundary values on the unit sphere. If `f : \u211d \u2192 \u211d` is\nLipschitz, then `u` is radial: `u x = v \u2016x\u2016` for a nonnegative strictly\ndecreasing radial profile `v` on `[0, 1]`. -/\ntheorem semilinear_poisson_radial_symmetry {n : \u2115} (hn : 0 < n)\n    {f : \u211d \u2192 \u211d} (u : EuclideanSpace \u211d (Fin n) \u2192 \u211d)\n    (hf_lipschitz : \u2203 K : \u211d\u22650, LipschitzWith K f)\n    (hu_c2 : ContDiffOn \u211d 2 u (closedBall 0 1))\n    (hu_solve : SolvesSemilinearPoisson f u)\n    (hu_positive : \u2200 x \u2208 ball 0 1, 0 < u x) :\n    \u2203 v : \u211d \u2192 \u211d\u22650,\n      StrictAntiOn v (Set.Icc (0 : \u211d) 1) \u2227\n        \u2200 x \u2208 closedBall 0 1, u x = v \u2016x\u2016 := by\n  sorry"
+    }
+  ]
+}

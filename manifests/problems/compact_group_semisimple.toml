@@ -1,0 +1,9 @@
+id = "compact_group_semisimple"
+title = "Complete reducibility for compact groups"
+test = false
+module = "LeanEval.RepresentationTheory.CompactGroupSemisimple"
+holes = ["compact_group_semisimple"]
+submitter = "Kim Morrison"
+notes = "A continuous representation of a compact topological group on a finite-dimensional real vector space is semisimple: every subrepresentation has a G-invariant complement (Representation.IsSemisimpleRepresentation). Mathlib has the semisimplicity predicate and Maschke's theorem for finite groups but no compact-group / Peter–Weyl / unitarian-trick result. Continuity of the action G × V → V and finite dimensionality are essential hypotheses. Candidate from §21 of the Knill survey."
+source = "H. Weyl, *Theorie der Darstellung kontinuierlicher halb-einfacher Gruppen durch lineare Transformationen* (1925–26); Peter–Weyl (1927). Knill, *Some fundamental theorems in mathematics*, §21."
+informal_solution = "Apply the unitarian trick. Start from any inner product ⟨·,·⟩₀ on V and average it over the group using normalized Haar measure: ⟨u,v⟩ = ∫_G ⟨ρ(g) u, ρ(g) v⟩₀ dg. Compactness gives a finite total Haar measure and joint continuity makes the integrand continuous, so the integral exists; the result is a positive-definite G-invariant inner product, i.e. ρ acts by isometries. For any subrepresentation W, its orthogonal complement W^⊥ with respect to this invariant inner product is again G-invariant and is a complement of W. Hence every subrepresentation is complemented, which is exactly IsSemisimpleRepresentation."

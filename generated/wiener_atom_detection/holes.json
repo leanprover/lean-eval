@@ -1,0 +1,12 @@
+{
+  "id": "wiener_atom_detection",
+  "module": "LeanEval.Analysis.WienerAtom",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.wiener_atom_detection",
+      "basename": "wiener_atom_detection",
+      "kind": "theorem",
+      "body": "/-- **Wiener's atom-detection formula** (\u00a766). For a probability measure `\u03bc` on\nthe circle `\ud835\udd4b = \u211d/2\u03c0\u2124`, the Ces\u00e0ro average of `|\u03bc\u0302_k|\u00b2` for `k = 1, \u2026, N`\nconverges to the sum of the squared masses of the atoms of `\u03bc`. The right-hand\nside is automatically summable: the atoms of a finite measure are at most\ncountable and their masses are bounded by `\u03bc(\ud835\udd4b) = 1`. -/\ntheorem wiener_atom_detection\n    (\u03bc : Measure (AddCircle (2 * Real.pi))) [IsProbabilityMeasure \u03bc] :\n    Tendsto\n      (fun N : \u2115 =>\n        (1 / (N : \u211d)) *\n          \u2211 k \u2208 Finset.Icc (1 : \u2124) N, \u2016fourierCoeffMeasure \u03bc k\u2016 ^ 2)\n      atTop\n      (\ud835\udcdd (\u2211' x : AddCircle (2 * Real.pi), ((\u03bc {x}).toReal) ^ 2)) := by\n  sorry"
+    }
+  ]
+}

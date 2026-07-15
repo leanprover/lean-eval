@@ -1,0 +1,12 @@
+{
+  "id": "thue_siegel_roth",
+  "module": "LeanEval.NumberTheory.ThueSiegelRoth",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.ThueSiegelRothProblem.thueSiegelRoth",
+      "basename": "thueSiegelRoth",
+      "kind": "theorem",
+      "body": "/-- **Thue\u2013Siegel\u2013Roth theorem** (Klaus Roth, 1955). Every irrational\nalgebraic real is Diophantine: its irrationality measure is at most\n`2`. -/\ntheorem thueSiegelRoth (x : \u211d) (_h_irr : Irrational x)\n    (_h_alg : IsAlgebraic \u2124 x) : IsDiophantine x := by\n  sorry"
+    }
+  ]
+}
