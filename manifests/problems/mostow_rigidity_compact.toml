@@ -1,0 +1,8 @@
+id = "mostow_rigidity_compact"
+title = "Mostow rigidity (compact case)"
+test = false
+module = "LeanEval.Geometry.MostowRigidity"
+holes = ["mostow_rigidity_compact"]
+submitter = "Junyan Xu"
+notes = "A proof is presented in Riccardo Benedetti, Carlo Petronio. *Lectures on Hyperbolic Geometry*, Chapter C."
+source = "https://en.wikipedia.org/wiki/Mostow_rigidity_theorem#Algebraic_form"

@@ -16,8 +16,8 @@ groups. Since the group of isometries of the hyperbolic space ℍⁿ is isomorph
 projective orthogonal group PO(n,1), this can be shown to be equivalent to the following
 algebraic statement: two lattices (subgroups of finite covolume) in PO(n,1) with n ≥ 3 are
 isomorphic iff they are conjugate in PO(n,1). In this file we define the group PO(n,1) and
-state this algebraic form of Mostow rigidity. In fact, the isomorphism should agree with
-conju
+state this algebraic form of Mostow rigidity. We also state the version for cocompact
+lattices, since the proof might be easier.
 
 References:
 https://en.wikipedia.org/wiki/Mostow_rigidity_theorem#Algebraic_form
@@ -126,6 +126,13 @@ end LeanEval.Geometry
 namespace LeanEval.Geometry
 
 open MeasureTheory
+
+@[eval_problem]
+theorem mostow_rigidity_compact (n : ℕ) (hn : 3 ≤ n) (Γ Λ : Subgroup (PO n 1))
+    (disc_Γ : IsDiscrete (SetLike.coe Γ)) [CompactSpace (PO n 1 ⧸ Γ)]
+    (disc_Λ : IsDiscrete (SetLike.coe Λ)) [CompactSpace (PO n 1 ⧸ Λ)]
+    (f : Γ ≃* Λ) : ∃ g : PO n 1, Γ.map (MulAut.conj g) = Λ := by
+  sorry
 
 @[eval_problem]
 theorem mostow_rigidity (n : ℕ) (hn : 3 ≤ n) (Γ Λ : Subgroup (PO n 1))
