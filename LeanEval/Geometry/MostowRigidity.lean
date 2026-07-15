@@ -121,6 +121,12 @@ open MeasureTheory
 
 noncomputable instance : MeasureSpace (PO p q) := ⟨.haar⟩
 
+end LeanEval.Geometry
+
+namespace LeanEval.Geometry
+
+open MeasureTheory
+
 @[eval_problem]
 theorem mostow_rigidity (n : ℕ) (hn : 3 ≤ n) (Γ Λ : Subgroup (PO n 1))
     (disc_Γ : IsDiscrete (SetLike.coe Γ)) (covol_Γ : covolume Γ (PO n 1) ≠ ⊤)
