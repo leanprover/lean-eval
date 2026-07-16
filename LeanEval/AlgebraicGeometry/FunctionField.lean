@@ -37,7 +37,7 @@ Definition 1.1.4 and 1.1.8]. We omit the condition `toSubalgebra ≠ ⊥` since 
 
 instance : SetLike (Place K F) F where
   coe v := v.carrier
-  coe_injective' _ _ := Place.ext
+  coe_injective _ _ := Place.ext
 
 instance : SMulMemClass (Place K F) K F where
   smul_mem {v} r _ h := v.smul_mem h r
@@ -81,6 +81,10 @@ open scoped RestrictedProduct
 /-- [Stichtenoth, Definition 1.5.2]. -/
 abbrev Adele : Type _ := Πʳ v : Place K F, [F, v]
 
+instance : CommRing (Adele K F) := RestrictedProduct.instCommRingCoeOfSubringClass ..
+
+open RestrictedProduct
+
 variable {F} in
 /-- The principal adele associated to an element in the function field. -/
 def Adele.principal [BundledFunctionField K F] : F →+* Adele K F where
@@ -98,7 +102,7 @@ instance [BundledFunctionField K F] : Algebra F (Adele K F) where
 
 -- TODO: generalize this to RestrictedProduct
 instance : Algebra K (Adele K F) where
-  __ : Module K _ := inferInstance
+  __ := RestrictedProduct.instModuleCoeOfSMulMemClass ..
   algebraMap.toFun x := ⟨fun _ ↦ algebraMap K F x, .of_forall fun _ ↦ algebraMap_mem ..⟩
   algebraMap.map_one' := by ext; exact (algebraMap K F).map_one
   algebraMap.map_mul' _ _ := by ext; exact (algebraMap K F).map_mul ..
