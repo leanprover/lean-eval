@@ -1,0 +1,7 @@
+id = "function_field"
+title = "Places of function fields are discrete valuation rings"
+test = false
+module = "LeanEval.AlgebraicGeometry.FunctionField"
+holes = ["isDiscreteValuationRing", "genus_finite"]
+notes = "Two basic facts about function fields in one variable: places are DVRs and finiteness of the genus."
+submitter = "Michael Stoll, Junyan Xu"
