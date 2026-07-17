@@ -1,0 +1,9 @@
+id = "mipstarre_low_individual_degree"
+title = "Quantum soundness of the low individual degree test"
+test = false
+module = "LeanEval.QuantumInformation.LowIndividualDegreeTest"
+holes = ["MIPStarRE.LDT.Test.mainFormal"]
+submitter = "Sirui Lu"
+notes = "Formal statement of the main low individual degree test soundness theorem, including the corrected k ≥ 400md and k > 0 boundary hypotheses documented by the MIPStarRE formalization. The trusted prelude is the statement closure audited with leanprover/comparator."
+source = "Ji, Natarajan, Vidick, Wright, and Yuen, Quantum soundness of the classical low individual degree test, arXiv:2009.12982, Theorem thm:main-formal."
+informal_solution = "A complete Lean proof is available in https://github.com/LionSR/MIPStarRE at MIPStarRE.LDT.Test.mainFormal; the companion comparator audit is https://github.com/LionSR/LDT-comparator."
