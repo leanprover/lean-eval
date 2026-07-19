@@ -1,0 +1,9 @@
+id = "shafarevich"
+title = "Shafarevich's Theorem on Solvable Galois Groups"
+test = false
+module = "LeanEval.NumberTheory.Shafarevich"
+holes = ["shafarevich"]
+submitter = "Ryan Smith"
+notes = "Every finite solvable group is realizable as a Galois group over \u211a."
+source = "Shafarevich, I. R. (1954). On the construction of fields with a given Galois group of order l^a. Izvestiya Akademii Nauk SSSR. For modern book-length treatments and simplified proofs, see Malle, G., & Matzat, B. H. (1999). 'Inverse Galois Theory' (Springer Monographs in Mathematics), Chapter II. Also see Neukirch, J., Schmidt, A., & Wingberg, K. (2008). 'Cohomology of Number Fields' (Grundlehren der mathematischen Wissenschaften 323, Springer)."
+informal_solution = "Construct the extension inductively by lifting the solvable group along a composition series, using the fact that every step is an abelian extension. The obstruction to the embedding problem at each step is resolved using Scholz's theorem or Neukirch's cohomological methods to ensure the local behavior at ramified primes allows the extension."
