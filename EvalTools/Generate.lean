@@ -301,13 +301,7 @@ def blockCommentEnd (source : Source) (start : Nat) : Nat := Id.run do
 
 /-- Number of codepoints at the top of `source` taken up by a leading block
 comment (e.g. a copyright header), `import` lines, and blank lines. Mirrors
-`import_prelude_length`.
-
-A leading block comment is only skipped when it precedes the first `import`
-line, so that the copyright header on files that follow Mathlib's
-copyright-then-import layout is treated as part of the prelude (and thus
-stripped from `ChallengeDeps.lean`). Comments that appear after an import are
-left untouched, preserving behaviour for the import-first files. -/
+`import_prelude_length`. -/
 def importPreludeLength (source : Source) : Nat := Id.run do
   let n := source.size
   let mut i : Nat := 0
