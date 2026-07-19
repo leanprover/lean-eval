@@ -277,12 +277,36 @@ def Source.startsWithAt (s : Source) (i : Nat) (needle : List Char) : Bool := Id
 
 /-! ## Text utilities (line-based) -/
 
-/-- Number of codepoints at the top of `source` taken up by `import` lines and
-blank lines. Mirrors `import_prelude_length`. -/
+/-- Index just past the closing delimiter of the block comment beginning at
+`start` (which must point at a block-comment opener), accounting for nested
+block comments. Returns `source.size` if the comment is unterminated. -/
+def blockCommentEnd (source : Source) (start : Nat) : Nat := Id.run do
+  let n := source.size
+  let openCh := "/-".toList
+  let closeCh := "-/".toList
+  let mut i := start
+  let mut depth : Nat := 0
+  while i < n do
+    if Source.startsWithAt source i openCh then
+      depth := depth + 1
+      i := i + 2
+    else if Source.startsWithAt source i closeCh then
+      depth := depth - 1
+      i := i + 2
+      if depth == 0 then
+        return i
+    else
+      i := i + 1
+  return n
+
+/-- Number of codepoints at the top of `source` taken up by a leading block
+comment (e.g. a copyright header), `import` lines, and blank lines. Mirrors
+`import_prelude_length`. -/
 def importPreludeLength (source : Source) : Nat := Id.run do
   let n := source.size
   let mut i : Nat := 0
   let mut consumed : Nat := 0
+  let mut seenImport : Bool := false
   while i < n do
     -- find end of current line
     let lineStart := i
@@ -302,15 +326,17 @@ def importPreludeLength (source : Source) : Nat := Id.run do
       -- blank line
       consumed := inclEnd
       i := inclEnd
+    else if Source.startsWithAt source s "import ".toList then
+      seenImport := true
+      consumed := inclEnd
+      i := inclEnd
+    else if !seenImport && Source.startsWithAt source s "/-".toList then
+      -- leading block comment (copyright header) before any import: skip it
+      let close := blockCommentEnd source s
+      consumed := close
+      i := close
     else
-      -- check if starts with "import "
-      let importChars := "import ".toList
-      let isImport := Source.startsWithAt source s importChars
-      if isImport then
-        consumed := inclEnd
-        i := inclEnd
-      else
-        return consumed
+      return consumed
   return consumed
 
 /-- True if the line's trimmed content is `import EvalTools.Markers`, allowing
