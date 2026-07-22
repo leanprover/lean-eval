@@ -1,0 +1,9 @@
+id = "friedlander_iwaniec"
+title = "Friedlander–Iwaniec theorem"
+test = false
+module = "LeanEval.NumberTheory.FriedlanderIwaniec"
+holes = ["friedlander_iwaniec"]
+submitter = "Bolton Bailey/Project Numina"
+notes = "The Friedlander–Iwaniec theorem: there are infinitely many primes of the form `a² + b⁴`."
+source = "Friedlander, John, and Henryk Iwaniec. “The Polynomial X² + Y⁴ Captures Its Primes.” Annals of Mathematics, vol. 148, no. 3, 1998, pp. 945–1040. JSTOR, https://doi.org/10.2307/121034."
+informal_solution = "Friedlander and Iwaniec develop a sieve for primes that, unlike classical sieves, can detect primes in a sequence as thin as `a² + b⁴`. The crux is establishing sum-estimates for a bilinear form involving a Möbius-function-like term and a term for counting representations of a number of the `a² + b⁴` form."
