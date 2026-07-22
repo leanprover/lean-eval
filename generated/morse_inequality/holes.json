@@ -6,7 +6,7 @@
       "name": "LeanEval.Geometry.MorseInequalities.morse_inequality",
       "basename": "morse_inequality",
       "kind": "theorem",
-      "body": "/-- **Morse inequalities** (Marston Morse, 1934). For a Morse function `f`\non a closed smooth finite-dimensional manifold `M` and every `k \u2208 \u2115`,\n`\u2211_{j\u2264k}(\u22121)^{k\u2212j} c_j(f) \u2265 \u2211_{j\u2264k}(\u22121)^{k\u2212j} b_j(M)`. -/\ntheorem morse_inequality\n    {E : Type*} [NormedAddCommGroup E] [NormedSpace \u211d E] [FiniteDimensional \u211d E]\n    {H : Type*} [TopologicalSpace H] {I : ModelWithCorners \u211d E H} [I.Boundaryless]\n    {M : Type} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I \u221e M]\n    [CompactSpace M] (f : M \u2192 \u211d) (_hf : IsMorseFunction I f) (k : \u2115) :\n    alternatingPartialSum (bettiNumber M) k \u2264\n      alternatingPartialSum (morseCount I f) k := by\n  sorry"
+      "body": "/-- **Morse inequalities** (Marston Morse, 1934). For a Morse function `f`\non a closed smooth finite-dimensional Hausdorff manifold `M` and every `k \u2208 \u2115`,\n`\u2211_{j\u2264k}(\u22121)^{k\u2212j} c_j(f) \u2265 \u2211_{j\u2264k}(\u22121)^{k\u2212j} b_j(M)`. -/\ntheorem morse_inequality\n    {E : Type*} [NormedAddCommGroup E] [NormedSpace \u211d E] [FiniteDimensional \u211d E]\n    {H : Type*} [TopologicalSpace H] {I : ModelWithCorners \u211d E H} [I.Boundaryless]\n    {M : Type} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I \u221e M]\n    [CompactSpace M] [T2Space M] (f : M \u2192 \u211d) (_hf : IsMorseFunction I f) (k : \u2115) :\n    alternatingPartialSum (bettiNumber M) k \u2264\n      alternatingPartialSum (morseCount I f) k := by\n  sorry"
     }
   ]
 }
