@@ -1,0 +1,9 @@
+id = "odlyzko_bound"
+title = "Unconditional Odlyzko Bound"
+test = false
+module = "LeanEval.NumberTheory.OdlyzkoBound"
+holes = ["odlyzko_bound_unconditional"]
+submitter = "Ryan Smith"
+notes = "The finite, unconditional version of the Odlyzko bound for the absolute discriminant of a number field, framed as an existence theorem for the constants."
+source = "Odlyzko, A. M. (1976). 'Lower bounds for discriminants of number fields.' Acta Arithmetica, 29(3), 275-297. See also Odlyzko, A. M. (1990) 'Bounds for discriminants and related estimates...'"
+informal_solution = "The proof evaluates the explicit formulas connecting the Dedekind zeta function to prime ideals using a specially chosen non-negative test function. By discarding the positive sum over the non-trivial zeros (unconditionally), one isolates log|D_K| on one side and a sum of integrals on the other, yielding the required constants."
