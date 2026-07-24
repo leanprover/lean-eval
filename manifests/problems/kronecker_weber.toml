@@ -1,0 +1,9 @@
+id = "kronecker_weber"
+title = "Kronecker-Weber Theorem"
+test = false
+module = "LeanEval.NumberTheory.KroneckerWeber"
+holes = ["kronecker_weber"]
+submitter = "Ryan Smith"
+notes = "Every finite abelian extension of \u211a is a subfield of a cyclotomic field."
+source = "Kronecker (1853), Weber (1886), Hilbert (1896). For a modern proof using ramification theory, see Washington, L. C. (1997). 'Introduction to Cyclotomic Fields' (Graduate Texts in Mathematics 83, Springer), Chapter 14. For a proof using local class field theory, see Neukirch, J. (1999). 'Algebraic Number Theory' (Grundlehren der mathematischen Wissenschaften 322, Springer), Chapter VI."
+informal_solution = "Usually proven by reducing to the local case via class field theory or explicitly studying ramification groups. One determines the ramification index at each prime and bounds the highest power of a prime dividing the discriminant, showing the field is contained in the compositum of local cyclotomic fields, which patches together to a global cyclotomic field."
