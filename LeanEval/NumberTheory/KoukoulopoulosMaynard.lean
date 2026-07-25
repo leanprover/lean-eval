@@ -23,7 +23,7 @@ section Main
 open MeasureTheory Set Nat
 
 @[eval_problem]
-theorem koukoulopoulos_maynard {f : ℕ → ℝ} (hf : ∀ n, 0 < f n) :
+theorem koukoulopoulos_maynard {f : ℕ → ℝ} (hf : ∀ n, 0 ≤ f n) :
     (∀ᵐ (x : ℝ), {(p, q) : ℕ × ℕ | p.Coprime q ∧ |x - p / (↑q : ℝ)|
       < f q / (↑q : ℝ)}.Finite) ↔ Summable fun n ↦ φ n * f n / (↑n : ℝ) := by
   sorry
