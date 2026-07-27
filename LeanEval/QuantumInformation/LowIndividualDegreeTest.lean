@@ -763,6 +763,11 @@ end  -- module scope
 end ProjStrat
 end MIPStarRE.LDT
 
+-- Top-level `open` so the generated single-hole workspace files, which only
+-- `open MIPStarRE.LDT.Test` (the theorem's joined namespace stack), can also
+-- resolve the `MIPStarRE.LDT` names in the statement.
+open MIPStarRE.LDT
+
 namespace MIPStarRE.LDT
 namespace Test
 
