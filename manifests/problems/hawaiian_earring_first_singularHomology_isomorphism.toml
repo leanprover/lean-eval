@@ -1,0 +1,7 @@
+id = "hawaiian_earring_first_singularHomology_isomorphism"
+title = "First singular homology group of the Hawaiian Earring"
+test = false
+module = "LeanEval.Topology.HawaiianEarringHomology"
+holes = ["hawaiian_earring_first_singularHomology_isomorphism"]
+submitter = "Vlad Tsyrklevich"
+source = "K. Eda, K. Kawamura, *The singular homology of the Hawaiian earring*"
