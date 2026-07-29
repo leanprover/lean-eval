@@ -24,6 +24,34 @@ def main : IO UInt32 := do
   let passes ← IO.mkRef 0
   let fails ← IO.mkRef 0
 
+  -- Regression for https://github.com/leanprover/lean-eval/pull/467:
+  -- Mathlib-style copyright headers precede imports. The generator must drop
+  -- both the header and imports before copying trusted helpers into
+  -- `ChallengeDeps.lean`; otherwise `import EvalTools.Markers` leaks into the
+  -- standalone workspace.
+  check "importPreludeLength skips a copyright header before imports" passes fails do
+    let prelude :=
+      "/-\n" ++
+      "Copyright (c) 2026 Example. All rights reserved.\n" ++
+      "/- nested block comment -/\n" ++
+      "-/\n" ++
+      "import Mathlib\n" ++
+      "import EvalTools.Markers\n" ++
+      "\n"
+    let body := "namespace Demo\n\ndef trustedHelper : Nat := 1\n"
+    let source := Source.ofString (prelude ++ body)
+    let afterPrelude := Source.slice source (importPreludeLength source) source.size
+    pure <| assertEq "body after prelude" afterPrelude body
+
+  -- A module doc comment after the imports belongs to the source body and must
+  -- not be mistaken for a copyright header.
+  check "importPreludeLength preserves a block comment after imports" passes fails do
+    let prelude := "import Mathlib\n\n"
+    let body := "/-! Module documentation. -/\n\nnamespace Demo\n"
+    let source := Source.ofString (prelude ++ body)
+    let afterPrelude := Source.slice source (importPreludeLength source) source.size
+    pure <| assertEq "body after prelude" afterPrelude body
+
   check "isScopedOpenLine: open Foo is top-level" passes fails do
     pure <| assertEq "scoped" (isScopedOpenLine "open Foo") false
 
