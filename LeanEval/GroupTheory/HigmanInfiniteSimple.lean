@@ -20,7 +20,7 @@ Knill's *Some Fundamental Theorems in Mathematics*.
 Concretely: some `n` and a finite relator set
 `rels ⊆ FreeGroup (Fin n)` for which `PresentedGroup rels` is both
 simple and infinite. Pure existence of a pathological finite
-presentation. Mathlib v4.30 has `FreeGroup`, `PresentedGroup`,
+presentation. Mathlib v4.32.2 has `FreeGroup`, `PresentedGroup`,
 `IsSimpleGroup`, `Infinite`, HNN extensions, and Britton's lemma, but
 no Higman–Thompson construction and no infinite finitely-presented
 simple group on hand.

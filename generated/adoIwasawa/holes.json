@@ -1,0 +1,12 @@
+{
+  "id": "adoIwasawa",
+  "module": "LeanEval.RepresentationTheory.AdoIwasawa",
+  "holes": [
+    {
+      "name": "LeanEval.RepresentationTheory.AdoIwasawa.adoIwasawa",
+      "basename": "adoIwasawa",
+      "kind": "theorem",
+      "body": "/-- **The Ado\u2013Iwasawa theorem.** Every finite-dimensional Lie algebra over an\narbitrary field has a faithful finite-dimensional representation. -/\ntheorem adoIwasawa [FiniteDimensional K L] :\n    \u2203 (V : Type u) (_ : AddCommGroup V) (_ : Module K V) (_ : FiniteDimensional K V)\n      (\u03c1 : L \u2192\u2097\u2045K\u2046 Module.End K V), Function.Injective \u03c1 := by\n  sorry"
+    }
+  ]
+}

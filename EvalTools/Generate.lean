@@ -277,41 +277,62 @@ def Source.startsWithAt (s : Source) (i : Nat) (needle : List Char) : Bool := Id
 
 /-! ## Text utilities (line-based) -/
 
-/-- Number of codepoints at the top of `source` taken up by `import` lines and
-blank lines. Mirrors `import_prelude_length`. -/
-def importPreludeLength (source : Source) : Nat := Id.run do
+/-- Index just past the closing delimiter of the block comment beginning at
+`start` (which must point at a block-comment opener), accounting for nested
+block comments. Returns `source.size` if the comment is unterminated. -/
+def blockCommentEnd (source : Source) (start : Nat) : Nat := Id.run do
+  let n := source.size
+  let openCh := "/-".toList
+  let closeCh := "-/".toList
+  let mut i := start
+  let mut depth : Nat := 0
+  while i < n do
+    if Source.startsWithAt source i openCh then
+      depth := depth + 1
+      i := i + 2
+    else if Source.startsWithAt source i closeCh then
+      depth := depth - 1
+      i := i + 2
+      if depth == 0 then
+        return i
+    else
+      i := i + 1
+  return n
+
+/-- Return `(endOfLastImport, bodyStart)` as codepoint indices in `source`.
+Comments and whitespace are treated as header trivia, including nested block
+comments. Thus comments before or between imports are included in
+`endOfLastImport`, while a module doc comment after the last import remains
+available to callers slicing from that offset. -/
+def scanHeader (source : Source) : Nat × Nat := Id.run do
   let n := source.size
   let mut i : Nat := 0
-  let mut consumed : Nat := 0
+  let mut endOfLastImport : Nat := 0
   while i < n do
-    -- find end of current line
-    let lineStart := i
-    while i < n && source[i]! != '\n' do
+    while i < n && source[i]!.isWhitespace do
       i := i + 1
-    -- includes trailing '\n' if present
-    let lineEnd := i
-    let inclEnd := if i < n then i + 1 else i
-    -- compute stripped: skip leading/trailing whitespace
-    let mut s := lineStart
-    while s < lineEnd && source[s]!.isWhitespace do
-      s := s + 1
-    let mut e := lineEnd
-    while e > s && source[e - 1]!.isWhitespace do
-      e := e - 1
-    if s == e then
-      -- blank line
-      consumed := inclEnd
-      i := inclEnd
-    else
-      -- check if starts with "import "
-      let importChars := "import ".toList
-      let isImport := Source.startsWithAt source s importChars
-      if isImport then
-        consumed := inclEnd
-        i := inclEnd
-      else
-        return consumed
-  return consumed
+    if i == n then return (endOfLastImport, n)
+    if Source.startsWithAt source i "--".toList then
+      while i < n && source[i]! != '\n' do
+        i := i + 1
+      continue
+    if Source.startsWithAt source i "/-".toList then
+      i := blockCommentEnd source i
+      continue
+    let importEnd := i + "import".length
+    if Source.startsWithAt source i "import".toList
+        && importEnd < n && source[importEnd]!.isWhitespace then
+      while i < n && source[i]! != '\n' do
+        i := i + 1
+      if i < n then i := i + 1
+      endOfLastImport := i
+      continue
+    return (endOfLastImport, i)
+  return (endOfLastImport, n)
+
+/-- Codepoint index just after the last import in the source header. -/
+def importPreludeLength (source : Source) : Nat :=
+  (scanHeader source).1
 
 /-- True if the line's trimmed content is `import EvalTools.Markers`, allowing
 arbitrary intra-line whitespace between `import` and the module name (the
@@ -483,59 +504,15 @@ def loadIleanDeclRanges (root : System.FilePath) (moduleName : String) :
 
 /-! ## Header scanning, namespace ops -/
 
-/-- Return `(insertAfterImports, bodyStart)` line indices for the lines in
-`lines` (already split keeping their trailing newlines). Mirrors `_scan_header`. -/
-def scanHeader (lines : Array String) : Nat × Nat := Id.run do
-  let mut inBlockComment := false
-  let mut lastImportIdx : Int := -1
-  let mut bodyStart : Nat := lines.size
-  let mut found := false
-  for idx in [0:lines.size] do
-    if found then break
-    let raw := lines[idx]!
-    let stripped := raw.trimAscii.toString
-    if inBlockComment then
-      if (stripped.splitOn "-/").length > 1 then inBlockComment := false
-      continue
-    if stripped.isEmpty then continue
-    if stripped.startsWith "--" then continue
-    if stripped.startsWith "/-" then
-      let rest := (stripped.drop 2).toString
-      if !((rest.splitOn "-/").length > 1) then
-        inBlockComment := true
-      continue
-    if stripped.startsWith "import " then
-      lastImportIdx := idx
-      continue
-    bodyStart := idx
-    found := true
-  if !found then bodyStart := lines.size
-  let insertAt : Nat := if lastImportIdx ≥ 0 then (lastImportIdx + 1).toNat else 0
-  (insertAt, bodyStart)
-
-/-- Split `source` into lines preserving trailing newlines (like Python's
-`splitlines(keepends=True)`). -/
-def splitLinesKeepEnds (source : String) : Array String := Id.run do
-  let parts := source.splitOn "\n"
-  let mut acc : Array String := #[]
-  for i in [0:parts.length] do
-    let s := parts[i]!
-    if i + 1 < parts.length then
-      acc := acc.push (s ++ "\n")
-    else if !s.isEmpty then
-      acc := acc.push s
-  return acc
-
 /-- Insert `line` (must end in `\n`) just after the last import line at the
 top of `source`. Mirrors `_inject_after_imports`. -/
 def injectAfterImports (source line : String) : String := Id.run do
-  let lines := splitLinesKeepEnds source
-  let (insertAt, _) := scanHeader lines
-  let anyImport := lines.any fun l => l.trimAsciiStart.toString.startsWith "import "
-  if insertAt == 0 && !anyImport then
+  let src := Source.ofString source
+  let (insertAt, _) := scanHeader src
+  if insertAt == 0 then
     return "import Mathlib\n" ++ line ++ source
-  let before := (lines.extract 0 insertAt).foldl (· ++ ·) ""
-  let after := (lines.extract insertAt lines.size).foldl (· ++ ·) ""
+  let before := Source.slice src 0 insertAt
+  let after := Source.slice src insertAt src.size
   return before ++ line ++ after
 
 /-- Top-level namespace names declared in `body`, in source order. Mirrors
@@ -565,11 +542,11 @@ def topLevelNamespaces (body userNamespace : String) : Array String := Id.run do
 Mirrors `_wrap_body_in_submission_namespace`. -/
 def wrapBodyInSubmissionNamespace (source userNamespace : String)
     (extraOpens : Array String := #[]) : String := Id.run do
-  let lines := splitLinesKeepEnds source
-  let (_, bodyStart) := scanHeader lines
-  if bodyStart ≥ lines.size then return source
-  let head := (lines.extract 0 bodyStart).foldl (· ++ ·) ""
-  let mut body := (lines.extract bodyStart lines.size).foldl (· ++ ·) ""
+  let src := Source.ofString source
+  let (_, bodyStart) := scanHeader src
+  if bodyStart ≥ src.size then return source
+  let head := Source.slice src 0 bodyStart
+  let mut body := Source.slice src bodyStart src.size
   if !body.endsWith "\n" then body := body ++ "\n"
   -- Open `extraOpens` (the `_root_`-qualified enclosing namespaces of trusted
   -- helpers now living in `ChallengeDeps`) together with the source's own

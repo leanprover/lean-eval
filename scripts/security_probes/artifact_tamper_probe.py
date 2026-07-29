@@ -13,7 +13,7 @@ requires no sandbox escape. The attacker's submission would:
   2. Daemon detaches via setsid + double-fork, surviving the parent
      `lake build Solution` exit (and thus surviving comparator's
      landrun child).
-  3. Daemon races to overwrite `.lake/build/lib/Solution.olean` with a
+  3. Daemon races to overwrite `.lake/build/lib/lean/Solution.olean` with a
      pre-prepared olean whose theorem statement matches Challenge but
      whose proof is `True.intro` (or other trivially-true content).
   4. Comparator's `safeExport solutionModule` then exports the
@@ -44,6 +44,7 @@ Phase B reports REJECTED.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import pathlib
@@ -140,8 +141,8 @@ initialize do
       -- 2. Then in a tight loop, overwrite it from the prepared copy.
       --    The race window is between safeLakeBuild returning and
       --    safeExport reading the olean (lean4export's stat/open).
-      "( while [ ! -f .lake/build/lib/Solution.olean ]; do sleep 0.05; done; \
-         while true; do cp -f __PREPARED_OLEAN__ .lake/build/lib/Solution.olean 2>/dev/null || true; sleep 0.01; done ) &"
+      "( while [ ! -f .lake/build/lib/lean/Solution.olean ]; do sleep 0.05; done; \
+         while true; do cp -f __PREPARED_OLEAN__ .lake/build/lib/lean/Solution.olean 2>/dev/null || true; sleep 0.01; done ) &"
     ]
     stdin  := .null
     stdout := .null
@@ -168,6 +169,12 @@ import Submission
 import Submission.Thm
 
 theorem artifact_tamper_probe_thm : True := Submission.artifact_tamper_probe_thm
+"""
+
+PREPARED_SOLUTION_LEAN = """\
+-- Deliberately distinct from the normal Solution module so that Phase B
+-- can detect an overwrite by content hash rather than file size.
+theorem artifact_tamper_probe_thm : True := True.intro
 """
 
 LAKEFILE_TOML = """\
@@ -282,10 +289,11 @@ def _build_prepared_olean(tmp: pathlib.Path) -> pathlib.Path | None:
     prep = tmp / "prep"
     prep.mkdir()
     _write_common(prep, submission_lean="-- intentionally inert\n")
+    (prep / "Solution.lean").write_text(PREPARED_SOLUTION_LEAN, encoding="utf-8")
     # Build it once (no comparator needed); just want the .olean.
     _run(["lake", "update"], prep)
     r = _run(["lake", "build", "Solution"], prep, timeout=300)
-    olean = prep / ".lake" / "build" / "lib" / "Solution.olean"
+    olean = prep / ".lake" / "build" / "lib" / "lean" / "Solution.olean"
     if r.returncode != 0 or not olean.is_file():
         sys.stderr.write(
             "Phase B prep: failed to build a legitimate prepared Solution.olean. "
@@ -293,6 +301,8 @@ def _build_prepared_olean(tmp: pathlib.Path) -> pathlib.Path | None:
         )
         if r.stderr:
             sys.stderr.write(r.stderr[-2000:])
+        if r.stdout:
+            sys.stderr.write(r.stdout[-2000:])
         return None
     return olean
 
@@ -312,25 +322,22 @@ def _phase_b(tmp: pathlib.Path) -> tuple[str, str]:
     r = _run(["lake", "env", "comparator", "config.json"], workspace, timeout=300)
     output = (r.stdout or "") + (r.stderr or "")
     if r.returncode == 0 and "Your solution is okay" in output:
-        # In our setup the legitimate proof IS valid, so a clean accept
-        # could mean either "tamper had no effect" OR "tamper succeeded
-        # but produced a still-valid olean" — we cannot distinguish
-        # from exit code alone. Look at the heartbeat file to confirm
-        # the daemon ran, and at the legitimate olean to see if it was
-        # rewritten (mtime changed during the comparator run).
-        olean = workspace / ".lake" / "build" / "lib" / "Solution.olean"
-        legit_size = (workspace / ".lake" / "build" / "lib" / "Submission.olean").stat().st_size if (workspace / ".lake" / "build" / "lib" / "Submission.olean").is_file() else None
-        verdict = (
-            "ACCEPTED"
-            if (olean.is_file() and prepared.stat().st_size == olean.stat().st_size)
-            else "ACCEPTED (no detectable tamper)"
-        )
-        return verdict, (
-            f"Phase B: comparator exited 0. Solution.olean size = "
-            f"{olean.stat().st_size if olean.is_file() else '<missing>'}, "
-            f"prepared.olean size = {prepared.stat().st_size}. "
-            "If sizes match exactly, the daemon's overwrite landed AND comparator did not detect it. "
-            "Inspect mtimes / hashes manually to confirm the attack."
+        olean = workspace / ".lake" / "build" / "lib" / "lean" / "Solution.olean"
+        if not olean.is_file():
+            return "INCONCLUSIVE", (
+                "Phase B: comparator accepted, but Solution.olean is missing."
+            )
+        prepared_hash = hashlib.sha256(prepared.read_bytes()).hexdigest()
+        result_hash = hashlib.sha256(olean.read_bytes()).hexdigest()
+        if prepared_hash == result_hash:
+            return "ACCEPTED", (
+                "Phase B: comparator accepted the deliberately distinct prepared "
+                f"Solution.olean (SHA-256 {result_hash})."
+            )
+        return "REJECTED", (
+            "Phase B: comparator accepted the legitimate solution, but the prepared "
+            "olean was not installed; content hashes differ "
+            f"(result {result_hash}, prepared {prepared_hash})."
         )
     return "REJECTED", (
         f"Phase B: comparator exited {r.returncode}. "

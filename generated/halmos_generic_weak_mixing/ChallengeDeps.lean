@@ -14,7 +14,7 @@ weakly mixing automorphism is ergodic. Paul Halmos, *In general a
 measure-preserving transformation is mixing*, Ann. of Math. **45**
 (1944). §90 in Knill's *Some Fundamental Theorems in Mathematics*.
 
-The `[NoAtoms m]` hypothesis is essential. For example, on `Bool` with
+The `[NullSingletonClass m]` hypothesis is essential. For example, on `Bool` with
 `m({true}) = m({false}) = 1/2` the automorphism group is finite
 (`{id, swap}`) and the weak topology is discrete, so `Dense G` would
 force `G = univ`; but `id` is not weakly mixing.

@@ -201,9 +201,11 @@ go install github.com/zouuup/landrun/cmd/landrun@5ed4a3db3a4ad930d577215c6b9abaa
 export PATH="$(go env GOPATH)/bin:$PATH"
 
 # lean4export — clone, check out the pin, and build.
+lean_eval_root="$(pwd)"  # run this setup from the lean-eval repository root
 git clone https://github.com/leanprover/lean4export.git
 ( cd lean4export
-  git checkout 3de59f10bc4b4a0f2de698597aeb1246caa0df0a
+  git checkout 4e7915201d3f9f04470d9eae002fa695f7cdc589
+  cp "$lean_eval_root/lean-toolchain" lean-toolchain
   lake build lean4export )
 export PATH="$PWD/lean4export/.lake/build/bin:$PATH"
 
@@ -215,17 +217,18 @@ git clone https://github.com/leanprover/comparator.git
 export PATH="$PWD/comparator/.lake/build/bin:$PATH"
 ```
 
-`lean4export` and `comparator` are Lean programs: `lake build` compiles each with
-the Lean toolchain pinned in *its own* `lean-toolchain` at the commit above (the
-v4.32.0-rc1 toolchain). This must match the toolchain that builds the workspace,
-because comparator builds `Challenge.olean` with the workspace toolchain and then
-reads it back with `lean4export`. If the two differ you get
+`lean4export` and `comparator` are Lean programs. The pinned lean4export source
+uses Lean v4.32.0 by default, but its build command above deliberately selects
+the workspace's exact toolchain by copying `lean-toolchain`; Lean v4.32.0 and v4.32.2
+have incompatible olean headers. Comparator builds `Challenge.olean` with the
+workspace toolchain and then reads it back with `lean4export`, so exact
+compatibility is required. If the formats differ you get
 `failed to read file '.../Challenge.olean', incompatible header` — that error
 means a Lean/olean version mismatch (or a stale `.lake` artifact left over from
 an earlier toolchain), never a problem with your proof. If you hit it, rebuild
-`lean4export` (and `comparator`) at the pinned commits with the v4.32.0-rc1 toolchain
-rather than your `elan` default, and clear the affected workspace's `.lake/build`
-before retrying.
+`lean4export` at the pinned commit after copying this repository's
+`lean-toolchain` into its checkout, rebuild comparator at its pinned commit, and clear the affected
+workspace's `.lake/build` before retrying.
 
 Once the tools are on your `PATH`, verify the whole pipeline against the starter
 problem before attempting a real one — this builds and scores `two_plus_two` end

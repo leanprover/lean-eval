@@ -91,14 +91,14 @@ noncomputable def bettiNumber (M : Type) [TopologicalSpace M] (k : ℕ) : ℕ :=
         (ModuleCat.of ℝ ℝ)).obj (TopCat.of M))
 
 /-- **Weak Morse inequalities.** For a Morse function `f` on a closed
-smooth finite-dimensional manifold `M` and every `k ∈ ℕ`,
+smooth finite-dimensional Hausdorff manifold `M` and every `k ∈ ℕ`,
 `b_k(M) ≤ c_k(f)`. -/
 @[eval_problem]
 theorem weak_morse_inequality
     {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
     {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
     {M : Type} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
-    [CompactSpace M] (f : M → ℝ) (_hf : IsMorseFunction I f) (k : ℕ) :
+    [CompactSpace M] [T2Space M] (f : M → ℝ) (_hf : IsMorseFunction I f) (k : ℕ) :
     bettiNumber M k ≤ morseCount I f k := by
   sorry
 

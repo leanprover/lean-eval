@@ -37,7 +37,7 @@ theorem boone_higman_embedding
     (g : H →* K) (hg : Function.Injective g)
     {n : ℕ} (φ : FreeGroup (Fin n) →* G)
     (hsurj : Function.Surjective φ)
-    (hker : (MonoidHom.ker φ).IsNormalClosureFG) :
+    (hker : (MonoidHom.ker φ).IsFinitelyNormallyGenerated) :
     WordProblemSolvable φ := by
   sorry
 

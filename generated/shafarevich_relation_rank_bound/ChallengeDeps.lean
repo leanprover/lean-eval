@@ -57,7 +57,7 @@ def IsEverywhereUnramified
   (∀ (𝔭 : Ideal (𝓞 F)) (𝔓 : Ideal (𝓞 M)),
       𝔭.IsPrime → 𝔭 ≠ ⊥ →
       𝔓 ∈ 𝔭.primesOver (𝓞 M) →
-      Ideal.ramificationIdx 𝔭 𝔓 = 1) ∧
+      𝔓.ramificationIdx (𝓞 F) = 1) ∧
   (∀ w : NumberField.InfinitePlace F, w.IsReal →
     ∀ w' : NumberField.InfinitePlace M,
       w'.comap (algebraMap F M) = w → w'.IsReal)
@@ -109,8 +109,8 @@ noncomputable def generatorRank
 /-- The trivial `ZMod p`-representation of `G`. -/
 noncomputable def trivialZModpRep
     (p : ℕ) (G : Type) [Group G] [TopologicalSpace G] [IsTopologicalGroup G] :
-    Action (TopModuleCat (ZMod p)) G :=
-  Action.trivial G (TopModuleCat.of (ZMod p) (ZMod p))
+    TopRep (ZMod p) G :=
+  TopRep.of (ContRepresentation.trivial (ZMod p) G (ZMod p))
 
 /-- The relation rank `r(G) = dim_{𝔽_p} H²(G; 𝔽_p)`, via degree-`2` continuous
 cohomology with trivial `ZMod p` coefficients. -/
@@ -118,13 +118,13 @@ noncomputable def relationRank
     (p : ℕ) [Fact p.Prime] (G : Type)
     [Group G] [TopologicalSpace G] [IsTopologicalGroup G] : ℕ :=
   Module.finrank (ZMod p)
-    ((continuousCohomology (ZMod p) G 2).obj (trivialZModpRep p G))
+    (continuousCohomology 2 (trivialZModpRep p G))
 
 /-- `H²(G; 𝔽_p)` is finite-dimensional, i.e. the relation rank is finite. -/
 def H2Finite (p : ℕ) [Fact p.Prime] (G : Type)
     [Group G] [TopologicalSpace G] [IsTopologicalGroup G] : Prop :=
   FiniteDimensional (ZMod p)
-    ((continuousCohomology (ZMod p) G 2).obj (trivialZModpRep p G))
+    (continuousCohomology 2 (trivialZModpRep p G))
 
 
 

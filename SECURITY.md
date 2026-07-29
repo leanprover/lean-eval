@@ -124,7 +124,7 @@ verifies on every run of the test suite that `lake env -- <cmd>` (and
 nested `lake env -- lake env -- <cmd>`) on a workspace whose
 `Submission.lean` has top-level `initialize` and `#eval` markers does
 NOT produce those markers in stdout. Confirmed on the pinned toolchain
-(2026-05-04). If a future lake version starts evaluating project Lean
+(Lean v4.32.2, 2026-07-29). If a future lake version starts evaluating project Lean
 during `lake env`, this probe must be re-run before the toolchain
 bump lands.
 
@@ -146,11 +146,13 @@ reading it — getting comparator to verify against an
 attacker-controlled olean.
 
 We ran [scripts/security_probes/artifact_tamper_probe.py](scripts/security_probes/artifact_tamper_probe.py)
-on Linux (kernel 6.12 + landrun 5ed4a3db + comparator 71b52ec) on
-2026-05-04 and the attack is **structurally impossible at the spawn
-step**. Inside the sandbox, `IO.Process.spawn` succeeds only for the
-`lean` binary; `sh`, `setsid`, `bash`, `cp`, `/bin/sh`, `/usr/bin/env`
-all return exit 255 ("could not execute external process"). Comparator's
+on Linux (kernel 6.12 + Lean v4.32.2 + landrun 5ed4a3db + comparator
+71b52ec) on 2026-07-29 and the attack is **structurally impossible at
+the spawn step**. Inside the sandbox, `IO.Process.spawn` succeeds for
+the whitelisted `lean` and `git` binaries; `sh`, `setsid`, `bash`, `cp`,
+`/bin/sh`, and `/usr/bin/env` all return exit 255 ("could not execute
+external process"). Phase B also confirmed by SHA-256 that the
+deliberately distinct prepared olean was not installed. Comparator's
 `safeLakeBuild` only `--rox`-whitelists `leanPrefix` and `gitLocation`;
 landrun denies exec of anything else. The attacker has no way to
 spawn a daemon, so there is nothing to race against `safeExport`.
@@ -187,15 +189,19 @@ mechanism that forces a re-audit.
 
 ## 5. Trusted dependencies and pin policy
 
-Every external dependency of the evaluation pipeline is pinned to an
-immutable commit SHA. Tags and branches are mutable; if `landrun@main`
-or `actions/checkout@v4` is ever resolved at install time, the
-upstream publisher controls our supply chain.
+Every source dependency and CI action in the evaluation pipeline is
+pinned to an immutable commit SHA. The Lean binary toolchain is pinned
+to an exact release selector. Branches and loose action tags are mutable;
+if `landrun@main` or `actions/checkout@v4` is ever resolved at install
+time, the upstream publisher controls our supply chain.
 
 | Dependency | Repo | Pinned to | Purpose | Last bumped |
 |---|---|---|---|---|
+| Lean toolchain | leanprover/lean4 | `v4.32.2` | compiler and Lake | 2026-07-29 |
+| mathlib | leanprover-community/mathlib4 | `905b95818eb32af7874a58b427f50c1711a5e96c` | theorem library | 2026-07-29 |
+| lean4-cli | leanprover/lean4-cli | `88679d088c9720c27ebdf2ba4dafe17341747f94` | command-line parsing | 2026-07-29 |
 | landrun | zouuup/landrun | `5ed4a3db3a4ad930d577215c6b9abaa19df7f99f` | Linux landlock sandbox | 2026-05-04 |
-| lean4export | leanprover/lean4export | `3de59f10bc4b4a0f2de698597aeb1246caa0df0a` | exports olean to text | 2026-06-27 |
+| lean4export | leanprover/lean4export | `4e7915201d3f9f04470d9eae002fa695f7cdc589` | exports olean to text | 2026-07-29 |
 | comparator | leanprover/comparator | `71b52ec29e06d4b7d882726553b1ceb99a2499e0` | the verifier | pre-2026-05 |
 | `jlumbroso/free-disk-space` | (action) | `54081f138730dfa15788a46383842cd2f914a1be` | runner disk cleanup | 2026-05-04 |
 | `actions/checkout` | (action) | `11bd71901bbe5b1630ceea73d27597364c9af683` | repo checkout | 2026-05-04 |

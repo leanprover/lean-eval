@@ -98,14 +98,14 @@ def alternatingPartialSum (a : ℕ → ℕ) (k : ℕ) : ℤ :=
   ∑ j ∈ Finset.range (k + 1), (-1 : ℤ) ^ (k - j) * (a j : ℤ)
 
 /-- **Morse inequalities** (Marston Morse, 1934). For a Morse function `f`
-on a closed smooth finite-dimensional manifold `M` and every `k ∈ ℕ`,
+on a closed smooth finite-dimensional Hausdorff manifold `M` and every `k ∈ ℕ`,
 `∑_{j≤k}(−1)^{k−j} c_j(f) ≥ ∑_{j≤k}(−1)^{k−j} b_j(M)`. -/
 @[eval_problem]
 theorem morse_inequality
     {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
     {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
     {M : Type} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
-    [CompactSpace M] (f : M → ℝ) (_hf : IsMorseFunction I f) (k : ℕ) :
+    [CompactSpace M] [T2Space M] (f : M → ℝ) (_hf : IsMorseFunction I f) (k : ℕ) :
     alternatingPartialSum (bettiNumber M) k ≤
       alternatingPartialSum (morseCount I f) k := by
   sorry

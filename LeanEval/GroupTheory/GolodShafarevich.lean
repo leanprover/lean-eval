@@ -45,11 +45,11 @@ noncomputable def generatorRank
     (Subgroup.closure (S : Set G)).topologicalClosure = ⊤}
 
 /-- The trivial `ZMod p`-representation of `G`, as an object of
-`Action (TopModuleCat (ZMod p)) G`. -/
+`TopRep (ZMod p) G`. -/
 noncomputable def trivialZModpRep
     (p : ℕ) (G : Type) [Group G] [TopologicalSpace G] [IsTopologicalGroup G] :
-    Action (TopModuleCat (ZMod p)) G :=
-  Action.trivial G (TopModuleCat.of (ZMod p) (ZMod p))
+    TopRep (ZMod p) G :=
+  TopRep.of (ContRepresentation.trivial (ZMod p) G (ZMod p))
 
 /-- The relation rank `r(G) = dim_{𝔽_p} H²(G; 𝔽_p)`, computed via continuous
 cohomology in degree `2` with trivial `ZMod p` coefficients. -/
@@ -57,7 +57,7 @@ noncomputable def relationRank
     (p : ℕ) [Fact p.Prime] (G : Type)
     [Group G] [TopologicalSpace G] [IsTopologicalGroup G] : ℕ :=
   Module.finrank (ZMod p)
-    ((continuousCohomology (ZMod p) G 2).obj (trivialZModpRep p G))
+    (continuousCohomology 2 (trivialZModpRep p G))
 
 /-- **Golod–Shafarevich inequality.**
 

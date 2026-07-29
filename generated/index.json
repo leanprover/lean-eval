@@ -22,6 +22,28 @@
     "generated_path": "generated/abel_ruffini"
   },
   {
+    "id": "adoCharZero",
+    "title": "Ado's theorem in characteristic zero",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.RepresentationTheory.AdoIwasawa",
+    "holes": [
+      "adoCharZero"
+    ],
+    "generated_path": "generated/adoCharZero"
+  },
+  {
+    "id": "adoIwasawa",
+    "title": "Ado\u2013Iwasawa theorem over an arbitrary field",
+    "test": false,
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.RepresentationTheory.AdoIwasawa",
+    "holes": [
+      "adoIwasawa"
+    ],
+    "generated_path": "generated/adoIwasawa"
+  },
+  {
     "id": "alternating_sign_matrix_count",
     "title": "The alternating sign matrix theorem",
     "test": false,
@@ -484,6 +506,28 @@
       "dehn_sommerville"
     ],
     "generated_path": "generated/dehn_sommerville"
+  },
+  {
+    "id": "derived_solidification_free_CW_homology",
+    "title": "Derived solidification of free CW complexes (light condensed mathematics)",
+    "test": false,
+    "submitter": "Dagur Asgeirsson",
+    "module": "LeanEval.CondensedMathematics.DerivedSolidCWHomology",
+    "holes": [
+      "LightCondensed.Solid.solidification",
+      "LightCondensed.Solid.solidification_additive",
+      "LightCondensed.Solid.solidificationAdjunction",
+      "LightCondensed.Solid.derivedSolidification",
+      "LightCondensed.Solid.derivedSolidificationCounit",
+      "LightCondensed.Solid.derivedSolidification_isLeftDerivedFunctor",
+      "LightCondensed.Solid.derivedSolidificationAdjunction",
+      "LightCondensed.Solid.derivedSolidificationFreeCWFunctor",
+      "LightCondensed.Solid.derivedSolidificationFreeCWFunctorSpec",
+      "LightCondensed.Solid.derivedSolidification_free_CW_derivedNatIso",
+      "LightCondensed.Solid.derivedSolidification_free_CW_homologyIso",
+      "LightCondensed.Solid.derivedSolidification_free_CW_homology"
+    ],
+    "generated_path": "generated/derived_solidification_free_CW_homology"
   },
   {
     "id": "dirichlet_eigenvalues_eq_nat_sq",

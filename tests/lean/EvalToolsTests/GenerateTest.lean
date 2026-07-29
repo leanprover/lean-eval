@@ -24,6 +24,73 @@ def main : IO UInt32 := do
   let passes ← IO.mkRef 0
   let fails ← IO.mkRef 0
 
+  -- Regression for https://github.com/leanprover/lean-eval/pull/467:
+  -- Mathlib-style copyright headers precede imports. The generator must drop
+  -- both the header and imports before copying trusted helpers into
+  -- `ChallengeDeps.lean`; otherwise `import EvalTools.Markers` leaks into the
+  -- standalone workspace's trusted-helper path.
+  check "importPreludeLength skips a Mathlib copyright header" passes fails do
+    let prelude :=
+      "/-\n" ++
+      "Copyright (c) 2026 Example. All rights reserved.\n" ++
+      "Released under Apache 2.0 license as described in the file LICENSE.\n" ++
+      "Authors: Example Author\n" ++
+      "-/\n" ++
+      "import Mathlib\n" ++
+      "import EvalTools.Markers\n"
+    let body := "\nnamespace Demo\n\ndef trustedHelper : Nat := 1\n"
+    let source := Source.ofString (prelude ++ body)
+    let afterPrelude := Source.slice source (importPreludeLength source) source.size
+    pure <| assertEq "body after prelude" afterPrelude body
+
+  check "importPreludeLength handles a nested copyright header" passes fails do
+    let prelude :=
+      "/-\n" ++
+      "Copyright (c) 2026 Example. All rights reserved.\n" ++
+      "/- nested block comment -/\n" ++
+      "-/\n" ++
+      "import Mathlib\n" ++
+      "import EvalTools.Markers\n" ++
+      "\n"
+    let body := "namespace Demo\n\ndef trustedHelper : Nat := 1\n"
+    let source := Source.ofString (prelude ++ body)
+    let afterPrelude :=
+      (Source.slice source (importPreludeLength source) source.size).trimAsciiStart.toString
+    pure <| assertEq "body after prelude" afterPrelude body
+
+  -- A module doc comment after the imports belongs to the source body and must
+  -- not be mistaken for a copyright header.
+  check "importPreludeLength preserves a block comment after imports" passes fails do
+    let prelude := "import Mathlib\n\n"
+    let body := "/-! Module documentation. -/\n\nnamespace Demo\n"
+    let source := Source.ofString (prelude ++ body)
+    let afterPrelude :=
+      (Source.slice source (importPreludeLength source) source.size).trimAsciiStart.toString
+    pure <| assertEq "body after prelude" afterPrelude body
+
+  check "importPreludeLength skips comments between imports" passes fails do
+    let prelude :=
+      "-- Copyright (c) 2026 Example\n" ++
+      "import Mathlib\n" ++
+      "/- The marker import is repository-local. -/\n" ++
+      "import EvalTools.Markers\n"
+    let body := "\nnamespace Demo\n"
+    let source := Source.ofString (prelude ++ body)
+    let afterPrelude := Source.slice source (importPreludeLength source) source.size
+    pure <| assertEq "body after prelude" afterPrelude body
+
+  check "wrapBodyInSubmissionNamespace handles a nested header" passes fails do
+    let source :=
+      "/-\n" ++
+      "Copyright (c) 2026 Example.\n" ++
+      "/- nested block comment -/\n" ++
+      "-/\n" ++
+      "import Mathlib\n\n" ++
+      "namespace Demo\n\ndef target : Nat := 1\n\nend Demo\n"
+    let wrapped := wrapBodyInSubmissionNamespace source "Demo"
+    pure <| assertEq "submission namespace inserted after header"
+      ((wrapped.find? "\nnamespace Submission\n\nnamespace Demo\n").isSome) true
+
   check "isScopedOpenLine: open Foo is top-level" passes fails do
     pure <| assertEq "scoped" (isScopedOpenLine "open Foo") false
 

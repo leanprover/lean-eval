@@ -1,0 +1,12 @@
+{
+  "id": "adoCharZero",
+  "module": "LeanEval.RepresentationTheory.AdoIwasawa",
+  "holes": [
+    {
+      "name": "LeanEval.RepresentationTheory.AdoIwasawa.adoCharZero",
+      "basename": "adoCharZero",
+      "kind": "theorem",
+      "body": "/-- **Ado's theorem.** Every finite-dimensional Lie algebra over a field of\ncharacteristic zero has a faithful finite-dimensional representation. -/\ntheorem adoCharZero [CharZero K] [FiniteDimensional K L] :\n    \u2203 (V : Type u) (_ : AddCommGroup V) (_ : Module K V) (_ : FiniteDimensional K V)\n      (\u03c1 : L \u2192\u2097\u2045K\u2046 Module.End K V), Function.Injective \u03c1 := by\n  sorry"
+    }
+  ]
+}

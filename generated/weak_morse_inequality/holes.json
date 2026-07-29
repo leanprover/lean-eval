@@ -6,7 +6,7 @@
       "name": "LeanEval.Geometry.WeakMorseInequality.weak_morse_inequality",
       "basename": "weak_morse_inequality",
       "kind": "theorem",
-      "body": "/-- **Weak Morse inequalities.** For a Morse function `f` on a closed\nsmooth finite-dimensional manifold `M` and every `k \u2208 \u2115`,\n`b_k(M) \u2264 c_k(f)`. -/\ntheorem weak_morse_inequality\n    {E : Type*} [NormedAddCommGroup E] [NormedSpace \u211d E] [FiniteDimensional \u211d E]\n    {H : Type*} [TopologicalSpace H] {I : ModelWithCorners \u211d E H} [I.Boundaryless]\n    {M : Type} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I \u221e M]\n    [CompactSpace M] (f : M \u2192 \u211d) (_hf : IsMorseFunction I f) (k : \u2115) :\n    bettiNumber M k \u2264 morseCount I f k := by\n  sorry"
+      "body": "/-- **Weak Morse inequalities.** For a Morse function `f` on a closed\nsmooth finite-dimensional Hausdorff manifold `M` and every `k \u2208 \u2115`,\n`b_k(M) \u2264 c_k(f)`. -/\ntheorem weak_morse_inequality\n    {E : Type*} [NormedAddCommGroup E] [NormedSpace \u211d E] [FiniteDimensional \u211d E]\n    {H : Type*} [TopologicalSpace H] {I : ModelWithCorners \u211d E H} [I.Boundaryless]\n    {M : Type} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I \u221e M]\n    [CompactSpace M] [T2Space M] (f : M \u2192 \u211d) (_hf : IsMorseFunction I f) (k : \u2115) :\n    bettiNumber M k \u2264 morseCount I f k := by\n  sorry"
     }
   ]
 }

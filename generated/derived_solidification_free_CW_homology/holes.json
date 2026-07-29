@@ -1,0 +1,78 @@
+{
+  "id": "derived_solidification_free_CW_homology",
+  "module": "LeanEval.CondensedMathematics.DerivedSolidCWHomology",
+  "holes": [
+    {
+      "name": "LightCondensed.Solid.solidification",
+      "basename": "solidification",
+      "kind": "def",
+      "body": "/-- **Hole 1.** The solidification functor, left adjoint to the inclusion of solid objects. -/\ndef solidification : LightCondAb \u2964 Solid := sorry"
+    },
+    {
+      "name": "LightCondensed.Solid.solidification_additive",
+      "basename": "solidification_additive",
+      "kind": "theorem",
+      "body": "/-- **Hole 2.** The solidification functor is additive.  (This follows from the adjunction of the\nnext hole, but is needed as an instance to state the holes below.) -/\ninstance solidification_additive : solidification.Additive := sorry"
+    },
+    {
+      "name": "LightCondensed.Solid.solidificationAdjunction",
+      "basename": "solidificationAdjunction",
+      "kind": "def",
+      "body": "/-- **Hole 3.** The solidification adjunction: solidification is left adjoint to the inclusion of\nsolid objects in light condensed abelian groups. -/\ndef solidificationAdjunction : solidification \u22a3 isSolid.\u03b9 := sorry"
+    },
+    {
+      "name": "LightCondensed.Solid.derivedSolidification",
+      "basename": "derivedSolidification",
+      "kind": "def",
+      "body": "/-- **Hole 4.** The derived solidification functor. -/\ndef derivedSolidification : DLightCondAb \u2964 DSolid := sorry"
+    },
+    {
+      "name": "LightCondensed.Solid.derivedSolidificationCounit",
+      "basename": "derivedSolidificationCounit",
+      "kind": "def",
+      "body": "/-- **Hole 5.** The comparison map from derived solidification to degreewise solidification. -/\ndef derivedSolidificationCounit :\n    DerivedCategory.Q \u22d9 derivedSolidification \u27f6\n      solidification.mapHomologicalComplex (ComplexShape.up \u2124) \u22d9 DerivedCategory.Q := sorry"
+    },
+    {
+      "name": "LightCondensed.Solid.derivedSolidification_isLeftDerivedFunctor",
+      "basename": "derivedSolidification_isLeftDerivedFunctor",
+      "kind": "theorem",
+      "body": "/-- **Hole 6.** Derived solidification, together with the comparison map of the previous hole, is\nthe total left derived functor of degreewise solidification followed by localization. -/\ninstance derivedSolidification_isLeftDerivedFunctor :\n    derivedSolidification.IsLeftDerivedFunctor derivedSolidificationCounit\n      (HomologicalComplex.quasiIso LightCondAb (ComplexShape.up \u2124)) := sorry"
+    },
+    {
+      "name": "LightCondensed.Solid.derivedSolidificationAdjunction",
+      "basename": "derivedSolidificationAdjunction",
+      "kind": "def",
+      "body": "/-- **Hole 7.** The derived solidification adjunction: derived solidification is left adjoint to\nthe derived inclusion. -/\ndef derivedSolidificationAdjunction : derivedSolidification \u22a3 derivedInclusion :=\n  sorry"
+    },
+    {
+      "name": "LightCondensed.Solid.derivedSolidificationFreeCWFunctor",
+      "basename": "derivedSolidificationFreeCWFunctor",
+      "kind": "def",
+      "body": "/-- **Hole 8.** The functor sending a CW complex to the derived inclusion of the derived\nsolidification of the free light condensed abelian group on it. -/\ndef derivedSolidificationFreeCWFunctor : CWTopCat \u2964 DLightCondAb := sorry"
+    },
+    {
+      "name": "LightCondensed.Solid.derivedSolidificationFreeCWFunctorSpec",
+      "basename": "derivedSolidificationFreeCWFunctorSpec",
+      "kind": "def",
+      "body": "/-- **Hole 9.** The specification identifying `derivedSolidificationFreeCWFunctor` with the\nexpected composite functor. -/\ndef derivedSolidificationFreeCWFunctorSpec :\n    derivedSolidificationFreeCWFunctor \u2245\n      CWTopCat.toTopCat \u22d9 freeLightCondAbOfTopFunctor \u22d9 DerivedCategory.singleFunctor LightCondAb 0 \u22d9\n        derivedSolidification \u22d9 derivedInclusion := sorry"
+    },
+    {
+      "name": "LightCondensed.Solid.derivedSolidification_free_CW_derivedNatIso",
+      "basename": "derivedSolidification_free_CW_derivedNatIso",
+      "kind": "def",
+      "body": "/-- **Hole 10.** The derived comparison theorem, naturally in a CW complex `X`: after applying the\nexact derived inclusion from solid light condensed abelian groups to light condensed abelian groups,\nthe derived solidification of the free light condensed abelian group on `X` is the integral singular\nchain complex of `X` as a derived object of light condensed abelian groups. -/\ndef derivedSolidification_free_CW_derivedNatIso :\n    derivedSolidificationFreeCWFunctor \u2245 singularChainsLightCondAbCWDerivedFunctor := sorry"
+    },
+    {
+      "name": "LightCondensed.Solid.derivedSolidification_free_CW_homologyIso",
+      "basename": "derivedSolidification_free_CW_homologyIso",
+      "kind": "def",
+      "body": "/-- **Hole 11.** For a CW complex `X`, the homology of the derived solidification of the free\nlight condensed abelian group on `X` is integral singular homology.  Since the derived category\nis cohomologically indexed, the `n`-th singular homology group occurs in degree `-n`. -/\ndef derivedSolidification_free_CW_homologyIso\n    (X : TopCat) [Topology.CWComplex (Set.univ : Set X)] (n : \u2115) :\n    isSolid.\u03b9.obj\n      ((DerivedCategory.homologyFunctor Solid (-(n : \u2124))).obj\n        (derivedSolidification.obj\n          ((DerivedCategory.singleFunctor LightCondAb 0).obj (freeLightCondAbOfTop X)))) \u2245\n      singularHomologyLightCondAb X n := sorry"
+    },
+    {
+      "name": "LightCondensed.Solid.derivedSolidification_free_CW_homology",
+      "basename": "derivedSolidification_free_CW_homology",
+      "kind": "theorem",
+      "body": "/-- **Hole 12.** The theorem form of `derivedSolidification_free_CW_homologyIso`: the derived\nsolidification of the free light condensed abelian group on a CW complex computes integral\nsingular homology. -/\ntheorem derivedSolidification_free_CW_homology\n    (X : TopCat) [Topology.CWComplex (Set.univ : Set X)] (n : \u2115) :\n    Nonempty\n      (isSolid.\u03b9.obj\n        ((DerivedCategory.homologyFunctor Solid (-(n : \u2124))).obj\n          (derivedSolidification.obj\n            ((DerivedCategory.singleFunctor LightCondAb 0).obj (freeLightCondAbOfTop X)))) \u2245\n        singularHomologyLightCondAb X n) := sorry"
+    }
+  ]
+}

@@ -8,7 +8,7 @@ open scoped symmDiff
 variable {X : Type*} [MeasurableSpace X]
 
 theorem generic_weakly_mixing [StandardBorelSpace X]
-    (m : Measure X) [IsProbabilityMeasure m] [NoAtoms m] :
+    (m : Measure X) [IsProbabilityMeasure m] [NullSingletonClass m] :
     (∃ G : Set (Automorphism m), IsGδ G ∧ Dense G ∧
       ∀ T ∈ G, IsWeaklyMixing m T) ∧
     (∀ T : Automorphism m, IsWeaklyMixing m T →

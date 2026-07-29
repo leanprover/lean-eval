@@ -22,8 +22,9 @@ predicate is decidable by an algorithm, captured by mathlib's
 `ComputablePred`. The hypotheses `hsurj` + `hker` unpack
 `Group.IsFinitelyPresented G` for this particular presentation `φ`.
 
-Mathlib has `Group.IsFinitelyPresented`, `Subgroup.IsNormalClosureFG`,
-`FreeGroup`, `PresentedGroup`, `IsSimpleGroup`, and the
+Mathlib has `Group.IsFinitelyPresented`,
+`Subgroup.IsFinitelyNormallyGenerated`, `FreeGroup`, `PresentedGroup`,
+`IsSimpleGroup`, and the
 `ComputablePred` / `Computable` / `Partrec` stack, but no notion of
 the word problem of a group or the Kuznetsov / Boone–Higman / Novikov
 theorems.
