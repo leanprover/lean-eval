@@ -1,5 +1,7 @@
+import Mathlib.Analysis.Calculus.ContDiff.Basic
+import Mathlib.Analysis.InnerProductSpace.PiL2
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
-import LeanEval.KnotTheory.Prelude
 import EvalTools.Markers
 
 namespace LeanEval
@@ -28,6 +30,47 @@ noncomputable section
 
 open Set
 open scoped ENNReal
+
+/-
+These definitions mirror the shared knot-theory prelude. They are included
+here because generated eval workspaces retain declarations from this file but
+do not import other `LeanEval` modules.
+-/
+
+/-- The ambient Euclidean space `ℝ³`. -/
+abbrev R3 : Type := EuclideanSpace ℝ (Fin 3)
+
+/-- An oriented smooth knot in `ℝ³`. -/
+structure Knot where
+  curve : ℝ → R3
+  smooth : ContDiff ℝ (⊤ : ℕ∞) curve
+  periodic : ∀ t, curve (t + 2 * Real.pi) = curve t
+  injOn : Set.InjOn curve (Set.Ico 0 (2 * Real.pi))
+  immersion : ∀ t, deriv curve t ≠ 0
+
+/-- A smooth one-parameter family of diffeomorphisms of `ℝ³`, starting at
+the identity. -/
+structure AmbientIsotopy where
+  H : ℝ → R3 → R3
+  Hinv : ℝ → R3 → R3
+  smooth : ContDiff ℝ (⊤ : ℕ∞) (Function.uncurry H)
+  smooth_inv : ContDiff ℝ (⊤ : ℕ∞) (Function.uncurry Hinv)
+  inv_left : ∀ t x, Hinv t (H t x) = x
+  inv_right : ∀ t x, H t (Hinv t x) = x
+  start : H 0 = id
+
+/-- An orientation-preserving smooth reparametrization of the circle,
+presented by a lift to `ℝ`. -/
+structure CircleReparam where
+  f : ℝ → ℝ
+  finv : ℝ → ℝ
+  smooth : ContDiff ℝ (⊤ : ℕ∞) f
+  smooth_inv : ContDiff ℝ (⊤ : ℕ∞) finv
+  left_inv : ∀ t, finv (f t) = t
+  right_inv : ∀ t, f (finv t) = t
+  periodic : ∀ t, f (t + 2 * Real.pi) = f t + 2 * Real.pi
+  periodic_inv : ∀ t, finv (t + 2 * Real.pi) = finv t + 2 * Real.pi
+  mono : StrictMono f
 
 /-- The speed of a smooth knot with its given parametrization. -/
 def speed (K : Knot) (t : ℝ) : ℝ :=
