@@ -107,8 +107,8 @@ lake exe lean-eval check-problem-build
 
 `validate-manifest` checks that `@[eval_problem]` declarations and manifest entries
 match. `check-problem-build` builds the problem modules so warning-producing Lean changes
-do not slip through. Both are cheap and catch the most common mistakes before a CI
-roundtrip.
+do not slip through. Both catch the most common mistakes before a CI roundtrip;
+on a clean checkout, validating the full problem inventory can take some time.
 
 ### 5. Open a PR
 

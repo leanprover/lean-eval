@@ -10,20 +10,24 @@ private def hasSubstr (haystack pattern : String) : Bool :=
 private def isDisallowedWarning (line : String) : Bool :=
   hasSubstr line "warning:" && !hasSubstr line "declaration uses `sorry`"
 
-/-- Implementation of `lake exe lean-eval check-problem-build`. Builds every
-manifest module via `lake build`, then scans captured output for warnings
-other than the expected `declaration uses \`sorry\`` warnings the problem
-modules emit by design. -/
+/-- Implementation of `lake exe lean-eval check-problem-build`. Builds each
+manifest module separately via `lake build`, then scans captured output for
+warnings other than the expected `declaration uses \`sorry\`` warnings the
+problem modules emit by design.
+
+The separate invocations are intentional: passing the complete catalog to one
+`lake build` lets Lake schedule every independent module at once. -/
 def runCheckProblemBuild (root : System.FilePath) : IO UInt32 := do
   try
     let entries ← loadManifest root
     let modules := uniqueModules entries
-    let output ← runCmdCheckedCaptured "lake" (#["build"] ++ modules) root
-      "Problem module build failed"
-    let combined :=
-      [output.stdout, output.stderr].filter (! ·.isEmpty) |> String.intercalate "\n"
-    let lines := combined.splitOn "\n"
-    let disallowed := lines.filter isDisallowedWarning
+    let mut disallowed := []
+    for moduleName in modules do
+      let output ← runCmdCheckedCaptured "lake" #["build", moduleName] root
+        s!"Problem module '{moduleName}' build failed"
+      let combined :=
+        [output.stdout, output.stderr].filter (! ·.isEmpty) |> String.intercalate "\n"
+      disallowed := disallowed ++ (combined.splitOn "\n").filter isDisallowedWarning
     if !disallowed.isEmpty then
       IO.eprintln "Disallowed build warnings found:"
       for line in disallowed do

@@ -108,13 +108,21 @@ private def parseInventoryEntries (payload : String) :
         basename := basename, kind := kind }
   return out
 
-/-- Build the lake target and run the `eval_inventory` executable over every
-module referenced by `entries`. -/
+/-- Build the Lake targets and run the `eval_inventory` executable over every
+module referenced by `entries`.
+
+Build the inventory executable first, then each problem module separately.
+Passing every problem module to one `lake build` lets Lake schedule the entire
+catalog at once, which can exhaust machine resources on a clean checkout. -/
 def runInventoryTool (root : System.FilePath) (modules : Array String) :
     IO (Array ManifestInventoryEntry) := do
   let _ ← runCmdCheckedCaptured "lake"
-    (#["build"] ++ modules ++ #["eval_inventory"]) root
+    #["build", "eval_inventory"] root
     "Failed to build Lean problem inventory tool"
+  for moduleName in modules do
+    let _ ← runCmdCheckedCaptured "lake"
+      #["build", moduleName] root
+      s!"Failed to build Lean problem module '{moduleName}'"
   let binPath := root / ".lake" / "build" / "bin" / "eval_inventory"
   let out ← runCmdCheckedCaptured "lake"
     (#["env", binPath.toString] ++ modules) root
