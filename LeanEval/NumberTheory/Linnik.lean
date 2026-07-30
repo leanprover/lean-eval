@@ -32,7 +32,7 @@ noncomputable def p (a d : ℕ) : ℕ := sInf ({a + k * d | k : ℕ} ∩ {p | p.
 progression `a mod d` is bounded by `c * d ^ 5.5` for some constant `c`. -/
 @[eval_problem]
 theorem linnik : ∃ c : ℝ, ∀ ⦃a d : ℕ⦄,
-    0 < a → a < d → a.Coprime d → p a d ≤ c * (↑d : ℝ) ^ (5.5 : ℝ) := by
+    0 < a → a < d → a.Coprime d → p a d ≤ c * d ^ (5.5 : ℝ) := by
   sorry
 
 end Main
