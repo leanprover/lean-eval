@@ -25,21 +25,26 @@ open Matrix
 
 variable {R : Type*} [Ring R] {n : ℕ}
 
+/--
+Evaluate a quadratic form `Q(x) = ∑_{i,j} Q_{ij} x_i x_j` given by
+the matrix `Q` at a vector `x`.
+-/
+def evalQ (M : Matrix (Fin n) (Fin n) R) (v : Fin n → R) : R := v ⬝ᵥ M *ᵥ v
+
 /-- A quadratic form, represented as a matrix, takes a particular value for some
 integer vector input. -/
-def TakesValue (M : Matrix (Fin n) (Fin n) R) (m : ℕ) : Prop :=
-  ∃ v : Fin n → ℤ, (fun i => (v i : R)) ⬝ᵥ (M *ᵥ (fun i => (v i : R))) = (m : R)
+def Represents (M : Matrix (Fin n) (Fin n) R) (m : ℕ) : Prop :=
+  ∃ v : Fin n → ℤ, evalQ M (v · : _ → R) = m
 
 /-- A quadratic form, represented as a matrix, is universal if it takes every
 positive integer value. -/
-def Universal (M : Matrix (Fin n) (Fin n) R) : Prop :=
-  ∀ m : ℕ, 0 < m → TakesValue M m
+def IsUniversal (M : Matrix (Fin n) (Fin n) R) : Prop :=
+  ∀ m : ℕ, 0 < m → Represents M m
 
 /-- A quadratic form is integral if it takes only integer values on integer
 vectors. -/
 def Integral (M : Matrix (Fin n) (Fin n) R) : Prop :=
-  ∀ v : Fin n → ℤ,
-    (fun i => (v i : R)) ⬝ᵥ (M *ᵥ (fun i => (v i : R))) ∈ Set.range ((↑) : ℤ → R)
+  ∀ v : Fin n → ℤ, evalQ M (v · : _ → R) ∈ Set.range ((↑) : ℤ → R)
 
 /-- The 29 critical numbers of the 290 theorem. -/
 def critical_290_numbers : Finset ℕ :=
@@ -50,8 +55,8 @@ def critical_290_numbers : Finset ℕ :=
 theorem two_ninety_theorem {n : ℕ} (M : Matrix (Fin n) (Fin n) ℝ)
     (hpos : M.PosDef)
     (hIntegral : Integral M)
-    (hrep : ∀ m ∈ critical_290_numbers, TakesValue M m) :
-    Universal M := by
+    (hrep : ∀ m ∈ critical_290_numbers, Represents M m) :
+    IsUniversal M := by
   sorry
 
 end Main
