@@ -104,7 +104,7 @@ exponential growth rate of the number of self-avoiding walks is
 @[eval_problem]
 theorem honeycomb_connective_constant :
     Tendsto
-      (fun n : ℕ => Real.rpow (walkCount n : ℝ) (1 / (n : ℝ)))
+      (fun n ↦ (walkCount n : ℝ) ^ (1 / n : ℝ))
       atTop
       (nhds (Real.sqrt (2 + Real.sqrt 2))) := by
   sorry
