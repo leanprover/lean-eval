@@ -27,6 +27,7 @@ covered by the published, unoriented statement.
 noncomputable section
 
 open Set
+open scoped ENNReal
 
 /-- The speed of a smooth knot with its given parametrization. -/
 def speed (K : Knot) (t : ℝ) : ℝ :=
@@ -50,11 +51,14 @@ def intrinsicDistance (K : Knot) (s t : ℝ) : ℝ :=
 def distortionRatio (K : Knot) (s t : ℝ) : ℝ :=
   intrinsicDistance K s t / dist (K.curve s) (K.curve t)
 
-/-- Distortion of a smooth knot: the supremum of the distortion ratios over
-distinct parameters in the half-open fundamental interval `[0, 2π)`. -/
-def distortion (K : Knot) : ℝ :=
-  sSup {d : ℝ | ∃ s ∈ Ico (0 : ℝ) (2 * Real.pi),
-    ∃ t ∈ Ico (0 : ℝ) (2 * Real.pi), s ≠ t ∧ d = distortionRatio K s t}
+/-- Distortion of a smooth knot as an extended nonnegative real: the supremum
+of the distortion ratios over distinct parameters in the half-open fundamental
+interval `[0, 2π)`. The extended codomain also represents infinite
+distortion. -/
+def distortion (K : Knot) : ℝ≥0∞ :=
+  sSup {d : ℝ≥0∞ | ∃ s ∈ Ico (0 : ℝ) (2 * Real.pi),
+    ∃ t ∈ Ico (0 : ℝ) (2 * Real.pi),
+      s ≠ t ∧ d = ENNReal.ofReal (distortionRatio K s t)}
 
 /-- The standard `(p, q)`-torus curve on the torus of revolution with major
 radius `2` and minor radius `1`.  It winds `p` times around the axis of the
@@ -79,7 +83,7 @@ theorem pardon_torus_knot_distortion
     (K : Knot)
     (_hclass : ∃ Φ : AmbientIsotopy, ∃ σ : CircleReparam,
       ∀ t, Φ.H 1 (K.curve t) = standardTorusCurve p q (σ.f t)) :
-    (1 / 160 : ℝ) * (Nat.min p q : ℝ) ≤ distortion K := by
+    (1 / 160 : ℝ≥0∞) * (Nat.min p q : ℝ≥0∞) ≤ distortion K := by
   sorry
 
 end
