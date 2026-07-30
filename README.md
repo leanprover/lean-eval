@@ -186,10 +186,12 @@ that tells comparator to check your theorem from the `Submission` namespace.
 lake test
 ```
 
-`lake test` shells out to three external tools that you must install yourself:
-`landrun` (the sandbox), `lean4export` (exports oleans to text), and `comparator`
-(the verifier). All three are pinned to immutable commits; the authoritative pin
-table lives in [`SECURITY.md`](SECURITY.md) ("Trusted dependencies and pin
+`lake test` shells out to four external tools that you must install yourself:
+`landrun` (the sandbox), `lean4export` (exports oleans to text), `comparator`
+(the verifier), and `nanoda` (the independent kernel). `WorkspaceTest` forces
+comparator to replay every Solution through nanoda, so a missing `nanoda_bin`
+fails the check. All four are pinned to immutable commits; the authoritative
+pin table lives in [`SECURITY.md`](SECURITY.md) ("Trusted dependencies and pin
 policy"), and CI installs exactly these in
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Reproduce that setup
 locally:
@@ -215,6 +217,16 @@ git clone https://github.com/leanprover/comparator.git
   git checkout 71b52ec29e06d4b7d882726553b1ceb99a2499e0
   lake build comparator )
 export PATH="$PWD/comparator/.lake/build/bin:$PATH"
+
+# nanoda — the external kernel. WorkspaceTest forces comparator to replay the
+# Solution through nanoda, so `lake test` fails unless `nanoda_bin` is on your
+# PATH. Needs a Rust toolchain (`cargo`); the pin is on the source commit, not
+# the compiler version.
+git clone https://github.com/robsimmons/nanoda_lib.git
+( cd nanoda_lib
+  git checkout 68d5ca9db226849b41a6fff59d796ff19d0a8840
+  cargo build --release )
+export PATH="$PWD/nanoda_lib/target/release:$PATH"
 ```
 
 `lean4export` and `comparator` are Lean programs. The pinned lean4export source

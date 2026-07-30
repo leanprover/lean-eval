@@ -68,6 +68,23 @@ jobs:
           lake build comparator
           echo "$PWD/.lake/build/bin" >> "$GITHUB_PATH"
 
+      - name: Build nanoda
+        run: |
+          set -euo pipefail
+          # The external checker. WorkspaceTest forces `enable_nanoda: true`
+          # when it invokes comparator, so every scored Solution is replayed
+          # through nanoda's independent kernel and rejected unless `nanoda_bin`
+          # is on PATH. Built with the runner's stable cargo; the trust boundary
+          # is the pinned source commit, not the Rust compiler version.
+          git clone https://github.com/robsimmons/nanoda_lib.git .ci/nanoda
+          cd .ci/nanoda
+          # nanoda pinned to 68d5ca9 (robsimmons/nanoda_lib HEAD as of 2026-07-29,
+          # the fork comparator-live deploys). Bump procedure: SECURITY.md >
+          # "Bumping pinned dependencies".
+          git checkout 68d5ca9db226849b41a6fff59d796ff19d0a8840  # pin-audit: exempt -- SHA, see comment
+          cargo build --release
+          echo "$PWD/target/release" >> "$GITHUB_PATH"
+
       - name: Audit workflow action pins
         run: python scripts/action_pin_audit.py
 

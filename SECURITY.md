@@ -98,6 +98,7 @@ code.
 | `rm -rf .git` | trusted | runner | No |
 | `lake build comparator` (in `.ci/comparator/`) | trusted | runner | No |
 | `lake build lean4export` (in `.ci/lean4export/`) | trusted | runner | No |
+| `cargo build --release` (in `.ci/nanoda/`) | trusted, pinned source | runner | No |
 | Submission tarball extracted | inert data | runner | No |
 | `evaluate_submission.py` overlay walk | trusted Python | runner | No |
 | `_share_packages` symlink setup | trusted Python | runner | No |
@@ -111,6 +112,7 @@ code.
 | `comparator.safeExport challengeModule` | reads trusted olean | **inside landrun** | No |
 | **`comparator.safeLakeBuild Solution`** | builds Solution -> imports Submission | **inside landrun** | **YES** |
 | `comparator.safeExport solutionModule` | reads the just-built olean | **inside landrun** | No |
+| `runNanoda solution` | pipes the export to `nanoda_bin` (independent kernel) | **inside landrun** | No |
 | `runKernel solution` | replays exported env in comparator process | runner | No |
 
 (`evaluate_submission.py` lives in the submissions repo; the steps above
@@ -203,6 +205,7 @@ time, the upstream publisher controls our supply chain.
 | landrun | zouuup/landrun | `5ed4a3db3a4ad930d577215c6b9abaa19df7f99f` | Linux landlock sandbox | 2026-05-04 |
 | lean4export | leanprover/lean4export | `4e7915201d3f9f04470d9eae002fa695f7cdc589` | exports olean to text | 2026-07-29 |
 | comparator | leanprover/comparator | `71b52ec29e06d4b7d882726553b1ceb99a2499e0` | the verifier | pre-2026-05 |
+| nanoda | robsimmons/nanoda_lib | `68d5ca9db226849b41a6fff59d796ff19d0a8840` | independent kernel (external checker) | 2026-07-29 |
 | `jlumbroso/free-disk-space` | (action) | `54081f138730dfa15788a46383842cd2f914a1be` | runner disk cleanup | 2026-05-04 |
 | `actions/checkout` | (action) | `11bd71901bbe5b1630ceea73d27597364c9af683` | repo checkout | 2026-05-04 |
 | `actions/setup-python` | (action) | `a26af69be951a213d495a4c3e4e4022e16d87065` | python setup | 2026-05-04 |
@@ -230,9 +233,12 @@ own `submission.yml`. A bump must update both repos in lockstep.
    For branch HEAD: `git ls-remote <repo> refs/heads/main`.
 2. Update **every** site listed below in lockstep, and add a dated
    comment of the form `# <dep> pinned to <sha7> (<note> as of YYYY-MM-DD).`
-   - `.github/workflows/ci.yml` (this repo)
+   - `.github/workflows/ci.yml` (this repo; includes the nanoda pin)
    - `.github/workflows/regenerate-main.yml` (this repo)
-   - `.github/workflows/submission.yml` (leanprover/lean-eval-submissions)
+   - `.github/workflows/submission.yml` (leanprover/lean-eval-submissions;
+     includes the nanoda pin)
+   - `README.md` (this repo; the local-setup nanoda / comparator /
+     lean4export / landrun clone commands)
    - `EvalTools/CheckComparatorInstallation.lean` (`landrunInstallTarget`,
      for landrun only)
    - `lean-eval-leaderboard/.benchmark-commit` (for the lean-eval
@@ -314,11 +320,26 @@ escaping, the triage gate) are in the submissions repo's `SECURITY.md`.
    sufficiently constrain a def — and adding one would be at most a
    heuristic. The real guard is PR review of any problem that uses
    def/instance holes.
-5. **Single-kernel defence.** `enable_nanoda: false` in every
-   generated config means the alternate kernel is not run. A Lean
-   kernel soundness bug becomes a false-credit vector. Defence in
-   depth would be `enable_nanoda: true` once nanoda's string
-   handling is upstream-fixed.
+5. **Dual-kernel defence.** nanoda is a global requirement, not a
+   per-problem option. `templates/WorkspaceTest.lean` (the harness that
+   invokes comparator, propagated verbatim into every workspace and
+   rebuilt from the template by `run-eval`) reads the committed
+   `config.json`, overrides `enable_nanoda := true`, and hands that to
+   comparator — so nanoda runs regardless of what any config file says.
+   This mirrors comparator-live, which forces the flag at the invocation
+   site (`exec.ts`) and leaves project configs untouched. A single Lean
+   kernel soundness bug (e.g. the Lean-conjecture counterexample) no
+   longer suffices to claim false credit; the proof must be accepted by
+   both kernels. The residual risk narrows to a bug present in *both*
+   kernels, or in comparator's export/axiom comparison itself. Note the
+   pinned nanoda is `robsimmons/nanoda_lib` (the fork comparator-live
+   deploys); the `builtinTargets` widening in comparator's `Main.lean`
+   still carries a `TODO: fix when nanoda fixes its string handling`, so a
+   nanoda string soundness gap would not be caught. Because enforcement
+   lives in `WorkspaceTest`, a workspace whose committed `config.json`
+   still says `enable_nanoda: false` is not a bypass — the harness
+   overrides it. Bumping the nanoda pin follows the "Bumping pinned
+   dependencies" procedure above.
 
 ## References
 
