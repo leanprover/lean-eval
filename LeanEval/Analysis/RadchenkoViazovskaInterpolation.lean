@@ -12,8 +12,8 @@ at the points `sqrt n`, for nonnegative integers `n`. Their stronger theorem
 gives an explicit interpolation formula. The uniqueness consequence below
 states injectivity of the sampling map.
 
-Mathlib's Fourier transform uses the same `exp (-2 * pi * I * x * ξ)`
-normalization as the interpolation theorem.
+Mathlib's Fourier transform uses the opposite sign convention from the
+interpolation theorem. This does not affect the uniqueness statement below.
 -/
 
 open scoped FourierTransform SchwartzMap
