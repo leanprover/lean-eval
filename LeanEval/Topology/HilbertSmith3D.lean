@@ -9,7 +9,7 @@ namespace LeanEval
 namespace Topology
 
 /-!
-# Hilbert–Smith conjecture for three-manifolds (Pardon 2013)
+# No continuous faithful ℤ_p action on a connected 3-manifold (Pardon 2013)
 
 John Pardon proved that the additive group of `p`-adic integers cannot act
 continuously and faithfully on a connected three-dimensional topological
@@ -21,9 +21,14 @@ Hausdorff, second-countable charted space modelled on `ℝ³`; no differentiable
 structure is assumed.
 -/
 
-/-- **Hilbert–Smith conjecture for three-manifolds** (Pardon 2013,
-Theorem 1.5). The additive group of `p`-adic integers cannot act
-continuously and faithfully on a connected topological three-manifold. -/
+/-- **No continuous faithful `ℤ_p` action on a connected 3-manifold** (Pardon
+2013, Theorem 1.5). The additive group of `p`-adic integers cannot act
+continuously and faithfully on a connected topological three-manifold.
+
+This is the `p`-adic step, not the full Hilbert–Smith conjecture: deducing that
+every locally compact group acting faithfully on a connected three-manifold is
+a Lie group additionally requires the classical reduction to `ℤ_p` actions,
+which is not part of this statement. -/
 @[eval_problem]
 theorem hilbert_smith_padic_dimension_three
     (p : ℕ) [Fact p.Prime]
