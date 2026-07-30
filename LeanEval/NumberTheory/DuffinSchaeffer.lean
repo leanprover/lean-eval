@@ -18,14 +18,14 @@ circle are precisely reduced fractions with denominator `n`.
 
 open MeasureTheory
 
-/-- **Koukoulopoulos-Maynard Duffin-Schaeffer theorem.** For nonnegative
+/-- **Koukoulopoulos-Maynard theorem (Duffin-Schaeffer conjecture).** For nonnegative
 approximation radii `delta`, the corresponding limsup set of reduced
 rational approximations has full measure exactly when
 `sum_n phi(n) * delta(n)` diverges. -/
 @[eval_problem]
 theorem duffin_schaeffer (δ : ℕ → ℝ) (hδ : ∀ n, 0 ≤ δ n) :
     volume (addWellApproximable UnitAddCircle δ) = 1 ↔
-      ¬ Summable (fun n : ℕ => (Nat.totient n : ℝ) * δ n) := by
+      ¬ Summable fun n : ℕ => n.totient * δ n := by
   sorry
 
 end LeanEval.NumberTheory.DuffinSchaeffer
