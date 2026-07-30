@@ -33,8 +33,8 @@ jobs:
           app-id: ${{ secrets.LEAN_EVAL_REGENERATOR_APP_ID }}
           private-key: ${{ secrets.LEAN_EVAL_REGENERATOR_PRIVATE_KEY }}
 
-      # actions/checkout pinned to 11bd7190 (= refs/tags/v4.2.2 as of 2026-05-04).
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      # actions/checkout pinned to 3d3c42e5 (= refs/tags/v7.0.1 as of 2026-07-30).
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
           token: ${{ steps.app_token.outputs.token }}

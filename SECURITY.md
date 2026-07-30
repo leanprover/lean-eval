@@ -207,9 +207,9 @@ time, the upstream publisher controls our supply chain.
 | comparator | leanprover/comparator | `71b52ec29e06d4b7d882726553b1ceb99a2499e0` | the verifier | pre-2026-05 |
 | nanoda | robsimmons/nanoda_lib | `68d5ca9db226849b41a6fff59d796ff19d0a8840` | independent kernel (external checker) | 2026-07-29 |
 | `jlumbroso/free-disk-space` | (action) | `54081f138730dfa15788a46383842cd2f914a1be` | runner disk cleanup | 2026-05-04 |
-| `actions/checkout` | (action) | `11bd71901bbe5b1630ceea73d27597364c9af683` | repo checkout | 2026-05-04 |
+| `actions/checkout` | (action) | `3d3c42e5aac5ba805825da76410c181273ba90b1` | repo checkout | 2026-07-30 |
 | `actions/setup-python` | (action) | `a26af69be951a213d495a4c3e4e4022e16d87065` | python setup | 2026-05-04 |
-| `actions/setup-go` | (action) | `d35c59abb061a4a6fb18e82ac0862c26744d6ab5` | go setup | 2026-05-04 |
+| `actions/setup-go` | (action) | `b7ad1dad31e06c5925ef5d2fc7ad053ef454303e` | go setup | 2026-07-30 |
 | `actions/create-github-app-token` | (action) | `d72941d797fd3113feb6b93fd0dec494b13a2547` | App auth | 2026-05-04 |
 | `leanprover/lean-action` | (action) | `38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9` | Lean toolchain | 2026-05-04 |
 | Go toolchain | (setup-go arg) | `1.24.0` | concrete version, not `stable` | 2026-05-04 |
