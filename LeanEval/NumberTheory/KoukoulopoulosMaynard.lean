@@ -6,7 +6,7 @@ Authors: Numina Team
 import Mathlib
 import EvalTools.Markers
 
-namespace KoukoulopoulosMaynard
+namespace LeanEval.NumberTheory.KoukoulopoulosMaynard
 
 /-!
 # Duffin–Schaeffer theorem (Koukoulopoulos–Maynard)
@@ -31,4 +31,4 @@ theorem koukoulopoulos_maynard {ψ : ℕ → ℝ} (hψ : ∀ n, 0 ≤ ψ n)
 
 end Main
 
-end KoukoulopoulosMaynard
+end LeanEval.NumberTheory.KoukoulopoulosMaynard

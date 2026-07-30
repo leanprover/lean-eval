@@ -6,7 +6,7 @@ Authors: Numina Team
 import Mathlib
 import EvalTools.Markers
 
-namespace Linnik
+namespace LeanEval.NumberTheory.Linnik
 
 /-!
 # Linnik's theorem (L = 5.5)
@@ -37,4 +37,4 @@ theorem linnik : ∃ c : ℝ, ∀ ⦃a d : ℕ⦄,
 
 end Main
 
-end Linnik
+end LeanEval.NumberTheory.Linnik

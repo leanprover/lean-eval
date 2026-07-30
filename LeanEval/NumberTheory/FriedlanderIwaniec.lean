@@ -6,7 +6,7 @@ Authors: Numina Team
 import Mathlib
 import EvalTools.Markers
 
-namespace FriedlanderIwaniec
+namespace LeanEval.NumberTheory.FriedlanderIwaniec
 
 /-!
 # Friedlander–Iwaniec theorem
@@ -26,4 +26,4 @@ theorem friedlander_iwaniec : {p : ℕ | p.Prime ∧ ∃ a b, p = a ^ 2 + b ^ 4}
 
 end Main
 
-end FriedlanderIwaniec
+end LeanEval.NumberTheory.FriedlanderIwaniec
