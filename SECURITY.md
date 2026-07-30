@@ -212,7 +212,7 @@ time, the upstream publisher controls our supply chain.
 | `actions/setup-go` | (action) | `b7ad1dad31e06c5925ef5d2fc7ad053ef454303e` | go setup | 2026-07-30 |
 | `actions/create-github-app-token` | (action) | `d72941d797fd3113feb6b93fd0dec494b13a2547` | App auth | 2026-05-04 |
 | `leanprover/lean-action` | (action) | `38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9` | Lean toolchain | 2026-05-04 |
-| Go toolchain | (setup-go arg) | `1.24.0` | concrete version, not `stable` | 2026-05-04 |
+| Go toolchain | (setup-go arg) | `1.25.12` | concrete version, not `stable` | 2026-07-30 |
 | Python | (setup-python arg) | `3.11.10` | concrete patch version | 2026-05-04 |
 | `permitted_axioms` (every workspace) | comparator config | `{propext, Quot.sound, Classical.choice}` | axioms allowed in proofs | unchanged |
 

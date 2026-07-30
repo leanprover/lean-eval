@@ -37,7 +37,7 @@ jobs:
         with:
           # Concrete Go version, not `stable`, so a runner-image bump cannot
           # silently change the toolchain we install landrun with.
-          go-version: '1.24.0'
+          go-version: '1.25.12'
           # This repository has no Go module dependency file for setup-go to
           # hash; the only Go dependency is pinned directly in `go install`.
           cache: false
