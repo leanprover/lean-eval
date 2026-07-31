@@ -19,8 +19,6 @@ as soon as it represents the 29 critical numbers
  See <https://en.wikipedia.org/wiki/15_and_290_theorems>.
 -/
 
-section Main
-
 open Matrix
 
 variable {R : Type*} [Ring R] {n : ℕ}
@@ -58,7 +56,5 @@ theorem two_ninety_theorem {n : ℕ} (M : Matrix (Fin n) (Fin n) ℝ)
     (hrep : ∀ m ∈ critical_290_numbers, Represents M m) :
     IsUniversal M := by
   sorry
-
-end Main
 
 end LeanEval.NumberTheory.TwoNinety
