@@ -38,6 +38,8 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ steps.app_token.outputs.token }}
+          # The commit-and-push step below authenticates through .git/config.
+          persist-credentials: true
 
       # leanprover/lean-action pinned to 38fbc41a (= refs/tags/v1.5.0, also v1 HEAD as of 2026-05-04).
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9

@@ -26,6 +26,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       # leanprover/lean-action pinned to 38fbc41a (= refs/tags/v1.5.0, also v1 HEAD as of 2026-05-04).
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
@@ -36,7 +37,9 @@ jobs:
       - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
         with:
           # Concrete Go version, not `stable`, so a runner-image bump cannot
-          # silently change the toolchain we install landrun with.
+          # silently change the toolchain we install landrun with. setup-go
+          # v6+ sets GOTOOLCHAIN=local, so this is also the compiler actually
+          # used rather than a minimum that Go may silently replace.
           go-version: '1.25.12'
           # This repository has no Go module dependency file for setup-go to
           # hash; the only Go dependency is pinned directly in `go install`.

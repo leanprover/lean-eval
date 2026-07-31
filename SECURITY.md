@@ -207,12 +207,12 @@ time, the upstream publisher controls our supply chain.
 | comparator | leanprover/comparator | `71b52ec29e06d4b7d882726553b1ceb99a2499e0` | the verifier | pre-2026-05 |
 | nanoda | robsimmons/nanoda_lib | `68d5ca9db226849b41a6fff59d796ff19d0a8840` | independent kernel (external checker) | 2026-07-29 |
 | `jlumbroso/free-disk-space` | (action) | `54081f138730dfa15788a46383842cd2f914a1be` | runner disk cleanup | 2026-05-04 |
-| `actions/checkout` | (action) | `3d3c42e5aac5ba805825da76410c181273ba90b1` | repo checkout | 2026-07-30 |
-| `actions/setup-python` | (action) | `5fda3b95a4ea91299a34e894583c3862153e4b97` | python setup | 2026-07-30 |
-| `actions/setup-go` | (action) | `b7ad1dad31e06c5925ef5d2fc7ad053ef454303e` | go setup | 2026-07-30 |
-| `actions/create-github-app-token` | (action) | `bcd2ba49218906704ab6c1aa796996da409d3eb1` | App auth | 2026-07-30 |
-| `actions/upload-artifact` | (action) | `043fb46d1a93c77aae656e7c1c64a875d1fc6a0a` | submission artifact upload | 2026-07-30 |
-| `actions/download-artifact` | (action) | `3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c` | submission artifact download | 2026-07-30 |
+| `actions/checkout` | (action) | `3d3c42e5aac5ba805825da76410c181273ba90b1` (v7.0.1) | repo checkout | 2026-07-30 |
+| `actions/setup-python` | (action) | `5fda3b95a4ea91299a34e894583c3862153e4b97` (v7.0.0) | python setup (`lean-eval-submissions`) | 2026-07-30 |
+| `actions/setup-go` | (action) | `b7ad1dad31e06c5925ef5d2fc7ad053ef454303e` (v7.0.0) | go setup | 2026-07-30 |
+| `actions/create-github-app-token` | (action) | `bcd2ba49218906704ab6c1aa796996da409d3eb1` (v3.2.0) | App auth | 2026-07-30 |
+| `actions/upload-artifact` | (action) | `043fb46d1a93c77aae656e7c1c64a875d1fc6a0a` (v7.0.1) | submission artifact upload (`lean-eval-submissions`) | 2026-07-30 |
+| `actions/download-artifact` | (action) | `3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c` (v8.0.1) | submission artifact download (`lean-eval-submissions`) | 2026-07-30 |
 | `leanprover/lean-action` | (action) | `38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9` | Lean toolchain | 2026-05-04 |
 | Go toolchain | (setup-go arg) | `1.25.12` | concrete version, not `stable` | 2026-07-30 |
 | Python | (setup-python arg) | `3.11.10` | concrete patch version | 2026-05-04 |
