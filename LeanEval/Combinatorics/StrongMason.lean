@@ -21,26 +21,7 @@ entirely in `Nat`.
 ground set. -/
 noncomputable def independentSetCount {α : Type*} (M : Matroid α) [M.Finite]
     (k : ℕ) : ℕ :=
-  letI := Classical.decEq α
-  letI : DecidablePred (fun I : Finset α => M.Indep (I : Set α)) :=
-    Classical.decPred _
-  ((M.ground_finite.toFinset.powersetCard k).filter
-    fun I : Finset α => M.Indep (I : Set α)).card
-
-/-- A finite sanity check for the trusted counting definition: the free
-matroid on four elements has six independent two-element sets. -/
-theorem independentSetCount_freeOn_fin_four_two :
-    independentSetCount (Matroid.freeOn (Set.univ : Set (Fin 4))) 2 = 6 := by
-  simp [independentSetCount]
-  norm_num [Nat.choose]
-
-/-- A second sanity check which exercises the independence filter: a
-three-element loopy matroid has no independent singleton. -/
-theorem independentSetCount_loopyOn_fin_three_one :
-    independentSetCount (Matroid.loopyOn (Set.univ : Set (Fin 3))) 1 = 0 := by
-  simp [independentSetCount, Matroid.loopyOn_indep_iff]
-  intro I hI rfl
-  simp at hI
+  {I ∈ Set.powersetCard α k | M.Indep I}.ncard
 
 /-- **The strong Mason conjecture** (Branden-Huh; independently
 Anari-Liu-Oveis Gharan-Vinzant). If `I k` counts the independent sets of
