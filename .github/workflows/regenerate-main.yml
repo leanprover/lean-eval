@@ -30,7 +30,7 @@ jobs:
         # actions/create-github-app-token pinned to bcd2ba49 (= refs/tags/v3.2.0 as of 2026-07-30).
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1
         with:
-          app-id: ${{ secrets.LEAN_EVAL_REGENERATOR_APP_ID }}
+          client-id: ${{ secrets.LEAN_EVAL_REGENERATOR_CLIENT_ID }}
           private-key: ${{ secrets.LEAN_EVAL_REGENERATOR_PRIVATE_KEY }}
 
       # actions/checkout pinned to 3d3c42e5 (= refs/tags/v7.0.1 as of 2026-07-30).

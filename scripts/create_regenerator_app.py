@@ -34,7 +34,8 @@ MANIFEST = {
     "url": "https://github.com/leanprover/lean-eval",
     "hook_attributes": {"active": False, "url": "https://example.com/unused"},
     "redirect_url": f"http://localhost:{PORT}/callback",
-    "public": False,
+    # The user-owned app must be installable on the leanprover organization.
+    "public": True,
     "default_permissions": {"contents": "write"},
     "default_events": [],
 }
@@ -108,10 +109,18 @@ def main():
 
     server.shutdown()
 
-    if "id" not in result:
-        print("conversion did not return an app:", result, file=sys.stderr); sys.exit(1)
+    required_fields = {"id", "client_id", "pem", "slug", "html_url"}
+    missing_fields = required_fields - result.keys()
+    if missing_fields:
+        print(
+            "conversion response missing fields: "
+            + ", ".join(sorted(missing_fields)),
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
     app_id = result["id"]
+    client_id = result["client_id"]
     pem = result["pem"]
     slug = result["slug"]
     html_url = result["html_url"]
@@ -120,6 +129,7 @@ def main():
     print(f"  Name: {result.get('name')}")
     print(f"  Slug: {slug}")
     print(f"  ID:   {app_id}")
+    print(f"  Client ID: {client_id}")
     print(f"  URL:  {html_url}")
 
     # Persist PEM to disk in case secret-set fails — user can rerun manually.
@@ -134,8 +144,8 @@ def main():
     # Set the repo secrets via gh CLI.
     print(f"\nSetting repo secrets on {REPO}…", flush=True)
     subprocess.run(
-        ["gh", "secret", "set", "LEAN_EVAL_REGENERATOR_APP_ID",
-         "-R", REPO, "--body", str(app_id)],
+        ["gh", "secret", "set", "LEAN_EVAL_REGENERATOR_CLIENT_ID",
+         "-R", REPO, "--body", client_id],
         check=True,
     )
     with open(pem_path) as f:
@@ -155,7 +165,10 @@ def main():
 
     print(f"\n=> Now click this to install on the repo (1 click + select repo + confirm):")
     print(f"   {html_url}/installations/new")
-    print(f"\n=> When done, tell Claude the App ID is {app_id}.")
+    print(
+        f"\n=> When done, tell Claude the App ID is {app_id} "
+        f"and the Client ID is {client_id}."
+    )
 
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@ posture from this file alone — no UI screenshots, no tribal knowledge.
 
 | Item | Type | Stored as | Used by |
 | --- | --- | --- | --- |
-| `lean-eval-regenerator` | GitHub App (owner: `kim-em`) | `LEAN_EVAL_REGENERATOR_APP_ID`, `LEAN_EVAL_REGENERATOR_PRIVATE_KEY` | `regenerate-main.yml` |
+| `lean-eval-regenerator` | GitHub App (owner: `kim-em`) | `LEAN_EVAL_REGENERATOR_CLIENT_ID`, `LEAN_EVAL_REGENERATOR_PRIVATE_KEY` | `regenerate-main.yml` |
 | `LEADERBOARD_WRITE_TOKEN` | Fine-grained PAT | `LEADERBOARD_WRITE_TOKEN` (in both `leanprover/lean-eval` and `leanprover/lean-eval-leaderboard`) | `notify-leaderboard.yml` (this repo); `bump-benchmark-snapshot.yml` (leaderboard) |
 | Ruleset `main protection` | Repository Ruleset | (config in this repo, applied via API) | branch protection on `main` |
 
@@ -35,6 +35,7 @@ branch protection.
 ### App settings
 
 - Owner account: `kim-em` (User account).
+- App ID: `3554839` (public identifier used by the ruleset bypass actor).
 - Webhook: deactivated.
 - Repository permissions:
   - `Contents: Read and write`
@@ -45,7 +46,8 @@ branch protection.
 
 ### Repository secrets (in `leanprover/lean-eval`)
 
-- `LEAN_EVAL_REGENERATOR_APP_ID` — the App ID number.
+- `LEAN_EVAL_REGENERATOR_CLIENT_ID` — the app's Client ID. It is public,
+  but stored as a secret to keep the workflow's app inputs together.
 - `LEAN_EVAL_REGENERATOR_PRIVATE_KEY` — the full PEM contents of a private
   key generated for the app.
 
@@ -53,7 +55,8 @@ branch protection.
 
 [`.github/workflows/regenerate-main.yml`](../.github/workflows/regenerate-main.yml),
 in the `Mint lean-eval-regenerator installation token` step, via
-`actions/create-github-app-token@v1`. The token is used both for
+`actions/create-github-app-token`, pinned to
+`bcd2ba49218906704ab6c1aa796996da409d3eb1` (v3.2.0). The token is used both for
 `actions/checkout` (so subsequent `git push` carries the same auth) and
 for the explicit push step that lands the regenerated workspaces on
 `main`.
@@ -80,13 +83,14 @@ fallback steps:
    - Repository permissions → Contents: Read and write (everything else
      stays "No access")
    - Where can this GitHub App be installed: **Any account**
-3. Save → record the App ID.
+3. Save → record both the App ID (for the ruleset bypass actor) and the
+   Client ID (for token minting).
 4. Generate a private key, download the `.pem`.
 5. Install the app on `leanprover/lean-eval` only (Org owner must do this
    if the repo is in an org with restricted third-party app access).
 6. Set the secrets:
    ```bash
-   gh secret set LEAN_EVAL_REGENERATOR_APP_ID -R leanprover/lean-eval --body <APP_ID>
+   gh secret set LEAN_EVAL_REGENERATOR_CLIENT_ID -R leanprover/lean-eval --body <CLIENT_ID>
    gh secret set LEAN_EVAL_REGENERATOR_PRIVATE_KEY -R leanprover/lean-eval < path/to/key.pem
    ```
 7. Add the App ID to the `main` ruleset's bypass list (see Ruleset
