@@ -1,7 +1,7 @@
 import Mathlib
 import EvalTools.Markers
 
-namespace LeanEval.Analysis.RadchenkoViazovskaInterpolation
+namespace LeanEval.Analysis.CKMRVInterpolation
 
 /-!
 # Fourier interpolation in dimensions 8 and 24
@@ -72,4 +72,4 @@ theorem ckmrv_fourier_interpolation :
     CKMRV 8 1 ∧ CKMRV 24 2 := by
   sorry
 
-end LeanEval.Analysis.RadchenkoViazovskaInterpolation
+end LeanEval.Analysis.CKMRVInterpolation
