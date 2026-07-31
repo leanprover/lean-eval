@@ -45,7 +45,7 @@ def Integral (M : Matrix (Fin n) (Fin n) R) : Prop :=
   ∀ v : Fin n → ℤ, evalQ M (v · : _ → R) ∈ Set.range ((↑) : ℤ → R)
 
 /-- The 29 critical numbers of the 290 theorem. -/
-def critical_290_numbers : Finset ℕ :=
+def criticalNumbers : Finset ℕ :=
   {1, 2, 3, 5, 6, 7, 10, 13, 14, 15, 17, 19, 21, 22, 23, 26, 29, 30, 31,
    34, 35, 37, 42, 58, 93, 110, 145, 203, 290}
 
@@ -53,7 +53,7 @@ def critical_290_numbers : Finset ℕ :=
 theorem two_ninety_theorem {n : ℕ} (M : Matrix (Fin n) (Fin n) ℝ)
     (hpos : M.PosDef)
     (hIntegral : Integral M)
-    (hrep : ∀ m ∈ critical_290_numbers, Represents M m) :
+    (hrep : ∀ m ∈ criticalNumbers, Represents M m) :
     IsUniversal M := by
   sorry
 
