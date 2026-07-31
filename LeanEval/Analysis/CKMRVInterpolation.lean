@@ -34,7 +34,8 @@ noncomputable def coeffs (n k₀ : ℕ) [NeZero n]
     (Set.Ici k₀ × Fin 4) → ℂ :=
   Function.uncurry fun k ↦
     let r := Real.sqrt (2 * k)
-    let fhat : 𝓢(EuclideanSpace ℝ (Fin n), ℂ) := 𝓕 f
+    let fhat :=
+      FourierTransform.fourierCLM ℂ (𝓢(EuclideanSpace ℝ (Fin n), ℂ)) f
     ![f (realIncl r), fhat (realIncl r),
       deriv (f ∘ realIncl) r, deriv (fhat ∘ realIncl) r]
 
