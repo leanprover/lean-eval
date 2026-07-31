@@ -1,10 +1,8 @@
 import Mathlib.Analysis.InnerProductSpace.Laplacian
-import Mathlib.Topology.MetricSpace.Lipschitz
-import Mathlib.Analysis.Normed.Operator.NormedSpace
-import Mathlib.LinearAlgebra.Charpoly.Basic
 import Mathlib.FieldTheory.Separable
-import Mathlib.LinearAlgebra.Eigenspace.Basic
+import Mathlib.LinearAlgebra.Charpoly.Basic
 import Mathlib.Topology.EMetricSpace.BoundedVariation
+import Mathlib.Topology.MetricSpace.Lipschitz
 import EvalTools.Markers
 
 namespace LeanEval
@@ -12,13 +10,13 @@ namespace Analysis
 namespace PDE
 
 /-!
-# Stability of small viscous shock waves.
+# Total variation stability of viscous hyperbolic systems
 
 This file proves a stability estimate for solutions to the equation
 $$u_t + A(u)u_x = u_xx$$, where $$A(u)$$ is an `n` by `n` strictly hyperbolic
 matrix (i.e., it has `n` distinct real eigenvalues) which depends smoothly on $$u$$.
 
-The estimate, first proved in [1, Theorem 1.1], estimates the total variation of a solution at any time `t > 0`
+The estimate, first proved in [1, Theorem 1], estimates the total variation of a solution at any time `t > 0`
 in terms of the variation at the initial time (provided the initial variation is small).
 Since the variation is invariant under spatial rescaling, the estimate is
 uniform in the strength of the diffusion coefficient (which we take to be one for simplicity).
@@ -45,7 +43,7 @@ structure IsHyperbolicOn : Prop where
 `t > 0` and solves the PDE in the classical sense for `t > 0`. -/
 structure IsSmoothGlobalSolution (u : ℝ → ℝ → (ℝ^n)) : Prop where
   diff : ContDiffOn ℝ ∞ (uncurry u) (Set.Ioi 0 ×ˢ Set.univ)
-  cont : ContinuousOn (uncurry u) (Set.Ici 0 ×ˢ Set.univ)
+  cont : ∀ t > 0, UniformContinuousOn (uncurry u) (Set.Icc 0 t ×ˢ Set.univ)
   pde : ∀ t > 0, ∀ x, (deriv (u · x) t) + A (u t x) (deriv (u t ·) x) = iteratedDeriv 2 (u t ·) x
 
 /-- A total variation estimate holds if the total variation of any smooth solution
