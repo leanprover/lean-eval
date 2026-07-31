@@ -7,6 +7,8 @@ namespace LeanEval.AlgebraicGeometry.WeilConjectures
 # Weil conjectures in terms of point counts
 
 References:
+* P. Deligne. La conjecture de Weil : I. https://www.numdam.org/item/PMIHES_1974__43__273_0.pdf
+* P. Deligne. La Conjecture de Weil : II. https://www.numdam.org/item/PMIHES_1980__52__137_0.pdf
 * J.S. Milne. Lectures on Étale Cohomology. https://www.jmilne.org/math/CourseNotes/LEC.pdf
 * E. Freitag, R. Kiehl. Étale cohomology and the Weil conjecture. 
 * N. Katz. L-functions and monodromy: four lectures on Weil II.
