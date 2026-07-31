@@ -16,7 +16,7 @@ as soon as it represents the 29 critical numbers
 `1, 2, 3, 5, 6, 7, 10, 13, 14, 15, 17, 19, 21, 22, 23, 26, 29, 30, 31, 34, 35,
 37, 42, 58, 93, 110, 145, 203, 290`.
 
- See <https://en.wikipedia.org/wiki/15_and_290_theorems>.
+See <https://en.wikipedia.org/wiki/15_and_290_theorems>.
 -/
 
 open Matrix

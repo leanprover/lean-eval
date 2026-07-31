@@ -13,7 +13,7 @@ namespace LeanEval.NumberTheory.FriedlanderIwaniec
 
 There are infinitely many primes of the form `a² + b⁴`.
 
- See <https://en.wikipedia.org/wiki/Friedlander%E2%80%93Iwaniec_theorem>.
+See <https://en.wikipedia.org/wiki/Friedlander%E2%80%93Iwaniec_theorem>.
 -/
 
 @[eval_problem]
