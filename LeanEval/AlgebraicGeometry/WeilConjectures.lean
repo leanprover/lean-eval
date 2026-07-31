@@ -18,7 +18,7 @@ References:
 
 open CategoryTheory AlgebraicGeometry
 
-univers u in
+universe u in
 /-- The structure morphism from a projective space `ℙⁿ_R` to `Spec R`. -/
 noncomputable def Proj.strHom {R A : Type u} [CommRing R] [CommRing A] [Algebra R A]
     (𝒜 : ℕ → Submodule R A) [GradedAlgebra 𝒜] : Proj 𝒜 ⟶ Spec (.of R) :=
