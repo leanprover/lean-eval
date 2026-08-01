@@ -39,7 +39,7 @@ defined over a number field whose reduction modulo `p` is `X`.
 The Riemann hypothesis was first proved by Deligne while the rest were already established
 by Grothendieck (with Artin, Verdier and earlier work of Dwork) using the theory of ℓ-adic
 cohomology. -/
-theorem weil_conjectures (n d p : ℕ) [Fact p.Prime] (X : Scheme)
+@[eval_probelem] theorem weil_conjectures (n d p : ℕ) [Fact p.Prime] (X : Scheme)
     (emb : X ⟶ Proj (MvPolynomial.homogeneousSubmodule (Fin n) (ZMod p)))
     [IsClosedImmersion emb] [Smooth (emb ≫ Proj.strHom _)]
     (irred : geometrically (IrreducibleSpace ·) (emb ≫ Proj.strHom _))
