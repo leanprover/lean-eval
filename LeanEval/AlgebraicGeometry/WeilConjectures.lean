@@ -20,13 +20,13 @@ namespace LeanEval.AlgebraicGeometry.WeilConjectures
 
 universe u in
 /-- The **Weil conjectures** in terms of point counts: if `X` is a smooth complete
-algebraic variety (geometrically irreducible) over a finite field `F` (assumed to be
-a prime field here for simplicity) of dimension `d`, then there exists multisets `Aᵢ`
-of Frobenius eigenvalues (which are algebraic integers) such that for the finite
-extension `E / F` of degree `m`, we have `#X(E) = ∑_{0 ≤ i ≤ 2d} (-1)ⁱ ∑_{α ∈ Aᵢ} αᵐ`
-(rationality of the L-function). Moreover, the multisets satisfy `A₀ = {1}`, the
-Poincaré duality `A_{2d-i} = #Fᵈ / Aᵢ`, the "Riemann hypothesis" `|α| = #F^{i/2}`
-for all `α ∈ Aᵢ`, and are invariant under all automorphisms of ℂ.
+algebraic variety (geometrically irreducible) over a finite field `F` of dimension `d`,
+then there exists multisets `Aᵢ` of Frobenius eigenvalues (which are algebraic integers)
+such that for the finite extension `E / F` of degree `m`, we have
+`#X(E) = ∑_{0 ≤ i ≤ 2d} (-1)ⁱ ∑_{α ∈ Aᵢ} αᵐ` (rationality of the zeta series).
+Moreover, the multisets satisfy `A₀ = {1}`, the Poincaré duality (functional equation)
+`A_{2d-i} = #Fᵈ / Aᵢ`, the "Riemann hypothesis" `|α| = #F^{i/2}` for all `α ∈ Aᵢ`,
+and are invariant under all automorphisms of ℂ.
 
 This statement does not include the identities between sizes of the multisets and
 the Betti numbers of a complex variety defined over a number field whose reduction
