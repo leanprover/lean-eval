@@ -16,43 +16,37 @@ References:
 
 open CategoryTheory AlgebraicGeometry
 
-universe u in
-/-- The structure morphism from a projective space `ℙⁿ_R` to `Spec R`. -/
-noncomputable def AlgebraicGeometry.Proj.strHom {R A : Type u} [CommRing R] [CommRing A]
-    [Algebra R A] (𝒜 : ℕ → Submodule R A) [GradedAlgebra 𝒜] : Proj 𝒜 ⟶ Spec (.of R) :=
-  Proj.toSpecZero 𝒜 ≫ Spec.map (CommRingCat.ofHom (algebraMap ..))
-
 namespace LeanEval.AlgebraicGeometry.WeilConjectures
 
-attribute [local instance] MvPolynomial.gradedAlgebra
-
-/-- The **Weil conjectures** in terms of point counts: if `X` is a smooth projective
-algebraic variety (geometrically irreducible) over a finite field 𝔽ₚ (assumed to be
+universe u in
+/-- The **Weil conjectures** in terms of point counts: if `X` is a smooth complete
+algebraic variety (geometrically irreducible) over a finite field `F` (assumed to be
 a prime field here for simplicity) of dimension `d`, then there exists multisets `Aᵢ`
 of Frobenius eigenvalues (which are algebraic integers) such that for the finite
-extension `F / 𝔽ₚ` of degree `m`, we have `#X(F) = ∑_{0 ≤ i ≤ 2d} (-1)ⁱ ∑_{α ∈ Aᵢ} αᵐ`.
-The multisets satisfy `A₀ = {1}`, the Poincaré duality `A_{2d-i} = pᵈ / Aᵢ`, the
-"Riemann hypothesis" `|α| = p^{i/2}` for all `α ∈ Aᵢ`, and are invariant under all
-automorphisms of ℂ. This statement does not include the identity between sizes of
-the multisets and the Betti numbers of a complex variety defined over a number field
-whose reduction modulo `p` is `X`.
+extension `E / F` of degree `m`, we have `#X(E) = ∑_{0 ≤ i ≤ 2d} (-1)ⁱ ∑_{α ∈ Aᵢ} αᵐ`
+(rationality of the L-function). Moreover, the multisets satisfy `A₀ = {1}`, the
+Poincaré duality `A_{2d-i} = #Fᵈ / Aᵢ`, the "Riemann hypothesis" `|α| = #F^{i/2}`
+for all `α ∈ Aᵢ`, and are invariant under all automorphisms of ℂ.
+
+This statement does not include the identities between sizes of the multisets and
+the Betti numbers of a complex variety defined over a number field whose reduction
+modulo a prime ideal is `X`.
 
 The Riemann hypothesis was first proved by Deligne while the rest were already established
 by Grothendieck (with Artin, Verdier and earlier work of Dwork) using the theory of ℓ-adic
 cohomology. -/
-@[eval_problem] theorem weil_conjectures (n d p : ℕ) [Fact p.Prime] (X : Scheme)
-    (emb : X ⟶ Proj (MvPolynomial.homogeneousSubmodule (Fin n) (ZMod p)))
-    [IsClosedImmersion emb] [Smooth (emb ≫ Proj.strHom _)]
-    (irred : geometrically (IrreducibleSpace ·) (emb ≫ Proj.strHom _))
-    (dim : topologicalKrullDim X = d) :
+@[eval_problem] theorem weil_conjectures (F : Type u) [Finite F] [Field F]
+    (X : Scheme.{u}) (str : X ⟶ Spec (.of F)) [Smooth str] [IsProper str]
+    (irred : geometrically (IrreducibleSpace ·) str)
+    (d : ℕ) (dim : topologicalKrullDim X = d) :
     ∃ A : ℕ → Multiset ℂ, A 0 = {1} ∧
-      (∀ i ≤ 2 * d, A (2 * d - i) = (A i).map (p ^ d / · : ℂ → ℂ) ∧
+      (∀ i ≤ 2 * d, A (2 * d - i) = (A i).map (Nat.card F ^ d / · : ℂ → ℂ) ∧
         (∀ φ : ℂ ≃+* ℂ, (A i).map φ = A i) ∧
-        ∀ α ∈ A i, IsIntegral ℤ α ∧ ‖α‖ = √(p ^ i)) ∧
-      ∀ (F : Type) [Field F] [Algebra (ZMod p) F] [FiniteDimensional (ZMod p) F],
-        Nat.card (Spec (.of F) ⟶ X) =
-        ∑ i ∈ Finset.Iic (2 * d), (-1) ^ i * ((A i).map (· ^ Module.finrank (ZMod p) F)).sum := by
- sorry
+        ∀ α ∈ A i, IsIntegral ℤ α ∧ ‖α‖ = √(Nat.card F ^ i)) ∧
+      ∀ (E : Type u) [Field E] [Algebra F E] [FiniteDimensional F E],
+        Nat.card {φ : Spec (.of E) ⟶ X //
+          φ ≫ str = Spec.map (CommRingCat.ofHom <| algebraMap F E)} =
+        ∑ i ∈ Finset.Iic (2 * d), (-1) ^ i * ((A i).map (· ^ Module.finrank F E)).sum := by
+  sorry
 
 end LeanEval.AlgebraicGeometry.WeilConjectures
-
