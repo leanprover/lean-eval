@@ -1,8 +1,6 @@
 import Mathlib
 import EvalTools.Markers
 
-namespace LeanEval.AlgebraicGeometry.WeilConjectures
-
 /-!
 # Weil conjectures in terms of point counts
 
@@ -10,9 +8,9 @@ References:
 * P. Deligne. La conjecture de Weil : I. https://www.numdam.org/item/PMIHES_1974__43__273_0.pdf
 * P. Deligne. La Conjecture de Weil : II. https://www.numdam.org/item/PMIHES_1980__52__137_0.pdf
 * J.S. Milne. Lectures on Étale Cohomology. https://www.jmilne.org/math/CourseNotes/LEC.pdf
-* E. Freitag, R. Kiehl. Étale cohomology and the Weil conjecture. 
+* E. Freitag, R. Kiehl. Étale cohomology and the Weil conjecture.
 * N. Katz. L-functions and monodromy: four lectures on Weil II.
-  https://doi.org/10.1006/aima.2000.1979 or https://web.math.princeton.edu/~nmk/arizona34.pdf
+ https://doi.org/10.1006/aima.2000.1979 or https://web.math.princeton.edu/~nmk/arizona34.pdf
 * K. Kedlaya. Fourier transforms and p-adic "Weil II". https://arxiv.org/abs/math/0210149
 -/
 
@@ -20,9 +18,11 @@ open CategoryTheory AlgebraicGeometry
 
 universe u in
 /-- The structure morphism from a projective space `ℙⁿ_R` to `Spec R`. -/
-noncomputable def Proj.strHom {R A : Type u} [CommRing R] [CommRing A] [Algebra R A]
-    (𝒜 : ℕ → Submodule R A) [GradedAlgebra 𝒜] : Proj 𝒜 ⟶ Spec (.of R) :=
-  Proj.toSpecZero 𝒜 ≫ Spec.map (CommRingCat.ofHom (algebraMap ..))
+noncomputable def AlgebraicGeometry.Proj.strHom {R A : Type u} [CommRing R] [CommRing A]
+   [Algebra R A] (𝒜 : ℕ → Submodule R A) [GradedAlgebra 𝒜] : Proj 𝒜 ⟶ Spec (.of R) :=
+ Proj.toSpecZero 𝒜 ≫ Spec.map (CommRingCat.ofHom (algebraMap ..))
+
+namespace LeanEval.AlgebraicGeometry.WeilConjectures
 
 attribute [local instance] MvPolynomial.gradedAlgebra
 
@@ -40,16 +40,16 @@ The Riemann hypothesis was first proved by Deligne while the rest were already e
 by Grothendieck (with Artin, Verdier and earlier work of Dwork) using the theory of ℓ-adic
 cohomology. -/
 @[eval_probelem] theorem weil_conjectures (n d p : ℕ) [Fact p.Prime] (X : Scheme)
-    (emb : X ⟶ Proj (MvPolynomial.homogeneousSubmodule (Fin n) (ZMod p)))
-    [IsClosedImmersion emb] [Smooth (emb ≫ Proj.strHom _)]
-    (irred : geometrically (IrreducibleSpace ·) (emb ≫ Proj.strHom _))
-    (dim : topologicalKrullDim X = d) :
-    ∃ A : ℕ → Multiset ℂ, A 0 = {1} ∧
-      (∀ i ≤ 2 * d, A (2 * d - i) = (A i).map (p ^ d / · : ℂ → ℂ)) ∧ 
-      (∀ i ≤ 2 * d, ∀ α ∈ A i, IsAlgebraic ℚ α ∧ ‖α‖ = √(p ^ i)) ∧
-      ∀ (F : Type) [Field F] [Algebra (ZMod p) F] [FiniteDimensional (ZMod p) F],
-        Nat.card (Spec (.of F) ⟶ X) =
-        ∑ i ∈ Finset.Iic (2 * d), (-1) ^ i * ((A i).map (· ^ Module.finrank (ZMod p) F)).sum := by
-  sorry
+   (emb : X ⟶ Proj (MvPolynomial.homogeneousSubmodule (Fin n) (ZMod p)))
+   [IsClosedImmersion emb] [Smooth (emb ≫ Proj.strHom _)]
+   (irred : geometrically (IrreducibleSpace ·) (emb ≫ Proj.strHom _))
+   (dim : topologicalKrullDim X = d) :
+   ∃ A : ℕ → Multiset ℂ, A 0 = {1} ∧
+     (∀ i ≤ 2 * d, A (2 * d - i) = (A i).map (p ^ d / · : ℂ → ℂ)) ∧
+     (∀ i ≤ 2 * d, ∀ α ∈ A i, IsAlgebraic ℚ α ∧ ‖α‖ = √(p ^ i)) ∧
+     ∀ (F : Type) [Field F] [Algebra (ZMod p) F] [FiniteDimensional (ZMod p) F],
+       Nat.card (Spec (.of F) ⟶ X) =
+       ∑ i ∈ Finset.Iic (2 * d), (-1) ^ i * ((A i).map (· ^ Module.finrank (ZMod p) F)).sum := by
+ sorry
 
 end LeanEval.AlgebraicGeometry.WeilConjectures
