@@ -18,7 +18,6 @@ open CategoryTheory AlgebraicGeometry
 
 namespace LeanEval.AlgebraicGeometry.WeilConjectures
 
-universe u in
 /-- The **Weil conjectures** in terms of point counts: if `X` is a smooth complete
 algebraic variety (geometrically irreducible) over a finite field `F` of dimension `d`,
 then there exists multisets `Aᵢ` of Frobenius eigenvalues (which are algebraic integers)
@@ -35,17 +34,15 @@ modulo a prime ideal is `X`.
 The Riemann hypothesis was first proved by Deligne while the rest were already established
 by Grothendieck (with Artin, Verdier and earlier work of Dwork) using the theory of ℓ-adic
 cohomology. -/
-@[eval_problem] theorem weil_conjectures (F : Type u) [Finite F] [Field F]
-    (X : Scheme.{u}) (str : X ⟶ Spec (.of F)) [Smooth str] [IsProper str]
-    (irred : geometrically (IrreducibleSpace ·) str)
-    (d : ℕ) (dim : topologicalKrullDim X = d) :
+@[eval_problem] theorem weil_conjectures (F : Type*) [Finite F] [Field F]
+    (X : Over (Spec (.of F))) [GeometricallyIrreducible X.hom] [IsProper X.hom]
+    (d : ℕ) [SmoothOfRelativeDimension d X.hom] :
     ∃ A : ℕ → Multiset ℂ, A 0 = {1} ∧
       (∀ i ≤ 2 * d, A (2 * d - i) = (A i).map (Nat.card F ^ d / · : ℂ → ℂ) ∧
         (∀ φ : ℂ ≃+* ℂ, (A i).map φ = A i) ∧
         ∀ α ∈ A i, IsIntegral ℤ α ∧ ‖α‖ = √(Nat.card F ^ i)) ∧
-      ∀ (E : Type u) [Field E] [Algebra F E] [FiniteDimensional F E],
-        Nat.card {φ : Spec (.of E) ⟶ X //
-          φ ≫ str = Spec.map (CommRingCat.ofHom <| algebraMap F E)} =
+      ∀ (E : Type _) [Field E] [Algebra F E] [FiniteDimensional F E],
+        Nat.card (.mk (Spec.map <| CommRingCat.ofHom <| algebraMap F E) ⟶ X) =
         ∑ i ∈ Finset.Iic (2 * d), (-1) ^ i * ((A i).map (· ^ Module.finrank F E)).sum := by
   sorry
 
