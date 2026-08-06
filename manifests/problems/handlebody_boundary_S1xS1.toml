@@ -1,0 +1,6 @@
+id = "handlebody_boundary_S1xS1"
+title = "Boundary of a 3-dimensional handlebody with genus 1"
+test = false
+module = "LeanEval.Topology.Handlebody3"
+holes = ["frontierHandlebody₃HomeomorphAddCircleProd"]
+submitter = "Junyan Xu"
