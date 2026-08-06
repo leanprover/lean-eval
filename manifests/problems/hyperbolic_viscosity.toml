@@ -1,0 +1,8 @@
+id = "hyperbolic_viscosity"
+title = "Total variation estimate for hyperbolic systems"
+test = false
+module = "LeanEval.Analysis.PDE.HyperbolicViscosity"
+holes = ["hyperbolic_viscosity"]
+submitter = "Joris van Winden"
+source = "Bianchini and Bressan, Vanishing viscosity solutions of nonlinear hyperbolic systems. Annals of Mathematics 161 (2005)."
+informal_solution = "Bianchini and Bressan, Vanishing viscosity solutions of nonlinear hyperbolic systems. Annals of Mathematics 161 (2005)."
