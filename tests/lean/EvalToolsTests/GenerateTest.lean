@@ -24,6 +24,66 @@ def main : IO UInt32 := do
   let passes ← IO.mkRef 0
   let fails ← IO.mkRef 0
 
+  check "extractStatementText accepts a direct sorry body" passes fails do
+    let declaration :=
+      "theorem target (n : Nat) :\n" ++
+      "    ∃ m, n ≤ m :=\n" ++
+      "  sorry"
+    let actual ← extractStatementText "direct-sorry" "Demo.lean" declaration "target"
+    pure <| assertEq "statement" actual "(n : Nat) :\n    ∃ m, n ≤ m"
+
+  check "extractStatementText accepts trivia before by" passes fails do
+    let declaration :=
+      "theorem target : True := /- proof starts here -/\n" ++
+      "  by\n" ++
+      "    sorry"
+    let actual ← extractStatementText "trivia-before-by" "Demo.lean" declaration "target"
+    pure <| assertEq "statement" actual ": True"
+
+  check "extractStatementText ignores body-like text in the statement" passes fails do
+    let declaration :=
+      "theorem target :\n" ++
+      "    let marker := \"fake := by and := sorry\"\n" ++
+      "    marker.length = 24 :=\n" ++
+      "  sorry"
+    let actual ← extractStatementText "body-like-text" "Demo.lean" declaration "target"
+    pure <| assertEq "statement" actual
+      ":\n    let marker := \"fake := by and := sorry\"\n    marker.length = 24"
+
+  check "extractStatementText ignores nested proof assignments" passes fails do
+    let declaration :=
+      "theorem target (h : True := by trivial) : True := by\n" ++
+      "  have nested : True := sorry"
+    let actual ← extractStatementText "nested-assignment" "Demo.lean" declaration "target"
+    pure <| assertEq "statement" actual "(h : True := by trivial) : True"
+
+  check "extractStatementText handles quote characters" passes fails do
+    let declaration :=
+      "theorem target : ('\"' : Char) = '\"' := by sorry"
+    let actual ← extractStatementText "char-literal" "Demo.lean" declaration "target"
+    pure <| assertEq "statement" actual ": ('\"' : Char) = '\"'"
+
+  check "extractContextSyntaxDeclarations respects scope" passes fails do
+    let source :=
+      "section\n" ++
+      "local notation \"closed\" => Nat\n" ++
+      "end\n" ++
+      "namespace Demo\n" ++
+      "local notation:arg \"ℝ^\" n:arg => EuclideanSpace ℝ (Fin n)\n" ++
+      "theorem target : True := by sorry\n" ++
+      "end Demo\n"
+    let extracted : ExtractedTheorem := {
+      declarationName := "Demo.target"
+      module := "Demo"
+      startLine := 6, startColumn := 0
+      endLine := 6, endColumn := 32
+      sameModuleDependencies := #[]
+      kind := "theorem"
+    }
+    let context := extractContextSyntaxDeclarations source (some extracted)
+    pure <| assertEq "active notation kept" ((context.find? "local notation:arg").isSome) true
+      |>.or (assertEq "closed notation dropped" ((context.find? "closed").isSome) false)
+
   -- Regression for https://github.com/leanprover/lean-eval/pull/467:
   -- Mathlib-style copyright headers precede imports. The generator must drop
   -- both the header and imports before copying trusted helpers into
