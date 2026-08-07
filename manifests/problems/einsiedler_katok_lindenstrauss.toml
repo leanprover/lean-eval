@@ -1,0 +1,6 @@
+id = "einsiedler_katok_lindenstrauss"
+title = "Smallness of exceptional set to Littlewood's conjecture"
+test = false
+module = "LeanEval.Dynamics.EinsiedlerKatokLindenstrauss"
+holes = ["einsiedler_katok_lindenstrauss"]
+submitter = "Junyan Xu"
