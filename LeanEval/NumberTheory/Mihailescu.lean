@@ -17,7 +17,7 @@ consecutive nontrivial perfect powers are `2 ^ 3 = 8` and `3 ^ 2 = 9`. -/
 @[eval_problem]
 theorem mihailescu
     {x y m n : ℕ}
-    (hx : 1 < x) (hy : 1 < y) (hm : 1 < m) (hn : 1 < n)
+    (hx : 0 < x) (hy : 0 < y) (hm : 1 < m) (hn : 1 < n)
     (h : x ^ m = y ^ n + 1) :
     x = 3 ∧ y = 2 ∧ m = 2 ∧ n = 3 := by
   sorry
