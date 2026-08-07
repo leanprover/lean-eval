@@ -7,7 +7,7 @@ namespace LeanEval.Topology.HopfInvariantOne
 # Hopf invariant one: the spheres that are H-spaces
 
 Adams' Hopf-invariant-one theorem, in its H-space formulation: the sphere
-`S^n` admits an H-space structure if and only if `n` is `0`, `1`, `3`, or `7`.
+`𝕊ⁿ` admits an H-space structure if and only if `n` is `0`, `1`, `3`, or `7`.
 
 We use Mathlib's `HSpace`: a continuous multiplication with a basepoint `e`
 satisfying `μ (e, e) = e` strictly and two-sided units up to based homotopy.
@@ -16,7 +16,7 @@ the reals, complexes, quaternions, and octonions; the forward direction is
 Adams' theorem.
 -/
 
-/-- **Adams' Hopf-invariant-one theorem** (H-space form). The sphere `S^n`
+/-- **Adams' Hopf-invariant-one theorem** (H-space form). The sphere `𝕊ⁿ`
 admits an H-space structure if and only if `n = 0`, `1`, `3`, or `7`. -/
 @[eval_problem]
 theorem hSpace_sphere_iff (n : ℕ) :
