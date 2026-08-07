@@ -1,0 +1,6 @@
+id = "rootSystem_classification"
+title = "Classification of root systems"
+test = false
+module = "LeanEval.Combinatorics.RootSystemClassification"
+holes = ["rootSystem_classification"]
+submitter = "Oliver Nash"
