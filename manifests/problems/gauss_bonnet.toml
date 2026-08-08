@@ -1,0 +1,6 @@
+id = "gauss_bonnet"
+title = "The Gauss-Bonnet theorem"
+test = false
+module = "LeanEval.Geometry.GaussBonnet"
+holes = ["gauss_bonnet"]
+submitter = "Oliver Nash"
