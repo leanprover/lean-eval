@@ -1,0 +1,6 @@
+id = "faltings"
+title = "Faltings' theorem (Mordell conjecture)"
+test = false
+module = "LeanEval.AlgebraicGeometry.Faltings"
+holes = ["finite_setOf_place_notMem", "faltings"]
+submitter = "Junyan Xu"
