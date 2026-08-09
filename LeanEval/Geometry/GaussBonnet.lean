@@ -23,7 +23,7 @@ open Bundle Filter MeasureTheory Metric in
 /-- Note that since we don't assume oriented, the Euler characteristic need not be even.
 
 Note also that Mathlib's Hausdorff measure is "unnormalised". To make the statement appear
-with familiar constants, we state the theorem using a measure `μ` which is `4 / π` times
+with familiar constants, we state the theorem using a measure `μ` which is `π / 4` times
 the Hausdorff area measure.
 
 Note finally that we do not include assumptions `IsContinuousRiemannianBundle` or
