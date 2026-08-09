@@ -12,26 +12,30 @@ root. Its module prefix is the directory name. -/
 def problemSourceRelativePath : System.FilePath := "LeanEval"
 
 /-- A `.lean` file under `LeanEval/`, together with the modules its header
-imports. -/
+imports.
+
+Module identity is a `Name`, not a string: `LeanEval/Foo/Bar.lean` is
+`LeanEval.Foo.Bar` while `LeanEval/Foo.Bar.lean` is `LeanEval.«Foo.Bar»`, and
+flattening either to text would conflate two distinct files. -/
 structure ProblemSourceModule where
   /-- Fully qualified module name, for example
   `LeanEval.Geometry.JacobianChallenge`. -/
-  name : String
+  name : Name
   /-- Path of the file, relative to the repository root. -/
   path : String
-  /-- Module names in the file's `import` header, verbatim. -/
-  imports : Array String
+  /-- The modules named in the file's `import` header. -/
+  imports : Array Name
   deriving Inhabited, Repr
 
 private def sourcesByName (sources : Array ProblemSourceModule) :
-    Std.HashMap String ProblemSourceModule :=
+    Std.HashMap Name ProblemSourceModule :=
   sources.foldl (fun m source => m.insert source.name source) ∅
 
 /-- Mark `name` and everything it transitively imports as reached. Imports that
 name no module in `byName` (Mathlib, `EvalTools.Markers`, ...) are recorded but
 not followed. -/
-private partial def markReachable (byName : Std.HashMap String ProblemSourceModule)
-    (reached : Std.HashSet String) (name : String) : Std.HashSet String :=
+private partial def markReachable (byName : Std.HashMap Name ProblemSourceModule)
+    (reached : Std.HashSet Name) (name : Name) : Std.HashSet Name :=
   if reached.contains name then
     reached
   else
@@ -42,8 +46,8 @@ private partial def markReachable (byName : Std.HashMap String ProblemSourceModu
 
 /-- The modules of `sources` that are neither listed in `roots` nor reachable
 from `roots` by following imports. Order follows `sources`. -/
-def unreachableModules (sources : Array ProblemSourceModule) (roots : Array String) :
-    Array String :=
+def unreachableModules (sources : Array ProblemSourceModule) (roots : Array Name) :
+    Array Name :=
   let byName := sourcesByName sources
   let reached := roots.foldl (markReachable byName) ∅
   sources.filterMap fun source =>
@@ -51,21 +55,30 @@ def unreachableModules (sources : Array ProblemSourceModule) (roots : Array Stri
 
 /-- Recursively collect the `.lean` files under `dir`, reading each header for
 its imports. `relDir` and `modulePrefix` describe `dir` itself. -/
-private partial def collectSourceModules (dir : System.FilePath) (relDir modulePrefix : String) :
-    IO (Array ProblemSourceModule) := do
+private partial def collectSourceModules (dir : System.FilePath) (relDir : String)
+    (modulePrefix : Name) : IO (Array ProblemSourceModule) := do
   let entries := (← dir.readDir).qsort fun a b => a.fileName < b.fileName
   let mut out : Array ProblemSourceModule := #[]
   for entry in entries do
-    if ← entry.path.isDir then
-      out := out ++ (← collectSourceModules entry.path
-        s!"{relDir}/{entry.fileName}" s!"{modulePrefix}.{entry.fileName}")
-    else if entry.path.extension == some "lean" then
-      let stem := (entry.fileName.dropEnd 5).toString
-      let header ← parseImports' (← IO.FS.readFile entry.path) entry.path.toString
-      out := out.push
-        { name := s!"{modulePrefix}.{stem}"
-          path := s!"{relDir}/{entry.fileName}"
-          imports := header.imports.map (·.module.toString) }
+    let relPath := s!"{relDir}/{entry.fileName}"
+    -- `symlinkMetadata` rather than `isDir`: the latter follows links, so a
+    -- directory symlink could duplicate a subtree under a second module prefix,
+    -- or point at an ancestor and recurse forever.
+    match (← entry.path.symlinkMetadata).type with
+    | .symlink =>
+        throw <| IO.userError
+          s!"`{relPath}` is a symbolic link. Problem sources must be regular files and \
+             directories, so that a file's path determines its module name."
+    | .dir =>
+        out := out ++ (← collectSourceModules entry.path relPath (modulePrefix.str entry.fileName))
+    | _ =>
+        if entry.path.extension == some "lean" then
+          let stem := (entry.fileName.dropEnd 5).toString
+          let header ← parseImports' (← IO.FS.readFile entry.path) entry.path.toString
+          out := out.push
+            { name := modulePrefix.str stem
+              path := relPath
+              imports := header.imports.map (·.module) }
   return out
 
 /-- Fail unless every `.lean` file under `LeanEval/` is reachable from the
@@ -85,17 +98,17 @@ def checkProblemModuleCoverage
     throw <| IO.userError
       s!"Problem source directory `{sourceRoot}` does not exist or is not a directory."
   let prefixName := problemSourceRelativePath.toString
-  let sources ← collectSourceModules sourceRoot prefixName prefixName
-  let known := sources.foldl (fun s source => s.insert source.name) (∅ : Std.HashSet String)
+  let sources ← collectSourceModules sourceRoot prefixName (.str .anonymous prefixName)
+  let known := sources.foldl (fun s source => s.insert source.name) (∅ : Std.HashSet Name)
   let missing := entries.filterMap fun entry =>
-    if known.contains entry.moduleName then none
+    if known.contains (parseModuleName entry.moduleName) then none
     else some s!"  {entry.moduleName} (manifests/problems/{entry.id}.toml)"
   if !missing.isEmpty then
     throw <| IO.userError <|
       "Manifest entries name modules that have no source file under `LeanEval/`:\n"
         ++ "\n".intercalate missing.toList
         ++ "\nCheck the `module` field for a typo, or add the missing file."
-  let unreachable := unreachableModules sources (entries.map (·.moduleName))
+  let unreachable := unreachableModules sources (entries.map (parseModuleName ·.moduleName))
   if !unreachable.isEmpty then
     let byName := sourcesByName sources
     let described := unreachable.map fun name =>
@@ -108,6 +121,7 @@ def checkProblemModuleCoverage
         ++ "\nEvery file under `LeanEval/` must be named by the `module` field of some \
             `manifests/problems/<id>.toml`, or be imported (directly or transitively) by a \
             module that is. If you did write a manifest for one of these, check that it sits \
-            in `manifests/problems/` and that its name ends in `.toml`."
+            in `manifests/problems/` and that its name ends in `.toml`; if the file is a \
+            leftover, delete it."
 
 end EvalTools

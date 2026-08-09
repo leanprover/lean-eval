@@ -44,8 +44,11 @@ def loadManifest (root : System.FilePath) : IO (Array EvalProblemMetadata) := do
   for entry in (← manifestDir.readDir) do
     -- Reject rather than skip: a manifest saved as `<id>.lean` used to drop out
     -- of the catalog silently, taking its problem module with it (issue #519).
-    -- Dotfiles are the one exception, so a stray `.DS_Store` cannot wedge CI.
-    if entry.fileName.startsWith "." then
+    -- The exemption is `.DS_Store` alone, not dotfiles in general: the
+    -- `@[eval_problem]` elaborator reads every `*.toml` here (`Markers.lean`),
+    -- so skipping a hidden `.foo.toml` would let it claim a tagged declaration
+    -- that never reaches the catalog.
+    if entry.fileName == ".DS_Store" then
       continue
     if ← entry.path.isDir then
       throw <| IO.userError
