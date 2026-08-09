@@ -42,8 +42,18 @@ def loadManifest (root : System.FilePath) : IO (Array EvalProblemMetadata) := do
       s!"Manifest directory `{manifestDir}` does not exist or is not a directory."
   let mut rawFiles : Array System.FilePath := #[]
   for entry in (← manifestDir.readDir) do
-    if entry.path.extension == some "toml" then
-      rawFiles := rawFiles.push entry.path
+    -- Reject rather than skip: a manifest saved as `<id>.lean` used to drop out
+    -- of the catalog silently, taking its problem module with it (issue #519).
+    -- Dotfiles are the one exception, so a stray `.DS_Store` cannot wedge CI.
+    if entry.fileName.startsWith "." then
+      continue
+    if ← entry.path.isDir then
+      throw <| IO.userError
+        s!"`{entry.path}` is a directory; `manifests/problems/` holds one `<id>.toml` file per problem."
+    unless entry.path.extension == some "toml" do
+      throw <| IO.userError
+        s!"`{entry.path}` is not a `.toml` file; `manifests/problems/` holds one `<id>.toml` file per problem."
+    rawFiles := rawFiles.push entry.path
   let files := rawFiles.qsort fun a b =>
     (a.fileName.getD "") < (b.fileName.getD "")
   let mut entries : Array EvalProblemMetadata := #[]
