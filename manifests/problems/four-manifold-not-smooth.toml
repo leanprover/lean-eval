@@ -1,0 +1,6 @@
+id = "four_manifold_not_smooth"
+title = "Freedman's non-smoothability theorem"
+test = false
+module = "LeanEval.Geometry.FourManifoldNotSmooth"
+holes = ["four_manifold_not_smooth"]
+submitter = "Oliver Nash"
