@@ -26,10 +26,7 @@ of Bourbaki, Carter, Fulton & Harris, Humphreys, Steinberg.
 namespace LeanEval.Combinatorics
 
 /-- Every reduced, crystallographic, irreducible, finite root system belongs to one of
-the four classical families or one of the five exceptional cases.
-
-Note that we omit the assumption `[Nonempty ι]` since if `ι` is empty, one can use the
-empty matrix `CartanMatrix.A 0`. -/
+the four classical families or one of the five exceptional cases. -/
 @[eval_problem]
 theorem rootSystem_classification
     (ι : Type*) [Finite ι]
