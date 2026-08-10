@@ -34,7 +34,7 @@ The condition "not a root of unity" is expressed as `¬ IsOfFinOrder α`,
 Mathlib's standard predicate for an element having no positive power equal to 1.
 -/
 
-theorem dimitrov {K : Type*} [Field K] [NumberField K]
+@[eval_problem] theorem dimitrov {K : Type*} [Field K] [NumberField K]
     (α : K)
     (α_int : IsIntegral ℤ α)
     (α_ne_zero : α ≠ 0)
