@@ -60,7 +60,7 @@ structure HasTVEstimateWith (δ C : EReal) : Prop where
 /-- Total variation estimate for hyperbolic systems -/
 @[eval_problem]
 theorem hyperbolic_viscosity (hn : 1 ≤ n) (hK : IsCompact K) (h : IsHyperbolicOn n A K) :
-    ∃ δ > 0, ∃ C < ⊤, HasTVEstimateWith n A K δ C :=
+    ∃ δ > 0, ∃ C < ⊤, HasTVEstimateWith n A K δ C := by
   sorry
 
 end PDE
