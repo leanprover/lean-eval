@@ -24,7 +24,7 @@ namespace LeanEval.Geometry
 
 open scoped Manifold ContDiff
 
-local notation "𝔼⁴" => EuclideanSpace ℝ (Fin 4)
+local notation "𝔼" => EuclideanSpace ℝ (Fin 4)
 
 /-- Freedman's theorem: there exists a closed, simply-connected, topological four-manifold which
 cannot be smoothed.
@@ -32,8 +32,8 @@ cannot be smoothed.
 Note the fact that `M` is boundaryless follows from `ModelWithCorners.instBoundarylessManifold`. -/
 theorem four_manifold_not_smooth :
     ∃ (M : Type*) (_ : TopologicalSpace M) (_: CompactSpace M) (_ : SimplyConnectedSpace M)
-      (_ : Nonempty (ChartedSpace 𝔼⁴ M)),
-      ∀ (_ : ChartedSpace 𝔼⁴ M), ¬ IsManifold (𝓡 4) ∞ M := by
+      (_ : Nonempty (ChartedSpace 𝔼 M)),
+      ∀ (_ : ChartedSpace 𝔼 M), ¬ IsManifold (𝓡 4) ∞ M := by
   sorry
 
 end LeanEval.Geometry
