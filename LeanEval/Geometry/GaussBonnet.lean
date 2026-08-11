@@ -17,7 +17,7 @@ namespace LeanEval.Geometry
 
 open scoped ContDiff Manifold MeasureTheory Real Topology
 
-local notation "𝔼²" => EuclideanSpace ℝ (Fin 2)
+local notation "𝔼" => EuclideanSpace ℝ (Fin 2)
 
 open Bundle Filter MeasureTheory Metric in
 /-- Note that since we don't assume oriented, the Euler characteristic need not be even.
@@ -32,9 +32,9 @@ Note finally that we do not include assumptions `IsContinuousRiemannianBundle` o
 theorem gauss_bonnet
     (M : Type*) [MetricSpace M] [ConnectedSpace M] [CompactSpace M]
     [MeasurableSpace M] [BorelSpace M]
-    [ChartedSpace 𝔼² M] [IsManifold (𝓡 2) ∞ M]
+    [ChartedSpace 𝔼 M] [IsManifold (𝓡 2) ∞ M]
     [RiemannianBundle (B := M) (TangentSpace (𝓡 2))]
-    [IsContMDiffRiemannianBundle (B := M) (𝓡 2) ∞ 𝔼² (TangentSpace (𝓡 2))]
+    [IsContMDiffRiemannianBundle (B := M) (𝓡 2) ∞ 𝔼 (TangentSpace (𝓡 2))]
     [IsRiemannianManifold (𝓡 2) M]
     (μ : Measure M)
     (hμ : μ = (NNReal.pi / 4) • μH[2])
