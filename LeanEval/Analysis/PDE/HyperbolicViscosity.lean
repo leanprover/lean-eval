@@ -57,6 +57,7 @@ structure HasTVEstimateWith (δ C : EReal) : Prop where
       (h_initial_lim : ∃ x ∈ K, Tendsto (u 0 ·) atBot (𝓝 x))
       t (ht : t > 0) : eVariationOn (u t ·) univ ≤ C * eVariationOn (u 0 ·) univ
 
+/-- Total variation estimate for hyperbolic systems -/
 @[eval_problem]
 theorem hyperbolic_viscosity (hn : 1 ≤ n) (hK : IsCompact K) (h : IsHyperbolicOn n A K) :
     ∃ δ > 0, ∃ C < ⊤, HasTVEstimateWith n A K δ C :=
