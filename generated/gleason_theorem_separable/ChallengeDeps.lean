@@ -27,6 +27,14 @@ This file states two versions:
 
 variable {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
 
+
+
+
+
+
+
+
+
 /-- A frame function on the unit sphere of `H` (Gleason's original 1957 definition).
 A non-negative function on unit vectors whose values sum to `1` along every Hilbert
 basis. -/

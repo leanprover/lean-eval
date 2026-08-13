@@ -1,0 +1,12 @@
+{
+  "id": "two_ninety_theorem",
+  "module": "LeanEval.NumberTheory.TwoNinetyTheorem",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.TwoNinety.two_ninety_theorem",
+      "basename": "two_ninety_theorem",
+      "kind": "theorem",
+      "body": "theorem two_ninety_theorem {n : \u2115} (M : Matrix (Fin n) (Fin n) \u211d)\n    (hpos : M.PosDef)\n    (hIntegral : Integral M)\n    (hrep : \u2200 m \u2208 criticalNumbers, Represents M m) :\n    IsUniversal M := by\n  sorry"
+    }
+  ]
+}

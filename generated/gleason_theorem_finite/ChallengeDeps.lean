@@ -49,5 +49,9 @@ noncomputable def reTr [FiniteDimensional ℂ H] (A : H →L[ℂ] H) : ℝ :=
 
 
 
+
+
+
+
 end Analysis
 end LeanEval

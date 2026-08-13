@@ -1,0 +1,8 @@
+id = "weil_conjectures"
+title = "Weil conjectures in terms of point counts"
+test = false
+module = "LeanEval.AlgebraicGeometry.WeilConjectures"
+holes = ["weil_conjectures"]
+submitter = "Junyan Xu"
+source = "P. Deligne, 'La conjecture de Weil. I', Publications Mathématiques de l'Institut des Hautes Études Scientifiques, Volume 43, pages 273–307 (1974), https://www.numdam.org/item/PMIHES_1974__43__273_0.pdf. See also references in the Lean file."
+informal_solution = "Deligne's proof of the Riemann hypothesis in Weil I was based upon combining Grothendieck's ℓ-adic cohomological theory of L-functions, the monodromy theory of Lefschetz pencils, and Deligne's own stunning transposition to the function field case of Rankin's method of 'squaring'. Deligne's proof of Weil II is generally regarded as being much deeper and more difficult than his proof of Weil I, but in the spring of 1984, Laumon found a significant simplification based upon Fourier transform ideas. Katz's lectures present a further simplification of Laumon's simplification of Deligne's proof of Weil II. A purely p-adic proof using rigid cohomology is available from the paper by Kedlaya."

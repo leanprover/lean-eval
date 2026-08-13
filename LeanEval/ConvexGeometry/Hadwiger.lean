@@ -20,9 +20,7 @@ submodule.
 
 The additivity clause is stated over four convex bodies `A B C D` with
 `↑A = ↑C ∪ ↑D`, `↑B = ↑C ∩ ↑D`; when `C ∩ D` is empty no body `B` exists
-and that case is dropped (mathlib's `ConvexBody` is nonempty). The
-`Submodule` membership-closure fields of `valuations` are left as `sorry`
-(routine: valuations are closed under sum and scalar multiple).
+and that case is dropped (mathlib's `ConvexBody` is nonempty).
 -/
 
 open scoped Classical
@@ -48,9 +46,25 @@ def IsValuation {n : ℕ} (f : ConvexBody (E n) → ℝ) : Prop :=
 /-- The valuations form an `ℝ`-subspace of `ConvexBody ℝⁿ → ℝ`. -/
 noncomputable def valuations (n : ℕ) : Submodule ℝ (ConvexBody (E n) → ℝ) where
   carrier := {f | IsValuation f}
-  add_mem' := by sorry
-  zero_mem' := by sorry
-  smul_mem' := by sorry
+  add_mem' := by
+    rintro f g ⟨hfc, hfa, hfi, hft⟩ ⟨hgc, hga, hgi, hgt⟩
+    refine ⟨hfc.add hgc, fun A B C D hU hI => ?_, fun A B e hB => ?_, fun A B t hB => ?_⟩
+    · have h₁ := hfa A B C D hU hI
+      have h₂ := hga A B C D hU hI
+      simp only [Pi.add_apply]
+      linarith
+    · simp only [Pi.add_apply, hfi A B e hB, hgi A B e hB]
+    · simp only [Pi.add_apply, hft A B t hB, hgt A B t hB]
+  zero_mem' :=
+    ⟨continuous_zero, fun _ _ _ _ _ _ => rfl, fun _ _ _ _ => rfl, fun _ _ _ _ => rfl⟩
+  smul_mem' := by
+    rintro c f ⟨hfc, hfa, hfi, hft⟩
+    refine ⟨hfc.const_smul c, fun A B C D hU hI => ?_, fun A B e hB => ?_, fun A B t hB => ?_⟩
+    · have h := hfa A B C D hU hI
+      simp only [Pi.smul_apply]
+      rw [← smul_add, ← smul_add, h]
+    · simp only [Pi.smul_apply, hfi A B e hB]
+    · simp only [Pi.smul_apply, hft A B t hB]
 
 /-- **Hadwiger's theorem.** The space of continuous rigid-motion-invariant
 valuations on convex bodies in `ℝⁿ` is `(n+1)`-dimensional. -/

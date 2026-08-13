@@ -1,0 +1,12 @@
+{
+  "id": "schmidt_subspace",
+  "module": "LeanEval.NumberTheory.SchmidtSubspace",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.SchmidtSubspace.schmidt_subspace",
+      "basename": "schmidt_subspace",
+      "kind": "theorem",
+      "body": "/-- **Schmidt's subspace theorem**.\n\nIn our statement, we use an arbitrary Fintype \u03c3 with at least two elements instead of\n`Fin n`, and use the fact that every proper subspace is contained in a codimension 1\nsubspace, which is described by the vanishing of a linear form with coefficients in \u2124. -/\n@[eval_problem] theorem schmidt_subspace (\u03c3 : Type*) [Fintype \u03c3] (h\u03c3 : 2 \u2264 Fintype.card \u03c3)\n    (L : \u03c3 \u2192 \u03c3 \u2192 \u2102)\n    (alg : \u2200 i j, IsAlgebraic \u211a (L i j)) (ind : LinearIndependent \u2102 L)\n    (\u03b5 : \u211d) (pos : 0 < \u03b5) :\n    \u2203 s : Finset (\u03c3 \u2192 \u2124), 0 \u2209 s \u2227 \u2200 x : \u03c3 \u2192 \u2124,\n      \u2016\u220f i, \u2211 j, L i j * x j\u2016 < \u2016x\u2016 ^ (-\u03b5) \u2192 \u2203 c \u2208 s, \u2211 i, c i * x i = 0 := by\n  sorry"
+    }
+  ]
+}

@@ -37,6 +37,10 @@ def step (v : HoneycombVertex) (direction : Fin 3) : HoneycombVertex :=
     | 1 => ⟨v.x - 1, v.y, true⟩
     | _ => ⟨v.x, v.y - 1, true⟩
 
+
+
+
+
 /-- A fixed origin in the vertex-transitive honeycomb lattice. -/
 def origin : HoneycombVertex := ⟨0, 0, false⟩
 
@@ -66,6 +70,10 @@ starting at the origin. -/
 def walkCount (n : ℕ) : ℕ :=
   (Finset.univ.filter fun directions : Fin n → Fin 3 =>
     IsSelfAvoiding directions).card
+
+
+
+
 
 
 

@@ -24,6 +24,222 @@ def main : IO UInt32 := do
   let passes ← IO.mkRef 0
   let fails ← IO.mkRef 0
 
+  check "extractStatementText accepts a direct sorry body" passes fails do
+    let declaration :=
+      "theorem target (n : Nat) :\n" ++
+      "    ∃ m, n ≤ m :=\n" ++
+      "  sorry"
+    let actual ← extractStatementText "direct-sorry" "Demo.lean" declaration "target"
+    pure <| assertEq "statement" actual "(n : Nat) :\n    ∃ m, n ≤ m"
+
+  check "extractStatementText accepts trivia before by" passes fails do
+    let declaration :=
+      "theorem target : True := /- proof starts here -/\n" ++
+      "  by\n" ++
+      "    sorry"
+    let actual ← extractStatementText "trivia-before-by" "Demo.lean" declaration "target"
+    pure <| assertEq "statement" actual ": True"
+
+  check "extractStatementText ignores body-like text in the statement" passes fails do
+    let declaration :=
+      "theorem target :\n" ++
+      "    let marker := \"fake := by and := sorry\"\n" ++
+      "    marker.length = 24 :=\n" ++
+      "  sorry"
+    let actual ← extractStatementText "body-like-text" "Demo.lean" declaration "target"
+    pure <| assertEq "statement" actual
+      ":\n    let marker := \"fake := by and := sorry\"\n    marker.length = 24"
+
+  check "extractStatementText ignores default binder values" passes fails do
+    let declaration :=
+      "theorem target (h : True := by trivial) : True := by\n" ++
+      "  sorry"
+    let actual ← extractStatementText "default-binder-value" "Demo.lean" declaration "target"
+    pure <| assertEq "statement" actual "(h : True := by trivial) : True"
+
+  -- Regression for `substInv_X_sub_X_sq_eq_catalan`: the statement itself
+  -- opens a tactic block, which is not the declaration body. The body is the
+  -- `sorry` that runs to the end of the declaration.
+  check "extractStatementText ignores a tactic block inside the statement" passes fails do
+    let declaration :=
+      "theorem target (n : ℕ) :\n" ++
+      "    haveI : Nonempty (Fin (n + 1)) := by\n" ++
+      "      exact ⟨0⟩\n" ++
+      "    n = n := by\n" ++
+      "  sorry"
+    let actual ← extractStatementText "statement-tactic-block" "Demo.lean" declaration "target"
+    pure <| assertEq "statement" actual
+      ("(n : ℕ) :\n    haveI : Nonempty (Fin (n + 1)) := by\n" ++
+        "      exact ⟨0⟩\n    n = n")
+
+  -- Not every hole is proved by `sorry`: the repository's CI canary really is
+  -- `:= by trivial`, so an unambiguous tactic body must still be recognised.
+  check "extractStatementText accepts a non-sorry tactic body" passes fails do
+    let declaration := "theorem target : True := by trivial"
+    let actual ← extractStatementText "tactic-body" "Demo.lean" declaration "target"
+    pure <| assertEq "statement" actual ": True"
+
+  -- With no `sorry` to anchor on, an assignment in the proof is
+  -- indistinguishable from one in the statement, so guessing is not allowed.
+  check "extractStatementText rejects an ambiguous tactic body" passes fails do
+    let declaration :=
+      "theorem target : True := by\n" ++
+      "  have h : True := by trivial\n" ++
+      "  exact h"
+    match ← (extractStatementText "ambiguous" "Demo.lean" declaration "target").toBaseIO with
+    | .ok statement => pure (some s!"expected failure, got {statement.quote}")
+    | .error _ => pure none
+
+  check "extractStatementText handles quote characters" passes fails do
+    let declaration :=
+      "theorem target : ('\"' : Char) = '\"' := by sorry"
+    let actual ← extractStatementText "char-literal" "Demo.lean" declaration "target"
+    pure <| assertEq "statement" actual ": ('\"' : Char) = '\"'"
+
+  check "extractContextSyntaxDeclarations respects scope" passes fails do
+    let source :=
+      "section\n" ++
+      "local notation \"closed\" => Nat\n" ++
+      "end\n" ++
+      "namespace Demo\n" ++
+      "local notation:arg \"ℝ^\" n:arg => EuclideanSpace ℝ (Fin n)\n" ++
+      "theorem target : True := by sorry\n" ++
+      "end Demo\n"
+    let extracted : ExtractedTheorem := {
+      declarationName := "Demo.target"
+      module := "Demo"
+      startLine := 6, startColumn := 0
+      endLine := 6, endColumn := 32
+      sameModuleDependencies := #[]
+      kind := "theorem"
+    }
+    let context := extractContextSyntaxDeclarations source (some extracted)
+    pure <| assertEq "active notation kept" ((context.find? "local notation:arg").isSome) true
+      |>.or (assertEq "closed notation dropped" ((context.find? "closed").isSome) false)
+
+  -- Regression for `honeycomb_connective_constant`: a `set_option … in` that
+  -- prefixes a removed declaration is not part of its `.ilean` range, and
+  -- leaving it behind strands an `in` with no command to apply to.
+  check "extendOverScopingPrefixes consumes a set_option prefix" passes fails do
+    let text :=
+      "def helper : Nat := 0\n\n" ++
+      "set_option maxRecDepth 10000 in\n" ++
+      "theorem target : True := by sorry\n"
+    let source := Source.ofString text
+    let some target := Source.find source 0 "theorem".toList
+      | pure (some "no theorem in fixture")
+    let some prefixStart := Source.find source 0 "set_option".toList
+      | pure (some "no set_option in fixture")
+    pure <| assertEq "start" (extendOverScopingPrefixes source 0 target) prefixStart
+
+  check "extendOverScopingPrefixes consumes a prefix spread over lines" passes fails do
+    let text :=
+      "def helper : Nat := 0\n\n" ++
+      "set_option\n" ++
+      "  maxRecDepth 10000 in\n" ++
+      "-- why we need it\n" ++
+      "theorem target : True := by sorry\n"
+    let source := Source.ofString text
+    let some target := Source.find source 0 "theorem".toList
+      | pure (some "no theorem in fixture")
+    let some prefixStart := Source.find source 0 "set_option".toList
+      | pure (some "no set_option in fixture")
+    pure <| assertEq "start" (extendOverScopingPrefixes source 0 target) prefixStart
+
+  check "extendOverScopingPrefixes consumes a same-line prefix" passes fails do
+    let text :=
+      "def helper : Nat := 0\n\n" ++
+      "set_option maxRecDepth 10000 in theorem target : True := by sorry\n"
+    let source := Source.ofString text
+    let some target := Source.find source 0 "theorem".toList
+      | pure (some "no theorem in fixture")
+    let some prefixStart := Source.find source 0 "set_option".toList
+      | pure (some "no set_option in fixture")
+    pure <| assertEq "start" (extendOverScopingPrefixes source 0 target) prefixStart
+
+  check "extendOverScopingPrefixes crosses a block comment" passes fails do
+    let text :=
+      "def helper : Nat := 0\n\n" ++
+      "set_option maxRecDepth 10000 in\n" ++
+      "/- reason\n" ++
+      "   spelled out -/\n" ++
+      "theorem target : True := by sorry\n"
+    let source := Source.ofString text
+    let some target := Source.find source 0 "theorem".toList
+      | pure (some "no theorem in fixture")
+    let some prefixStart := Source.find source 0 "set_option".toList
+      | pure (some "no set_option in fixture")
+    pure <| assertEq "start" (extendOverScopingPrefixes source 0 target) prefixStart
+
+  check "extendOverScopingPrefixes leaves an unprefixed declaration alone" passes fails do
+    let text := "def helper : Nat := 0\n\ntheorem target : True := by sorry\n"
+    let source := Source.ofString text
+    let some target := Source.find source 0 "theorem".toList
+      | pure (some "no theorem in fixture")
+    pure <| assertEq "start" (extendOverScopingPrefixes source 0 target) target
+
+  -- The previous declaration's text is off limits, so a line that merely ends
+  -- in `in` inside it can never be consumed.
+  check "extendOverScopingPrefixes stops at the previous declaration" passes fails do
+    let text := "theorem target : True := by sorry\n"
+    let source := Source.ofString text
+    let some target := Source.find source 0 "theorem".toList
+      | pure (some "no theorem in fixture")
+    pure <| assertEq "start" (extendOverScopingPrefixes source target target) target
+
+  check "variableBlockExplicitNames collects explicit binders only" passes fails do
+    let block :=
+      "variable (n : ℕ) {α : Type*} [Fintype α]\n" ++
+      "  (A : Fin n → α)\n" ++
+      "variable (K : Set α)\n\n"
+    pure <| assertEq "names" (variableBlockExplicitNames block) #["n", "A", "K"]
+
+  -- Outer `variable` parameters are binders of the restated signature, so the
+  -- delegation has to apply them ahead of the declaration's own binders.
+  check "delegationArgs? passes outer variable parameters" passes fails do
+    pure <| assertEq "args"
+      (delegationArgs? (some #["n", "A", "K", "hn", "hK"]) #["n", "A", "K"] #["hn", "hK"])
+      (some #["n", "A", "K", "hn", "hK"])
+
+  -- The elaborated type of `bvp_comparison` continues past the signature into
+  -- the statement's own `∀ x ∈ Set.Icc 0 1, …`. Applying those binders left
+  -- `Solution.lean` referring to an unbound `x`, so only signature parameters
+  -- may be reported, and a report that disagrees with the source is rejected.
+  check "delegationArgs? keeps the declaration's own binders" passes fails do
+    pure <| assertEq "args"
+      (delegationArgs? (some #["u", "hu"]) #[] #["u", "hu"]) (some #["u", "hu"])
+
+  -- A hole whose body is not a `sorry` gets no report, and then the source
+  -- signature is all we have. That is enough when no `variable` is in scope.
+  check "delegationArgs? falls back when nothing was reported" passes fails do
+    pure <| assertEq "args"
+      (delegationArgs? none #[] #["hn"]) (some #["hn"])
+
+  -- But with a `variable` in scope it is not: Lean may have retained one, and
+  -- the source signature does not say. Guessing would under-apply.
+  check "delegationArgs? refuses to guess past a variable" passes fails do
+    pure <| assertEq "args"
+      (delegationArgs? none #["n"] #["hn"]) none
+
+  -- An empty report is not the same as no report: it says, reliably, that the
+  -- declaration takes no explicit parameters.
+  check "delegationArgs? trusts an empty report" passes fails do
+    pure <| assertEq "args" (delegationArgs? (some #[]) #["n"] #[]) (some #[])
+
+  -- A parameter no `variable` command introduces cannot be applied by the
+  -- generated files, and dropping it would under-apply the delegation.
+  check "delegationArgs? refuses an unplaceable parameter" passes fails do
+    pure <| assertEq "args"
+      (delegationArgs? (some #["x", "hn"]) #["n"] #["hn"]) none
+
+
+  -- An inaccessible binder name means the two views cannot be lined up. There
+  -- is then no safe answer: dropping the parameters we cannot place would
+  -- under-apply the delegation, so generation has to fail instead.
+  check "delegationArgs? refuses to under-apply" passes fails do
+    pure <| assertEq "args"
+      (delegationArgs? (some #["n", "x✝"]) #["n"] #["_"]) none
+
   -- Regression for https://github.com/leanprover/lean-eval/pull/467:
   -- Mathlib-style copyright headers precede imports. The generator must drop
   -- both the header and imports before copying trusted helpers into

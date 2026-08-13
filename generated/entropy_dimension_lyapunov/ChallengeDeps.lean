@@ -89,5 +89,9 @@ noncomputable def harmonicMeanLyapunov (lam1 lam2 : ℝ) : ℝ :=
 
 
 
+
+
+
+
 end Dynamics
 end LeanEval

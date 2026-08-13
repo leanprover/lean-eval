@@ -85,5 +85,11 @@ noncomputable def lyapunovLowerAt
 
 
 
+
+
+
+
+
+
 end Dynamics
 end LeanEval

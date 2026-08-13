@@ -49,6 +49,10 @@ structure FiniteSimplicialSphere (d : ℕ) where
 def faceCount {d : ℕ} (X : FiniteSimplicialSphere d) (k : ℕ) : ℕ :=
   {s : Finset (E d) | s ∈ X.K.faces ∧ s.card = k + 1}.ncard
 
+
+
+
+
 /-- h-vector of the cyclic polytope `C(n, d)`: first half
 `choose (n − d − 1 + j) j`, second half symmetric. -/
 def cyclicH (n d j : ℕ) : ℕ :=

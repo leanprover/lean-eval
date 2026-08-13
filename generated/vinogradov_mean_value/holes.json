@@ -1,0 +1,12 @@
+{
+  "id": "vinogradov_mean_value",
+  "module": "LeanEval.NumberTheory.VinogradovMeanValue",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.VinogradovMeanValue.vinogradov_mean_value",
+      "basename": "vinogradov_mean_value",
+      "kind": "theorem",
+      "body": "theorem vinogradov_mean_value (s k : \u2115) (\u03b5 : \u211d) (h\u03b5 : 0 < \u03b5) :\n    J s k =O[Filter.atTop]\n      fun X \u21a6 (X ^ (s + \u03b5) + X ^ ((2 * s : \u211d) - k * (k + 1) / 2 + \u03b5) : \u211d) := by\n  sorry"
+    }
+  ]
+}

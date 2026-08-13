@@ -6,13 +6,18 @@ namespace GroupTheory
 /-!
 Schreier's conjecture (theorem, modulo CFSG).
 
-For every finite non-abelian simple group `S`, the outer automorphism group
+For every finite simple group `S`, the outer automorphism group
 `Out(S) := Aut(S) / Inn(S)` is solvable.
 
 This was conjectured by Schreier in the 1920s. It is verified case-by-case
 through the classification of finite simple groups: for each family
 (alternating, classical, exceptional Lie type, sporadic) one inspects `Out(S)`
 and observes solvability. No CFSG-free proof is known.
+
+Schreier's conjecture is usually stated for non-abelian `S`, but that
+hypothesis is unnecessary. A finite abelian simple group is `ZMod p`, so its
+inner automorphisms are trivial and `Out(S) ≅ Aut(S) ≅ (ZMod p)ˣ` is cyclic,
+hence solvable.
 
 `MulAut.conj : S →* MulAut S` sends `s ↦ (conjugation by s)`; its range is
 `Inn(S)`. The instance below records that `Inn(S)` is normal in `Aut(S)`,

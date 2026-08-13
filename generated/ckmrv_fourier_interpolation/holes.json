@@ -1,0 +1,12 @@
+{
+  "id": "ckmrv_fourier_interpolation",
+  "module": "LeanEval.Analysis.CKMRVInterpolation",
+  "holes": [
+    {
+      "name": "LeanEval.Analysis.CKMRVInterpolation.ckmrv_fourier_interpolation",
+      "basename": "ckmrv_fourier_interpolation",
+      "kind": "theorem",
+      "body": "/-- **Cohn-Kumar-Miller-Radchenko-Viazovska Fourier interpolation theorem.**\nIn dimension 8 sampling starts at `sqrt 2`, while in dimension 24 it starts\nat radius `2`. In both cases the four sample sequences give a bijection\nbetween radial Schwartz functions and rapidly decreasing data. -/\ntheorem ckmrv_fourier_interpolation :\n    CKMRV 8 1 \u2227 CKMRV 24 2 := by\n  sorry"
+    }
+  ]
+}

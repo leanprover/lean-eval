@@ -1,0 +1,7 @@
+id = "schmidt_subspace"
+title = "Schmidt's subspace theorem"
+test = false
+module = "LeanEval.NumberTheory.SchmidtSubspace"
+holes = ["schmidt_subspace"]
+submitter = "Junyan Xu"
+source = "W.M. Schmidt, Diophantine approximation, Lecture Notes in Mathematics 785, Springer Verlag 1980, Chap. V,VI,VII."

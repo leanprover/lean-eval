@@ -1,0 +1,9 @@
+id = "two_ninety_theorem"
+title = "The 290 theorem"
+test = false
+module = "LeanEval.NumberTheory.TwoNinetyTheorem"
+holes = ["two_ninety_theorem"]
+submitter = "Bolton Bailey/Project Numina"
+notes = "The 290 theorem (Bhargava–Hanke): a positive-definite integral quadratic form represents every positive integer if it represents a particular collection of 29 critical numbers below 290."
+source = "M. Bhargava, J. Hanke, Universal quadratic forms and the 290-theorem, preprint (2011). See also https://en.wikipedia.org/wiki/15_and_290_theorems"
+informal_solution = "The proof combines advances in the escalation method and bounds on Fourier coefficients of weight 2 theta functions. It also uses a trick to allow the analysis to focus mainly on quaternary forms."

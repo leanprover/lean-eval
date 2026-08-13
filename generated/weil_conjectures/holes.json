@@ -1,0 +1,12 @@
+{
+  "id": "weil_conjectures",
+  "module": "LeanEval.AlgebraicGeometry.WeilConjectures",
+  "holes": [
+    {
+      "name": "LeanEval.AlgebraicGeometry.WeilConjectures.weil_conjectures",
+      "basename": "weil_conjectures",
+      "kind": "theorem",
+      "body": "/-- The **Weil conjectures** in terms of point counts: if `X` is a smooth complete\nalgebraic variety (geometrically irreducible) over a finite field `F` of dimension `d`,\nthen there exists multisets `A\u1d62` of Frobenius eigenvalues (which are algebraic integers)\nsuch that for the finite extension `E / F` of degree `m`, we have\n`#X(E) = \u2211_{0 \u2264 i \u2264 2d} (-1)\u2071 \u2211_{\u03b1 \u2208 A\u1d62} \u03b1\u1d50` (rationality of the zeta series).\nMoreover, the multisets satisfy `A\u2080 = {1}`, the Poincar\u00e9 duality (functional equation)\n`A_{2d-i} = #F\u1d48 / A\u1d62`, the \"Riemann hypothesis\" `|\u03b1| = #F^{i/2}` for all `\u03b1 \u2208 A\u1d62`,\nand are invariant under all automorphisms of \u2102.\n\nThis statement does not include the identities between sizes of the multisets and\nthe Betti numbers of a complex variety defined over a number field whose reduction\nmodulo a prime ideal is `X`.\n\nThe Riemann hypothesis was first proved by Deligne while the rest were already established\nby Grothendieck (with Artin, Verdier and earlier work of Dwork) using the theory of \u2113-adic\ncohomology. -/\n@[eval_problem] theorem weil_conjectures (F : Type*) [Finite F] [Field F]\n    (X : Over (Spec (.of F))) [GeometricallyIrreducible X.hom] [IsProper X.hom]\n    (d : \u2115) [SmoothOfRelativeDimension d X.hom] :\n    \u2203 A : \u2115 \u2192 Multiset \u2102, A 0 = {1} \u2227\n      (\u2200 i \u2264 2 * d, A (2 * d - i) = (A i).map (Nat.card F ^ d / \u00b7 : \u2102 \u2192 \u2102) \u2227\n        (\u2200 \u03c6 : \u2102 \u2243+* \u2102, (A i).map \u03c6 = A i) \u2227\n        \u2200 \u03b1 \u2208 A i, IsIntegral \u2124 \u03b1 \u2227 \u2016\u03b1\u2016 = \u221a(Nat.card F ^ i)) \u2227\n      \u2200 (E : Type _) [Field E] [Algebra F E] [FiniteDimensional F E],\n        Nat.card (.mk (Spec.map <| CommRingCat.ofHom <| algebraMap F E) \u27f6 X) =\n        \u2211 i \u2208 Finset.Iic (2 * d), (-1) ^ i * ((A i).map (\u00b7 ^ Module.finrank F E)).sum := by\n  sorry"
+    }
+  ]
+}

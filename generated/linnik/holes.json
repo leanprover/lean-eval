@@ -1,0 +1,12 @@
+{
+  "id": "linnik",
+  "module": "LeanEval.NumberTheory.Linnik",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.Linnik.linnik",
+      "basename": "linnik",
+      "kind": "theorem",
+      "body": "/-- Linnik's theorem with the explicit constant `L = 5.5`: the least prime in the\nprogression `a mod d` is bounded by `c * d ^ 5.5` for some constant `c`. -/\ntheorem linnik : \u2203 c : \u211d, \u2200 \u2983a d : \u2115\u2984,\n    0 < a \u2192 a < d \u2192 a.Coprime d \u2192 p a d \u2264 c * d ^ (5.5 : \u211d) := by\n  sorry"
+    }
+  ]
+}

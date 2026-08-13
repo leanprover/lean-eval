@@ -1,0 +1,12 @@
+{
+  "id": "friedlander_iwaniec",
+  "module": "LeanEval.NumberTheory.FriedlanderIwaniec",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.FriedlanderIwaniec.friedlander_iwaniec",
+      "basename": "friedlander_iwaniec",
+      "kind": "theorem",
+      "body": "theorem friedlander_iwaniec : {p : \u2115 | p.Prime \u2227 \u2203 a b, p = a ^ 2 + b ^ 4}.Infinite := by\n  sorry"
+    }
+  ]
+}

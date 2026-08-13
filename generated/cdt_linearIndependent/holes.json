@@ -1,0 +1,12 @@
+{
+  "id": "cdt_linearIndependent",
+  "module": "LeanEval.NumberTheory.CalegariDimitrovTangLinearIndependent",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.CalegariDimitrovTangLinearIndependent.cdt_linearIndependent",
+      "basename": "cdt_linearIndependent",
+      "kind": "theorem",
+      "body": "/--\nTheorem A and C in arXiv:2408.15403.\n-/\ntheorem cdt_linearIndependent :\n    letI \u03c7 : ZMod 3 \u2192 \u2102 := ![0, 1, -1]\n    LinearIndependent \u211a ![1, riemannZeta 2, ZMod.LFunction \u03c7 2] \u2227\n    \u2200 m n : \u2124, m \u2260 -1 \u2192 m \u2260 0 \u2192 n \u2260 -1 \u2192 n \u2260 0 \u2192 10 ^ 6 * |m - n| < |n| \u2192\n      letI lm := Real.log (1 + 1 / m)\n      letI ln := Real.log (1 + 1 / n)\n      Irrational (lm * ln) \u2227\n      (m \u2260 n \u2192 LinearIndependent \u211a ![1, lm, ln, lm * ln]) := by\n  sorry"
+    }
+  ]
+}
