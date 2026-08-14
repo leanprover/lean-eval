@@ -11,15 +11,12 @@ A profinite group is **strongly complete** when all of its finite-index subgroup
 Nikolov and Segal proved that every topologically finitely generated profinite group is strongly
 complete. In particular, its topology is determined by its underlying abstract group structure.
 
-Here a profinite group is represented, as in Mathlib's `ProfiniteGrp`, by a compact, totally
-disconnected topological group. Hausdorffness need not be assumed separately: a totally
-disconnected topological group is Hausdorff.
+## References
 
-The trusted helper `IsTopologicallyFinitelyGenerated` states the topological, rather than
-abstract, finite-generation hypothesis. Mathlib has finite-index subgroups, topological closures,
-and profinite groups, but not the uniform verbal-width results for finite groups used in the proof.
-Those results ultimately rely on CFSG and results about finite quasisimple groups proved in Part II
-of the cited work.
+* [Nikolov and Segal, *On finitely generated profinite groups, I: strong completeness and uniform
+  bounds*](https://doi.org/10.4007/annals.2007.165.171), Theorem 1.1.
+* [Nikolov and Segal, *On finitely generated profinite groups, II: products in quasisimple
+  groups*](https://doi.org/10.4007/annals.2007.165.239).
 -/
 
 /-- A topological group is topologically finitely generated if some finite set generates a dense
@@ -34,7 +31,7 @@ topologically finitely generated profinite group is open. -/
 theorem nikolov_segal
     (G : Type*) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
     [CompactSpace G] [TotallyDisconnectedSpace G]
-    (_hG : IsTopologicallyFinitelyGenerated G)
+    (hG : IsTopologicallyFinitelyGenerated G)
     (H : Subgroup G) [H.FiniteIndex] :
     IsOpen (H : Set G) := by
   sorry
