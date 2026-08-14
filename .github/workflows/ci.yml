@@ -57,9 +57,9 @@ jobs:
           set -euo pipefail
           git clone https://github.com/leanprover/lean4export.git .ci/lean4export
           cd .ci/lean4export
-          # lean4export pinned to 4e791520 (= refs/tags/v4.32.0 as of 2026-07-29).
+          # lean4export pinned to 15f6055e (= refs/tags/v4.33.0 as of 2026-08-14).
           # Bump procedure: SECURITY.md > "Bumping pinned dependencies".
-          git checkout 4e7915201d3f9f04470d9eae002fa695f7cdc589  # pin-audit: exempt -- SHA, see comment
+          git checkout 15f6055e299ad5b89345e533cc2192f4cc00f659  # pin-audit: exempt -- SHA, see comment
           cp "$GITHUB_WORKSPACE/lean-toolchain" lean-toolchain
           lake build lean4export
           echo "$PWD/.lake/build/bin" >> "$GITHUB_PATH"

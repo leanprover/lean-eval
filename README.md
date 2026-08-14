@@ -237,9 +237,9 @@ export PATH="$PWD/nanoda_lib/target/release:$PATH"
 ```
 
 `lean4export` and `comparator` are Lean programs. The pinned lean4export source
-uses Lean v4.32.0 by default, but its build command above deliberately selects
-the workspace's exact toolchain by copying `lean-toolchain`; Lean v4.32.0 and v4.32.2
-have incompatible olean headers. Comparator builds `Challenge.olean` with the
+uses Lean v4.33.0 by default, but its build command above deliberately selects
+the workspace's exact toolchain by copying `lean-toolchain`; different Lean
+releases have incompatible olean headers. Comparator builds `Challenge.olean` with the
 workspace toolchain and then reads it back with `lean4export`, so exact
 compatibility is required. If the formats differ you get
 `failed to read file '.../Challenge.olean', incompatible header` — that error

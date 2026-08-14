@@ -126,7 +126,7 @@ verifies on every run of the test suite that `lake env -- <cmd>` (and
 nested `lake env -- lake env -- <cmd>`) on a workspace whose
 `Submission.lean` has top-level `initialize` and `#eval` markers does
 NOT produce those markers in stdout. Confirmed on the pinned toolchain
-(Lean v4.32.2, 2026-07-29). If a future lake version starts evaluating project Lean
+(Lean v4.33.0, 2026-08-14). If a future lake version starts evaluating project Lean
 during `lake env`, this probe must be re-run before the toolchain
 bump lands.
 
@@ -199,11 +199,11 @@ time, the upstream publisher controls our supply chain.
 
 | Dependency | Repo | Pinned to | Purpose | Last bumped |
 |---|---|---|---|---|
-| Lean toolchain | leanprover/lean4 | `v4.32.2` | compiler and Lake | 2026-07-29 |
-| mathlib | leanprover-community/mathlib4 | `905b95818eb32af7874a58b427f50c1711a5e96c` | theorem library | 2026-07-29 |
-| lean4-cli | leanprover/lean4-cli | `88679d088c9720c27ebdf2ba4dafe17341747f94` | command-line parsing | 2026-07-29 |
+| Lean toolchain | leanprover/lean4 | `v4.33.0` | compiler and Lake | 2026-08-14 |
+| mathlib | leanprover-community/mathlib4 | `6f1ef4e5dd604a435bddba4747b13970cd65d2a1` | theorem library | 2026-08-14 |
+| lean4-cli | leanprover/lean4-cli | `6130a47896ce867c6a4a55373441e59e565bad0f` | command-line parsing | 2026-08-14 |
 | landrun | zouuup/landrun | `5ed4a3db3a4ad930d577215c6b9abaa19df7f99f` | Linux landlock sandbox | 2026-05-04 |
-| lean4export | leanprover/lean4export | `4e7915201d3f9f04470d9eae002fa695f7cdc589` | exports olean to text | 2026-07-29 |
+| lean4export | leanprover/lean4export | `15f6055e299ad5b89345e533cc2192f4cc00f659` | exports olean to text | 2026-08-14 |
 | comparator | leanprover/comparator | `71b52ec29e06d4b7d882726553b1ceb99a2499e0` | the verifier | pre-2026-05 |
 | nanoda | robsimmons/nanoda_lib | `68d5ca9db226849b41a6fff59d796ff19d0a8840` | independent kernel (external checker) | 2026-07-29 |
 | `jlumbroso/free-disk-space` | (action) | `54081f138730dfa15788a46383842cd2f914a1be` | runner disk cleanup | 2026-05-04 |

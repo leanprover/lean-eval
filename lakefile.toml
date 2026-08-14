@@ -7,12 +7,12 @@ autoImplicit = false
 [[require]]
 name = "mathlib"
 git = "https://github.com/leanprover-community/mathlib4.git"
-rev = "905b95818eb32af7874a58b427f50c1711a5e96c"
+rev = "6f1ef4e5dd604a435bddba4747b13970cd65d2a1"
 
 [[require]]
 name = "Cli"
 git = "https://github.com/leanprover/lean4-cli"
-rev = "88679d088c9720c27ebdf2ba4dafe17341747f94"
+rev = "6130a47896ce867c6a4a55373441e59e565bad0f"
 
 [[lean_lib]]
 name = "LeanEval"

@@ -38,7 +38,7 @@ instance innNormal (S : Type*) [Group S] :
 @[eval_problem]
 theorem schreier_conjecture
     (S : Type) [Group S] [Fintype S] [IsSimpleGroup S] :
-    IsSolvable (MulAut S ⧸ (MulAut.conj : S →* MulAut S).range) := by
+    Group.IsSolvable (MulAut S ⧸ (MulAut.conj : S →* MulAut S).range) := by
   sorry
 
 end GroupTheory
