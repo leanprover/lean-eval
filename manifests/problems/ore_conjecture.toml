@@ -1,0 +1,9 @@
+id = "ore_conjecture"
+title = "The Ore conjecture: every element of a finite nonabelian simple group is a commutator"
+test = false
+module = "LeanEval.GroupTheory.OreConjecture"
+holes = ["ore_conjecture"]
+submitter = "Adam Topaz"
+notes = "This is Theorem 1 of Liebeck–O'Brien–Shalev–Tiep, stated using Mathlib's existing finite-group, simple-group, and commutator-set APIs without any trusted helper definitions."
+source = "Martin W. Liebeck, E. A. O'Brien, Aner Shalev, and Pham Huu Tiep, *The Ore conjecture*, Journal of the European Mathematical Society 12 (2010), no. 4, 939–1008, Theorem 1, https://doi.org/10.4171/JEMS/220; https://ems.press/journals/jems/articles/3979."
+informal_solution = "Following Sections 2–7 of the cited paper, apply the classification of finite simple groups and the previously established alternating and sporadic cases, then treat the remaining groups of Lie type. For classical groups, induct on the natural-module dimension: breakable elements decompose into blocks handled by induction, while unbreakable elements have small centralizers and are shown to be commutators using Frobenius's character criterion that the number of solutions to [x,y] = g is governed by the sum ∑χ χ(g)/χ(1), together with bounds forcing that sum to be nonzero. The exceptional groups are reduced through suitable subsystem subgroups and analogous character estimates; the unitary groups require separate character-theoretic matrix equations; and the low-rank base cases are verified from character tables and explicit MAGMA computations."
