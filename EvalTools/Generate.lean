@@ -196,7 +196,10 @@ def ileanPath (root : System.FilePath) (moduleName : String) : System.FilePath :
 /-! ## Source-as-Array-Char utilities
 
 Source-text manipulation works on `Array Char` so we can use `Nat` indices
-directly. This matches Python's codepoint-indexed string semantics, which the
+directly — that is, `Source` is indexed by *codepoint*. `.ilean` columns are
+UTF-16 code units and so need converting (`Source.offsetForLineUtf16Column`);
+`Lean.Position` columns are already codepoints. This matches Python's
+codepoint-indexed string semantics, which the
 upstream `scripts/generate_projects.py` relies on (e.g. when applying offsets
 from `.ilean`, which records codepoint columns). -/
 
@@ -516,7 +519,8 @@ def repoLocalImportModules (root : System.FilePath) (moduleName : String) :
 
 /-- A declaration's source range from the `.ilean`, as
 `[startLine, startColumn, endLine, endColumn]` (`.ilean` records these
-0-indexed; we convert lines to 1-indexed to match `offsetForLineColumn`).
+0-indexed; we convert lines to 1-indexed, the convention both offset functions
+take).
 The range spans the *whole* declaration, doc comment through the end of the
 body, so `(endLine, endColumn)` is the precise end — no heuristic needed.
 
@@ -1407,12 +1411,11 @@ structure DeclSpan where
   declEnd : Nat
   deriving Inhabited
 
-/-- Load every top-level declaration range from the module's `.ilean`, mapped
-into character-offset spans against `sourceSrc`. Used everywhere the generator
-needs to slice the source by declaration. -/
-def loadDeclSpans (root : System.FilePath) (entry : EvalProblemMetadata)
-    (sourceSrc : Source) : IO (Array DeclSpan) := do
-  let declRanges ← loadIleanDeclRanges root entry.moduleName
+/-- Map `.ilean` declaration entries onto character-offset spans against
+`sourceSrc`. Split out from `loadDeclSpans` so the column-convention routing is
+reachable from tests without a compiled fixture on disk. -/
+def declSpansOfIleanEntries (sourceSrc : Source) (declRanges : Array IleanDeclEntry) :
+    IO (Array DeclSpan) := do
   let mut startsBuf : Array (String × Nat × Nat) := #[]
   for ileanEntry in declRanges do
     -- `.ilean` columns are UTF-16, not codepoints; see `IleanDeclEntry`.
@@ -1428,6 +1431,13 @@ def loadDeclSpans (root : System.FilePath) (entry : EvalProblemMetadata)
       else findTopLevelEndOffset sourceSrc start
     spans := spans.push { name, start, stop, declEnd }
   return spans
+
+/-- Load every top-level declaration range from the module's `.ilean`, mapped
+into character-offset spans against `sourceSrc`. Used everywhere the generator
+needs to slice the source by declaration. -/
+def loadDeclSpans (root : System.FilePath) (entry : EvalProblemMetadata)
+    (sourceSrc : Source) : IO (Array DeclSpan) := do
+  declSpansOfIleanEntries sourceSrc (← loadIleanDeclRanges root entry.moduleName)
 
 /-- Apply a list of `(start, stop, replacement)` edits to `sourceText`. Edits
 are sorted right-to-left and applied in that order so earlier offsets remain

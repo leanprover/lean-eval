@@ -600,6 +600,24 @@ def main : IO UInt32 := do
     catch _ => pure true)
     pure <| assertEq "threw" threw true
 
+  -- The routing itself, not just the two converters: `.ilean` entries must be
+  -- resolved with the UTF-16 converter. Reverting `declSpansOfIleanEntries` to
+  -- `offsetForLineColumn` makes this fail, which the converter-level tests
+  -- above would not catch.
+  check "declSpansOfIleanEntries resolves .ilean columns as UTF-16" passes fails do
+    -- Line 1 is `def 𝔻 := 1` — 10 codepoints, 11 UTF-16 units. An `.ilean`
+    -- range covering it therefore ends at column 11, and must resolve to
+    -- codepoint offset 10.
+    let text := "def 𝔻 := 1\ndef b := 2\n"
+    let src := Source.ofString text
+    let entries : Array IleanDeclEntry := #[
+      { name := "𝔻", startLine := 1, startColumn := 0, endLine := 1, endColumn := 11 },
+      { name := "b", startLine := 2, startColumn := 0, endLine := 2, endColumn := 10 }
+    ]
+    let spans ← declSpansOfIleanEntries src entries
+    let first := spans[0]!
+    pure <| assertEq "first decl text" (Source.slice src first.start first.declEnd) "def 𝔻 := 1"
+
   let passCount ← passes.get
   let failCount ← fails.get
   IO.println s!"\n{passCount} passed, {failCount} failed."
