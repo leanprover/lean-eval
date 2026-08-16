@@ -560,6 +560,46 @@ def main : IO UInt32 := do
     let block := extractContextUniverses source (some extracted)
     pure <| assertEq "universe line only" block "universe u\n\n"
 
+  -- `.ilean` records LSP ranges, whose columns count UTF-16 code units, while
+  -- `Source` is indexed by codepoint. The two diverge on any character outside
+  -- the BMP — which includes the mathematical alphanumerics (`𝔻`, `𝓧`, `𝔽`, …)
+  -- a Lean corpus is full of. Resolving a UTF-16 column as a codepoint offset
+  -- ran past the end of the line and swallowed the start of the next comment.
+  check "offsetForLineUtf16Column resolves an astral column" passes fails do
+    -- "a𝔻b" is 3 codepoints but 4 UTF-16 units.
+    let src := Source.ofString "a𝔻b\n"
+    let off ← src.offsetForLineUtf16Column 1 4
+    pure <| assertEq "end of line" off 3
+
+  check "offsetForLineUtf16Column counts an astral char as two units" passes fails do
+    let src := Source.ofString "a𝔻b\n"
+    let off ← src.offsetForLineUtf16Column 1 3
+    pure <| assertEq "before b" off 2
+
+  check "offsetForLineColumn still counts codepoints" passes fails do
+    -- The `Lean.Position` convention, unchanged: column 3 is past `b`.
+    let src := Source.ofString "a𝔻b\n"
+    let off ← src.offsetForLineColumn 1 3
+    pure <| assertEq "end of line" off 3
+
+  -- A column past the end of its line means the `.ilean` no longer matches the
+  -- source. Clamping would silently truncate a trusted declaration.
+  check "offsetForLineUtf16Column rejects a column past end of line" passes fails do
+    let src := Source.ofString "a𝔻b\n"
+    let threw ← (try
+      let _ ← src.offsetForLineUtf16Column 1 99
+      pure false
+    catch _ => pure true)
+    pure <| assertEq "threw" threw true
+
+  check "offsetForLineUtf16Column rejects a mid-surrogate column" passes fails do
+    let src := Source.ofString "a𝔻b\n"
+    let threw ← (try
+      let _ ← src.offsetForLineUtf16Column 1 2
+      pure false
+    catch _ => pure true)
+    pure <| assertEq "threw" threw true
+
   let passCount ← passes.get
   let failCount ← fails.get
   IO.println s!"\n{passCount} passed, {failCount} failed."
