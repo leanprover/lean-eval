@@ -506,23 +506,44 @@ private def blankComments (s : Source) (limit : Nat) : String := Id.run do
 
 /-- The modules a source file imports, in source order.
 
-Only the import header is scanned, and comment content within it is blanked
-first. An `import` line quoted inside a block comment is therefore not mistaken
-for a real one. Scanning the whole file raw picked those up, which for a
-generated workspace means importing a module the trusted source never did,
-changing the parser and elaborator its statement is read with. -/
+Scans tokens rather than lines, so the multiline form
+
+    import
+      Mathlib.Real
+
+is read correctly; a line-based scan returned nothing for it, which would then
+have taken the no-imports path and given the workspace the wrong environment.
+Comment content is blanked first, so an `import` quoted inside a comment is not
+mistaken for a real one — bounding by `scanHeader` alone does not do this, since
+comments are header trivia and a commented-out import lies inside the header.
+
+Stops at the first token that can not belong to the header, so nothing in the
+body is scanned. -/
 def sourceImports (source : String) : Array String := Id.run do
   let src := Source.ofString source
-  let (endOfLastImport, _) := scanHeader src
-  let header := blankComments src endOfLastImport
+  let mut toks : Array String := #[]
+  let mut cur : String := ""
+  for c in (blankComments src src.size).toList do
+    if c.isWhitespace then
+      if !cur.isEmpty then toks := toks.push cur; cur := ""
+    else cur := cur.push c
+  if !cur.isEmpty then toks := toks.push cur
+  -- Modifiers that may precede `import` in a header.
+  let headerModifier : String → Bool := fun t =>
+    t == "module" || t == "prelude" || t == "public" || t == "private" || t == "meta"
   let mut out : Array String := #[]
-  for line in header.splitOn "\n" do
-    let stripped := line.trimAscii.toString
-    if stripped.startsWith "import " then
-      let rest := (stripped.drop "import ".length).trimAscii.toString
-      let modName := ((rest.splitOn " ").head!).trimAscii.toString
-      if !modName.isEmpty then
-        out := out.push modName
+  let mut i : Nat := 0
+  while i < toks.size do
+    if headerModifier toks[i]! then
+      i := i + 1
+    else if toks[i]! == "import" then
+      if i + 1 < toks.size then
+        out := out.push toks[i + 1]!
+        i := i + 2
+      else
+        i := i + 1
+    else
+      break
   return out
 
 partial def repoLocalImportModulesAux (root : System.FilePath) (moduleName : String)
@@ -549,6 +570,41 @@ def repoLocalImportModules (root : System.FilePath) (moduleName : String) :
   let seen ← IO.mkRef ({} : Std.HashSet String)
   repoLocalImportModulesAux root moduleName seen
 
+/-- Walk the import graph from `moduleName` in source order, emitting each
+non-repository module the first time it is reached.
+
+Repo-local modules are recursed into rather than emitted: their declarations are
+inlined into `ChallengeDeps.lean`, so it is their *imports* the workspace needs.
+Following them in source order, depth first, is the closest flattening of the
+order Lean itself would discover the modules in — emitting all local modules'
+imports before the problem's own would put them in the wrong order, which can
+matter for instance priority and other environment-extension state.
+
+`EvalTools.Markers` is dropped: it supplies the `@[eval_problem]` attribute,
+which a standalone workspace neither has nor needs. Any *other* `EvalTools`
+import is refused rather than silently dropped, since it would be carrying a
+real definition into the statement. -/
+private partial def collectWorkspaceImports (root : System.FilePath) (moduleName : String)
+    (visited : IO.Ref (Std.HashSet String)) (out : IO.Ref (Array String)) : IO Unit := do
+  let path := moduleSourcePath root moduleName
+  if !(← path.pathExists) then return
+  for imported in sourceImports (← IO.FS.readFile path) do
+    if imported == "EvalTools.Markers" then continue
+    if imported == "EvalTools" || imported.startsWith "EvalTools." then
+      throw <| IO.userError
+        s!"Module '{moduleName}' imports '{imported}'. Only `EvalTools.Markers` is \
+           supported: a generated workspace has no `EvalTools` library, so anything \
+           else would be dropped from the statement's environment."
+    if imported == moduleName then continue
+    if (← (moduleSourcePath root imported).pathExists) then
+      -- Repo-local: inlined into ChallengeDeps, so recurse for its imports.
+      if (← visited.get).contains imported then continue
+      visited.modify (·.insert imported)
+      collectWorkspaceImports root imported visited out
+    else
+      unless (← out.get).contains imported do
+        out.modify (·.push imported)
+
 /-- The `import` header a generated workspace needs to reproduce the trusted
 module's elaboration context.
 
@@ -556,39 +612,23 @@ Substituting `import Mathlib` is not sound for a module written against narrow
 imports: the full library brings names and tokens into scope that the author
 never had. `gcd` becomes ambiguous between `Int.gcd` and `GCDMonoid.gcd`; `over`
 becomes a reserved token, so a structure field written `[over : X.Over _]` stops
-parsing. The statement the solver is given must be read in the same environment
-the trusted statement was.
+parsing. The statement a solver is given has to be read in the environment the
+trusted statement was written in.
 
-Emits the module's own imports, together with those of any repo-local module it
-imports — those modules' declarations are inlined into `ChallengeDeps.lean`, so
-their context is needed too. `EvalTools.*` is dropped (repo tooling, absent from
-a standalone workspace) as are the repo-local modules themselves, since they are
-inlined rather than imported. Non-repository imports are preserved whatever
-their prefix, not just `Mathlib.*`.
-
-Falls back to `import Mathlib` for a module that imports nothing external, which
-is what the previous behaviour assumed of every problem.
+A module that imports nothing external gets an empty header, not `import
+Mathlib` — it elaborated against Lean's default environment, and adding Mathlib
+would reintroduce exactly the ambiguities this is here to avoid.
 
 Known limitation: flattening several repo-local modules into one
 `ChallengeDeps.lean` necessarily gives all of them the union of their imports,
-so an inlined module can see a name that only a later one introduced. Emitting
-one module per source module would be needed to avoid that. -/
+so an inlined module can see a name that only a later one introduced. Avoiding
+that would mean emitting one workspace module per source module. -/
 def problemImportHeader (root : System.FilePath) (moduleName : String) : IO String := do
-  let locals ← repoLocalImportModules root moduleName
-  let localSet : Std.HashSet String := locals.foldl (·.insert ·) {}
-  let mut out : Array String := #[]
-  let mut seen : Std.HashSet String := {}
-  for m in locals.push moduleName do
-    let path := moduleSourcePath root m
-    if !(← path.pathExists) then continue
-    for imported in sourceImports (← IO.FS.readFile path) do
-      if imported.startsWith "EvalTools." || imported == "EvalTools" then continue
-      if localSet.contains imported || imported == moduleName then continue
-      if seen.contains imported then continue
-      seen := seen.insert imported
-      out := out.push imported
-  if out.isEmpty then return "import Mathlib\n"
-  return String.join (out.toList.map fun m => s!"import {m}\n")
+  let visited ← IO.mkRef ({} : Std.HashSet String)
+  let out ← IO.mkRef (#[] : Array String)
+  collectWorkspaceImports root moduleName visited out
+  let imports ← out.get
+  return String.join (imports.toList.map fun m => s!"import {m}\n")
 
 /-! ## ILean metadata -/
 
