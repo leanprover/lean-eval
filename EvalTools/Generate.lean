@@ -480,9 +480,43 @@ def findTopLevelEndOffset (source : Source) (start : Nat) : Nat := Id.run do
 
 /-! ## Source imports -/
 
+/-- The header text with every comment blanked out, newlines preserved so the
+line structure survives. Handles `--` to end of line and nested block comments. -/
+private def blankComments (s : Source) (limit : Nat) : String := Id.run do
+  let mut out : String := ""
+  let mut i : Nat := 0
+  let mut depth : Nat := 0
+  let n := min limit s.size
+  while i < n do
+    let c := s[i]!
+    if depth == 0 && Source.startsWithAt s i "--".toList then
+      while i < n && s[i]! != '\n' do
+        i := i + 1
+    else if Source.startsWithAt s i "/-".toList then
+      depth := depth + 1
+      i := i + 2
+    else if depth > 0 && Source.startsWithAt s i "-/".toList then
+      depth := depth - 1
+      i := i + 2
+    else
+      if depth == 0 then out := out.push c
+      else if c == '\n' then out := out.push c
+      i := i + 1
+  return out
+
+/-- The modules a source file imports, in source order.
+
+Only the import header is scanned, and comment content within it is blanked
+first. An `import` line quoted inside a block comment is therefore not mistaken
+for a real one. Scanning the whole file raw picked those up, which for a
+generated workspace means importing a module the trusted source never did,
+changing the parser and elaborator its statement is read with. -/
 def sourceImports (source : String) : Array String := Id.run do
+  let src := Source.ofString source
+  let (endOfLastImport, _) := scanHeader src
+  let header := blankComments src endOfLastImport
   let mut out : Array String := #[]
-  for line in source.splitOn "\n" do
+  for line in header.splitOn "\n" do
     let stripped := line.trimAscii.toString
     if stripped.startsWith "import " then
       let rest := (stripped.drop "import ".length).trimAscii.toString
@@ -514,6 +548,47 @@ def repoLocalImportModules (root : System.FilePath) (moduleName : String) :
     IO (Array String) := do
   let seen ← IO.mkRef ({} : Std.HashSet String)
   repoLocalImportModulesAux root moduleName seen
+
+/-- The `import` header a generated workspace needs to reproduce the trusted
+module's elaboration context.
+
+Substituting `import Mathlib` is not sound for a module written against narrow
+imports: the full library brings names and tokens into scope that the author
+never had. `gcd` becomes ambiguous between `Int.gcd` and `GCDMonoid.gcd`; `over`
+becomes a reserved token, so a structure field written `[over : X.Over _]` stops
+parsing. The statement the solver is given must be read in the same environment
+the trusted statement was.
+
+Emits the module's own imports, together with those of any repo-local module it
+imports — those modules' declarations are inlined into `ChallengeDeps.lean`, so
+their context is needed too. `EvalTools.*` is dropped (repo tooling, absent from
+a standalone workspace) as are the repo-local modules themselves, since they are
+inlined rather than imported. Non-repository imports are preserved whatever
+their prefix, not just `Mathlib.*`.
+
+Falls back to `import Mathlib` for a module that imports nothing external, which
+is what the previous behaviour assumed of every problem.
+
+Known limitation: flattening several repo-local modules into one
+`ChallengeDeps.lean` necessarily gives all of them the union of their imports,
+so an inlined module can see a name that only a later one introduced. Emitting
+one module per source module would be needed to avoid that. -/
+def problemImportHeader (root : System.FilePath) (moduleName : String) : IO String := do
+  let locals ← repoLocalImportModules root moduleName
+  let localSet : Std.HashSet String := locals.foldl (·.insert ·) {}
+  let mut out : Array String := #[]
+  let mut seen : Std.HashSet String := {}
+  for m in locals.push moduleName do
+    let path := moduleSourcePath root m
+    if !(← path.pathExists) then continue
+    for imported in sourceImports (← IO.FS.readFile path) do
+      if imported.startsWith "EvalTools." || imported == "EvalTools" then continue
+      if localSet.contains imported || imported == moduleName then continue
+      if seen.contains imported then continue
+      seen := seen.insert imported
+      out := out.push imported
+  if out.isEmpty then return "import Mathlib\n"
+  return String.join (out.toList.map fun m => s!"import {m}\n")
 
 /-! ## ILean metadata -/
 
@@ -1608,7 +1683,8 @@ def renderChallengeDepsCore (root : System.FilePath) (entry : EvalProblemMetadat
       parts := parts.push body
   if parts.isEmpty then return none
   let joined := "\n".intercalate (parts.toList.map (·.trimAsciiEnd.toString))
-  return some ("import Mathlib\n\n" ++ joined ++ "\n")
+  let importHeader ← problemImportHeader root entry.moduleName
+  return some (importHeader ++ "\n" ++ joined ++ "\n")
 
 /-- Render `ChallengeDeps.lean` for a single-hole problem. -/
 def renderChallengeDeps (root : System.FilePath) (entry : EvalProblemMetadata)
@@ -1987,7 +2063,8 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
   let solutionText := applyEdits sourceText solutionEdits
   -- Challenge and Submission only need helper removals.
   let helperStripped := applyEdits sourceText helperEdits
-  let baseImport := if hasChallengeDeps then "import ChallengeDeps\n\n" else "import Mathlib\n\n"
+  let moduleImports ← problemImportHeader root entry.moduleName
+  let baseImport := if hasChallengeDeps then "import ChallengeDeps\n\n" else moduleImports ++ "\n"
   let challengeBodyStripped := stripProblemMarkers helperStripped localImports
   let challengeBody :=
     if !(challengeBodyStripped.trimAsciiStart.toString.startsWith "import ") then
@@ -2061,14 +2138,15 @@ private def renderWorkspaceSingleHole (root : System.FilePath) (entry : EvalProb
   let localImports ← repoLocalImportModules root entry.moduleName
   let challengeDeps? ← renderChallengeDeps root entry extracted localImports
   let hasChallengeDeps := challengeDeps?.isSome
+  let moduleImports ← problemImportHeader root entry.moduleName
   let challengeImport :=
-    if hasChallengeDeps then "import ChallengeDeps\n\n" else "import Mathlib\n\n"
+    if hasChallengeDeps then "import ChallengeDeps\n\n" else moduleImports ++ "\n"
   let solutionImports :=
     if hasChallengeDeps then "import ChallengeDeps\nimport Submission\n\n"
-    else "import Mathlib\nimport Submission\n\n"
+    else moduleImports ++ "import Submission\n\n"
   let submissionImports :=
     if hasChallengeDeps then "import ChallengeDeps\nimport Submission.Helpers\n\n"
-    else "import Mathlib\nimport Submission.Helpers\n\n"
+    else moduleImports ++ "import Submission.Helpers\n\n"
   let theoremBinderNames := binderIntroducedNames theoremStatement
   let contextUniverseBlock :=
     extractContextUniverses sourceText (some extracted)

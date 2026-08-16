@@ -618,6 +618,26 @@ def main : IO UInt32 := do
     let first := spans[0]!
     pure <| assertEq "first decl text" (Source.slice src first.start first.declEnd) "def 𝔻 := 1"
 
+  -- Only the import header is scanned, and comment content in it is blanked
+  -- first. Scanning raw lines picked up imports quoted inside comments, which
+  -- in a generated workspace means importing a module the trusted source never
+  -- did — changing the environment its statement is read in.
+  check "sourceImports ignores an import inside a block comment" passes fails do
+    let src := "/- For example:\nimport Mathlib.NotActuallyImported\n-/\nimport Mathlib.Real\n"
+    pure <| assertEq "imports" (sourceImports src) #["Mathlib.Real"]
+
+  check "sourceImports ignores a commented-out import" passes fails do
+    let src := "-- import Mathlib.Commented\nimport Mathlib\nimport EvalTools.Markers\n"
+    pure <| assertEq "imports" (sourceImports src) #["Mathlib", "EvalTools.Markers"]
+
+  check "sourceImports keeps imports after a copyright header" passes fails do
+    let src := "/-\nCopyright (c) 2026 Example.\n-/\nimport Mathlib.Real\nimport Batteries\n"
+    pure <| assertEq "imports" (sourceImports src) #["Mathlib.Real", "Batteries"]
+
+  check "sourceImports handles a nested block comment" passes fails do
+    let src := "/- outer /- inner\nimport Mathlib.Nope\n-/ still outer -/\nimport Mathlib.Real\n"
+    pure <| assertEq "imports" (sourceImports src) #["Mathlib.Real"]
+
   let passCount ← passes.get
   let failCount ← fails.get
   IO.println s!"\n{passCount} passed, {failCount} failed."
