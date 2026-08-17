@@ -54,12 +54,16 @@ branch protection.
 ### Where used
 
 [`.github/workflows/regenerate-main.yml`](../.github/workflows/regenerate-main.yml),
-in the `Mint lean-eval-regenerator installation token` step, via
+in the `Mint fresh lean-eval-regenerator installation token` step, via
 `actions/create-github-app-token`, pinned to
-`bcd2ba49218906704ab6c1aa796996da409d3eb1` (v3.2.0). The token is used both for
-`actions/checkout` (so subsequent `git push` carries the same auth) and
-for the explicit push step that lands the regenerated workspaces on
-`main`.
+`bcd2ba49218906704ab6c1aa796996da409d3eb1` (v3.2.0). Because installation
+tokens expire after one hour and a full-catalog regeneration can take longer,
+the workflow checks out the public repository without persisted credentials and
+mints this write token only after regeneration finishes. The final step exposes
+the fresh token to GitHub CLI's Git credential helper for its push to `main`.
+The workflow also verifies that `main` stayed at the source commit used for
+generation, retrying generation from the latest commit when necessary and
+refusing to rebase stale generated output after a push race.
 
 ### Why an app and not `GITHUB_TOKEN`
 
@@ -233,9 +237,9 @@ with a bogus check of the same name.
   `regenerate-main.yml` itself: that workflow's `paths:` filter only
   fires on source changes (`LeanEval/**`, `EvalTools/**`,
   `templates/**`, `manifests/problems/**`, `lakefile.toml`,
-  `lean-toolchain`), and the bot only writes under `generated/`. The
-  bypass doesn't change this; the `paths:` filter is what prevents the
-  loop.
+  `lean-toolchain`, and the workflow file itself), and the bot only writes
+  under `generated/`. The bypass doesn't change this; the `paths:` filter is
+  what prevents the loop.
 
   Other workflows on `main` push events *do* run on regenerator
   commits — most notably `ci.yml`'s `verify` job, which has no
