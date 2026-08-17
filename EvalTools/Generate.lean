@@ -1587,7 +1587,8 @@ def extractContextVariables (source : String) (extracted? : Option ExtractedTheo
   -- scoping for `variable`. Blocks shadowed by the theorem's own binders are
   -- dropped (they would otherwise be flagged as unused).
   extractScopedCommandBlocks source extracted? "variable"
-    (fun block => !variableShadowedByTheorem block theoremBinderNames)
+    (fun block =>
+      !isScopedCommandBlock block && !variableShadowedByTheorem block theoremBinderNames)
 
 /-- Collect top-level `universe` commands in scope at the theorem. A source
 module may declare `universe u v` and refer to `u`/`v` in a theorem whose
@@ -1642,7 +1643,7 @@ def extractContextVariablesAndSyntax (source : String)
     (fun stripped => startsWithKeyword stripped "variable" || syntaxMatches stripped)
     (fun block =>
       if startsWithKeyword block.trimAsciiStart.toString "variable" then
-        !variableShadowedByTheorem block theoremBinderNames
+        !isScopedCommandBlock block && !variableShadowedByTheorem block theoremBinderNames
       else true)
 
 /-! ## Delegation arguments -/

@@ -822,6 +822,29 @@ def main : IO UInt32 := do
       | some v, some n => assertEq "variable precedes notation" (decide (v < n)) true
       | _, _ => assertEq "both present" false true
 
+  check "extractContextVariablesAndSyntax skips a variable scoped to an earlier declaration"
+      passes fails do
+    let source :=
+      "import Mathlib\n" ++
+      "variable (m : Nat)\n" ++
+      "variable (n) in\n" ++
+      "abbrev Earlier : Type := Fin n\n" ++
+      "theorem target : True := trivial\n"
+    let extracted : ExtractedTheorem := {
+      declarationName := "target"
+      module := "Demo"
+      startLine := 5, startColumn := 0
+      endLine := 5, endColumn := 30
+      sameModuleDependencies := #[]
+      kind := "theorem"
+    }
+    let block := extractContextVariablesAndSyntax source (some extracted) #[]
+      isLocalSyntaxContextDeclaration
+    pure <| assertEq "section variable kept"
+      (block.find? "variable (m : Nat)").isSome true |>.or
+      (assertEq "single-declaration variable dropped"
+        (block.find? "variable (n) in").isSome false)
+
   -- A copied helper may refer to the namespace it is inside by its final
   -- component. Under the `Submission` wrapper that lookup needs the parent
   -- namespace open as well as the helper's immediate namespace.
