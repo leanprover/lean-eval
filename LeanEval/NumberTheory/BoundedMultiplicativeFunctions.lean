@@ -79,9 +79,9 @@ then
 -/
 @[eval_problem]
 theorem theorem_1_3 (k : ℕ) (θ : ℝ) (hθ₀ : 0 < θ) (hθ₁ : θ < 1 / 2) (η : ℝ) (hη : η > 0) :
-    ∃ (Q : ℕ+) (hQ : 1 ≤ Q) (C : ℝ) (hC : 0 < C) (B : ℝ),
-      ∀ (f : ArithmeticFunction ℂ) (hf : f.IsMultiplicative) (hf' : IsOneBounded f)
-        (X : ℝ) (hX : X ≥ 1) (H : ℝ) (hXH : X ^ θ ≤ H) (hHX : H ≤ X ^ (1 - θ)),
+    ∃ (Q : ℕ+) (_hQ : 1 ≤ Q) (C : ℝ) (_hC : 0 < C) (B : ℝ),
+      ∀ (f : ArithmeticFunction ℂ) (_hf : f.IsMultiplicative) (_hf' : IsOneBounded f)
+        (X : ℝ) (_hX : X ≥ 1) (H : ℝ) (_hXH : X ^ θ ≤ H) (_hHX : H ≤ X ^ (1 - θ)),
           ∫ x in X..(2 * X), weakGowersUniformityNorm k x H f.intExtension ≥ η * X →
             M f (C * X ^ (k + 1) / H ^ (k + 1)) Q ≤ B := by
   sorry
