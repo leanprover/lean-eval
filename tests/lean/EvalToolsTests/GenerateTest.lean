@@ -695,12 +695,26 @@ def main : IO UInt32 := do
     let src := "/- outer /- inner\nimport Mathlib.Nope\n-/ still outer -/\nimport Mathlib.Real\n"
     pure <| assertEq "imports" (← sourceImports src) #["Mathlib.Real"]
 
+  check "sourceImports handles a multiline import" passes fails do
+    let src := "import\n  Mathlib.Real\n"
+    pure <| assertEq "imports" (← sourceImports src) #["Mathlib.Real"]
+
   check "sourceImports rejects a prelude header" passes fails do
     let rejected ← try
       let _ ← sourceImports "prelude\nimport Init\n" "prelude-test"
       pure false
     catch _ => pure true
     pure <| assertEq "prelude rejected" rejected true
+
+  check "problemImportHeader preserves the environment behind EvalTools.Markers" passes fails do
+    let root ← IO.currentDir
+    let header ← problemImportHeader root "LeanEval.ProgramVerification.PermuteToUnimodal"
+    pure <| assertEq "Lean retained" (header.find? "import Lean\n").isSome true |>.or
+      (assertEq "Lake Toml retained" (header.find? "import Lake.Toml\n").isSome true) |>.or
+      (assertEq "Lake messages retained"
+        (header.find? "import Lake.Util.Message\n").isSome true) |>.or
+      (assertEq "repository-only marker removed"
+        (header.find? "import EvalTools.Markers\n").isSome false)
 
   -- `section` opens a scope for `open` just as `namespace` does. Counting only
   -- namespaces meant the matching `end` popped a namespace frame and discarded

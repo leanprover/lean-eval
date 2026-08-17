@@ -583,16 +583,26 @@ order Lean itself would discover the modules in — emitting all local modules'
 imports before the problem's own would put them in the wrong order, which can
 matter for instance priority and other environment-extension state.
 
-`EvalTools.Markers` is dropped: it supplies the `@[eval_problem]` attribute,
-which a standalone workspace neither has nor needs. Any *other* `EvalTools`
-import is refused rather than silently dropped, since it would be carrying a
-real definition into the statement. -/
+`EvalTools.Markers` itself is dropped: it supplies the `@[eval_problem]`
+attribute, which a standalone workspace neither has nor needs. Its external
+imports are retained, however, because they are part of the environment in
+which the problem module elaborated. Any *other* `EvalTools` import is refused
+rather than silently dropped, since it would be carrying a real definition
+into the statement. -/
 private partial def collectWorkspaceImports (root : System.FilePath) (moduleName : String)
     (visited : IO.Ref (Std.HashSet String)) (out : IO.Ref (Array String)) : IO Unit := do
   let path := moduleSourcePath root moduleName
   if !(← path.pathExists) then return
   for imported in (← sourceImports (← IO.FS.readFile path) moduleName) do
-    if imported == "EvalTools.Markers" then continue
+    if imported == "EvalTools.Markers" then
+      -- Do not expose the repository-only marker attribute, but do preserve
+      -- the environment supplied by Markers. This matters for modules whose
+      -- only explicit import is EvalTools.Markers: dropping it outright would
+      -- incorrectly reduce their generated environment to Init.
+      unless (← visited.get).contains imported do
+        visited.modify (·.insert imported)
+        collectWorkspaceImports root imported visited out
+      continue
     if imported == "EvalTools" || imported.startsWith "EvalTools." then
       throw <| IO.userError
         s!"Module '{moduleName}' imports '{imported}'. Only `EvalTools.Markers` is \
@@ -2339,7 +2349,7 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
   let helperRanges : Array (Nat × Nat) := Id.run do
     let sorted := spans.qsort (fun a b => a.start < b.start)
     let mut out : Array (Nat × Nat) := #[]
-    let mut previousEnd := 0
+    let mut previousEnd := importPreludeLength src
     for sp in sorted do
       if depsHelpers.contains sp.name then
         out := out.push (extendOverScopingPrefixes src previousEnd sp.start, sp.declEnd)
