@@ -1,0 +1,7 @@
+id = "annals_equiangular_lines_fixed_angle"
+title = "Equiangular lines with a fixed angle"
+test = false
+module = "LeanEval.Combinatorics.EquiangularLinesFixedAngle"
+holes = ["theorem_1_2"]
+submitter = "Justus Springer"
+source = "Z. Jiang, J. Tidor, Y. Yao, S. Zhang, and Y. Zhao, `Equiangular lines with a fixed angle`, Annals of Math, 194 (3) 2021. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2021-194-3-EquiangularLinesFixedAngle.lean"

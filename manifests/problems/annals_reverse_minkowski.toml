@@ -1,0 +1,7 @@
+id = "annals_reverse_minkowski"
+title = "A reverse Minkowski theorem"
+test = false
+module = "LeanEval.NumberTheory.ReverseMinkowski"
+holes = ["theorem_1_2"]
+submitter = "Katerina Hristova"
+source = "O. Regev, N. Stephens-Davidowitz, `A reverse Minkowski theorem`, Annals of Math, 199 (1) 2024. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2024-199-1-ReverseMinkowski.lean"

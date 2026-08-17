@@ -1,0 +1,7 @@
+id = "annals_unit_conjecture"
+title = "A counterexample to the unit conjecture for group rings"
+test = false
+module = "LeanEval.GroupTheory.UnitConjecture"
+holes = ["theorem_A"]
+submitter = "Thomas Browning"
+source = "G. Gardam, `A counterexample to the unit conjecture for group rings`, Annals of Math, 194 (3) 2021. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2021-194-3-UnitConjecture.lean"

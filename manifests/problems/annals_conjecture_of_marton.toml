@@ -1,0 +1,7 @@
+id = "annals_conjecture_of_marton"
+title = "On a conjecture of Marton"
+test = false
+module = "LeanEval.Combinatorics.ConjectureOfMarton"
+holes = ["theorem_1_2"]
+submitter = "Thomas Browning"
+source = "W. T. Gowers, B. Green, F. Manners, and T. Tao, `On a conjecture of Marton`, Annals of Math, 201 (2) 2025. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2025-201-2-ConjectureOfMarton.lean"

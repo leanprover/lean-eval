@@ -1,0 +1,7 @@
+id = "annals_optimal_moebius"
+title = "The optimal paper Moebius band"
+test = false
+module = "LeanEval.Geometry.OptimalMoebius"
+holes = ["theorem_1_1"]
+submitter = "Thomas Browning, Katerina Hristova"
+source = "R. E. Schwartz, `The optimal paper Moebius band`, Annals of Math, 201 (1) 2025. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2025-201-1-OptimalMoebius.lean"

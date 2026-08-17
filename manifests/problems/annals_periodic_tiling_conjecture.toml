@@ -1,0 +1,7 @@
+id = "annals_periodic_tiling_conjecture"
+title = "A counterexample to the periodic tiling conjecture"
+test = false
+module = "LeanEval.Combinatorics.PeriodicTilingConjecture"
+holes = ["theorem_1_4", "corollary_1_6", "corollary_1_7"]
+submitter = "David Ledvinka"
+source = "R. Greenfeld and T. Tao, `A counterexample to the periodic tiling conjecture`, Annals of Math, 200 (1) 2024. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2024-200-1-PeriodicTilingConjecture.lean"

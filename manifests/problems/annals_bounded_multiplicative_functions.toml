@@ -1,0 +1,7 @@
+id = "annals_bounded_multiplicative_functions"
+title = "Higher uniformity of bounded multiplicative functions in short intervals on average"
+test = false
+module = "LeanEval.NumberTheory.BoundedMultiplicativeFunctions"
+holes = ["theorem_1_3", "corollary_1_1"]
+submitter = "David Ledvinka"
+source = "K. Matomäki, M. Radziwiłł, T. Tao, J. Teräväinen, and T. Ziegler, `Higher uniformity of bounded multiplicative functions in short intervals on average`, Annals of Math, 197 (2) 2023. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2023-197-2-BoundedMultiplicativeFunctions.lean"

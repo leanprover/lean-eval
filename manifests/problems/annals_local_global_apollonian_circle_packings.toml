@@ -1,0 +1,7 @@
+id = "annals_local_global_apollonian_circle_packings"
+title = "The local-global conjecture for Apollonian circle packings is false"
+test = false
+module = "LeanEval.NumberTheory.LocalGlobalApollonianCirclePackings"
+holes = ["theorem_1_6", "theorem_1_3"]
+submitter = "Thomas Browning"
+source = "S. Haag, C. Kertzer, J. Rickards, and K. E. Stange, `The local-global conjecture for Apollonian circle packings is false`, Annals of Math, 200 (2) 2024. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2024-200-2-LocalGlobalApollonianCirclePackings.lean"

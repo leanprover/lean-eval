@@ -1,0 +1,7 @@
+id = "annals_linear_subspaces"
+title = "Rational approximations to linear subspaces"
+test = false
+module = "LeanEval.NumberTheory.LinearSubspaces"
+holes = ["theorem_1"]
+submitter = "Justus Springer"
+source = "N. de Saxcé, `Rational approximations to linear subspaces`, Annals of Math, 203 (3) 2026. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2026-203-3-LinearSubspaces.lean"

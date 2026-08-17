@@ -1,0 +1,8 @@
+id = "annals_rectangular_peg_problem"
+title = "The rectangular peg problem"
+test = false
+module = "LeanEval.Geometry.RectangularPegProblem"
+holes = ["theorem_1"]
+submitter = "Katerina Hristova"
+notes = "LeanEval renames upstream's declaration `theorem «theorem»` to `theorem_1` because the workspace generator cannot address a declaration whose basename is a reserved word; the statement is unchanged."
+source = "J. E. Greene and A. Lobb, `The rectangular peg problem`, Annals of Math, 194 (2) 2021. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2021-194-2-RectangularPegProblem.lean"

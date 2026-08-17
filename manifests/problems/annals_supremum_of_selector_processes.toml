@@ -1,0 +1,8 @@
+id = "annals_supremum_of_selector_processes"
+title = "On a conjecture of Talagrand on selector processes and a consequence on positive empirical processes"
+test = false
+module = "LeanEval.Analysis.SupremumOfSelectorProcesses"
+holes = ["L₂", "L₂_pos", "theorem_1_2", "L₃", "L₃_pos", "theorem_1_3"]
+submitter = "David Ledvinka"
+notes = "The five anonymous explicit instance binders in `theorem_1_3` are named because the generated delegation cannot forward inaccessible hygienic binder names. This is alpha-equivalent and does not change the statement."
+source = "J. Park and H. T. Pham, `On a conjecture of Talagrand on selector processes and a consequence on positive empirical processes`, Annals of Math, 199 (3) 2024. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2024-199-3-SupremumOfSelectorProcesses.lean"
