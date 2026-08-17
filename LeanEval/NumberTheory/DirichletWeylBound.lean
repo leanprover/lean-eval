@@ -31,7 +31,7 @@ Suppose `χ` has cubefree conductor `q`. Then
 -/
 @[eval_problem]
 theorem corollary_1_3 (ε : ℝ) (hε : 0 < ε) : ∃ C : ℝ,
-    ∀ q (hq : q.IsCubeFree) [NeZero q] (χ : DirichletCharacter ℂ q) (hχ : χ.IsPrimitive) (t : ℝ),
+    ∀ q (_hq : q.IsCubeFree) [NeZero q] (χ : DirichletCharacter ℂ q) (_hχ : χ.IsPrimitive) (t : ℝ),
       ‖χ.LFunction (1 / 2 + I * t)‖ ≤ C * q ^ (1 / 6 + ε) * (1 + |t|) ^ (1 / 6 + ε) := by
   sorry
 

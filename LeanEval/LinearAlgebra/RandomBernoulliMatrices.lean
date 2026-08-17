@@ -46,9 +46,9 @@ For every `p ∈ (0, 1/2]` and `ε > 0` there exists `N, C > 0` such that for an
 @[eval_problem]
 theorem theorem_A {p : I} {ε : ℝ} (hp₀ : 0 < p) (hp₁ : (p : ℝ) ≤ 1 / 2) (hε : 0 < ε) :
     ∃ N > 0, ∃ C > 0, ∀ n ≥ N,
-      ∀ (Ω : Type*) (mΩ : MeasurableSpace Ω) (P : Measure Ω) (B : Ω → Matrix (Fin n) (Fin n) ℝ)
-        (B_indep : iIndepFun (fun x : Fin n × Fin n ↦ (B · x.1 x.2)) P)
-        (B_bernoulli : ∀ i j, HasLaw (B · i j) (bernoulliMeasure 1 0 p) P),
+      ∀ (Ω : Type*) (_mΩ : MeasurableSpace Ω) (P : Measure Ω) (B : Ω → Matrix (Fin n) (Fin n) ℝ)
+        (_B_indep : iIndepFun (fun x : Fin n × Fin n ↦ (B · x.1 x.2)) P)
+        (_B_bernoulli : ∀ i j, HasLaw (B · i j) (bernoulliMeasure 1 0 p) P),
         ∀ s : ℝ, -1 ≤ s ∧ s ≤ 0 → ∀ t : ℝ, 0 < t →
           P.real {ω : Ω | σ_min (B ω + of (fun _ _ ↦ s)) ≤ t / √n} ≤ (1 - p + ε) ^ n + C * t := by
   sorry
