@@ -26,6 +26,11 @@ structure ExtractedTheorem where
   uses introduced by typeclass synthesis (which the `.ilean` references metadata
   records as textual matches only). -/
   sameModuleDependencies : Array String
+  /-- The subset of `sameModuleDependencies` whose own dependency closure reaches
+  one of the problem's manifest holes. These helpers cannot be moved to the
+  separately compiled `ChallengeDeps` module: their types or values need a hole
+  that is declared only in `Challenge`/`Submission`/`Solution`. -/
+  holeDependentDependencies : Array String
   /-- One of `"theorem"` (covers `.thmInfo` and `.opaqueInfo`), `"def"`, or
   `"instance"`. Drives whether the generator emits this hole in `theorem_names`
   or `definition_names` in the comparator config. -/
@@ -190,12 +195,17 @@ def gatherCoercionCandidates (env : Environment) (moduleName : Name) (beforeLine
               cands := cands.push (c, info.type.getUsedConstants)
   return cands
 
-def extractTheorem (moduleNameText declNameText : String) : IO ExtractedTheorem := do
+def extractTheorem (moduleNameText declNameText : String)
+    (problemHoleTexts : Array String := #[]) : IO ExtractedTheorem := do
   let moduleName := parseName moduleNameText
   let declName := parseName declNameText
   initSearchPath (← findSysroot)
   let env ← importModules #[{ module := moduleName }] {}
   let resolvedDeclName ← resolveDeclName env moduleName declName
+  let mut problemHoles : NameSet := {}
+  for holeText in problemHoleTexts do
+    problemHoles := problemHoles.insert
+      (← resolveDeclName env moduleName (parseName holeText))
   let some constantInfo := env.find? resolvedDeclName
     | throw <| IO.userError s!"Resolved declaration '{resolvedDeclName}' disappeared unexpectedly."
   let (declRanges?, coeCandidates) ← ({ env := env } : PPContext).runCoreM do
@@ -220,12 +230,15 @@ def extractTheorem (moduleNameText declNameText : String) : IO ExtractedTheorem 
   match kind? with
   | some kind =>
       let deps := collectSameModuleDependencies env moduleName resolvedDeclName coeCandidates
+      let holeDependentDeps := deps.filter fun dep =>
+        (collectSameModuleDependencies env moduleName dep coeCandidates).any problemHoles.contains
       return {
         declarationName := toString resolvedDeclName
         module := moduleNameText
         sourceRange := sourceRange
         explicitParameters := signatureExplicitParameters constantInfo
         sameModuleDependencies := deps.map toString
+        holeDependentDependencies := holeDependentDeps.map toString
         kind := kind
       }
   | none =>
@@ -233,8 +246,9 @@ def extractTheorem (moduleNameText declNameText : String) : IO ExtractedTheorem 
         s!"Declaration '{resolvedDeclName}' has unsupported kind for an eval-problem hole."
 
 def main (args : List String) : IO UInt32 := do
-  let [moduleName, declName] := args
-    | throw <| IO.userError "usage: extract_theorem <module> <declaration>"
-  let result ← extractTheorem moduleName declName
+  let moduleName :: declName :: problemHoles := args
+    | throw <| IO.userError
+        "usage: extract_theorem <module> <declaration> [<problem-hole> ...]"
+  let result ← extractTheorem moduleName declName problemHoles.toArray
   IO.println <| Json.compress <| toJson result
   return 0

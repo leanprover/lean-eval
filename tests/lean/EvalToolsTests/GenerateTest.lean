@@ -24,6 +24,17 @@ def main : IO UInt32 := do
   let passes ← IO.mkRef 0
   let fails ← IO.mkRef 0
 
+  check "parseExtractedTheorem defaults missing hole-dependent dependencies" passes fails do
+    let payload :=
+      "{\"declarationName\":\"Demo.target\",\"module\":\"Demo\"," ++
+      "\"sourceRange\":{\"startLine\":1,\"startColumn\":0,\"endLine\":1," ++
+      "\"endColumn\":10},\"sameModuleDependencies\":[\"Demo.helper\"]," ++
+      "\"kind\":\"theorem\"}"
+    match parseExtractedTheorem payload with
+    | .error err => pure (some s!"parse failed: {err}")
+    | .ok extracted =>
+        pure <| assertEq "default" extracted.holeDependentDependencies #[]
+
   check "extractStatementText accepts a direct sorry body" passes fails do
     let declaration :=
       "theorem target (n : Nat) :\n" ++
@@ -295,6 +306,23 @@ def main : IO UInt32 := do
     let afterPrelude := Source.slice source (importPreludeLength source) source.size
     pure <| assertEq "body after prelude" afterPrelude body
 
+  check "stripProblemMarkers preserves sibling attributes" passes fails do
+    let source :=
+      "import EvalTools.Markers\n\n" ++
+      "@[eval_problem, instance_reducible, instance]\n" ++
+      "noncomputable def target : Inhabited Nat := sorry\n"
+    let stripped := stripProblemMarkers source
+    pure <| assertEq "non-marker attribute kept"
+      ((stripped.find? "@[instance_reducible, instance]\nnoncomputable def target").isSome) true
+
+  check "injectAfterImports honors a narrow fallback header" passes fails do
+    let source := "namespace Demo\n\ndef target : Nat := 1\n\nend Demo\n"
+    let injected := injectAfterImports source "import Submission\n"
+      "import Mathlib.Data.Nat.Basic\n"
+    pure <| assertEq "narrow fallback"
+      (injected.startsWith "import Mathlib.Data.Nat.Basic\nimport Submission\n") true |>.or
+      (assertEq "full Mathlib absent" (injected.find? "import Mathlib\n").isSome false)
+
   check "importPreludeLength handles a nested copyright header" passes fails do
     let prelude :=
       "/-\n" ++
@@ -342,6 +370,29 @@ def main : IO UInt32 := do
     let wrapped := wrapBodyInSubmissionNamespace source "Demo"
     pure <| assertEq "submission namespace inserted after header"
       ((wrapped.find? "\nnamespace Submission\n\nnamespace Demo\n").isSome) true
+
+  check "wrapBodyInSubmissionNamespace closes an EOF-scoped section" passes fails do
+    let source :=
+      "import Mathlib\n\n" ++
+      "noncomputable section\n\n" ++
+      "namespace Demo\n\n" ++
+      "def target : Nat := 1\n\n" ++
+      "end Demo\n"
+    let wrapped := wrapBodyInSubmissionNamespace source "Demo"
+    pure <| assertEq "anonymous section closed before wrapper"
+      ((wrapped.find? "end Demo\n\nend\nend Submission").isSome) true
+
+  check "wrapBodyInSubmissionNamespace closes an EOF-scoped namespace" passes fails do
+    let source := "import Mathlib\n\nnamespace Demo\n\ndef target : Nat := 1\n"
+    let wrapped := wrapBodyInSubmissionNamespace source "Other"
+    pure <| assertEq "source namespace closed before wrapper"
+      ((wrapped.find? "def target : Nat := 1\n\nend Demo\nend Submission").isSome) true
+
+  check "wrapBodyInSubmissionNamespace names an EOF-scoped section" passes fails do
+    let source := "import Mathlib\n\nsection Definitions\n\ndef target : Nat := 1\n"
+    let wrapped := wrapBodyInSubmissionNamespace source "Demo"
+    pure <| assertEq "named section closed before wrapper"
+      ((wrapped.find? "def target : Nat := 1\n\nend Definitions\nend Submission").isSome) true
 
   check "isScopedOpenLine: open Foo is top-level" passes fails do
     pure <| assertEq "scoped" (isScopedOpenLine "open Foo") false
@@ -487,6 +538,12 @@ def main : IO UInt32 := do
         "/-- doc -/\nnoncomputable instance instFoo : Inhabited Nat := " "instFoo")
       (some "/-- doc -/\n@[reducible] noncomputable instance instFoo : Inhabited Nat := ")
 
+  check "injectSolutionHoleModifiers merges an existing attribute block" passes fails do
+    pure <| assertEq "rewritten"
+      (injectSolutionHoleModifiers
+        "@[instance_reducible, instance]\nnoncomputable def instFoo : Inhabited Nat := " "instFoo")
+      (some "@[reducible, instance]\nnoncomputable def instFoo : Inhabited Nat := ")
+
   -- The word `noncomputable` at the end of a doc comment is not a modifier
   -- and must not be stripped.
   check "injectSolutionHoleModifiers: doc comment mentioning noncomputable" passes fails do
@@ -624,19 +681,190 @@ def main : IO UInt32 := do
   -- did — changing the environment its statement is read in.
   check "sourceImports ignores an import inside a block comment" passes fails do
     let src := "/- For example:\nimport Mathlib.NotActuallyImported\n-/\nimport Mathlib.Real\n"
-    pure <| assertEq "imports" (sourceImports src) #["Mathlib.Real"]
+    pure <| assertEq "imports" (← sourceImports src) #["Mathlib.Real"]
 
   check "sourceImports ignores a commented-out import" passes fails do
     let src := "-- import Mathlib.Commented\nimport Mathlib\nimport EvalTools.Markers\n"
-    pure <| assertEq "imports" (sourceImports src) #["Mathlib", "EvalTools.Markers"]
+    pure <| assertEq "imports" (← sourceImports src) #["Mathlib", "EvalTools.Markers"]
 
   check "sourceImports keeps imports after a copyright header" passes fails do
     let src := "/-\nCopyright (c) 2026 Example.\n-/\nimport Mathlib.Real\nimport Batteries\n"
-    pure <| assertEq "imports" (sourceImports src) #["Mathlib.Real", "Batteries"]
+    pure <| assertEq "imports" (← sourceImports src) #["Mathlib.Real", "Batteries"]
 
   check "sourceImports handles a nested block comment" passes fails do
     let src := "/- outer /- inner\nimport Mathlib.Nope\n-/ still outer -/\nimport Mathlib.Real\n"
-    pure <| assertEq "imports" (sourceImports src) #["Mathlib.Real"]
+    pure <| assertEq "imports" (← sourceImports src) #["Mathlib.Real"]
+
+  check "sourceImports rejects a prelude header" passes fails do
+    let rejected ← try
+      let _ ← sourceImports "prelude\nimport Init\n" "prelude-test"
+      pure false
+    catch _ => pure true
+    pure <| assertEq "prelude rejected" rejected true
+
+  -- `section` opens a scope for `open` just as `namespace` does. Counting only
+  -- namespaces meant the matching `end` popped a namespace frame and discarded
+  -- the opens held in it, so a module shaped `namespace N / open … / section S /
+  -- … / end S` emitted no `open` block at all.
+  check "extractContextOpens survives a section inside a namespace" passes fails do
+    let source :=
+      "import Mathlib\n" ++
+      "namespace Demo\n" ++
+      "open Polynomial\n" ++
+      "section Definitions\n" ++
+      "def helper : Nat := 1\n" ++
+      "end Definitions\n" ++
+      "theorem target : True := trivial\n" ++
+      "end Demo\n"
+    let extracted : ExtractedTheorem := {
+      declarationName := "Demo.target"
+      module := "Demo"
+      startLine := 7, startColumn := 0
+      endLine := 7, endColumn := 30
+      sameModuleDependencies := #[]
+      kind := "theorem"
+    }
+    let block ← extractContextOpens "demo" "demo.lean" source (some extracted)
+      (includeNamespaces := true)
+    let keptOpen := (block.find? "open Polynomial").isSome
+    let keptNamespace := (block.find? "open Demo").isSome
+    pure <| assertEq "open kept across section" keptOpen true |>.or
+      (assertEq "namespace open kept" keptNamespace true)
+
+  check "scope walkers survive a noncomputable section" passes fails do
+    let source :=
+      "import Mathlib\n" ++
+      "namespace Demo\n" ++
+      "open Polynomial\n" ++
+      "variable (n : Nat)\n" ++
+      "noncomputable section Definitions\n" ++
+      "def helper : Nat := 1\n" ++
+      "end Definitions\n" ++
+      "theorem target : True := trivial\n" ++
+      "end Demo\n"
+    let extracted : ExtractedTheorem := {
+      declarationName := "Demo.target"
+      module := "Demo"
+      startLine := 8, startColumn := 0
+      endLine := 8, endColumn := 30
+      sameModuleDependencies := #[]
+      kind := "theorem"
+    }
+    let opens ← extractContextOpens "demo" "demo.lean" source (some extracted)
+      (includeNamespaces := true)
+    let variables := extractContextVariablesAndSyntax source (some extracted) #[]
+      isLocalSyntaxContextDeclaration
+    pure <| assertEq "open kept" ((opens.find? "open Polynomial").isSome) true |>.or
+      (assertEq "namespace kept" ((opens.find? "open Demo").isSome) true) |>.or
+      (assertEq "variable kept" ((variables.find? "variable (n : Nat)").isSome) true)
+
+  -- An `.ilean` slice begins before any attribute list, so a notation carrying
+  -- one was classified as an ordinary declaration and deleted from
+  -- `ChallengeDeps`, breaking every later use of it.
+  check "isSyntaxContextDeclaration sees past an attribute" passes fails do
+    pure <| assertEq "classified"
+      (isSyntaxContextDeclaration "@[inherit_doc] notation \"∇_[\"m\"]\" => grad m") true
+
+  check "isSyntaxContextDeclaration sees past a doc comment" passes fails do
+    pure <| assertEq "classified"
+      (isSyntaxContextDeclaration "/-- doc -/\nnotation \"𝔻\" => disc") true
+
+  check "isSyntaxContextDeclaration sees past both" passes fails do
+    pure <| assertEq "classified"
+      (isSyntaxContextDeclaration "/-- doc -/\n@[inherit_doc] notation \"𝔻\" => disc") true
+
+  check "isSyntaxContextDeclaration still rejects a plain def" passes fails do
+    pure <| assertEq "classified"
+      (isSyntaxContextDeclaration "@[simp] def foo : Nat := 1") false
+
+  -- A notation mentioning a `variable` must come after it. Emitting variables
+  -- and syntax as two separate blocks reordered them, so the quotation precheck
+  -- failed with `Unknown identifier` and the macro got no elaborator.
+  check "extractContextVariablesAndSyntax keeps source order" passes fails do
+    let source :=
+      "import Mathlib\n" ++
+      "namespace Demo\n" ++
+      "variable {d : Nat}\n" ++
+      "local notation \"R\" => Fin d\n" ++
+      "theorem target : True := trivial\n" ++
+      "end Demo\n"
+    let extracted : ExtractedTheorem := {
+      declarationName := "Demo.target"
+      module := "Demo"
+      startLine := 5, startColumn := 0
+      endLine := 5, endColumn := 30
+      sameModuleDependencies := #[]
+      kind := "theorem"
+    }
+    let block := extractContextVariablesAndSyntax source (some extracted) #[]
+      isLocalSyntaxContextDeclaration
+    -- The variable line must appear before the notation line in the block.
+    let lines := (block.splitOn "\n").toArray.filter (fun l => !l.trimAscii.toString.isEmpty)
+    let idxOf : String → Option Nat := fun needle => Id.run do
+      for i in [0:lines.size] do
+        if (lines[i]!.splitOn needle).length > 1 then return some i
+      return none
+    pure <| match idxOf "variable", idxOf "notation" with
+      | some v, some n => assertEq "variable precedes notation" (decide (v < n)) true
+      | _, _ => assertEq "both present" false true
+
+  -- A copied helper may refer to the namespace it is inside by its final
+  -- component. Under the `Submission` wrapper that lookup needs the parent
+  -- namespace open as well as the helper's immediate namespace.
+  check "containsIdentifier accepts qualified names only at boundaries" passes fails do
+    pure <| assertEq "qualified" (containsIdentifier "Foo.bar" "bar") true |>.or
+      (assertEq "exact" (containsIdentifier "bar" "bar") true) |>.or
+      (assertEq "prefix rejected" (containsIdentifier "foobar" "bar") false) |>.or
+      (assertEq "suffix rejected" (containsIdentifier "barrier" "bar") false)
+
+  check "derivedHelperOpens includes namespace ancestors" passes fails do
+    let helpers : Std.HashSet String :=
+      ({} : Std.HashSet String).insert "AlgebraicGeometry.Scheme.BirationalMap.ext"
+    let opens := derivedHelperOpens helpers
+    pure <| assertEq "parent namespace present"
+      (opens.contains "_root_.AlgebraicGeometry") true |>.or
+      (assertEq "enclosing namespace present"
+        (opens.contains "_root_.AlgebraicGeometry.Scheme.BirationalMap") true)
+
+  check "partitionHelpersByHoleDependence separates inline helpers" passes fails do
+    let helpers : Std.HashSet String :=
+      ({} : Std.HashSet String).insert "Demo.independent" |>.insert "Demo.dependsOnHole"
+    let dependent : Std.HashSet String :=
+      ({} : Std.HashSet String).insert "Demo.dependsOnHole"
+    let (depsHelpers, inlineHelpers) :=
+      partitionHelpersByHoleDependence helpers dependent
+    pure <| assertEq "independent exported" (depsHelpers.contains "Demo.independent") true
+      |>.or (assertEq "dependent not exported"
+        (depsHelpers.contains "Demo.dependsOnHole") false)
+      |>.or (assertEq "dependent kept inline"
+        (inlineHelpers.contains "Demo.dependsOnHole") true)
+
+  check "partitionHelpersByHoleDependence empty set is a no-op" passes fails do
+    let helpers : Std.HashSet String :=
+      ({} : Std.HashSet String).insert "Demo.first" |>.insert "Demo.second"
+    let (depsHelpers, inlineHelpers) :=
+      partitionHelpersByHoleDependence helpers {}
+    pure <| assertEq "all helpers exported" depsHelpers.toList.mergeSort helpers.toList.mergeSort
+      |>.or (assertEq "nothing inline" inlineHelpers.isEmpty true)
+
+  check "removeDuplicatedReducibilityAttributes ignores comments" passes fails do
+    let source :=
+      "/-\nattribute [instance_reducible] Commented.target\n-/\n" ++
+      "attribute [instance_reducible] Demo.target\n"
+    let helpers : Std.HashSet String :=
+      ({} : Std.HashSet String).insert "Demo.target"
+    let stripped := removeDuplicatedReducibilityAttributes source helpers
+    pure <| assertEq "only real command removed" stripped
+      ("/-\nattribute [instance_reducible] Commented.target\n-/\n" ++
+        "\n")
+
+  check "removeDuplicatedReducibilityAttributes keeps local targets" passes fails do
+    let source := "attribute [instance_reducible] Demo.moved Demo.local\n"
+    let helpers : Std.HashSet String :=
+      ({} : Std.HashSet String).insert "Demo.moved"
+    let stripped := removeDuplicatedReducibilityAttributes source helpers
+    pure <| assertEq "only moved target removed" stripped
+      "attribute [instance_reducible] Demo.local\n"
 
   let passCount ← passes.get
   let failCount ← fails.get

@@ -117,10 +117,11 @@ structure ExtractedTheorem where
   endColumn : Nat
   explicitParameters : Option (Array String) := none
   sameModuleDependencies : Array String
+  holeDependentDependencies : Array String := #[]
   kind : String
   deriving Inhabited
 
-private def parseExtractedTheorem (payload : String) : Except String ExtractedTheorem := do
+def parseExtractedTheorem (payload : String) : Except String ExtractedTheorem := do
   let json ← Json.parse payload
   let declarationName ← json.getObjValAs? String "declarationName"
   let module ← json.getObjValAs? String "module"
@@ -151,9 +152,19 @@ private def parseExtractedTheorem (payload : String) : Except String ExtractedTh
           let s ← d.getStr?
           acc := acc.push s
         pure acc
+  let holeDependentDepNames : Array String ←
+    match json.getObjVal? "holeDependentDependencies" with
+    | .error _ => pure #[]
+    | .ok arrJ => do
+        let arr ← arrJ.getArr?
+        let mut acc : Array String := #[]
+        for d in arr do
+          acc := acc.push (← d.getStr?)
+        pure acc
   return {
     declarationName, module, startLine, startColumn, endLine, endColumn, explicitParameters
     sameModuleDependencies := depNames
+    holeDependentDependencies := holeDependentDepNames
     kind
   }
 
@@ -169,7 +180,7 @@ def extractOne (root : System.FilePath) (entry : EvalProblemMetadata) (hole : St
     IO ExtractedTheorem := do
   let binPath := root / ".lake" / "build" / "bin" / "extract_theorem"
   let out ← runCmdCheckedCaptured "lake"
-    #["env", binPath.toString, entry.moduleName, hole] root
+    (#["env", binPath.toString, entry.moduleName, hole] ++ entry.holes) root
     s!"Lean extraction failed for '{entry.id}' hole '{hole}'"
   match parseExtractedTheorem out.stdout with
   | .ok e => pure e
@@ -428,6 +439,19 @@ def stripProblemMarkers (source : String) (localImports : Array String := #[]) :
   let mut eatBlanks := false
   for line in lines do
     let stripped := line.trimAscii.toString
+    if stripped.startsWith "@[" && stripped.endsWith "]" then
+      let attrs := (stripped.drop 2).toString.dropEnd 1 |>.toString |>.splitOn ","
+      let keptAttrs := attrs.map (fun a => a.trimAscii.toString) |>.filter (fun a => a != "eval_problem")
+      if keptAttrs.length != attrs.length then
+        if !keptAttrs.isEmpty then
+          let indent := String.mk (line.toList.take (line.length - line.trimAsciiStart.toString.length))
+          out := out.push (indent ++ "@[" ++ ", ".intercalate keptAttrs ++ "]")
+          eatBlanks := false
+        else
+          while out.size > 0 && out[out.size - 1]!.trimAscii.toString.isEmpty do
+            out := out.pop
+          eatBlanks := true
+        continue
     if stripped == "@[eval_problem]" || isEvalToolsMarkersImport stripped
         || isLocalImport stripped localImports then
       -- Drop blank lines we already pushed that immediately precede this
@@ -480,70 +504,49 @@ def findTopLevelEndOffset (source : Source) (start : Nat) : Nat := Id.run do
 
 /-! ## Source imports -/
 
-/-- The header text with every comment blanked out, newlines preserved so the
-line structure survives. Handles `--` to end of line and nested block comments. -/
-private def blankComments (s : Source) (limit : Nat) : String := Id.run do
-  let mut out : String := ""
-  let mut i : Nat := 0
-  let mut depth : Nat := 0
-  let n := min limit s.size
-  while i < n do
-    let c := s[i]!
-    if depth == 0 && Source.startsWithAt s i "--".toList then
-      while i < n && s[i]! != '\n' do
-        i := i + 1
-    else if Source.startsWithAt s i "/-".toList then
-      depth := depth + 1
-      i := i + 2
-    else if depth > 0 && Source.startsWithAt s i "-/".toList then
-      depth := depth - 1
-      i := i + 2
-    else
-      if depth == 0 then out := out.push c
-      else if c == '\n' then out := out.push c
-      i := i + 1
-  return out
+/-- The modules a source file imports, in source order, parsed with Lean's own
+header parser.
 
-/-- The modules a source file imports, in source order.
-
-Scans tokens rather than lines, so the multiline form
+Hand-rolling this is a trap. A line scan misses
 
     import
       Mathlib.Real
 
-is read correctly; a line-based scan returned nothing for it, which would then
-have taken the no-imports path and given the workspace the wrong environment.
-Comment content is blanked first, so an `import` quoted inside a comment is not
-mistaken for a real one — bounding by `scanHeader` alone does not do this, since
-comments are header trivia and a commented-out import lies inside the header.
+a whitespace-token scan additionally misreads `import all Init.Core` as
+importing `all`, `import/-c-/Init` as importing nothing (comments separate
+tokens without whitespace), and `import «Foo Bar»` as importing `«Foo` (escaped
+identifiers may contain spaces). The real grammar is
+`[public]? [meta]? import [all]? ident`. `Lean.Parser.parseHeader` gets
+all of this right by construction, and stays right when the grammar changes.
 
-Stops at the first token that can not belong to the header, so nothing in the
-body is scanned. -/
-def sourceImports (source : String) : Array String := Id.run do
-  let src := Source.ofString source
-  let mut toks : Array String := #[]
-  let mut cur : String := ""
-  for c in (blankComments src src.size).toList do
-    if c.isWhitespace then
-      if !cur.isEmpty then toks := toks.push cur; cur := ""
-    else cur := cur.push c
-  if !cur.isEmpty then toks := toks.push cur
-  -- Modifiers that may precede `import` in a header.
-  let headerModifier : String → Bool := fun t =>
-    t == "module" || t == "prelude" || t == "public" || t == "private" || t == "meta"
+Throws on a header the generator cannot faithfully reproduce, rather than
+approximating it: the workspace files it writes are plain (non-`module`) Lean,
+so `module`, `prelude`, `public import`, `meta import` and `import all` would
+all be silently flattened into something with different visibility or a
+different environment. No problem module in the catalog uses these today. -/
+def sourceImports (source : String) (context : String := "<source>") :
+    IO (Array String) := do
+  let inputCtx := Lean.Parser.mkInputContext source context
+  let (header, _, messages) ← Lean.Parser.parseHeader inputCtx
+  if messages.hasErrors then
+    throw <| IO.userError s!"Could not parse the import header of {context}."
+  let parsedImports := Lean.Elab.HeaderSyntax.imports header (includeInit := false)
+  let importsWithImplicitInit := Lean.Elab.HeaderSyntax.imports header (includeInit := true)
+  if importsWithImplicitInit.size == parsedImports.size then
+    throw <| IO.userError
+      s!"{context} uses a `prelude` header, which a plain generated workspace \
+         cannot reproduce."
+  if Lean.Elab.HeaderSyntax.isModule header then
+    throw <| IO.userError
+      s!"{context} uses a `module` header. Generated workspaces are plain Lean \
+         files, so module-system visibility would not be reproduced."
   let mut out : Array String := #[]
-  let mut i : Nat := 0
-  while i < toks.size do
-    if headerModifier toks[i]! then
-      i := i + 1
-    else if toks[i]! == "import" then
-      if i + 1 < toks.size then
-        out := out.push toks[i + 1]!
-        i := i + 2
-      else
-        i := i + 1
-    else
-      break
+  for imp in parsedImports do
+    if imp.importAll || imp.isMeta then
+      throw <| IO.userError
+        s!"{context} uses `import all` or `meta import` ({imp.module}), which a \
+           plain generated workspace cannot reproduce."
+    out := out.push imp.module.toString
   return out
 
 partial def repoLocalImportModulesAux (root : System.FilePath) (moduleName : String)
@@ -552,9 +555,9 @@ partial def repoLocalImportModulesAux (root : System.FilePath) (moduleName : Str
   if !(← path.pathExists) then return #[]
   let source ← IO.FS.readFile path
   let mut out : Array String := #[]
-  for imported in sourceImports source do
+  for imported in (← sourceImports source moduleName) do
     if imported.startsWith "Mathlib." || imported == "Mathlib" then continue
-    if imported.startsWith "EvalTools." then continue
+    if imported == "EvalTools" || imported.startsWith "EvalTools." then continue
     if imported == moduleName then continue
     if (← seen.get).contains imported then continue
     let importedPath := moduleSourcePath root imported
@@ -588,7 +591,7 @@ private partial def collectWorkspaceImports (root : System.FilePath) (moduleName
     (visited : IO.Ref (Std.HashSet String)) (out : IO.Ref (Array String)) : IO Unit := do
   let path := moduleSourcePath root moduleName
   if !(← path.pathExists) then return
-  for imported in sourceImports (← IO.FS.readFile path) do
+  for imported in (← sourceImports (← IO.FS.readFile path) moduleName) do
     if imported == "EvalTools.Markers" then continue
     if imported == "EvalTools" || imported.startsWith "EvalTools." then
       throw <| IO.userError
@@ -686,11 +689,12 @@ def loadIleanDeclRanges (root : System.FilePath) (moduleName : String) :
 
 /-- Insert `line` (must end in `\n`) just after the last import line at the
 top of `source`. Mirrors `_inject_after_imports`. -/
-def injectAfterImports (source line : String) : String := Id.run do
+def injectAfterImports (source line : String)
+    (fallbackHeader : String := "import Mathlib\n") : String := Id.run do
   let src := Source.ofString source
   let (insertAt, _) := scanHeader src
   if insertAt == 0 then
-    return "import Mathlib\n" ++ line ++ source
+    return fallbackHeader ++ line ++ source
   let before := Source.slice src 0 insertAt
   let after := Source.slice src insertAt src.size
   return before ++ line ++ after
@@ -718,6 +722,55 @@ def topLevelNamespaces (body userNamespace : String) : Array String := Id.run do
       continue
   return byOrder
 
+/-- `s[0:limit]` with every comment blanked out, newlines preserved so the
+line structure survives. Handles `--` to end of line and nested block comments. -/
+def blankComments (s : Source) (limit : Nat) : String := Id.run do
+  let mut out : String := ""
+  let mut i : Nat := 0
+  let mut depth : Nat := 0
+  let n := min limit s.size
+  while i < n do
+    let c := s[i]!
+    if depth == 0 && Source.startsWithAt s i "--".toList then
+      while i < n && s[i]! != '\n' do
+        i := i + 1
+    else if Source.startsWithAt s i "/-".toList then
+      depth := depth + 1
+      i := i + 2
+    else if depth > 0 && Source.startsWithAt s i "-/".toList then
+      depth := depth - 1
+      i := i + 2
+    else
+      if depth == 0 then out := out.push c
+      else if c == '\n' then out := out.push c
+      i := i + 1
+  return out
+
+/-- True iff `s` begins with the complete keyword `kw`. -/
+private def startsWithKeyword (s kw : String) : Bool :=
+  if !(s.startsWith kw) then false
+  else
+    let chars := s.toList.drop kw.length
+    match chars with
+    | [] => true
+    | c :: _ => !(c.isAlphanum || c == '_' || c == '\'')
+
+/-- Remove command modifiers that may precede a scope-opening command. Keeping
+this normalization shared prevents the namespace/open and variable/syntax
+walkers from assigning the matching `end` to different frames. -/
+private def stripScopeCommandModifiers (s : String) : String := Id.run do
+  let modifiers := #["noncomputable", "private", "protected", "scoped"]
+  let mut rest := s.trimAscii.toString
+  let mut changed := true
+  while changed do
+    changed := false
+    for modifier in modifiers do
+      if startsWithKeyword rest modifier then
+        rest := (rest.drop modifier.length).trimAsciiStart.toString
+        changed := true
+        break
+  return rest
+
 /-- Wrap `source`'s body in `namespace Submission ... end Submission`.
 Mirrors `_wrap_body_in_submission_namespace`. -/
 def wrapBodyInSubmissionNamespace (source userNamespace : String)
@@ -744,9 +797,61 @@ def wrapBodyInSubmissionNamespace (source userNamespace : String)
     openNamespaces := openNamespaces.push ns
     seenBase := seenBase.insert base
   let opens := openNamespaces.foldl (fun acc ns => acc ++ s!"open {ns}\n") ""
-  return head ++ "\nnamespace Submission\n\n" ++ opens ++ body ++ "\nend Submission\n"
+  -- Lean permits scopes (most often `noncomputable section`, but also a
+  -- namespace) to run to EOF. The source module then needs no explicit `end`,
+  -- but after placing that body inside `namespace Submission` an appended
+  -- `end Submission` would try to close the still-current source scope. Close
+  -- precisely the scopes that the original source intentionally left to EOF
+  -- before closing our wrapper.
+  let uncommented := blankComments (Source.ofString body) body.length
+  let scopeNameAfter := fun (line keyword : String) =>
+    let rest := (line.drop keyword.length).trimAscii.toString
+    if rest.isEmpty then none else some rest
+  let mut scopeNames : Array (Option String) := #[]
+  for line in uncommented.splitOn "\n" do
+    let stripped := line.trimAscii.toString
+    let command := stripScopeCommandModifiers stripped
+    if startsWithKeyword command "namespace" then
+      scopeNames := scopeNames.push (scopeNameAfter command "namespace")
+    else if startsWithKeyword command "section" then
+      scopeNames := scopeNames.push (scopeNameAfter command "section")
+    else if startsWithKeyword stripped "end" && !scopeNames.isEmpty then
+      scopeNames := scopeNames.pop
+  let closes := "".intercalate <| scopeNames.toList.reverse.map fun name? =>
+    match name? with
+    | some name => s!"end {name}\n"
+    | none => "end\n"
+  return head ++ "\nnamespace Submission\n\n" ++ opens ++ body ++ "\n" ++ closes ++
+    "end Submission\n"
 
 /-! ## Theorem statement / binder parsing -/
+
+/-- True when `needle` occurs in `haystack` as a whole identifier component —
+not as part of a longer name. Used to decide whether kept source text actually
+cites a declaration, so `id_hom` is not matched by `my_id_hom_lemma`.
+
+A leading `.` *is* allowed, because a source reference is usually qualified:
+`PartialMap.id_domain` cites the declaration whose last component is
+`id_domain`. Treating `.` as an identifier character would reject exactly the
+references we are looking for. -/
+def containsIdentifier (haystack needle : String) : Bool := Id.run do
+  if needle.isEmpty then return false
+  let h := haystack.toList.toArray
+  let n := needle.toList.toArray
+  let isIdentChar : Char → Bool := fun c => c.isAlphanum || c == '_' || c == '\''
+  if h.size < n.size then return false
+  for i in [0:h.size - n.size + 1] do
+    let mut matched := true
+    for j in [0:n.size] do
+      if h[i + j]! != n[j]! then
+        matched := false
+        break
+    if matched then
+      let beforeOk := i == 0 || !(isIdentChar h[i - 1]!)
+      let afterIdx := i + n.size
+      let afterOk := afterIdx ≥ h.size || !(isIdentChar h[afterIdx]!)
+      if beforeOk && afterOk then return true
+  return false
 
 def lastComponentStr (name : String) : String :=
   match (name.splitOn ".").getLast? with
@@ -1065,6 +1170,22 @@ def injectSolutionHoleModifiers (signature basename : String) : Option String :=
       trimmed.dropRight noncomputableKw.length
     else
       prefixText
+  let trimmedPrefix := prefixText.trimAsciiEnd.toString
+  if trimmedPrefix.endsWith "]" then
+    -- Attributes are one prefix block in Lean's grammar; two consecutive
+    -- `@[...]` blocks do not compose. Merge `reducible` into an existing final
+    -- block, filtering any competing reducibility marker, instead of emitting
+    -- a second block.
+    let trimmedSrc := Source.ofString trimmedPrefix
+    if let some attrStart := Source.rfind trimmedSrc trimmedSrc.size "@[".toList then
+      let contentsStart := attrStart + 2
+      let beforeContents := Source.slice trimmedSrc 0 contentsStart
+      let contents := Source.slice trimmedSrc contentsStart (trimmedSrc.size - 1)
+      let attrs := contents.splitOn "," |>.map (fun a => a.trimAscii.toString) |>.filter fun a =>
+        a != "reducible" && a != "instance_reducible" && a != "semireducible"
+      let trailing := (prefixText.drop trimmedPrefix.length).toString
+      return beforeContents ++ ", ".intercalate ("reducible" :: attrs) ++ "]" ++ trailing ++
+        "noncomputable " ++ Source.slice sigSrc kwStart sigSrc.size
   return prefixText ++ "@[reducible] noncomputable " ++ Source.slice sigSrc kwStart sigSrc.size
 
 /-! ## Context opens -/
@@ -1141,6 +1262,9 @@ def extractContextOpens (problemId : String) (sourcePath : System.FilePath)
   let targetLine? : Option Nat := extracted?.map fun e => e.startLine
   let mut namespaceStack : Array String := #[]
   let mut openLayers : Array (Array String) := #[#[]]
+  -- Parallel to `openLayers`: was each frame opened by `namespace` (contributing
+  -- a name) or by `section` (contributing only a scope)?
+  let mut frameIsNamespace : Array Bool := #[]
   let mut inBody := false
   let mut done := false
   for idx in [1:lines.size + 1] do
@@ -1149,6 +1273,7 @@ def extractContextOpens (problemId : String) (sourcePath : System.FilePath)
       if idx ≥ t then break
     let line := lines[idx - 1]!
     let stripped := line.trimAscii.toString
+    let scopeCommand := stripScopeCommandModifiers stripped
     if !inBody then
       if stripped.startsWith "import " || stripped.isEmpty then continue
       inBody := true
@@ -1168,15 +1293,27 @@ def extractContextOpens (problemId : String) (sourcePath : System.FilePath)
       if isDecl then
         done := true
         continue
-    if stripped.startsWith "namespace " then
-      let rest := (stripped.drop "namespace ".length).trimAscii.toString
+    if scopeCommand.startsWith "namespace " then
+      let rest := (scopeCommand.drop "namespace ".length).trimAscii.toString
       let name := ((rest.splitOn " ").head!).trimAscii.toString
       namespaceStack := namespaceStack.push name
       openLayers := openLayers.push #[]
-    else if stripped.startsWith "end " || stripped == "end" then
-      if namespaceStack.size > 0 then
-        namespaceStack := namespaceStack.pop
+      frameIsNamespace := frameIsNamespace.push true
+    else if startsWithKeyword scopeCommand "section" then
+      -- A `section` opens a scope for `open` just as a `namespace` does, but
+      -- contributes no name. Tracking only namespaces meant the matching `end`
+      -- popped a *namespace* frame instead, discarding the `open` lines held in
+      -- it: a module shaped `namespace N / open … / section S / … / end S`
+      -- emitted no opens at all. The sibling walker for `variable`/notation
+      -- already counts both.
+      openLayers := openLayers.push #[]
+      frameIsNamespace := frameIsNamespace.push false
+    else if startsWithKeyword stripped "end" then
+      if openLayers.size > 1 then
         openLayers := openLayers.pop
+        if frameIsNamespace.back? == some true && namespaceStack.size > 0 then
+          namespaceStack := namespaceStack.pop
+        frameIsNamespace := frameIsNamespace.pop
     else if stripped.startsWith "open " then
       if isScopedOpenLine stripped then continue
       -- Multi-line scoped form: `open Foo` on one line, `in <body>` on a
@@ -1215,17 +1352,6 @@ private def isLineStartingWithWhitespace (line : String) : Bool :=
   match line.toList with
   | [] => false
   | c :: _ => c.isWhitespace
-
-/-- True iff `s` starts with `kw` and the next character (if any) is not part of
-an identifier — i.e. `kw` is followed by whitespace or end-of-line, not by more
-letters/underscores. Avoids matching `variableFoo` as `variable`. -/
-private def startsWithKeyword (s kw : String) : Bool :=
-  if !(s.startsWith kw) then false
-  else
-    let chars := s.toList.drop kw.length
-    match chars with
-    | [] => true
-    | c :: _ => !(c.isAlphanum || c == '_' || c == '\'')
 
 -- Drop the prefix of length `n` from `s` as a `String`.
 private def stringDrop (s : String) (n : Nat) : String :=
@@ -1282,10 +1408,39 @@ private def variableShadowedByTheorem (varText : String)
     if !theoremBinderNames.contains name then return false
   return true
 
+/-- Drop leading trivia and attribute lists from a declaration slice, so what
+gets classified is the declaration's own keyword.
+
+A slice taken from an `.ilean` range starts at the *beginning* of the
+declaration, which is the doc comment and/or attribute list, not the keyword. So
+a documented notation reads `/-- … -/\nnotation "𝔻" => …` and an attributed one
+reads `@[inherit_doc] notation "∇_["m"]" => …`. Classifying either directly
+finds no keyword, and the notation was then treated as an ordinary declaration
+and stripped out of `ChallengeDeps.lean`, leaving its users to fail with
+`Unknown identifier` or a syntax error at the notation's own tokens. -/
+private def stripLeadingCommentsAndAttributes (declarationText : String) : String := Id.run do
+  let src := Source.ofString declarationText
+  let n := src.size
+  let mut i := Source.skipTrivia src 0
+  -- `@[...]`, possibly several, each followed by more trivia.
+  while i < n && Source.startsWithAt src i "@[".toList do
+    let mut depth := 0
+    let mut j := i + 1        -- at '['
+    let mut closed := false
+    while j < n && !closed do
+      if src[j]! == '[' then depth := depth + 1
+      else if src[j]! == ']' then
+        depth := depth - 1
+        if depth == 0 then closed := true
+      j := j + 1
+    if !closed then return (Source.slice src i n)
+    i := Source.skipTrivia src j
+  return (Source.slice src i n)
+
 /-- Syntax declarations are source context, not mathematical helpers, but
 extracted statements and kept declarations may depend on their notation. -/
-private def isSyntaxContextDeclaration (declarationText : String) : Bool := Id.run do
-  let text := declarationText.trimAsciiStart.toString
+def isSyntaxContextDeclaration (declarationText : String) : Bool := Id.run do
+  let text := (stripLeadingCommentsAndAttributes declarationText).trimAsciiStart.toString
   let prefixes := #[
     "notation", "local notation", "scoped notation",
     "infix", "infixl", "infixr", "prefix", "postfix",
@@ -1297,8 +1452,8 @@ private def isSyntaxContextDeclaration (declarationText : String) : Bool := Id.r
     if startsWithKeyword text kw then return true
   return false
 
-private def isLocalSyntaxContextDeclaration (declarationText : String) : Bool := Id.run do
-  let text := declarationText.trimAsciiStart.toString
+def isLocalSyntaxContextDeclaration (declarationText : String) : Bool := Id.run do
+  let text := (stripLeadingCommentsAndAttributes declarationText).trimAsciiStart.toString
   let prefixes := #[
     "local notation", "local infix", "local infixl", "local infixr",
     "local prefix", "local postfix", "local syntax"
@@ -1372,10 +1527,11 @@ private def extractScopedCommandBlocksWhere (source : String)
       idx := idx + 1
       continue
     let stripped := classified.trimAscii.toString
+    let scopeCommand := stripScopeCommandModifiers stripped
     if stripped.isEmpty || stripped.startsWith "--" then
       idx := idx + 1
       continue
-    if startsWithKeyword stripped "namespace" || startsWithKeyword stripped "section" then
+    if startsWithKeyword scopeCommand "namespace" || startsWithKeyword scopeCommand "section" then
       frameDepth := frameDepth + 1
       layers := layers.push #[]
       idx := idx + 1
@@ -1454,6 +1610,30 @@ def extractContextSyntaxDeclarations (source : String)
 def extractContextLocalSyntaxDeclarations (source : String)
     (extracted? : Option ExtractedTheorem) : String :=
   extractScopedCommandBlocksWhere source extracted? isLocalSyntaxContextDeclaration (fun _ => true)
+
+/-- Collect the in-scope `variable` commands together with the
+notation/syntax/macro commands, preserving their source order.
+
+Emitting them as two separate blocks reorders them, and the order matters in
+both directions: a notation may mention a variable, as in
+
+    variable {d : ℕ}
+    local notation "ℝᵈ" => EuclideanSpace ℝ (Fin d)
+
+and a later `variable` may be written using a notation. Emitting the notation
+first made the quotation precheck fail with `Unknown identifier 'd'` and left
+the macro without an elaborator. `syntaxMatches` selects which syntax commands to
+carry, so callers can keep the `local`-only behaviour when the non-local ones
+have already gone into `ChallengeDeps.lean`. -/
+def extractContextVariablesAndSyntax (source : String)
+    (extracted? : Option ExtractedTheorem) (theoremBinderNames : Array String)
+    (syntaxMatches : String → Bool) : String :=
+  extractScopedCommandBlocksWhere source extracted?
+    (fun stripped => startsWithKeyword stripped "variable" || syntaxMatches stripped)
+    (fun block =>
+      if startsWithKeyword block.trimAsciiStart.toString "variable" then
+        !variableShadowedByTheorem block theoremBinderNames
+      else true)
 
 /-! ## Delegation arguments -/
 
@@ -1565,10 +1745,48 @@ def applyEdits (sourceText : String) (edits : Array (Nat × Nat × String)) : St
     result := Source.slice src 0 start ++ replacement ++ Source.slice src stop src.size
   return result
 
+/-- Reducibility attributes may only be set in the module that defines their
+target. When trusted helpers move to `ChallengeDeps`, these context commands
+are copied there too, but also remain in the edited Challenge/Submission/Solution
+source. Drop the duplicate: importing `ChallengeDeps` already carries the
+requested reducibility status. Commented examples are ignored by pairing source
+lines with a comment-blanked view. -/
+def removeDuplicatedReducibilityAttributes (sourceText : String)
+    (movedHelpers : Std.HashSet String) : String := Id.run do
+  let original := sourceText.splitOn "\n"
+  let visible := (blankComments (Source.ofString sourceText) sourceText.length).splitOn "\n"
+  let mut out : Array String := #[]
+  for i in [0:original.length] do
+    let line := original[i]!
+    let shown := visible[i]!.trimAsciiStart.toString
+    let actual := line.trimAsciiStart.toString
+    let isReducibilityCommand := startsWithKeyword shown "attribute" &&
+      (shown.startsWith "attribute [reducible]" ||
+        shown.startsWith "attribute [instance_reducible]")
+    if isReducibilityCommand && actual.startsWith "attribute" then
+      let shownParts := shown.splitOn "]"
+      let actualParts := actual.splitOn "]"
+      if shownParts.length > 1 && actualParts.length > 1 then
+        let targets := splitWhitespace ("]".intercalate (shownParts.drop 1))
+        let isMoved := fun target => movedHelpers.toList.any fun helper =>
+          helper == target || helper.endsWith ("." ++ target)
+        let kept := targets.filter fun target => !isMoved target
+        if kept.size != targets.size then
+          if kept.isEmpty then
+            out := out.push ""
+          else
+            let indent :=
+              String.mk (line.toList.take (line.length - line.trimAsciiStart.toString.length))
+            let commandPrefix := actualParts.head! ++ "]"
+            out := out.push (indent ++ commandPrefix ++ " " ++ " ".intercalate kept.toList)
+          continue
+    out := out.push line
+  return "\n".intercalate out.toList
+
 /-- Commands that can be written as `<command> … in <declaration>` to scope
 themselves onto a single following declaration. -/
 private def scopingCommandKeywords : Array String :=
-  #["set_option", "open", "attribute", "include", "omit", "local", "scoped"]
+  #["variable", "set_option", "open", "attribute", "include", "omit", "local", "scoped"]
 
 /-- Split `[lowerBound, limit)` into lines, each paired with the tokens it
 contributes outside comments. Comment state is carried forward across lines, so
@@ -1746,26 +1964,46 @@ def renderChallengeDeps (root : System.FilePath) (entry : EvalProblemMetadata)
   renderChallengeDepsCore root entry sourceText localImports keepDeclarations protectedRanges
 
 
-/-- For each helper name in `helperNames`, return its enclosing namespace
-`_root_`-qualified (the dotted prefix, all components except the last). Used
+/-- For each helper name in `helperNames`, return every ancestor of its enclosing
+namespace `_root_`-qualified. Used
 to inject `open ...` lines so that helpers — declared at root namespace in
 `ChallengeDeps.lean` — resolve from unqualified references inside `namespace
 Submission`. The `_root_.` qualification is essential: a bare `open Helpers`
 inside `namespace Submission` would resolve to `Submission.Helpers` (which
 holds the holes), not `_root_.Helpers` (which holds the helpers). Root-level
 helpers (no dotted prefix) contribute no `open` — they resolve via `_root_`
-automatically. -/
+automatically.
+
+Every ancestor is needed because wrapping changes namespace self-resolution.
+For example, source inside `namespace AlgebraicGeometry.Scheme` can refer to the
+parent's `Scheme` constant. Once that source is nested below `Submission`,
+opening only `_root_.AlgebraicGeometry.Scheme` exposes its members but not the
+`Scheme` constant itself; `_root_.AlgebraicGeometry` must also be open. -/
 def derivedHelperOpens (helperNames : Std.HashSet String) : Array String := Id.run do
   let mut opens : Array String := #[]
   let mut seen : Std.HashSet String := {}
-  for name in helperNames.toList do
+  for name in helperNames.toList.mergeSort do
     let parts := name.splitOn "."
     if parts.length ≤ 1 then continue
-    let prefix' := ".".intercalate (parts.take (parts.length - 1))
-    if seen.contains prefix' then continue
-    opens := opens.push s!"_root_.{prefix'}"
-    seen := seen.insert prefix'
+    for count in [1:parts.length] do
+      let prefix' := ".".intercalate (parts.take count)
+      if seen.contains prefix' then continue
+      opens := opens.push s!"_root_.{prefix'}"
+      seen := seen.insert prefix'
   return opens
+
+/-- Split trusted helpers into those that can be compiled in `ChallengeDeps`
+and those that must remain inline because they depend on a problem hole. -/
+def partitionHelpersByHoleDependence (helperNames holeDependentNames : Std.HashSet String) :
+    Std.HashSet String × Std.HashSet String := Id.run do
+  let mut depsHelpers : Std.HashSet String := {}
+  let mut inlineHelpers : Std.HashSet String := {}
+  for name in helperNames.toList do
+    if holeDependentNames.contains name then
+      inlineHelpers := inlineHelpers.insert name
+    else
+      depsHelpers := depsHelpers.insert name
+  return (depsHelpers, inlineHelpers)
 
 /-! ## Python-compatible JSON pretty-printer
 
@@ -1917,8 +2155,10 @@ private def renderReadmeLines (entry : EvalProblemMetadata)
         "`Submission.lean` (under `namespace Submission`) for comparator to accept",
         "your solution.",
         "",
-        "Participants may use Mathlib freely. Any helper code not already available in",
-        "Mathlib must be inlined into the submission workspace.",
+        "Participants may use declarations from the existing Mathlib imports. Broadening",
+        "the import header (especially to `import Mathlib`) can change elaboration of the",
+        "fixed statement; any added import must leave `lake build Solution` green. Helper",
+        "code not available through compatible imports must be inlined into the workspace.",
         "",
         "`lake test` runs comparator for this problem. The command expects a comparator",
         "binary in `PATH`, or in the `COMPARATOR_BIN` environment variable."
@@ -1932,8 +2172,10 @@ private def renderReadmeLines (entry : EvalProblemMetadata)
         "Write your solution in `Submission.lean` and any additional local modules under",
         "`Submission/`.",
         "",
-        "Participants may use Mathlib freely. Any helper code not already available in",
-        "Mathlib must be inlined into the submission workspace.",
+        "Participants may use declarations from the existing Mathlib imports. Broadening",
+        "the import header (especially to `import Mathlib`) can change elaboration of the",
+        "fixed statement; any added import must leave `lake build Solution` green. Helper",
+        "code not available through compatible imports must be inlined into the workspace.",
         "",
         "Multi-file submissions are allowed through `Submission.lean` and additional local",
         "modules under `Submission/`.",
@@ -1997,15 +2239,59 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
   -- delegation chain handles it.
   let holeNames : Std.HashSet String :=
     extracteds.foldl (init := {}) fun acc e => acc.insert e.declarationName
-  let helperNames : Std.HashSet String :=
+  let mut helperNames : Std.HashSet String :=
     extracteds.foldl (init := {}) fun acc e =>
       e.sameModuleDependencies.foldl
         (fun a n => if holeNames.contains n then a else a.insert n) acc
+  let holeDependentNames : Std.HashSet String :=
+    extracteds.foldl (init := {}) fun acc e =>
+      e.holeDependentDependencies.foldl (fun a n => a.insert n) acc
+  let earliestHoleStart := holesWithRanges[0]!.1
   -- Load declaration spans from raw source once and validate every declared
   -- helper is actually present (catches stale metadata / source mismatch
   -- early rather than as a confusing Lean build error downstream).
   let spans ← if helperNames.isEmpty then pure (#[] : Array DeclSpan)
               else loadDeclSpans root entry src
+  -- Close the helper set over declarations *named in the source text* as well as
+  -- those reachable in the elaborated terms.
+  --
+  -- The dependency closure comes from elaborated terms, deliberately, so that
+  -- typeclass synthesis is followed. But elaboration also *erases*: a `rfl`
+  -- lemma cited in a `simp [...]` list leaves no trace in the resulting proof
+  -- term, so it never enters the closure — while the helper's source text, which
+  -- is what gets copied into the workspace, still names it. In
+  -- `MotivicInvariants`, `PartialMap.id_domain` (a `rfl` lemma) vanished this way
+  -- while its sibling `id_hom`, cited in the same `simp` list, survived; the
+  -- copied helper then failed to build with `Unknown constant`.
+  --
+  -- So scan the text being kept for same-module declaration names and pull those
+  -- in too, to a fixpoint, since a newly added helper's own text may name more.
+  -- Comments are blanked first so a name occurring only in prose is not pulled
+  -- in. Holes are never added: they are not helpers.
+  if !spans.isEmpty then
+    let mut changed := true
+    let mut rounds := 0
+    while changed && rounds < spans.size + 1 do
+      changed := false
+      rounds := rounds + 1
+      let mut keptText : String := ""
+      for sp in spans do
+        if helperNames.contains sp.name then
+          let text := Source.slice src sp.start sp.declEnd
+          let textSrc := Source.ofString text
+          keptText := keptText ++ "\n" ++ blankComments textSrc textSrc.size
+      for sp in spans do
+        if helperNames.contains sp.name || holeNames.contains sp.name then continue
+        let basename := lastComponentStr sp.name
+        unless basename.isEmpty do
+          if containsIdentifier keptText basename then
+            if sp.start ≥ earliestHoleStart then
+              throw <| IO.userError
+                s!"Trusted helper text refers to '{sp.name}', declared after a problem hole. \
+                   Its hole-dependence cannot be established from the elaborated dependency \
+                   closure, so it cannot safely be moved to ChallengeDeps."
+            helperNames := helperNames.insert sp.name
+            changed := true
   if !helperNames.isEmpty then
     let declNameSet : Std.HashSet String :=
       spans.foldl (init := {}) fun acc s => acc.insert s.name
@@ -2021,16 +2307,44 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
       (List.range (parts.length - 1)).any fun i =>
         let p := ".".intercalate (parts.take (i + 1))
         helperNames.contains p && declNameSet.contains p
-    let missing : Array String := helperNames.toList.foldl (init := #[]) fun acc n =>
+    -- A helper with no `.ilean` span of its own was never written down: it is an
+    -- auto-generated companion of a declaration that *was*. `deriving` emits its
+    -- instances positioned inside the parent `def`; a `structure` emits
+    -- `.injEq`, `.ctorIdx`, `.noConfusionType`, `.sizeOf_spec`; `grind` used as
+    -- an auto-param default emits `…hcongr_*` with no source position at all.
+    --
+    -- None of these can be sliced out of the source, so keeping one in the
+    -- helper set could only ever raise the error below. Dropping them is safe:
+    -- the generated files are built from source *text*, and a constant with no
+    -- source position cannot be named in that text, so dropping cannot leave a
+    -- dangling reference. If the text does name one, it names it because the
+    -- trusted source did — and that text is copied verbatim, so the declaration
+    -- that regenerates it is necessarily in the closure and retained. Surveying
+    -- the catalog, every such constant is a structure/class companion, and none
+    -- is an `instance`, which is the one case where a silently-missing
+    -- declaration could be papered over by instance search rather than failing.
+    let generated : Array String := helperNames.toList.foldl (init := #[]) fun acc n =>
       if declNameSet.contains n || hasKeptHelperParent n then acc else acc.push n
-    if !missing.isEmpty then
-      throw <| IO.userError
-        s!"Multi-hole problem '{entry.id}': declared helper dependencies not \
-           found in source module: {", ".intercalate missing.toList}"
-  let helperRanges : Array (Nat × Nat) :=
-    spans.filterMap fun s =>
-      if helperNames.contains s.name then some (s.start, s.declEnd)
-      else none
+    for n in generated do
+      helperNames := helperNames.erase n
+  let (depsHelpers, _) :=
+    partitionHelpersByHoleDependence helperNames holeDependentNames
+  -- Remove a helper together with any `... in` command scoped onto it. A
+  -- declaration's `.ilean` range starts at its doc comment, so a prefix like
+  -- `open Classical in` lies outside it and would be left behind — where it then
+  -- binds to whatever command comes next. In practice that was the `variable`
+  -- command, which the orphan swallowed, so the binders were never declared and
+  -- the statement failed with `Unknown identifier`. The `ChallengeDeps` removal
+  -- path already extends over prefixes; this one did not.
+  let helperRanges : Array (Nat × Nat) := Id.run do
+    let sorted := spans.qsort (fun a b => a.start < b.start)
+    let mut out : Array (Nat × Nat) := #[]
+    let mut previousEnd := 0
+    for sp in sorted do
+      if depsHelpers.contains sp.name then
+        out := out.push (extendOverScopingPrefixes src previousEnd sp.start, sp.declEnd)
+      previousEnd := max previousEnd sp.declEnd
+    return out
   let localImports ← repoLocalImportModules root entry.moduleName
   -- Open the enclosing namespaces of the in-module helpers. When the problem
   -- also pulls trusted deps from imported library modules (`localImports`
@@ -2041,7 +2355,7 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
   -- exist at `_root_` once the holes move under `Submission`, and `open
   -- _root_.<that>` would be an unknown-namespace error (e.g. the all-holes
   -- `jacobian_challenge_*` problems). Duplicates are dropped downstream. -/
-  let helperOpens := derivedHelperOpens helperNames ++
+  let helperOpens := derivedHelperOpens depsHelpers ++
     (if localImports.isEmpty then #[] else derivedHelperOpens holeNames)
   -- Render ChallengeDeps via the shared core, passing precise hole ranges so
   -- the helper-extraction slicing knows where the hole bodies live (the
@@ -2050,7 +2364,7 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
   for (s, eo, name, _) in holesWithRanges do
     holeRanges := holeRanges.insert name (s, eo)
   let challengeDeps? ←
-    renderChallengeDepsCore root entry sourceText localImports helperNames holeRanges
+    renderChallengeDepsCore root entry sourceText localImports depsHelpers holeRanges
   let hasChallengeDeps := challengeDeps?.isSome
   -- Compute Solution's edit set against raw source: helper removals plus
   -- hole-body replacements (delegations to `Submission.<name>`). Applied in
@@ -2101,8 +2415,15 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
     let newDecl := signature ++ applied
     solutionEdits := solutionEdits.push (startOff, endOff, newDecl)
   let solutionText := applyEdits sourceText solutionEdits
+  let solutionText :=
+    if hasChallengeDeps then
+      removeDuplicatedReducibilityAttributes solutionText depsHelpers
+    else solutionText
   -- Challenge and Submission only need helper removals.
   let helperStripped := applyEdits sourceText helperEdits
+  let helperStripped :=
+    if hasChallengeDeps then removeDuplicatedReducibilityAttributes helperStripped depsHelpers
+    else helperStripped
   let moduleImports ← problemImportHeader root entry.moduleName
   let baseImport := if hasChallengeDeps then "import ChallengeDeps\n\n" else moduleImports ++ "\n"
   let challengeBodyStripped := stripProblemMarkers helperStripped localImports
@@ -2113,7 +2434,7 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
       injectAfterImports challengeBodyStripped "import ChallengeDeps\n"
     else challengeBodyStripped
   let solutionBody := stripProblemMarkers solutionText localImports
-  let solutionBody := injectAfterImports solutionBody "import Submission\n"
+  let solutionBody := injectAfterImports solutionBody "import Submission\n" baseImport
   let solutionBody :=
     if hasChallengeDeps then injectAfterImports solutionBody "import ChallengeDeps\n"
     else solutionBody
@@ -2124,7 +2445,8 @@ private def renderWorkspaceMultiHole (root : System.FilePath) (entry : EvalProbl
   -- resolve to `_root_.<ns>.<helper>` rather than the (non-existent)
   -- `Submission.<ns>.<helper>`.
   let submissionStripped := stripProblemMarkers helperStripped localImports
-  let submissionWithHelpers := injectAfterImports submissionStripped "import Submission.Helpers\n"
+  let submissionWithHelpers :=
+    injectAfterImports submissionStripped "import Submission.Helpers\n" baseImport
   let submissionWithHelpers :=
     if hasChallengeDeps then injectAfterImports submissionWithHelpers "import ChallengeDeps\n"
     else submissionWithHelpers
@@ -2190,12 +2512,16 @@ private def renderWorkspaceSingleHole (root : System.FilePath) (entry : EvalProb
   let theoremBinderNames := binderIntroducedNames theoremStatement
   let contextUniverseBlock :=
     extractContextUniverses sourceText (some extracted)
-  let contextSyntaxBlock :=
-    extractContextSyntaxDeclarations sourceText (some extracted)
-  let contextLocalSyntaxBlock :=
-    extractContextLocalSyntaxDeclarations sourceText (some extracted)
   let contextVariablesBlock :=
     extractContextVariables sourceText (some extracted) theoremBinderNames
+  -- `variable` and notation must keep their source order relative to one
+  -- another; see `extractContextVariablesAndSyntax`.
+  let contextVarsWithSyntax :=
+    extractContextVariablesAndSyntax sourceText (some extracted) theoremBinderNames
+      isSyntaxContextDeclaration
+  let contextVarsWithLocalSyntax :=
+    extractContextVariablesAndSyntax sourceText (some extracted) theoremBinderNames
+      isLocalSyntaxContextDeclaration
   let contextIncludeBlock :=
     extractContextIncludes sourceText (some extracted)
   -- A prefix scoped onto the target declaration itself belongs with the
@@ -2233,17 +2559,17 @@ private def renderWorkspaceSingleHole (root : System.FilePath) (entry : EvalProb
   let readme := "\n".intercalate readmeLines.toList ++ "\n"
   let challengeFile :=
     challengeImport ++ contextOpenBlock ++ contextUniverseBlock ++
-      (if hasChallengeDeps then contextLocalSyntaxBlock else contextSyntaxBlock) ++
-      contextVariablesBlock ++ contextIncludeBlock ++ declarationPrefix ++
+      (if hasChallengeDeps then contextVarsWithLocalSyntax else contextVarsWithSyntax) ++
+      contextIncludeBlock ++ declarationPrefix ++
     s!"theorem {theoremName} {theoremStatement} := by\n  sorry\n"
   let solutionFile :=
-    solutionImports ++ contextOpenBlock ++ contextUniverseBlock ++ contextLocalSyntaxBlock ++
-      contextVariablesBlock ++ contextIncludeBlock ++ declarationPrefix ++
+    solutionImports ++ contextOpenBlock ++ contextUniverseBlock ++
+      contextVarsWithLocalSyntax ++ contextIncludeBlock ++ declarationPrefix ++
     s!"theorem {theoremName} {theoremStatement} := by\n  exact {solutionExact}\n"
   let submissionFile :=
     submissionImports ++ contextOpenBlock ++ contextUniverseBlock ++
-      (if hasChallengeDeps then contextLocalSyntaxBlock else contextSyntaxBlock) ++
-      contextVariablesBlock ++ contextIncludeBlock ++
+      (if hasChallengeDeps then contextVarsWithLocalSyntax else contextVarsWithSyntax) ++
+      contextIncludeBlock ++
     "namespace Submission\n\n" ++ declarationPrefix ++
     s!"theorem {theoremName} {theoremStatement} := by\n  sorry\n\n" ++
     "end Submission\n"
