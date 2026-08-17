@@ -83,10 +83,10 @@ then `‖D² u 0‖_F ≤ C(‖u‖_{C¹})`.
 -/
 @[eval_problem]
 theorem theorem_1_1 : ∃ C : ℝ≥0∞ → ℝ, ∀ (u : ℝ⁴ → ℝ)
-    (smooth : ContDiffOn ℝ ∞ u B₁(0))
-    (bounded : ‖u‖_C¹(B₁(0)) < (∞ : ℝ≥0∞))
-    (positive_branch : ∀ x ∈ B₁(0), (Δ u) x > 0)
-    (solution : ∀ x ∈ B₁(0), σ₂ (H u B₁(0) x) = 1),
+    (_smooth : ContDiffOn ℝ ∞ u B₁(0))
+    (_bounded : ‖u‖_C¹(B₁(0)) < (∞ : ℝ≥0∞))
+    (_positive_branch : ∀ x ∈ B₁(0), (Δ u) x > 0)
+    (_solution : ∀ x ∈ B₁(0), σ₂ (H u B₁(0) x) = 1),
     ‖H u B₁(0) 0‖_F ≤ C (‖u‖_C¹(B₁(0))) := by
   sorry
 

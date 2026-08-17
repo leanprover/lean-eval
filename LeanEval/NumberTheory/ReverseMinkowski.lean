@@ -45,7 +45,7 @@ For any lattice `ℒ ⊆ ℝ^n` with determinant greater or equal to `1` for all
 -/
 @[eval_problem]
 theorem theorem_1_2 (ℒ : Submodule ℤ ℝⁿ) [DiscreteTopology ℒ] (hℒ : IsZLattice ℝ ℒ)
-    (h : ∀ ℒ' (hℒℒ' : ℒ' ≤ ℒ) [DiscreteTopology ℒ'], determinant ℒ' ≥ 1) :
+    (h : ∀ ℒ' (_hℒℒ' : ℒ' ≤ ℒ) [DiscreteTopology ℒ'], determinant ℒ' ≥ 1) :
     let t : ℝ := 10 * (log n + 2)
     ρ (1 / t) ℒ ≤ 3 / 2 := by
   sorry
