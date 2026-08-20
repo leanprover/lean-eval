@@ -1,6 +1,10 @@
 id = "noncomputable_hole_example"
 title = "noncomputable-hole minimal example"
-test = true
+group = "formalization-evaluation"
+status = "draft"
+visible = false
+statement_revision = 1
+tags = []
 module = "LeanEval.Sandbox.NoncomputableHoleExample"
 holes = ["RWidget", "instInhabitedRWidget", "rwidgetPoint", "rwidgetPoint_default"]
 submitter = "Kim Morrison"

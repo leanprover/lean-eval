@@ -1,6 +1,10 @@
 id = "annals_rectangular_peg_problem"
 title = "The rectangular peg problem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.Geometry.RectangularPegProblem"
 holes = ["theorem_1"]
 submitter = "Katerina Hristova"

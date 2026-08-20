@@ -1,6 +1,10 @@
 id = "oppenheim_inequality"
 title = "Oppenheim's inequality for Hadamard products"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.LinearAlgebra.Oppenheim"
 holes = ["oppenheim_inequality"]
 submitter = "Kim Morrison"

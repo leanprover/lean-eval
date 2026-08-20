@@ -1,6 +1,10 @@
 id = "bakerWustholz_linearForms_logs"
 title = "Baker-Wüstholz theorem on linear forms in logarithms"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.BakerWustholz"
 holes = ["bakerWustholz_linearForms_logs"]
 submitter = "Ralf Stephan"

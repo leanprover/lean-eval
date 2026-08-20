@@ -1,6 +1,10 @@
 id = "annals_unit_conjecture"
 title = "A counterexample to the unit conjecture for group rings"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.GroupTheory.UnitConjecture"
 holes = ["theorem_A"]
 submitter = "Thomas Browning"

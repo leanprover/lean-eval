@@ -1,6 +1,10 @@
 id = "manolescu_triangulation_disproof"
 title = "Manolescu's disproof of the triangulation conjecture"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.ManolescuTriangulation"
 holes = ["manolescu_triangulation_disproof"]
 submitter = "Kim Morrison"

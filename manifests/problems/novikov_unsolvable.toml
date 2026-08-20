@@ -1,6 +1,10 @@
 id = "novikov_unsolvable"
 title = "Novikov's theorem: the word problem is undecidable for finitely presented groups"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.GroupTheory.NovikovUnsolvable"
 holes = ["novikov_unsolvable"]
 submitter = "Kim Morrison"

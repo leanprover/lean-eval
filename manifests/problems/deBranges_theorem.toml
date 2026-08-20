@@ -1,6 +1,10 @@
 id = "deBranges_theorem"
 title = "De Branges's theorem (Bieberbach conjecture)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.ComplexAnalysis.DeBranges"
 holes = ["deBranges"]
 submitter = "Junyan Xu"

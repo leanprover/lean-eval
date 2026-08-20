@@ -1,6 +1,10 @@
 id = "annulus_theorem_high_dim"
 title = "The Annulus Theorem in dimension ≥ 5 (Kirby)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.AnnulusTheoremHighDim"
 holes = ["annulus_theorem_high_dim"]
 submitter = "Kim Morrison"

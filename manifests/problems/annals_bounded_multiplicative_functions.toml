@@ -1,6 +1,10 @@
 id = "annals_bounded_multiplicative_functions"
 title = "Higher uniformity of bounded multiplicative functions in short intervals on average"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.NumberTheory.BoundedMultiplicativeFunctions"
 holes = ["theorem_1_3", "corollary_1_1"]
 submitter = "David Ledvinka"

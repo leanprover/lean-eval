@@ -1,6 +1,10 @@
 id = "chebyshev_sign_change"
 title = "Hardy–Littlewood sign-change for the prime race mod 4"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.ChebyshevSignChange"
 holes = ["chebyshev_sign_change"]
 submitter = "Kim Morrison"

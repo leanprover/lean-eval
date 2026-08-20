@@ -1,6 +1,10 @@
 id = "instance_hole_example"
 title = "instance-hole minimal example"
-test = true
+group = "formalization-evaluation"
+status = "draft"
+visible = false
+statement_revision = 1
+tags = []
 module = "LeanEval.Sandbox.InstanceHoleExample"
 holes = ["WidgetCarrier", "instInhabitedWidget"]
 submitter = "Kim Morrison"

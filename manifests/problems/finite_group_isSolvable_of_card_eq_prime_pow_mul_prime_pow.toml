@@ -1,6 +1,10 @@
 id = "finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow"
 title = "Burnside p^a q^b theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.GroupTheory.Burnside"
 holes = ["finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow"]
 submitter = "Kim Morrison"

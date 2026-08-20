@@ -1,6 +1,10 @@
 id = "rouche_zero_count_eq"
 title = "Rouche theorem via zero counting"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.ComplexAnalysis.Rouche"
 holes = ["rouche_zero_count_eq"]
 submitter = "Kim Morrison"

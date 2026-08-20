@@ -1,6 +1,10 @@
 id = "finite_graph_ramsey_theorem"
 title = "Finite Ramsey theorem for graphs"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Combinatorics.Ramsey"
 holes = ["finite_graph_ramsey_theorem"]
 submitter = "Kim Morrison"

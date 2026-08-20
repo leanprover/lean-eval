@@ -1,6 +1,10 @@
 id = "compact_group_semisimple"
 title = "Complete reducibility for compact groups"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.RepresentationTheory.CompactGroupSemisimple"
 holes = ["compact_group_semisimple"]
 submitter = "Kim Morrison"

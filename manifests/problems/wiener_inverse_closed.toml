@@ -1,6 +1,10 @@
 id = "wiener_inverse_closed"
 title = "Wiener's 1/f theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.WienerOneOverF"
 holes = ["wiener_inverse_closed"]
 submitter = "Kim Morrison"

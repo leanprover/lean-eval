@@ -1,6 +1,10 @@
 id = "annals_wilkies_conjecture"
 title = "Wilkie's conjecture for Pfaffian structures"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.ModelTheory.WilkiesConjecture"
 holes = ["corollary_1"]
 submitter = "Justus Springer, Mathias Stout"

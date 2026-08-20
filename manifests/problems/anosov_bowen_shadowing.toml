@@ -1,6 +1,10 @@
 id = "anosov_bowen_shadowing"
 title = "Anosov–Bowen shadowing lemma"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Dynamics.HyperbolicShadowing"
 holes = ["hyperbolic_has_shadowing"]
 submitter = "Kim Morrison"

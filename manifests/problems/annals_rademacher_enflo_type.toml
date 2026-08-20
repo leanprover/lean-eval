@@ -1,6 +1,10 @@
 id = "annals_rademacher_enflo_type"
 title = "Rademacher type and Enflo type coincide"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.Analysis.RademacherEnfloType"
 holes = ["theorem_1_1"]
 submitter = "David Ledvinka"

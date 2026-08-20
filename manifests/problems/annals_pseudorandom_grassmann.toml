@@ -1,6 +1,10 @@
 id = "annals_pseudorandom_grassmann"
 title = "Pseudorandom sets in Grassmann graph have near-perfect expansion"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.Combinatorics.PseudorandomGrassmann"
 holes = ["theorem_1_12"]
 submitter = "Justus Springer"

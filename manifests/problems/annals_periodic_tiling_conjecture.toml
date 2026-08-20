@@ -1,6 +1,10 @@
 id = "annals_periodic_tiling_conjecture"
 title = "A counterexample to the periodic tiling conjecture"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.Combinatorics.PeriodicTilingConjecture"
 holes = ["theorem_1_4", "corollary_1_6", "corollary_1_7"]
 submitter = "David Ledvinka"

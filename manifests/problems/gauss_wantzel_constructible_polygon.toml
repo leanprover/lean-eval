@@ -1,6 +1,10 @@
 id = "gauss_wantzel_constructible_polygon"
 title = "Gauss-Wantzel constructible regular polygon theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.GaussWantzel"
 holes = ["gauss_wantzel_constructible_polygon"]
 submitter = "Kim Morrison"

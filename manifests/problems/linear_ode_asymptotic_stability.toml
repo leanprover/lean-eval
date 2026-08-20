@@ -1,6 +1,10 @@
 id = "linear_ode_asymptotic_stability"
 title = "Linear ODE with negative-real-part eigenvalues is asymptotically stable"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.ODE.LinearStability"
 holes = ["linear_ode_asymptotic_stability"]
 submitter = "Kim Morrison"

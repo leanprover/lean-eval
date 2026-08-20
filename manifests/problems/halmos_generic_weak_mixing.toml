@@ -1,6 +1,10 @@
 id = "halmos_generic_weak_mixing"
 title = "Halmos's generic weak-mixing theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Dynamics.HalmosGenericWeakMixing"
 holes = ["generic_weakly_mixing"]
 submitter = "Kim Morrison"

@@ -1,6 +1,10 @@
 id = "fundamental_topos_theory"
 title = "Fundamental theorem of topos theory"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.CategoryTheory.FundamentalTopos"
 holes = ["fundamental_topos_theory"]
 submitter = "Kim Morrison"

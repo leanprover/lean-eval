@@ -1,6 +1,10 @@
 id = "pin_sphere_n_mulEquiv_int"
 title = "pi_n of the n-sphere is Z"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.HomotopyGroups"
 holes = ["pin_sphere_n_mulEquiv_int"]
 submitter = "Kim Morrison"

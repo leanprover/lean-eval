@@ -1,6 +1,10 @@
 id = "riesz_brothers_theorem"
 title = "Riesz brothers' theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.RieszBrothers"
 holes = ["riesz_brothers_theorem"]
 submitter = "Yongxi Lin"

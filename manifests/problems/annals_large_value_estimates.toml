@@ -1,6 +1,10 @@
 id = "annals_large_value_estimates"
 title = "New large value estimates for Dirichlet polynomials"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.NumberTheory.LargeValueEstimates"
 holes = ["theorem_1_1"]
 submitter = "Thomas Browning"

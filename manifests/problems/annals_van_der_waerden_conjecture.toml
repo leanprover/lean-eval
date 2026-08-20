@@ -1,6 +1,10 @@
 id = "annals_van_der_waerden_conjecture"
 title = "Galois groups of random integer polynomials and van der Waerden's Conjecture"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.NumberTheory.VanDerWaerdenConjecture"
 holes = ["theorem_1"]
 submitter = "David Ledvinka"

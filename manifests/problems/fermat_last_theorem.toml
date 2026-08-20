@@ -1,6 +1,10 @@
 id = "fermat_last_theorem"
 title = "Fermat's Last Theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.FermatLastTheorem"
 holes = ["fermat_last_theorem"]
 submitter = "Xuanji Li"

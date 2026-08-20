@@ -1,6 +1,10 @@
 id = "adoCharZero"
 title = "Ado's theorem in characteristic zero"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.RepresentationTheory.AdoIwasawa"
 holes = ["adoCharZero"]
 submitter = "Kim Morrison"

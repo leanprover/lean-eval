@@ -1,6 +1,10 @@
 id = "annals_chowla_and_twin_prime_over_fq_t"
 title = "On the Chowla and twin primes conjectures over 𝔽_q[T]"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.NumberTheory.ChowlaAndTwinPrimeOverFqT"
 holes = ["theorem_1_1", "theorem_1_3"]
 submitter = "Thomas Browning"

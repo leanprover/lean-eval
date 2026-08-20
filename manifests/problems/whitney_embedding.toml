@@ -1,6 +1,10 @@
 id = "whitney_embedding"
 title = "Whitney embedding theorem (strong form, dimension 2n)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.WhitneyEmbedding"
 holes = ["whitney_embedding"]
 submitter = "Kim Morrison"

@@ -1,6 +1,10 @@
 id = "weak_goldbach"
 title = "Weak Goldbach theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.WeakGoldbach"
 holes = ["weak_goldbach"]
 submitter = "Vasily Ilin"

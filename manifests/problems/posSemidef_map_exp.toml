@@ -1,6 +1,10 @@
 id = "posSemidef_map_exp"
 title = "Entrywise exponential of a PSD matrix is PSD"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.LinearAlgebra.EntrywiseExpPSD"
 holes = ["posSemidef_map_exp"]
 submitter = "Kim Morrison"

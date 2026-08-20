@@ -1,6 +1,10 @@
 id = "annals_local_global_apollonian_circle_packings"
 title = "The local-global conjecture for Apollonian circle packings is false"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.NumberTheory.LocalGlobalApollonianCirclePackings"
 holes = ["theorem_1_6", "theorem_1_3"]
 submitter = "Thomas Browning"

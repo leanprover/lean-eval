@@ -1,6 +1,10 @@
 id = "brauer_suzuki"
 title = "Brauer–Suzuki theorem (quaternion Sylow 2-subgroup)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.GroupTheory.BrauerSuzuki"
 holes = ["brauer_suzuki"]
 submitter = "Kim Morrison"

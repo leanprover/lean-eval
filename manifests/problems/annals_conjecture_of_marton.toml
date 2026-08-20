@@ -1,6 +1,10 @@
 id = "annals_conjecture_of_marton"
 title = "On a conjecture of Marton"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.Combinatorics.ConjectureOfMarton"
 holes = ["theorem_1_2"]
 submitter = "Thomas Browning"

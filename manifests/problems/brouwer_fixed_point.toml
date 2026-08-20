@@ -1,6 +1,10 @@
 id = "brouwer_fixed_point"
 title = "Brouwer fixed-point theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.Brouwer"
 holes = ["brouwer_fixed_point"]
 submitter = "Kim Morrison"

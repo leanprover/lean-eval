@@ -1,6 +1,10 @@
 id = "mazur_torsion"
 title = "Mazur's torsion theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.MazurTorsion"
 holes = ["mazur_torsion"]
 submitter = "Kim Morrison"

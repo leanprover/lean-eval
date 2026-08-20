@@ -1,6 +1,10 @@
 id = "annals_fractal_uncertainty"
 title = "Fractal uncertainty in higher dimensions"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.Analysis.FractalUncertainty"
 holes = ["theorem_1_1"]
 submitter = "Justus Springer, Katerina Hristova"

@@ -2142,7 +2142,11 @@ private def renderReadmeLines (entry : EvalProblemMetadata)
     entry.title,
     "",
     s!"- Problem ID: `{entry.id}`",
-    s!"- Test Problem: {if entry.test then "yes" else "no"}",
+    s!"- Group: `{entry.group}`",
+    s!"- Status: `{entry.status}`",
+    s!"- Visible: {if entry.visible then "yes" else "no"}",
+    s!"- Statement Revision: {entry.statementRevision}",
+    s!"- Tags: {if entry.tags.isEmpty then "none" else ", ".intercalate entry.tags.toList}",
     s!"- Submitter: {entry.submitter}"
   ]
   if multiHole then
@@ -2767,7 +2771,11 @@ def generatedIndexEntry (entry : EvalProblemMetadata) : OJson :=
   ojObj #[
     ("id", ojStr entry.id),
     ("title", ojStr entry.title),
-    ("test", ojBool entry.test),
+    ("group", ojStr entry.group),
+    ("status", ojStr entry.status),
+    ("visible", ojBool entry.visible),
+    ("statement_revision", ojNat entry.statementRevision),
+    ("tags", ojStrArr entry.tags),
     ("submitter", ojStr entry.submitter),
     ("module", ojStr entry.moduleName),
     ("holes", ojStrArr entry.holes),

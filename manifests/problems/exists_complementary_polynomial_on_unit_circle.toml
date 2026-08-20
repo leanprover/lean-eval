@@ -1,6 +1,10 @@
 id = "exists_complementary_polynomial_on_unit_circle"
 title = "Complementary polynomial on the unit circle"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.ComplexAnalysis.ComplementaryPolynomials"
 holes = ["exists_complementary_polynomial_on_unit_circle"]
 submitter = "Kim Morrison"

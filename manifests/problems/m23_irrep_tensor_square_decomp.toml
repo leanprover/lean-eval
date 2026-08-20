@@ -1,6 +1,10 @@
 id = "m23_irrep_tensor_square_decomp"
 title = "Existence of a simple group of order 10200960 with a 22-dim irrep whose tensor square has 4 isotypic components"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.RepresentationTheory.M23TensorSquare"
 holes = ["m23_irrep_tensor_square_decomp"]
 submitter = "Kim Morrison"

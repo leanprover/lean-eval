@@ -1,6 +1,10 @@
 id = "annals_supremum_of_selector_processes"
 title = "On a conjecture of Talagrand on selector processes and a consequence on positive empirical processes"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.Analysis.SupremumOfSelectorProcesses"
 holes = ["L₂", "L₂_pos", "theorem_1_2", "L₃", "L₃_pos", "theorem_1_3"]
 submitter = "David Ledvinka"

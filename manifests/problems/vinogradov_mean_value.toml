@@ -1,6 +1,10 @@
 id = "vinogradov_mean_value"
 title = "Vinogradov mean value theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.VinogradovMeanValue"
 holes = ["vinogradov_mean_value"]
 submitter = "Junyan Xu"

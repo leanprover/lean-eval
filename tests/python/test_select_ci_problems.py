@@ -75,6 +75,16 @@ class SelectCIProblemsTest(unittest.TestCase):
         self.assertEqual(selection.mode, "full")
         self.assertEqual(selection.problems, ("a", "b", "b_second", "c"))
 
+    def test_tag_registry_change_is_a_full_catalog_sentinel(self):
+        selection = self.select((Change("M", ("manifests/tags.toml",)),))
+        self.assertEqual(selection.mode, "full")
+        self.assertEqual(selection.problems, ("a", "b", "b_second", "c"))
+
+    def test_named_set_change_is_a_full_catalog_sentinel(self):
+        selection = self.select((Change("A", ("manifests/sets/v1.toml",)),))
+        self.assertEqual(selection.mode, "full")
+        self.assertEqual(selection.problems, ("a", "b", "b_second", "c"))
+
     def test_deleted_source_falls_back_to_full_catalog(self):
         selection = self.select((Change("D", ("LeanEval/Helper.lean",)),))
         self.assertEqual(selection.mode, "full")

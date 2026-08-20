@@ -1,6 +1,10 @@
 id = "smale_conjecture"
 title = "Smale conjecture (Hatcher) in relative parameterized form"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.SmaleConjecture"
 holes = ["smale_conjecture"]
 submitter = "Kim Morrison"

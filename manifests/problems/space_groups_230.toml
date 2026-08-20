@@ -1,6 +1,10 @@
 id = "space_groups_230"
 title = "230 space groups (Fedorov 1891 / Schoenflies 1891)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.SpaceGroups"
 holes = ["space_groups"]
 submitter = "Kim Morrison"

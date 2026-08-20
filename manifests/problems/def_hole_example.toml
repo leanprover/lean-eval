@@ -1,6 +1,10 @@
 id = "def_hole_example"
 title = "def-hole minimal example"
-test = true
+group = "formalization-evaluation"
+status = "draft"
+visible = false
+statement_revision = 1
+tags = []
 module = "LeanEval.Sandbox.DefHoleExample"
 holes = ["foo", "foo_def"]
 submitter = "Kim Morrison"

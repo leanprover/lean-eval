@@ -1,6 +1,10 @@
 id = "glAction_range_eq_centralizer_symAction"
 title = "Schur-Weyl duality: GL(V) image equals centralizer of S_k image"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.RepresentationTheory.SchurWeyl"
 holes = ["glAction_range_eq_centralizer_symAction"]
 submitter = "Kim Morrison"

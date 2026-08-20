@@ -1,6 +1,10 @@
 id = "bourgain_polynomial_ergodic"
 title = "Bourgain's polynomial ergodic theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Dynamics.BourgainErgodic"
 holes = ["bourgain_polynomial_ergodic"]
 submitter = "Kim Morrison"

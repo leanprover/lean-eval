@@ -1,6 +1,10 @@
 id = "mandelbrot_boundary_dimh"
 title = "Hausdorff dimension of the Mandelbrot boundary (Shishikura)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Dynamics.MandelbrotBoundary"
 holes = ["mandelbrot_boundary_dimh"]
 submitter = "Kim Morrison"

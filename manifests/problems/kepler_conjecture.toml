@@ -1,6 +1,10 @@
 id = "kepler_conjecture"
 title = "Kepler conjecture (optimal sphere packing in ℝ³)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.KeplerConjecture"
 holes = ["kepler_conjecture"]
 submitter = "Kim Morrison"

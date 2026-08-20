@@ -1,6 +1,10 @@
 id = "solvable_by_radicals_converse"
 title = "Solvable extensions ↔ solvable groups (the missing converse in Abel–Ruffini)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Algebra.SolvableByRadicals"
 holes = ["solvable_iff_solvableByRad"]
 submitter = "Kim Morrison"

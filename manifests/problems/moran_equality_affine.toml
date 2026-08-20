@@ -1,6 +1,10 @@
 id = "moran_equality_affine"
 title = "Moran's equality for affine-symmetric iterated function systems"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Dynamics.MoranDimension"
 holes = ["moran_equality_affine"]
 submitter = "Kim Morrison"

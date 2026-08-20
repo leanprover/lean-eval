@@ -1,6 +1,10 @@
 id = "cauchy_kovalevskaya"
 title = "Cauchy–Kovalevskaya theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.CauchyKovalevskaya"
 holes = ["cauchy_kovalevskaya"]
 submitter = "Kim Morrison"

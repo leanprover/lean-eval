@@ -1,6 +1,10 @@
 id = "annals_ulam"
 title = "A negative answer to Ulam's Problem 19 from the Scottish Book"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.ConvexGeometry.Ulam"
 holes = ["theorem_1"]
 submitter = "Justus Springer"

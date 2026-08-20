@@ -1,6 +1,10 @@
 id = "cyclotomic_integer_house_le_two"
 title = "Real cyclotomic integer with house at most 2"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.SmallHouse"
 holes = ["cyclotomic_integer_house_le_two"]
 submitter = "Kim Morrison"

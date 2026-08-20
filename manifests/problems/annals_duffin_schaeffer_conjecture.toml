@@ -1,6 +1,10 @@
 id = "annals_duffin_schaeffer_conjecture"
 title = "On the Duffin-Schaeffer conjecture"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.NumberTheory.DuffinSchaefferConjecture"
 holes = ["theorem_1", "theorem_2_a", "theorem_2_b", "corollary_3"]
 submitter = "Katerina Hristova, Kevin Buzzard"

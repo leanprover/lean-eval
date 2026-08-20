@@ -1,6 +1,10 @@
 id = "annals_erdos_faber_lovasz_conjecture"
 title = "A proof of the Erdős–Faber–Lovász conjecture"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.Combinatorics.ErdosFaberLovaszConjecture"
 holes = ["theorem_1_1"]
 submitter = "David Ledvinka"

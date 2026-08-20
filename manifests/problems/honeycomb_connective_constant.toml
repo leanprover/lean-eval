@@ -1,6 +1,10 @@
 id = "honeycomb_connective_constant"
 title = "Connective constant of the honeycomb lattice"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Combinatorics.HoneycombConnectiveConstant"
 holes = ["honeycomb_connective_constant"]
 submitter = "Kim Morrison"

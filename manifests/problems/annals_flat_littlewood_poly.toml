@@ -1,6 +1,10 @@
 id = "annals_flat_littlewood_poly"
 title = "Flat Littlewood polynomials exist"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.Analysis.FlatLittlewoodPoly"
 holes = ["theorem_1_1"]
 submitter = "Katerina Hristova, Kevin Buzzard, Bhavik Mehta"

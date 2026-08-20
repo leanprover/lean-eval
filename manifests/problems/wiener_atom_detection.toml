@@ -1,6 +1,10 @@
 id = "wiener_atom_detection"
 title = "Wiener's atom-detection formula"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.WienerAtom"
 holes = ["wiener_atom_detection"]
 submitter = "Kim Morrison"

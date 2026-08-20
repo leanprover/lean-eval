@@ -1,6 +1,10 @@
 id = "hSpace_sphere_iff"
 title = "Adams: S^n is an H-space iff n = 0, 1, 3, 7"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.HopfInvariantOne"
 holes = ["hSpace_sphere_iff"]
 submitter = "Vasily Ilin"

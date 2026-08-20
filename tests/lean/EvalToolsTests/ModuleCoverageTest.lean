@@ -49,8 +49,21 @@ private def withFakeRepo (files : Array (String × String))
     try IO.FS.removeDirAll root catch _ => pure ()
 
 private def problem (id moduleName : String) : EvalProblemMetadata :=
-  { id := id, title := id, test := false, moduleName := moduleName,
+  { id := id, title := id, group := "formalization-evaluation", status := "draft",
+    visible := true, statementRevision := 1, tags := #[], moduleName := moduleName,
     holes := #["hole"], submitter := "tester" }
+
+private def manifestEntry (id group status revision : String) : String :=
+  s!"id = \"{id}\"\n" ++
+  s!"title = \"{id}\"\n" ++
+  s!"group = \"{group}\"\n" ++
+  s!"status = \"{status}\"\n" ++
+  "visible = true\n" ++
+  s!"statement_revision = {revision}\n" ++
+  "tags = []\n" ++
+  "module = \"LeanEval.Claimed\"\n" ++
+  "holes = [\"hole\"]\n" ++
+  "submitter = \"tester\"\n"
 
 private def inventory (moduleName declarationName : String) : ManifestInventoryEntry :=
   { module := moduleName, declarationName := declarationName,
@@ -175,6 +188,23 @@ def main : IO UInt32 := do
       | .ok entries => pure <| assertEq "entries" entries.size 0
       | .error err => pure (some s!"expected success, got {err}")
 
+  check "loadManifest rejects an unknown problem group" passes fails do
+    withFakeRepo #[
+        ("manifests/problems/alpha.toml", manifestEntry "alpha" "unknown" "draft" "1")]
+      fun root => do
+        match ← (loadManifest root).toBaseIO with
+        | .ok _ => pure (some "expected rejection")
+        | .error err => pure <| assertContains "err" (toString err) "must be one of"
+
+  check "loadManifest rejects statement revision zero" passes fails do
+    withFakeRepo #[
+        ("manifests/problems/alpha.toml",
+          manifestEntry "alpha" "formalization-evaluation" "draft" "0")]
+      fun root => do
+        match ← (loadManifest root).toBaseIO with
+        | .ok _ => pure (some "expected rejection")
+        | .error err => pure <| assertContains "err" (toString err) "revisions start at 1"
+
   check "aggregated inventory accepts every manifest module exactly once" passes fails do
     let entries := #[problem "a" "LeanEval.A", problem "b" "LeanEval.B"]
     let rows := #[inventory "LeanEval.A" "LeanEval.A.hole",
@@ -207,7 +237,11 @@ def main : IO UInt32 := do
     let hidden :=
       "id = \".helper\"\n" ++
       "title = \"Helper\"\n" ++
-      "test = false\n" ++
+      "group = \"formalization-evaluation\"\n" ++
+      "status = \"draft\"\n" ++
+      "visible = true\n" ++
+      "statement_revision = 1\n" ++
+      "tags = []\n" ++
       "module = \"LeanEval.Helper\"\n" ++
       "holes = [\"hole\"]\n" ++
       "submitter = \"tester\"\n"

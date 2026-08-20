@@ -1,6 +1,10 @@
 id = "kam_invariant_curve"
 title = "KAM persistence of an invariant curve"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Dynamics.KAM"
 holes = ["kam_invariant_curve"]
 submitter = "Kim Morrison"

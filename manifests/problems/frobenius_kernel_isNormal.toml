@@ -1,6 +1,10 @@
 id = "frobenius_kernel_isNormal"
 title = "Frobenius's theorem: the Frobenius kernel is normal"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.GroupTheory.Frobenius"
 holes = ["frobenius_kernel_isNormal"]
 submitter = "Kim Morrison"

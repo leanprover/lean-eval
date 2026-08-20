@@ -1,6 +1,10 @@
 id = "bender_suzuki"
 title = "Bender–Suzuki theorem (classification of finite simple groups with a strongly-embedded subgroup)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.GroupTheory.BenderSuzuki"
 holes = ["bender_suzuki"]
 submitter = "Tianjiao Nie"

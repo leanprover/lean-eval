@@ -1,6 +1,10 @@
 id = "annals_improved_bounds_sunflower_lemma"
 title = "Improved bounds for the sunflower lemma"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.Combinatorics.ImprovedBoundsSunflowerLemma"
 holes = ["C", "theorem_1_4"]
 submitter = "Justus Springer"

@@ -1,6 +1,10 @@
 id = "annals_hessian_estimates"
 title = "Hessian estimates for the sigma-2 equation in dimension four"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.Analysis.HessianEstimates"
 holes = ["theorem_1_1"]
 submitter = "David Ledvinka"

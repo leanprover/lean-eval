@@ -1,6 +1,10 @@
 id = "pi_sphere_infinite_iff"
 title = "Serre finiteness for homotopy groups of spheres"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.SerreFiniteness"
 holes = ["pi_sphere_infinite_iff"]
 submitter = "Vasily Ilin"

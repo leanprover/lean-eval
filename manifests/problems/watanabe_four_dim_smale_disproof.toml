@@ -1,6 +1,10 @@
 id = "watanabe_four_dim_smale_disproof"
 title = "Watanabe's disproof of the 4-dimensional Smale conjecture"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.WatanabeSmaleDisproof"
 holes = ["watanabe_four_dim_smale_disproof"]
 submitter = "Kim Morrison"

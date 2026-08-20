@@ -27,7 +27,11 @@ private def check (label : String) (passes fails : IO.Ref Nat)
 private def manifestEntry (id moduleName hole : String) : String :=
   s!"id = \"{id}\"\n" ++
   s!"title = \"{id}\"\n" ++
-  "test = false\n" ++
+  "group = \"formalization-evaluation\"\n" ++
+  "status = \"draft\"\n" ++
+  "visible = true\n" ++
+  "statement_revision = 1\n" ++
+  "tags = []\n" ++
   s!"module = \"{moduleName}\"\n" ++
   s!"holes = [\"{hole}\"]\n" ++
   "submitter = \"tester\"\n"

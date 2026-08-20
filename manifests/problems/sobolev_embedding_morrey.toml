@@ -1,6 +1,10 @@
 id = "sobolev_embedding_morrey"
 title = "Sobolev embedding theorem (Morrey regime)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.SobolevMorrey"
 holes = ["sobolev_embedding"]
 submitter = "Kim Morrison"

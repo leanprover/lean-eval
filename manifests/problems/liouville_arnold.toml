@@ -1,6 +1,10 @@
 id = "liouville_arnold"
 title = "Liouville–Arnold theorem on integrable systems"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.LiouvilleArnold"
 holes = ["liouville_arnold"]
 submitter = "Kim Morrison"

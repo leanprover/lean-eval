@@ -1,6 +1,10 @@
 id = "lax_approximation"
 title = "Lax's approximation theorem for toral homeomorphisms"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Dynamics.LaxApproximation"
 holes = ["lax_approximation"]
 submitter = "Kim Morrison"

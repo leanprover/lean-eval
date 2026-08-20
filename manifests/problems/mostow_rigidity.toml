@@ -1,6 +1,10 @@
 id = "mostow_rigidity"
 title = "Mostow rigidity"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.MostowRigidity"
 holes = ["mostow_rigidity"]
 submitter = "Junyan Xu"

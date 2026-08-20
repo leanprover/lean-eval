@@ -1,6 +1,10 @@
 id = "annals_on_coherence_of_one_relator_groups"
 title = "On the coherence of one-relator groups and their group algebras"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.GroupTheory.OnCoherenceOfOneRelatorGroups"
 holes = ["theorem_1_1"]
 submitter = "Katerina Hristova"

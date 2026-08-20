@@ -1,6 +1,10 @@
 id = "annals_equiangular_lines_fixed_angle"
 title = "Equiangular lines with a fixed angle"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.Combinatorics.EquiangularLinesFixedAngle"
 holes = ["theorem_1_2"]
 submitter = "Justus Springer"

@@ -1,6 +1,10 @@
 id = "abel_ruffini"
 title = "Abel–Ruffini theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Algebra.AbelRuffini"
 holes = ["abel_ruffini"]
 submitter = "Kim Morrison"

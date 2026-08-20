@@ -1,6 +1,10 @@
 id = "conway_knot_not_smoothly_slice"
 title = "The Conway knot is not smoothly slice"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.KnotTheory.Piccirillo"
 holes = ["conwayKnot_isSimple", "conway_knot_not_smoothly_slice"]
 submitter = "Kim Morrison"

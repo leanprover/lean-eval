@@ -1,6 +1,10 @@
 id = "five_transitive_card_classification"
 title = "Possible orders of 5-transitive finite permutation groups"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.GroupTheory.MultiplyTransitive"
 holes = ["five_transitive_card_classification"]
 submitter = "Kim Morrison"

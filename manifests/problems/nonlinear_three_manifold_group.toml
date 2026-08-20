@@ -1,6 +1,10 @@
 id = "nonlinear_three_manifold_group"
 title = "A 3-manifold group with no faithful representation into GL(4, ℝ)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.NonlinearThreeManifoldGroup"
 holes = ["nonlinear_three_manifold_group"]
 submitter = "Kim Morrison"

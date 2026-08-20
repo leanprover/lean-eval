@@ -1,6 +1,10 @@
 id = "frobenius_group_determinant"
 title = "Frobenius determinant theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.RepresentationTheory.FrobeniusDeterminant"
 holes = ["frobenius_group_determinant"]
 submitter = "Kim Morrison"

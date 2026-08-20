@@ -1,6 +1,10 @@
 id = "rokhlin_lemma"
 title = "Rokhlin lemma"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Dynamics.RokhlinLemma"
 holes = ["rokhlin_lemma"]
 submitter = "Kim Morrison"

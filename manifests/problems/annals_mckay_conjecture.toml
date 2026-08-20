@@ -1,6 +1,10 @@
 id = "annals_mckay_conjecture"
 title = "The McKay Conjecture on character degrees"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.RepresentationTheory.McKayConjecture"
 holes = ["theorem_1_1"]
 submitter = "Thomas Browning"

@@ -1,6 +1,10 @@
 id = "schauder_fixed_point"
 title = "Schauder fixed-point theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.Schauder"
 holes = ["schauder_fixed_point"]
 submitter = "Kim Morrison"

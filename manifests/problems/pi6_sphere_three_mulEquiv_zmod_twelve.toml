@@ -1,6 +1,10 @@
 id = "pi6_sphere_three_mulEquiv_zmod_twelve"
 title = "pi_6 of the 3-sphere is Z/12"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.PiSixSphereThree"
 holes = ["pi6_sphere_three_mulEquiv_zmod_twelve"]
 submitter = "Vasily Ilin"

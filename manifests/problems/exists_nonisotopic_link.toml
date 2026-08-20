@@ -1,6 +1,10 @@
 id = "exists_nonisotopic_link"
 title = "Existence of a non-isotopic pair of oriented two-component links"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.KnotTheory.Linking"
 holes = ["exists_nonisotopic_link"]
 submitter = "Kim Morrison"

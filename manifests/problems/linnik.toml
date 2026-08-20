@@ -1,6 +1,10 @@
 id = "linnik"
 title = "Linnik's theorem (L = 5.5)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.Linnik"
 holes = ["linnik"]
 submitter = "Bolton Bailey/Project Numina"

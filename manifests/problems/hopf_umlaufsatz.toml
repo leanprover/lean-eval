@@ -1,6 +1,10 @@
 id = "hopf_umlaufsatz"
 title = "The Hopf Umlaufsatz (theorem of turning tangents)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.HopfUmlaufsatz"
 holes = ["hopf_umlaufsatz"]
 submitter = "Kim Morrison"

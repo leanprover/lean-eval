@@ -1,6 +1,10 @@
 id = "gorenstein_walter"
 title = "Gorenstein–Walter theorem (dihedral Sylow 2-subgroup)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.GroupTheory.GorensteinWalter"
 holes = ["gorenstein_walter"]
 submitter = "Kim Morrison"

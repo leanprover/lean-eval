@@ -1,6 +1,10 @@
 id = "choquet_representation_theorem"
 title = "Choquet's representation theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.Choquet"
 holes = ["choquet"]
 submitter = "Kim Morrison"

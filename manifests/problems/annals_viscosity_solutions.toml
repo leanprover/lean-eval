@@ -1,6 +1,10 @@
 id = "annals_viscosity_solutions"
 title = "Viscosity solutions and hyperbolic motions: a new PDE method for the N-body problem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.Analysis.ViscositySolutions"
 holes = ["theorem_1_1"]
 submitter = "David Ledvinka"

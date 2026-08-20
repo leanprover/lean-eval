@@ -1,6 +1,10 @@
 id = "annals_absolute_profinite_rigidity"
 title = "Absolute profinite rigidity and hyperbolic geometry"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.GroupTheory.AbsoluteProfiniteRigidity"
 holes = ["theorem_7_1"]
 submitter = "Thomas Browning"

@@ -1,6 +1,10 @@
 id = "vonNeumann_doubleCommutant_tfae"
 title = "von Neumann double commutant theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.VonNeumannDoubleCommutant"
 holes = ["vonNeumann_doubleCommutant_tfae"]
 submitter = "Kim Morrison"

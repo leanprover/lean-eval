@@ -1,6 +1,10 @@
 id = "friedlander_iwaniec"
 title = "Friedlander–Iwaniec theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.FriedlanderIwaniec"
 holes = ["friedlander_iwaniec"]
 submitter = "Bolton Bailey/Project Numina"

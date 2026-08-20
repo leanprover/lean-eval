@@ -1,6 +1,10 @@
 id = "heat_kernel_solves_heat_equation"
 title = "Gaussian heat kernel solves the 1D heat equation"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.ODE.HeatKernel"
 holes = ["heat_kernel_solves_heat_equation"]
 submitter = "Kim Morrison"

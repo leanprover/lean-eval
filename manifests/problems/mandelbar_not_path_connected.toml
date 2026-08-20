@@ -1,6 +1,10 @@
 id = "mandelbar_not_path_connected"
 title = "Mandelbar (tricorn) is not path-connected (Hubbard–Schleicher)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.ComplexAnalysis.Mandelbar"
 holes = ["mandelbar_not_path_connected"]
 submitter = "Kim Morrison"

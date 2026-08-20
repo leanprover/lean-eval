@@ -1,6 +1,10 @@
 id = "semilinear_poisson_radial_symmetry"
 title = "Radial symmetry for positive semilinear Poisson solutions"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.PDE.RadialSymmetry"
 holes = ["semilinear_poisson_radial_symmetry"]
 submitter = "Yongxi Lin"

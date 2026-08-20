@@ -1,6 +1,10 @@
 id = "erdos_unit_distance_conjecture_false"
 title = "Erdős's unit-distance conjecture is false"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Combinatorics.UnitDistanceConjectureFalse"
 holes = ["erdos_unit_distance_conjecture_false"]
 submitter = "Kim Morrison"

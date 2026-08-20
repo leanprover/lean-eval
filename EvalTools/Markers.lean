@@ -15,7 +15,17 @@ namespace EvalTools
 structure EvalProblemMetadata where
   id : String
   title : String
-  test : Bool
+  /-- Policy group containing this problem. Valid values are checked by the
+  manifest decoder and the catalog validator. -/
+  group : String
+  /-- Current lifecycle status (`draft`, `active`, or `archived`). -/
+  status : String
+  /-- Whether the problem is shown in public catalog surfaces. -/
+  visible : Bool
+  /-- Monotonic revision of the trusted statement. -/
+  statementRevision : Nat
+  /-- Stable registry keys from `manifests/tags.toml`. -/
+  tags : Array String
   moduleName : String
   /-- The names of the `@[eval_problem]`-tagged declarations in `moduleName` that
   comprise this problem; comparator's `theorem_names` and `definition_names`
@@ -57,11 +67,34 @@ def requireNonempty (field value : String) : EDecodeM String := do
     throwDecodeErrorAt Syntax.missing s!"Manifest field `{field}` must be non-empty."
   pure value
 
+def allowedProblemGroups : Array String :=
+  #["formalization-evaluation", "software-verification", "open-conjectures"]
+
+def allowedProblemStatuses : Array String :=
+  #["draft", "active", "archived"]
+
+def requireOneOf (field value : String) (allowed : Array String) : EDecodeM String := do
+  unless allowed.contains value do
+    throwDecodeErrorAt Syntax.missing
+      s!"Manifest field `{field}` must be one of {", ".intercalate allowed.toList}; got `{value}`."
+  pure value
+
 instance : DecodeToml EvalProblemMetadata where
   decode v := do
     let t ← v.decodeTable
     let id ← requireNonempty "id" (← t.decode `id)
     let title ← requireNonempty "title" (← t.decode `title)
+    let group ← requireOneOf "group" (← t.decode `group) allowedProblemGroups
+    let status ← requireOneOf "status" (← t.decode `status) allowedProblemStatuses
+    let statementRevision : Nat ← t.decode `statement_revision
+    if statementRevision == 0 then
+      throwDecodeErrorAt Syntax.missing
+        s!"Manifest entry `{id}` has statement_revision = 0; revisions start at 1."
+    let tags : Array String ← t.decode `tags
+    for tag in tags do
+      if tag.isEmpty then
+        throwDecodeErrorAt Syntax.missing
+          s!"Manifest entry `{id}` has an empty string in `tags`."
     let moduleName ← requireNonempty "module" (← t.decode `module)
     let holes : Array String ← t.decode `holes
     if holes.isEmpty then
@@ -78,7 +111,11 @@ instance : DecodeToml EvalProblemMetadata where
     return {
       id := id
       title := title
-      test := ← t.decode `test
+      group := group
+      status := status
+      visible := ← t.decode `visible
+      statementRevision := statementRevision
+      tags := tags
       moduleName := moduleName
       holes := holes
       submitter := submitter
@@ -91,8 +128,9 @@ def decodeErrorsToString (errors : Array DecodeError) : String :=
   "\n".intercalate <| errors.toList.map fun err => err.msg
 
 /-- Parse a single per-problem TOML file (top-level keys: `id`, `title`,
-`test`, `module`, `holes`, `submitter`, optional `notes`, `source`,
-`informal_solution`). The caller is responsible for `id ↔ filename` and
+`group`, `status`, `visible`, `statement_revision`, `tags`, `module`, `holes`,
+`submitter`, optional `notes`, `source`, `informal_solution`, and lifecycle
+history arrays). The caller is responsible for `id ↔ filename` and
 cross-file uniqueness checks (see `EvalTools.loadManifest`). -/
 def parseManifestEntry (contents : String) (fileName : String) :
     IO (Except String EvalProblemMetadata) := do
@@ -143,7 +181,11 @@ def formatManifestHover (metadata : EvalProblemMetadata) : String :=
       "",
       s!"- id: `{metadata.id}`",
       s!"- title: {metadata.title}",
-      s!"- test: `{metadata.test}`",
+      s!"- group: `{metadata.group}`",
+      s!"- status: `{metadata.status}`",
+      s!"- visible: `{metadata.visible}`",
+      s!"- statement revision: `{metadata.statementRevision}`",
+      s!"- tags: {", ".intercalate (metadata.tags.toList.map (s!"`{·}`"))}",
       s!"- module: `{metadata.moduleName}`",
       s!"- holes: {", ".intercalate (metadata.holes.toList.map (s!"`{·}`"))}",
       s!"- submitter: {metadata.submitter}"

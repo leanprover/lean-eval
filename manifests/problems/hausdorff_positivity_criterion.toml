@@ -1,6 +1,10 @@
 id = "hausdorff_positivity_criterion"
 title = "The Hausdorff positivity (complete-monotonicity) criterion"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.HausdorffMoments"
 holes = ["hausdorff_positivity"]
 submitter = "Kim Morrison"

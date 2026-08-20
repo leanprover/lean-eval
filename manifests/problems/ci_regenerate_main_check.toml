@@ -1,6 +1,10 @@
 id = "ci_regenerate_main_check"
 title = "CI regenerate-main check"
-test = true
+group = "formalization-evaluation"
+status = "draft"
+visible = false
+statement_revision = 1
+tags = []
 module = "LeanEval.EasyProblems"
 holes = ["ci_regenerate_main_check"]
 submitter = "Kim Morrison"

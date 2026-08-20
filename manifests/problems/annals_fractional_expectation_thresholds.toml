@@ -1,6 +1,10 @@
 id = "annals_fractional_expectation_thresholds"
 title = "Thresholds versus fractional expectation-thresholds"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.Combinatorics.FractionalExpectationThresholds"
 holes = ["K", "theorem_1_1"]
 submitter = "David Ledvinka"

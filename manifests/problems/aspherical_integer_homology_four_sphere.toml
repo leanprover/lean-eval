@@ -1,6 +1,10 @@
 id = "aspherical_integer_homology_four_sphere"
 title = "Existence of an aspherical integer homology 4-sphere"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.AsphericalHomologySphere"
 holes = ["aspherical_integer_homology_four_sphere"]
 submitter = "Kim Morrison"

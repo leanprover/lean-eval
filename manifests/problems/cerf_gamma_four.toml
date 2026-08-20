@@ -1,6 +1,10 @@
 id = "cerf_gamma_four"
 title = "Cerf's theorem: every self-diffeomorphism of S3 is smoothly isotopic to a linear isometry"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.CerfGammaFour"
 holes = ["cerf_gamma_four"]
 submitter = "Kim Morrison"

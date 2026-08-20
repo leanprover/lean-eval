@@ -1,6 +1,10 @@
 id = "landsberg_schaar"
 title = "The Landsberg–Schaar relation"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.LandsbergSchaar"
 holes = ["landsberg_schaar"]
 submitter = "Kim Morrison"

@@ -1,6 +1,10 @@
 id = "annals_dirichlet_weyl_bound"
 title = "The Weyl bound for Dirichlet L-functions of cube-free conductor"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.NumberTheory.DirichletWeylBound"
 holes = ["corollary_1_3"]
 submitter = "Thomas Browning"

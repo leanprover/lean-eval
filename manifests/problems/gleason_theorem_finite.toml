@@ -1,6 +1,10 @@
 id = "gleason_theorem_finite"
 title = "Gleason's theorem (finite-dimensional)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.Gleason"
 holes = ["gleason_theorem_finite"]
 submitter = "Kim Morrison"

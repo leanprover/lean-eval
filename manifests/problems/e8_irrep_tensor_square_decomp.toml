@@ -1,6 +1,10 @@
 id = "e8_irrep_tensor_square_decomp"
 title = "Existence of a 779247-dim irreducible e₈-representation with 40 tensor-square isotypic components"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.RepresentationTheory.ExceptionalLieTensorSquare"
 holes = ["e8_irrep_tensor_square_decomp"]
 submitter = "Kim Morrison"

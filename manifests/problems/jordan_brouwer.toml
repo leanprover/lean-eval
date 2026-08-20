@@ -1,6 +1,10 @@
 id = "jordan_brouwer"
 title = "Jordan–Brouwer separation theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.JordanBrouwer"
 holes = ["jordan_brouwer"]
 submitter = "Kim Morrison"

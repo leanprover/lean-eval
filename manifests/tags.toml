@@ -1,0 +1,5 @@
+schema_version = 1
+
+[tags.annals]
+label = "Annals Challenge"
+description = "Problem imported from the Imperial College London Annals Challenge corpus."

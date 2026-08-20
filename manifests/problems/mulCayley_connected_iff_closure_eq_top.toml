@@ -1,6 +1,10 @@
 id = "mulCayley_connected_iff_closure_eq_top"
 title = "Cayley graph connected iff generators generate the group"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Combinatorics.CayleyConnected"
 holes = ["mulCayley_connected_iff_closure_eq_top"]
 submitter = "Kim Morrison"

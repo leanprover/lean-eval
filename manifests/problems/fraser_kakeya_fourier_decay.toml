@@ -1,6 +1,10 @@
 id = "fraser_kakeya_fourier_decay"
 title = "Fraser: Fourier decay for finite-field Kakeya sets is q^{-1} and sharp"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Combinatorics.FraserKakeya"
 holes = ["fraser_kakeya_fourier_decay_and_sharp"]
 submitter = "Kim Morrison"

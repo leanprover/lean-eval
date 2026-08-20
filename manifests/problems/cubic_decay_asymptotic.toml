@@ -1,6 +1,10 @@
 id = "cubic_decay_asymptotic"
 title = "Polynomial decay rate of y' = -y^3"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.ODE.CubicDecay"
 holes = ["cubic_decay_asymptotic"]
 submitter = "Kim Morrison"

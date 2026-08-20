@@ -1,6 +1,10 @@
 id = "neukirch_uchida"
 title = "Neukirch–Uchida theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.NeukirchUchida"
 holes = ["neukirch_uchida"]
 submitter = "Junyan Xu"

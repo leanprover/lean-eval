@@ -1,6 +1,10 @@
 id = "wang_zahl_kakeya_dimH"
 title = "Wang-Zahl: the three-dimensional Kakeya conjecture"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.WangZahlKakeya"
 holes = ["wang_zahl_kakeya_dimH"]
 submitter = "Kim Morrison"

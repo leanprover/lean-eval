@@ -1,6 +1,10 @@
 id = "annals_algebraic_integers"
 title = "Algebraic integers with conjugates in a prescribed distribution"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.NumberTheory.AlgebraicIntegers"
 holes = ["theorem_1_1"]
 submitter = "Justus Springer"

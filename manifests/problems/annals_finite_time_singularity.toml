@@ -1,6 +1,10 @@
 id = "annals_finite_time_singularity"
 title = "Finite-time singularity formation for C^{1,α} solutions to the incompressible Euler equations on ℝ³"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.Analysis.FiniteTimeSingularity"
 holes = ["theorem_1"]
 submitter = "David Ledvinka"

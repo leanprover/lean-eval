@@ -1,6 +1,10 @@
 id = "riemann_hypothesis_iff_lagarias_elementary_criterion"
 title = "Lagarias criterion is equivalent to RH"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.Lagarias"
 holes = ["riemann_hypothesis_iff_lagarias_elementary_criterion"]
 submitter = "Kim Morrison"

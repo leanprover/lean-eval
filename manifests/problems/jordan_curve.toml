@@ -1,6 +1,10 @@
 id = "jordan_curve"
 title = "Jordan curve theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.JordanCurve"
 holes = ["jordan_curve"]
 submitter = "Kim Morrison"

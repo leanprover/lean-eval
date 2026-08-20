@@ -169,8 +169,10 @@ def is_full_catalog_sentinel(path: str) -> bool:
     return (
         path.startswith("EvalTools/")
         or path.startswith("templates/")
+        or path.startswith("manifests/sets/")
         or path.startswith(".github/actions/")
         or path == ".github/workflows/ci.yml"
+        or path == "manifests/tags.toml"
         or path == "scripts/select_ci_problems.py"
         or path in {"lakefile.toml", "lake-manifest.json", "lean-toolchain"}
     )
@@ -191,7 +193,7 @@ def select(
 
     changed_paths = [path for change in changes for path in change.paths]
     source_changed = any(
-        path.startswith(("LeanEval/", "EvalTools/", "templates/", "manifests/problems/"))
+        path.startswith(("LeanEval/", "EvalTools/", "templates/", "manifests/"))
         or path in {"lakefile.toml", "lake-manifest.json", "lean-toolchain"}
         for path in changed_paths
     )
@@ -216,7 +218,7 @@ def select(
         for change in changes
         if change.status.startswith(("D", "R"))
         and any(
-            path.startswith(("LeanEval/", "manifests/problems/"))
+            path.startswith(("LeanEval/", "manifests/"))
             for path in change.paths
         )
     ]

@@ -1,6 +1,10 @@
 id = "annals_motivic_invariants"
 title = "Motivic invariants of birational maps"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.AlgebraicGeometry.MotivicInvariants"
 holes = ["theorem_1_2_1_a", "theorem_1_2_1_b", "theorem_1_2_1_c", "theorem_1_2_1_d", "theorem_1_2_2", "theorem_1_2_3"]
 submitter = "Justus Springer"

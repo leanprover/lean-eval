@@ -1,6 +1,10 @@
 id = "pascal"
 title = "Pascal's theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.PascalPappus"
 holes = ["pascal"]
 submitter = "Kim Morrison"

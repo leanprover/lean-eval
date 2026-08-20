@@ -1,6 +1,10 @@
 id = "ising_2d_phase_transition"
 title = "Onsager's 2D Ising phase transition"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.IsingPhaseTransition"
 holes = ["ising_2d_phase_transition"]
 submitter = "Kim Morrison"

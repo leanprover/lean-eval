@@ -1,6 +1,10 @@
 id = "entropy_dimension_lyapunov"
 title = "Lai-Sang Young entropy–dimension–Lyapunov theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Dynamics.LaiSangYoung"
 holes = ["entropy_dimension_lyapunov"]
 submitter = "Kim Morrison"

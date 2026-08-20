@@ -1,6 +1,10 @@
 id = "kakutani_fixed_point"
 title = "Kakutani fixed-point theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.Kakutani"
 holes = ["kakutani_fixed_point"]
 submitter = "Kim Morrison"

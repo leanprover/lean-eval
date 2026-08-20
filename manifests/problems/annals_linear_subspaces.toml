@@ -1,6 +1,10 @@
 id = "annals_linear_subspaces"
 title = "Rational approximations to linear subspaces"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.NumberTheory.LinearSubspaces"
 holes = ["theorem_1"]
 submitter = "Justus Springer"

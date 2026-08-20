@@ -1,6 +1,10 @@
 id = "zhang_bounded_prime_gaps"
 title = "Bounded gaps between primes"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.BoundedPrimeGaps"
 holes = ["zhang_bounded_prime_gaps"]
 submitter = "Kim Morrison"

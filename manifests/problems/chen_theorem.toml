@@ -1,6 +1,10 @@
 id = "chen_theorem"
 title = "Chen's theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.ChenTheorem"
 holes = ["chen_theorem"]
 submitter = "Kim Morrison"

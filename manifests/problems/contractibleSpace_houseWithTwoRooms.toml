@@ -1,6 +1,10 @@
 id = "contractibleSpace_houseWithTwoRooms"
 title = "Bing's house with two rooms is contractible"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.HouseWithTwoRooms"
 holes = ["contractibleSpace_houseWithTwoRooms"]
 submitter = "Junyan Xu"

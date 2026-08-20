@@ -9,7 +9,7 @@ on:
       - 'LeanEval/**'
       - 'EvalTools/**'
       - 'templates/**'
-      - 'manifests/problems/**'
+      - 'manifests/**'
       - '.github/workflows/regenerate-main.yml'
       - 'lakefile.toml'
       - 'lean-toolchain'

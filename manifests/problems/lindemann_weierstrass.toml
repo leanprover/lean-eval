@@ -1,6 +1,10 @@
 id = "lindemann_weierstrass"
 title = "The Lindemann–Weierstrass theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.Lindemann"
 holes = ["lindemann_weierstrass"]
 submitter = "Kim Morrison"

@@ -1,6 +1,10 @@
 id = "multi_hole_helpers_example"
 title = "multi-hole-with-helpers regression example"
-test = true
+group = "formalization-evaluation"
+status = "draft"
+visible = false
+statement_revision = 1
+tags = []
 module = "LeanEval.Sandbox.MultiHoleHelpersExample"
 holes = ["Helpers.first", "Helpers.second_eq", "Helpers.third_eq"]
 submitter = "Kim Morrison"

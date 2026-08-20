@@ -69,7 +69,7 @@ private def assertCounts (summary : ScoreSummary) (attempted succeeded : Nat) (l
     throw <| IO.userError <|
       s!"{label} produced unexpected results.\n" ++
       s!"Expected attempted={attempted}, succeeded={succeeded}.\n" ++
-      s!"Actual summary: attempted={summary.attemptedProblems}, succeeded={summary.succeededProblems} (test attempted/succeeded={summary.attemptedTestProblems}/{summary.succeededTestProblems}, main attempted/succeeded={summary.attemptedMainProblems}/{summary.succeededMainProblems})"
+      s!"Actual summary: attempted={summary.attemptedProblems}, succeeded={summary.succeededProblems} (hidden attempted/succeeded={summary.attemptedHiddenProblems}/{summary.succeededHiddenProblems}, visible attempted/succeeded={summary.attemptedVisibleProblems}/{summary.succeededVisibleProblems})"
 
 private def summarizeAtRoot (root : System.FilePath) (problems : Array EvalProblemMetadata)
     (workspacesRoot : System.FilePath) : IO ScoreSummary := do

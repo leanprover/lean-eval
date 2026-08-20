@@ -113,6 +113,19 @@ jobs:
       - name: Validate manifest structure and module coverage
         run: lake exe lean-eval validate-manifest --structure-only
 
+      - name: Validate catalog lifecycle metadata and frozen sets
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          set -euo pipefail
+          base_args=()
+          if [ -n "$BASE_SHA" ] &&
+              [ "$BASE_SHA" != "0000000000000000000000000000000000000000" ] &&
+              git cat-file -e "$BASE_SHA^{commit}"; then
+            base_args+=(--base-ref "$BASE_SHA")
+          fi
+          python scripts/validate_catalog.py "${base_args[@]}"
+
       # Source-only changes intentionally leave generated/index.json for the
       # trusted main regenerator. If a PR touches generated/ itself, however,
       # its committed global index must be current and it may not add an
@@ -152,7 +165,7 @@ jobs:
           lake exe test_check_comparator_installation
 
       - name: Run Python unit tests
-        run: python tests/python/test_select_ci_problems.py
+        run: python -m unittest discover -s tests/python -p 'test_*.py'
 
   security:
     name: Security and scoring smoke tests

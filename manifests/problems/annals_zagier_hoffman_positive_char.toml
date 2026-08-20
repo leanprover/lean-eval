@@ -1,6 +1,10 @@
 id = "annals_zagier_hoffman_positive_char"
 title = "On Zagier-Hoffman's conjectures in positive characteristic"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.NumberTheory.ZagierHoffmanPositiveChar"
 holes = ["theorem_A", "theorem_B", "theorem_D"]
 submitter = "Katerina Hristova"

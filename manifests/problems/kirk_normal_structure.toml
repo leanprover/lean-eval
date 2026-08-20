@@ -1,6 +1,10 @@
 id = "kirk_normal_structure"
 title = "Kirk's normal-structure fixed point theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.KirkNormalStructure"
 holes = ["kirk_normal_structure"]
 submitter = "Kim Morrison"

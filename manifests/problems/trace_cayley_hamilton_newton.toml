@@ -1,6 +1,10 @@
 id = "trace_cayley_hamilton_newton"
 title = "Trace Cayley-Hamilton / Newton identity"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.LinearAlgebra.TraceNewton"
 holes = ["trace_cayley_hamilton_newton"]
 submitter = "Kim Morrison"

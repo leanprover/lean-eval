@@ -1,6 +1,10 @@
 id = "hopf_rinow"
 title = "Hopf–Rinow theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.HopfRinow"
 holes = ["hopf_rinow"]
 submitter = "Kim Morrison"

@@ -1,6 +1,10 @@
 id = "annals_uniform_mordell_lang"
 title = "Uniformity in Mordell–Lang for curves"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
 module = "LeanEval.AlgebraicGeometry.UniformMordellLang"
 holes = ["genus", "Jacobian", "instGrpObj", "smoothOfRelativeDimension_genus", "instIsProper", "instGeometricallyIrreducible", "ofCurve", "comp_ofCurve", "exists_unique_ofCurve_comp", "instGeometricallyIntegral", "instFG", "c", "theorem_1_1"]
 submitter = "Thomas Browning, Christian Merten"

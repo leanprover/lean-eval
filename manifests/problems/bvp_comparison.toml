@@ -1,6 +1,10 @@
 id = "bvp_comparison"
 title = "Comparison principle for the Dirichlet BVP"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.ODE.BVPComparison"
 holes = ["bvp_comparison"]
 submitter = "Kim Morrison"
