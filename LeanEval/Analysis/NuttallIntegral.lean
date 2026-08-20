@@ -12,12 +12,6 @@ This is the `ν = 1` case of A. H. Nuttall's SIAM Review Problem 85-16*,
 `∫₀^π (sin x / x)^ν · exp (ν · x · cot x) dx = π · ν^ν / Γ(ν + 1)`, answered
 affirmatively by C. J. Bouwkamp in SIAM Review 28 (1986), 568–569.
 
-The integrand is continuous and bounded on `(0, π)`: `x · cot x → 1` as
-`x → 0⁺` and `x · cot x → -∞` as `x → π⁻`, so `exp (x · cot x) ∈ (0, e]` while
-`sin x / x ∈ (0, 1]`. The interval integral is therefore the honest one, and the
-Lean junk values (`Real.cot 0 = Real.cot π = 0`, `sin 0 / 0 = 0`) only change
-the integrand on a null set. Recall `Real.cot x = Real.cos x / Real.sin x`.
-
 Every published solution is complex-analytic. Bouwkamp deforms Hankel's loop
 integral for `1 / Γ(ν + 1)` onto the curve `s β = ν * r β * exp (β * I)`,
 `β ∈ (-π, π)`, and then picks `r β = β / sin β`, the unique choice killing the
