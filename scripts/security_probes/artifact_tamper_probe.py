@@ -52,9 +52,9 @@ around landrun, or copying the olean out before export) do not work: a
 daemon rewriting in a loop races the copy just as it raced the export,
 and `killpg` misses a process that called `setsid` itself. The remedy
 under discussion upstream is for comparator to detect surviving
-descendants and fail, rather than to try to win the race. Once a
-mitigation is in place, add a CI assertion that Phase B reports
-REJECTED.
+descendants and fail, rather than to try to win the race; see
+leanprover/comparator#78. Once a mitigation is in place, add a CI
+assertion that Phase B reports REJECTED.
 """
 
 from __future__ import annotations

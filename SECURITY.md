@@ -176,13 +176,14 @@ So the premise that no persistent child is possible does not hold, and
 unsound argument rather than a demonstrated attack, and note that any
 substituted olean is still replayed through the kernel and
 `external_kernels`. Tracked upstream at
-https://github.com/leanprover/comparator/issues/77, where the proposed
-remedy is for comparator to detect surviving descendants (via
-`PR_SET_CHILD_SUBREAPER`) and fail the comparison rather than trying to
-win the race. Note that the obvious cheaper fixes do not work: copying
-the olean out before exporting, hashing it, or renaming its directory
-all still race a daemon that rewrites in a loop, and `killpg` misses
-exactly the process that called `setsid`.
+https://github.com/leanprover/comparator/issues/77, with a proposed fix
+in https://github.com/leanprover/comparator/pull/78 that runs each
+landrun invocation as PID 1 of a fresh PID namespace, so the kernel
+tears down any survivors before comparator proceeds. Note that the
+obvious cheaper fixes do not work: copying the olean out before
+exporting, hashing it, or renaming its directory all still race a
+daemon that rewrites in a loop, and `killpg` misses exactly the process
+that called `setsid`. Update this section when that PR lands.
 
 This applies to every runner we use today; it has nothing to do with
 any particular kernel. Re-derive it after any landrun, comparator, or
@@ -333,7 +334,8 @@ escaping, the triage gate) are in the submissions repo's `SECURITY.md`.
    `lean`, which is whitelisted. Nothing stops a descendant outliving
    `safeLakeBuild` and racing `safeExport`. No working exploit is known,
    and a substituted olean is still kernel-checked. Tracked at
-   https://github.com/leanprover/comparator/issues/77.
+   https://github.com/leanprover/comparator/issues/77; proposed fix in
+   https://github.com/leanprover/comparator/pull/78.
 3. **`lake env` behaviour across lake versions.** The `lake_env_probe`
    confirms current behaviour. Lake version bumps must re-run it.
 4. **`definition_names` author trap.** Comparator only requires that
