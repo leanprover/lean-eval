@@ -403,6 +403,18 @@ private def Source.commentEnd? (s : Source) (start : Nat) : Option Nat :=
   else
     none
 
+/-- Skip whitespace and Lean comments from `start`. Block comments are nested. -/
+def Source.skipTrivia (s : Source) (start : Nat) : Nat := Id.run do
+  let mut i := start
+  while i < s.size do
+    if s[i]!.isWhitespace then
+      i := i + 1
+    else if let some stop := Source.commentEnd? s i then
+      i := max stop (i + 1)
+    else
+      break
+  return i
+
 /-- If `start` begins a raw string literal — `r"…"`, `r#"…"#`, `r##"…"##`, … —
 return the index just past it. Raw strings have no escapes and are closed only
 by a quote followed by as many `#` as opened them. -/
@@ -442,8 +454,8 @@ private def Source.quotedIdentifierEnd (s : Source) (start : Nat) : Nat := Id.ru
     i := i + 1
   return s.size
 
-/-- Skip a double-quoted string, ignoring `{…}` and treating `\x` as one unit.
-`start` must point at the opening quote; the result is `s.size` if the string is
+/-- Skip a double-quoted string in which a brace is just a brace. `start` must
+point at the opening quote; the result is `s.size` if the string is
 unterminated. -/
 private def Source.plainStringEnd (s : Source) (start : Nat) : Nat := Id.run do
   let mut i := start + 1
@@ -456,18 +468,16 @@ private def Source.plainStringEnd (s : Source) (start : Nat) : Nat := Id.run do
       i := i + 1
   return s.size
 
-/-- Skip a double-quoted string, including escapes and the terms of any `{…}`
-interpolation. `start` must point at the opening quote.
+/-- Skip a double-quoted string whose `{…}` holes carry terms. `start` must point
+at the opening quote.
 
-Whether a string interpolates is not decidable from the quote alone —
-`throwError "{f "a"}"` interpolates and `"{a}"` does not — so a brace is read as
-a hole whenever doing so parses. A hole may itself hold a string, which is what
-makes the difference: read brace-blind, `throwError "{String.intercalate "\n" …}"`
-would end its string at the quote before `\n` and the rest of the message would
-be scanned as code. When the interpolation reading runs off the end of the
-source, the brace-blind one is used instead, so a lone `{` in an ordinary string
-costs nothing. -/
-private def Source.stringLiteralEnd (s : Source) (start : Nat) : Nat := Id.run do
+A hole may itself hold a string, and that is what a brace-blind reader gets
+wrong: `throwError "{String.intercalate "\n" …}"` would end at the quote before
+`\n`, leaving the rest of the message to be scanned as code. Lean parses a hole
+with the whole extensible term grammar, which brace counting cannot reproduce,
+so a hole that fails to close is treated as running to the end of the source —
+opaque, and therefore inert, rather than resynchronising somewhere arbitrary. -/
+private def Source.interpolatedStringEnd (s : Source) (start : Nat) : Nat := Id.run do
   let n := s.size
   let mut i := start + 1
   -- One entry per nested construct, innermost last: `true` while reading string
@@ -489,11 +499,68 @@ private def Source.stringLiteralEnd (s : Source) (start : Nat) : Nat := Id.run d
     else if s[i]! == '{' then modes := modes.push false; i := i + 1
     else if s[i]! == '}' then modes := modes.pop; i := i + 1
     else i := i + 1
-  return Source.plainStringEnd s start
+  return n
+
+/-- Commands whose string argument Lean parses as an interpolated string even
+though it carries no `!`. -/
+private def interpolatedStringCommands : Array String :=
+  #["throwError", "throwErrorAt", "logInfo", "logInfoAt", "logWarning",
+    "logWarningAt", "logError", "logErrorAt", "dbg_trace"]
+
+/-- True when the string opening at `start` is an interpolated one, so that a
+`{` in it opens a term rather than standing for itself.
+
+Interpolation is introduced by a `!`-suffixed prefix (`s!`, `m!`, `f!`) or by one
+of `interpolatedStringCommands`. Everything else — an ordinary application `f
+"x"`, a literal after `:=` — is plain, and reading its braces as holes would run
+the scanner far past the end of the string: `def left := "{"` and a later `"}"`
+would swallow everything between them. -/
+private def Source.stringIsInterpolated (s : Source) (start : Nat) : Bool := Id.run do
+  let mut i := start
+  while i > 0 && s[i - 1]!.isWhitespace do
+    i := i - 1
+  let tokenEnd := i
+  while i > 0 &&
+      (let c := s[i - 1]!; c.isAlphanum || c == '_' || c == '\'' || c == '.' || c == '!') do
+    i := i - 1
+  if i == tokenEnd then return false
+  if s[tokenEnd - 1]! == '!' then return true
+  let mut token := ""
+  for k in [i : tokenEnd] do
+    token := token.push s[k]!
+  return interpolatedStringCommands.contains ((token.splitOn ".").getLast!)
+
+/-- Skip a double-quoted string. `start` must point at the opening quote. -/
+private def Source.stringLiteralEnd (s : Source) (start : Nat) : Nat :=
+  if Source.stringIsInterpolated s start then Source.interpolatedStringEnd s start
+  else Source.plainStringEnd s start
+
+/-- If `start` begins a syntax quotation `` `(…) ``, return the codepoint index
+just past its closing parenthesis. What a quotation holds is syntax the
+declaration *builds*, not syntax applied to it, so an `@[eval_problem]` inside
+one belongs to the macro's output and must survive. -/
+private def Source.quotationEnd? (s : Source) (start : Nat) : Option Nat := Id.run do
+  if s[start]? != some '`' || s[start + 1]? != some '(' then return none
+  let mut i := start + 2
+  let mut depth : Nat := 1
+  while i < s.size do
+    if let some stop := Source.commentEnd? s i then i := max stop (i + 1)
+    else if let some stop := Source.rawStringEnd? s i then i := stop
+    else if s[i]! == '"' then i := Source.stringLiteralEnd s i
+    else if s[i]! == '\'' then i := (Source.charLiteralEnd? s i).getD (i + 1)
+    else if s[i]! == '«' then i := Source.quotedIdentifierEnd s i
+    else if s[i]! == '(' then depth := depth + 1; i := i + 1
+    else if s[i]! == ')' then
+      depth := depth - 1
+      i := i + 1
+      if depth == 0 then return some i
+    else i := i + 1
+  return some s.size
 
 /-- If `start` begins a lexeme whose interior must not be read as code — a line
-or block comment, a string, raw string or character literal, or a French-quoted
-identifier — return the codepoint index just past it; `none` for ordinary code.
+or block comment, a string, raw string or character literal, a French-quoted
+identifier, or a syntax quotation — return the codepoint index just past it;
+`none` for ordinary code.
 
 The result is always strictly greater than `start`, so a scanner can step to it
 unconditionally. An unterminated lexeme ends at `s.size`. -/
@@ -502,6 +569,7 @@ def Source.opaqueLexemeEnd? (s : Source) (start : Nat) : Option Nat := Id.run do
   let stop? : Option Nat :=
     Source.commentEnd? s start |>.orElse fun _ =>
     Source.rawStringEnd? s start |>.orElse fun _ =>
+    Source.quotationEnd? s start |>.orElse fun _ =>
       match s[start]! with
       | '"' => some (Source.stringLiteralEnd s start)
       | '\'' => Source.charLiteralEnd? s start
@@ -544,29 +612,6 @@ def scanHeader (source : Source) : Nat × Nat := Id.run do
 def importPreludeLength (source : Source) : Nat :=
   (scanHeader source).1
 
-/-- True if the line's trimmed content is `import EvalTools.Markers`, allowing
-arbitrary intra-line whitespace between `import` and the module name (the
-Python regex was `\s+`, not a single space). -/
-private def isEvalToolsMarkersImport (stripped : String) : Bool := Id.run do
-  if !(stripped.startsWith "import") then return false
-  let after := (stripped.drop "import".length).toString
-  if after.isEmpty then return false
-  if !after.toList.head!.isWhitespace then return false
-  return after.trimAscii.toString == "EvalTools.Markers"
-
-/-- True if the line is `import <m>` for some module `m` in `locals`, allowing
-arbitrary intra-line whitespace between `import` and the module name. Used to
-drop imports of repo-local modules whose declarations are inlined into
-`ChallengeDeps`, so the generated workspace files don't import the (absent)
-`LeanEval` library. -/
-private def isLocalImport (stripped : String) (locals : Array String) : Bool := Id.run do
-  if !(stripped.startsWith "import") then return false
-  let after := (stripped.drop "import".length).toString
-  if after.isEmpty then return false
-  if !after.toList.head!.isWhitespace then return false
-  let modName := ((after.trimAscii.toString.splitOn " ").head!).trimAscii.toString
-  return locals.contains modName
-
 /-- The name of the marker attribute, as it is spelled in source. -/
 private def evalProblemAttrName : String := "eval_problem"
 
@@ -574,7 +619,9 @@ private def evalProblemAttrName : String := "eval_problem"
 private structure AttributeBlock where
   /-- Codepoint index just past the closing `]`. -/
   stop : Nat
-  /-- Codepoint spans of the comma-separated attribute instances, untrimmed. -/
+  /-- Codepoint spans of the comma-separated attribute instances. Each runs from
+  just after the previous separator to the separator or `]` that ends it, so it
+  carries whatever trivia the author wrote around the attribute. -/
   items : Array (Nat × Nat)
 
 /-- Parse the attribute block opening at `start`, which must point at `@[`.
@@ -609,6 +656,22 @@ private def Source.attributeBlockEnd? (s : Source) (start : Nat) : Option Attrib
         i := i + 1
       | _ => i := i + 1
   return none
+
+/-- True when the attribute instance spanning `[start, stop)` is the marker and
+nothing else. Lean lets trivia sit anywhere in the list, so
+`@[/- why -/ eval_problem]` applies the marker just as `@[eval_problem]` does. -/
+private def Source.itemIsMarker (s : Source) (start stop : Nat) : Bool := Id.run do
+  let nameStart := min (Source.skipTrivia s start) stop
+  if !(Source.startsWithAt s nameStart evalProblemAttrName.toList) then return false
+  let nameStop := nameStart + evalProblemAttrName.length
+  if nameStop > stop || !(Source.atWordEnd s nameStop) then return false
+  return min (Source.skipTrivia s nameStop) stop == stop
+
+/-- True when the attribute instance spanning `[start, stop)` names no attribute
+at all. Lean rejects `@[simp,]`, but the stripper should not turn such a block
+into `@[]` and call it progress. -/
+private def Source.itemIsEmpty (s : Source) (start stop : Nat) : Bool :=
+  Source.skipTrivia s start ≥ stop
 
 /-- True when `s[start:stop)` is entirely whitespace. -/
 private def Source.isBlankRange (s : Source) (start stop : Nat) : Bool := Id.run do
@@ -653,10 +716,6 @@ private def Source.blankEatingSpan (s : Source) (start stop floor : Nat) : Nat �
     let next := Source.lineEndAt s b
     if !Source.isBlankRange s b next then break
     b := next
-  -- A deletion running to an unterminated last line takes the newline that
-  -- introduced it rather than leaving the file ending in a blank line.
-  if b == s.size && b > a && s[b - 1]! != '\n' && a > floor && s[a - 1]! == '\n' then
-    a := a - 1
   return (a, b)
 
 /-- Codepoint index of the first character at or after `start` that is neither a
@@ -664,6 +723,13 @@ space nor a tab. -/
 private def Source.skipInlineSpace (s : Source) (start : Nat) : Nat := Id.run do
   let mut i := start
   while i < s.size && (s[i]! == ' ' || s[i]! == '\t') do
+    i := i + 1
+  return i
+
+/-- Codepoint index of the first non-whitespace character at or after `start`. -/
+private def Source.skipWhitespace (s : Source) (start : Nat) : Nat := Id.run do
+  let mut i := start
+  while i < s.size && s[i]!.isWhitespace do
     i := i + 1
   return i
 
@@ -675,8 +741,8 @@ private def Source.rewindInlineSpace (s : Source) (start floor : Nat) : Nat := I
     i := i - 1
   return i
 
-/-- The span to delete to remove the attribute block at `[start, stop)` when no
-attribute in it survives. -/
+/-- The span to delete to remove the marker text at `[start, stop)` — a whole
+attribute block, or an import command — from the source around it. -/
 private def Source.markerRemoval (s : Source) (start stop floor : Nat) : Nat × Nat :=
   let blankBefore := Source.isBlankRange s (Source.lineStartAt s start) start
   let blankAfter := Source.isBlankRange s stop (Source.lineEndAt s stop)
@@ -691,12 +757,75 @@ private def Source.markerRemoval (s : Source) (start stop floor : Nat) : Nat × 
     -- gap after it go, leaving any indentation in place.
     (start, Source.skipInlineSpace s stop)
 
-/-- True when an `import` command that this pass drops begins at `i`, which must
-be the first non-whitespace position on its line. -/
-private def Source.isStrippedImportAt (s : Source) (i : Nat) (locals : Array String) : Bool :=
-  Source.startsWithAt s i "import".toList &&
-    (let line := (Source.slice s i (Source.lineEndAt s i)).trimAscii.toString
-     isEvalToolsMarkersImport line || isLocalImport line locals)
+/-- The spans to delete to remove the attribute instances at indices `markers`
+from `block`, given that at least one instance survives.
+
+Each removal takes a separating comma with it: the one after the instance where
+there is a later survivor, and otherwise the one before it, so exactly as many
+commas go as instances. Everything else is left as the author wrote it —
+reprinting the survivors instead would drop the line break after a comment among
+them and so comment out the closing `]`. -/
+private def Source.markerItemRemovals (s : Source) (block : AttributeBlock)
+    (markers : List Nat) : Array (Nat × Nat) := Id.run do
+  -- The instances from `tail` on are all markers, so they share the one comma
+  -- in front of them; those before it each take the comma that follows.
+  let mut tail := block.items.size
+  while tail > 0 && markers.contains (tail - 1) do
+    tail := tail - 1
+  let mut removals : Array (Nat × Nat) := #[]
+  for k in markers do
+    if k < tail then
+      -- Up to the next instance's first character, so its indentation goes too.
+      -- Only whitespace: a comment there introduces the instance that survives.
+      removals := removals.push (block.items[k]!.1, Source.skipWhitespace s (block.items[k]!.2 + 1))
+  if tail < block.items.size then
+    -- Back over the spaces before the comma, but not over a line break: that
+    -- break may be what ends a comment in the instance before it.
+    let survivor := block.items[tail - 1]!
+    removals := removals.push
+      (Source.rewindInlineSpace s survivor.2 survivor.1, block.items[block.items.size - 1]!.2)
+  return removals
+
+/-- If an `import` command occupying the rest of its line begins at `i`, return
+the module it names and the codepoint index just past the command, trailing
+comment included. `none` if anything but trivia follows the module name on the
+line, since then the line is not this command's alone to delete. -/
+private def Source.importAt? (s : Source) (i : Nat) : Option (String × Nat) := Id.run do
+  if !(Source.startsWithAt s i "import".toList) then return none
+  let mut j := i + "import".length
+  if !(Source.atWordEnd s j) then return none
+  j := Source.skipInlineSpace s j
+  let nameStart := j
+  while j < s.size &&
+      (let c := s[j]!; c.isAlphanum || c == '_' || c == '\'' || c == '.') do
+    j := j + 1
+  if j == nameStart then return none
+  let mut name := ""
+  for k in [nameStart : j] do
+    name := name.push s[k]!
+  let lineStop := Source.lineEndAt s j
+  let mut stop := j
+  while j < lineStop do
+    if s[j]!.isWhitespace then
+      j := j + 1
+    else if let some commentStop := Source.commentEnd? s j then
+      if commentStop > lineStop then return none
+      j := max commentStop (j + 1)
+      stop := j
+    else
+      return none
+  return some (name, stop)
+
+/-- If an `import` command this pass drops begins at `i`, return the codepoint
+index just past it. `freshLine` records that only trivia precedes `i` on its
+line, which is where an `import` is a command rather than a stray identifier. -/
+private def strippedImportStop? (s : Source) (i : Nat) (freshLine : Bool)
+    (locals : Array String) : Option Nat :=
+  if !freshLine then none
+  else match Source.importAt? s i with
+    | some (name, stop) =>
+      if name == "EvalTools.Markers" || locals.contains name then some stop else none
+    | none => none
 
 /-- Strip `@[eval_problem]` attributes, `import EvalTools.Markers` lines, and
 `import <m>` lines for each repo-local module `m` in `localImports` from
@@ -710,34 +839,41 @@ position Lean accepts it and nowhere else:
 * the attribute may share its line with the declaration
   (`@[eval_problem] theorem foo …`) or with a prefix command
   (`set_option autoImplicit false in @[eval_problem] theorem foo …`);
-* it may span several lines;
+* it may span several lines, and may carry trivia (`@[/- why -/ eval_problem]`);
 * its list is split on commas at bracket depth zero, and closed by the first
   `]` at that depth, so `@[eval_problem, deprecated "use foo] instead"]` and
   `@[eval_problem, simp [a, b]]` keep their siblings intact;
-* text inside a string literal or a comment is never mistaken for code, so a
-  multiline string containing `@[eval_problem]` or `import EvalTools.Markers`
-  survives verbatim. -/
+* siblings are spliced out of the source rather than reprinted, so a comment
+  among them keeps the line break that terminates it;
+* text inside a string literal, a comment or a syntax quotation is never
+  mistaken for code, so neither a multiline string containing
+  `@[eval_problem]` nor a macro building one is touched.
+
+A deleted line leaves the newline that introduced it, so stripping the last
+line of a file does not run the one before it into the end of the text. -/
 def stripProblemMarkers (source : String) (localImports : Array String := #[]) : String :=
   Id.run do
   let s := Source.ofString source
   let n := s.size
-  -- `(start, stop, replacement)` triples, in increasing order and disjoint.
-  let mut edits : Array (Nat × Nat × String) := #[]
+  -- Codepoint spans to delete, in increasing order and disjoint.
+  let mut edits : Array (Nat × Nat) := #[]
   -- End of the last edit, so no later deletion reaches back over it.
   let mut floor : Nat := 0
   let mut i : Nat := 0
-  -- Whether only whitespace precedes `i` on its line — an `import` is a command
-  -- only there.
+  -- Whether only trivia precedes `i` on its line — an `import` is a command
+  -- only there, though a comment may sit in front of it.
   let mut freshLine := true
   while i < n do
-    if let some lexemeEnd := Source.opaqueLexemeEnd? s i then
+    if let some commentEnd := Source.commentEnd? s i then
+      i := max commentEnd (i + 1)
+    else if let some lexemeEnd := Source.opaqueLexemeEnd? s i then
       freshLine := false
       i := lexemeEnd
-    else if freshLine && Source.isStrippedImportAt s i localImports then
-      let (a, b) := Source.blankEatingSpan s i i floor
-      edits := edits.push (a, b, "")
+    else if let some importStop := strippedImportStop? s i freshLine localImports then
+      let (a, b) := Source.markerRemoval s i importStop floor
+      edits := edits.push (a, b)
       floor := b
-      freshLine := true
+      freshLine := b > 0 && s[b - 1]! == '\n'
       i := b
     else if Source.startsWithAt s i "@[".toList then
       match Source.attributeBlockEnd? s i with
@@ -745,31 +881,34 @@ def stripProblemMarkers (source : String) (localImports : Array String := #[]) :
         freshLine := false
         i := i + 2
       | some block =>
-        let items := block.items.map fun (a, b) => (Source.slice s a b).trimAscii.toString
-        if !items.contains evalProblemAttrName then
+        let markers := (List.range block.items.size).filter fun k =>
+          let (a, b) := block.items[k]!
+          Source.itemIsMarker s a b
+        let survives := (List.range block.items.size).any fun k =>
+          let (a, b) := block.items[k]!
+          !markers.contains k && !Source.itemIsEmpty s a b
+        if markers.isEmpty then
           freshLine := false
           i := block.stop
+        else if !survives then
+          let (a, b) := Source.markerRemoval s i block.stop floor
+          edits := edits.push (a, b)
+          floor := b
+          freshLine := b > 0 && s[b - 1]! == '\n'
+          i := b
         else
-          let kept := items.filter fun item => item != evalProblemAttrName && !item.isEmpty
-          if kept.isEmpty then
-            let (a, b) := Source.markerRemoval s i block.stop floor
-            edits := edits.push (a, b, "")
-            floor := b
-            freshLine := b > 0 && s[b - 1]! == '\n'
-            i := b
-          else
-            edits := edits.push (i, block.stop, "@[" ++ ", ".intercalate kept.toList ++ "]")
-            floor := block.stop
-            freshLine := false
-            i := block.stop
+          edits := edits ++ Source.markerItemRemovals s block markers
+          floor := block.stop
+          freshLine := false
+          i := block.stop
     else
       if s[i]! == '\n' then freshLine := true
       else if !s[i]!.isWhitespace then freshLine := false
       i := i + 1
   let mut parts : Array String := #[]
   let mut pos : Nat := 0
-  for (a, b, replacement) in edits do
-    parts := parts.push (Source.slice s pos a) |>.push replacement
+  for (a, b) in edits do
+    parts := parts.push (Source.slice s pos a)
     pos := b
   return String.join (parts.push (Source.slice s pos n)).toList
 
@@ -1195,21 +1334,6 @@ def Source.findTheoremHeader (s : Source) (start : Nat) (name : String) : Option
         return some endPos
     i := i + 1
   return none
-
-/-- Skip whitespace and Lean comments from `start`. Block comments are nested. -/
-def Source.skipTrivia (s : Source) (start : Nat) : Nat := Id.run do
-  let mut i := start
-  while i < s.size do
-    if s[i]!.isWhitespace then
-      i := i + 1
-    else if Source.startsWithAt s i "--".toList then
-      while i < s.size && s[i]! != '\n' do
-        i := i + 1
-    else if Source.startsWithAt s i "/-".toList then
-      i := blockCommentEnd s i
-    else
-      break
-  return i
 
 /-- Locate the body marker of an eval-problem theorem without assuming the
 literal spelling `:= by`. Candidates inside comments, strings, and brackets are

@@ -459,9 +459,55 @@ def main : IO UInt32 := do
     pure <| assertEq "interpolation verbatim" (stripProblemMarkers source)
       "def note : String := s!\"{String.intercalate \"\\n\" [\"@[eval_problem]\"]}\"\ntheorem target : True := trivial\n"
 
+  -- The converse of the case above: a brace in a string that does not
+  -- interpolate is just a brace. Reading it as a hole would run the scan on to
+  -- the next `}` and hide every marker in between.
+  check "stripProblemMarkers treats a brace in a plain string as a brace" passes fails do
+    let source := "def left := \"{\"\n@[eval_problem] theorem target : True := trivial\ndef right := \"}\"\n"
+    pure <| assertEq "marker still found" (stripProblemMarkers source)
+      "def left := \"{\"\ntheorem target : True := trivial\ndef right := \"}\"\n"
+
+  -- Reprinting the survivors would drop the newline that ends the comment and
+  -- so comment out the closing `]`.
+  check "stripProblemMarkers keeps a comment among the surviving attributes" passes fails do
+    let source := "@[simp -- explanation\n, eval_problem]\ntheorem target : True := trivial\n"
+    pure <| assertEq "comment kept terminated" (stripProblemMarkers source)
+      "@[simp -- explanation\n]\ntheorem target : True := trivial\n"
+
+  -- The marker inside a quotation is syntax the macro builds, not an attribute
+  -- applied to the macro.
+  check "stripProblemMarkers leaves a syntax quotation alone" passes fails do
+    let source := "macro \"mkProblem\" n:ident : command =>\n" ++
+      "  `(@[eval_problem] theorem $n : True := trivial)\n"
+    pure <| assertEq "quotation verbatim" (stripProblemMarkers source) source
+
+  check "stripProblemMarkers strips a marker carrying trivia" passes fails do
+    let source := "@[eval_problem /- why -/, simp]\ntheorem target : True := trivial\n"
+    pure <| assertEq "marker recognised" (stripProblemMarkers source)
+      "@[simp]\ntheorem target : True := trivial\n"
+
+  check "stripProblemMarkers strips an import with a trailing comment" passes fails do
+    let source := "import EvalTools.Markers /- why -/\n@[eval_problem] theorem target : True := trivial\n"
+    pure <| assertEq "import and marker gone" (stripProblemMarkers source)
+      "theorem target : True := trivial\n"
+
+  -- `@[simp,]` is not legal Lean, but rewriting it to `@[]` would replace one
+  -- error with a less obvious one.
+  check "stripProblemMarkers does not leave an empty attribute block" passes fails do
+    let source := "namespace Demo\n\n@[eval_problem,\n  ]\ntheorem target : True := trivial\n"
+    pure <| assertEq "whole block gone" (stripProblemMarkers source)
+      "namespace Demo\ntheorem target : True := trivial\n"
+
   check "stripProblemMarkers keeps an unterminated attribute block" passes fails do
     let source := "@[eval_problem, simp\ntheorem target : True := trivial\n"
     pure <| assertEq "left verbatim" (stripProblemMarkers source) source
+
+  -- Regression for the shared lexeme scanner: a brace in an ordinary string
+  -- must not hide the `:=` that introduces the body.
+  check "extractStatementText sees past braces in a plain string" passes fails do
+    let statement ← extractStatementText "demo" "Demo.lean"
+      "theorem target : \"{\" = \"{\" := by\n  simpa using (show \"}\" = \"}\" from rfl)" "target"
+    pure <| assertEq "statement recovered" statement ": \"{\" = \"{\""
 
   check "injectAfterImports honors a narrow fallback header" passes fails do
     let source := "namespace Demo\n\ndef target : Nat := 1\n\nend Demo\n"
