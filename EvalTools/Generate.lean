@@ -428,32 +428,44 @@ private def isLocalImport (stripped : String) (locals : Array String) : Bool := 
   let modName := ((after.trimAscii.toString.splitOn " ").head!).trimAscii.toString
   return locals.contains modName
 
-/-- Strip `@[eval_problem]` attribute lines, `import EvalTools.Markers` lines,
+/-- Strip `@[eval_problem]` attributes, `import EvalTools.Markers` lines,
 and `import <m>` lines for each repo-local module `m` in `localImports` from
 `source`. Blank lines immediately before and after a stripped line are also
 dropped — mirroring the greedy `\s*` runs that bracket the attribute in
-Python's `_strip_problem_markers` regex. -/
+Python's `_strip_problem_markers` regex.
+
+The attribute need not occupy the whole line: `@[eval_problem] theorem foo ...`
+is stripped down to `theorem foo ...`, keeping the declaration on its line. -/
 def stripProblemMarkers (source : String) (localImports : Array String := #[]) : String := Id.run do
   let lines := source.splitOn "\n"
   let mut out : Array String := #[]
   let mut eatBlanks := false
   for line in lines do
     let stripped := line.trimAscii.toString
-    if stripped.startsWith "@[" && stripped.endsWith "]" then
-      let attrs := (stripped.drop 2).toString.dropEnd 1 |>.toString |>.splitOn ","
-      let keptAttrs := attrs.map (fun a => a.trimAscii.toString) |>.filter (fun a => a != "eval_problem")
-      if keptAttrs.length != attrs.length then
-        if !keptAttrs.isEmpty then
+    if stripped.startsWith "@[" then
+      -- Split at the first `]`. Anything after it is a declaration sharing the
+      -- line with the attribute; rejoining with `]` restores later brackets.
+      match (stripped.drop 2).toString.splitOn "]" with
+      | attrText :: tail@(_ :: _) =>
+        let trailing := ("]".intercalate tail).trimAscii.toString
+        let attrs := attrText.splitOn ","
+        let keptAttrs := attrs.map (fun a => a.trimAscii.toString) |>.filter (fun a => a != "eval_problem")
+        if keptAttrs.length != attrs.length then
           let indent := String.mk (line.toList.take (line.length - line.trimAsciiStart.toString.length))
-          out := out.push (indent ++ "@[" ++ ", ".intercalate keptAttrs ++ "]")
-          eatBlanks := false
-        else
-          while out.size > 0 && out[out.size - 1]!.trimAscii.toString.isEmpty do
-            out := out.pop
-          eatBlanks := true
-        continue
-    if stripped == "@[eval_problem]" || isEvalToolsMarkersImport stripped
-        || isLocalImport stripped localImports then
+          if !keptAttrs.isEmpty then
+            let kept := indent ++ "@[" ++ ", ".intercalate keptAttrs ++ "]"
+            out := out.push (if trailing.isEmpty then kept else kept ++ " " ++ trailing)
+            eatBlanks := false
+          else if !trailing.isEmpty then
+            out := out.push (indent ++ trailing)
+            eatBlanks := false
+          else
+            while out.size > 0 && out[out.size - 1]!.trimAscii.toString.isEmpty do
+              out := out.pop
+            eatBlanks := true
+          continue
+      | _ => pure ()
+    if isEvalToolsMarkersImport stripped || isLocalImport stripped localImports then
       -- Drop blank lines we already pushed that immediately precede this
       -- marker line; the Python regex's leading `^\s*` consumes them too.
       while out.size > 0 && out[out.size - 1]!.trimAscii.toString.isEmpty do

@@ -382,6 +382,22 @@ def main : IO UInt32 := do
     pure <| assertEq "non-marker attribute kept"
       ((stripped.find? "@[instance_reducible, instance]\nnoncomputable def target").isSome) true
 
+  check "stripProblemMarkers handles an inline attribute" passes fails do
+    let source :=
+      "import EvalTools.Markers\n\n" ++
+      "@[eval_problem] theorem target (x : Nat) :\n" ++
+      "    x = x := rfl\n"
+    let stripped := stripProblemMarkers source
+    pure <| assertEq "declaration kept on its line"
+      ((stripped.find? "theorem target (x : Nat) :").isSome) true |>.or
+      (assertEq "attribute gone" (stripped.find? "eval_problem").isSome false)
+
+  check "stripProblemMarkers keeps siblings of an inline attribute" passes fails do
+    let source := "@[eval_problem, simp] theorem target : True := trivial\n"
+    let stripped := stripProblemMarkers source
+    pure <| assertEq "sibling attribute kept inline"
+      ((stripped.find? "@[simp] theorem target").isSome) true
+
   check "injectAfterImports honors a narrow fallback header" passes fails do
     let source := "namespace Demo\n\ndef target : Nat := 1\n\nend Demo\n"
     let injected := injectAfterImports source "import Submission\n"
