@@ -1,5 +1,10 @@
 id = "budney_gabai_knotted_three_spheres"
 title = "Budney--Gabai knotted three-spheres in S¹ × S³"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 test = false
 module = "LeanEval.Topology.BudneyGabai"
 holes = ["budney_gabai_knotted_three_spheres"]
