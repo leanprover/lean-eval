@@ -148,6 +148,14 @@ result.
 
 ## 2. The v1 problem set
 
+> **Maintainer amendment, 2026-08-21.** The original v1 publication selected
+> 118 members under the rule below. The maintainer subsequently authorized ten
+> newly merged problems to be added, producing an effective set of 128. This
+> decision supersedes the statements below that v1 can never receive additions.
+> Existing members still cannot be removed or replaced; the exception is
+> recorded as an append-only, dated amendment with exact PR and merge-commit
+> provenance.
+
 The current catalog grew by accretion. v1 is the first named frozen set in
 the formalization evaluation group: a curated subset that stays fixed, so
 that results are comparable over a meaningful window.

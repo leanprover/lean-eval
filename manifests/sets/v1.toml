@@ -1,8 +1,9 @@
-schema_version = 1
+schema_version = 2
 id = "v1"
 title = "LeanEval v1"
 frozen = true
 published_at = "2026-08-20"
+initial_member_count = 118
 members = [
   { problem_id = "annals_absolute_profinite_rigidity", statement_revision = 1 },
   { problem_id = "annals_algebraic_integers", statement_revision = 1 },
@@ -59,6 +60,7 @@ members = [
   { problem_id = "bakerWustholz_linearForms_logs", statement_revision = 1 },
   { problem_id = "bender_suzuki", statement_revision = 1 },
   { problem_id = "bourgain_polynomial_ergodic", statement_revision = 1 },
+  { problem_id = "budney_gabai_knotted_three_spheres", statement_revision = 1 },
   { problem_id = "cdt_linearIndependent", statement_revision = 1 },
   { problem_id = "cerf_gamma_four", statement_revision = 1 },
   { problem_id = "chen_theorem", statement_revision = 1 },
@@ -66,13 +68,18 @@ members = [
   { problem_id = "conway_knot_not_smoothly_slice", statement_revision = 1 },
   { problem_id = "conway_knot_topologically_slice", statement_revision = 1 },
   { problem_id = "derived_solidification_free_CW_homology", statement_revision = 1 },
+  { problem_id = "dimitrov", statement_revision = 1 },
+  { problem_id = "direct_summand", statement_revision = 1 },
   { problem_id = "duffin_schaeffer", statement_revision = 1 },
   { problem_id = "e8_irrep_tensor_square_decomp", statement_revision = 1 },
+  { problem_id = "einsiedler_katok_lindenstrauss", statement_revision = 1 },
   { problem_id = "equichordal_point_unique", statement_revision = 1 },
   { problem_id = "erdos_unit_distance_conjecture_false", statement_revision = 1 },
   { problem_id = "exists_topologically_slice_not_smoothly_slice", statement_revision = 1 },
+  { problem_id = "faltings", statement_revision = 1 },
   { problem_id = "fermat_last_theorem", statement_revision = 1 },
   { problem_id = "five_transitive_card_classification", statement_revision = 1 },
+  { problem_id = "four_manifold_not_smooth", statement_revision = 1 },
   { problem_id = "friedlander_iwaniec", statement_revision = 1 },
   { problem_id = "gorenstein_walter", statement_revision = 1 },
   { problem_id = "green_tao", statement_revision = 1 },
@@ -82,6 +89,7 @@ members = [
   { problem_id = "hSpace_sphere_iff", statement_revision = 1 },
   { problem_id = "jacobian_challenge_alggeo", statement_revision = 1 },
   { problem_id = "kepler_conjecture", statement_revision = 1 },
+  { problem_id = "klartag_packing", statement_revision = 1 },
   { problem_id = "kollar_lieblich_olsson_sawin", statement_revision = 1 },
   { problem_id = "linnik", statement_revision = 1 },
   { problem_id = "mandelbar_not_path_connected", statement_revision = 1 },
@@ -92,6 +100,9 @@ members = [
   { problem_id = "milnor_exotic_sphere_seven", statement_revision = 1 },
   { problem_id = "mostow_rigidity", statement_revision = 1 },
   { problem_id = "neukirch_uchida", statement_revision = 1 },
+  { problem_id = "newlander_nirenberg", statement_revision = 1 },
+  { problem_id = "nikolov_segal", statement_revision = 1 },
+  { problem_id = "ore_conjecture", statement_revision = 1 },
   { problem_id = "pardon_torus_knot_distortion", statement_revision = 1 },
   { problem_id = "pi_sphere_infinite_iff", statement_revision = 1 },
   { problem_id = "pi6_sphere_three_mulEquiv_zmod_twelve", statement_revision = 1 },
@@ -122,4 +133,23 @@ members = [
   { problem_id = "weinstein_conjecture_dim3", statement_revision = 1 },
   { problem_id = "whitney_embedding", statement_revision = 1 },
   { problem_id = "zhang_bounded_prime_gaps", statement_revision = 1 },
+]
+
+[[amendments]]
+id = "2026-08-21-newly-merged-problems"
+effective_date = "2026-08-21"
+reason = "Add newly merged evaluation problems to v1 by explicit maintainer decision."
+authorization = "Maintainer request recorded in the implementation session on 2026-08-21."
+evidence = "audits/v1/amendment-2026-08-21.json"
+additions = [
+  { problem_id = "budney_gabai_knotted_three_spheres", statement_revision = 1 },
+  { problem_id = "dimitrov", statement_revision = 1 },
+  { problem_id = "direct_summand", statement_revision = 1 },
+  { problem_id = "einsiedler_katok_lindenstrauss", statement_revision = 1 },
+  { problem_id = "faltings", statement_revision = 1 },
+  { problem_id = "four_manifold_not_smooth", statement_revision = 1 },
+  { problem_id = "klartag_packing", statement_revision = 1 },
+  { problem_id = "newlander_nirenberg", statement_revision = 1 },
+  { problem_id = "nikolov_segal", statement_revision = 1 },
+  { problem_id = "ore_conjecture", statement_revision = 1 },
 ]

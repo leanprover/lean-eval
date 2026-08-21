@@ -87,7 +87,7 @@ The one-file-per-problem layout means two PRs adding distinct problems
 never conflict on the manifest.
 
 See [Catalog metadata](docs/catalog-metadata.md) for lifecycle history, the tag
-registry, immutable named sets, and the deterministic v1 evidence tool.
+registry, append-only named sets, and the deterministic v1 evidence tool.
 
 The manifest is the only entry point CI has into `LeanEval/`, so a module
 no manifest names is never built. `validate-manifest` therefore rejects any

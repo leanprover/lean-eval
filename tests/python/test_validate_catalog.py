@@ -39,6 +39,12 @@ holes = ["alpha"]
 submitter = "tester"
 """
 
+BETA_PROBLEM = PROBLEM.replace('id = "alpha"', 'id = "beta"').replace(
+    'title = "Alpha"', 'title = "Beta"'
+).replace('module = "LeanEval.Alpha"', 'module = "LeanEval.Beta"').replace(
+    'holes = ["alpha"]', 'holes = ["beta"]'
+)
+
 
 class ValidateCatalogTest(unittest.TestCase):
     def make_catalog(self, problem: str = PROBLEM, named_set: str | None = None):
@@ -116,7 +122,122 @@ members = [{ problem_id = "alpha", statement_revision = 1 }]
                 'members = [{ problem_id = "alpha", statement_revision = 1 }]',
                 "members = []",
             ), encoding="utf-8")
-            with self.assertRaisesRegex(VALIDATOR.CatalogError, "membership of a frozen set"):
+            with self.assertRaisesRegex(VALIDATOR.CatalogError, "may not be removed or replaced"):
+                VALIDATOR.validate(root, "HEAD")
+
+    def test_frozen_set_accepts_an_explicit_append_only_amendment(self):
+        named_set = """\
+schema_version = 1
+id = "v1"
+title = "LeanEval v1"
+frozen = true
+published_at = "2026-08-20"
+members = [{ problem_id = "alpha", statement_revision = 1 }]
+"""
+        temporary, root = self.make_catalog(named_set=named_set)
+        with temporary:
+            (root / "manifests" / "problems" / "beta.toml").write_text(
+                BETA_PROBLEM, encoding="utf-8"
+            )
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(
+                ["git", "-c", "user.name=test", "-c", "user.email=test@example.com",
+                 "commit", "-qm", "base"],
+                cwd=root,
+                check=True,
+            )
+            (root / "manifests" / "sets" / "v1.toml").write_text("""\
+schema_version = 2
+id = "v1"
+title = "LeanEval v1"
+frozen = true
+published_at = "2026-08-20"
+initial_member_count = 1
+members = [
+  { problem_id = "alpha", statement_revision = 1 },
+  { problem_id = "beta", statement_revision = 1 },
+]
+
+[[amendments]]
+id = "2026-08-21-add-beta"
+effective_date = "2026-08-21"
+reason = "Explicit maintainer addition."
+authorization = "Maintainer decision in issue 1."
+additions = [{ problem_id = "beta", statement_revision = 1 }]
+""", encoding="utf-8")
+            self.assertEqual(VALIDATOR.validate(root, "HEAD"), (2, 1, 1))
+
+    def test_frozen_set_addition_without_an_amendment_is_rejected(self):
+        named_set = """\
+schema_version = 1
+id = "v1"
+title = "LeanEval v1"
+frozen = true
+published_at = "2026-08-20"
+members = [{ problem_id = "alpha", statement_revision = 1 }]
+"""
+        temporary, root = self.make_catalog(named_set=named_set)
+        with temporary:
+            (root / "manifests" / "problems" / "beta.toml").write_text(
+                BETA_PROBLEM, encoding="utf-8"
+            )
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(
+                ["git", "-c", "user.name=test", "-c", "user.email=test@example.com",
+                 "commit", "-qm", "base"],
+                cwd=root,
+                check=True,
+            )
+            path = root / "manifests" / "sets" / "v1.toml"
+            path.write_text(named_set.replace(
+                'members = [{ problem_id = "alpha", statement_revision = 1 }]',
+                'members = [{ problem_id = "alpha", statement_revision = 1 }, '
+                '{ problem_id = "beta", statement_revision = 1 }]',
+            ), encoding="utf-8")
+            with self.assertRaisesRegex(VALIDATOR.CatalogError, "requires one new amendment"):
+                VALIDATOR.validate(root, "HEAD")
+
+    def test_existing_frozen_set_amendment_cannot_be_rewritten(self):
+        named_set = """\
+schema_version = 2
+id = "v1"
+title = "LeanEval v1"
+frozen = true
+published_at = "2026-08-20"
+initial_member_count = 1
+members = [
+  { problem_id = "alpha", statement_revision = 1 },
+  { problem_id = "beta", statement_revision = 1 },
+]
+
+[[amendments]]
+id = "2026-08-21-add-beta"
+effective_date = "2026-08-21"
+reason = "Explicit maintainer addition."
+authorization = "Maintainer decision in issue 1."
+additions = [{ problem_id = "beta", statement_revision = 1 }]
+"""
+        temporary, root = self.make_catalog(named_set=named_set)
+        with temporary:
+            (root / "manifests" / "problems" / "beta.toml").write_text(
+                BETA_PROBLEM, encoding="utf-8"
+            )
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(
+                ["git", "-c", "user.name=test", "-c", "user.email=test@example.com",
+                 "commit", "-qm", "base"],
+                cwd=root,
+                check=True,
+            )
+            path = root / "manifests" / "sets" / "v1.toml"
+            path.write_text(named_set.replace(
+                'reason = "Explicit maintainer addition."',
+                'reason = "Rewritten rationale."',
+            ), encoding="utf-8")
+            with self.assertRaisesRegex(VALIDATOR.CatalogError, "amendments are append-only"):
                 VALIDATOR.validate(root, "HEAD")
 
     def test_status_history_must_end_at_current_status(self):
