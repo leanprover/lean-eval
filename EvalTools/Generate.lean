@@ -1339,6 +1339,61 @@ private def stripLineComment (s : String) : String :=
 private def commandTokens (line : String) : Array String :=
   splitWhitespace (stripLineComment (stripSingleLineBlockComments line))
 
+-- Drop the prefix of length `n` from `s` as a `String`.
+private def stringDrop (s : String) (n : Nat) : String :=
+  String.mk (s.toList.drop n)
+
+-- Find the contents of `s` after the first occurrence of `"-/"`. If the
+-- closer appears, returns `(afterMarker, false)`; otherwise returns
+-- `("", true)` to signal the block comment is still open at end-of-line.
+private def skipToBlockCommentClose (s : String) : String × Bool :=
+  let parts := s.splitOn "-/"
+  match parts with
+  | [] => ("", true)
+  | [_] => ("", true)
+  | _ :: rest => ("-/".intercalate rest, false)
+
+-- Strip a single block comment from the start of `lineRemainder`, returning
+-- `(remainderAfterComment, stillOpen)`. Caller must ensure `lineRemainder`
+-- starts with the block-comment opener `/-`.
+private def consumeBlockCommentStart (lineRemainder : String) : String × Bool :=
+  skipToBlockCommentClose (stringDrop lineRemainder 2)
+
+-- Strip text up to and including the next block-comment closer, returning
+-- what's left on this line and whether the block comment is still open.
+private def consumeBlockCommentContinuation (lineRemainder : String) : String × Bool :=
+  skipToBlockCommentClose lineRemainder
+
+/-- The code left on `line` once leading block-comment text is stripped, given
+whether a `/- … -/` comment was still open at the end of the previous line,
+paired with the comment state at the end of this one. `none` means the line
+carries no code: it is comment all the way to its end.
+
+The line scanners classify a line by the keyword it starts with, so prose has
+to be removed first. A module docstring that wraps a sentence onto a line
+beginning with `open` or `end` is otherwise read as a command — the first
+hoists prose into the generated workspace, where it does not parse, and the
+second pops the enclosing namespace and discards the context with it. -/
+private def stripBlockComments (line : String) (inBlockComment : Bool) :
+    Option String × Bool := Id.run do
+  let mut work := line
+  if inBlockComment then
+    let (rest, stillOpen) := consumeBlockCommentContinuation work
+    if stillOpen then return (none, true)
+    work := rest
+  -- Strip any further `/- … -/` segments that close on this line, and detect
+  -- an opener that does not.
+  let mut classified := work
+  while true do
+    let trimmed := classified.trimAsciiStart.toString
+    if trimmed.startsWith "/-" then
+      let (rest', stillOpen) := consumeBlockCommentStart trimmed
+      if stillOpen then return (none, true)
+      classified := rest'
+    else
+      break
+  return (some classified, false)
+
 /-- True if `line` opens a block comment it does not close. The line scanners
 read one line at a time, so they cannot see into such a comment; a line that
 opens one is the last they can classify. -/
@@ -1448,6 +1503,8 @@ def extractContextOpens (problemId : String) (sourcePath : System.FilePath)
   let mut frameIsNamespace : Array Bool := #[]
   let mut inBody := false
   let mut done := false
+  -- Is a `/- … -/` comment open at the start of the line being read?
+  let mut inBlockComment := false
   -- One past the last line absorbed as the continuation of an earlier command.
   let mut resumeAt : Nat := 0
   -- Nothing at or beyond the target declaration's first line is context.
@@ -1458,9 +1515,15 @@ def extractContextOpens (problemId : String) (sourcePath : System.FilePath)
     if done then break
     if let some t := targetLine? then
       if idx ≥ t then break
-    if idx < resumeAt then continue
     let line := lines[idx - 1]!
-    let stripped := line.trimAscii.toString
+    -- Comment state is tracked on every line, including lines absorbed into an
+    -- earlier command block: one of those may itself open a comment.
+    let (code?, stillOpen) := stripBlockComments line inBlockComment
+    inBlockComment := stillOpen || code?.any hasUnclosedBlockComment
+    if idx < resumeAt then continue
+    -- A line that is comment all the way to its end carries no command.
+    let some code := code? | continue
+    let stripped := code.trimAscii.toString
     let scopeCommand := stripScopeCommandModifiers stripped
     if !inBody then
       if stripped.startsWith "import " || stripped.isEmpty then continue
@@ -1541,31 +1604,6 @@ Multi-line `variable` declarations are kept verbatim: after a `variable`
 header line we keep absorbing lines that begin with whitespace, which matches
 how Lean's parser treats indented continuations of a binder list. -/
 
--- Drop the prefix of length `n` from `s` as a `String`.
-private def stringDrop (s : String) (n : Nat) : String :=
-  String.mk (s.toList.drop n)
-
--- Find the contents of `s` after the first occurrence of `"-/"`. If the
--- closer appears, returns `(afterMarker, false)`; otherwise returns
--- `("", true)` to signal the block comment is still open at end-of-line.
-private def skipToBlockCommentClose (s : String) : String × Bool :=
-  let parts := s.splitOn "-/"
-  match parts with
-  | [] => ("", true)
-  | [_] => ("", true)
-  | _ :: rest => ("-/".intercalate rest, false)
-
--- Strip a single block comment from the start of `lineRemainder`, returning
--- `(remainderAfterComment, stillOpen)`. Caller must ensure `lineRemainder`
--- starts with the block-comment opener `/-`.
-private def consumeBlockCommentStart (lineRemainder : String) : String × Bool :=
-  skipToBlockCommentClose (stringDrop lineRemainder 2)
-
--- Strip text up to and including the next block-comment closer, returning
--- what's left on this line and whether the block comment is still open.
-private def consumeBlockCommentContinuation (lineRemainder : String) : String × Bool :=
-  skipToBlockCommentClose lineRemainder
-
 /-- Names introduced by the named (non-instance) leading binders of a
 declaration-like text such as a theorem signature or the body of a
 `variable` declaration. -/
@@ -1619,30 +1657,9 @@ private def extractScopedCommandBlocksWhere (source : String)
     let line := lines[idx]!
     -- Walk the line tracking block-comment state. We only consider the
     -- non-comment remainder when classifying the line.
-    let mut work := line
-    if inBlockComment then
-      let (rest, stillOpen) := consumeBlockCommentContinuation work
-      if stillOpen then
-        idx := idx + 1
-        continue
-      inBlockComment := false
-      work := rest
-    -- Strip any further `/- ... -/` segments that close on this line, and
-    -- detect an opener that doesn't.
-    let mut classified := work
-    let mut bail := false
-    while true do
-      let trimmed := classified.trimAsciiStart.toString
-      if trimmed.startsWith "/-" then
-        let (rest', stillOpen) := consumeBlockCommentStart trimmed
-        if stillOpen then
-          inBlockComment := true
-          bail := true
-          break
-        classified := rest'
-      else
-        break
-    if bail then
+    let (code?, stillOpen) := stripBlockComments line inBlockComment
+    inBlockComment := stillOpen
+    let some classified := code? | do
       idx := idx + 1
       continue
     let stripped := classified.trimAscii.toString
