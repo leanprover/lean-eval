@@ -459,13 +459,18 @@ def main : IO UInt32 := do
     pure <| assertEq "interpolation verbatim" (stripProblemMarkers source)
       "def note : String := s!\"{String.intercalate \"\\n\" [\"@[eval_problem]\"]}\"\ntheorem target : True := trivial\n"
 
-  -- The converse of the case above: a brace in a string that does not
-  -- interpolate is just a brace. Reading it as a hole would run the scan on to
-  -- the next `}` and hide every marker in between.
-  check "stripProblemMarkers treats a brace in a plain string as a brace" passes fails do
+  -- A brace in a string that does not interpolate is just a brace, and one in a
+  -- hole is not. Between `"{"` and a later `"}"` the two readings disagree
+  -- about what is string and what is code, so this declines to strip rather
+  -- than guess — the marker survives into the workspace build, which says so.
+  check "stripProblemMarkers declines a marker between disputed braces" passes fails do
     let source := "def left := \"{\"\n@[eval_problem] theorem target : True := trivial\ndef right := \"}\"\n"
-    pure <| assertEq "marker still found" (stripProblemMarkers source)
-      "def left := \"{\"\ntheorem target : True := trivial\ndef right := \"}\"\n"
+    pure <| assertEq "left verbatim" (stripProblemMarkers source) source
+
+  check "stripProblemMarkers strips past a brace no later quote balances" passes fails do
+    let source := "def left := \"{\"\n@[eval_problem] theorem target : True := trivial\n"
+    pure <| assertEq "marker gone" (stripProblemMarkers source)
+      "def left := \"{\"\ntheorem target : True := trivial\n"
 
   -- Reprinting the survivors would drop the newline that ends the comment and
   -- so comment out the closing `]`.
@@ -515,18 +520,27 @@ def main : IO UInt32 := do
       "    \"{String.intercalate \"\\n\" [\"@[eval_problem]\"]}\"\n"
     pure <| assertEq "message verbatim" (stripProblemMarkers source) source
 
-  -- The declaration test is on text, so a string can spell out a declaration
-  -- too. Command position is the other half: what precedes the marker here is
-  -- `prefix`, so no command can begin at it.
+  -- Both corroborating tests are on text, and a string can spell out whatever
+  -- text it likes: command position, sibling attributes, a declaration keyword.
+  -- What saves this is that reaching the marker at all takes a hole read as
+  -- plain text, and the span that hole disputes is not stripped from.
   check "stripProblemMarkers keeps a marker a string spells out in full" passes fails do
     let source := "def f (stx : Syntax) : CoreM Nat := do\n" ++
       "  throwErrorAt stx\n" ++
       "    \"{String.append \"prefix @[eval_problem] theorem\" \"suffix\"}\"\n"
     pure <| assertEq "message verbatim" (stripProblemMarkers source) source
 
-  check "stripProblemMarkers keeps an attribute out of command position" passes fails do
-    let source := "def d := 1 @[eval_problem] theorem target : True := trivial\n"
-    pure <| assertEq "left verbatim" (stripProblemMarkers source) source
+  check "stripProblemMarkers keeps a marker a string puts at a line head" passes fails do
+    let source := "def f (stx : Syntax) : CoreM Nat := do\n" ++
+      "  throwErrorAt stx\n" ++
+      "    \"{String.append \"prefix\n@[eval_problem] theorem\" \"suffix\"}\"\n"
+    pure <| assertEq "message verbatim" (stripProblemMarkers source) source
+
+  check "stripProblemMarkers keeps a marker a string puts behind an `in`" passes fails do
+    let source := "def f (stx : Syntax) : CoreM Nat := do\n" ++
+      "  throwErrorAt stx\n" ++
+      "    \"{String.append \"prefix in @[eval_problem] theorem\" \"suffix\"}\"\n"
+    pure <| assertEq "message verbatim" (stripProblemMarkers source) source
 
   -- Lean allows any number of attribute blocks in front of a declaration.
   check "stripProblemMarkers looks past a run of attribute blocks" passes fails do

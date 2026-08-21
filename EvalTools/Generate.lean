@@ -539,6 +539,23 @@ private def Source.stringLiteralEnd (s : Source) (start : Nat) : Nat :=
   else
     Source.plainStringEnd s start
 
+/-- If the string opening at `start` is one whose two readings disagree about
+where it ends, return the further of the two.
+
+That disagreement is the whole of what `Source.stringIsInterpolated` has to
+guess at, and it is what every way this scanner can be made to edit string
+contents needs: a hole holding a string, read plainly, puts the hole's text in
+front of the scanner as if it were code. Refusing to strip anything inside the
+span the two readings dispute removes the guess from the answer — whichever
+reading is right, that text was somebody's string or somebody's code, and this
+pass declines to say which. -/
+private def Source.disputedStringEnd? (s : Source) (start : Nat) : Option Nat :=
+  match Source.interpolatedStringEnd? s start with
+  | none => none
+  | some interpolated =>
+    let plain := Source.plainStringEnd s start
+    if interpolated == plain then none else some (max interpolated plain)
+
 /-- If `start` begins a syntax quotation `` `(…) ``, return the codepoint index
 just past its closing parenthesis. What a quotation holds is syntax the
 declaration *builds*, not syntax applied to it, so an `@[eval_problem]` inside
@@ -941,12 +958,18 @@ line of a file does not run the one before it into the end of the text.
 
 Lexing Lean without its parser cannot be exact — whether a `{` in a string opens
 an interpolation hole is settled by the grammar, and the grammar is extensible.
-So a marker is stripped only where the surrounding text corroborates that it is
-one: in command position, and in front of a declaration. Both tests are still on
-text and neither is sound the way the parser would be, but between them they
-make the cost of a misreading a marker left in place — which the generated
-workspace reports as `unknown attribute [eval_problem]` — rather than an edit to
-somebody's source that nothing announces. -/
+Three things keep that inexactness from editing somebody's string. A marker is
+stripped only in command position and only in front of a declaration; and no
+span two readings of a string literal disagree about is stripped from at all.
+The first two are tests on text, which a string can reproduce; the third is not
+a test on the marker but on how the scanner came to be looking at it, and
+reaching marker-shaped text inside a literal takes exactly the disagreement it
+refuses to resolve.
+
+What is left over is a marker left in place, which the generated workspace
+reports as `unknown attribute [eval_problem]` when it is built. That is the
+failure this is tuned for: exactness here wants the parser, which wants an
+environment, which this signature does not have. -/
 def stripProblemMarkers (source : String) (localImports : Array String := #[]) : String :=
   Id.run do
   let s := Source.ofString source
@@ -963,14 +986,22 @@ def stripProblemMarkers (source : String) (localImports : Array String := #[]) :
   -- `in` of a prefix command, or after an attribute block. Only there does
   -- `@[…]` modify a declaration, so only there is it a marker to strip.
   let mut commandStart := true
+  -- End of the furthest span two readings of a string literal disagree about.
+  -- Nothing inside one is stripped: the scanner does not know whether it is
+  -- looking at code or at the contents of somebody's string.
+  let mut disputedUntil : Nat := 0
   while i < n do
     if let some commentEnd := Source.commentEnd? s i then
       i := max commentEnd (i + 1)
     else if let some lexemeEnd := Source.opaqueLexemeEnd? s i then
+      if s[i]! == '"' then
+        if let some disputedEnd := Source.disputedStringEnd? s i then
+          disputedUntil := max disputedUntil disputedEnd
       freshLine := false
       commandStart := false
       i := lexemeEnd
-    else if let some importStop := strippedImportStop? s i freshLine localImports then
+    else if let some importStop :=
+        strippedImportStop? s i (freshLine && i ≥ disputedUntil) localImports then
       let (a, b) := Source.markerRemoval s i importStop floor
       edits := edits.push (a, b)
       floor := b
@@ -984,8 +1015,9 @@ def stripProblemMarkers (source : String) (localImports : Array String := #[]) :
         commandStart := false
         i := i + 2
       | some block =>
+        let inCommandPosition := commandStart && i ≥ disputedUntil
         let markers :=
-          if commandStart && Source.declarationFollows s block.stop then
+          if inCommandPosition && Source.declarationFollows s block.stop then
             (List.range block.items.size).filter fun k =>
               let (a, b) := block.items[k]!
               Source.itemIsMarker s a b
@@ -994,8 +1026,9 @@ def stripProblemMarkers (source : String) (localImports : Array String := #[]) :
         let survives := (List.range block.items.size).any fun k =>
           let (a, b) := block.items[k]!
           !markers.contains k && !Source.itemIsEmpty s a b
-        -- Another attribute block may follow this one.
-        commandStart := true
+        -- Another attribute block may follow this one — but only where this one
+        -- was itself at the head of a command.
+        commandStart := inCommandPosition
         if markers.isEmpty then
           i := block.stop
         else if !survives then
