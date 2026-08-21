@@ -1210,225 +1210,16 @@ def injectSolutionHoleModifiers (signature basename : String) : Option String :=
         "noncomputable " ++ Source.slice sigSrc kwStart sigSrc.size
   return prefixText ++ "@[reducible] noncomputable " ++ Source.slice sigSrc kwStart sigSrc.size
 
-/-! ## Context opens -/
+/-! ## Command classification
 
-/-- Drop block comments `/- … -/` (nested-aware) that open and close on the
-same line. Multi-line block comments are left alone — they're handled by
-peeking through whole comment-only lines in the line scanner. -/
-private def stripSingleLineBlockComments (s : String) : String := Id.run do
-  let chars := s.toList.toArray
-  let n := chars.size
-  let mut out : String := ""
-  let mut i : Nat := 0
-  let mut depth : Nat := 0
-  while i < n do
-    if i + 1 < n && chars[i]! == '/' && chars[i + 1]! == '-' then
-      depth := depth + 1
-      i := i + 2
-    else if depth > 0 && i + 1 < n && chars[i]! == '-' && chars[i + 1]! == '/' then
-      depth := depth - 1
-      i := i + 2
-    else
-      if depth == 0 then out := out.push chars[i]!
-      i := i + 1
-  return out
-
-/-- Drop a trailing `--` line comment from `s`. Used together with
-`stripSingleLineBlockComments` to keep `in` tokens that appear in comments
-from being mistaken for the `open … in` scoping keyword. -/
-private def stripLineComment (s : String) : String :=
-  match s.splitOn "--" with
-  | x :: _ => x
-  | [] => s
-
-/-- The tokens of `line` with comments removed. -/
-private def commandTokens (line : String) : Array String :=
-  splitWhitespace (stripLineComment (stripSingleLineBlockComments line))
-
-/-- True if `stripped` is a scoped `open … in …` line — the single-command
-form that binds an open to one following expression. Detected by an `in`
-token appearing somewhere after the leading `open` keyword. Top-level opens
-like `open Foo` or `open scoped Classical` return false. -/
-def isScopedOpenLine (stripped : String) : Bool := Id.run do
-  if !(stripped.startsWith "open ") then return false
-  let toks := splitWhitespace (stripLineComment (stripSingleLineBlockComments stripped))
-  for i in [1:toks.size] do
-    if toks[i]! == "in" then return true
-  return false
-
-/-- True if `block` is the single-command `<command> … in` form, which binds to
-the declaration following it rather than to the rest of the enclosing section. -/
-def isScopedCommandBlock (block : String) : Bool :=
-  (commandTokens block).back? == some "in"
-
-/-- True if the upcoming lines starting at `peekIdx` (0-indexed) form the
-continuation of a scoped `open … in` — that is, after any blank or
-comment-only lines, the next syntactic line is `in` or begins with `in `.
-Used to catch the multi-line variant where `in` is on its own line. -/
-private def followingLineIsScopingIn (lines : Array String) (peekIdx : Nat) : Bool := Id.run do
-  let mut i := peekIdx
-  while i < lines.size do
-    let s := (lines[i]!).trimAscii.toString
-    if s.isEmpty || s.startsWith "--" then
-      i := i + 1
-    else
-      return s == "in" || s.startsWith "in "
-  return false
-
-def extractContextOpens (problemId : String) (sourcePath : System.FilePath)
-    (source : String) (extracted? : Option ExtractedTheorem)
-    (includeNamespaces : Bool) : IO String := do
-  let _ := problemId
-  let _ := sourcePath
-  let lines := (source.splitOn "\n").toArray
-  let targetLine? : Option Nat := extracted?.map fun e => e.startLine
-  let mut namespaceStack : Array String := #[]
-  let mut openLayers : Array (Array String) := #[#[]]
-  -- Parallel to `openLayers`: was each frame opened by `namespace` (contributing
-  -- a name) or by `section` (contributing only a scope)?
-  let mut frameIsNamespace : Array Bool := #[]
-  let mut inBody := false
-  let mut done := false
-  for idx in [1:lines.size + 1] do
-    if done then break
-    if let some t := targetLine? then
-      if idx ≥ t then break
-    let line := lines[idx - 1]!
-    let stripped := line.trimAscii.toString
-    let scopeCommand := stripScopeCommandModifiers stripped
-    if !inBody then
-      if stripped.startsWith "import " || stripped.isEmpty then continue
-      inBody := true
-    if targetLine?.isNone then
-      let declKeywords := #["theorem", "lemma", "def", "abbrev", "opaque",
-        "axiom", "instance", "class", "structure"]
-      let isDecl := Id.run do
-        if stripped.startsWith "@[" then return true
-        for kw in declKeywords do
-          if stripped.startsWith kw then
-            let after := (stripped.drop kw.length).toString
-            if after.isEmpty then return true
-            -- check next char is non-word
-            let c := after.toList.head!
-            if !(c.isAlphanum || c == '_' || c == '\'') then return true
-        return false
-      if isDecl then
-        done := true
-        continue
-    if scopeCommand.startsWith "namespace " then
-      let rest := (scopeCommand.drop "namespace ".length).trimAscii.toString
-      let name := ((rest.splitOn " ").head!).trimAscii.toString
-      namespaceStack := namespaceStack.push name
-      openLayers := openLayers.push #[]
-      frameIsNamespace := frameIsNamespace.push true
-    else if startsWithKeyword scopeCommand "section" then
-      -- A `section` opens a scope for `open` just as a `namespace` does, but
-      -- contributes no name. Tracking only namespaces meant the matching `end`
-      -- popped a *namespace* frame instead, discarding the `open` lines held in
-      -- it: a module shaped `namespace N / open … / section S / … / end S`
-      -- emitted no opens at all. The sibling walker for `variable`/notation
-      -- already counts both.
-      openLayers := openLayers.push #[]
-      frameIsNamespace := frameIsNamespace.push false
-    else if startsWithKeyword stripped "end" then
-      if openLayers.size > 1 then
-        openLayers := openLayers.pop
-        if frameIsNamespace.back? == some true && namespaceStack.size > 0 then
-          namespaceStack := namespaceStack.pop
-        frameIsNamespace := frameIsNamespace.pop
-    else if stripped.startsWith "open " then
-      if isScopedOpenLine stripped then continue
-      -- Multi-line scoped form: `open Foo` on one line, `in <body>` on a
-      -- following (possibly blank/comment-padded) line. Skip the whole
-      -- thing rather than emitting a dangling `open Foo` as top-level.
-      if followingLineIsScopingIn lines idx then continue
-      let layerIdx := openLayers.size - 1
-      let layer := openLayers[layerIdx]!.push line
-      openLayers := openLayers.set! layerIdx layer
-  let mut contextLines : Array String := #[]
-  for layer in openLayers do
-    for ln in layer do
-      contextLines := contextLines.push ln
-  if includeNamespaces && namespaceStack.size > 0 then
-    let nsLine := "open " ++ ".".intercalate namespaceStack.toList
-    contextLines := #[nsLine] ++ contextLines
-  if contextLines.isEmpty then return ""
-  return "\n".intercalate contextLines.toList ++ "\n\n"
-
-/-! ## Context variables
-
-Walk the source up to the theorem and collect every `variable` declaration
-that is still in scope at that point. The lidskii regression (issue #276) is
-the canonical example: a theorem can refer to identifiers like `n` that are
-introduced by a preceding `variable {n : Type*} ...` declaration, and the
-elaborated theorem inherits those binders even though they do not appear in
-the source slice between `theorem <name>` and `:= by`. Re-emitting the
-`variable` lines in the generated workspace restores the elaboration context
-needed to type-check the extracted statement.
-
-Multi-line `variable` declarations are kept verbatim: after a `variable`
-header line we keep absorbing lines that begin with whitespace, which matches
-how Lean's parser treats indented continuations of a binder list. -/
+Recognising the keyword a command opens with is shared between the block
+scanners below: the `open` scanner and the `variable`/notation scanner both
+need to know where one command ends and the next begins. -/
 
 private def isLineStartingWithWhitespace (line : String) : Bool :=
   match line.toList with
   | [] => false
   | c :: _ => c.isWhitespace
-
--- Drop the prefix of length `n` from `s` as a `String`.
-private def stringDrop (s : String) (n : Nat) : String :=
-  String.mk (s.toList.drop n)
-
--- Find the contents of `s` after the first occurrence of `"-/"`. If the
--- closer appears, returns `(afterMarker, false)`; otherwise returns
--- `("", true)` to signal the block comment is still open at end-of-line.
-private def skipToBlockCommentClose (s : String) : String × Bool :=
-  let parts := s.splitOn "-/"
-  match parts with
-  | [] => ("", true)
-  | [_] => ("", true)
-  | _ :: rest => ("-/".intercalate rest, false)
-
--- Strip a single block comment from the start of `lineRemainder`, returning
--- `(remainderAfterComment, stillOpen)`. Caller must ensure `lineRemainder`
--- starts with the block-comment opener `/-`.
-private def consumeBlockCommentStart (lineRemainder : String) : String × Bool :=
-  skipToBlockCommentClose (stringDrop lineRemainder 2)
-
--- Strip text up to and including the next block-comment closer, returning
--- what's left on this line and whether the block comment is still open.
-private def consumeBlockCommentContinuation (lineRemainder : String) : String × Bool :=
-  skipToBlockCommentClose lineRemainder
-
-/-- Names introduced by the named (non-instance) leading binders of a
-declaration-like text such as a theorem signature or the body of a
-`variable` declaration. -/
-def binderIntroducedNames (text : String) : Array String := Id.run do
-  let mut names : Array String := #[]
-  for (opener, body) in leadingBinders text do
-    -- Instance-implicit binders are usually anonymous (`[Fintype n]`); skip
-    -- them — the names they reference come from other binders.
-    if opener == '[' then continue
-    let parts := body.splitOn ":"
-    if parts.length < 2 then continue
-    for name in splitWhitespace parts[0]! do
-      names := names.push name
-  return names
-
-/-- True iff every name introduced by `varText` (a `variable ...` line, with
-the `variable` prefix still attached) is already bound by `theoremBinderNames`.
-Such a `variable` is shadowed by the theorem's explicit binders and so
-Lean would emit it as an "unused variable" if we re-emitted it. -/
-private def variableShadowedByTheorem (varText : String)
-    (theoremBinderNames : Array String) : Bool := Id.run do
-  let trimmed := varText.trimAscii.toString
-  if !(startsWithKeyword trimmed "variable") then return false
-  let body := (trimmed.drop "variable".length).toString
-  let varNames := binderIntroducedNames body
-  if varNames.isEmpty then return false
-  for name in varNames do
-    if !theoremBinderNames.contains name then return false
-  return true
 
 /-- Drop leading trivia and attribute lists from a declaration slice, so what
 gets classified is the declaration's own keyword.
@@ -1486,18 +1277,324 @@ def isLocalSyntaxContextDeclaration (declarationText : String) : Bool := Id.run 
 
 /-- Top-level command keywords that begin a fresh declaration/command. A
 whitespace-indented line opening with one of these is never a continuation of a
-preceding `variable`/`universe` block (Lean permits indented top-level
-commands), so the block scanner must stop before absorbing it. -/
+preceding `open`/`variable`/`universe` block (Lean permits indented top-level
+commands), so the block scanners must stop before absorbing it.
+
+Lean's command syntax is extensible, so no list of keywords is complete. The
+cost of a miss is asymmetric: a command mistaken for a continuation is absorbed
+into the block ahead of it, and `set_option … in` absorbed into an `open` even
+makes the open look like the scoped form. Hence the keywords that open a command
+without declaring a name — `set_option`, `export`, `include` — are listed
+alongside the declaration keywords, as is the `#name` that opens a diagnostic
+command (`#[…]` is an array literal, so the `#` alone does not qualify). -/
 private def startsWithCommandKeyword (stripped : String) : Bool := Id.run do
   if stripped.startsWith "@[" then return true
+  if stripped.startsWith "#" then
+    match (stripped.toList.drop 1).head? with
+    | some c => if c.isAlpha then return true
+    | none => pure ()
   if isSyntaxContextDeclaration stripped then return true
   let kws := #["def", "theorem", "lemma", "instance", "abbrev", "opaque",
     "axiom", "class", "structure", "inductive", "namespace", "section", "end",
     "variable", "universe", "open", "example", "noncomputable", "private",
-    "protected", "scoped", "attribute", "macro", "notation", "syntax"]
+    "protected", "scoped", "attribute", "macro", "notation", "syntax",
+    "set_option", "export", "include", "omit", "mutual", "local", "unsafe",
+    "partial", "nonrec", "initialize"]
   for kw in kws do
     if startsWithKeyword stripped kw then return true
   return false
+
+/-! ## Context opens -/
+
+/-- Drop block comments `/- … -/` (nested-aware) that open and close on the
+same line. Multi-line block comments are left alone — they're handled by
+peeking through whole comment-only lines in the line scanner. -/
+private def stripSingleLineBlockComments (s : String) : String := Id.run do
+  let chars := s.toList.toArray
+  let n := chars.size
+  let mut out : String := ""
+  let mut i : Nat := 0
+  let mut depth : Nat := 0
+  while i < n do
+    if i + 1 < n && chars[i]! == '/' && chars[i + 1]! == '-' then
+      depth := depth + 1
+      i := i + 2
+    else if depth > 0 && i + 1 < n && chars[i]! == '-' && chars[i + 1]! == '/' then
+      depth := depth - 1
+      i := i + 2
+    else
+      if depth == 0 then out := out.push chars[i]!
+      i := i + 1
+  return out
+
+/-- Drop a trailing `--` line comment from `s`. Used together with
+`stripSingleLineBlockComments` to keep `in` tokens that appear in comments
+from being mistaken for the `open … in` scoping keyword. -/
+private def stripLineComment (s : String) : String :=
+  match s.splitOn "--" with
+  | x :: _ => x
+  | [] => s
+
+/-- The tokens of `line` with comments removed. -/
+private def commandTokens (line : String) : Array String :=
+  splitWhitespace (stripLineComment (stripSingleLineBlockComments line))
+
+/-- True if `line` opens a block comment it does not close. The line scanners
+read one line at a time, so they cannot see into such a comment; a line that
+opens one is the last they can classify. -/
+private def hasUnclosedBlockComment (line : String) : Bool := Id.run do
+  let chars := line.toList.toArray
+  let n := chars.size
+  let mut depth : Nat := 0
+  let mut i : Nat := 0
+  while i < n do
+    if i + 1 < n && chars[i]! == '/' && chars[i + 1]! == '-' then
+      depth := depth + 1
+      i := i + 2
+    else if depth > 0 && i + 1 < n && chars[i]! == '-' && chars[i + 1]! == '/' then
+      depth := depth - 1
+      i := i + 2
+    else if depth == 0 && i + 1 < n && chars[i]! == '-' && chars[i + 1]! == '-' then
+      -- A line comment hides any `/-` after it.
+      return false
+    else
+      i := i + 1
+  return depth > 0
+
+/-- The lines of the command block opening at `lines[startIdx]!` (0-indexed),
+together with the index just past it; `limit` bounds the scan.
+
+A command may spread over several lines, with its arguments indented beneath the
+opening keyword. A line at column zero starts a new command, and so does a
+whitespace-indented line opening with a command keyword — Lean permits indented
+top-level commands, and a module written wholly inside an indented `namespace`
+is otherwise read as one enormous command. A blank or comment-only line ends the
+scan too: Lean would read across either, but a command written that way is
+vanishingly rare, and stopping keeps this scanner's reach the same as the
+`variable`/notation scanner's. A line that leaves a block comment open ends it
+for the same reason — what follows is prose, not arguments. -/
+private def commandBlockLines (lines : Array String) (startIdx limit : Nat) :
+    Array String × Nat := Id.run do
+  let mut block := #[lines[startIdx]!]
+  let mut idx := startIdx + 1
+  if hasUnclosedBlockComment lines[startIdx]! then return (block, idx)
+  while idx < limit do
+    let candidate := lines[idx]!
+    let stripped := candidate.trimAscii.toString
+    if stripped.isEmpty then break
+    if !isLineStartingWithWhitespace candidate then break
+    if stripped.startsWith "--" || stripped.startsWith "/-" then break
+    if startsWithCommandKeyword stripped then break
+    block := block.push candidate
+    idx := idx + 1
+    if hasUnclosedBlockComment candidate then break
+  return (block, idx)
+
+/-- True if the `open` command spelled by `blockLines` is the scoped `open … in`
+form, which binds to the one command following it rather than to the rest of the
+enclosing section. Detected by an `in` token anywhere after the leading `open`
+keyword; the block's lines are scanned together, since
+
+    open Bundle Filter
+      MeasureTheory in
+
+is a single command whose `in` lands on the continuation line. Top-level opens
+like `open Foo` or `open scoped Classical` return false. -/
+private def isScopedOpenBlock (blockLines : Array String) : Bool := Id.run do
+  let mut toks : Array String := #[]
+  for line in blockLines do
+    toks := toks ++ commandTokens line
+  for i in [1:toks.size] do
+    if toks[i]! == "in" then return true
+  return false
+
+/-- True if `stripped` is a scoped `open … in …` line — the single-command
+form that binds an open to one following expression. Detected by an `in`
+token appearing somewhere after the leading `open` keyword. Top-level opens
+like `open Foo` or `open scoped Classical` return false. -/
+def isScopedOpenLine (stripped : String) : Bool :=
+  stripped.startsWith "open " && isScopedOpenBlock #[stripped]
+
+/-- True if `block` is the single-command `<command> … in` form, which binds to
+the declaration following it rather than to the rest of the enclosing section. -/
+def isScopedCommandBlock (block : String) : Bool :=
+  (commandTokens block).back? == some "in"
+
+/-- True if the upcoming lines starting at `peekIdx` (0-indexed) form the
+continuation of a scoped `open … in` — that is, after any blank or
+comment-only lines, the next syntactic line is `in` or begins with `in `.
+Used to catch the multi-line variant where `in` is on its own line. -/
+private def followingLineIsScopingIn (lines : Array String) (peekIdx : Nat) : Bool := Id.run do
+  let mut i := peekIdx
+  while i < lines.size do
+    let s := (lines[i]!).trimAscii.toString
+    if s.isEmpty || s.startsWith "--" then
+      i := i + 1
+    else
+      return s == "in" || s.startsWith "in "
+  return false
+
+def extractContextOpens (problemId : String) (sourcePath : System.FilePath)
+    (source : String) (extracted? : Option ExtractedTheorem)
+    (includeNamespaces : Bool) : IO String := do
+  let _ := problemId
+  let _ := sourcePath
+  let lines := (source.splitOn "\n").toArray
+  let targetLine? : Option Nat := extracted?.map fun e => e.startLine
+  let mut namespaceStack : Array String := #[]
+  let mut openLayers : Array (Array String) := #[#[]]
+  -- Parallel to `openLayers`: was each frame opened by `namespace` (contributing
+  -- a name) or by `section` (contributing only a scope)?
+  let mut frameIsNamespace : Array Bool := #[]
+  let mut inBody := false
+  let mut done := false
+  -- One past the last line absorbed as the continuation of an earlier command.
+  let mut resumeAt : Nat := 0
+  -- Nothing at or beyond the target declaration's first line is context.
+  let limit : Nat := match targetLine? with
+    | some t => min lines.size (t - 1)
+    | none => lines.size
+  for idx in [1:lines.size + 1] do
+    if done then break
+    if let some t := targetLine? then
+      if idx ≥ t then break
+    if idx < resumeAt then continue
+    let line := lines[idx - 1]!
+    let stripped := line.trimAscii.toString
+    let scopeCommand := stripScopeCommandModifiers stripped
+    if !inBody then
+      if stripped.startsWith "import " || stripped.isEmpty then continue
+      inBody := true
+    if targetLine?.isNone then
+      let declKeywords := #["theorem", "lemma", "def", "abbrev", "opaque",
+        "axiom", "instance", "class", "structure"]
+      let isDecl := Id.run do
+        if stripped.startsWith "@[" then return true
+        for kw in declKeywords do
+          if stripped.startsWith kw then
+            let after := (stripped.drop kw.length).toString
+            if after.isEmpty then return true
+            -- check next char is non-word
+            let c := after.toList.head!
+            if !(c.isAlphanum || c == '_' || c == '\'') then return true
+        return false
+      if isDecl then
+        done := true
+        continue
+    if scopeCommand.startsWith "namespace " then
+      let rest := (scopeCommand.drop "namespace ".length).trimAscii.toString
+      let name := ((rest.splitOn " ").head!).trimAscii.toString
+      namespaceStack := namespaceStack.push name
+      openLayers := openLayers.push #[]
+      frameIsNamespace := frameIsNamespace.push true
+    else if startsWithKeyword scopeCommand "section" then
+      -- A `section` opens a scope for `open` just as a `namespace` does, but
+      -- contributes no name. Tracking only namespaces meant the matching `end`
+      -- popped a *namespace* frame instead, discarding the `open` lines held in
+      -- it: a module shaped `namespace N / open … / section S / … / end S`
+      -- emitted no opens at all. The sibling walker for `variable`/notation
+      -- already counts both.
+      openLayers := openLayers.push #[]
+      frameIsNamespace := frameIsNamespace.push false
+    else if startsWithKeyword stripped "end" then
+      if openLayers.size > 1 then
+        openLayers := openLayers.pop
+        if frameIsNamespace.back? == some true && namespaceStack.size > 0 then
+          namespaceStack := namespaceStack.pop
+        frameIsNamespace := frameIsNamespace.pop
+    else if stripped.startsWith "open " then
+      -- An `open` is taken whole: its namespaces may be spread over several
+      -- lines, and emitting only the first of them silently narrowed the
+      -- context the declaration was written against.
+      let (block, nextIdx) := commandBlockLines lines (idx - 1) limit
+      resumeAt := nextIdx + 1
+      if isScopedOpenBlock block then continue
+      -- Multi-line scoped form: `open Foo` on one line, `in <body>` on a
+      -- following (possibly blank/comment-padded) line. Skip the whole
+      -- thing rather than emitting a dangling `open Foo` as top-level.
+      if followingLineIsScopingIn lines nextIdx then continue
+      let layerIdx := openLayers.size - 1
+      let layer := openLayers[layerIdx]! ++ block
+      openLayers := openLayers.set! layerIdx layer
+  let mut contextLines : Array String := #[]
+  for layer in openLayers do
+    for ln in layer do
+      contextLines := contextLines.push ln
+  if includeNamespaces && namespaceStack.size > 0 then
+    let nsLine := "open " ++ ".".intercalate namespaceStack.toList
+    contextLines := #[nsLine] ++ contextLines
+  if contextLines.isEmpty then return ""
+  return "\n".intercalate contextLines.toList ++ "\n\n"
+
+/-! ## Context variables
+
+Walk the source up to the theorem and collect every `variable` declaration
+that is still in scope at that point. The lidskii regression (issue #276) is
+the canonical example: a theorem can refer to identifiers like `n` that are
+introduced by a preceding `variable {n : Type*} ...` declaration, and the
+elaborated theorem inherits those binders even though they do not appear in
+the source slice between `theorem <name>` and `:= by`. Re-emitting the
+`variable` lines in the generated workspace restores the elaboration context
+needed to type-check the extracted statement.
+
+Multi-line `variable` declarations are kept verbatim: after a `variable`
+header line we keep absorbing lines that begin with whitespace, which matches
+how Lean's parser treats indented continuations of a binder list. -/
+
+-- Drop the prefix of length `n` from `s` as a `String`.
+private def stringDrop (s : String) (n : Nat) : String :=
+  String.mk (s.toList.drop n)
+
+-- Find the contents of `s` after the first occurrence of `"-/"`. If the
+-- closer appears, returns `(afterMarker, false)`; otherwise returns
+-- `("", true)` to signal the block comment is still open at end-of-line.
+private def skipToBlockCommentClose (s : String) : String × Bool :=
+  let parts := s.splitOn "-/"
+  match parts with
+  | [] => ("", true)
+  | [_] => ("", true)
+  | _ :: rest => ("-/".intercalate rest, false)
+
+-- Strip a single block comment from the start of `lineRemainder`, returning
+-- `(remainderAfterComment, stillOpen)`. Caller must ensure `lineRemainder`
+-- starts with the block-comment opener `/-`.
+private def consumeBlockCommentStart (lineRemainder : String) : String × Bool :=
+  skipToBlockCommentClose (stringDrop lineRemainder 2)
+
+-- Strip text up to and including the next block-comment closer, returning
+-- what's left on this line and whether the block comment is still open.
+private def consumeBlockCommentContinuation (lineRemainder : String) : String × Bool :=
+  skipToBlockCommentClose lineRemainder
+
+/-- Names introduced by the named (non-instance) leading binders of a
+declaration-like text such as a theorem signature or the body of a
+`variable` declaration. -/
+def binderIntroducedNames (text : String) : Array String := Id.run do
+  let mut names : Array String := #[]
+  for (opener, body) in leadingBinders text do
+    -- Instance-implicit binders are usually anonymous (`[Fintype n]`); skip
+    -- them — the names they reference come from other binders.
+    if opener == '[' then continue
+    let parts := body.splitOn ":"
+    if parts.length < 2 then continue
+    for name in splitWhitespace parts[0]! do
+      names := names.push name
+  return names
+
+/-- True iff every name introduced by `varText` (a `variable ...` line, with
+the `variable` prefix still attached) is already bound by `theoremBinderNames`.
+Such a `variable` is shadowed by the theorem's explicit binders and so
+Lean would emit it as an "unused variable" if we re-emitted it. -/
+private def variableShadowedByTheorem (varText : String)
+    (theoremBinderNames : Array String) : Bool := Id.run do
+  let trimmed := varText.trimAscii.toString
+  if !(startsWithKeyword trimmed "variable") then return false
+  let body := (trimmed.drop "variable".length).toString
+  let varNames := binderIntroducedNames body
+  if varNames.isEmpty then return false
+  for name in varNames do
+    if !theoremBinderNames.contains name then return false
+  return true
 
 /-- Walk `source` up to `extracted?`'s start line, collecting top-level command
 blocks that begin with `keyword` (e.g. `variable` or `universe`), respecting
