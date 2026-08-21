@@ -670,29 +670,33 @@ private def declarationModifiers : Array String :=
 /-- Keywords that introduce a declaration an attribute block can modify. -/
 private def declarationKeywords : Array String :=
   #["theorem", "lemma", "def", "abbrev", "instance", "example", "axiom",
-    "opaque", "structure", "class", "inductive", "alias", "mutual", "macro",
-    "macro_rules", "elab", "elab_rules", "syntax", "notation", "infix", "infixl",
-    "infixr", "prefix", "postfix", "initialize", "builtin_initialize",
-    "register_simp_attr", "declare_syntax_cat", "instance_reducible"]
+    "opaque", "structure", "class", "inductive", "coinductive", "alias",
+    "mutual", "macro", "macro_rules", "elab", "elab_rules", "syntax", "notation",
+    "infix", "infixl", "infixr", "prefix", "postfix", "initialize",
+    "builtin_initialize", "register_simp_attr", "register_option",
+    "declare_syntax_cat", "irreducible_def", "instance_reducible"]
 
 /-- True when a declaration follows the attribute block ending at `stop`.
 
-Lean accepts `@[…]` only in front of a declaration, so this is what separates a
-real attribute from the same characters sitting in a string the scanner has
-misread as code. It is the backstop for every way this file's lexer can be wrong
-— an interpolation it did not expect, a syntax extension it cannot know about.
-With it, a misreading costs a marker left in place, which the generated
-workspace reports as `unknown attribute [eval_problem]`; without it, the cost
-would be an edit to somebody's source that nothing announces. -/
+Lean accepts `@[…]` only in front of a declaration, so this corroborates the
+scanner's reading against the grammar: text that merely looks like the marker,
+in a string the scanner has misread as code, is not usually followed by one.
+
+Read together with the command-position test in `stripProblemMarkers`, this is
+what bounds the damage every remaining way this file's lexer can be wrong — an
+interpolation it did not expect, a syntax extension it cannot know about. Both
+tests are on text, so neither is sound the way the parser would be; what they
+buy is that a misreading costs a marker left in place, which the generated
+workspace reports as `unknown attribute [eval_problem]`, rather than an edit to
+somebody's source that nothing announces. An unlisted declaration keyword costs
+the same, which is why erring towards a longer list is right. -/
 private def Source.declarationFollows (s : Source) (stop : Nat) : Bool := Id.run do
   let mut i := Source.skipTrivia s stop
-  -- Bounded: a declaration carries only so many modifiers, and looking further
-  -- would be scanning for a keyword rather than corroborating one.
-  for _ in [0 : 8] do
-    if i ≥ s.size then return false
+  while i < s.size do
     if Source.startsWithAt s i "@[".toList then
+      -- Lean allows any number of attribute blocks in front of a declaration.
       match Source.attributeBlockEnd? s i with
-      | some block => i := Source.skipTrivia s block.stop
+      | some block => i := Source.skipTrivia s (max block.stop (i + 1))
       | none => return false
     else
       for keyword in declarationKeywords do
@@ -704,7 +708,7 @@ private def Source.declarationFollows (s : Source) (stop : Nat) : Bool := Id.run
             && Source.atWordEnd s (i + modifier.length) then
           next := Source.skipTrivia s (i + modifier.length)
       if next == i then return false
-      i := next
+      i := max next (i + 1)
   return false
 
 /-- True when the attribute instance spanning `[start, stop)` is the marker and
@@ -875,19 +879,28 @@ private def Source.importAt? (s : Source) (i : Nat) : Option (String × Nat) := 
   let mut name := ""
   for k in [nameStart : j] do
     name := name.push s[k]!
-  -- Trailing comments belong to the command; a comment may run past the line,
-  -- and then so does the command.
+  -- A comment closing on the same line trails the import and goes with it. One
+  -- that runs past the line is left alone, and a doc comment always is: `import
+  -- Foo /-- … -/` documents the declaration after it, not the import.
+  let lineStop := Source.lineEndAt s j
   let mut stop := j
   let mut atEnd := false
   while !atEnd do
-    j := Source.skipInlineSpace s j
-    match Source.commentEnd? s j with
-    | some commentStop =>
-      j := max commentStop (j + 1)
-      stop := j
-    | none =>
-      if j < s.size && s[j]! != '\n' then return none
+    let next := Source.skipInlineSpace s j
+    if Source.startsWithAt s next "/--".toList || Source.startsWithAt s next "/-!".toList then
+      -- Documents the declaration after it, not the import; the command ends
+      -- at the module name and the comment stays where the author put it.
       atEnd := true
+    else match Source.commentEnd? s next with
+      | some commentStop =>
+        if commentStop > lineStop then
+          atEnd := true
+        else
+          j := max commentStop (next + 1)
+          stop := j
+      | none =>
+        if next < s.size && s[next]! != '\n' then return none
+        atEnd := true
   return some (name, stop)
 
 /-- If an `import` command this pass drops begins at `i`, return the codepoint
@@ -924,7 +937,16 @@ position Lean accepts it and nowhere else:
   `@[eval_problem]` nor a macro building one is touched.
 
 A deleted line leaves the newline that introduced it, so stripping the last
-line of a file does not run the one before it into the end of the text. -/
+line of a file does not run the one before it into the end of the text.
+
+Lexing Lean without its parser cannot be exact — whether a `{` in a string opens
+an interpolation hole is settled by the grammar, and the grammar is extensible.
+So a marker is stripped only where the surrounding text corroborates that it is
+one: in command position, and in front of a declaration. Both tests are still on
+text and neither is sound the way the parser would be, but between them they
+make the cost of a misreading a marker left in place — which the generated
+workspace reports as `unknown attribute [eval_problem]` — rather than an edit to
+somebody's source that nothing announces. -/
 def stripProblemMarkers (source : String) (localImports : Array String := #[]) : String :=
   Id.run do
   let s := Source.ofString source
@@ -937,32 +959,44 @@ def stripProblemMarkers (source : String) (localImports : Array String := #[]) :
   -- Whether only trivia precedes `i` on its line — an `import` is a command
   -- only there, though a comment may sit in front of it.
   let mut freshLine := true
+  -- Whether a command could begin at `i`: at the head of its line, after the
+  -- `in` of a prefix command, or after an attribute block. Only there does
+  -- `@[…]` modify a declaration, so only there is it a marker to strip.
+  let mut commandStart := true
   while i < n do
     if let some commentEnd := Source.commentEnd? s i then
       i := max commentEnd (i + 1)
     else if let some lexemeEnd := Source.opaqueLexemeEnd? s i then
       freshLine := false
+      commandStart := false
       i := lexemeEnd
     else if let some importStop := strippedImportStop? s i freshLine localImports then
       let (a, b) := Source.markerRemoval s i importStop floor
       edits := edits.push (a, b)
       floor := b
       freshLine := b > 0 && s[b - 1]! == '\n'
+      commandStart := freshLine
       i := b
     else if Source.startsWithAt s i "@[".toList then
+      freshLine := false
       match Source.attributeBlockEnd? s i with
       | none =>
-        freshLine := false
+        commandStart := false
         i := i + 2
       | some block =>
-        let markers := (List.range block.items.size).filter fun k =>
-          let (a, b) := block.items[k]!
-          Source.itemIsMarker s a b
+        let markers :=
+          if commandStart && Source.declarationFollows s block.stop then
+            (List.range block.items.size).filter fun k =>
+              let (a, b) := block.items[k]!
+              Source.itemIsMarker s a b
+          else
+            []
         let survives := (List.range block.items.size).any fun k =>
           let (a, b) := block.items[k]!
           !markers.contains k && !Source.itemIsEmpty s a b
-        if markers.isEmpty || !Source.declarationFollows s block.stop then
-          freshLine := false
+        -- Another attribute block may follow this one.
+        commandStart := true
+        if markers.isEmpty then
           i := block.stop
         else if !survives then
           let (a, b) := Source.markerRemoval s i block.stop floor
@@ -973,11 +1007,21 @@ def stripProblemMarkers (source : String) (localImports : Array String := #[]) :
         else
           edits := edits ++ Source.markerItemRemovals s block markers
           floor := block.stop
-          freshLine := false
           i := block.stop
+    else if Source.startsWithAt s i "in".toList && Source.atWordStart s i
+        && Source.atWordEnd s (i + 2) then
+      -- The `in` of `open … in`, `set_option … in`, `include … in`: what
+      -- follows begins a command, so an attribute may sit there.
+      freshLine := false
+      commandStart := true
+      i := i + 2
     else
-      if s[i]! == '\n' then freshLine := true
-      else if !s[i]!.isWhitespace then freshLine := false
+      if s[i]! == '\n' then
+        freshLine := true
+        commandStart := true
+      else if !s[i]!.isWhitespace then
+        freshLine := false
+        commandStart := false
       i := i + 1
   let mut parts : Array String := #[]
   let mut pos : Nat := 0

@@ -515,6 +515,34 @@ def main : IO UInt32 := do
       "    \"{String.intercalate \"\\n\" [\"@[eval_problem]\"]}\"\n"
     pure <| assertEq "message verbatim" (stripProblemMarkers source) source
 
+  -- The declaration test is on text, so a string can spell out a declaration
+  -- too. Command position is the other half: what precedes the marker here is
+  -- `prefix`, so no command can begin at it.
+  check "stripProblemMarkers keeps a marker a string spells out in full" passes fails do
+    let source := "def f (stx : Syntax) : CoreM Nat := do\n" ++
+      "  throwErrorAt stx\n" ++
+      "    \"{String.append \"prefix @[eval_problem] theorem\" \"suffix\"}\"\n"
+    pure <| assertEq "message verbatim" (stripProblemMarkers source) source
+
+  check "stripProblemMarkers keeps an attribute out of command position" passes fails do
+    let source := "def d := 1 @[eval_problem] theorem target : True := trivial\n"
+    pure <| assertEq "left verbatim" (stripProblemMarkers source) source
+
+  -- Lean allows any number of attribute blocks in front of a declaration.
+  check "stripProblemMarkers looks past a run of attribute blocks" passes fails do
+    let source := "@[eval_problem]\n@[simp]\n@[simp]\n@[simp]\n@[simp]\n@[simp]\n" ++
+      "@[simp]\n@[simp]\n@[simp]\ntheorem target : True := trivial\n"
+    pure <| assertEq "marker gone" (stripProblemMarkers source)
+      "@[simp]\n@[simp]\n@[simp]\n@[simp]\n@[simp]\n@[simp]\n@[simp]\n@[simp]\ntheorem target : True := trivial\n"
+
+  -- Lean gives the doc comment to `documented`, so the import goes and the
+  -- comment stays.
+  check "stripProblemMarkers keeps a doc comment trailing an import" passes fails do
+    let source := "import EvalTools.Markers /--\nBelongs to documented.\n-/\n" ++
+      "theorem documented : True := trivial\n"
+    pure <| assertEq "comment kept" (stripProblemMarkers source)
+      "/--\nBelongs to documented.\n-/\ntheorem documented : True := trivial\n"
+
   check "stripProblemMarkers reads a quoted identifier inside a hole" passes fails do
     let source := "def «{» := \"x\"\ndef note := s!\"{«{»}\"\n" ++
       "@[eval_problem] theorem target : True := trivial\n"
