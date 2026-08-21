@@ -1,0 +1,11 @@
+id = "direct_summand"
+title = "Direct summand theorem and derived variant"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+test = false
+module = "LeanEval.AlgebraicGeometry.DirectSummand"
+holes = ["derived_direct_summand", "direct_summand"]
+submitter = "Junyan Xu"
