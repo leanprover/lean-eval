@@ -1,5 +1,10 @@
 id = "dimitrov"
 title = "Dimitrov's lower bound for the house of a nonzero algebraic integer that is not a root of unity"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 test = false
 module = "LeanEval.NumberTheory.SchinzelZassenhaus"
 holes = ["dimitrov"]
