@@ -730,6 +730,62 @@ def main : IO UInt32 := do
     pure <| assertContains "open kept" block "open Polynomial"
       |>.or (assertEq "comment body not absorbed" ((block.find? "spelled out").isSome) false)
 
+  -- A module docstring is prose, not code. A sentence that wraps onto a line
+  -- beginning with `open` used to be hoisted into the generated workspace,
+  -- where it is a parse error.
+  check "extractContextOpens ignores an open inside a block comment" passes fails do
+    let source :=
+      "import Mathlib\n" ++
+      "/-!\n" ++
+      "The statement lives on an\n" ++
+      "open subset of the plane, which is prose.\n" ++
+      "-/\n" ++
+      "namespace Demo\n" ++
+      "open Polynomial\n" ++
+      "\n" ++
+      "theorem target : True := trivial\n" ++
+      "end Demo\n"
+    let extracted : ExtractedTheorem := {
+      declarationName := "Demo.target"
+      module := "Demo"
+      startLine := 9, startColumn := 0
+      endLine := 9, endColumn := 30
+      sameModuleDependencies := #[]
+      kind := "theorem"
+    }
+    let block ← extractContextOpens "demo" "demo.lean" source (some extracted)
+      (includeNamespaces := true)
+    pure <| assertContains "real open kept" block "open Polynomial"
+      |>.or (assertEq "docstring prose not emitted"
+        ((block.find? "which is prose").isSome) false)
+
+  -- The same for a comment line beginning with `end`: read as a command it
+  -- pops the enclosing namespace, discarding both the `open` it held and the
+  -- namespace prefix the generated statement is elaborated against.
+  check "extractContextOpens ignores an end inside a block comment" passes fails do
+    let source :=
+      "import Mathlib\n" ++
+      "namespace Demo\n" ++
+      "open Polynomial\n" ++
+      "/-\n" ++
+      "The auxiliary lemmas for this problem are collected at the\n" ++
+      "end of the file, below the statement.\n" ++
+      "-/\n" ++
+      "theorem target : True := trivial\n" ++
+      "end Demo\n"
+    let extracted : ExtractedTheorem := {
+      declarationName := "Demo.target"
+      module := "Demo"
+      startLine := 8, startColumn := 0
+      endLine := 8, endColumn := 30
+      sameModuleDependencies := #[]
+      kind := "theorem"
+    }
+    let block ← extractContextOpens "demo" "demo.lean" source (some extracted)
+      (includeNamespaces := true)
+    pure <| assertContains "namespace prefix intact" block "open Demo"
+      |>.or (assertContains "open kept" block "open Polynomial")
+
   -- The shape reported in https://github.com/leanprover/lean-eval/issues/545:
   -- a `local notation` and a scoped `open … in` above the problem declaration.
   -- The notation travels as a command of its own and the open travels as the
