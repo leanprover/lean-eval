@@ -3,7 +3,11 @@
 Possible orders of 5-transitive finite permutation groups
 
 - Problem ID: `five_transitive_card_classification`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: If a finite group acts faithfully and 5-transitively on a set X with |X| ≥ 5, then |G| is one of n!, n!/2 (only when n ≥ 7), 95040 (= |M₁₂|), or 244823040 (= |M₂₄|). The 5 ≤ |X| hypothesis prevents the 5-transitivity condition from being vacuously satisfied (otherwise small groups like C₃ on Fin 3 would qualify). Classification is folklore via CFSG; no CFSG-free proof is known.
 - Source: Folklore via CFSG; classical work of Mathieu, Jordan; modern accounts in P. Cameron, Permutation Groups (1999).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

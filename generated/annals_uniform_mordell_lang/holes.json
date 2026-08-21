@@ -1,0 +1,84 @@
+{
+  "id": "annals_uniform_mordell_lang",
+  "module": "LeanEval.AlgebraicGeometry.UniformMordellLang",
+  "holes": [
+    {
+      "name": "UniformMordellLang.JacobianChallenge.genus",
+      "basename": "genus",
+      "kind": "def",
+      "body": "/-- The genus of a smooth proper curve. -/\ndef genus (C : Over (Spec (.of k))) [IsProper C.hom] [SmoothOfRelativeDimension 1 C.hom]\n    [GeometricallyIrreducible C.hom] : \u2115 :=\n  sorry"
+    },
+    {
+      "name": "UniformMordellLang.JacobianChallenge.Jacobian",
+      "basename": "Jacobian",
+      "kind": "def",
+      "body": "/-- The Jacobian of a smooth, proper curve over a field `k`. -/\ndef Jacobian (C : Over (Spec (.of k))) [IsProper C.hom] [SmoothOfRelativeDimension 1 C.hom]\n    [GeometricallyIrreducible C.hom] : Over (Spec (.of k)) :=\n  sorry"
+    },
+    {
+      "name": "UniformMordellLang.JacobianChallenge.Jacobian.instGrpObj",
+      "basename": "instGrpObj",
+      "kind": "def",
+      "body": "/-- The group scheme structure on the Jacobian of the curve `C`. -/\ninstance instGrpObj : GrpObj (Jacobian C) :=\n  sorry"
+    },
+    {
+      "name": "UniformMordellLang.JacobianChallenge.Jacobian.smoothOfRelativeDimension_genus",
+      "basename": "smoothOfRelativeDimension_genus",
+      "kind": "def",
+      "body": "/-- The Jacobian of `C` is smooth of relative dimension `g` over `k`, where `g` is the\ngenus of `C`. -/\n@[instance_reducible, instance]\nnoncomputable def smoothOfRelativeDimension_genus :\n    SmoothOfRelativeDimension (genus C) (Jacobian C).hom :=\n  sorry"
+    },
+    {
+      "name": "UniformMordellLang.JacobianChallenge.Jacobian.instIsProper",
+      "basename": "instIsProper",
+      "kind": "def",
+      "body": "/-- The Jacobian of `C` is proper over `k`. -/\n@[instance_reducible, instance]\nnoncomputable def instIsProper : IsProper (Jacobian C).hom :=\n  sorry"
+    },
+    {
+      "name": "UniformMordellLang.JacobianChallenge.Jacobian.instGeometricallyIrreducible",
+      "basename": "instGeometricallyIrreducible",
+      "kind": "def",
+      "body": "/-- The Jacobian of `C` is geometrically irreducible over `k`. -/\n@[instance_reducible, instance]\nnoncomputable def instGeometricallyIrreducible :\n    GeometricallyIrreducible (Jacobian C).hom :=\n  sorry"
+    },
+    {
+      "name": "UniformMordellLang.JacobianChallenge.Jacobian.ofCurve",
+      "basename": "ofCurve",
+      "kind": "def",
+      "body": "/-- The Abel-Jacobi map from a smooth, proper curve to its Jacobian associated\nto a `k`-rational point of `C`. -/\ndef ofCurve (P : \ud835\udfd9_ (Over (Spec (.of k))) \u27f6 C) : C \u27f6 Jacobian C :=\n  sorry"
+    },
+    {
+      "name": "UniformMordellLang.JacobianChallenge.Jacobian.comp_ofCurve",
+      "basename": "comp_ofCurve",
+      "kind": "theorem",
+      "body": "/-- The Abel-Jacobi map sends the `k`-rational point `P` to `0`, where `0` (denoted by `\u03b7` below) is\nthe neutral element of the group scheme `Jacobian C`. -/\ntheorem comp_ofCurve (C : Over (Spec (.of k))) [IsProper C.hom]\n    [SmoothOfRelativeDimension 1 C.hom] [GeometricallyIrreducible C.hom]\n    (P : \ud835\udfd9_ (Over (Spec (.of k))) \u27f6 C) :\n    P \u226b ofCurve P = \u03b7[Jacobian C] :=\n  sorry"
+    },
+    {
+      "name": "UniformMordellLang.JacobianChallenge.Jacobian.exists_unique_ofCurve_comp",
+      "basename": "exists_unique_ofCurve_comp",
+      "kind": "theorem",
+      "body": "/--\nThe universal property of the Jacobian variety: For any abelian variety `A`,\nany morphism `f : C \u27f6 A` such that `f(P) = 0` factors uniquely through the\nJacobian of `C`.\nIn other words, `Jacobian C` is the Albanese variety of `C`.\n-/\ntheorem exists_unique_ofCurve_comp (C : Over (Spec (.of k))) [IsProper C.hom]\n    [SmoothOfRelativeDimension 1 C.hom] [GeometricallyIrreducible C.hom]\n    (P : \ud835\udfd9_ (Over (Spec (.of k))) \u27f6 C)\n    {A : Over (Spec (.of k))} [Smooth A.hom] [IsProper A.hom] [GrpObj A]\n    [GeometricallyIrreducible A.hom] (f : C \u27f6 A) (hf : P \u226b f = \u03b7[A]) :\n    \u2203! (g : Jacobian C \u27f6 A), f = ofCurve P \u226b g :=\n  sorry"
+    },
+    {
+      "name": "UniformMordellLang.JacobianChallenge.Jacobian.instGeometricallyIntegral",
+      "basename": "instGeometricallyIntegral",
+      "kind": "def",
+      "body": "/-- The Jacobian of `C` is geometrically integral over `k`. -/\n@[instance_reducible, instance]\nnoncomputable def instGeometricallyIntegral : GeometricallyIntegral (Jacobian C).hom :=\n  sorry"
+    },
+    {
+      "name": "UniformMordellLang.JacobianChallenge.Jacobian.instFG",
+      "basename": "instFG",
+      "kind": "def",
+      "body": "/-- If `k` is a number field, then the `k`-points of the Jacobian of `C` are finitely generated.\n\nThis is the Mordell-Weil theorem; it is what gives Theorem 1.1's `\u03c1` a meaning. Anonymous\nupstream, named here so that it can be addressed as a hole. -/\n@[instance_reducible, instance]\nnoncomputable def instFG [NumberField k] :\n    @Group.FG (\ud835\udfd9_ (Over (Spec (.of k))) \u27f6 Jacobian C)\n      (instCommGroup (k := k) (C := C)).toGroup :=\n  sorry"
+    },
+    {
+      "name": "UniformMordellLang.c",
+      "basename": "c",
+      "kind": "def",
+      "body": "/-- The function `c` of Theorem 1.1 of the paper. -/\nnoncomputable def c (g : \u2115) (d : \u2115) : \u2115 :=\n  sorry"
+    },
+    {
+      "name": "UniformMordellLang.theorem_1_1",
+      "basename": "theorem_1_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.1:\n\nLet `g \u2265 2` and `d \u2265 1` be integers. Then there exists a constant `c = c(g, d) \u2265 1` with the\nfollowing property. If `C` is a smooth curve of genus `g` defined over a number field `F` with\n`[F : Q] \u2264 d`, then `#C(F) \u2264 c^(1+\u03c1)`, where `\u03c1` is the rank of `Jac(C)(F)`.\n\nWe do not give a complete definition of the Jacobian of `C`. Instead, a characterization can be\nfound in `UniformMordellLang.JacobianChallenge` above whose sorries must be filled.\n\nNote however that the characterization of the Jacobian of `C` is only correct when the `C` has an\n`F`-point, but Theorem 1.1 is trivial when `C` has no `F`-points, so this is not a problem.\n-/\ntheorem theorem_1_1 (g d : \u2115) (hg : g \u2265 2) (hd : d \u2265 1) {F : Type*} [Field F] [NumberField F]\n    (hF : finrank \u211a F \u2264 d) (C : Over (Spec (.of F))) [IsProper C.hom]\n    [SmoothOfRelativeDimension 1 C.hom] [GeometricallyIrreducible C.hom] (hC : genus C = g) :\n    ENat.card (\ud835\udfd9_ (Over (Spec (.of F))) \u27f6 C) \u2264\n      c g d ^ (1 + freeRank (\ud835\udfd9_ (Over (Spec (.of F))) \u27f6 Jacobian C)) := by\n  sorry"
+    }
+  ]
+}

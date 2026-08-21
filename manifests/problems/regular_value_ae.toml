@@ -1,6 +1,10 @@
 id = "regular_value_ae"
 title = "Sard's regular-value corollary"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.RegularValue"
 holes = ["regular_value_ae"]
 submitter = "Kim Morrison"

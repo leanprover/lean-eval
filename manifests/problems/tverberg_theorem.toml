@@ -1,6 +1,10 @@
 id = "tverberg_theorem"
 title = "Tverberg's theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Combinatorics.Tverberg"
 holes = ["tverberg_theorem"]
 submitter = "Kim Morrison"

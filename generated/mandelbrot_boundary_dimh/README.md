@@ -3,7 +3,11 @@
 Hausdorff dimension of the Mandelbrot boundary (Shishikura)
 
 - Problem ID: `mandelbrot_boundary_dimh`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Shishikura's theorem: the boundary of the Mandelbrot set has Hausdorff dimension 2. The Mandelbrot set is the bounded critical-orbit locus of the quadratic family T_c(z) = z² + c, and dimH is mathlib's MeasureTheory.dimH. Mathlib has dimH, Hausdorff measure, frontier, and Function.iterate, but no complex-dynamics, Mandelbrot/Julia set, or parabolic-implosion machinery, and no Shishikura theorem. Listed as §260 of the Knill survey.
 - Source: M. Shishikura, The Hausdorff dimension of the boundary of the Mandelbrot set and Julia sets, Ann. of Math. 147 (1998). Listed as §260 in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf). Knill, §260.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

@@ -1,0 +1,12 @@
+{
+  "id": "annals_unit_conjecture",
+  "module": "LeanEval.GroupTheory.UnitConjecture",
+  "holes": [
+    {
+      "name": "UnitConjecture.theorem_A",
+      "basename": "theorem_A",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem A:\n\nLet P be the torsion-free group defined by the presentation\n`\u27e8a,b | b\u207b\u00b9a\u00b2b = a\u207b\u00b2, a\u207b\u00b9b\u00b2a = b\u207b\u00b2\u27e9`, and set `x = a\u00b2`, `y = b\u00b2`, `z = (ab)\u00b2`. Set\n`p = (1 + x)(1 + y)(1 + z\u207b\u00b9)`, `q = x\u207b\u00b9y\u207b\u00b9 + x + y\u207b\u00b9z + z`,\n`r = 1 + x + y\u207b\u00b9z + xyz`, `s = 1 + (x + x\u207b\u00b9 + y + y\u207b\u00b9)z\u207b\u00b9`.\nThen `p + qa + rb + sab` is a non-trivial unit in the group ring `\ud835\udd3d\u2082[P]`.\n-/\ntheorem theorem_A : (\u2200 g : P, \u2200 n \u2260 0, g ^ n = 1 \u2192 g = 1) \u2227 IsUnit u \u2227 \u00ac \u2203 g : P, u = g := by\n  sorry"
+    }
+  ]
+}

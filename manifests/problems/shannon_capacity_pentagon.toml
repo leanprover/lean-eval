@@ -1,6 +1,10 @@
 id = "shannon_capacity_pentagon"
 title = "Shannon capacity of the pentagon"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Combinatorics.ShannonCapacityPentagon"
 holes = ["shannon_capacity_pentagon"]
 submitter = "Kim Morrison"

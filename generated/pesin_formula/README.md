@@ -3,7 +3,11 @@
 Pesin entropy formula (symplectic surface case)
 
 - Problem ID: `pesin_formula`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Pesin (1977), symplectic surface specialisation of Lai-Sang Young: for an ergodic surface diffeomorphism with dim(μ) = 2 and symmetric averaged exponents (∫λ₁ = −∫λ₂), h_μ(T) = ∫λ₁. The symplectic/volume-preserving case is encoded here via dimMeasure μ = 2 and the exponent-symmetry hypothesis (a consequence-form, not a full symplectic-derivative hypothesis package). Shares the §103 trusted helpers (totalized sSup/limsup; genuine in the compact-C² regime). Not in Mathlib (no KS entropy, no Lyapunov exponents, no Pesin formula). Candidate from §103 of the Knill survey.
 - Source: Ya. B. Pesin, *Characteristic Lyapunov exponents and smooth ergodic theory*, Russian Math. Surveys 32 (1977). Knill, *Some fundamental theorems in mathematics*, §103.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

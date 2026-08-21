@@ -1,6 +1,10 @@
 id = "thue_siegel_roth"
 title = "Thue–Siegel–Roth theorem (irrationality measure ≤ 2 for algebraic irrationals)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.ThueSiegelRoth"
 holes = ["thueSiegelRoth"]
 submitter = "Kim Morrison"

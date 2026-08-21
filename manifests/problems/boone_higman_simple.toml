@@ -1,6 +1,10 @@
 id = "boone_higman_simple"
 title = "Kuznetsov's theorem: finitely presented simple groups have solvable word problem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.GroupTheory.BooneHigmanSimple"
 holes = ["boone_higman_simple"]
 submitter = "Kim Morrison"

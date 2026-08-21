@@ -1,6 +1,10 @@
 id = "banach_alaoglu_bourbaki"
 title = "Bourbaki's locally convex extension of Banach–Alaoglu"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.BanachAlaoglu"
 holes = ["banach_alaoglu_bourbaki"]
 submitter = "Kim Morrison"

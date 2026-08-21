@@ -1,0 +1,27 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "UniformMordellLang.JacobianChallenge.Jacobian.comp_ofCurve",
+    "UniformMordellLang.JacobianChallenge.Jacobian.exists_unique_ofCurve_comp",
+    "UniformMordellLang.theorem_1_1"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": false,
+  "definition_names": [
+    "UniformMordellLang.JacobianChallenge.genus",
+    "UniformMordellLang.JacobianChallenge.Jacobian",
+    "UniformMordellLang.JacobianChallenge.Jacobian.instGrpObj",
+    "UniformMordellLang.JacobianChallenge.Jacobian.smoothOfRelativeDimension_genus",
+    "UniformMordellLang.JacobianChallenge.Jacobian.instIsProper",
+    "UniformMordellLang.JacobianChallenge.Jacobian.instGeometricallyIrreducible",
+    "UniformMordellLang.JacobianChallenge.Jacobian.ofCurve",
+    "UniformMordellLang.JacobianChallenge.Jacobian.instGeometricallyIntegral",
+    "UniformMordellLang.JacobianChallenge.Jacobian.instFG",
+    "UniformMordellLang.c"
+  ]
+}

@@ -1,6 +1,10 @@
 id = "furstenberg_topological"
 title = "Furstenberg–Weiss topological multiple recurrence (single-transformation form)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Dynamics.FurstenbergTopological"
 holes = ["furstenberg_topological_recurrence"]
 submitter = "Kim Morrison"

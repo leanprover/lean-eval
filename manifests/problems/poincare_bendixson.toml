@@ -1,6 +1,10 @@
 id = "poincare_bendixson"
 title = "Poincaré–Bendixson theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Dynamics.PoincareBendixson"
 holes = ["poincare_bendixson"]
 submitter = "Kim Morrison"

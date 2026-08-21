@@ -1,0 +1,12 @@
+{
+  "id": "annals_on_coherence_of_one_relator_groups",
+  "module": "LeanEval.GroupTheory.OnCoherenceOfOneRelatorGroups",
+  "holes": [
+    {
+      "name": "OnCoherenceOfOneRelatorGroups.theorem_1_1",
+      "basename": "theorem_1_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.1:\n\nLet `G` be a one-relator group and `K` be a field of characteristic zero.\nThen `G` is a coherent group and the group algebra `K[G]` is a coherent ring.\n-/\ntheorem theorem_1_1 (G K : Type*) [Group G] [Field K] [CharZero K] (hG : Group.OneRelator G) :\n    Group.Coherent G \u2227 Ring.Coherent (MonoidAlgebra K G) := by\n  sorry"
+    }
+  ]
+}

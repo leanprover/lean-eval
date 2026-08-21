@@ -3,7 +3,11 @@
 Choquet's representation theorem
 
 - Problem ID: `choquet_representation_theorem`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: In a Banach space, every point of a compact convex set K is the barycenter ∫ y ∂μ of a probability measure μ supported on the extreme points of K (μ (ext K)ᶜ = 0). A norm-compact set is metrizable, so the extreme points are Borel and Choquet's theorem proper applies; the literal 'supported on ext K' rendering is faithful. Mathlib has Krein–Milman (closure_convexHull_extremePoints) and Convex.integral_mem but not Choquet's theorem, and no measure-theoretic barycenter operator. No new definitions beyond Mathlib's Set.extremePoints, IsProbabilityMeasure, and the Bochner integral. Candidate from §88 of the Knill survey.
 - Source: G. Choquet, *Existence et unicité des représentations intégrales au moyen des points extrémaux dans les cônes convexes*, Séminaire Bourbaki (1956). Knill, *Some fundamental theorems in mathematics*, §88.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

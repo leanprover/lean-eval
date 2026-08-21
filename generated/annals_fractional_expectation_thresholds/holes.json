@@ -1,0 +1,18 @@
+{
+  "id": "annals_fractional_expectation_thresholds",
+  "module": "LeanEval.Combinatorics.FractionalExpectationThresholds",
+  "holes": [
+    {
+      "name": "FractionalExpectationThresholds.K",
+      "basename": "K",
+      "kind": "def",
+      "body": "/-- The constant `K` in Theorem 1.1. -/\nnoncomputable def K : \u211d := sorry"
+    },
+    {
+      "name": "FractionalExpectationThresholds.theorem_1_1",
+      "basename": "theorem_1_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.1:\n\nThere exists a universal constant `K` such that for any finite set `X` and any increasing\ncollection of sets `\ud835\udcd5` such that `l(\ud835\udcd5)` is at least `2`,\n\n`p_c(\ud835\udcd5) \u2264 K * q_f(\ud835\udcd5) * log l(\ud835\udcd5)`.\n\nNote: The assumption that `l(\ud835\udcd5)` is at least `2` is not explicitly in the paper but is needed\nbecause if `l(\ud835\udcd5) = 1` then `Real.log (l \ud835\udcd5) = 0`, but `p_c \ud835\udcd5 \u2208 (0,1)` (so the inequality clearly\ncannot hold).\n-/\ntheorem theorem_1_1 (X : Type*) [Fintype X] (\ud835\udcd5 : Set (Set X)) (h\ud835\udcd5 : IsUpperSet \ud835\udcd5)\n    (hl\ud835\udcd5 : 2 \u2264 l \ud835\udcd5) : p_c \ud835\udcd5 \u2264 K * q_f \ud835\udcd5 * Real.log (l \ud835\udcd5) := by\n  sorry"
+    }
+  ]
+}

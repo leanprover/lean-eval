@@ -1,6 +1,10 @@
 id = "milnor_exotic_sphere_seven"
 title = "Milnor's exotic 7-sphere"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.MilnorExoticSphereSeven"
 holes = ["milnor_exotic_sphere_seven"]
 submitter = "Kim Morrison"

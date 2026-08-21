@@ -1,4 +1,7 @@
 import Mathlib
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 namespace LeanEval
 namespace Dynamics
@@ -86,6 +89,10 @@ noncomputable def lyapunovLowerAt
 /-- The **harmonic mean of `λ₁, −λ₂`**. -/
 noncomputable def harmonicMeanLyapunov (lam1 lam2 : ℝ) : ℝ :=
   2 * lam1 * (-lam2) / (lam1 - lam2)
+
+
+
+
 
 
 

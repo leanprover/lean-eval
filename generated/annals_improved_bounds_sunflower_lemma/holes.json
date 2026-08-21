@@ -1,0 +1,18 @@
+{
+  "id": "annals_improved_bounds_sunflower_lemma",
+  "module": "LeanEval.Combinatorics.ImprovedBoundsSunflowerLemma",
+  "holes": [
+    {
+      "name": "ImprovedBoundsSunflowerLemma.C",
+      "basename": "C",
+      "kind": "def",
+      "body": "/-- The absolute constant `C` in Theorem 1.4. Although not explicitly stated in the paper,\nthe constant `C` doesn't depend on `r`. -/\nnoncomputable def C : \u211d := sorry"
+    },
+    {
+      "name": "ImprovedBoundsSunflowerLemma.theorem_1_4",
+      "basename": "theorem_1_4",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.4 (Main theorem, sunflowers):\n\nLet `r \u2265 3`. For some constant `C`, any `w`-set system `F` of size\n`|F| \u2265 (C * r ^ 3 * log w * log log w) ^ w` contains an `r`-sunflower.\n\nNote: We require `w \u2265 2`, as the paper assumes `log log w > 0`.\n-/\ntheorem theorem_1_4 (r : \u2115) (hr : r \u2265 3) (X : Type*) [Finite X] (\u2131 : Set (Set X)) (w : \u2115)\n      (hw : w \u2265 2) (h\u2131\u2081 : \u2131.IsSystem w) (h\u2131\u2082 : \u2131.ncard \u2265 lowerBound r C w) :\n      \u2203 S \u2286 \u2131, S.IsSunflower r := by\n  sorry"
+    }
+  ]
+}

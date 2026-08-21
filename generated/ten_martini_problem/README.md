@@ -3,7 +3,11 @@
 Avila-Jitomirskaya Ten Martini Problem
 
 - Problem ID: `ten_martini_problem`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: The theorem constructs the almost Mathieu operator as an actual Mathlib continuous linear endomorphism of `lp (fun _ : Int => Complex) 2`; `IsAlmostMathieuOperator` fixes it by the standard coordinate formula, rather than hiding it in trusted spectral scaffolding. For irrational frequency `alpha`, nonzero coupling `lambda`, and arbitrary phase `theta`, its complex spectrum is asserted to be nonempty, compact, perfect, and totally disconnected, i.e. a Cantor set. Including operator existence in the conclusion prevents vacuity through an uninhabited formula predicate.
 - Source: A. Avila and S. Jitomirskaya, 'The Ten Martini Problem', Ann. of Math. 170 (2009), 303-342, https://doi.org/10.4007/annals.2009.170.303.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

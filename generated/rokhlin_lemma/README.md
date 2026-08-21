@@ -3,7 +3,11 @@
 Rokhlin lemma
 
 - Problem ID: `rokhlin_lemma`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: §109 of Knill's 'Some Fundamental Theorems in Mathematics' gives the classical automorphism form. This problem strengthens it by dropping invertibility. The conclusion uses forward images: every aperiodic measure-preserving transformation of a standard Borel probability space admits, for every height n and every ε > 0, a measurable base B such that B, T B, …, T^{n-1} B are pairwise disjoint with union of outer measure ≥ 1 - ε. Only the base B is required measurable by IsRokhlinTower; the forward-image floors need not be measurable. The [StandardBorelSpace Ω] hypothesis is essential: the countable-cocountable σ-algebra on ℝ with the integer-shift map x ↦ x + 1 is aperiodic and measure-preserving but admits no nontrivial Rokhlin towers (every cocountable base intersects its own shift; every countable base has zero-measure tower). Mathlib has MeasurePreserving, IsProbabilityMeasure, Function.periodicPts, Set.PairwiseDisjoint, and StandardBorelSpace, but no Rokhlin lemma. The Challenge ships four small helper defs (IsAperiodic, towerFloor, towerUnion, IsRokhlinTower).
 - Source: V. A. Rokhlin, *A general measure-preserving transformation is not mixing*, Doklady Akademii Nauk SSSR 60 (1948), 349-351 (original Russian; English translation later); S. Kakutani, *Induced measure-preserving transformations*, Proc. Imp. Acad. Tokyo 19 (1943), 635-641 (independent discovery); S.-M. Heinemann and O. Schmitt, *Rokhlin's lemma for non-invertible maps*, Dynam. Systems Appl. 10 (2001), no. 2, 201-213. The classical form is listed as §109 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

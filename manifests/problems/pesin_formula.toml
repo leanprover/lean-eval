@@ -1,6 +1,10 @@
 id = "pesin_formula"
 title = "Pesin entropy formula (symplectic surface case)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Dynamics.LaiSangYoung"
 holes = ["pesin_formula"]
 submitter = "Kim Morrison"

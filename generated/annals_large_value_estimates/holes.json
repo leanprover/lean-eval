@@ -1,0 +1,12 @@
+{
+  "id": "annals_large_value_estimates",
+  "module": "LeanEval.NumberTheory.LargeValueEstimates",
+  "holes": [
+    {
+      "name": "LargeValueEstimates.theorem_1_1",
+      "basename": "theorem_1_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.1 (Large values estimate):\n\nSuppose `(b\u2099)` is a sequence of complex numbers with `|b\u2099| \u2264 1`, and `(t\u1d63)` for `r \u2264 R` is a\nsequence of `1`-separated points in `[0, T]` such that\n\n`|\u2211_N^2N b\u2099 n^(it\u1d63)| \u2265 V`\n\nfor all `r \u2264 R`. Then we have\n\n`R \u2264 T^(o(1)) * (N^2 V^(-2) + N^(18/5) V^(-4) + T N^(12/5) V^(-4))`.\n\nNote: The inequality may be false at `T = 1`, so we must impose `T > 1`.\n-/\ntheorem theorem_1_1 : \u2203 o : \u211d \u2192 \u211d, o =o[Filter.atTop] (1 : \u211d \u2192 \u211d) \u2227\n    \u2200 (b : \u2115 \u2192 \u2102) (_hb : \u2200 n, \u2016b n\u2016 \u2264 1) (N : \u2115) (V : \u211d) (T : \u211d) (R : \u2115) (t : Fin R \u2192 \u211d),\n    N > 0 \u2192 V > 0 \u2192 T > 1 \u2192 -- these assumptions are necessary but not stated in the paper\n    (\u2200 i j, i \u2260 j \u2192 |t i - t j| \u2265 1) \u2192 (\u2200 i, t i \u2208 Set.Icc 0 T) \u2192\n    (\u2200 r, \u2016\u2211 n \u2208 Finset.Icc N (2 * N), b n * n ^ (I * t r)\u2016 \u2265 V) \u2192\n    R \u2264 T ^ (o T) * bound N V T := by\n  sorry"
+    }
+  ]
+}

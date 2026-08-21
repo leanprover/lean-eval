@@ -1,0 +1,12 @@
+{
+  "id": "annals_van_der_waerden_conjecture",
+  "module": "LeanEval.NumberTheory.VanDerWaerdenConjecture",
+  "holes": [
+    {
+      "name": "vanDerWaerdenConjecture.theorem_1",
+      "basename": "theorem_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1:\n\n`E\u2099(H) = O(H\u207f\u207b\u00b9)` for `n \u2265 3`.\n\nThe degree restriction is necessary: the theorem is false as stated for `n = 2`.\n-/\ntheorem theorem_1 (n : \u2115) (hn : 3 \u2264 n) :\n    (fun H \u21a6 (E n H : \u211d)) =O[atTop] (fun H \u21a6 (H ^ (n - 1) : \u211d)) := by\n  sorry"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "annals_spread_of_a_finite_group",
+  "module": "LeanEval.GroupTheory.SpreadOfAFiniteGroup",
+  "holes": [
+    {
+      "name": "SpreadOfAFiniteGroup.theorem_1",
+      "basename": "theorem_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1:\n\nLet `G` be a finite group. Then the spread `s(G) \u2265 2` if and only if every proper quotient of `G`\nis cyclic.\n-/\ntheorem theorem_1 (G : Type*) [Group G] [Finite G] :\n    s G \u2265 2 \u2194 \u2200 (N : Subgroup G) [N.Normal] [Nontrivial N], IsCyclic (G \u29f8 N) := by\n  sorry"
+    }
+  ]
+}

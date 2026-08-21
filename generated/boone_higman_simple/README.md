@@ -3,7 +3,11 @@
 Kuznetsov's theorem: finitely presented simple groups have solvable word problem
 
 - Problem ID: `boone_higman_simple`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: A finitely presented *simple* group has a decidable word problem. The word problem of a finite presentation φ : FreeGroup (Fin n) →* G is encoded as the predicate `w ↦ φ (FreeGroup.mk w) = 1' on `List (Fin n × Bool)' (signed-letter words); solvability is `ComputablePred' of that predicate — genuine algorithmic decidability via a Turing machine, not a bundled Prop. The hypotheses `hsurj` + `hker` unpack `Group.IsFinitelyPresented G` for this presentation. Solvability of the word problem is independent of the chosen finite presentation, so quantifying over an arbitrary one is the standard reading. §122 of Knill's *Some Fundamental Theorems in Mathematics*.
 - Source: A.V. Kuznetsov, 'Algorithms as operations in algebraic systems', Uspekhi Mat. Nauk 13 (1958) 240–241 (Russian); W.W. Boone and G. Higman, 'An algebraic characterization of groups with soluble word problem', J. Austral. Math. Soc. 18 (1974) 41–53. §122 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

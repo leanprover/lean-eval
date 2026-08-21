@@ -1,0 +1,14 @@
+id = "budney_gabai_knotted_three_spheres"
+title = "Budney--Gabai knotted three-spheres in S¹ × S³"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+test = false
+module = "LeanEval.Topology.BudneyGabai"
+holes = ["budney_gabai_knotted_three_spheres"]
+submitter = "Vasily Ilin"
+notes = "Corollary 8.6: S¹ × S³ contains infinitely many isotopy classes of nonseparating smoothly embedded S³s homotopic to a standard cross-section. The statement uses Mathlib's unit spheres and smooth-manifold API directly. Unparameterized smooth isotopy is encoded by a jointly smooth interval-family of embeddings whose endpoint ranges agree; this is equivalent to ambient smooth isotopy by isotopy extension."
+source = "R. Budney and D. Gabai, 'Knotted 3-balls in S⁴', Corollary 8.6, arXiv:1912.09029v3 (2021), https://arxiv.org/abs/1912.09029."
+informal_solution = "Budney and Gabai construct barbell diffeomorphisms β_{δₖ} for k ≥ 4. Their W₃ invariant proves in Theorem 8.5 that the resulting classes are linearly independent even after quotienting by diffeomorphisms supported in a 4-ball. Applying these diffeomorphisms to the standard cross-section {x₀} × S³ gives nonseparating embedded three-spheres homotopic to the cross-section; isotopy of two such spheres would put the corresponding diffeomorphisms in the same quotient class, contradicting that independence."

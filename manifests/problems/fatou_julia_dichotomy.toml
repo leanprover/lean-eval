@@ -1,6 +1,10 @@
 id = "fatou_julia_dichotomy"
 title = "Fatou–Julia / Cantor dichotomy"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.ComplexAnalysis.FatouJulia"
 holes = ["julia_cantor_dichotomy"]
 submitter = "Kim Morrison"

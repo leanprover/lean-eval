@@ -1,6 +1,10 @@
 id = "darboux"
 title = "Darboux's theorem (symplectic forms are locally standard)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.Darboux"
 holes = ["darboux"]
 submitter = "Kim Morrison"

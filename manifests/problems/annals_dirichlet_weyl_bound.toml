@@ -1,0 +1,12 @@
+id = "annals_dirichlet_weyl_bound"
+title = "The Weyl bound for Dirichlet L-functions of cube-free conductor"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.NumberTheory.DirichletWeylBound"
+holes = ["corollary_1_3"]
+submitter = "Thomas Browning"
+source = "I. Petrow and M. P. Young, `The Weyl bound for Dirichlet L-functions of cube-free conductor`, Annals of Math, 192 (2) 2020. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2020-192-2-DirichletWeylBound.lean"
+notes = "The proof binders `hq` and `hχ` are named `_hq` and `_hχ` here. This is alpha-equivalent and suppresses unused-variable warnings in the generated `Solution.lean` delegation."

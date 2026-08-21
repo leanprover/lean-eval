@@ -3,7 +3,11 @@
 Independence of the parallel postulate
 
 - Problem ID: `parallel_postulate_independent`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Theorem #12 on Freek Wiedijk's 'Formalizing 100 Theorems' list (https://www.cs.ru.nl/~freek/100/). Euclid's parallel postulate is independent of the remaining axioms of plane geometry. Stated via Tarski's axiomatization: the `TarskiAbsolute` class bundles betweenness and congruence with axioms A1-A9 and the continuity axiom A11, the Euclidean axiom A10 is a separate Prop, and independence is the conjunction of two existentials (a model satisfying A10, a model refuting it). Cross-checked against the two existing formalizations on Freek's list: John Harrison's HOL Light (Multivariate/tarski.ml + 100/independence.ml) and Tim Makarios's Isabelle/AFP entry Tarskis_Geometry; axioms A1-A10 match Harrison's TARSKI_AXIOM_n character-for-character and A11 is his second-order continuity axiom.
 - Source: Independence of Euclid's parallel postulate; the hyperbolic-plane models are due to E. Beltrami (1868) and F. Klein (1871). Tarski's axiomatization: W. Schwabhäuser, W. Szmielew, A. Tarski, Metamathematische Methoden in der Geometrie, Springer (1983). Formalized in HOL Light by John Harrison and in Isabelle by Tim Makarios (T.J.M. Makarios, A Mechanical Verification of the Independence of Tarski's Euclidean Axiom, MSc thesis, Victoria University of Wellington, 2012; Isabelle/AFP entry Tarskis_Geometry).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

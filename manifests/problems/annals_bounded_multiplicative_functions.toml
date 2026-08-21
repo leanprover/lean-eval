@@ -1,0 +1,12 @@
+id = "annals_bounded_multiplicative_functions"
+title = "Higher uniformity of bounded multiplicative functions in short intervals on average"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.NumberTheory.BoundedMultiplicativeFunctions"
+holes = ["theorem_1_3", "corollary_1_1"]
+submitter = "David Ledvinka"
+source = "K. Matomäki, M. Radziwiłł, T. Tao, J. Teräväinen, and T. Ziegler, `Higher uniformity of bounded multiplicative functions in short intervals on average`, Annals of Math, 197 (2) 2023. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2023-197-2-BoundedMultiplicativeFunctions.lean"
+notes = "The proof binders `hQ`, `hC`, `hf`, `hf'`, `hX`, `hXH`, and `hHX` in `theorem_1_3` are prefixed with `_` here. This is alpha-equivalent and suppresses unused-variable warnings in the generated `Solution.lean`, whose delegation supplies the enclosing proof at once."

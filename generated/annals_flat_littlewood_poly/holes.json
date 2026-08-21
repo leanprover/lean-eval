@@ -1,0 +1,12 @@
+{
+  "id": "annals_flat_littlewood_poly",
+  "module": "LeanEval.Analysis.FlatLittlewoodPoly",
+  "holes": [
+    {
+      "name": "FlatLittlewoodPoly.theorem_1_1",
+      "basename": "theorem_1_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.1:\n\nThere exist constants `\u2206 > \u03b4 > 0` such that, for all `n \u2265 2`, there exists a Littlewood\npolynomial `P(z)` of degree `n` with `\u03b4\u221an \u2264 |P (z)| \u2264 \u2206\u221an` for all `z \u2208 \u2102` with `|z| = 1`.\n-/\ntheorem theorem_1_1 :\n    \u2203 \u0394 \u03b4 : \u211d, \u0394 > \u03b4 \u2227 \u03b4 > 0 \u2227 \u2200 n \u2265 2,\n      \u2203 P : \u2102[X], IsLittlewoodPolynomial P \u2227 P.natDegree = n \u2227\n      \u2200 z : \u2102, \u2016z\u2016 = 1 \u2192 \u03b4 * \u221an \u2264 \u2016P.eval z\u2016 \u2227\n      \u2016P.eval z\u2016 \u2264 \u0394 * \u221an := by\n  sorry"
+    }
+  ]
+}

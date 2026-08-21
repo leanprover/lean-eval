@@ -3,7 +3,11 @@
 Liouville–Arnold theorem on integrable systems
 
 - Problem ID: `liouville_arnold`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: §45 of Knill's 'Some Fundamental Theorems in Mathematics'. On a 2n-dimensional symplectic manifold with n smooth, pointwise linearly independent, pairwise Poisson-commuting first integrals F₁, …, F_n, every compact connected component of a joint level set is diffeomorphic to the n-torus T^n. Formalized on ℝ^{2n} with the standard symplectic form ω₀ = ∑ᵢ dpᵢ ∧ dqᵢ. Mathlib has EuclideanSpace, fderiv, AddCircle, Homeomorph but no Poisson brackets, no symplectic manifolds beyond Matrix.symplecticGroup, no first integrals, and no Liouville–Arnold theorem in any form (the Liouville files in Mathlib/Analysis/Complex/ are Liouville's theorem on bounded entire functions, a different result). The Challenge ships ~1 page of helper definitions (E, idxP, idxQ, poissonBracket, IsLiouvilleIntegrable, levelSet).
 - Source: V. I. Arnold, *Mathematical Methods of Classical Mechanics* (2nd ed., 1989), Theorem 49.A.1 (the standard modern reference). The result is due to Liouville (1855) for the local existence of action-angle coordinates and Arnold (1963) for the compact-connected-component topology. Listed as §45 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

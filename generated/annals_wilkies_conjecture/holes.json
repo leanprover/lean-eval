@@ -1,0 +1,12 @@
+{
+  "id": "annals_wilkies_conjecture",
+  "module": "LeanEval.ModelTheory.WilkiesConjecture",
+  "holes": [
+    {
+      "name": "WilkiesConjecture.corollary_1",
+      "basename": "corollary_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Corollary 1 (Wilkie's conjecture):\n\nLet `X` be definable in `\u211d\u2091\u2093\u209a`. Then `#X\u1d57\u02b3\u1d43\u207f\u02e2(g,H) \u2264 poly_X (g,log H)`.\n-/\ntheorem corollary_1 (X : Set \u211d\u207f) (h : IsRExpDefinable X) :\n    \u2203 f : MvPolynomial (Fin 2) \u211d, \u2200 (g H : \u2115),\n      Nat.card (degreeHeightLE X.trans g H) \u2264 f.eval ![(g : \u211d), Real.log H] := by\n  sorry"
+    }
+  ]
+}

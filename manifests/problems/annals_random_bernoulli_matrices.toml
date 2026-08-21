@@ -1,0 +1,12 @@
+id = "annals_random_bernoulli_matrices"
+title = "Singularity of random Bernoulli matrices"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.LinearAlgebra.RandomBernoulliMatrices"
+holes = ["theorem_A", "corollary_1", "corollary_2"]
+submitter = "David Ledvinka"
+source = "K. Tikhomirov, `Singularity of random Bernoulli matrices`, Annals of Math, 191 (2) 2020. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2020-191-2-RandomBernoulliMatrices.lean"
+notes = "The proof binders `mΩ`, `B_indep`, and `B_bernoulli` in `theorem_A` are prefixed with `_` here. This is alpha-equivalent and suppresses unused-variable warnings in the generated `Solution.lean` delegation."

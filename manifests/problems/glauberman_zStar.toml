@@ -1,6 +1,10 @@
 id = "glauberman_zStar"
 title = "Glauberman's Z* theorem for isolated involutions"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.GroupTheory.GlaubermanZStar"
 holes = ["glauberman_zStar"]
 submitter = "Kim Morrison"

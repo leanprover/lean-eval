@@ -1,0 +1,11 @@
+id = "annals_symplectic_monodromy"
+title = "Symplectic monodromy at radius zero and equimultiplicity of μ-constant families"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.Geometry.SymplecticMonodromy"
+holes = ["theorem_1_1"]
+submitter = "Justus Springer"
+source = "J. Fernández de Bobadilla and T. Pełka, `Symplectic monodromy at radius zero and equimultiplicity of μ-constant families`, Annals of Math, 200 (1) 2024. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2024-200-1-SymplecticMonodromy.lean"

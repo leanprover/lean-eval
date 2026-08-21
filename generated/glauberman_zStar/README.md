@@ -3,7 +3,11 @@
 Glauberman's Z* theorem for isolated involutions
 
 - Problem ID: `glauberman_zStar`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: For a finite group G with an isolated involution t (no distinct conjugate of t commutes with t), there is a normal subgroup N ⊴ G of odd order such that every commutator g·t·g⁻¹·t⁻¹ lies in N — i.e., t is central in G/N. The hypothesis is the global form of isolation, equivalent to (but more self-contained than) the standard Sylow-local form. Proof uses modular Brauer character theory.
 - Source: G. Glauberman, Central elements in core-free groups, J. Algebra 4 (1966).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

@@ -3,7 +3,11 @@
 The Lindemann–Weierstrass theorem
 
 - Problem ID: `lindemann_weierstrass`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: If x₁,…,xₙ ∈ ℂ are algebraic over ℚ and ℚ-linearly independent, then e^{x₁},…,e^{xₙ} are algebraically independent over ℚ. Mathlib has AlgebraicIndependent and the analytic scaffolding (LindemannWeierstrass namespace in AnalyticalPart.lean) but not the theorem. No new definitions needed. Candidate from §55 of the Knill survey.
 - Source: F. Lindemann (1882); K. Weierstrass (1885). Knill, *Some fundamental theorems in mathematics*, §55.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

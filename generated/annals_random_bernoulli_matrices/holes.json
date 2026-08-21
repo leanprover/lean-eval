@@ -1,0 +1,24 @@
+{
+  "id": "annals_random_bernoulli_matrices",
+  "module": "LeanEval.LinearAlgebra.RandomBernoulliMatrices",
+  "holes": [
+    {
+      "name": "RandomBernoulliMatrices.theorem_A",
+      "basename": "theorem_A",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem A:\n\nFor every `p \u2208 (0, 1/2]` and `\u03b5 > 0` there exists `N, C > 0` such that for any `n \u2265 N` and any\n`n \u00d7 n` random matrix `B` with mutually independent `Bernoulli(p)` entries,\n\n`P(\u03c3_min (B + sII\u1d40) \u2264 t/\u221an) \u2264 (1 - p + \u03b5)\u207f + Ct` for all `s \u2208 [-1,0]` and `t > 0`.\n-/\ntheorem theorem_A {p : I} {\u03b5 : \u211d} (hp\u2080 : 0 < p) (hp\u2081 : (p : \u211d) \u2264 1 / 2) (h\u03b5 : 0 < \u03b5) :\n    \u2203 N > 0, \u2203 C > 0, \u2200 n \u2265 N,\n      \u2200 (\u03a9 : Type*) (_m\u03a9 : MeasurableSpace \u03a9) (P : Measure \u03a9) (B : \u03a9 \u2192 Matrix (Fin n) (Fin n) \u211d)\n        (_B_indep : iIndepFun (fun x : Fin n \u00d7 Fin n \u21a6 (B \u00b7 x.1 x.2)) P)\n        (_B_bernoulli : \u2200 i j, HasLaw (B \u00b7 i j) (bernoulliMeasure 1 0 p) P),\n        \u2200 s : \u211d, -1 \u2264 s \u2227 s \u2264 0 \u2192 \u2200 t : \u211d, 0 < t \u2192\n          P.real {\u03c9 : \u03a9 | \u03c3_min (B \u03c9 + of (fun _ _ \u21a6 s)) \u2264 t / \u221an} \u2264 (1 - p + \u03b5) ^ n + C * t := by\n  sorry"
+    },
+    {
+      "name": "RandomBernoulliMatrices.corollary_1",
+      "basename": "corollary_1",
+      "kind": "theorem",
+      "body": "/--\nThis (unnamed) corollary appears directly below Theorem A in the paper:\n\nFor every `p \u2208 (0, 1/2]` and any sequence `B\u2099` of `n \u00d7 n` random matrices with mutually\nindependent `Bernoulli(p)` entries we have that\n\n`P(B\u2099 is singular) = (1 - p + o\u2099(1))\u207f`.\n-/\ntheorem corollary_1 {p : I} (hp\u2080 : 0 < p) (hp\u2081 : (p : \u211d) \u2264 1 / 2)\n    {\u03a9 : \u2115 \u2192 Type*} [m\u03a9 : \u2200 n, MeasurableSpace (\u03a9 n)] {P : (n : \u2115) \u2192 Measure (\u03a9 n)}\n    {B : (n : \u2115) \u2192 \u03a9 n \u2192 Matrix (Fin n) (Fin n) \u211d}\n    (B_indep : \u2200 n, iIndepFun (fun x : Fin n \u00d7 Fin n \u21a6 (B n \u00b7 x.1 x.2)) (P n))\n    (B_bernoulli : \u2200 n i j, HasLaw (B n \u00b7 i j) (bernoulliMeasure 1 0 p) (P n)) :\n    \u2203 o : \u2115 \u2192 \u211d, o =o[atTop] (1 : \u2115 \u2192 \u211d) \u2227\n      \u2200 n > 0, (P n).real {\u03c9 | (B n \u03c9).det = 0} = (1 - p + o n) ^ n := by\n  sorry"
+    },
+    {
+      "name": "RandomBernoulliMatrices.corollary_2",
+      "basename": "corollary_2",
+      "kind": "theorem",
+      "body": "/--\nThis is the result stated in the paper's abstract:\n\nFor any sequence `M\u2099` of `n \u00d7 n` random matrices with mutually independent `Rademacher` entries\nwe have that\n\n`P(M\u2099 is singular) = (1/2 + o\u2099(1))\u207f`.\n-/\ntheorem corollary_2 {\u03a9 : \u2115 \u2192 Type*} (m\u03a9 : \u2200 n, MeasurableSpace (\u03a9 n)) {P : (n : \u2115) \u2192 Measure (\u03a9 n)}\n    {M : (n : \u2115) \u2192 \u03a9 n \u2192 Matrix (Fin n) (Fin n) \u211d}\n    (M_indep : \u2200 n, iIndepFun (fun x : Fin n \u00d7 Fin n \u21a6 (M n \u00b7 x.1 x.2)) (P n))\n    (M_rademacher : \u2200 n i j, HasLaw (M n \u00b7 i j) rademacherMeasure (P n)) :\n    \u2203 o : \u2115 \u2192 \u211d, o =o[atTop] (1 : \u2115 \u2192 \u211d) \u2227\n      \u2200 n > 0, (P n).real {\u03c9 | (M n \u03c9).det = 0} = (1 / 2 + o n) ^ n := by\n  sorry"
+    }
+  ]
+}

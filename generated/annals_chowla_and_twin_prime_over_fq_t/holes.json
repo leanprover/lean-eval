@@ -1,0 +1,18 @@
+{
+  "id": "annals_chowla_and_twin_prime_over_fq_t",
+  "module": "LeanEval.NumberTheory.ChowlaAndTwinPrimeOverFqT",
+  "holes": [
+    {
+      "name": "ChowlaAndTwinPrimeOverFqT.theorem_1_1",
+      "basename": "theorem_1_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.1:\n\nFor an odd prime number `p`, and a power `q` of `p` satisfying\n`q > 685090 * p ^ 2`, the following holds. For any nonzero `h \u2208 \ud835\udd3d_q[T]`, we have\n`#{f \u2208 \ud835\udd3d_q[T] : |f| = X, f and f + h are prime} \u223c \ud835\udd16_q(h) X / log_q^2 (X)`\nas `X \u2192 \u221e` through the powers of `q`.\n\nMoreover, we have a power saving (depending on q) in the asymptotic above.\n-/\ntheorem theorem_1_1 (hp : Odd p) (hq : q > 685090 * p ^ 2) :\n    \u2203 \u03b5 > (0 : \u211d), -- there exists a power saving such that ...\n      \u2200 h \u2260 0, (fun X : powers q \u21a6 Set.ncard {f | \u2016f\u2016 = X \u2227 f \u2208 primes \ud835\udd3d_q \u2227 f + h \u2208 primes \ud835\udd3d_q} -\n        \ud835\udd16_q h * X / (Real.logb q X) ^ 2) =O[Filter.atTop] (fun X : powers q \u21a6 (X : \u211d) ^ (1 - \u03b5)) :=\n  sorry"
+    },
+    {
+      "name": "ChowlaAndTwinPrimeOverFqT.theorem_1_3",
+      "basename": "theorem_1_3",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.3:\n\nFor an odd prime number `p`, an integer `k \u2265 1`, and a power `q` of `p` satisfying `q > p\u00b2k\u00b2e\u00b2`,\nthe following holds. For every fixed choice of `k` distinct polynomials `h\u2081,...,h\u2096 \u2208 \ud835\udd3d_q[T]`,\nwe have `\u2211 (f \u2208 \ud835\udd3d_q[T]\u207a, |f| \u2264 X), \u03bc(f + h\u2081) \u03bc(f + h\u2082) ... \u03bc(f + h\u2096) = o(X)`, `X \u2192 \u221e`.\n-/\ntheorem theorem_1_3 (hp : Odd p) (k : \u2115) (hk : k \u2265 1) (hq : q > p ^ 2 * k ^ 2 * e ^ 2)\n    (h : Fin k \u2192 \ud835\udd3d_q[X]) (h_distinct : Function.Injective h) :\n    (fun X : \u211d \u21a6 \u2211' f : monicBounded \ud835\udd3d_q X, \u220f i, moebius (f + h i)) =o[Filter.atTop] id :=\n  sorry"
+    }
+  ]
+}

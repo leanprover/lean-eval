@@ -1,6 +1,10 @@
 id = "exists_topologically_slice_not_smoothly_slice"
 title = "Existence of a topologically slice, not smoothly slice knot"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.KnotTheory.SliceDichotomy"
 holes = ["exists_topologically_slice_not_smoothly_slice"]
 submitter = "Kim Morrison"

@@ -1,4 +1,7 @@
 import Mathlib
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 theorem glauberman_zStar (G : Type) [Group G] [Fintype G]
     (t : G) (ht1 : t ≠ 1) (ht2 : t * t = 1)

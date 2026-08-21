@@ -3,7 +3,11 @@
 A 3-manifold group with no faithful representation into GL(4, ℝ)
 
 - Problem ID: `nonlinear_three_manifold_group`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Resolves [Kir97, Problem 3.33] (Thurston): does every finitely generated 3-manifold group admit a faithful representation into GL(4, ℝ)? The answer is no. Button exhibited closed graph manifolds whose fundamental groups have no faithful representation into GL(4, k) for any field k; here we state the negative answer over ℝ. A path-component of a topological 3-manifold is itself a closed 3-manifold, so connectedness need not be assumed.
 - Source: J. O. Button, *Aspherical 3-manifold groups not in GL(4, k) for any field k*, arXiv:1404.4639 (2014). See the discussion of [Kir97, Problem 3.33] in the K3 problem list.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

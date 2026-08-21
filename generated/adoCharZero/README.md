@@ -3,7 +3,11 @@
 Ado's theorem in characteristic zero
 
 - Problem ID: `adoCharZero`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Every finite-dimensional Lie algebra L over a characteristic-zero field K admits a faithful finite-dimensional representation. The representation is required to be given as an injective K-linear Lie homomorphism from L to the commutator Lie algebra of endomorphisms of a finite-dimensional K-vector space. The arbitrary-characteristic `adoIwasawa` entry subsumes this statement; this separate entry records the characteristic-zero proof milestone.
 - Source: Classical Ado theorem; W. Fulton and J. Harris, Representation Theory: A First Course, Appendix E. See also the Tau Ceti Ado–Iwasawa roadmap, https://github.com/TauCetiProject/TauCetiRoadmap/pull/102.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

@@ -85,7 +85,7 @@ namespace LightCondensed
 
 
 
-set_option backward.isDefEq.respectTransparency false in
+
 
 
 
@@ -97,12 +97,8 @@ abbrev IsSolid (A : LightCondAb) := isSolid.Is A
 
 namespace Solid
 
-set_option backward.defeqAttrib.useBackward true in
-set_option backward.isDefEq.respectTransparency false in
 
 
-set_option backward.defeqAttrib.useBackward true in
-set_option backward.isDefEq.respectTransparency false in
 
 
 

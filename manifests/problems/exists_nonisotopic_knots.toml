@@ -1,6 +1,10 @@
 id = "exists_nonisotopic_knots"
 title = "Existence of a non-isotopic pair of oriented knots"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.KnotTheory.NonIsotopicKnots"
 holes = ["exists_nonisotopic_knots"]
 submitter = "Kim Morrison"

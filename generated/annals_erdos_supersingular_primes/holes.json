@@ -1,0 +1,18 @@
+{
+  "id": "annals_erdos_supersingular_primes",
+  "module": "LeanEval.NumberTheory.ErdosSupersingularPrimes",
+  "holes": [
+    {
+      "name": "ErdosSupersingularPrimes.k\u2080",
+      "basename": "k\u2080",
+      "kind": "def",
+      "body": "/-- The absolute constant such that for all `k \u2265 k\u2080`, the theorem holds.\n\nPart of the theorem statement is that `k\u2080` should be \"effectively computable\".\nIn principle, this means that the definition of `k\u2080` should avoid `Classical.choice`.\nUnfortunately, this is not currently enforceable in Comparator.\nNote that prohibiting `noncomputable` is not sufficient:\nhttps://leanprover.zulipchat.com/#narrow/channel/583341-Model-comparisons-for-Lean/topic/LeanEval/near/598595369 -/\ndef k\u2080 : \u2115 := sorry"
+    },
+    {
+      "name": "ErdosSupersingularPrimes.theorem_2",
+      "basename": "theorem_2",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 2:\n\nThere is an effectively computable absolute constant `k\u2080` such\nthat if `k \u2265 k\u2080` is a positive integer, then any `Solution` with prime exponent `l` satisfies\neither `y = 0` or `d = 0` or `l \u2264 exp(10 ^ k)`.\n-/\ntheorem theorem_2 (k : \u2115) (hk : k \u2265 k\u2080) (s : Solution k) (hs : s.l.Prime) :\n    s.y = 0 \u2228 s.d = 0 \u2228 s.l \u2264 exp (10 ^ k) := by\n  sorry"
+    }
+  ]
+}

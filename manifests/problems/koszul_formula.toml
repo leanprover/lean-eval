@@ -1,6 +1,10 @@
 id = "koszul_formula"
 title = "Koszul formula"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.KoszulFormula"
 holes = ["koszul_formula"]
 submitter = "Kim Morrison"

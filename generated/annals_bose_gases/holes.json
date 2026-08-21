@@ -1,0 +1,24 @@
+{
+  "id": "annals_bose_gases",
+  "module": "LeanEval.Physics.BoseGases",
+  "holes": [
+    {
+      "name": "BoseGases.\u03b7",
+      "basename": "\u03b7",
+      "kind": "def",
+      "body": "/-- Constant `\u03b7` in Theorem 1.2. -/\nnoncomputable def \u03b7 : \u211d := sorry"
+    },
+    {
+      "name": "BoseGases.\ud835\udcd2",
+      "basename": "\ud835\udcd2",
+      "kind": "def",
+      "body": "/-- Constant `\ud835\udcd2` in Theorem 1.2. -/\nnoncomputable def \ud835\udcd2 (\ud835\udce1 : \u211d) (r : \u211d) : \u211d := sorry"
+    },
+    {
+      "name": "BoseGases.theorem_1_2",
+      "basename": "theorem_1_2",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.2 (The Lee-Huang-Yang Formula):\n\nFor any non-zero, non-negative, radial potential `v \u2208 L\u00b9(\u211d\u00b3)` with compact support contained\nin some ball `B(0,R)`, there exists `\u03b7 > 0` and `\ud835\udcd2` (depending only on `\ud835\udce1`and `R / a`) such that\nas `\u03c1 \u2192 0\u207a`,\n\n`e \u03c1 v \u2265 4\u03c0\u03c1\u00b2a(1 + 128/(15\u221a\u03c0)\u221a(\u03c1a\u00b3) - \ud835\udcd2(\u03c1a\u00b3)^{1/2 + \u03b7})`.\n\nNote: We (equivalently) take the limit as `\u03c1 \u2192 0\u207a` rather than `\u03c1a\u00b3 \u2192 0\u207a` as in the paper.\n\nNote: While the wording of Theorem 1.2 in the paper suggests that `\u03b7` should also be allowed to\ndepend on `\ud835\udce1` and `R / a`, Theorem 6.8 makes it clear that `\u03b7` is in fact a universal constant.\n\nNote: Since `v` is in `L\u00b9(\u211d\u00b3)`, we interpret `v \u2260 0` to mean that `v` is not zero in `L\u00b9(\u211d\u00b3)`.\n-/\ntheorem theorem_1_2 (v : \u211d\u00b3 \u2192 \u211d) (hv_ne_zero : \u00ac v =\u1d50[volume] 0) (hv_nonneg : 0 \u2264 v)\n    (hv_radial : IsRadial v) (hv_memL1 : MemLp v 1) {R : \u211d} (hR : 0 < R)\n    (hv_supp : tsupport v \u2286 ball 0 R) : 0 < \u03b7 \u2227 \u2200\u1da0 \u03c1 in \ud835\udcdd[>] 0,\n      e \u03c1 v \u2265 4 * \u03c0 * \u03c1 ^ 2 * a v * (1 + (128 / (15 * \u221a \u03c0)) * \u221a (\u03c1 * a v ^ 3) -\n        \ud835\udcd2 (\ud835\udce1 v) (R / a v) * (\u03c1 * a v ^ 3) ^ (1 / 2 + \u03b7)) := by\n  sorry"
+    }
+  ]
+}

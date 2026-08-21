@@ -3,7 +3,11 @@
 Koszul formula
 
 - Problem ID: `koszul_formula`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: §38 of Knill's 'Some Fundamental Theorems in Mathematics' (additional statement of the Riemannian-geometry section; the boxed main theorem is Levi-Civita). The Koszul formula: 2⟨∇_X Y, Z⟩ equals the cyclic sum of directional derivatives X·⟨Y,Z⟩ + Y·⟨X,Z⟩ − Z·⟨X,Y⟩ minus the Lie-bracket cyclic sum ⟨X,[Y,Z]⟩ + ⟨Y,[X,Z]⟩ − ⟨Z,[X,Y]⟩. The identity that forces uniqueness of the Levi-Civita connection. Mathlib has the covariant-derivative / Riemannian-bundle / Lie-bracket machinery but no metric-compatibility predicate and no Koszul formula. The Challenge ships one helper (IsMetricCompatible).
 - Source: J.-L. Koszul (course notes, 1950s); cf. do Carmo, Riemannian Geometry. Listed as §38 additional statement in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

@@ -1,0 +1,11 @@
+id = "annals_absolute_profinite_rigidity"
+title = "Absolute profinite rigidity and hyperbolic geometry"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.GroupTheory.AbsoluteProfiniteRigidity"
+holes = ["theorem_7_1"]
+submitter = "Thomas Browning"
+source = "M. R. Bridson, D. B. McReynolds, A. W. Reid, and R. Spitler, `Absolute profinite rigidity and hyperbolic geometry`, Annals of Math, 192 (3) 2020. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2020-192-3-AbsoluteProfiniteRigidity.lean"

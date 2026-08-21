@@ -3,7 +3,11 @@
 Whitney embedding theorem (strong form, dimension 2n)
 
 - Problem ID: `whitney_embedding`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Every smooth n-manifold (n ≥ 1, Hausdorff, second-countable) admits a smooth embedding into ℝ^(2n). The smooth-embedding triple — smooth, topological embedding (mathlib's `IsEmbedding`), and immersion (`mfderiv` injective at every point) — follows the same pattern as mathlib's compact-finite-dimensional embedding theorem `SmoothBumpCovering.exists_embedding_euclidean_of_compact`, which uses the stronger `IsClosedEmbedding` because the source is compact and produces an embedding into some `ℝ^k` with no dimension bound. The sharp 2n bound here is the *strong* Whitney theorem. The n = 0 case is excluded because the 2n bound fails there (a two-point discrete 0-manifold embeds in `ℝ¹` but not in `ℝ⁰`). §112 of Knill's *Some Fundamental Theorems in Mathematics*.
 - Source: H. Whitney, 'The self-intersections of a smooth n-manifold in 2n-space', Ann. of Math. (2) 45 (1944) 220–246. Earlier 2n+1 form: H. Whitney, 'Differentiable manifolds', Ann. of Math. (2) 37 (1936) 645–680. Listed as §112 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

@@ -3,7 +3,11 @@
 Gauss-Wantzel constructible regular polygon theorem
 
 - Problem ID: `gauss_wantzel_constructible_polygon`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: A regular n-gon is straightedge-and-compass constructible exactly when n is a Gauss-Wantzel integer: cos(2π/n) lies in the smallest subfield of ℝ closed under square roots iff every odd prime factor of n is a distinct Fermat prime (and the power of two is unconstrained). Constructibility is encoded by the inductive IsConstructible; the arithmetic side is GaussWantzelNumber. Mathlib has finite field extensions, cyclotomic theory, and minimal polynomials, but no straightedge-and-compass constructibility theory and no Gauss-Wantzel theorem.
 - Source: C. F. Gauss, Disquisitiones Arithmeticae (1801), §365-366; P. L. Wantzel, Recherches sur les moyens de reconnaître si un problème de géométrie peut se résoudre avec la règle et le compas, J. Math. Pures Appl. 1 (1837). Listed as §174 in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf). Knill, §174.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

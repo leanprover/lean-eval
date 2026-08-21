@@ -1,6 +1,10 @@
 id = "jacobian_challenge_diffgeo"
 title = "Jacobian of a compact Riemann surface (Buzzard challenge)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.JacobianChallenge"
 holes = ["JacobianChallenge.genus", "JacobianChallenge.genus_eq_zero_iff_homeo", "JacobianChallenge.Jacobian", "JacobianChallenge.Jacobian.instAddCommGroup", "JacobianChallenge.Jacobian.instTopologicalSpace", "JacobianChallenge.Jacobian.instT2Space", "JacobianChallenge.Jacobian.instCompactSpace", "JacobianChallenge.Jacobian.instChartedSpace", "JacobianChallenge.Jacobian.instIsManifold", "JacobianChallenge.Jacobian.instLieAddGroup", "JacobianChallenge.Jacobian.ofCurve", "JacobianChallenge.Jacobian.ofCurve_contMDiff", "JacobianChallenge.Jacobian.ofCurve_self", "JacobianChallenge.Jacobian.ofCurve_inj", "JacobianChallenge.Jacobian.pushforward", "JacobianChallenge.Jacobian.pushforward_contMDiff", "JacobianChallenge.Jacobian.pushforward_id_apply", "JacobianChallenge.Jacobian.pushforward_comp_apply", "JacobianChallenge.Jacobian.pullback", "JacobianChallenge.Jacobian.pullback_contMDiff", "JacobianChallenge.Jacobian.pullback_id_apply", "JacobianChallenge.Jacobian.pullback_comp_apply", "JacobianChallenge.Jacobian.degree", "JacobianChallenge.Jacobian.pushforward_pullback"]
 submitter = "Kevin Buzzard"

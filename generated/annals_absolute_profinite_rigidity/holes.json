@@ -1,0 +1,12 @@
+{
+  "id": "annals_absolute_profinite_rigidity",
+  "module": "LeanEval.GroupTheory.AbsoluteProfiniteRigidity",
+  "holes": [
+    {
+      "name": "AbsoluteProfiniteRigidity.theorem_7_1",
+      "basename": "theorem_7_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 7.1:\n\nThe group `\u0393 = PSL(2, Z[\u03c9])` is profinitely rigid.\n-/\ntheorem theorem_7_1 : ProfinitelyRigid (BianchiGroup 3) := by\n  sorry"
+    }
+  ]
+}

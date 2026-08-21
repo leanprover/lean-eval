@@ -1,4 +1,7 @@
 import Mathlib
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 theorem brauer_fowler :
     ∃ f : ℕ → ℕ, ∀ (G : Type) [Group G] [Finite G],

@@ -1,0 +1,12 @@
+{
+  "id": "annals_on_property_t",
+  "module": "LeanEval.GroupTheory.OnPropertyT",
+  "holes": [
+    {
+      "name": "OnPropertyT.theorem_1",
+      "basename": "theorem_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1:\n\n`Aut(F_n)` has property (T) for all `n \u2265 6`.\n-/\ntheorem theorem_1 (n : \u2115) (hn : n \u2265 6) : PropertyT (MulAut (FreeGroup (Fin n))) := by\n  sorry"
+    }
+  ]
+}

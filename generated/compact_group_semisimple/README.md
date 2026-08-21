@@ -3,7 +3,11 @@
 Complete reducibility for compact groups
 
 - Problem ID: `compact_group_semisimple`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: A continuous representation of a compact topological group on a finite-dimensional real vector space is semisimple: every subrepresentation has a G-invariant complement (Representation.IsSemisimpleRepresentation). Mathlib has the semisimplicity predicate and Maschke's theorem for finite groups but no compact-group / Peter–Weyl / unitarian-trick result. Continuity of the action G × V → V and finite dimensionality are essential hypotheses. Candidate from §21 of the Knill survey.
 - Source: H. Weyl, *Theorie der Darstellung kontinuierlicher halb-einfacher Gruppen durch lineare Transformationen* (1925–26); Peter–Weyl (1927). Knill, *Some fundamental theorems in mathematics*, §21.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

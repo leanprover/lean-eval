@@ -1,0 +1,12 @@
+{
+  "id": "annals_mckay_conjecture",
+  "module": "LeanEval.RepresentationTheory.McKayConjecture",
+  "holes": [
+    {
+      "name": "McKayConjecture.theorem_1_1",
+      "basename": "theorem_1_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.1:\n\nLet `X` be a finite group, `\u2113` a prime and `S` a Sylow `\u2113`-subgroup of `X`. Let `Irr_\u2113'(X)` denote\nthe set of complex irreducible characters of `X` whose degree is prime to `\u2113`. Then\n`|Irr_\u2113'(X)| = |Irr_\u2113'(N_X(S))|`.\n-/\ntheorem theorem_1_1 (h\u2113 : \u2113.Prime) (S : Sylow \u2113 X) :\n    (Irr' \u2113 X).ncard = (Irr' \u2113 (normalizer S : Subgroup X)).ncard := by\n  sorry"
+    }
+  ]
+}

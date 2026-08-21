@@ -3,7 +3,11 @@
 Boone–Higman theorem (easy direction)
 
 - Problem ID: `boone_higman_embedding`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: If a finitely presented group G embeds in a simple group H that embeds in a finitely presented group K, then G has a solvable word problem — the 'if' half of the Boone–Higman characterisation. Trusted helper WordProblemSolvable (non-hole) via ComputablePred. Mathlib has finitely-presented/free/simple groups and computability but no word-problem notion or Boone–Higman theorem. The main Kuznetsov/Boone–Higman, Novikov, and Higman-infinite-simple statements of §122 are already in lean-eval. Candidate from §122 (additional 1).
 - Source: W. W. Boone & G. Higman, *An algebraic characterization of groups with soluble word problem*, J. Austral. Math. Soc. 18 (1974). Knill, *Some fundamental theorems in mathematics*, §122.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

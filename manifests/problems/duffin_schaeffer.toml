@@ -1,6 +1,10 @@
 id = "duffin_schaeffer"
 title = "Duffin-Schaeffer conjecture"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.DuffinSchaeffer"
 holes = ["duffin_schaeffer"]
 submitter = "Kim Morrison"

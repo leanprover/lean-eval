@@ -1,0 +1,18 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "LeanEval.ProgramVerification.CoCStrongNormalization.typing_polyId",
+    "LeanEval.ProgramVerification.CoCStrongNormalization.typing_polyId_app",
+    "LeanEval.ProgramVerification.CoCStrongNormalization.step_polyId_app",
+    "LeanEval.ProgramVerification.CoCStrongNormalization.subject_reduction",
+    "LeanEval.ProgramVerification.CoCStrongNormalization.strong_normalization",
+    "LeanEval.ProgramVerification.CoCStrongNormalization.consistency"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": false
+}

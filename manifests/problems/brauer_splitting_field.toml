@@ -1,6 +1,10 @@
 id = "brauer_splitting_field"
 title = "Brauer's splitting field theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.RepresentationTheory.BrauerSplittingField"
 holes = ["brauer_splitting_field"]
 submitter = "Kim Morrison"

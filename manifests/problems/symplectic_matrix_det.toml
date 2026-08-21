@@ -1,6 +1,10 @@
 id = "symplectic_matrix_det"
 title = "Symplectic matrices have determinant 1"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.LinearAlgebra.SymplecticDet"
 holes = ["symplectic_matrix_det"]
 submitter = "Kim Morrison"

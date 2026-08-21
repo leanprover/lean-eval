@@ -1,6 +1,10 @@
 id = "adoIwasawa"
 title = "Ado–Iwasawa theorem over an arbitrary field"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.RepresentationTheory.AdoIwasawa"
 holes = ["adoIwasawa"]
 submitter = "Kim Morrison"

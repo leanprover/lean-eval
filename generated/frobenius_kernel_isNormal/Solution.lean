@@ -1,4 +1,7 @@
 import Mathlib
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 import Submission
 
 theorem frobenius_kernel_isNormal (G X : Type) [Group G] [Fintype G] [Fintype X]

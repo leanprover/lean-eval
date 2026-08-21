@@ -1,6 +1,10 @@
 id = "weil_conjectures"
 title = "Weil conjectures in terms of point counts"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.AlgebraicGeometry.WeilConjectures"
 holes = ["weil_conjectures"]
 submitter = "Junyan Xu"

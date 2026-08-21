@@ -1,4 +1,5 @@
-import Mathlib
+import ChallengeDeps
+
 import Submission
 import ChallengeDeps
 namespace LeanEval

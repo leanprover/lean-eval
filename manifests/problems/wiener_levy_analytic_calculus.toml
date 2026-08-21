@@ -1,6 +1,10 @@
 id = "wiener_levy_analytic_calculus"
 title = "Wiener–Lévy theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.WienerLevy"
 holes = ["wiener_levy_analytic_calculus"]
 submitter = "Kim Morrison"

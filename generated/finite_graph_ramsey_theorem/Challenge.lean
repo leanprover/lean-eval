@@ -1,4 +1,7 @@
-import Mathlib
+import Mathlib.Combinatorics.SimpleGraph.Clique
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 open SimpleGraph
 

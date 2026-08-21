@@ -3,7 +3,11 @@
 Monge–Kantorovich existence theorem
 
 - Problem ID: `monge_kantorovich`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: §73 of Oliver Knill's 'Some Fundamental Theorems in Mathematics'. The Monge–Kantorovich existence theorem states that for Polish probability spaces (X, P) and (Y, Q) and a continuous cost c : X × Y → [0, ∞], the functional π ↦ ∫ c dπ attains its minimum over all couplings of P and Q (the probability measures on X × Y with marginals P and Q). This is the basic existence result for optimal transport plans. Mathlib has the surrounding measure-theoretic and topological infrastructure — marginals, probability measures, weak convergence, Prokhorov-type compactness — but no dedicated coupling or Kantorovich-cost API and no theorem asserting existence of an optimal coupling.
 - Source: L. V. Kantorovich (1942), after G. Monge (1781). Listed as §73 in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

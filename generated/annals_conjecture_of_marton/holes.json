@@ -1,0 +1,12 @@
+{
+  "id": "annals_conjecture_of_marton",
+  "module": "LeanEval.Combinatorics.ConjectureOfMarton",
+  "holes": [
+    {
+      "name": "ConjectureOfMarton.theorem_1_2",
+      "basename": "theorem_1_2",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.2:\n\nSuppose that `A \u2282 (\ud835\udd3d\u2082)\u207f` is a set with `|A + A| \u2264 K|A|`. Then `A` is covered by at most `2 K ^ 12`\ncosets of some subgroup `H \u2264 (\ud835\udd3d\u2082)\u207f` of size at most `|A|`.\n\nNote that the set `A` must be nonempty, but this is left implicit in the paper.\n-/\ntheorem theorem_1_2 (A : Set (F n)) (K : \u211d) (h\u2080 : A.Nonempty) (h : (A + A).ncard \u2264 K * A.ncard) :\n    \u2203 H : AddSubgroup (F n), Nat.card H \u2264 A.ncard \u2227 CovByVAdd (F n) (2 * K ^ 12) A H := by\n  sorry"
+    }
+  ]
+}

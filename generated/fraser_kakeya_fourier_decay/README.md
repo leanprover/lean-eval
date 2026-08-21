@@ -3,7 +3,11 @@
 Fraser: Fourier decay for finite-field Kakeya sets is q^{-1} and sharp
 
 - Problem ID: `fraser_kakeya_fourier_decay`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: For every d ≥ 2, every finite-field Kakeya set K ⊆ F_q^d (a subset containing a line in every direction) supports a probability measure μ whose finite-field Fourier transform `μ̂(ξ) = ∑_x χ(-ξ·x) μ(x)` satisfies `‖μ̂(ξ)‖ ≤ q^{-1}` at every nonzero frequency, and this exponent is sharp in every dimension: for every κ ∈ (0, 1) some threshold Q makes the bound `κ · q^{-1}` saturated by every probability measure on a suitable Kakeya set, for every finite field of cardinality ≥ Q. Headline Theorem 2.4 of Fraser, *Fourier analytic properties of Kakeya sets in finite fields*, arXiv:2505.09464.
 - Source: J.M. Fraser, 'Fourier analytic properties of Kakeya sets in finite fields', Bull. London Math. Soc. 58(5) (2026); DOI 10.1112/blms.70367; arXiv:2505.09464.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

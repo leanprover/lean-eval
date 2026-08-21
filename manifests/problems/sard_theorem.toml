@@ -1,6 +1,10 @@
 id = "sard_theorem"
 title = "Sard's theorem (critical-set image has measure zero)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.SardTheorem"
 holes = ["sard"]
 submitter = "Kim Morrison"

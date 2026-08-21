@@ -1,6 +1,10 @@
 id = "exists_chiral_knot"
 title = "Existence of a chiral oriented knot"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.KnotTheory.Chiral"
 holes = ["exists_chiral_knot"]
 submitter = "Kim Morrison"

@@ -1,4 +1,7 @@
 import Mathlib
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 namespace LeanEval
 namespace Combinatorics
@@ -48,6 +51,10 @@ structure FiniteSimplicialSphere (d : ℕ) where
 /-- Number of `k`-dimensional faces (faces with `k + 1` vertices). -/
 def faceCount {d : ℕ} (X : FiniteSimplicialSphere d) (k : ℕ) : ℕ :=
   {s : Finset (E d) | s ∈ X.K.faces ∧ s.card = k + 1}.ncard
+
+
+
+
 
 /-- h-vector of the cyclic polytope `C(n, d)`: first half
 `choose (n − d − 1 + j) j`, second half symmetric. -/

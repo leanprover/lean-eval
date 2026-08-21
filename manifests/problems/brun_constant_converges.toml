@@ -1,6 +1,10 @@
 id = "brun_constant_converges"
 title = "Brun's theorem (convergence of the twin-prime reciprocal sum)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.BrunConstant"
 holes = ["brun_constant_converges"]
 submitter = "Kim Morrison"

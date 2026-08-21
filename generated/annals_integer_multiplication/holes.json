@@ -1,0 +1,12 @@
+{
+  "id": "annals_integer_multiplication",
+  "module": "LeanEval.ModelTheory.IntegerMultiplication",
+  "holes": [
+    {
+      "name": "IntegerMultiplication.theorem_1_1",
+      "basename": "theorem_1_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.1:\n\nThere is an integer multiplication algorithm achieving `M(n) = O(n log(n))`.\n-/\ntheorem theorem_1_1 :\n    \u2203 T : TM2ComputableInTime (encodeProd encodeNat encodeNat) encodeNat (fun (x, y) \u21a6 x * y),\n      (fun n \u21a6 (T.time n : \u211d)) =O[Filter.atTop] (fun n \u21a6 n * log n) := by\n  sorry"
+    }
+  ]
+}

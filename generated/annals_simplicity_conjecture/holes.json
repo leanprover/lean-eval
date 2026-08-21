@@ -1,0 +1,12 @@
+{
+  "id": "annals_simplicity_conjecture",
+  "module": "LeanEval.Dynamics.SimplicityConjecture",
+  "holes": [
+    {
+      "name": "SimplicityConjecture.theorem_1_2",
+      "basename": "theorem_1_2",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.2:\n\nThe group `Homeo_c(\ud835\udd3b, \u03c9)` is not simple.\n-/\ntheorem theorem_1_2 : \u00ac IsSimpleGroup Homeo := by\n  sorry"
+    }
+  ]
+}

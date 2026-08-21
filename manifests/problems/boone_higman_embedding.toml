@@ -1,6 +1,10 @@
 id = "boone_higman_embedding"
 title = "Boone–Higman theorem (easy direction)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.GroupTheory.BooneHigmanEmbedding"
 holes = ["boone_higman_embedding"]
 submitter = "Kim Morrison"

@@ -1,6 +1,10 @@
 id = "jordan_normal_form"
 title = "Jordan normal form"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.LinearAlgebra.JordanNormalForm"
 holes = ["jordan_normal_form"]
 submitter = "Kim Morrison"

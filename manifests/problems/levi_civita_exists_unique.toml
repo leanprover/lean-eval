@@ -1,6 +1,10 @@
 id = "levi_civita_exists_unique"
 title = "Fundamental theorem of Riemannian geometry (Levi-Civita)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.LeviCivita"
 holes = ["levi_civita_exists_unique"]
 submitter = "Kim Morrison"

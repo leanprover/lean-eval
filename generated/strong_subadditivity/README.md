@@ -3,7 +3,11 @@
 Strong Subadditivity of von Neumann Entropy
 
 - Problem ID: `strong_subadditivity`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Alex Meiburg
 - Notes: This fact is 'equivalent' to other facts such as the joint convexity of quantum relative entropy. First proved in 1973 by E.H. Lieb and M.B. Ruskai, but at least half-a-dozen alternate proofs have been published, with varied techniques. This formulation states the problem for all PSD matrices (over non-empty, finite index types) instead of restricting to normalized matrices of trace one. This is because `S(t·σ) = t·S(σ) − t·log t` (for any t including negatives and zero, actually, under Mathlib's conventions). Since all entropies are of matrices of the same trace, all can be rescaled to unit trace by the same t, and the constant shifts `−t·log t` cancel out.
 - Source: E. H. Lieb and M. B. Ruskai, 'Proof of the strong subadditivity of quantum-mechanical entropy', J. Math. Phys. 14(12), 1938–1941 (1973), doi:10.1063/1.1666274.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

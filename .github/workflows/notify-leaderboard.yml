@@ -14,7 +14,7 @@ on:
       - 'LeanEval/**'
       - 'EvalTools/**'
       - 'templates/**'
-      - 'manifests/problems/**'
+      - 'manifests/**'
       - 'generated/**'
       - 'lakefile.toml'
       - 'lean-toolchain'

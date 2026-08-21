@@ -1,4 +1,7 @@
 import Mathlib
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 namespace LeanEval
 namespace NumberTheory
@@ -24,6 +27,8 @@ open ModularForm UpperHalfPlane
 /-- The Ramanujan τ-function: the `n`-th `q`-expansion coefficient of the
 modular discriminant `Δ = η²⁴`. -/
 noncomputable def τ (n : ℕ) : ℂ := (qExpansion 1 discriminant).coeff n
+
+
 
 
 

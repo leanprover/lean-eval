@@ -3,7 +3,11 @@
 Wigner semicircle law
 
 - Problem ID: `wigner_semicircle`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: For an iid family X i j : Ω → ℝ of mean-0, variance-1 real random variables (parameterised over upper-triangular pairs i ≤ j), the empirical spectral measure of the real-symmetric matrix W_n / √n (with W_n(i, j) = X (min i j) (max i j)) converges weakly, almost surely, to the semicircle measure on [−2, 2] with density √(4 − x²) / (2π). Weak convergence is stated against bounded continuous test functions: almost surely ∫ f dμ_n → ∫ f dμ_∞ for every bounded continuous f. The hypotheses include `Integrable (X i j)` and `Integrable ((X i j)^2)` so the mean/variance identities are genuine (mathlib's Bochner integral defaults to 0 on non-integrable integrands). §102 of Knill's *Some Fundamental Theorems in Mathematics*.
 - Source: E. Wigner, 'Characteristic vectors of bordered matrices with infinite dimensions', Ann. of Math. (2) 62 (1955) 548–564 (Gaussian case). Pastur's universality extending to all variances with finite second moments: L. Pastur, 'On the spectrum of random matrices', Teor. Mat. Fiz. 10 (1972) 102–112. Listed as §102 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

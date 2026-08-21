@@ -1,4 +1,7 @@
-import Mathlib
+import Mathlib.Data.Set.Basic
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 namespace LeanEval
 namespace Geometry

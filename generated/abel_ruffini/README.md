@@ -3,7 +3,11 @@
 Abel–Ruffini theorem
 
 - Problem ID: `abel_ruffini`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: §57 of Oliver Knill's 'Some Fundamental Theorems in Mathematics' gives the Abel–Ruffini theorem in degree-threshold form: for each n ≥ 1, every complex root of every degree-n rational polynomial lies in solvableByRad ℚ ℂ if and only if n ≤ 4. This packages solvability of all linear, quadratic, cubic, and quartic equations by radicals together with the failure of such a universal statement from degree five onward. Mathlib defines solvableByRad and proves the direction from radical solvability of a root to solvability of the associated Galois group, and the Archive contains a specific nonsolvable quintic, but Mathlib does not currently contain this full degree-boundary theorem. Distinct from the existing solvable_by_radicals_converse problem (the per-polynomial Galois characterization).
 - Source: P. Ruffini (1799), N. H. Abel (1824), É. Galois (1832). Listed as §57 in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf); the general-quintic insolvability is #16 on Freek Wiedijk's 'Formalizing 100 Theorems' list (https://www.cs.ru.nl/~freek/100/).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

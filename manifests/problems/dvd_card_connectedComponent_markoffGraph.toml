@@ -1,6 +1,10 @@
 id = "dvd_card_connectedComponent_markoffGraph"
 title = "Chen theorem for Markoff graphs"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Combinatorics.MarkoffGraph"
 holes = ["dvd_card_connectedComponent_markoffGraph"]
 submitter = "Kim Morrison"

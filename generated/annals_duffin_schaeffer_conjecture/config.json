@@ -1,0 +1,16 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "DuffinSchaefferConjecture.theorem_1",
+    "DuffinSchaefferConjecture.theorem_2_a",
+    "DuffinSchaefferConjecture.theorem_2_b",
+    "DuffinSchaefferConjecture.corollary_3"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": false
+}

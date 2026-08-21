@@ -1,6 +1,10 @@
 id = "martinet_totally_real_towers"
 title = "Martinet's asymptotically-good totally real towers"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.MartinetTotallyRealTowers"
 holes = ["exists_totallyReal_discr_le"]
 submitter = "Kim Morrison"

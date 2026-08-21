@@ -1,4 +1,8 @@
-import Mathlib
+import Mathlib.Combinatorics.Enumerative.Partition.Basic
+import Mathlib.Algebra.GCDMonoid.Finset
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 namespace LeanEval
 namespace Combinatorics

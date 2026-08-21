@@ -1,6 +1,10 @@
 id = "sphere_theorem_topological"
 title = "Topological sphere theorem (Berger–Klingenberg–Rauch)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.SphereTheorem"
 holes = ["sphere_theorem"]
 submitter = "Kim Morrison"

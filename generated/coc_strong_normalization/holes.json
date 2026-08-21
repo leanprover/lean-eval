@@ -1,0 +1,42 @@
+{
+  "id": "coc_strong_normalization",
+  "module": "LeanEval.ProgramVerification.CoCStrongNormalization",
+  "holes": [
+    {
+      "name": "LeanEval.ProgramVerification.CoCStrongNormalization.typing_polyId",
+      "basename": "typing_polyId",
+      "kind": "theorem",
+      "body": "/--\nAnti-vacuity guard: the polymorphic identity `\u03bb (A : Prop). \u03bb (x : A). x` has type\n`\u03a0 (A : Prop). \u03a0 (x : A). A`. This is typable only because `Prop` is impredicative.\n-/\ntheorem typing_polyId :\n    Typing [] (.lam (.srt .prop) (.lam (.var 0) (.var 0)))\n      (.pi (.srt .prop) (.pi (.var 0) (.var 1))) := sorry"
+    },
+    {
+      "name": "LeanEval.ProgramVerification.CoCStrongNormalization.typing_polyId_app",
+      "basename": "typing_polyId_app",
+      "kind": "theorem",
+      "body": "/--\nAnti-vacuity guard: applying the polymorphic identity to `False` exercises application typing.\nHere `False` is encoded as `\u03a0 (P : Prop). P`.\n-/\ntheorem typing_polyId_app :\n    Typing []\n      (.app\n        (.lam (.srt .prop) (.lam (.var 0) (.var 0)))\n        (.pi (.srt .prop) (.var 0)))\n      (.pi (.pi (.srt .prop) (.var 0)) (.pi (.srt .prop) (.var 0))) := sorry"
+    },
+    {
+      "name": "LeanEval.ProgramVerification.CoCStrongNormalization.step_polyId_app",
+      "basename": "step_polyId_app",
+      "kind": "theorem",
+      "body": "/-- Anti-vacuity guard: the same application takes its expected beta step. -/\ntheorem step_polyId_app :\n    Step\n      (.app\n        (.lam (.srt .prop) (.lam (.var 0) (.var 0)))\n        (.pi (.srt .prop) (.var 0)))\n      (.lam (.pi (.srt .prop) (.var 0)) (.var 0)) := sorry"
+    },
+    {
+      "name": "LeanEval.ProgramVerification.CoCStrongNormalization.subject_reduction",
+      "basename": "subject_reduction",
+      "kind": "theorem",
+      "body": "/-- Types are preserved by reduction. -/\ntheorem subject_reduction (\u0393 : List Tm) (t t' A : Tm) :\n    Typing \u0393 t A \u2192 Step t t' \u2192 Typing \u0393 t' A := sorry"
+    },
+    {
+      "name": "LeanEval.ProgramVerification.CoCStrongNormalization.strong_normalization",
+      "basename": "strong_normalization",
+      "kind": "theorem",
+      "body": "/-- Every well-typed term is strongly normalizing. -/\ntheorem strong_normalization (\u0393 : List Tm) (t A : Tm) :\n    Typing \u0393 t A \u2192 SN t := sorry"
+    },
+    {
+      "name": "LeanEval.ProgramVerification.CoCStrongNormalization.consistency",
+      "basename": "consistency",
+      "kind": "theorem",
+      "body": "/-- The system is logically consistent: `\u03a0 (P : Prop). P` is not inhabited. -/\ntheorem consistency : \u00ac \u2203 t : Tm, Typing [] t (.pi (.srt .prop) (.var 0)) := sorry"
+    }
+  ]
+}

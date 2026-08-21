@@ -1,0 +1,12 @@
+{
+  "id": "annals_symplectic_monodromy",
+  "module": "LeanEval.Geometry.SymplecticMonodromy",
+  "holes": [
+    {
+      "name": "SymplecticMonodromy.theorem_1_1",
+      "basename": "theorem_1_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.1:\n\nLet `(f\u209c)` be a continuous family of power series. If the Milnor number `\u03bc(f\u209c)` is independent\nof `t` and finite, then the multiplicity `\u03bd(f\u209c)` is also independent of `t`.\n\nNote that what the paper calls \"multiplicity\" is exactly `MvPowerSeries.order`; see\nfor instance `MvPowerSeries.order_eq_nat`.\n\nEven though not explicitly mentioned by the paper, we need to require the constant coefficients\nto vanish. This is equivalent to saying that `f\u209c` is a germ `(\u2102\u207f, 0) \u2192 (\u2102, 0)`, i.e. that it's\na family of isolated hypersurface singularities through the origin, which is mentioned both in the\nabstract and in Corollary 1.3, but not explicitly in Theorem 1.1. For an example showing that we\nneed this assumption, consider `f\u209c = z + t`: The Milnor number is `1` for all `t`, but\n`order(f\u2080) = 1` while `order(f\u2081) = 0`.\n-/\ntheorem theorem_1_1 (n : \u2115) (f : unitInterval \u2192 MvPowerSeries (Fin n) \u2102)\n    (cont : \u2200 d, Continuous fun t \u21a6 coeff d (f t)) (h_const : \u2200 t, constantCoeff (f t) = 0)\n    (h : \u2203 \u03bc : \u2115, \u2200 t, milnorNumber (f t) = \u03bc) : \u2200 t\u2081 t\u2082, (f t\u2081).order = (f t\u2082).order := by\n  sorry"
+    }
+  ]
+}

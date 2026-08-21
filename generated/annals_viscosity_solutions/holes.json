@@ -1,0 +1,12 @@
+{
+  "id": "annals_viscosity_solutions",
+  "module": "LeanEval.Analysis.ViscositySolutions",
+  "holes": [
+    {
+      "name": "ViscositySolutions.theorem_1_1",
+      "basename": "theorem_1_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.1:\n\nFor any `N`, finite dimensional inner product space `E` of dimension at least `2`,\n(positive) masses `m : \u211d\u1d3a`, any initial condition `x\u2080 : E\u1d3a`, any configuration `a : E\u1d3a`\nwithout collisions such that `\u2016a\u2016\u2098 = 1`, and any (positive) energy constant `h`, there exists\n(hyperbolic) motions `x : \u211d \u2192 E\u1d3a` such that they form a solution to the N-body problem with\nmasses `m`, satisfy the initial condition `x(0) = x\u2080`, are without collisions for all `t > 0`,\nand satisfy\n\n`x(t) = \u221a(2h)ta + o(t)` as `t \u2192 \u221e`.\n-/\ntheorem theorem_1_1 (hE : 2 \u2264 Module.finrank \u211d E) (m : \u211d\u1d3a) (hm : \u2200 i, 0 < m i)\n    (x\u2080 a : E\u1d3a) (a_nc : WithoutCollisions a) (a_norm : \u2016a\u2016_[m] = 1) (h : \u211d) (h_pos : h > 0) :\n    \u2203 x : \u211d \u2192 E\u1d3a, \u2203 o : \u211d \u2192 E\u1d3a, (o =o[atTop] fun t \u21a6 t) \u2227 x 0 = x\u2080 \u2227\n      IsNBodySolution m x \u2227 (\u2200 t > 0, WithoutCollisions (x t)) \u2227\n        \u2200 t \u2265 0, x t = (sqrt (2 * h) * t) \u2022 a + o t := by\n  sorry"
+    }
+  ]
+}

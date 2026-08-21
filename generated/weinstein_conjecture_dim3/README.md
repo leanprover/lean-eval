@@ -3,7 +3,11 @@
 Weinstein conjecture in dimension three (Taubes 2007)
 
 - Problem ID: `weinstein_conjecture_dim3`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Every Reeb vector field of a contact form on a closed smooth 3-manifold has a closed periodic orbit. Mathlib lacks contact-geometry API and a manifold exterior derivative, so the encoding fixes dα by the intrinsic coordinate-free identity dα(X, Y) = X(α(Y)) − Y(α(X)) − α([X, Y]) (which uniquely determines dα from α via mathlib's mfderiv + VectorField.mlieBracket), and uses the equivalent dimension-3 contact condition `α ≠ 0 ∧ dα nondegenerate on ker α` in place of `α ∧ dα ≠ 0`. [I.Boundaryless] is essential: on the cube [0,1]³ with α = dz + x·dy, every Reeb integral curve has affine z-component with |z'| = 1 and escapes the cube, so closed orbits do not exist without the boundaryless hypothesis. §141 of Knill's *Some Fundamental Theorems in Mathematics*.
 - Source: C.H. Taubes, 'The Seiberg–Witten equations and the Weinstein conjecture', Geom. Topol. 11 (2007) 2117–2202; arXiv:math/0611007. Conjecture: A. Weinstein, 'On the hypotheses of Rabinowitz' periodic orbit theorems', J. Differential Equations 33 (1979) 353–358. §141 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

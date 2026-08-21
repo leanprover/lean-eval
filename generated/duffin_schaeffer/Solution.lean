@@ -1,4 +1,7 @@
-import Mathlib
+import Mathlib.NumberTheory.WellApproximable
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 import Submission
 
 open MeasureTheory

@@ -1,4 +1,8 @@
-import Mathlib
+import Mathlib.Analysis.InnerProductSpace.Laplacian
+import Mathlib.Topology.MetricSpace.Lipschitz
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 namespace LeanEval
 namespace Analysis

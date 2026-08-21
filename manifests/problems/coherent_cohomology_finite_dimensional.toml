@@ -1,6 +1,10 @@
 id = "coherent_cohomology_finite_dimensional"
 title = "Coherent cohomology of a proper scheme over ℚ is finite-dimensional"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.AlgebraicGeometry.CoherentCohomologyFinite"
 holes = ["coherent_cohomology_finite_dimensional"]
 submitter = "Brian Nugent"

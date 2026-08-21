@@ -1,6 +1,10 @@
 id = "g2_irrep_tensor_square_decomp"
 title = "Existence of a 64-dim irreducible g₂-representation with 14 tensor-square isotypic components"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.RepresentationTheory.ExceptionalLieTensorSquare"
 holes = ["g2_irrep_tensor_square_decomp"]
 submitter = "Kim Morrison"

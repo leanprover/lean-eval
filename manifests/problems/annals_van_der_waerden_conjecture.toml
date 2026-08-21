@@ -1,0 +1,11 @@
+id = "annals_van_der_waerden_conjecture"
+title = "Galois groups of random integer polynomials and van der Waerden's Conjecture"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.NumberTheory.VanDerWaerdenConjecture"
+holes = ["theorem_1"]
+submitter = "David Ledvinka"
+source = "M. Bhargava, `Galois groups of random integer polynomials and van der Waerden's Conjecture`, Annals of Math, 201 (2) 2025. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2025-201-2-vanDerWaerdenConjecture.lean"

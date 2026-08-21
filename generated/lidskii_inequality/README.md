@@ -3,7 +3,11 @@
 Lidskii's inequality
 
 - Problem ID: `lidskii_inequality`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: §99 of Oliver Knill's 'Some Fundamental Theorems in Mathematics' (additional statement of the section on spectral perturbation; the boxed main theorem lidskii_last is the p = 1 case combined with an entrywise bound). For self-adjoint complex matrices A, B with eigenvalues sorted in the same order and p ≥ 1, ∑_j |α_j - β_j|^p ≤ ∑_j |γ_j|^p where γ_j are the eigenvalues of B - A. Uses Matrix.IsHermitian.eigenvalues₀; mathlib has no Lidskii, Ky Fan, or Hoffman-Wielandt perturbation bounds, and no formalization of Lidskii's inequality was found in any other proof assistant. Companion problem: lidskii_last (#274) is the p = 1 entrywise-distance corollary.
 - Source: V. B. Lidskii, On the proper values of a sum and product of symmetric matrices, Dokl. Akad. Nauk SSSR 75 (1950), 769-772. Listed as an additional statement of §99 in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

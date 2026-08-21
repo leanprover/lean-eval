@@ -1,6 +1,10 @@
 id = "poincare_high_dim_topological"
 title = "Generalized topological Poincaré conjecture in dimensions ≥ 5 (Smale)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.PoincareHighDimTopological"
 holes = ["poincare_high_dim_topological"]
 submitter = "Kim Morrison"

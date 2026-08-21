@@ -1,0 +1,12 @@
+{
+  "id": "annals_hessian_estimates",
+  "module": "LeanEval.Analysis.HessianEstimates",
+  "holes": [
+    {
+      "name": "HessianEstimates.theorem_1_1",
+      "basename": "theorem_1_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.1:\n\nThere exists a function `C : \u211d\u22650\u221e \u2192 \u211d` such that if `u : \u211d\u2074 \u2192 \u211d` satisfies the following properties:\n* `u` is smooth on `B\u2081(0)`,\n* `\u2016u\u2016_{C\u00b9(B\u2081(0))} < \u221e` (the definition of this norm is given above), and\n* for all `x \u2208 B\u2081(0)`, `(\u0394 u) x > 0` and `(\u03c3\u2082 D\u00b2u) x = 1`,\nthen `\u2016D\u00b2 u 0\u2016_F \u2264 C(\u2016u\u2016_{C\u00b9})`.\n-/\ntheorem theorem_1_1 : \u2203 C : \u211d\u22650\u221e \u2192 \u211d, \u2200 (u : \u211d\u2074 \u2192 \u211d)\n    (_smooth : ContDiffOn \u211d \u221e u B\u2081(0))\n    (_bounded : \u2016u\u2016_C\u00b9(B\u2081(0)) < (\u221e : \u211d\u22650\u221e))\n    (_positive_branch : \u2200 x \u2208 B\u2081(0), (\u0394 u) x > 0)\n    (_solution : \u2200 x \u2208 B\u2081(0), \u03c3\u2082 (H u B\u2081(0) x) = 1),\n    \u2016H u B\u2081(0) 0\u2016_F \u2264 C (\u2016u\u2016_C\u00b9(B\u2081(0))) := by\n  sorry"
+    }
+  ]
+}

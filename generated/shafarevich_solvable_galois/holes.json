@@ -6,7 +6,7 @@
       "name": "LeanEval.NumberTheory.shafarevich_solvable_galois",
       "basename": "shafarevich_solvable_galois",
       "kind": "theorem",
-      "body": "/-- **Shafarevich's theorem on solvable Galois groups**. Every finite solvable\ngroup is realizable as a Galois group over `\u211a`. -/\ntheorem shafarevich_solvable_galois (G : Type*) [Group G] [Finite G] [IsSolvable G] :\n    \u2203 (K : Type) (_ : Field K) (_ : Algebra \u211a K) (_ : FiniteDimensional \u211a K) (_ : IsGalois \u211a K),\n      Nonempty (G \u2243* (K \u2243\u2090[\u211a] K)) := by\n  sorry"
+      "body": "/-- **Shafarevich's theorem on solvable Galois groups**. Every finite solvable\ngroup is realizable as a Galois group over `\u211a`. -/\ntheorem shafarevich_solvable_galois (G : Type*) [Group G] [Finite G] [Group.IsSolvable G] :\n    \u2203 (K : Type) (_ : Field K) (_ : Algebra \u211a K) (_ : FiniteDimensional \u211a K) (_ : IsGalois \u211a K),\n      Nonempty (G \u2243* (K \u2243\u2090[\u211a] K)) := by\n  sorry"
     }
   ]
 }

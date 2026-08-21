@@ -1,0 +1,11 @@
+id = "klartag_packing"
+title = "Klartag's construction of lattice sphere packings"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+test = false
+module = "LeanEval.Geometry.KlartagPacking"
+holes = ["klartag_packing"]
+submitter = "Junyan Xu"

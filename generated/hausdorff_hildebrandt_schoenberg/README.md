@@ -3,7 +3,11 @@
 The Hausdorff–Hildebrandt–Schoenberg moment theorem
 
 - Problem ID: `hausdorff_hildebrandt_schoenberg`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: A multi-indexed real sequence is the moment sequence of a signed bounded-variation Borel measure on the unit cube Iᵈ = [0,1]ᵈ iff it is Hausdorff bounded (∃ C, ∀ n, ∑_{0≤k≤n} |C(n,k)·(Δᵏa)ₙ| ≤ C). Signed BV measures are encoded by their Jordan decomposition (difference of two finite positive measures); moments are integrated over the cube; Δᵏ is the iterated backward difference in closed form. The helper defs (cube, monomial, momentOf, IsMomentConfiguration, multiChoose, diff, HausdorffBounded, IsPositiveMomentConfiguration) are trusted non-holes. Mathlib has SignedMeasure/Jordan decomposition and set integrals but no moment-problem machinery. Candidate from §115 of the Knill survey.
 - Source: F. Hausdorff (1921, 1923); T. H. Hildebrandt and I. J. Schoenberg, *On linear functional operations and the moment problem for a finite interval in one or several dimensions*, Ann. of Math. 34 (1933). Knill, *Some fundamental theorems in mathematics*, §115.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

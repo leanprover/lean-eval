@@ -1,6 +1,10 @@
 id = "sturm"
 title = "Sturm's theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Algebra.Sturm"
 holes = ["sturm"]
 submitter = "Kim Morrison"

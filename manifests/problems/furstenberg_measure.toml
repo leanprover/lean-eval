@@ -1,6 +1,10 @@
 id = "furstenberg_measure"
 title = "Furstenberg measure-preserving multiple recurrence"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Dynamics.FurstenbergMeasure"
 holes = ["furstenberg_measure_recurrence"]
 submitter = "Kim Morrison"

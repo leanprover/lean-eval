@@ -1,6 +1,10 @@
 id = "pi_succ_sphere_n_mulEquiv_zmod_two"
 title = "pi_(n+1) of S^n is Z/2 for n at least 3"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.HomotopyGroups"
 holes = ["pi_succ_sphere_n_mulEquiv_zmod_two"]
 submitter = "Kim Morrison"

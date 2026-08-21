@@ -3,7 +3,11 @@
 Sobolev embedding theorem (Morrey regime)
 
 - Problem ID: `sobolev_embedding_morrey`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: If n < p, 0 < α ≤ 1, and r + α < k − n/p, then every W^(k,p)(ℝⁿ) function has a C^(r,α) representative. Weak-derivative Sobolev spaces W^(k,p) are defined via the distributional pairing ∫ f · D^m φ = (−1)^|m| ∫ g · φ on smooth compactly-supported φ, with the LocallyIntegrable f conjunct essential to faithfulness — without it, non-a.e.-measurable f would collapse every distributional pairing to the default value the Bochner integral assigns outside integrability hypotheses, so f would vacuously satisfy W^(k,p) membership. The Hölder space C^(r,α) here imposes r-times continuous differentiability, α-Hölder continuity of the r-th derivative, and boundedness of derivatives up to order r. The theorem is listed as §111 in Knill's *Some Fundamental Theorems in Mathematics*.
 - Source: C.B. Morrey, 'Functions of several variables and absolute continuity, II', Duke Math. J. 6 (1940) 187–215; full Sobolev-embedding development in *Multiple Integrals in the Calculus of Variations*, Springer 1966. Listed as §111 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

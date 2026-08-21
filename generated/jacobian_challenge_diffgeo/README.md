@@ -3,7 +3,11 @@
 Jacobian of a compact Riemann surface (Buzzard challenge)
 
 - Problem ID: `jacobian_challenge_diffgeo`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kevin Buzzard
 - Holes (24): `JacobianChallenge.genus` (def), `JacobianChallenge.genus_eq_zero_iff_homeo` (theorem), `JacobianChallenge.Jacobian` (def), `JacobianChallenge.Jacobian.instAddCommGroup` (def), `JacobianChallenge.Jacobian.instTopologicalSpace` (def), `JacobianChallenge.Jacobian.instT2Space` (theorem), `JacobianChallenge.Jacobian.instCompactSpace` (theorem), `JacobianChallenge.Jacobian.instChartedSpace` (def), `JacobianChallenge.Jacobian.instIsManifold` (theorem), `JacobianChallenge.Jacobian.instLieAddGroup` (theorem), `JacobianChallenge.Jacobian.ofCurve` (def), `JacobianChallenge.Jacobian.ofCurve_contMDiff` (theorem), `JacobianChallenge.Jacobian.ofCurve_self` (theorem), `JacobianChallenge.Jacobian.ofCurve_inj` (theorem), `JacobianChallenge.Jacobian.pushforward` (def), `JacobianChallenge.Jacobian.pushforward_contMDiff` (theorem), `JacobianChallenge.Jacobian.pushforward_id_apply` (theorem), `JacobianChallenge.Jacobian.pushforward_comp_apply` (theorem), `JacobianChallenge.Jacobian.pullback` (def), `JacobianChallenge.Jacobian.pullback_contMDiff` (theorem), `JacobianChallenge.Jacobian.pullback_id_apply` (theorem), `JacobianChallenge.Jacobian.pullback_comp_apply` (theorem), `JacobianChallenge.Jacobian.degree` (def), `JacobianChallenge.Jacobian.pushforward_pullback` (theorem)
 - Source: https://leanprover.zulipchat.com/#narrow/stream/583336-Autoformalization/topic/Jacobian%20challenge
@@ -17,8 +21,10 @@ This is a multi-hole problem: the challenge declares multiple `def`s,
 `Submission.lean` (under `namespace Submission`) for comparator to accept
 your solution.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 `lake test` runs comparator for this problem. The command expects a comparator
 binary in `PATH`, or in the `COMPARATOR_BIN` environment variable.

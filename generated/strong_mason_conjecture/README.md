@@ -3,7 +3,11 @@
 Strong Mason conjecture for matroid independent sets
 
 - Problem ID: `strong_mason_conjecture`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: For a finite Mathlib `Matroid`, `independentSetCount M k` is exactly the number of independent `k`-element subsets of its ground set. The theorem is the division-free form of ultra-log-concavity of these counts: if the ground set has cardinality `n` and `0 < k < n`, then `I_k^2 k(n-k) >= I_{k-1} I_{k+1} (k+1)(n-k+1)`. Using `M.E.ncard`, rather than the cardinality of the ambient type, is essential because Mathlib matroids carry an explicit ground set.
 - Source: P. Branden and J. Huh, 'Lorentzian polynomials', Ann. of Math. 192 (2020), 821-891, Theorem 4.14, https://doi.org/10.4007/annals.2020.192.3.4; independently N. Anari, K. Liu, S. Oveis Gharan, and C. Vinzant, 'Log-concave polynomials III: Mason's ultra-log-concavity conjecture for independent sets of matroids', https://arxiv.org/abs/1811.01600.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

@@ -1,0 +1,12 @@
+{
+  "id": "annals_algebraic_integers",
+  "module": "LeanEval.NumberTheory.AlgebraicIntegers",
+  "holes": [
+    {
+      "name": "AlgebraicIntegers.theorem_1_1",
+      "basename": "theorem_1_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.1:\n\nWe have `\u03bb_SSS < 1.89831`.\n-/\ntheorem theorem_1_1 : lambda_SSS < 1.89831 := by\n  sorry"
+    }
+  ]
+}

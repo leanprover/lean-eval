@@ -3,7 +3,11 @@
 Bourgain's polynomial ergodic theorem
 
 - Problem ID: `bourgain_polynomial_ergodic`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: For a measure-preserving system on a probability space, every integer-polynomial iterate sequence a, and every f ∈ L^p with p > 1, the polynomial ergodic averages (1/n) ∑_{k<n} f(T^[a k] x) converge pointwise almost everywhere. Trusted helpers (IsIntegerPolynomialSequence, polynomialErgodicAverage) are non-holes. Mathlib has Birkhoff's pointwise ergodic theorem but not Bourgain's polynomial extension. Candidate from §173 of the Knill survey.
 - Source: J. Bourgain, *Pointwise ergodic theorems for arithmetic sets*, Publ. Math. IHÉS 69 (1989). Knill, *Some fundamental theorems in mathematics*, §173.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

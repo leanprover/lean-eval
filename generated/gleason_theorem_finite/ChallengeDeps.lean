@@ -1,4 +1,9 @@
-import Mathlib
+import Mathlib.Analysis.InnerProductSpace.Positive
+import Mathlib.Analysis.InnerProductSpace.l2Space
+import Mathlib.LinearAlgebra.Trace
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 namespace LeanEval
 namespace Analysis
@@ -46,6 +51,10 @@ structure FrameFunction (H : Type*) [NormedAddCommGroup H] [InnerProductSpace �
 finite-dimensional complex inner product space. -/
 noncomputable def reTr [FiniteDimensional ℂ H] (A : H →L[ℂ] H) : ℝ :=
   (LinearMap.trace ℂ H A.toLinearMap).re
+
+
+
+
 
 
 

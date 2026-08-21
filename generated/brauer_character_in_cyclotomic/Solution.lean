@@ -1,4 +1,7 @@
 import Mathlib
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 import Submission
 
 theorem brauer_character_in_cyclotomic (G : Type) [Group G] [Fintype G] :

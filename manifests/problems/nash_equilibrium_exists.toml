@@ -1,6 +1,10 @@
 id = "nash_equilibrium_exists"
 title = "Nash equilibrium existence theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.GameTheory.Nash"
 holes = ["nash_equilibrium_exists"]
 submitter = "Kim Morrison"

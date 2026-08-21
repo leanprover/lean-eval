@@ -1,0 +1,12 @@
+id = "annals_uniform_mordell_lang"
+title = "Uniformity in Mordell–Lang for curves"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.AlgebraicGeometry.UniformMordellLang"
+holes = ["genus", "Jacobian", "instGrpObj", "smoothOfRelativeDimension_genus", "instIsProper", "instGeometricallyIrreducible", "ofCurve", "comp_ofCurve", "exists_unique_ofCurve_comp", "instGeometricallyIntegral", "instFG", "c", "theorem_1_1"]
+submitter = "Thomas Browning, Christian Merten"
+source = "V. Dimitrov, Z. Gao, and P. Habegger, `Uniformity in Mordell–Lang for curves`, Annals of Math, 194 (1) 2021. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2021-194-1-UniformMordellLang.lean"
+notes = "AnnalsChallenge states this theorem on top of Christian Merten's Jacobian challenge (`AnnalsChallenge/Definitions/AlgebraicJacobian.lean`). LeanEval's existing port of that file, problem `jacobian_challenge_alggeo`, omits the four declarations at its end, including the instances that supply the `CommGroup` and `Group.FG` structures used by `freeRank`. This module therefore carries a namespaced copy of the full upstream Jacobian characterisation and its derived point-group structure. Proof-valued instance holes are expressed as instance-reducible definitions so comparator can traverse the derived instances without comparing placeholder proof bodies; their types and the statement of Theorem 1.1 are unchanged. The upstream `instCommGroup := inferInstance` is spelled as the same explicit, reducible `CategoryTheory.Hom.commGroup` instance so Challenge and Solution elaborate it with identical reducibility hints; it remains derived rather than becoming a solver hole."

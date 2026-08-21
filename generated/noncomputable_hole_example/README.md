@@ -3,7 +3,11 @@
 noncomputable-hole minimal example
 
 - Problem ID: `noncomputable_hole_example`
-- Test Problem: yes
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: no
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Holes (4): `RWidget` (def), `instInhabitedRWidget` (def), `rwidgetPoint` (def), `rwidgetPoint_default` (theorem)
 - Notes: Minimal example exercising noncomputable def/instance holes; the generated Solution.lean delegations must be noncomputable so that honest (noncomputable) submissions compile.
@@ -16,8 +20,10 @@ This is a multi-hole problem: the challenge declares multiple `def`s,
 `Submission.lean` (under `namespace Submission`) for comparator to accept
 your solution.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 `lake test` runs comparator for this problem. The command expects a comparator
 binary in `PATH`, or in the `COMPARATOR_BIN` environment variable.

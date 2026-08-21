@@ -1,6 +1,10 @@
 id = "shafarevich_relation_rank_bound"
 title = "Shafarevich's relation-rank bound"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.ShafarevichRelationRank"
 holes = ["shafarevich_relation_rank_bound"]
 submitter = "Kim Morrison"

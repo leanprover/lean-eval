@@ -1,4 +1,8 @@
-import Mathlib
+import Mathlib.Analysis.Complex.Basic
+import Mathlib.Geometry.Manifold.IsManifold.Basic
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 import Submission.Helpers
 
 namespace Submission

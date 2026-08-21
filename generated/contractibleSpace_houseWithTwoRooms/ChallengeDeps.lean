@@ -1,4 +1,7 @@
-import Mathlib
+import Mathlib.Topology.Homotopy.Contractible
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 namespace LeanEval.Topology
 

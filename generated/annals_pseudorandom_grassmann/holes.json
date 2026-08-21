@@ -1,0 +1,12 @@
+{
+  "id": "annals_pseudorandom_grassmann",
+  "module": "LeanEval.Combinatorics.PseudorandomGrassmann",
+  "holes": [
+    {
+      "name": "PseudorandomGrassmann.theorem_1_12",
+      "basename": "theorem_1_12",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.12:\n\nFor every constant `0 < \u03b1 < 1`, there exist a constant `\u03b5 > 0` and an\ninteger `r \u2265 0` such that for all sufficiently large integers `\u2113` and (after fixing it)\nfor all sufficiently large integers `k`, the following holds. Let `S \u2286 Gr\u2096\u2097` be such that\n`\u03a6(S) \u2264 \u03b1`. Then there exist subspaces `A \u2286 B \u2286 \ud835\udd3d\u2082\u1d4f` such that `dim(A) = a`, `codim(B) = b`,\n`a + b \u2264 r` and `|S \u2229 Gr\u2096\u2097[A,B]| / |Gr\u2096\u2097[A,B]| \u2265 \u03b5`.\n-/\ntheorem theorem_1_12 (\u03b1 : \u211d) (h\u03b1 : \u03b1 \u2208 Set.Ioo 0 1) :\n    \u2203 \u03b5 > 0, \u2203 r, \u2200\u1da0 (\u2113 : \u2115) (k : \u2115) in atTop, \u2200 S : Finset (GrVertex k \u2113),\n      (hS : S.Nonempty) \u2192 2 * #S \u2264 Fintype.card (GrVertex k \u2113) \u2192\n        \u03a6 (Gr k \u2113) S hS \u2264 \u03b1 \u2192 \u2203 (A B : Submodule \ud835\udd3d\u2082 (Fin k \u2192 \ud835\udd3d\u2082)), A \u2264 B \u2227\n          letI a := finrank \ud835\udd3d\u2082 A; letI b := k - finrank \ud835\udd3d\u2082 B\n          a + b \u2264 r \u2227 #(S \u2229 SubGr k \u2113 A B) / #(SubGr k \u2113 A B) \u2265 (\u03b5 : \u211d) := by\n  sorry"
+    }
+  ]
+}

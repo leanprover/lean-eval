@@ -1,6 +1,10 @@
 id = "sphere_theorem_differentiable"
 title = "Differentiable sphere theorem (Brendle–Schoen)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.SphereTheorem"
 holes = ["differentiable_sphere_theorem"]
 submitter = "Kim Morrison"

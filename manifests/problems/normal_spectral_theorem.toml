@@ -1,6 +1,10 @@
 id = "normal_spectral_theorem"
 title = "Normal spectral theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.LinearAlgebra.NormalSpectralTheorem"
 holes = ["normal_spectral_theorem"]
 submitter = "Kim Morrison"

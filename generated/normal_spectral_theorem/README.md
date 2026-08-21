@@ -3,7 +3,11 @@
 Normal spectral theorem
 
 - Problem ID: `normal_spectral_theorem`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: A complex matrix A is normal (IsStarNormal A, i.e. Aᴴ A = A Aᴴ) iff it is unitarily diagonalizable, A = U (diagonal d) Uᴴ with U unitary. Mathlib has the Hermitian special case (Matrix.IsHermitian.spectral_theorem) and all conjugation/diagonal machinery, but not the normal generalization (no Matrix.IsStarNormal.spectral_theorem). The forward implication (a normal matrix admits an orthonormal eigenbasis) is the substantive content; the converse is a short computation. No new definitions beyond IsStarNormal, unitary, and Matrix.diagonal. Category-(b) candidate.
 - Source: Knill, *Some fundamental theorems in mathematics*, §14.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

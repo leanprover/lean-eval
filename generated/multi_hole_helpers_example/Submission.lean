@@ -31,8 +31,8 @@ four failure modes the generator used to have:
 
 namespace Submission
 
-open _root_.Helpers.WithCompanions
 open _root_.Helpers
+open _root_.Helpers.WithCompanions
 namespace Helpers
 def first : Nat := sorry
 theorem second_eq : first + rootHelper + preHole = first + 141 := sorry

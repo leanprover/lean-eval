@@ -1,4 +1,11 @@
-import Mathlib
+import Mathlib.Algebra.Group.Action.Faithful
+import Mathlib.Analysis.InnerProductSpace.PiL2
+import Mathlib.Geometry.Manifold.ChartedSpace
+import Mathlib.NumberTheory.Padics.PadicIntegers
+import Mathlib.Topology.Algebra.MulAction
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 import Submission.Helpers
 
 namespace Submission

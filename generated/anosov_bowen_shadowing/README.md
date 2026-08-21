@@ -3,7 +3,11 @@
 Anosov–Bowen shadowing lemma
 
 - Problem ID: `anosov_bowen_shadowing`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Every compact hyperbolic invariant set K ⊆ ℝᵈ of a C¹ diffeomorphism T : ℝᵈ → ℝᵈ admits an open neighbourhood U ⊇ K such that every ε-pseudo-orbit of T inside U is δ-close to a true forward T-orbit (for ε sufficiently small relative to δ). Hyperbolicity is bundled as a `HyperbolicStructure': a pointwise stable/unstable splitting `ℝᵈ = Eˢ x ⊕ Eᵘ x' for each `x ∈ K' with the uniform exponential contraction/expansion estimates of Anosov's original definition (rate `λ ∈ (0,1)`, constant `C > 0`). The standard textbook definition additionally asks for the splitting to be continuous in `x'; this submission encodes only the pointwise content with uniform constants — the minimal data the shadowing proof depends on. The Euclidean ℝᵈ formulation is a faithful finite-dimensional local model, avoiding the smooth-manifold and tangent-bundle infrastructure mathlib does not yet package. §67 of Knill's *Some Fundamental Theorems in Mathematics*.
 - Source: D.V. Anosov, 'Geodesic flows on closed Riemannian manifolds with negative curvature', Trudy Mat. Inst. Steklov. 90 (1967); R. Bowen, 'ω-limit sets for Axiom A diffeomorphisms', J. Differential Equations 18 (1975) 333–339. Listed as §67 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

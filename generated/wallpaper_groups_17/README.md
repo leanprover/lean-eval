@@ -3,7 +3,11 @@
 Seventeen wallpaper groups (Pólya–Niggli 1924)
 
 - Problem ID: `wallpaper_groups_17`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: There are exactly 17 wallpaper groups, the discrete cocompact subgroups of the planar Euclidean motion group E_2, counted up to affine equivalence. Discreteness is encoded as a properly discontinuous action on ℝ² — local finiteness of the return set at each point — equivalent on subgroups of E_d to Knill's positive-minimal-distance formulation, and avoids equipping `E d ≃ᵃⁱ[ℝ] E d` with a topology (mathlib has no default topology on the affine-isometry equiv type). Cocompactness is encoded as containing d linearly independent translations. §94 of Knill's *Some Fundamental Theorems in Mathematics*.
 - Source: G. Pólya, 'Über die Analogie der Kristallsymmetrie in der Ebene', Z. Kristallogr. 60 (1924) 278–282; P. Niggli, 'Die Flächensymmetrien homogener Diskontinuen', Z. Kristallogr. 60 (1924) 283–298. Listed as §94 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

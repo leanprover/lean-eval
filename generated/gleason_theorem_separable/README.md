@@ -3,7 +3,11 @@
 Gleason's theorem (separable Hilbert space)
 
 - Problem ID: `gleason_theorem_separable`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Gleason's theorem for a separable complex Hilbert space H of dimension at least 3, in Gleason's original `frame function on the unit sphere' formulation: any non-negative function on the unit sphere whose values sum to 1 along every Hilbert basis is given by x ↦ re ⟨x, ρ x⟩ for some positive bounded operator ρ. The Lean conclusion does not assert that ρ is trace-class with Tr(ρ) = 1; stating that would require trace-class infrastructure not yet at this Mathlib pin. This side-steps the absence of Schatten 1 / trace-class infrastructure in Mathlib at the time of writing.
 - Source: A. M. Gleason, Measures on the closed subspaces of a Hilbert space, J. Math. Mech. 6 (1957), 885-893.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

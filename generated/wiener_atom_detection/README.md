@@ -3,7 +3,11 @@
 Wiener's atom-detection formula
 
 - Problem ID: `wiener_atom_detection`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: §66 of Oliver Knill's 'Some Fundamental Theorems in Mathematics'. Wiener's atom-detection formula states that for a probability measure μ on the circle ℝ/2πℤ, the Cesàro averages (1/N) ∑_{k=1}^N |μ̂_k|² of the squared Fourier coefficients converge to ∑_x μ({x})², the total squared mass of the atoms. Thus the asymptotic behavior of the Fourier coefficients detects exactly the pure-point part of the measure. Mathlib provides AddCircle, the Fourier characters fourier, and related Fourier theory for functions, but it does not currently package Fourier coefficients of measures or this Wiener atom-detection theorem.
 - Source: N. Wiener, The Fourier Integral and Certain of its Applications (1933). Listed as §66 in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

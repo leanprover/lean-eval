@@ -1,4 +1,8 @@
-import Mathlib
+import Mathlib.Analysis.Complex.Circle
+import Mathlib.Geometry.Manifold.Instances.Real
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 /-!
 Benchmark statements for topological classification of compact connected surfaces with boundary.

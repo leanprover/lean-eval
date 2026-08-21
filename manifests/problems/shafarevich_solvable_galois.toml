@@ -1,6 +1,10 @@
 id = "shafarevich_solvable_galois"
 title = "Shafarevich's theorem on solvable Galois groups"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.ShafarevichSolvableGalois"
 holes = ["shafarevich_solvable_galois"]
 submitter = "Ryan Smith"

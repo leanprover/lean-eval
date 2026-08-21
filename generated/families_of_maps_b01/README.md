@@ -3,7 +3,11 @@
 Morrison–Walker Lemma B.0.1: adapting families of maps to open covers
 
 - Problem ID: `families_of_maps_b01`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Holes (2): `FamiliesOfMapsB01.continuous` (theorem), `FamiliesOfMapsB01.biLipschitz` (theorem)
 - Notes: Lemma B.0.1 of Morrison–Walker, *The Blob Complex* (arXiv:1009.5025, Appendix B, pp. 93–96). Two holes that must both be filled: `FamiliesOfMapsB01.continuous` is the continuous case (clauses 1–3); `FamiliesOfMapsB01.biLipschitz` is the bi-Lipschitz variant of clause 4. Given a continuous family `f : P × X → T` parametrised by a convex linear polyhedron `P ⊆ ℝᵏ` and a partition of unity subordinate to an open cover `U` of a compact space `X`, produce a continuous homotopy `F : I × P × X → T` from `f` to a family adapted to `U` on each closed cell of a polyhedral subdivision of `P`, with support preserved on `I × P` and along boundary subpolyhedra `I × Q ⊆ I × ∂P`. The polyhedral-subdivision conclusion (rather than a loose closed cover) is what makes Lemma B.0.2 (the chain-level deformation retract) a chain-complex consequence: each closed cell is a generator of C∗(Maps(X → T)) and adjacent cells share (k−1)-faces with cancelling orientations. The bi-Lipschitz variant bundles each slice as a homeomorphism `slice p : X ≃ₜ T` (capturing surjectivity), imposes the paper's joint Lipschitz hypothesis ('f is Lipschitz in the P direction as well') via `LipschitzWith L f.toFun`, and concludes the same bundled bi-Lipschitz homeomorphism structure for every slice `F (t, p, ·)`. The smooth-diffeomorphism / immersion / PL variants are not stated. The paper explicitly does *not* prove the analogous statement for plain continuous homeomorphisms (cf. remark at the end of Appendix B; only Edwards–Kirby's 1-parameter version is known). Supporting definitions `Supported`, `AdaptedTo`, `IsPolyhedron`, `Subdivision`, `closedCell`, `IsBoundarySubpolyhedron` are trusted infrastructure rather than holes — the multi-hole pipeline factors them into `ChallengeDeps.lean`. Mathlib has `Geometry.SimplicialComplex`, `PartitionOfUnity`, `intrinsicFrontier`, `ContinuousMap`, `LipschitzWith`, etc. — what is missing is the polyhedral-subdivision API and the lemma itself.
@@ -18,8 +22,10 @@ This is a multi-hole problem: the challenge declares multiple `def`s,
 `Submission.lean` (under `namespace Submission`) for comparator to accept
 your solution.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 `lake test` runs comparator for this problem. The command expects a comparator
 binary in `PATH`, or in the `COMPARATOR_BIN` environment variable.

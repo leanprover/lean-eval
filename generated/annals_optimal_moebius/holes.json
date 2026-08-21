@@ -1,0 +1,12 @@
+{
+  "id": "annals_optimal_moebius",
+  "module": "LeanEval.Geometry.OptimalMoebius",
+  "holes": [
+    {
+      "name": "OptimalMoebius.theorem_1_1",
+      "basename": "theorem_1_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.1 (Main):\n\nA smooth embedded paper Moebius band has aspect ratio greater than `\u221a3`.\n-/\ntheorem theorem_1_1 (a : \u211d) (ha : a > 0) (f : \u211d\u00b2 \u2192 \u211d\u00b3) (hf : IsMoebiusEmbedding a f) :\n    a > \u221a3 := by\n  sorry"
+    }
+  ]
+}

@@ -15,7 +15,7 @@ in Coq was completed by Georges Gonthier's team in 2012 (170 000 lines).
 There is no Lean port.
 
 The statement requires **zero new definitions** — mathlib already has
-`IsSolvable`, `Odd`, `Nat.card`, and the `Group` / `Finite` typeclasses.
+`Group.IsSolvable`, `Odd`, `Nat.card`, and the `Group` / `Finite` typeclasses.
 The challenge is the proof, which combines character theory, generic-case
 analysis, the CN-group structure theorem, and the analysis of so-called
 "thinly embedded" maximal subgroups via the Frobenius–Wielandt machinery.
@@ -29,7 +29,7 @@ Simple Groups itself).
 solvable. -/
 @[eval_problem]
 theorem feit_thompson {G : Type*} [Group G] [Finite G]
-    (_h : Odd (Nat.card G)) : IsSolvable G := by
+    (_h : Odd (Nat.card G)) : Group.IsSolvable G := by
   sorry
 
 end GroupTheory

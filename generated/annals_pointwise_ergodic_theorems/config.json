@@ -1,0 +1,20 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "PointwiseErgodicTheorems.theorem_1_17_i",
+    "PointwiseErgodicTheorems.theorem_1_17_ii",
+    "PointwiseErgodicTheorems.theorem_1_17_iii",
+    "PointwiseErgodicTheorems.theorem_1_17_iv"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": false,
+  "definition_names": [
+    "PointwiseErgodicTheorems.C\u1d62\u1d62\u1d62",
+    "PointwiseErgodicTheorems.C\u1d62\u1d65"
+  ]
+}

@@ -1,4 +1,7 @@
 import Mathlib
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 /-!
 Regression test for the multi-hole / trusted-helpers pipeline. Exercises

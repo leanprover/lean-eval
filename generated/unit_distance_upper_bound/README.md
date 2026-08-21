@@ -3,7 +3,11 @@
 Spencer-Szemerédi-Trotter unit-distance upper bound
 
 - Problem ID: `unit_distance_upper_bound`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: For a finite set P ⊆ ℝ² write ν(P) for the number of unordered pairs at Euclidean distance 1, and ν(n) = max over n-point sets. Erdős posed the unit-distance problem in 1946 alongside the dual distinct-distances problem (resolved up to log factors by Guth-Katz, 2015). The first nontrivial upper bound ν(n) = O(n^{3/2}) follows from the Kővári-Sós-Turán theorem applied to the K_{2,3}-free unit-distance graph. Spencer-Szemerédi-Trotter (1984) sharpened this to ν(n) = O(n^{4/3}) using the Szemerédi-Trotter incidence bound for points and lines; Székely later gave a short crossing-number proof of the same exponent. The exponent 4/3 has stood since 1984 with only constant-factor improvements (Ágoston-Pálvölgyi, 2022). The matching lower bound is widely conjectured to lie much closer to the upper bound — see the companion problem `erdos_unit_distance_conjecture_false`.
 - Source: J. Spencer, E. Szemerédi, W. T. Trotter Jr., *Unit distances in the Euclidean plane*, in Graph Theory and Combinatorics (Cambridge 1983), Academic Press, 1984. Short crossing-number proof: L. A. Székely, *Crossing numbers and hard Erdős problems in discrete geometry*, Combin. Probab. Comput. 6 (1997). Best constant: P. Ágoston, D. Pálvölgyi, *An improved constant factor for the unit distance problem*, Studia Sci. Math. Hungar. 59 (2022).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

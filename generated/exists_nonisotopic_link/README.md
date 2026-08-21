@@ -3,7 +3,11 @@
 Existence of a non-isotopic pair of oriented two-component links
 
 - Problem ID: `exists_nonisotopic_link`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Warmup for the knot-theory benchmark. Asks for two oriented smooth two-component links in R^3 that are not ambient-isotopic. The benchmark uses an orientation-sensitive notion of isotopy induced by the parametrizations, so the Gauss linking integral is a natural real-valued invariant distinguishing the unlink (lk = 0) from the Hopf link (lk = +/- 1, depending on orientation choice).
 - Source: Classical; see https://en.wikipedia.org/wiki/Linking_number.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

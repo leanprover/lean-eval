@@ -1,6 +1,10 @@
 id = "substInv_X_sub_X_sq_eq_catalan"
 title = "Catalan generating function via compositional inversion"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Combinatorics.CatalanSubstInv"
 holes = ["substInv_X_sub_X_sq_eq_catalan"]
 submitter = "Kim Morrison"

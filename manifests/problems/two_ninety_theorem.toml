@@ -1,6 +1,10 @@
 id = "two_ninety_theorem"
 title = "The 290 theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.TwoNinetyTheorem"
 holes = ["two_ninety_theorem"]
 submitter = "Bolton Bailey/Project Numina"

@@ -1,0 +1,11 @@
+id = "annals_enumerating_number_fields"
+title = "Enumerating number fields"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.NumberTheory.EnumeratingNumberFields"
+holes = ["theorem_1", "theorem_2"]
+submitter = "Thomas Browning"
+source = "J.-M. Couveignes, `Enumerating number fields`, Annals of Math, 192 (2) 2020. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2020-192-2-EnumeratingNumberFields.lean"

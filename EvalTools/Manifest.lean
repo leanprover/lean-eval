@@ -42,8 +42,21 @@ def loadManifest (root : System.FilePath) : IO (Array EvalProblemMetadata) := do
       s!"Manifest directory `{manifestDir}` does not exist or is not a directory."
   let mut rawFiles : Array System.FilePath := #[]
   for entry in (← manifestDir.readDir) do
-    if entry.path.extension == some "toml" then
-      rawFiles := rawFiles.push entry.path
+    -- Reject rather than skip: a manifest saved as `<id>.lean` used to drop out
+    -- of the catalog silently, taking its problem module with it (issue #519).
+    -- The exemption is `.DS_Store` alone, not dotfiles in general: the
+    -- `@[eval_problem]` elaborator reads every `*.toml` here (`Markers.lean`),
+    -- so skipping a hidden `.foo.toml` would let it claim a tagged declaration
+    -- that never reaches the catalog.
+    if entry.fileName == ".DS_Store" then
+      continue
+    if ← entry.path.isDir then
+      throw <| IO.userError
+        s!"`{entry.path}` is a directory; `manifests/problems/` holds one `<id>.toml` file per problem."
+    unless entry.path.extension == some "toml" do
+      throw <| IO.userError
+        s!"`{entry.path}` is not a `.toml` file; `manifests/problems/` holds one `<id>.toml` file per problem."
+    rawFiles := rawFiles.push entry.path
   let files := rawFiles.qsort fun a b =>
     (a.fileName.getD "") < (b.fileName.getD "")
   let mut entries : Array EvalProblemMetadata := #[]
@@ -91,9 +104,10 @@ structure ManifestInventoryEntry where
   declarationName : String
   basename : String
   kind : String
-  deriving Inhabited
+  deriving Inhabited, ToJson
 
-private def parseInventoryEntries (payload : String) :
+/-- Parse the JSON emitted by `eval_inventory`. -/
+def parseInventoryEntries (payload : String) :
     Except String (Array ManifestInventoryEntry) := do
   let json ← Json.parse payload
   let arr ← json.getArr?
@@ -108,21 +122,42 @@ private def parseInventoryEntries (payload : String) :
         basename := basename, kind := kind }
   return out
 
+/-- Resolve an optional module restriction against the manifest, rejecting
+typos rather than silently producing an incomplete CI shard. -/
+def selectManifestModules (entries : Array EvalProblemMetadata)
+    (requested : Array String) : IO (Array String) := do
+  let available := uniqueModules entries
+  if requested.isEmpty then
+    return available
+  let known := available.foldl (fun set name => set.insert name) ({} : Std.HashSet String)
+  let mut seen : Std.HashSet String := {}
+  let mut selected := #[]
+  for moduleName in requested do
+    unless known.contains moduleName do
+      throw <| IO.userError s!"Requested problem module is not present in the manifest: {moduleName}"
+    unless seen.contains moduleName do
+      seen := seen.insert moduleName
+      selected := selected.push moduleName
+  return selected
+
 /-- Build the Lake targets and run the `eval_inventory` executable over every
 module referenced by `entries`.
 
-Build the inventory executable first, then each problem module separately.
-Passing every problem module to one `lake build` lets Lake schedule the entire
-catalog at once, which can exhaust machine resources on a clean checkout. -/
-def runInventoryTool (root : System.FilePath) (modules : Array String) :
+Build the inventory executable first, then (unless a preceding trusted step
+already did so) each problem module separately. Passing every problem module to
+one `lake build` lets Lake schedule the entire catalog at once, which can
+exhaust machine resources on a clean checkout. -/
+def runInventoryTool (root : System.FilePath) (modules : Array String)
+    (buildModules : Bool := true) :
     IO (Array ManifestInventoryEntry) := do
   let _ ← runCmdCheckedCaptured "lake"
     #["build", "eval_inventory"] root
     "Failed to build Lean problem inventory tool"
-  for moduleName in modules do
-    let _ ← runCmdCheckedCaptured "lake"
-      #["build", moduleName] root
-      s!"Failed to build Lean problem module '{moduleName}'"
+  if buildModules then
+    for moduleName in modules do
+      let _ ← runCmdCheckedCaptured "lake"
+        #["build", moduleName] root
+        s!"Failed to build Lean problem module '{moduleName}'"
   let binPath := root / ".lake" / "build" / "bin" / "eval_inventory"
   let out ← runCmdCheckedCaptured "lake"
     (#["env", binPath.toString] ++ modules) root
@@ -131,13 +166,55 @@ def runInventoryTool (root : System.FilePath) (modules : Array String) :
   | .ok entries => pure entries
   | .error err => throw <| IO.userError s!"Problem inventory returned invalid JSON: {err}"
 
-/-- Match Python's `gp.validate_manifest_against_inventory`: ensure every
-manifest hole resolves to exactly one `@[eval_problem]`-tagged declaration,
-and every such declaration appears in the manifest. -/
-def validateManifestAgainstInventory
-    (root : System.FilePath) (entries : Array EvalProblemMetadata) : IO Unit := do
-  let modules := uniqueModules entries
-  let inventory ← runInventoryTool root modules
+/-- Load and concatenate the per-shard inventory JSON files downloaded by the
+aggregate CI job. -/
+def loadInventoryDirectory (directory : System.FilePath) : IO (Array ManifestInventoryEntry) := do
+  unless ← directory.isDir do
+    throw <| IO.userError s!"Problem inventory directory does not exist: {directory}"
+  let files := (← directory.readDir).qsort fun a b => a.fileName < b.fileName
+  let mut inventory := #[]
+  for file in files do
+    if ← file.path.isDir then
+      throw <| IO.userError s!"Unexpected directory in problem inventory: {file.path}"
+    unless file.path.extension == some "json" do
+      throw <| IO.userError s!"Unexpected non-JSON problem inventory file: {file.path}"
+    let payload ← IO.FS.readFile file.path
+    match parseInventoryEntries payload with
+    | .ok entries => inventory := inventory ++ entries
+    | .error err =>
+        throw <| IO.userError s!"Problem inventory `{file.path}` is invalid: {err}"
+  return inventory
+
+/-- Write the tagged-declaration inventory for `requestedModules`. Problem
+modules must already have been built by the warning-sensitive shard step. -/
+def writeProblemInventory (root output : System.FilePath)
+    (requestedModules : Array String) : IO Unit := do
+  let entries ← loadManifest root
+  let modules ← selectManifestModules entries requestedModules
+  let inventory ← runInventoryTool root modules (buildModules := false)
+  IO.FS.writeFile output (Json.pretty (toJson inventory) ++ "\n")
+
+/-- Validate a manifest against inventory rows already collected by CI shards. -/
+def validateManifestAgainstInventoryEntries
+    (entries : Array EvalProblemMetadata)
+    (inventory : Array ManifestInventoryEntry) : IO Unit := do
+  let expectedModules := uniqueModules entries
+  let inventoriedModules := inventory.foldl
+    (fun set entry => set.insert entry.module) ({} : Std.HashSet String)
+  let missingModules := expectedModules.filter (!inventoriedModules.contains ·)
+  unless missingModules.isEmpty do
+    throw <| IO.userError <|
+      "Problem inventory is missing manifest module(s): "
+        ++ ", ".intercalate missingModules.toList
+  let expectedSet := expectedModules.foldl
+    (fun set moduleName => set.insert moduleName) ({} : Std.HashSet String)
+  let unexpectedModules := inventory.filterMap fun entry =>
+    if expectedSet.contains entry.module then none else some entry.module
+  unless unexpectedModules.isEmpty do
+    let names := unexpectedModules.qsort (· < ·)
+    throw <| IO.userError <|
+      "Problem inventory contains module(s) absent from the manifest: "
+        ++ ", ".intercalate names.toList
   let mut byModule : Std.HashMap String (Array ManifestInventoryEntry) := {}
   for inv in inventory do
     byModule := byModule.insert inv.module
@@ -162,5 +239,15 @@ def validateManifestAgainstInventory
     let joined := ", ".intercalate sorted.toList
     throw <| IO.userError
       s!"Tagged @[eval_problem] declaration(s) are missing from manifests/problems/: {joined}"
+
+/-- Match Python's `gp.validate_manifest_against_inventory`: ensure every
+manifest hole resolves to exactly one `@[eval_problem]`-tagged declaration,
+and every such declaration appears in the manifest. -/
+def validateManifestAgainstInventory
+    (root : System.FilePath) (entries : Array EvalProblemMetadata)
+    (buildModules : Bool := true) : IO Unit := do
+  let modules := uniqueModules entries
+  let inventory ← runInventoryTool root modules buildModules
+  validateManifestAgainstInventoryEntries entries inventory
 
 end EvalTools

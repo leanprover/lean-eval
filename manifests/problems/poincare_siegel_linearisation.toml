@@ -1,6 +1,10 @@
 id = "poincare_siegel_linearisation"
 title = "Poincaré–Siegel linearisation theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.ComplexAnalysis.PoincareSiegel"
 holes = ["poincare_siegel"]
 submitter = "Kim Morrison"

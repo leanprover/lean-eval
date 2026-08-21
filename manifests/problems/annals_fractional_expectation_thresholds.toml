@@ -1,0 +1,11 @@
+id = "annals_fractional_expectation_thresholds"
+title = "Thresholds versus fractional expectation-thresholds"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.Combinatorics.FractionalExpectationThresholds"
+holes = ["K", "theorem_1_1"]
+submitter = "David Ledvinka"
+source = "K. Frankston, J. Kahn, B. Narayanan, and J. Park, `Thresholds versus fractional expectation-thresholds`, Annals of Math, 194 (2) 2021. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2021-194-2-FractionalExpectationThresholds.lean"

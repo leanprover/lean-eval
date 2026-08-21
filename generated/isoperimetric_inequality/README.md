@@ -3,7 +3,11 @@
 Isoperimetric inequality (n-dim, topological-frontier form)
 
 - Problem ID: `isoperimetric_inequality`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: n-dimensional isoperimetric inequality for measurable bounded B ⊆ ℝⁿ, n ≥ 2: n^n · volume(B)^{n−1} · volume(closedBall 0 1) ≤ μHE[n−1](frontier B)^n, with μHE[n−1] the (n−1)-dim Euclidean Hausdorff measure on the topological frontier. The topological-frontier formulation is strictly weaker than the canonical De Giorgi finite-perimeter form: the topological frontier can strictly contain the reduced boundary, so this RHS is pointwise larger than the perimeter. For a smooth bounded domain with regular bounding hypersurface S = frontier B, μHE[n−1](frontier B) agrees with the classical surface area. The 2 ≤ n hypothesis excludes the n = 1 case where the ENNReal formulation has B = ∅ as a counterexample (0^0 · 2 = 2 ≠ 0). §71 of Knill's 'Some Fundamental Theorems in Mathematics'.
 - Source: Classical isoperimetric inequality; modern finite-perimeter / GMT formulations are due to E. De Giorgi and H. Federer. Listed as §71 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf). The Wiedijk-100 entry 'The Isoperimetric Theorem' is unformalised in Lean.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

@@ -3,7 +3,11 @@
 Poincaré–Siegel linearisation theorem
 
 - Problem ID: `poincare_siegel_linearisation`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Siegel 1942: a holomorphic germ f near 0 with f 0 = 0 and multiplier λ = e^{2πiα} (α Diophantine) is locally analytically conjugate to z ↦ λz. The conjugating germ u satisfies u 0 = 0, u'(0) = 1, and f(u z) = u(λ z) near 0 (Schröder equation). The file ships an IsDiophantine predicate parameterised by an arbitrary exponent τ (∃ C, ∃ τ, ∀ p q ≠ 0, C / |q|^τ ≤ |α − p/q|); the constant-type / exponent-2 condition is the special case fixing τ = 2.
 - Source: C. L. Siegel, *Iteration of analytic functions*, Annals of Math. 43 (1942), 607-612. Earlier formal-power-series version: H. Poincaré thèse (1879). Listed as §83 (additional statement 1) in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

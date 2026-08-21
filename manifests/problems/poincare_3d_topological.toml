@@ -1,6 +1,10 @@
 id = "poincare_3d_topological"
 title = "3D topological Poincaré conjecture (Perelman)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.Poincare3DTopological"
 holes = ["poincare_3d_topological"]
 submitter = "Kim Morrison"

@@ -1,4 +1,7 @@
 import Mathlib
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 namespace LeanEval
 namespace Analysis
@@ -68,6 +71,10 @@ noncomputable def diff {d : ℕ} (a : (Fin d → ℕ) → ℝ) (k n : Fin d → 
 def HausdorffBounded {d : ℕ} (a : (Fin d → ℕ) → ℝ) : Prop :=
   ∃ C : ℝ, ∀ n : Fin d → ℕ,
     ∑ k ∈ Finset.Iic n, |(multiChoose n k : ℝ) * diff a k n| ≤ C
+
+
+
+
 
 
 

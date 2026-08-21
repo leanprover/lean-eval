@@ -1,6 +1,10 @@
 id = "gleason_theorem_separable"
 title = "Gleason's theorem (separable Hilbert space)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.Gleason"
 holes = ["gleason_theorem_separable"]
 submitter = "Kim Morrison"

@@ -1,0 +1,12 @@
+{
+  "id": "annals_ulam",
+  "module": "LeanEval.ConvexGeometry.Ulam",
+  "holes": [
+    {
+      "name": "Ulam.theorem_1",
+      "basename": "theorem_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1:\n\nLet `d \u2265 3`. There exists a strictly convex non-centrally-symmetric body of revolution `K \u2282 \u211d\u1d48`\nthat floats in equilibrium in every orientation at the level `vol(K)/2`.\n-/\ntheorem theorem_1 (hd : 3 \u2264 d) : letI : NeZero d := \u27e8by omega\u27e9\n    \u2203 K : BodyOfRevolution d, IsStrictlyConvexBody K.body \u2227 \u00ac IsCentrallySymmetric K.body \u2227\n      FloatsInEquilibriumInEveryOrientationAtLevel K.body (volume.real K.body / 2) := by\n  sorry"
+    }
+  ]
+}

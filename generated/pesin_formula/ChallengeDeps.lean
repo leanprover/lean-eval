@@ -1,4 +1,7 @@
 import Mathlib
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 namespace LeanEval
 namespace Dynamics
@@ -82,6 +85,12 @@ noncomputable def lyapunovLowerAt
     (T : EucPlane → EucPlane) (x : EucPlane) : ℝ :=
   -Filter.limsup
     (fun n : ℕ => Real.log ‖(fderiv ℝ (T^[n]) x).inverse‖ / n) atTop
+
+
+
+
+
+
 
 
 

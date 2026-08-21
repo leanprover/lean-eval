@@ -3,7 +3,11 @@
 Brauer's splitting field theorem
 
 - Problem ID: `brauer_splitting_field`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: For a finite group G of exponent n, the cyclotomic field ℚ(ζₙ) is a splitting field for G: every finite-dimensional complex representation ρ of G descends to ℚ(ζₙ). Concretely, there exists an embedding φ : CyclotomicField n ℚ →+* ℂ, a ℚ(ζₙ)-representation (W, σ) of G, and a ℂ-linear G-equivariant isomorphism ℂ ⊗[ℚ(ζₙ)] W ≃ V (with ℂ viewed as a ℚ(ζₙ)-algebra via φ). The G-equivariance is expressed against the base-changed action `(σ g).baseChange ℂ`. Strictly stronger than the character-value statement `brauer_character_in_cyclotomic`, which follows by taking traces and is in fact elementary.
 - Source: R. Brauer, On the representation of a group of order g in the field of g-th roots of unity, Amer. J. Math. 67 (1945), 461–471.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

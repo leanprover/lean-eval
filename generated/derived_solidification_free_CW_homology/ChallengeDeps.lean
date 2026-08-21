@@ -1,4 +1,7 @@
 import Mathlib
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 /-!
 # Derived solidification of free CW complexes
@@ -140,6 +143,8 @@ isomorphism on internal homs into `A`. -/
 def isSolid : ObjectProperty LightCondAb :=
   fun A ↦ IsIso ((MonoidalClosed.pre oneMinusShift).app A)
 
+
+
 /-- The category of light solid abelian groups, as the full subcategory of solid objects in light
 condensed abelian groups. -/
 abbrev Solid : Type _ := isSolid.FullSubcategory
@@ -232,7 +237,7 @@ instance : PreservesFiniteColimits (ihom P) := by
     (ihom.adjunction P).rightAdjoint_preservesLimits
   rw [Functor.preservesFiniteColimits_iff_forall_exact_map_and_epi]
   intro S hS
-  haveI : Epi S.g := hS.epi_g
+  have : Epi S.g := hS.epi_g
   exact ⟨((Functor.preservesFiniteLimits_iff_forall_exact_map_and_mono (ihom P)).1
     inferInstance S hS).1, inferInstance⟩
 
@@ -300,9 +305,17 @@ abbrev DSolid := DerivedCategory Solid
 
 
 
+
+
 /-- The exact functor on derived categories induced by the inclusion `Solid ⥤ LightCondAb`. -/
 abbrev derivedInclusion : DSolid ⥤ DLightCondAb :=
   isSolid.ι.mapDerivedCategory
+
+
+
+
+
+
 
 
 
@@ -334,6 +347,8 @@ of light condensed abelian groups. -/
 abbrev singularChainsLightCondAbDerivedFunctor : TopCat ⥤ DLightCondAb :=
   singularChainsLightCondAbComplexFunctor ⋙ DerivedCategory.Q
 
+
+
 /-- The property of topological spaces admitting a classical CW complex structure. -/
 abbrev isCWTopCat : ObjectProperty TopCat :=
   fun X ↦ Nonempty (Topology.CWComplex (Set.univ : Set X))
@@ -342,6 +357,8 @@ abbrev isCWTopCat : ObjectProperty TopCat :=
 abbrev CWTopCat : Type _ := isCWTopCat.FullSubcategory
 
 namespace CWTopCat
+
+
 
 /-- The inclusion of CW spaces into topological spaces. -/
 abbrev toTopCat : CWTopCat ⥤ TopCat := isCWTopCat.ι
@@ -356,6 +373,8 @@ end CWTopCat
 condensed abelian groups. -/
 abbrev singularChainsLightCondAbCWDerivedFunctor : CWTopCat ⥤ DLightCondAb :=
   CWTopCat.toTopCat ⋙ singularChainsLightCondAbDerivedFunctor
+
+
 
 
 

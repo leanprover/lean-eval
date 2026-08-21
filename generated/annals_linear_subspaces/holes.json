@@ -1,0 +1,12 @@
+{
+  "id": "annals_linear_subspaces",
+  "module": "LeanEval.NumberTheory.LinearSubspaces",
+  "holes": [
+    {
+      "name": "LinearSubspaces.theorem_1",
+      "basename": "theorem_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1 (Dirichlet's principle in Grassmann varieties):\n\nFor all `l`-dimensional subspaces `x \u2264 \u211d\u1d48` and all `k \u2208 {1,...,l}`, we have\n`\u03b2\u2096(x) \u2265 d / (k * (d - l))`, and this lower bound is optimal.\n-/\ntheorem theorem_1\n    (hd : 2 \u2264 d) (l : \u2115) (hl0 : 0 < l) (hld : l < d) (k : \u2115) (hk1 : 1 \u2264 k) (hkl : k \u2264 l) :\n    (\u2200 x : Submodule \u211d \u211d\u1d48, finrank \u211d x = l \u2192 diophantineExponent k x \u2265 d / (k * (d - l))) \u2227\n    (\u2203 x : Submodule \u211d \u211d\u1d48, finrank \u211d x = l \u2227 diophantineExponent k x = d / (k * (d - l))) := by\n  sorry"
+    }
+  ]
+}

@@ -3,7 +3,11 @@
 Szemerédi's theorem
 
 - Problem ID: `szemeredi`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: §37 of Oliver Knill's 'Some Fundamental Theorems in Mathematics' (first additional statement of the section, generalizing Roth's theorem from 3-APs to k-APs). Every subset of ℕ of positive upper density contains arbitrarily long arithmetic progressions. Mathlib has Roth's theorem (roth_3ap_theorem_nat, the k = 3 case) but not the full Szemerédi theorem. As of 2026 it has not been formalized in any major proof assistant (a well-known open formalization target).
 - Source: E. Szemerédi, On sets of integers containing no k elements in arithmetic progression, Acta Arith. 27 (1975), 199-245. Listed as §37 in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

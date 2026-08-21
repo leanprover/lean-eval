@@ -3,7 +3,11 @@
 Lindemann's theorem (e and π transcendental)
 
 - Problem ID: `lindemann`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Both e = exp 1 and π are transcendental over ℤ (Lindemann 1882). Mathlib has Transcendental and the analytic scaffolding of the Lindemann–Weierstrass proof (Mathlib.NumberTheory.Transcendental.Lindemann.AnalyticalPart) but no transcendence statement for e or π. No new definitions needed. Candidate from §55 of the Knill survey. (The companion irrationality of π is already in Mathlib as irrational_pi.)
 - Source: F. Lindemann, *Über die Zahl π*, Math. Ann. 20 (1882). Knill, *Some fundamental theorems in mathematics*, §55.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

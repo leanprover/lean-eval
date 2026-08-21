@@ -3,7 +3,11 @@
 Existence of a chiral oriented knot
 
 - Problem ID: `exists_chiral_knot`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Challenge problem of the knot-theory benchmark. Asks for an oriented smooth knot whose image is not ambient-isotopic to its mirror image (under reflection through the xy-plane), using the benchmark's orientation-sensitive notion of isotopy induced by the parametrization. The model must construct an ambient-isotopy invariant that takes different values on a knot and its mirror -- the knot determinant and Alexander polynomial alone do not suffice, since the figure-eight is amphichiral in the usual unoriented sense.
 - Source: Classical; see https://en.wikipedia.org/wiki/Chirality_(mathematics) and https://en.wikipedia.org/wiki/Trefoil_knot.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

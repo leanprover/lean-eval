@@ -3,7 +3,11 @@
 Vinogradov mean value theorem
 
 - Problem ID: `vinogradov_mean_value`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Junyan Xu
 - Notes: The Bourgain–Demeter–Guth proof relies solely on harmonic analysis techniques rather than number theoretic methods all previous progress relied on, and allows integers to be replaced with arbitrary well separated real numbers. The theorem is derived as a consequence of a sharp decoupling inequality for curves. Wooley's proof uses his nested efficient congruencing method, which in contrast with the l2-decoupling method makes no use of multilinear Kakeya estimates, so is of sufficient flexibility to be applicable in algebraic number fields, and in function fields.
 
@@ -13,8 +17,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

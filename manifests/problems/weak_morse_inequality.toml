@@ -1,6 +1,10 @@
 id = "weak_morse_inequality"
 title = "Weak Morse inequalities"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.WeakMorseInequality"
 holes = ["weak_morse_inequality"]
 submitter = "Kim Morrison"

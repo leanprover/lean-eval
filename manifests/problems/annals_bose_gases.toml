@@ -1,0 +1,11 @@
+id = "annals_bose_gases"
+title = "The energy of dilute Bose gases"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.Physics.BoseGases"
+holes = ["η", "𝓒", "theorem_1_2"]
+submitter = "David Ledvinka"
+source = "S. Fournais and J. P. Solovej, `The energy of dilute Bose gases`, Annals of Math, 192 (3) 2020. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2020-192-3-BoseGases.lean"

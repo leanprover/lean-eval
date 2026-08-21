@@ -3,7 +3,11 @@
 Hardy–Littlewood sign-change for the prime race mod 4
 
 - Problem ID: `chebyshev_sign_change`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: The difference π₃(n) − π₁(n), where πᵢ(n) counts primes ≤ n congruent to i mod 4, takes both positive and negative values infinitely often. Chebyshev (1853) observed the empirical bias toward π₃(n) > π₁(n); Hardy and Littlewood (1914) proved unconditionally that π₁ nevertheless overtakes π₃ infinitely often, and the reverse direction is the typical Chebyshev-bias inequality. §106 of Knill's *Some Fundamental Theorems in Mathematics* lists this under the metamathematical 'strong law of small numbers'; the formalised theorem here is the Hardy–Littlewood sign-change theorem.
 - Source: G.H. Hardy and J.E. Littlewood, 'Contributions to the theory of the Riemann zeta-function and the theory of the distribution of primes', Acta Math. 41 (1916) 119–196 (announced 1914). Chebyshev's original observation: P. Chebyshev, letter to M. Fuss, 1853, in *Œuvres de P.L. Tchebychef*, vol. I (Saint Petersburg, 1899). Listed as §106 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

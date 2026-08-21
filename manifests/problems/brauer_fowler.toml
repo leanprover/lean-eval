@@ -1,6 +1,10 @@
 id = "brauer_fowler"
 title = "Brauer–Fowler theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.GroupTheory.BrauerFowler"
 holes = ["brauer_fowler"]
 submitter = "Kim Morrison"

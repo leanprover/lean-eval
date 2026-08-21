@@ -1,0 +1,12 @@
+id = "annals_zagier_hoffman_positive_char"
+title = "On Zagier-Hoffman's conjectures in positive characteristic"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.NumberTheory.ZagierHoffmanPositiveChar"
+holes = ["theorem_A", "theorem_B", "theorem_D"]
+submitter = "Katerina Hristova"
+notes = "Throughout the definitions and statements, we reindex the `i`'s so that they run from `0` to `r - 1` rather than from `1` to `r`."
+source = "T. N. Dac, `On Zagier-Hoffman's conjectures in positive characteristic`, Annals of Math, 194 (1) 2021. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2021-194-1-ZagierHoffmanPositiveChar.lean"

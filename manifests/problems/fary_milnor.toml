@@ -1,6 +1,10 @@
 id = "fary_milnor"
 title = "Fáry–Milnor theorem (knot total curvature ≤ 4π implies unknotted)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.FaryMilnor"
 holes = ["fary_milnor_total_curvature"]
 submitter = "Kim Morrison"

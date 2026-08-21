@@ -1,6 +1,10 @@
 id = "two_plus_two"
 title = "2 + 2 = 4"
-test = true
+group = "formalization-evaluation"
+status = "draft"
+visible = false
+statement_revision = 1
+tags = []
 module = "LeanEval.EasyProblems"
 holes = ["two_plus_two_eq_four"]
 submitter = "Kim Morrison"

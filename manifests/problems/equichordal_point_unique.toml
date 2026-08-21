@@ -1,6 +1,10 @@
 id = "equichordal_point_unique"
 title = "Equichordal point theorem (convex curves have a unique equichordal point)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.Equichordal"
 holes = ["equichordal_point_unique"]
 submitter = "Kim Morrison"

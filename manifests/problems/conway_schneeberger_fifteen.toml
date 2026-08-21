@@ -1,6 +1,10 @@
 id = "conway_schneeberger_fifteen"
 title = "Conway–Schneeberger fifteen theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.ConwaySchneebergerFifteen"
 holes = ["conway_schneeberger_fifteen"]
 submitter = "Kim Morrison"

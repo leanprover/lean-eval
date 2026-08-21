@@ -1,0 +1,12 @@
+{
+  "id": "annals_finite_time_singularity",
+  "module": "LeanEval.Analysis.FiniteTimeSingularity",
+  "holes": [
+    {
+      "name": "FiniteTimeSingularity.theorem_1",
+      "basename": "theorem_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1:\n\nThere exist an `\u03b1 > 0` and a divergence-free and odd `u\u2080 \u2208 C^{1,\u03b1}(\u211d\u00b3)` with initial vorticity\n`\u2016\u2207 \u00d7 u\u2080\u2016 \u2264 C/(\u2016x\u2016^\u03b1 + 1)` for some constant `C > 0` so that the unique local odd solution to\n(1.1)-(1.3) belonging to the class `C^{1,\u03b1}(\u211d\u00b3 \u00d7 [0,1))` satisfies\n\n`lim_{t \u2192 1\u207b} \u222b s \u2208 [0,t], \u2016(\u2207 \u00d7 u)(\u00b7, s)\u2016_{L\u221e} ds = +\u221e`.\n\nNote: As mentioned in the paper, uniqueness of solutions up until any time `T` (when they exist)\nwas already known, so the formal statement only asks for existence.\n-/\ntheorem theorem_1 :\n    \u2203 \u03b1 > 0, \u2203 u\u2080, div u\u2080 = 0 \u2227 IsOdd u\u2080 \u2227 IsContDiffHolder \u211d \u03b1 u\u2080 \u2227\n      (\u2203 C > 0, \u2200 x, \u2016(\u2207\u00d7u\u2080) x\u2016 \u2264 C / (\u2016x\u2016 ^ (\u03b1 : \u211d) + 1)) \u2227\n        \u2203 p, \u2203 u, (\u2200 t \u2208 Ico 0 1, IsOdd (u \u00b7 t)) \u2227\n            IsLocalEulerEquationSolution p u\u2080 1 u \u2227\n              (\u2200 T \u2208 Ioo 0 1, IsContDiffHolderOn \u211d \u03b1 u.uncurry (univ \u00d7\u02e2 Icc 0 T)) \u2227\n                Tendsto (fun t \u21a6 \u222b s in 0..t, \u2a06 x, \u2016(\u2207\u00d7(u \u00b7 s)) x\u2016) (\ud835\udcdd[<] 1) atTop := by\n  sorry"
+    }
+  ]
+}

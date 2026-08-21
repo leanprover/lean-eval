@@ -1,0 +1,12 @@
+{
+  "id": "annals_equiangular_lines_fixed_angle",
+  "module": "LeanEval.Combinatorics.EquiangularLinesFixedAngle",
+  "holes": [
+    {
+      "name": "EquiangularLinesFixedAngle.theorem_1_2",
+      "basename": "theorem_1_2",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.2 (Main theorem):\n\nFix `\u03b1 \u2208 (0, 1)`. Let `\u03bb = (1 \u2212 \u03b1)/(2\u03b1)` and `k = k(\u03bb)` be its spectral radius order.\nThe maximum number `N_\u03b1(d)` of equiangular lines in `\u211d\u1d48` with common angle `arccos \u03b1` satisfies\n(a) `N_\u03b1(d) = \u230ak(d \u2212 1)/(k \u2212 1)\u230b` for all sufficiently large `d > d\u2080(\u03b1)` if `k < \u221e`;\n(b) `N_\u03b1(d) = d + o(d)` as `d \u2192 \u221e` if `k = \u221e`.\n-/\ntheorem theorem_1_2 (\u03b1 : \u211d) (h\u03b1 : \u03b1 \u2208 Set.Ioo 0 1) :\n    let k := spectralRadiusOrder ((1 - \u03b1) / (2 * \u03b1))\n    (k < \u22a4 \u2192 \u2200\u1da0 d in atTop, N \u03b1 d = \u230a(k.toNat * (d - 1) : \u211d) / (k.toNat - 1 : \u211d)\u230b\u208a) \u2227\n    (k = \u22a4 \u2192 \u2203 e : \u2115 \u2192 \u211d, e =o[atTop] (Nat.cast : \u2115 \u2192 \u211d) \u2227 \u2200 d, N \u03b1 d = d + e d) := by\n  sorry"
+    }
+  ]
+}

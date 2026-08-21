@@ -1,6 +1,10 @@
 id = "brauer_character_in_cyclotomic"
 title = "Character values of finite groups lie in cyclotomic fields"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.RepresentationTheory.BrauerCharacterInCyclotomic"
 holes = ["brauer_character_in_cyclotomic"]
 submitter = "Kim Morrison"

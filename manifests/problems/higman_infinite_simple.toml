@@ -1,6 +1,10 @@
 id = "higman_infinite_simple"
 title = "Higman's infinite finitely-presented simple group"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.GroupTheory.HigmanInfiniteSimple"
 holes = ["higman_infinite_simple"]
 submitter = "Kim Morrison"

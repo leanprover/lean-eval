@@ -1,6 +1,10 @@
 id = "irreducible_nonnegative_matrix_has_positive_eigenvector_at_spectralRadius"
 title = "Perron-Frobenius for irreducible nonnegative matrices"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.LinearAlgebra.PerronFrobenius"
 holes = ["irreducible_nonnegative_matrix_has_positive_eigenvector_at_spectralRadius"]
 submitter = "Kim Morrison"

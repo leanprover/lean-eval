@@ -3,7 +3,11 @@
 Fáry–Milnor theorem (knot total curvature ≤ 4π implies unknotted)
 
 - Problem ID: `fary_milnor`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: A smooth knot in ℝ³ with total curvature at most 4π is unknotted. A knot is a smooth, regular, 2π-periodic, simple-on-`[0, 2π)` curve `r : ℝ → ℝ³`. Curvature is the standard parametrized expression `‖r'(t) × r''(t)‖ / ‖r'(t)‖³`; total curvature is the arc-length integral. Unknottedness is encoded as a smooth isotopy through smooth knots from r to the standard unit circle. Mathlib has the analytic primitives (`deriv`, interval integrals, `ContDiff`, `crossProduct`, Euclidean norm) but no knot-total-curvature / unknottedness API. §161 of Knill's *Some Fundamental Theorems in Mathematics*.
 - Source: I. Fáry, 'Sur la courbure totale d'une courbe gauche faisant un nœud', Bull. Soc. Math. France 77 (1949) 128–138; J. Milnor, 'On the total curvature of knots', Ann. of Math. (2) 52 (1950) 248–257. §161 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

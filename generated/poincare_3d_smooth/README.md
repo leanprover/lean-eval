@@ -3,7 +3,11 @@
 3D smooth Poincaré conjecture (Perelman)
 
 - Problem ID: `poincare_3d_smooth`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Every simply connected compact Hausdorff smooth 3-manifold is diffeomorphic to 𝕊³. Recorded as `proof_wanted SimplyConnectedSpace.nonempty_diffeomorph_sphere_three` in `Mathlib/Geometry/Manifold/PoincareConjecture.lean`. The smooth-category strengthening of the topological 3D Poincaré conjecture; also Perelman 2002-2003. In dim 3 the smooth and topological versions are equivalent (Moise's theorem says every topological 3-manifold admits a unique smooth structure), but the Lean statement carries the smooth structure explicitly. Mathlib has all the differential-topology / manifold scaffolding but neither Ricci flow nor Moise's theorem.
 - Source: G. Perelman, three arXiv preprints 2002-2003 (math/0211159, math/0303109, math/0307245). Recorded as a `proof_wanted` in Mathlib/Geometry/Manifold/PoincareConjecture.lean. In dim 3, Smooth ⇔ PL ⇔ Topological via Moise (1952) / Bing (1959).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

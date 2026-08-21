@@ -1,6 +1,10 @@
 id = "smooth_knot_has_quadrisecant"
 title = "Pannwitz–Kuperberg quadrisecant theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.KnotTheory.Quadrisecant"
 holes = ["smooth_knot_has_quadrisecant"]
 submitter = "Kim Morrison"

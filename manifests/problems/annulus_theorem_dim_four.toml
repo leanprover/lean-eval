@@ -1,6 +1,10 @@
 id = "annulus_theorem_dim_four"
 title = "The Annulus Theorem in dimension 4 (Quinn)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.AnnulusTheoremDimFour"
 holes = ["annulus_theorem_dim_four"]
 submitter = "Kim Morrison"

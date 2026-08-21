@@ -1,6 +1,10 @@
 id = "parallel_postulate_independent"
 title = "Independence of the parallel postulate"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.ParallelPostulate"
 holes = ["parallel_postulate_independent"]
 submitter = "Kim Morrison"

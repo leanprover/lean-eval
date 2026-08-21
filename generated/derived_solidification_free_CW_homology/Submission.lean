@@ -55,8 +55,8 @@ in this challenge.
 
 namespace Submission
 
-open _root_.LightCondensed.Solid
 open _root_.LightCondensed
+open _root_.LightCondensed.Solid
 open _root_.LightCondensed.Solid.CWTopCat
 open _root_.LightProfinite
 open CategoryTheory Limits LightProfinite OnePoint LightCondensed MonoidalCategory MonoidalClosed
@@ -92,7 +92,7 @@ namespace LightCondensed
 
 
 
-set_option backward.isDefEq.respectTransparency false in
+
 
 
 
@@ -104,12 +104,8 @@ abbrev IsSolid (A : LightCondAb) := isSolid.Is A
 
 namespace Solid
 
-set_option backward.defeqAttrib.useBackward true in
-set_option backward.isDefEq.respectTransparency false in
 
 
-set_option backward.defeqAttrib.useBackward true in
-set_option backward.isDefEq.respectTransparency false in
 
 
 

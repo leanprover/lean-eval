@@ -1,0 +1,18 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "MotivicInvariants.theorem_1_2_1_a",
+    "MotivicInvariants.theorem_1_2_1_b",
+    "MotivicInvariants.theorem_1_2_1_c",
+    "MotivicInvariants.theorem_1_2_1_d",
+    "MotivicInvariants.theorem_1_2_2",
+    "MotivicInvariants.theorem_1_2_3"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": false
+}

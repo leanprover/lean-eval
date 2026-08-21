@@ -1,0 +1,11 @@
+id = "annals_on_property_t"
+title = "On property (T) for Aut(F_n) and SL_n(Z)"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.GroupTheory.OnPropertyT"
+holes = ["theorem_1"]
+submitter = "Thomas Browning"
+source = "M. Kaluba, D. Kielak, and P. W. Nowak, `On property (T) for Aut(F_n) and SL_n(Z)`, Annals of Math, 193 (2) 2021. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2021-193-2-OnPropertyT.lean"

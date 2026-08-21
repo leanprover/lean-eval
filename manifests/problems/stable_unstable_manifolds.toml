@@ -1,6 +1,10 @@
 id = "stable_unstable_manifolds"
 title = "Local stable/unstable sets at a hyperbolic fixed point (set-level Hadamard–Perron)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Dynamics.StableUnstableManifolds"
 holes = ["stable_unstable_manifolds_exist"]
 submitter = "Kim Morrison"

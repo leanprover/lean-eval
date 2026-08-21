@@ -3,7 +3,11 @@
 The Hausdorff positivity (complete-monotonicity) criterion
 
 - Problem ID: `hausdorff_positivity_criterion`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: A multi-indexed real sequence is a positive moment configuration on the unit cube Iᵈ (realized by a positive finite measure) iff it is completely monotone: all iterated backward differences are nonnegative, (Δᵏa)ₙ ≥ 0 for all k ≤ n. Shares the §115 trusted scaffolding (cube, monomial, momentOf, multiChoose, diff, IsPositiveMomentConfiguration). Not in Mathlib (no completely-monotone sequences / Hausdorff moment problem). Companion candidate from §115 of the Knill survey.
 - Source: F. Hausdorff, *Summationsmethoden und Momentfolgen I, II*, Math. Z. 9 (1921). Knill, *Some fundamental theorems in mathematics*, §115.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

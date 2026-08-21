@@ -1,6 +1,10 @@
 id = "fang_xia_tiling_partition_transitive"
 title = "Fang–Xia: tiling of the symmetric group by transpositions implies λ-transitivity"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Combinatorics.FangXiaTiling"
 holes = ["fang_xia_partition_transitive_of_tiling"]
 submitter = "Kim Morrison"

@@ -1,4 +1,7 @@
 import Mathlib
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 namespace LeanEval.Geometry.SphereTheorem
 
@@ -60,6 +63,8 @@ def QuarterPinched
       inner ℝ (X x) (Y x) = (0 : ℝ) →
       (1 : ℝ) < inner ℝ (curv cov X Y Y x) (X x) ∧
         inner ℝ (curv cov X Y Y x) (X x) ≤ (4 : ℝ)
+
+
 
 
 

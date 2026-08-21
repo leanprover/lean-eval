@@ -1,4 +1,10 @@
-import Mathlib
+import Mathlib.LinearAlgebra.TensorPower.Basic
+import Mathlib.LinearAlgebra.PiTensorProduct.Basic
+import Mathlib.Algebra.Algebra.Subalgebra.Centralizer
+import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 namespace LeanEval
 namespace RepresentationTheory
@@ -40,6 +46,8 @@ def glAction (R M : Type*) [CommSemiring R] [AddCommMonoid M] [Module R M] (k : 
   toFun g := PiTensorProduct.map (fun _ : Fin k => (g : M →ₗ[R] M))
   map_one' := by ext x; simp
   map_mul' g h := by ext x; simp
+
+
 
 
 

@@ -1,0 +1,12 @@
+{
+  "id": "annals_good_lt_codes",
+  "module": "LeanEval.Combinatorics.GoodLTCodes",
+  "holes": [
+    {
+      "name": "GoodLTC.theorem_1_2",
+      "basename": "theorem_1_2",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.2:\n\nThere exist explicit good locally testable codes (for every rate `\u03c1 < 1`).\n-/\ntheorem theorem_1_2 (\u03c1 : \u211d\u22650) (h\u03c1 : \u03c1 < 1) :\n    \u2203 q, \u2203 \u03ba \u2260 0, \u2203 (n : \u2115 \u2192 \u2115), \u2203 (\ud835\udc9e : (i : \u2115) \u2192 BinaryCode (n i)), IsGood \ud835\udc9e \u2227\n      \u2200 i, Nonempty (LTC q \u03ba (\ud835\udc9e i)) \u2227 rate (\ud835\udc9e i) \u2265 \u03c1 := by\n  sorry"
+    }
+  ]
+}

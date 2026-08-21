@@ -4,8 +4,8 @@ import ChallengeDeps
 
 namespace Submission
 
+open _root_.LeanEval
 open _root_.LeanEval.Analysis
-open LeanEval
 namespace LeanEval
 namespace Analysis
 

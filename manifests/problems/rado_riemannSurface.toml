@@ -1,6 +1,10 @@
 id = "rado_riemannSurface"
 title = "Radó's theorem on Riemann surfaces"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.RadoTheorem"
 holes = ["rado_riemannSurface"]
 submitter = "Junyan Xu"

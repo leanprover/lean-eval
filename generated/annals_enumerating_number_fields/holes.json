@@ -1,0 +1,18 @@
+{
+  "id": "annals_enumerating_number_fields",
+  "module": "LeanEval.NumberTheory.EnumeratingNumberFields",
+  "holes": [
+    {
+      "name": "EnumeratingNumberFields.theorem_1",
+      "basename": "theorem_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1 (Number fields have small models):\n\nThere exists a positive constant `Q` such that the following is true. Let `K` be a number field\nof degree `n \u2265 Q` and root discriminant `\u03b4` over `\u211a`. Then there exist integers `r \u2264 Q log n` and\n`d \u2264 Q log n` such that `(d + r) choose r \u2264 Q n log n`, and there exist `r` polynomials\n`E\u2081, ..., E\u1d63` of degree `\u2264 d` in `\u2124[x\u2081, ..., x\u1d63]` all having coefficients bounded in absolute value\nby `(n \u03b4) ^ (Q log n)` such that the (smooth and zero-dimensional affine) scheme with equations\n`E\u2081 = ... = E\u1d63 = 0` and `det (\u2202E\u1d62/\u2202x\u2c7c) \u2260 0` contains `Spec K` as one of its irreducible components.\n-/\ntheorem theorem_1 : \u2203 Q > 0, \u2200 n \u2265 Q, \u2200 K : NumberFieldOfDegree n, \u2203 (r d : \u2115),\n    r \u2264 Q * log n \u2227 d \u2264 Q * log n \u2227 (d + r).choose r \u2264 Q * n * log n \u2227\n      \u2203 E : Fin r \u2192 MvPolynomial (Fin r) \u2124, (\u2200 i, (E i).totalDegree \u2264 d) \u2227\n        (\u2200 i j, |(E i).coeff j| \u2264 (n * rootDiscr K) ^ (Q * log n)) \u2227\n          letI X := nonsingularOpen fun i \u21a6 (E i).map (algebraMap \u2124 \u211a)\n          \u2203 Z, \u2203 hZ : Z \u2208 irreducibleComponents X,\n            Nonempty (X.irreducibleComponent Z hZ \u2245 Spec (.of K)) := by\n  sorry"
+    },
+    {
+      "name": "EnumeratingNumberFields.theorem_2",
+      "basename": "theorem_2",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 2 (Number fields with bounded discriminant):\n\nThere exists a positive constant `Q` such that the following is true. Let `n \u2265 Q` be an integer.\nLet `H \u2265 1` be an integer. The number of isomorphism classes of number fields\nwith degree `n` and discriminant `\u2264 H` is `\u2264 n^(Q n log^3 n) H^(Q log^3 n)`.\n-/\ntheorem theorem_2 : \u2203 Q > 0, \u2200 n \u2265 Q, \u2200 H \u2265 1,\n    (Nat.card (NumberFieldOfBoundedDiscriminantUpToIsomorphism n H) : \u211d) \u2264\n      n ^ (Q * n * log n ^ 3) * H ^ (Q * log n ^ 3) := by\n  sorry"
+    }
+  ]
+}

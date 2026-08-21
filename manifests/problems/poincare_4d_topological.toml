@@ -1,6 +1,10 @@
 id = "poincare_4d_topological"
 title = "4D topological Poincaré conjecture (Freedman)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.Poincare4DTopological"
 holes = ["poincare_4d_topological"]
 submitter = "Kim Morrison"

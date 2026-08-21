@@ -1,0 +1,24 @@
+{
+  "id": "annals_zagier_hoffman_positive_char",
+  "module": "LeanEval.NumberTheory.ZagierHoffmanPositiveChar",
+  "holes": [
+    {
+      "name": "ZagierHoffmanPositiveChar.theorem_A",
+      "basename": "theorem_A",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem A (Brown's theorem in positive characteristic):\n\nLet `w \u2208 \u2115`, where `\u2115 := {1,2,...}`. Then every MZV of weight `w` can be written as a `K`-linear\ncombination of MZV's in the set `\ud835\udcaf_w`. In particular, `dim \ud835\udcb5_w \u2264 d(w)`.\nNote that `K` in the paper is `RatFunc F`.\n-/\ntheorem theorem_A (w : \u2115+) :\n    \ud835\udcb5 F w = Submodule.span (RatFunc F) (\ud835\udcaf F w) \u2227\n    Module.rank (RatFunc F) (\ud835\udcb5 F w) \u2264 d F w := by\n  sorry"
+    },
+    {
+      "name": "ZagierHoffmanPositiveChar.theorem_B",
+      "basename": "theorem_B",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem B:\n\nLet `w \u2208 \u2115`, where `\u2115 := {1,2,...}`. MZVs of weight `w` in `\ud835\udcaf0 w` are all linearly independent over\n`K`. In particular, `dim \ud835\udcb5 w \u2265 |\ud835\udcaf0 w|`. Note that `K` in the paper is `RatFunc F`.\n-/\ntheorem theorem_B (w : \u2115+) :\n    LinearIndependent (RatFunc F) (Subtype.val : \ud835\udcaf0 F w \u2192 CompletionAtInfty F) \u2227\n    Module.rank (RatFunc F) (\ud835\udcb5 F w) \u2265 Set.ncard (\ud835\udcaf0 F w) := by\n  sorry"
+    },
+    {
+      "name": "ZagierHoffmanPositiveChar.theorem_D",
+      "basename": "theorem_D",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem D:\n\nLet `w \u2208 \u2115+` with `w \u2264 2q \u2212 2`. Then `\ud835\udcaf w` is a `K`-basis for `\ud835\udcb5 w`. In particular,\n`dim_K (\ud835\udcb5 w) = d(w)`. Note that `K` in the paper is `RatFunc F`.\n\nNote: Theorem A establishes that `\ud835\udcaf w` spans `\ud835\udcb5 w`. So to prove `\ud835\udcaf w` is a `K`-basis for `\ud835\udcb5 w`, we\nonly need to show that `\ud835\udcaf w` are linearly independent in `\ud835\udcb5 w`.\n-/\ntheorem theorem_D (w : \u2115+) (hw : w \u2264 2 * Nat.card F - 2) :\n    LinearIndependent (RatFunc F) (Subtype.val : \ud835\udcaf F w \u2192 CompletionAtInfty F) \u2227\n    Module.rank (RatFunc F) (\ud835\udcb5 F w) = d F w := by\n  sorry"
+    }
+  ]
+}

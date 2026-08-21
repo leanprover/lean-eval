@@ -1,6 +1,10 @@
 id = "schlafli_classification"
 title = "Schläfli classification of regular polytopes"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.SchlafliClassification"
 holes = ["schlafli_classification"]
 submitter = "Kim Morrison"

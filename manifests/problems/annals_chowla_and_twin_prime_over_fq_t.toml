@@ -1,0 +1,11 @@
+id = "annals_chowla_and_twin_prime_over_fq_t"
+title = "On the Chowla and twin primes conjectures over 𝔽_q[T]"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.NumberTheory.ChowlaAndTwinPrimeOverFqT"
+holes = ["theorem_1_1", "theorem_1_3"]
+submitter = "Thomas Browning"
+source = "W. Sawin and M. Shusterman, `On the Chowla and twin primes conjectures over 𝔽_q[T]`, Annals of Math, 196 (2) 2022. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2022-196-2-ChowlaAndTwinPrimeOverFqT.lean"

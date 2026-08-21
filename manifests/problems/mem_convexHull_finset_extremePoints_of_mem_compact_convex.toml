@@ -1,6 +1,10 @@
 id = "mem_convexHull_finset_extremePoints_of_mem_compact_convex"
 title = "Minkowski-Caratheodory theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.ConvexGeometry.MinkowskiCaratheodory"
 holes = ["mem_convexHull_finset_extremePoints_of_mem_compact_convex"]
 submitter = "Kim Morrison"

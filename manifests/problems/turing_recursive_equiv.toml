@@ -1,6 +1,10 @@
 id = "turing_recursive_equiv"
 title = "General recursive equals Turing computable"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.ModelTheory.TuringRecursive"
 holes = ["turing_recursive_equiv"]
 submitter = "Kim Morrison"

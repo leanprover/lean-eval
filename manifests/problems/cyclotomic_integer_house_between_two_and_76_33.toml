@@ -1,6 +1,10 @@
 id = "cyclotomic_integer_house_between_two_and_76_33"
 title = "Real cyclotomic integer with house in (2, 76/33)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.SmallHouse"
 holes = ["cyclotomic_integer_house_between_two_and_76_33"]
 submitter = "Kim Morrison"

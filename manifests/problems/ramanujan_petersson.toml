@@ -1,6 +1,10 @@
 id = "ramanujan_petersson"
 title = "Ramanujan–Petersson conjecture for the τ-function (Deligne's theorem)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.RamanujanTau"
 holes = ["ramanujan_petersson"]
 submitter = "Seewoo Lee"

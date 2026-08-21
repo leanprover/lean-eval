@@ -1,6 +1,10 @@
 id = "hippocrates_lunes"
 title = "Hippocrates' theorem on lunes"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.HippocratesLunes"
 holes = ["hippocrates_lunes"]
 submitter = "Kim Morrison"

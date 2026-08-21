@@ -34,11 +34,27 @@ Phases:
 
   --phase=both (default) Run A then B, report both.
 
-This probe does NOT have a CI mode that asserts "no exploit" by default,
-because Phase B's outcome may motivate landing an upstream comparator
-patch (setsid + killpg around landrun, or copy-out olean before
-export). Once that mitigation is in place, add a CI assertion that
-Phase B reports REJECTED.
+LIMITATION (2026-08-20): the exec-allowlist half of this probe does not
+establish what we once read it as establishing. It shows `sh`, `setsid`,
+`bash`, `cp` and `env` are denied, and we concluded from that that no
+daemon can be spawned. But the probe's own `want_ok` case shows `lean`
+spawning successfully, and `lean` is a general-purpose interpreter: the
+daemon can simply be another `lean`. It needs no external `setsid`
+either, since `IO.Process.SpawnArgs` has a native `setsid : Bool` field.
+Step 2 above should be read as "detaches via `SpawnArgs.setsid`", not as
+requiring the `setsid` binary. Extending this probe to attempt that is
+the obvious next step; see
+https://github.com/leanprover/comparator/issues/77.
+
+This probe does NOT have a CI mode that asserts "no exploit" by default.
+Note also that the mitigations once sketched here (setsid + killpg
+around landrun, or copying the olean out before export) do not work: a
+daemon rewriting in a loop races the copy just as it raced the export,
+and `killpg` misses a process that called `setsid` itself. The remedy
+under discussion upstream is for comparator to detect surviving
+descendants and fail, rather than to try to win the race; see
+leanprover/comparator#78. Once a mitigation is in place, add a CI
+assertion that Phase B reports REJECTED.
 """
 
 from __future__ import annotations
@@ -79,10 +95,11 @@ initialize do
   IO.FS.createDirAll outDir
   -- Marker A: write synchronously from within elaboration.
   IO.FS.writeFile (outDir / "marker-elab") "init-ran\n"
-  -- Probe what binaries the sandbox allows us to exec. If only `lean`
-  -- and `git` work, an attacker's Submission has no way to spawn a
-  -- daemon — the writable-.lake race attack collapses at the exec
-  -- step.
+  -- Probe what binaries the sandbox allows us to exec. NOTE: `lean`
+  -- succeeding below is not a negative result. `lean` is a
+  -- general-purpose interpreter, so an attacker's daemon can be another
+  -- `lean`; this list rules out convenient daemons, not all of them.
+  -- See leanprover/comparator#77.
   let results := #[
     (← tryExec "want_ok"   "lean"   #["--version"]),
     (← tryExec "want_ok"   "git"    #["--version"]),

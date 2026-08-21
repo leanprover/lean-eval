@@ -1,0 +1,13 @@
+id = "rcf_quantifier_elimination"
+title = "Quantifier elimination for the theory of real closed fields"
+group = "software-verification"
+status = "active"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.ProgramVerification.RealClosedFieldQE"
+holes = ["qe", "isQF_qe", "holds_qe", "holds_ex_sq"]
+submitter = "Kim Morrison"
+source = "Tarski, 'A Decision Method for Elementary Algebra and Geometry' (1951); Collins, 'Quantifier elimination for real closed fields by cylindrical algebraic decomposition' (1975); Mahboubi, 'Programming and certifying a CAD algorithm in the Coq system' (2006); Cohen and Mahboubi, 'Formal proofs in real algebraic geometry: from ordered fields to quantifier elimination' (2012)."
+notes = "`isQF_qe` and `holds_qe` are jointly load-bearing; either alone admits a trivial implementation (`fun _ => .fals` and `id` respectively). Enumerating quantifier-free syntax is not a shortcut because recognizing an equivalent candidate already requires the substantive quantifier-elimination argument. The `holds_ex_sq` guard pins the intended de Bruijn and semantic interpretation. The pinned Mathlib dependency supplies real-closed-field algebra but not this `qe`; `Classical.choice` still requires first proving existence of a quantifier-free equivalent. A separate `valid?` hole was rejected as vulnerable to a one-line noncomputable implementation; see the module documentation."
+informal_solution = "The Cohen-Hormander route has a comparatively small formalization footprint; Cohen and Mahboubi's Coq development uses an algebraic pseudo-remainder route. Cylindrical algebraic decomposition is another practical route and has been formalized in Coq, including Mahboubi's work and the current MathComp CAD development."

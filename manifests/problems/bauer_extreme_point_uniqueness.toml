@@ -1,6 +1,10 @@
 id = "bauer_extreme_point_uniqueness"
 title = "Bauer's uniqueness at extreme points"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.Choquet"
 holes = ["bauer_unique"]
 submitter = "Kim Morrison"

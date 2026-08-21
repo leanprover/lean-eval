@@ -1,4 +1,7 @@
 import Mathlib
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 namespace LeanEval
 namespace Dynamics
@@ -31,6 +34,8 @@ open MeasureTheory Filter Topology Real
 
 /-- The Euclidean plane, used as the chart codomain for a compact surface. -/
 abbrev EucPlane : Type := EuclideanSpace ℝ (Fin 2)
+
+
 
 /-- A finite **measurable partition** (mod `μ`-null sets). -/
 structure IsMeasurablePartition {M : Type*} [MeasurableSpace M]
@@ -75,6 +80,12 @@ noncomputable def lyapunovLowerAt
     (T : EucPlane → EucPlane) (x : EucPlane) : ℝ :=
   -Filter.limsup
     (fun n : ℕ => Real.log ‖(fderiv ℝ (T^[n]) x).inverse‖ / n) atTop
+
+
+
+
+
+
 
 
 

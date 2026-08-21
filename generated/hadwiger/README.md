@@ -3,7 +3,11 @@
 Hadwiger's theorem
 
 - Problem ID: `hadwiger`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: §31 of Oliver Knill's 'Some Fundamental Theorems in Mathematics'. The real vector space of continuous, rigid-motion-invariant valuations on convex bodies in ℝⁿ has dimension n + 1. The problem defines the IsValuation predicate (continuity in the Hausdorff metric, inclusion-exclusion additivity, invariance under linear isometries and translations) and the valuations submodule. mathlib has ConvexBody with its Hausdorff MetricSpace but no valuations, intrinsic volumes, or Hadwiger's theorem; no formalization was found in any other proof assistant. The Submodule membership-closure fields of `valuations` are fully proved, so the fixed definitions are sorry-free and the only hole is the target theorem.
 - Source: H. Hadwiger (1937). Listed as §31 in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

@@ -3,7 +3,11 @@
 Erdős's unit-distance conjecture is false
 
 - Problem ID: `erdos_unit_distance_conjecture_false`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Erdős (1946) conjectured ν(n) ≤ n^{1 + C / log log n} for some absolute C and all sufficiently large n. The conjecture stood for 80 years and was widely believed to be true prior to OpenAI's 2026 construction, in part because Alon-Bucić-Sauermann (2025) had proved a matching bound (d/2) n log₂ n for typical norms on ℝ^d (later sharpened by Greilhuber-Schildkraut-Tidor, 2025). The refutation also disproves the stronger Erdős-Falconer (1997) k-equidistant variant: along the refuting sequence the unit-distance graph has average degree n^{Ω(1)}, while Erdős-Falconer predicted at most n^{o(1)}. ν is defined as the number of unordered pairs in P ⊆ ℝ² at Euclidean distance exactly 1; the planar metric is the one from EuclideanSpace ℝ (Fin 2), not the product sup-metric.
 - Source: OpenAI, *Planar Point Sets with Many Unit Distances*, 2026. https://cdn.openai.com/pdf/74c24085-19b0-4534-9c90-465b8e29ad73/unit-distance-proof.pdf . Original conjecture: P. Erdős, *On sets of distances of n points*, Amer. Math. Monthly 53 (1946), 248-250. k-equidistant variant: P. Erdős, K. Falconer, *Some problems in combinatorial geometry*, 1997.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

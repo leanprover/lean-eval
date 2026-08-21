@@ -1,0 +1,12 @@
+{
+  "id": "annals_rademacher_enflo_type",
+  "module": "LeanEval.Analysis.RademacherEnfloType",
+  "holes": [
+    {
+      "name": "RademacherEnfloType.theorem_1_1",
+      "basename": "theorem_1_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.1:\n\nFor any `p \u2208 [1,2]`, and Banach space `X`\n\n`TR\u209a(X) \u2264 TE\u209a(X) \u2264 (\u03c0 / \u221a2) TR\u209a(X)`.\n-/\ntheorem theorem_1_1 (p : \u211d) (h1p : 1 \u2264 p) (hp2 : p \u2264 2) :\n    TR X p \u2264 TE X p \u2227 TE X p \u2264 (pi / sqrt 2) * TR X p := by\n  sorry"
+    }
+  ]
+}

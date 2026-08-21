@@ -1,0 +1,30 @@
+{
+  "id": "rcf_quantifier_elimination",
+  "module": "LeanEval.ProgramVerification.RealClosedFieldQE",
+  "holes": [
+    {
+      "name": "LeanEval.ProgramVerification.RealClosedFieldQE.qe",
+      "basename": "qe",
+      "kind": "def",
+      "body": "/--\nQuantifier elimination: `qe \u03c6` is a quantifier-free formula equivalent to `\u03c6` over `\u211d` in\nevery environment. Its syntax may mention additional variables vacuously.\n-/\ndef qe (\u03c6 : Formula) : Formula := sorry"
+    },
+    {
+      "name": "LeanEval.ProgramVerification.RealClosedFieldQE.isQF_qe",
+      "basename": "isQF_qe",
+      "kind": "theorem",
+      "body": "/-- The output of `qe` is quantifier free. -/\ntheorem isQF_qe (\u03c6 : Formula) : (qe \u03c6).IsQF := sorry"
+    },
+    {
+      "name": "LeanEval.ProgramVerification.RealClosedFieldQE.holds_qe",
+      "basename": "holds_qe",
+      "kind": "theorem",
+      "body": "/-- The output of `qe` is equivalent to its input, under every environment. -/\ntheorem holds_qe (\u03c6 : Formula) (env : Nat \u2192 \u211d) :\n    (qe \u03c6).Holds env \u2194 \u03c6.Holds env := sorry"
+    },
+    {
+      "name": "LeanEval.ProgramVerification.RealClosedFieldQE.holds_ex_sq",
+      "basename": "holds_ex_sq",
+      "kind": "theorem",
+      "body": "/--\nAnti-vacuity guard for the semantics and de Bruijn convention: a real number is a square\nexactly when it is nonnegative.\n-/\ntheorem holds_ex_sq (env : Nat \u2192 \u211d) :\n    (Formula.ex (.eq (.mul (.var 0) (.var 0)) (.var 1))).Holds env \u2194\n      (Formula.not (.lt (.var 0) (.const 0))).Holds env := sorry"
+    }
+  ]
+}

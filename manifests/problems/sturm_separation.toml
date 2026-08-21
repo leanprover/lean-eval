@@ -1,6 +1,10 @@
 id = "sturm_separation"
 title = "Sturm separation theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.ODE.SturmSeparation"
 holes = ["sturm_separation"]
 submitter = "Kim Morrison"

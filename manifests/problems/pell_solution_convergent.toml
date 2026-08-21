@@ -1,6 +1,10 @@
 id = "pell_solution_convergent"
 title = "Pell solutions are convergents of √d"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.PellConvergent"
 holes = ["pell_solution_is_convergent"]
 submitter = "Kim Morrison"

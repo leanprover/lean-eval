@@ -1,0 +1,18 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "LeanEval.ProgramVerification.RealClosedFieldQE.isQF_qe",
+    "LeanEval.ProgramVerification.RealClosedFieldQE.holds_qe",
+    "LeanEval.ProgramVerification.RealClosedFieldQE.holds_ex_sq"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": false,
+  "definition_names": [
+    "LeanEval.ProgramVerification.RealClosedFieldQE.qe"
+  ]
+}

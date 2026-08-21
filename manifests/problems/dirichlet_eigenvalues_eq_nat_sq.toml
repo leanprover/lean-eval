@@ -1,6 +1,10 @@
 id = "dirichlet_eigenvalues_eq_nat_sq"
 title = "Dirichlet eigenvalues of -y'' = lambda y on [0,pi] are n^2"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.ODE.DirichletEigenvalues"
 holes = ["dirichlet_eigenvalues_eq_nat_sq"]
 submitter = "Kim Morrison"

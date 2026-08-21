@@ -3,7 +3,11 @@
 Feit–Thompson odd-order theorem
 
 - Problem ID: `feit_thompson`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Every finite group of odd order is solvable. W. Feit and J. G. Thompson, Pacific J. Math. 13 (1963), 775-1029. A 255-page paper that opened the path to the Classification of Finite Simple Groups; Thompson received the Fields Medal in 1970 in part for this work. Coq formalization by Gonthier et al. 2012 (~170 000 lines); no Lean port. Stated with zero new definitions on top of mathlib (IsSolvable, Odd, Nat.card, Group, Finite). Honorable-mention entry on Freek Wiedijk's 'Formalizing 100 Theorems' page (alongside the Classification of Finite Simple Groups itself).
 - Source: W. Feit and J. G. Thompson, Solvability of groups of odd order, Pacific J. Math. 13 (1963), 775-1029. Coq formalization: G. Gonthier et al., A Machine-Checked Proof of the Odd Order Theorem, ITP 2013 (https://hal.inria.fr/hal-00816699). Listed as a named honorable mention on https://www.cs.ru.nl/~freek/100/.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

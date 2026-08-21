@@ -1,0 +1,12 @@
+{
+  "id": "annals_dirichlet_weyl_bound",
+  "module": "LeanEval.NumberTheory.DirichletWeylBound",
+  "holes": [
+    {
+      "name": "DirichletWeylBound.corollary_1_3",
+      "basename": "corollary_1_3",
+      "kind": "theorem",
+      "body": "/--\nStatement of Corollary 1.3:\n\nSuppose `\u03c7` has cubefree conductor `q`. Then\n`|L(1/2 + it, \u03c7)| \u226a q ^ (1/6 + \u03b5) * (1 + |t|) ^ (1/6 + \u03b5)`.\n-/\ntheorem corollary_1_3 (\u03b5 : \u211d) (h\u03b5 : 0 < \u03b5) : \u2203 C : \u211d,\n    \u2200 q (_hq : q.IsCubeFree) [NeZero q] (\u03c7 : DirichletCharacter \u2102 q) (_h\u03c7 : \u03c7.IsPrimitive) (t : \u211d),\n      \u2016\u03c7.LFunction (1 / 2 + I * t)\u2016 \u2264 C * q ^ (1 / 6 + \u03b5) * (1 + |t|) ^ (1 / 6 + \u03b5) := by\n  sorry"
+    }
+  ]
+}

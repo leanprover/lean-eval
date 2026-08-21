@@ -21,13 +21,32 @@ def runRootCmd (p : Parsed) : IO UInt32 := do
   p.printHelp
   pure 0
 
-def runValidateManifestCmd (_ : Parsed) : IO UInt32 := do
-  let root ← requireRepoRoot
-  EvalTools.runValidateManifest root
+def requestedModules (p : Parsed) : Array String :=
+  match p.flag? "module" with
+  | some flag => flag.as! (Array String)
+  | none => #[]
 
-def runCheckProblemBuildCmd (_ : Parsed) : IO UInt32 := do
+def runValidateManifestCmd (p : Parsed) : IO UInt32 := do
   let root ← requireRepoRoot
-  EvalTools.runCheckProblemBuild root
+  let inventoryDir? : Option System.FilePath :=
+    p.flag? "inventory-dir" |>.map fun flag => flag.as! String
+  EvalTools.runValidateManifest root
+    (modulesBuilt := p.hasFlag "assume-modules-built")
+    (structureOnly := p.hasFlag "structure-only") inventoryDir? (requestedModules p)
+
+def runCheckProblemBuildCmd (p : Parsed) : IO UInt32 := do
+  let root ← requireRepoRoot
+  EvalTools.runCheckProblemBuild root (requestedModules p)
+
+def runProblemInventoryCmd (p : Parsed) : IO UInt32 := do
+  let output : String := p.positionalArg! "output" |>.as! String
+  let root ← requireRepoRoot
+  try
+    writeProblemInventory root output (requestedModules p)
+    return 0
+  catch err =>
+    IO.eprintln err
+    return 1
 
 def runGenerateCmd (p : Parsed) : IO UInt32 := do
   let root ← requireRepoRoot
@@ -44,6 +63,15 @@ def runGenerateCmd (p : Parsed) : IO UInt32 := do
   let check := p.hasFlag "check"
   try
     EvalTools.generate root problem? check
+    return 0
+  catch e =>
+    IO.eprintln (toString e)
+    return 1
+
+def runValidateGeneratedCatalogCmd (_ : Parsed) : IO UInt32 := do
+  let root ← requireRepoRoot
+  try
+    EvalTools.validateGeneratedCatalog root
     return 0
   catch e =>
     IO.eprintln (toString e)
@@ -120,11 +148,31 @@ def runCheckEvalWorkflowCmd (_ : Parsed) : IO UInt32 := do
 def validateManifestCmd : Cmd := `[Cli|
   "validate-manifest" VIA runValidateManifestCmd;
   "Validate that the problem manifest matches the `@[eval_problem]` theorem inventory."
+
+  FLAGS:
+    "assume-modules-built"; "Skip rebuilding problem modules that a preceding check already built."
+    "structure-only"; "Validate manifest syntax, uniqueness, and source-module coverage without collecting inventory."
+    "inventory-dir" : String; "Validate against precomputed per-shard inventory JSON files in this directory."
+    module : Array String; "Restrict precomputed inventory validation to these manifest modules."
 ]
 
 def checkProblemBuildCmd : Cmd := `[Cli|
   "check-problem-build" VIA runCheckProblemBuildCmd;
   "Build the trusted problem modules and fail on Lean warnings or errors."
+
+  FLAGS:
+    module : Array String; "Restrict the warning-sensitive build to these manifest modules."
+]
+
+def problemInventoryCmd : Cmd := `[Cli|
+  "problem-inventory" VIA runProblemInventoryCmd;
+  "Write tagged-declaration inventory JSON for already-built problem modules."
+
+  FLAGS:
+    module : Array String; "Restrict inventory collection to these manifest modules."
+
+  ARGS:
+    "output" : String; "Destination JSON path."
 ]
 
 def generateCmd : Cmd := `[Cli|
@@ -135,6 +183,11 @@ def generateCmd : Cmd := `[Cli|
     manifest : String; "Path to the problem manifest."
     problem : String;  "Generate only the workspace for the given problem id."
     check;             "Check whether generated output is up to date without rewriting files."
+]
+
+def validateGeneratedCatalogCmd : Cmd := `[Cli|
+  "validate-generated-catalog" VIA runValidateGeneratedCatalogCmd;
+  "Validate generated/index.json and reject unexpected generated workspace directories."
 ]
 
 def checkGeneratedBuildsCmd : Cmd := `[Cli|
@@ -193,7 +246,9 @@ def leanEvalCmd : Cmd := `[Cli|
   SUBCOMMANDS:
     validateManifestCmd;
     checkProblemBuildCmd;
+    problemInventoryCmd;
     generateCmd;
+    validateGeneratedCatalogCmd;
     checkGeneratedBuildsCmd;
     startProblemCmd;
     checkComparatorInstallationCmd;
@@ -230,6 +285,7 @@ def coalesceRepeatedFlag (args : List String) (name : String) : List String := I
 def runMain (args : List String) : IO UInt32 := do
   let args := coalesceRepeatedFlag args "--problem"
   let args := coalesceRepeatedFlag args "--file"
+  let args := coalesceRepeatedFlag args "--module"
   leanEvalCmd.validate args
 
 end EvalTools

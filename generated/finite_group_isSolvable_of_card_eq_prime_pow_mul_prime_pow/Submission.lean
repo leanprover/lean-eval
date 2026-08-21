@@ -1,4 +1,8 @@
-import Mathlib
+import Mathlib.GroupTheory.Solvable
+import Mathlib.Data.Nat.Prime.Basic
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 import Submission.Helpers
 
 namespace Submission
@@ -9,7 +13,7 @@ theorem finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow {G : Type*} [
     (hq : Nat.Prime q)
     (hpq : p ≠ q)
     (hcard : Fintype.card G = p ^ a * q ^ b) :
-    IsSolvable G := by
+    Group.IsSolvable G := by
   sorry
 
 end Submission

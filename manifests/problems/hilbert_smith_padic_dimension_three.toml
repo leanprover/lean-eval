@@ -1,6 +1,10 @@
 id = "hilbert_smith_padic_dimension_three"
 title = "No continuous faithful ℤ_p action on a connected 3-manifold (Pardon 2013)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.HilbertSmith3D"
 holes = ["hilbert_smith_padic_dimension_three"]
 submitter = "Jack McCarthy"

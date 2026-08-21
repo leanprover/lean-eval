@@ -1,6 +1,10 @@
 id = "permute_to_unimodal"
 title = "A competition programming problem about permuting a permutation to be unimodal"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.ProgramVerification.PermuteToUnimodal"
 holes = ["minRearrange_correct"]
 submitter = "Julia M. Himmel"

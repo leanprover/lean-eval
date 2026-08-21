@@ -3,7 +3,11 @@
 Darboux's theorem (symplectic forms are locally standard)
 
 - Problem ID: `darboux`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: §39 of Oliver Knill's 'Some Fundamental Theorems in Mathematics'. Every symplectic form on an open U ⊆ ℝ^{2n} is locally symplectomorphic to the standard symplectic form ω₀ = ∑_i dxᵢ ∧ dx_{n+i}. The local content lives on open subsets of ℝ^{2n}; formalized against mathlib's normed-space differential-form machinery (continuous alternating maps, extDeriv, OpenPartialHomeomorph). Mathlib has all the supporting infrastructure but no symplectic forms, no ω₀, and no Darboux theorem (Analysis/Calculus/Darboux.lean is the unrelated derivative-IVT theorem). No formalization of Darboux's theorem was found in any other proof assistant.
 - Source: J. G. Darboux, Sur le problème de Pfaff, Bull. Sci. Math. 6 (1882), 14-36, 49-68. Listed as §39 in O. Knill, Some Fundamental Theorems in Mathematics (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

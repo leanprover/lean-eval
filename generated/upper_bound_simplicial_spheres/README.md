@@ -3,7 +3,11 @@
 Upper bound theorem for geometric simplicial spheres (Stanley 1975)
 
 - Problem ID: `upper_bound_simplicial_spheres`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Among finite (d − 1)-dimensional simplicial spheres with n vertices, the cyclic polytope C(n, d) maximises every face number f_k. The Lean encoding `FiniteSimplicialSphere d` uses mathlib's `Geometry.SimplicialComplex ℝ (EuclideanSpace ℝ (Fin d))` — finite geometric complexes linearly embedded in ℝᵈ whose underlying space `K.space` is homeomorphic to the unit sphere in ℝᵈ. Stanley 1975 proves the bound for all finite *abstract* simplicial spheres; not every abstract finite simplicial sphere embeds linearly in ℝᵈ, so our geometric class is a subset and Stanley 1975 implies this Lean statement. The h-vector is the standard binomial transform of the f-vector with the convention f_{−1} = 1; the cyclic-polytope h-vector and face counts use the closed-form `choose (n − d − 1 + min(j, d − j)) (min(j, d − j))` and the inverse h-to-f transform. §142 of Knill's *Some Fundamental Theorems in Mathematics*.
 - Source: R.P. Stanley, 'The upper bound conjecture and Cohen–Macaulay rings', Studies in Appl. Math. 54 (1975) 135–142. Conjecture: T.S. Motzkin (1957); polytope case: P. McMullen, 'The maximum numbers of faces of a convex polytope', Mathematika 17 (1970) 179–184. §142 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

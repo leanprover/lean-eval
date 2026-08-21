@@ -1,0 +1,12 @@
+{
+  "id": "annals_on_approximation_of_reals",
+  "module": "LeanEval.NumberTheory.OnApproximationOfReals",
+  "holes": [
+    {
+      "name": "OnApproximationOfReals.theorem_1_1",
+      "basename": "theorem_1_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.1:\n\nLet `n` be an integer such that `n \u2265 2`. For any transcendental real number `\u03be`, we have\n`\u03c9\u22c6_n(\u03be) \u2265 a * n`, where `a = 1 / (2 - log 2)`.\n-/\ntheorem theorem_1_1 (n : \u2115) (hn : n \u2265 2) (\u03be : \u211d) (h\u03be : Transcendental \u211a \u03be) :\n    letI a : \u211d := 1 / (2 - Real.log 2)\n    (\u03c9\u22c6 n \u03be : EReal) \u2265 (a : EReal) * n := by\n  sorry"
+    }
+  ]
+}

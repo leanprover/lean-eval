@@ -3,7 +3,11 @@
 Schreier's conjecture: outer automorphism group of a finite simple group is solvable
 
 - Problem ID: `schreier_conjecture`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: For every finite simple group S, Out(S) := Aut(S)/Inn(S) is solvable. The statement requires the normality of Inn(S) ⊴ Aut(S), which is supplied by a local instance with a one-line proof (the conjugate of conj(s) by α equals conj(α(s))). Verified case-by-case via CFSG; no CFSG-free proof is known. Schreier's conjecture is usually stated for non-abelian S, but that hypothesis is unnecessary: a finite abelian simple group is ZMod p, whose inner automorphisms are trivial and whose automorphism group (ZMod p)ˣ is cyclic, hence solvable.
 - Source: O. Schreier, Über die Erweiterung von Gruppen II, Abh. Math. Sem. Univ. Hamburg 4 (1926); CFSG, completed c. 2004.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

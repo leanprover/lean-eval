@@ -1,0 +1,12 @@
+{
+  "id": "annals_lorentzian_polynomials",
+  "module": "LeanEval.Combinatorics.LorentzianPolynomials",
+  "holes": [
+    {
+      "name": "LorentzianPolynomials.theorem_2_25",
+      "basename": "theorem_2_25",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 2.25:\n\nThe closure of `\u013f n d` in `H n d` is `L n d`.\n\nThe paper allows `n` and `d` to be nonnegative, but the theorem is false for `n = 0` and `d = 2`\nwhere `\u013f 0 2 = {f \u2208 P 0 2 | \u210b_f is nonsingular and has exactly one positive eigenvalue } = \u2205`\nsince the `0\u00d70` Hessian matrix of `f` cannot have a positive eigenvalue, but `L 0 2 = S 0 2`\ncontains the zero polynomial since the zero polynomial is homogeneous of degree `2`.\n-/\ntheorem theorem_2_25 (n d : \u2115) (hn : 0 < n) : closure (\u013f n d) = L n d := by\n  sorry"
+    }
+  ]
+}

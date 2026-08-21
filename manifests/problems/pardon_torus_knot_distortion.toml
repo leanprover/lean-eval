@@ -1,6 +1,10 @@
 id = "pardon_torus_knot_distortion"
 title = "Pardon's lower bound for torus-knot distortion"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.KnotTheory.PardonDistortion"
 holes = ["pardon_torus_knot_distortion"]
 submitter = "Kim Morrison"

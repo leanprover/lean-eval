@@ -1,6 +1,10 @@
 id = "rising_sun_lemma"
 title = "Riesz's rising sun lemma"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.RisingSun"
 holes = ["rising_sun_lemma"]
 submitter = "Kim Morrison"

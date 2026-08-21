@@ -3,7 +3,11 @@
 Brauer–Suzuki theorem (quaternion Sylow 2-subgroup)
 
 - Problem ID: `brauer_suzuki`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: If a finite group G has generalized quaternion Sylow 2-subgroups, then the unique involution of G maps to a central element of G/O(G), where O(G) is the largest normal odd-order subgroup. R. Brauer and M. Suzuki, 'On finite groups of even order whose 2-Sylow group is a quaternion group', Proc. Nat. Acad. Sci. U.S.A. 45 (1959), 1757-1759. Historical precursor of Glauberman's Z*-theorem (1966) and the local-analysis programme in CFSG. Introduces Defs/OddCore.lean defining O(G) as the supremum of all normal odd-order subgroups (Mathlib has no `oddCore` operation).
 - Source: R. Brauer and M. Suzuki, On finite groups of even order whose 2-Sylow group is a quaternion group, Proc. Nat. Acad. Sci. U.S.A. 45 (1959), 1757-1759. https://doi.org/10.1073/pnas.45.12.1757
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

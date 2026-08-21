@@ -1,6 +1,10 @@
 id = "lidskii_inequality"
 title = "Lidskii's inequality"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.LinearAlgebra.LidskiiInequality"
 holes = ["lidskii_inequality"]
 submitter = "Kim Morrison"

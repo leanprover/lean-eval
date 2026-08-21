@@ -57,7 +57,11 @@ owns; for the common single-theorem case it has one element.
 # manifests/problems/my_new_problem.toml
 id = "my_new_problem"
 title = "My new problem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.SomeModule"
 holes = ["my_new_problem"]
 submitter = "Your Name"
@@ -70,13 +74,26 @@ The required fields are:
 
 - `id` (must equal the filename stem)
 - `title`
-- `test`
+- `group`
+- `status`
+- `visible`
+- `statement_revision`
+- `tags`
 - `module`
 - `holes`
 - `submitter`
 
 The one-file-per-problem layout means two PRs adding distinct problems
 never conflict on the manifest.
+
+See [Catalog metadata](docs/catalog-metadata.md) for lifecycle history, the tag
+registry, immutable named sets, and the deterministic v1 evidence tool.
+
+The manifest is the only entry point CI has into `LeanEval/`, so a module
+no manifest names is never built. `validate-manifest` therefore rejects any
+`.lean` file under `LeanEval/` that is neither named by some `module` field
+nor imported (directly or transitively) by a module that is, and rejects any
+file in `manifests/problems/` that is not a `.toml`.
 
 #### Multi-hole problems
 
@@ -106,7 +123,8 @@ lake exe lean-eval check-problem-build
 ```
 
 `validate-manifest` checks that `@[eval_problem]` declarations and manifest entries
-match. `check-problem-build` builds the problem modules so warning-producing Lean changes
+match, and that no module under `LeanEval/` escapes the manifest's reach.
+`check-problem-build` builds the problem modules so warning-producing Lean changes
 do not slip through. Both catch the most common mistakes before a CI roundtrip;
 on a clean checkout, validating the full problem inventory can take some time.
 
@@ -230,9 +248,9 @@ export PATH="$PWD/nanoda_lib/target/release:$PATH"
 ```
 
 `lean4export` and `comparator` are Lean programs. The pinned lean4export source
-uses Lean v4.32.0 by default, but its build command above deliberately selects
-the workspace's exact toolchain by copying `lean-toolchain`; Lean v4.32.0 and v4.32.2
-have incompatible olean headers. Comparator builds `Challenge.olean` with the
+uses Lean v4.33.0 by default, but its build command above deliberately selects
+the workspace's exact toolchain by copying `lean-toolchain`; different Lean
+releases have incompatible olean headers. Comparator builds `Challenge.olean` with the
 workspace toolchain and then reads it back with `lean4export`, so exact
 compatibility is required. If the formats differ you get
 `failed to read file '.../Challenge.olean', incompatible header` — that error
@@ -311,6 +329,8 @@ In practice, solvers should normally work in `Submission.lean` and `Submission/`
 
 - [`LeanEval/`](/home/kim/lean-evals/LeanEval): trusted authored problem statements
 - [`manifests/problems/`](manifests/problems/): one TOML file per problem, named `<id>.toml`
+- [`manifests/tags.toml`](manifests/tags.toml): stable tag registry
+- [`manifests/sets/`](manifests/sets/): versioned and optionally frozen named problem sets
 - [`generated/`](/home/kim/lean-evals/generated): generated comparator workspaces
 - [`scripts/`](/home/kim/lean-evals/scripts): generation, validation, and scoring helpers
 - [`PLAN.md`](/home/kim/lean-evals/PLAN.md): deferred design and roadmap notes

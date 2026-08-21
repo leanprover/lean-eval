@@ -1,0 +1,30 @@
+{
+  "id": "annals_duffin_schaeffer_conjecture",
+  "module": "LeanEval.NumberTheory.DuffinSchaefferConjecture",
+  "holes": [
+    {
+      "name": "DuffinSchaefferConjecture.theorem_1",
+      "basename": "theorem_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1:\n\nIf for `\u03c8 : \u2115 \u2192 \u211d\u22650`, the infinite series `\u2211 (\u03c8 q * \u03c6 q) / q`, where `\u03c6` is the\nEuler totient function, diverges, then the set `\ud835\udc9c` defined above has Lebesgue measure `1`.\n-/\ntheorem theorem_1 (\u03c8 : \u2115+ \u2192 \u211d\u22650) (hdivergence : \u00ac Summable fun q \u21a6 (\u03c8 q * \u03c6 q) / q) :\n    MeasurableSet (\ud835\udc9c \u03c8) \u2227 volume (\ud835\udc9c \u03c8) = 1 := by\n  sorry"
+    },
+    {
+      "name": "DuffinSchaefferConjecture.theorem_2_a",
+      "basename": "theorem_2_a",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 2(a):\n\nLet `\u03c8 : \u2115 \u2192 \u211d\u22650`, `\ud835\udca6` and `\u03c8\u22c6` be as above. Then, if `\u2211 \u03c8\u22c6 (q)` converges, `\ud835\udca6` has Lebesgue\nmeasure `0`.\n-/\ntheorem theorem_2_a (\u03c8 : \u2115+ \u2192 \u211d\u22650) (h\u03c8 : \u2211' q, \u03c8_star \u03c8 q < \u221e) :\n    MeasurableSet (\ud835\udca6 \u03c8) \u2227 volume (\ud835\udca6 \u03c8) = 0 := by\n  sorry"
+    },
+    {
+      "name": "DuffinSchaefferConjecture.theorem_2_b",
+      "basename": "theorem_2_b",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 2(b):\n\nLet `\u03c8 : \u2115 \u2192 \u211d\u22650`, `\ud835\udca6` and `\u03c8\u22c6` be as above. Then, if `\u2211 \u03c8\u22c6 (q)` diverges, `\ud835\udca6` has Lebesgue\nmeasure `1`.\n-/\ntheorem theorem_2_b (\u03c8 : \u2115+ \u2192 \u211d\u22650) (h\u03c8 : \u2211' q, \u03c8_star \u03c8 q = \u221e) :\n    MeasurableSet (\ud835\udca6 \u03c8) \u2227 volume (\ud835\udca6 \u03c8) = 1 := by\n  sorry"
+    },
+    {
+      "name": "DuffinSchaefferConjecture.corollary_3",
+      "basename": "corollary_3",
+      "kind": "theorem",
+      "body": "/--\nStatement of Corollary 3:\n\nFor a function `\u03c8 : \u2115 \u2192 [0, 1/2]`, the set `\ud835\udc9c` and the element `s` defined as above,\nthe Hausdorff dimension of `\ud835\udc9c` is the minimum of `s` and `1`.\n-/\ntheorem corollary_3 (\u03c8 : \u2115+ \u2192 \u211d\u22650) (h\u03c8 : \u2200 n, \u03c8 n \u2208 Set.Icc 0 (1 / 2)) :\n    dimH (\ud835\udc9c \u03c8) = min (s_inf \u03c8) 1 := by\n  sorry"
+    }
+  ]
+}

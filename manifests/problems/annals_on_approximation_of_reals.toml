@@ -1,0 +1,11 @@
+id = "annals_on_approximation_of_reals"
+title = "On approximation to a real number by algebraic numbers of bounded degree"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.NumberTheory.OnApproximationOfReals"
+holes = ["theorem_1_1"]
+submitter = "Katerina Hristova, Kevin Buzzard"
+source = "A. Poëls, `On approximation to a real number by algebraic numbers of bounded degree`, Annals of Math, 201 (1) 2025. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2025-201-1-OnApproximationOfReals.lean"

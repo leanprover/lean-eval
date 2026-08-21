@@ -1,0 +1,42 @@
+{
+  "id": "annals_supremum_of_selector_processes",
+  "module": "LeanEval.Analysis.SupremumOfSelectorProcesses",
+  "holes": [
+    {
+      "name": "SupremumOfSelectorProcesses.L\u2082",
+      "basename": "L\u2082",
+      "kind": "def",
+      "body": "/-- The constant `L` of Theorem 1.2. -/\nnoncomputable def L\u2082 : \u211d\u22650 := sorry"
+    },
+    {
+      "name": "SupremumOfSelectorProcesses.L\u2082_pos",
+      "basename": "L\u2082_pos",
+      "kind": "theorem",
+      "body": "/-- The constant of Theorem 1.2 is positive. -/\ntheorem L\u2082_pos : L\u2082 > 0 := sorry"
+    },
+    {
+      "name": "SupremumOfSelectorProcesses.theorem_1_2",
+      "basename": "theorem_1_2",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.2:\n\nThere exists `L > 0` such that for any `0 < p < 1`, finite type `X`, and set `\u039b` of functions from\n`X` to `\u211d\u22650` such that `0 < \ud835\udd3c[sup_{f \u2208 \u039b} \u2211 i \u2208 Xp, f i] < \u221e`, the collection of sets\n\n`{s \u2286 X | sup_{f \u2208 \u039b} \u2211 i \u2208 s, f i \u2265 L * \ud835\udd3c[sup_{f \u2208 \u039b} \u2211 i \u2208 Xp, f i]}`\n\nis `p-small`, where `Xp` is a binomial random subset of `X` with parameter `p`.\n\nNote: The assumption `0 < \ud835\udd3c[sup_{f \u2208 \u039b} \u2211 i \u2208 Xp, f i] < \u221e` is not explicitly stated in the theorem\nbut used in the last step of the proof where `\ud835\udd3c \u2265 (L/L') * \ud835\udd3c` is a contradiction for `L > L'`.\n-/\ntheorem theorem_1_2 (p : I) (hp\u2080 : 0 < p) (hp\u2081 : p < 1) (X : Type*) [Fintype X] (\u039b : Set (X \u2192 \u211d\u22650))\n    (hE\u2080 : 0 < \ud835\udd3c\u207b[\u2a06 f \u2208 \u039b, \u2211 i \u2208 Xp, (f i : \u211d\u22650\u221e); Xp \u223c binomialSetDistribution X p])\n    (hE : \ud835\udd3c\u207b[\u2a06 f \u2208 \u039b, \u2211 i \u2208 Xp, (f i : \u211d\u22650\u221e); Xp \u223c binomialSetDistribution X p] < \u221e) :\n    IsSmall p {s : Set X | \u2a06 f \u2208 \u039b, \u2211 i \u2208 s, (f i : \u211d\u22650\u221e) \u2265\n        L\u2082 * \ud835\udd3c\u207b[\u2a06 f \u2208 \u039b, \u2211 i \u2208 Xp, (f i : \u211d\u22650\u221e); Xp \u223c binomialSetDistribution X p]} := by\n  sorry"
+    },
+    {
+      "name": "SupremumOfSelectorProcesses.L\u2083",
+      "basename": "L\u2083",
+      "kind": "def",
+      "body": "/-- The constant `L` of Theorem 1.3. -/\nnoncomputable def L\u2083 : \u211d\u22650 := sorry"
+    },
+    {
+      "name": "SupremumOfSelectorProcesses.L\u2083_pos",
+      "basename": "L\u2083_pos",
+      "kind": "theorem",
+      "body": "/-- The constant of Theorem 1.3 is positive. -/\ntheorem L\u2083_pos : L\u2083 > 0 := sorry"
+    },
+    {
+      "name": "SupremumOfSelectorProcesses.theorem_1_3",
+      "basename": "theorem_1_3",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.3:\n\nThere exists `L > 0` such that for any `N > 0`, i.i.d random variables `Y_1, \u2026, Y_N` distributed\naccording to a Borel probability measure `\u03bd` on a Polish space `\ud835\udd4b`, if `\ud835\udcd5` is a finite set of\nnon-negative functions in `L\u221e(\ud835\udd4b)` and `0 < \ud835\udd3c[sup_{f \u2208 \ud835\udcd5} Z Y f] < \u221e` then there exists a finite\ncollection `\ud835\udcd2` of pairs `(g, t)` where `g : \ud835\udd4b \u2192 \u211d\u22650`, `t > 0` such that\n\n`{sup_{f \u2208 \ud835\udcd5} Z N Y f \u2265 L * \ud835\udd3c[sup_{f \u2208 \ud835\udcd5} Z N Y f] } \u2286 \u22c3 (g,t) \u2208 \ud835\udcd2, {t \u2264 Z N Y g}`\n\nand\n\n`\u2211 (g,t) \u2208 \ud835\udcd2, P(t \u2264 Z N Y g) \u2264 2\u207b\u00b9`.\n\nNote: The requirement that the collection `\ud835\udcd2` be finite is not explicitly stated in the paper.\nHowever, `\ud835\udcd2` must at least be assumed to be countable in order for the sum to make sense,\nand the collections `\ud835\udcd2` produced by the proof are indeed finite.\n\n-/\ntheorem theorem_1_3 (N : \u2115) (N_pos : N > 0) (\ud835\udd4b : Type*) (t\ud835\udd4b : TopologicalSpace \ud835\udd4b)\n    (p\ud835\udd4b : PolishSpace \ud835\udd4b)\n    (m\ud835\udd4b : MeasurableSpace \ud835\udd4b) (b\ud835\udd4b : BorelSpace \ud835\udd4b) (\u03bd : Measure \ud835\udd4b) (h\u03bd : IsProbabilityMeasure \u03bd)\n    (\u03a9 : Type*) (m\u03a9 : MeasurableSpace \u03a9) (P : Measure \u03a9) (Y : Fin N \u2192 \u03a9 \u2192 \ud835\udd4b)\n    (Y_indep : iIndepFun Y P) (Y_law_\u03bd : \u2200 i, HasLaw (Y i) \u03bd P)\n    (\ud835\udcd5 : Set {f : \ud835\udd4b \u2192 \u211d\u22650 // Measurable f \u2227 MemLp f \u221e \u03bd}) (h\ud835\udcd5 : Finite \ud835\udcd5)\n    (hZ\u2080 : 0 < \ud835\udd3c\u207b[\u2a06 f \u2208 \ud835\udcd5, (Z N Y f \u00b7); P]) (hZ : \ud835\udd3c\u207b[\u2a06 f \u2208 \ud835\udcd5, (Z N Y f \u00b7); P] < \u221e) :\n    \u2203 \ud835\udcd2 : Finset ({g : \ud835\udd4b \u2192 \u211d\u22650 // Measurable g} \u00d7 {t : \u211d\u22650 | t > 0}),\n      {\u03c9 | \u2a06 f \u2208 \ud835\udcd5, Z N Y f \u03c9 \u2265 L\u2083 * \ud835\udd3c\u207b[\u2a06 f \u2208 \ud835\udcd5, (Z N Y f \u00b7); P]} \u2286 \u22c3 c \u2208 \ud835\udcd2, {\u03c9 | c.2 \u2264 Z N Y c.1 \u03c9}\n      \u2227 \u2211 c : \ud835\udcd2, P {\u03c9 | c.val.2 \u2264 Z N Y c.val.1 \u03c9} \u2264 2\u207b\u00b9 := by\n  sorry"
+    }
+  ]
+}

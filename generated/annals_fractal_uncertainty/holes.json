@@ -1,0 +1,12 @@
+{
+  "id": "annals_fractal_uncertainty",
+  "module": "LeanEval.Analysis.FractalUncertainty",
+  "holes": [
+    {
+      "name": "FractalUncertainty.theorem_1_1",
+      "basename": "theorem_1_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.1:\n\nLet `\u03bd > 0` and assume that\n- `X \u2286 [\u22121,1]\u1d48` is `\u03bd`-porous on balls from scales `h` to `1`, and\n- `Y \u2286 [\u2212h\u207b\u00b9,h\u207b\u00b9]\u1d48` is `\u03bd`-porous on lines from scales `1` to `h\u207b\u00b9`.\nThen there exist `\u03b2,C > 0` depending only on `\u03bd` and `d` such that for all `f \u2208 L\u00b2(\u211d\u1d48)`,\n`supp (\ud835\udcd5 f) \u2286 Y => \u2016f * 1_X\u2016\u2082 \u2264 C * h ^ \u03b2 * \u2016f\u2016\u2082`.\nNote: We require `X` and `Y` to be measurable to make the statement more natural.\n-/\ntheorem theorem_1_1 (\u03bd : \u211d) (h\u03bd\u2080 : 0 < \u03bd) :\n    \u2203 (\u03b2 C : \u211d), \u03b2 > 0 \u2227 C > 0 \u2227 \u2200 (h : \u211d) (X Y : Set \u211d\u1d48)\n      (hX : MeasurableSet X) (hY : MeasurableSet Y), h \u2208 Set.Ioo 0 (1 / 100) \u2192\n        X \u2286 cube (-1) 1 \u2192 PorousOnBalls \u03bd h 1 X \u2192 Y \u2286 cube (-h\u207b\u00b9) h\u207b\u00b9 \u2192\n          PorousOnLines \u03bd 1 h\u207b\u00b9 Y \u2192 \u2200 (f : Lp \u2102 2), (\ud835\udcd5 f : Lp \u2102 2) =\u1d50[volume.restrict Y\u1d9c] 0 \u2192\n            (eLpNorm (X.indicator f) 2).toReal \u2264 C * h ^ \u03b2 * \u2016f\u2016 := by\n  sorry"
+    }
+  ]
+}

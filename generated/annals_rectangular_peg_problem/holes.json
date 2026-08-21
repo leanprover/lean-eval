@@ -1,0 +1,12 @@
+{
+  "id": "annals_rectangular_peg_problem",
+  "module": "LeanEval.Geometry.RectangularPegProblem",
+  "holes": [
+    {
+      "name": "RectangularPegProblem.theorem_1",
+      "basename": "theorem_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem:\n\nFor every smooth Jordan curve `\u03b3` and rectangle `R` in the Euclidean plane,\nthere exists a rectangle similar to `R` whose vertices lie on `\u03b3`.\nNote: The paper models the Euclidean plane as the complex plane.\n-/\ntheorem theorem_1 (\u03b3 : Circle \u2192 \u2102) (z w : \u2102) (\u03b8 : Real.Angle)\n    (h\u03b3 : IsSmoothEmbedding (\ud835\udce1 1) \ud835\udcd8(\u211d, \u2102) \u221e \u03b3) :\n    \u2203 (\u03b8' : Real.Angle), \u2203 (z' w' : \u2102), Similar (R z w \u03b8) (R z' w' \u03b8') \u2227\n    \u2200 i : Fin 4, R z' w' \u03b8' i \u2208 Set.range \u03b3 := by\n  sorry"
+    }
+  ]
+}

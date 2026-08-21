@@ -4,9 +4,9 @@ import ChallengeDeps
 
 namespace Submission
 
-open _root_.LeanEval.ConvexGeometry.LinearProgram
+open _root_.LeanEval
 open _root_.LeanEval.ConvexGeometry
-open LeanEval
+open _root_.LeanEval.ConvexGeometry.LinearProgram
 namespace LeanEval
 namespace ConvexGeometry
 

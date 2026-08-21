@@ -3,7 +3,11 @@
 Frobenius determinant theorem
 
 - Problem ID: `frobenius_group_determinant`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Dedekind's group determinant: the determinant of the group matrix A_{gh} = x_{gh} (over ℂ[x_g : g ∈ G]) factors into irreducible polynomials, each to the power of its own total degree, with factors pairwise non-associated and their number equal to the number of conjugacy classes of G. The helpers groupMatrix and groupDeterminant encode the statement; over ℂ this is the algebraically-closed characteristic-zero form where Frobenius's theorem and the character correspondence d_j = deg p_j live. Mathlib has MvPolynomial, Matrix.det, unique factorization, character theory, and ConjClasses, but not the group determinant or its factorization. Category-(b) candidate.
 - Source: Knill, *Some fundamental theorems in mathematics*, §171.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

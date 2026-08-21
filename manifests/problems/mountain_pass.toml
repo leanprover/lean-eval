@@ -1,6 +1,10 @@
 id = "mountain_pass"
 title = "Mountain Pass Theorem (Ambrosetti–Rabinowitz 1973)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.MountainPass"
 holes = ["mountain_pass"]
 submitter = "Kim Morrison"

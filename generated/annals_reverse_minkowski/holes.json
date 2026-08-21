@@ -1,0 +1,12 @@
+{
+  "id": "annals_reverse_minkowski",
+  "module": "LeanEval.NumberTheory.ReverseMinkowski",
+  "holes": [
+    {
+      "name": "ReverseMinkowski.theorem_1_2",
+      "basename": "theorem_1_2",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.2 (Reverse Minkowski Theorem):\n\nFor any lattice `\u2112 \u2286 \u211d^n` with determinant greater or equal to `1` for all sublattices `\u2112'` of `\u2112`,\n`\u03c1_{1/t}(\u2112) \u2264 3/2` where `t = 10 (log n + 2)`.\n-/\ntheorem theorem_1_2 (\u2112 : Submodule \u2124 \u211d\u207f) [DiscreteTopology \u2112] (h\u2112 : IsZLattice \u211d \u2112)\n    (h : \u2200 \u2112' (_h\u2112\u2112' : \u2112' \u2264 \u2112) [DiscreteTopology \u2112'], determinant \u2112' \u2265 1) :\n    let t : \u211d := 10 * (log n + 2)\n    \u03c1 (1 / t) \u2112 \u2264 3 / 2 := by\n  sorry"
+    }
+  ]
+}

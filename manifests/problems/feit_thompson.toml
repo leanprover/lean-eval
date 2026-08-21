@@ -1,6 +1,10 @@
 id = "feit_thompson"
 title = "Feit–Thompson odd-order theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.GroupTheory.FeitThompson"
 holes = ["feit_thompson"]
 submitter = "Kim Morrison"

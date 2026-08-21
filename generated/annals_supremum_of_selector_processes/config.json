@@ -1,0 +1,20 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "SupremumOfSelectorProcesses.L\u2082_pos",
+    "SupremumOfSelectorProcesses.theorem_1_2",
+    "SupremumOfSelectorProcesses.L\u2083_pos",
+    "SupremumOfSelectorProcesses.theorem_1_3"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": false,
+  "definition_names": [
+    "SupremumOfSelectorProcesses.L\u2082",
+    "SupremumOfSelectorProcesses.L\u2083"
+  ]
+}

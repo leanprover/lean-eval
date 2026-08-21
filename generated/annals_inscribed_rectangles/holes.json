@@ -1,0 +1,12 @@
+{
+  "id": "annals_inscribed_rectangles",
+  "module": "LeanEval.Geometry.InscribedRectangles",
+  "holes": [
+    {
+      "name": "InscribedRectangles.theorem_1",
+      "basename": "theorem_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1:\n\nLet `\u03b3` be a smooth Jordan curve, and let `X` be the set of all `r \u2208 [0,1]` so that there is an\ninscribed rectangle in `\u03b3` of aspect ratio `tan(r\u00b7\u03c0/4)`.\nThen the Lebesgue measure of `X` is at least `1/3`.\n-/\ntheorem theorem_1 (\u03b3 : Circle \u2192 \u211d \u00d7 \u211d) (h\u03b3 : IsSmoothEmbedding (\ud835\udce1 1) \ud835\udcd8(\u211d, \u211d \u00d7 \u211d) \u221e \u03b3) :\n    volume (X \u03b3) \u2265 1/3 := by\n  sorry"
+    }
+  ]
+}

@@ -1,6 +1,10 @@
 id = "schoenflies"
 title = "Schoenflies theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.Schoenflies"
 holes = ["schoenflies"]
 submitter = "Kim Morrison"

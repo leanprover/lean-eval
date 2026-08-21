@@ -1,4 +1,8 @@
-import Mathlib
+import Mathlib.Combinatorics.SimpleGraph.Connectivity.Finite
+import Mathlib.Data.ZMod.Basic
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 namespace LeanEval
 namespace Combinatorics

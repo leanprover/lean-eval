@@ -1,6 +1,10 @@
 id = "wieferich_g_three"
 title = "Wieferich's theorem g(3) = 9"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.NumberTheory.WieferichNineCubes"
 holes = ["wieferich_g_three"]
 submitter = "Kim Morrison"

@@ -14,7 +14,7 @@ set_option autoImplicit false
 structure ProblemScore where
   id : String
   title : String
-  test : Bool
+  visible : Bool
   attempted : Bool
   succeeded : Bool
   exitCode : Option UInt32
@@ -25,7 +25,7 @@ def ProblemScore.toOJson (s : ProblemScore) : OJson :=
   ojObj #[
     ("id", ojStr s.id),
     ("title", ojStr s.title),
-    ("test", ojBool s.test),
+    ("visible", ojBool s.visible),
     ("attempted", ojBool s.attempted),
     ("succeeded", ojBool s.succeeded),
     ("exit_code", match s.exitCode with
@@ -104,7 +104,7 @@ def scoreProblems (root : System.FilePath) (problems : Array EvalProblemMetadata
     scores := scores.push {
       id := entry.id
       title := entry.title
-      test := entry.test
+      visible := entry.visible
       attempted := attempted
       succeeded := succeeded
       exitCode := exitCode?
@@ -118,26 +118,26 @@ structure ScoreSummary where
   totalProblems : Nat
   attemptedProblems : Nat
   succeededProblems : Nat
-  attemptedTestProblems : Nat
-  succeededTestProblems : Nat
-  attemptedMainProblems : Nat
-  succeededMainProblems : Nat
+  attemptedHiddenProblems : Nat
+  succeededHiddenProblems : Nat
+  attemptedVisibleProblems : Nat
+  succeededVisibleProblems : Nat
 
 def summarizeScores (scores : Array ProblemScore) : ScoreSummary := Id.run do
   let attempted := scores.filter (·.attempted)
   let succeeded := attempted.filter (·.succeeded)
-  let attemptedTest := scores.filter fun s => s.attempted && s.test
-  let succeededTest := scores.filter fun s => s.succeeded && s.test
-  let attemptedMain := scores.filter fun s => s.attempted && !s.test
-  let succeededMain := scores.filter fun s => s.succeeded && !s.test
+  let attemptedHidden := scores.filter fun s => s.attempted && !s.visible
+  let succeededHidden := scores.filter fun s => s.succeeded && !s.visible
+  let attemptedVisible := scores.filter fun s => s.attempted && s.visible
+  let succeededVisible := scores.filter fun s => s.succeeded && s.visible
   return {
     totalProblems := scores.size
     attemptedProblems := attempted.size
     succeededProblems := succeeded.size
-    attemptedTestProblems := attemptedTest.size
-    succeededTestProblems := succeededTest.size
-    attemptedMainProblems := attemptedMain.size
-    succeededMainProblems := succeededMain.size
+    attemptedHiddenProblems := attemptedHidden.size
+    succeededHiddenProblems := succeededHidden.size
+    attemptedVisibleProblems := attemptedVisible.size
+    succeededVisibleProblems := succeededVisible.size
   }
 
 def summaryToOJson (scores : Array ProblemScore) (s : ScoreSummary) : OJson :=
@@ -145,10 +145,10 @@ def summaryToOJson (scores : Array ProblemScore) (s : ScoreSummary) : OJson :=
     ("total_problems", ojNat s.totalProblems),
     ("attempted_problems", ojNat s.attemptedProblems),
     ("succeeded_problems", ojNat s.succeededProblems),
-    ("attempted_test_problems", ojNat s.attemptedTestProblems),
-    ("succeeded_test_problems", ojNat s.succeededTestProblems),
-    ("attempted_main_problems", ojNat s.attemptedMainProblems),
-    ("succeeded_main_problems", ojNat s.succeededMainProblems),
+    ("attempted_hidden_problems", ojNat s.attemptedHiddenProblems),
+    ("succeeded_hidden_problems", ojNat s.succeededHiddenProblems),
+    ("attempted_visible_problems", ojNat s.attemptedVisibleProblems),
+    ("succeeded_visible_problems", ojNat s.succeededVisibleProblems),
     ("problems", ojArr (scores.map ProblemScore.toOJson))
   ]
 
@@ -156,16 +156,16 @@ def summaryToOJson (scores : Array ProblemScore) (s : ScoreSummary) : OJson :=
 def renderHumanSummary (scores : Array ProblemScore) (s : ScoreSummary) : String := Id.run do
   let mut lines : Array String := #[
     s!"Attempted {s.attemptedProblems} / {s.totalProblems} problems; succeeded on {s.succeededProblems}.",
-    s!"Test problems: attempted {s.attemptedTestProblems}; succeeded on {s.succeededTestProblems}.",
-    s!"Main benchmark problems: attempted {s.attemptedMainProblems}; succeeded on {s.succeededMainProblems}."
+    s!"Hidden problems: attempted {s.attemptedHiddenProblems}; succeeded on {s.succeededHiddenProblems}.",
+    s!"Visible problems: attempted {s.attemptedVisibleProblems}; succeeded on {s.succeededVisibleProblems}."
   ]
   for sc in scores do
     let status :=
       if !sc.attempted then "unattempted"
       else if sc.succeeded then "passed"
       else "failed"
-    let testMarker := if sc.test then "test" else "main"
-    lines := lines.push s!"- {sc.id} [{testMarker}]: {status}"
+    let visibility := if sc.visible then "visible" else "hidden"
+    lines := lines.push s!"- {sc.id} [{visibility}]: {status}"
   return "\n".intercalate lines.toList
 
 /-- Filter problems by id. Mirrors `selected_problems`. -/

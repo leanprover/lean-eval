@@ -1,4 +1,7 @@
 import Mathlib
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 theorem cdt_linearIndependent :
     letI χ : ZMod 3 → ℂ := ![0, 1, -1]

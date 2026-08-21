@@ -3,7 +3,11 @@
 4D topological Poincaré conjecture (Freedman)
 
 - Problem ID: `poincare_4d_topological`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: Every Hausdorff 4-manifold homotopy-equivalent to 𝕊⁴ is homeomorphic to 𝕊⁴. Specialization to n = 4 of mathlib's generalized `proof_wanted ContinuousMap.HomotopyEquiv.nonempty_homeomorph_sphere` in `Mathlib/Geometry/Manifold/PoincareConjecture.lean`. Michael Freedman's 1982 theorem (J. Differential Geom. 17), Fields Medal 1986. Proof uses Casson handles and the Bing-topology infinite-process construction. The corresponding smooth 4D Poincaré conjecture (every smooth homotopy 4-sphere is diffeomorphic to S⁴) remains famously OPEN and is not included here. Mathlib has the homotopy-equiv / homeo / ChartedSpace scaffolding but no Casson handles or Freedman's theorem.
 - Source: M. H. Freedman, The topology of four-dimensional manifolds, J. Differential Geom. 17 (1982), 357-453. Specialization of `proof_wanted ContinuousMap.HomotopyEquiv.nonempty_homeomorph_sphere` in Mathlib/Geometry/Manifold/PoincareConjecture.lean.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

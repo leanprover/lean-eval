@@ -1,0 +1,12 @@
+id = "bender_suzuki"
+title = "Bender–Suzuki theorem (classification of finite simple groups with a strongly-embedded subgroup)"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.GroupTheory.BenderSuzuki"
+holes = ["bender_suzuki"]
+submitter = "Tianjiao Nie"
+notes = "For a finite simple group X with a strongly-embedded subgroup M, it is PSL, PSU, or Sz."
+source = "D. Gorenstein, R. Lyons, and R. Solomon, The classification of the finite simple groups, Number 2"

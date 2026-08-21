@@ -1,6 +1,10 @@
 id = "upper_bound_simplicial_spheres"
 title = "Upper bound theorem for geometric simplicial spheres (Stanley 1975)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Combinatorics.UpperBoundSimplicialSpheres"
 holes = ["upper_bound_theorem_simplicial_spheres"]
 submitter = "Kim Morrison"

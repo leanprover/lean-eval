@@ -1,0 +1,42 @@
+{
+  "id": "annals_pointwise_ergodic_theorems",
+  "module": "LeanEval.Dynamics.PointwiseErgodicTheorems",
+  "holes": [
+    {
+      "name": "PointwiseErgodicTheorems.theorem_1_17_i",
+      "basename": "theorem_1_17_i",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.17(i) (Mean ergodic theorem):\n\nThe averages `A T N X P f g` converge as `N \u2192 \u221e` in `L\u1d56(X)` norm.\n-/\ntheorem theorem_1_17_i {f g : \ud835\udce7 \u2192 \u2102} (hf : MemLp f p\u2081 \u03bc) (hg : MemLp g p\u2082 \u03bc) :\n    \u2203 h : \ud835\udce7 \u2192 \u2102, MemLp h p \u03bc \u2227\n    Tendsto (fun N \u21a6 eLpNorm (A T N (X : \u2124[X]) P f g - h) p \u03bc) atTop (\ud835\udcdd 0) := by\n  sorry"
+    },
+    {
+      "name": "PointwiseErgodicTheorems.theorem_1_17_ii",
+      "basename": "theorem_1_17_ii",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.16(ii) (Pointwise ergodic theorem):\n\nThe averages `A T N X P f g` converge as `N \u2192 \u221e` pointwise almost everywhere.\n-/\ntheorem theorem_1_17_ii {f g : \ud835\udce7 \u2192 \u2102} (hf : MemLp f p\u2081 \u03bc) (hg : MemLp g p\u2082 \u03bc) :\n    \u2203 h : \ud835\udce7 \u2192 \u2102, MemLp h p \u03bc \u2227\n    \u2200\u1d50 x \u2202\u03bc, Tendsto (fun N \u21a6 A T N (X : \u2124[X]) P f g x) atTop (\ud835\udcdd (h x)) := by\n  sorry"
+    },
+    {
+      "name": "PointwiseErgodicTheorems.C\u1d62\u1d62\u1d62",
+      "basename": "C\u1d62\u1d62\u1d62",
+      "kind": "def",
+      "body": "/-- The constant of Theorem 1.17 (iii). -/\nnoncomputable def C\u1d62\u1d62\u1d62 (P : \u2124[X]) (p\u2081 p\u2082 : \u211d\u22650\u221e) : \u211d\u22650 := sorry"
+    },
+    {
+      "name": "PointwiseErgodicTheorems.theorem_1_17_iii",
+      "basename": "theorem_1_17_iii",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.17(iii) (Maximal ergodic theorem):\n\nThere exists a constant `C \u2265 0` such that for any `f \u2208 L\u1d56\u2081(X)` and `g \u2208 L\u1d56\u2082(X)`,\n`\u2016A T (N : \u2115+) X P f g\u2016_{L\u1d56(X;\u2113\u221e)} \u2264 C \u2016f\u2016_{L\u1d56\u2081(X)} \u2016g\u2016_{L\u1d56\u2082(X)}`.\n-/\ntheorem theorem_1_17_iii {f g : \ud835\udce7 \u2192 \u2102} (hf : MemLp f p\u2081 \u03bc) (hg : MemLp g p\u2082 \u03bc) :\n    eLpNorm (fun x \u21a6 \u2a06 (N : \u2115+), \u2016A T N (X : \u2124[X]) P f g x\u2016\u2091) p \u03bc \u2264\n      C\u1d62\u1d62\u1d62 P p\u2081 p\u2082 * \u2016hf.toLp\u2016\u2091 * \u2016hg.toLp\u2016\u2091 := by\n  sorry"
+    },
+    {
+      "name": "PointwiseErgodicTheorems.C\u1d62\u1d65",
+      "basename": "C\u1d62\u1d65",
+      "kind": "def",
+      "body": "/-- The constant of Theorem 1.17 (iv). -/\nnoncomputable def C\u1d62\u1d65 (P : \u2124[X]) (p\u2081 p\u2082 : \u211d\u22650\u221e) (r \u039b : \u211d\u22650) : \u211d\u22650 := sorry"
+    },
+    {
+      "name": "PointwiseErgodicTheorems.theorem_1_17_iv",
+      "basename": "theorem_1_17_iv",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.17(iv) (Long variational ergodic theorem):\n\nFor any `r > 2` and `\u039b > 1`, there exists a constant `C \u2265 0` such that for any `f \u2208 L\u1d56\u2081(X)`,\n`g \u2208 L\u1d56\u2082(X)` and `\u039b`-lacunary sequence `a` such that `1 \u2264 a n` for all `n \u2208 \u2115`,\n`\u2016A T (a n) X P f g\u2016_{L\u1d56(X;V\u02b3)} \u2264 C \u2016f\u2016_{L\u1d56\u2081(X)} \u2016g\u2016_{L\u1d56\u2082(X)}`.\n-/\ntheorem theorem_1_17_iv (r \u039b : \u211d\u22650) (hr : r > 2) (h\u039b : \u039b > 1) {f g : \ud835\udce7 \u2192 \u2102}\n    (hf : MemLp f p\u2081 \u03bc) (hg : MemLp g p\u2082 \u03bc) (a : \u2115 \u2192 \u211d\u22650) (ha : Lacunary \u039b a) (ha' : \u2200 n, 1 \u2264 a n) :\n    eLpNorm (fun x \u21a6 variationalNorm r fun n \u21a6 A T (a n) X P f g x) p \u03bc \u2264\n      C\u1d62\u1d65 P p\u2081 p\u2082 r \u039b * \u2016hf.toLp\u2016\u2091 * \u2016hg.toLp\u2016\u2091 := by\n  sorry"
+    }
+  ]
+}

@@ -3,7 +3,11 @@
 Pointwise and Cesàro convergence of Fourier series (Dirichlet, Fejér)
 
 - Problem ID: `fourier_dirichlet_fejer`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Holes (2): `LeanEval.Analysis.dirichlet_pointwise` (theorem), `LeanEval.Analysis.fejer` (theorem)
 - Notes: §46 of Oliver Knill's 'Some Fundamental Theorems in Mathematics' records two Fourier convergence theorems for complex-valued 2π-periodic functions. Dirichlet's theorem says that if f is C¹, the symmetric Fourier partial sums S_N(f)(x) = ∑_{n=-N}^N f̂_n e^{inx} converge pointwise to f(x). Fejér's theorem says that if f is merely continuous, the Cesàro means (S_0 + ⋯ + S_N)/(N+1) converge uniformly to f. Mathlib has Fourier coefficients, Fourier characters, L² Fourier theory, and uniform convergence from summable coefficients (the C¹ bound |f̂_n| ≤ C/n is not ℓ¹-summable, so that route does not apply), but not the Dirichlet-kernel pointwise theorem, Fejér kernels/Cesàro means, or Fejér's theorem.
@@ -18,8 +22,10 @@ This is a multi-hole problem: the challenge declares multiple `def`s,
 `Submission.lean` (under `namespace Submission`) for comparator to accept
 your solution.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 `lake test` runs comparator for this problem. The command expects a comparator
 binary in `PATH`, or in the `COMPARATOR_BIN` environment variable.

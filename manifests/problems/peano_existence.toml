@@ -1,6 +1,10 @@
 id = "peano_existence"
 title = "Peano existence theorem for ODEs"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.PeanoExistence"
 holes = ["peano_existence"]
 submitter = "Kim Morrison"

@@ -3,7 +3,11 @@
 230 space groups (Fedorov 1891 / Schoenflies 1891)
 
 - Problem ID: `space_groups_230`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: In dimension 3 there are exactly 230 space groups (orientation-preserving affine equivalence), 219 if enantiomorphic pairs are identified (general affine equivalence), and 65 of the 230 are Sohncke groups — those whose isometries are all orientation-preserving. The three counts come from two equivalences on crystallographic groups: AffinelyEquivalent (Aff(ℝ³)-conjugacy) vs AffOPEquivalent (orientation-preserving Aff(ℝ³)-conjugacy), and a subfamily restriction to crystallographic groups whose elements are all orientation-preserving. For a reference, see §94 of Knill's *Some Fundamental Theorems in Mathematics*.
 - Source: E. Fedorov, 'Симметрія правильныхъ системъ фигуръ' (Symmetry of regular systems of figures), Trans. Min. Soc. St. Petersburg 28 (1891) 1–146; A. Schoenflies, *Krystallsysteme und Krystallstructur*, Teubner 1891, independently. Listed as §94 in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

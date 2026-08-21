@@ -1,6 +1,10 @@
 id = "isoperimetric_inequality"
 title = "Isoperimetric inequality (n-dim, topological-frontier form)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.IsoperimetricInequality"
 holes = ["isoperimetric"]
 submitter = "Kim Morrison"

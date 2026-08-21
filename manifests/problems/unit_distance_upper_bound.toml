@@ -1,6 +1,10 @@
 id = "unit_distance_upper_bound"
 title = "Spencer-Szemerédi-Trotter unit-distance upper bound"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Combinatorics.UnitDistanceUpperBound"
 holes = ["unit_distance_upper_bound"]
 submitter = "Kim Morrison"

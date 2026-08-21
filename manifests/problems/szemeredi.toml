@@ -1,6 +1,10 @@
 id = "szemeredi"
 title = "Szemerédi's theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Combinatorics.Szemeredi"
 holes = ["szemeredi"]
 submitter = "Kim Morrison"

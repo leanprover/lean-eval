@@ -1,6 +1,10 @@
 id = "topological_classification_of_surfaces"
 title = "Topological classification of surfaces"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.ClassificationOfSurfaces"
 holes = ["classification_of_surfaces"]
 submitter = "Junyan Xu"

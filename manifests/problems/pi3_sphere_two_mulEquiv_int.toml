@@ -1,6 +1,10 @@
 id = "pi3_sphere_two_mulEquiv_int"
 title = "pi_3 of the 2-sphere is Z"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.HomotopyGroups"
 holes = ["pi3_sphere_two_mulEquiv_int"]
 submitter = "Kim Morrison"

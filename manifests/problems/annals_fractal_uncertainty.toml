@@ -1,0 +1,11 @@
+id = "annals_fractal_uncertainty"
+title = "Fractal uncertainty in higher dimensions"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.Analysis.FractalUncertainty"
+holes = ["theorem_1_1"]
+submitter = "Justus Springer, Katerina Hristova"
+source = "A. Cohen, `Fractal uncertainty in higher dimensions`, Annals of Math, 202 (1) 2025. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2025-202-1-FractalUncertainty.lean"

@@ -1,6 +1,10 @@
 id = "dehn_sommerville"
 title = "Dehn–Sommerville equations for simplicial spheres"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Combinatorics.DehnSommerville"
 holes = ["dehn_sommerville"]
 submitter = "Kim Morrison"

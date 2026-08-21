@@ -1,0 +1,13 @@
+id = "coc_strong_normalization"
+title = "Strong normalization and consistency for the calculus of constructions with a universe hierarchy"
+group = "software-verification"
+status = "active"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.ProgramVerification.CoCStrongNormalization"
+holes = ["typing_polyId", "typing_polyId_app", "step_polyId_app", "subject_reduction", "strong_normalization", "consistency"]
+submitter = "Kim Morrison"
+source = "Coquand and Huet, 'The calculus of constructions' (1988); Zhaohui Luo, 'An Extended Calculus of Constructions' (1990); Bruno Barras, 'Sets in Coq, Coq in Sets' (2010)."
+notes = "Strong normalization requires Girard's reducibility candidates, and the impredicative `Prop` rule `(s, prop, prop)` is what makes a naive induction on types fail. The three anti-vacuity guards require a nonempty typing relation and exercise polymorphic typing, `Typing.app`, beta reduction, and substitution. Mathlib does not provide the requested Lean theorem; earlier Coq mechanizations and semantic models of CC and CCω are acknowledged in the module documentation."
+informal_solution = "Use reducibility candidates in the style of Girard, extended to dependent types and the predicative universe hierarchy. A smaller λC rehearsal replaces the hierarchy by `Prop` and a top sort `Type 0`; it is a different typing relation, not literally the restriction of this CCω syntax to two sorts."

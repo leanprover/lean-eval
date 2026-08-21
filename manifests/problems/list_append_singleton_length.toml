@@ -1,6 +1,10 @@
 id = "list_append_singleton_length"
 title = "Appending a singleton increases the list length"
-test = true
+group = "formalization-evaluation"
+status = "draft"
+visible = false
+statement_revision = 1
+tags = []
 module = "LeanEval.EasyProblems"
 holes = ["list_append_singleton_length"]
 submitter = "Kim Morrison"

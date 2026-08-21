@@ -1,0 +1,11 @@
+id = "annals_algebraic_integers"
+title = "Algebraic integers with conjugates in a prescribed distribution"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.NumberTheory.AlgebraicIntegers"
+holes = ["theorem_1_1"]
+submitter = "Justus Springer"
+source = "A. Smith, `Algebraic integers with conjugates in a prescribed distribution`, Annals of Math, 200 (1) 2024. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2024-200-1-AlgebraicIntegers.lean"

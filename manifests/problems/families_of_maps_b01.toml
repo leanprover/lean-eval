@@ -1,6 +1,10 @@
 id = "families_of_maps_b01"
 title = "Morrison–Walker Lemma B.0.1: adapting families of maps to open covers"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Topology.FamiliesOfMapsB01"
 holes = ["FamiliesOfMapsB01.continuous", "FamiliesOfMapsB01.biLipschitz"]
 submitter = "Kim Morrison"

@@ -1,4 +1,7 @@
-import Mathlib
+import Mathlib.Analysis.Calculus.Deriv.Basic
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 theorem sturm_separation (p q y₁ y₂ : ℝ → ℝ) (a b : ℝ) (hab : a < b)
     (J : Set ℝ) (hJ_open : IsOpen J) (hJ_conn : IsPreconnected J)

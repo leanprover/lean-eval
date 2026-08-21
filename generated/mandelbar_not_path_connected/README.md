@@ -3,7 +3,11 @@
 Mandelbar (tricorn) is not path-connected (Hubbard–Schleicher)
 
 - Problem ID: `mandelbar_not_path_connected`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: The d = 2 case of Hubbard–Schleicher's theorem that multicorns — connectedness loci of unicritical antiholomorphic polynomials z ↦ z̄^d + c — are not path-connected for d ≥ 2. For d = 2 this is the mandelbar / tricorn, the connectedness locus of z ↦ z̄² + c. The file ships Tantibar and Mandelbar definitions. Knill writes the iterator as z̄ + c (degree 1), but with that literal map the connectedness locus is the imaginary axis — path-connected, contradicting the claim. The formal statement uses the standard degree-2 form.
 - Source: John H. Hubbard and Dierk Schleicher, *Multicorns are not Path Connected*, arXiv:1209.1753 (2012); published in *Frontiers in Complex Dynamics* (Princeton University Press, 2014), pp. 73-102. Listed as §62 (additional statement 2) in O. Knill, *Some Fundamental Theorems in Mathematics* (https://people.math.harvard.edu/~knill/graphgeometry/papers/fundamental.pdf).
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

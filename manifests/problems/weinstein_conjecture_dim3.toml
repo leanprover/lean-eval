@@ -1,6 +1,10 @@
 id = "weinstein_conjecture_dim3"
 title = "Weinstein conjecture in dimension three (Taubes 2007)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.WeinsteinConjecture3D"
 holes = ["weinstein_conjecture_dim_three"]
 submitter = "Kim Morrison"

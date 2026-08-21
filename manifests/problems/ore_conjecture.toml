@@ -1,0 +1,14 @@
+id = "ore_conjecture"
+title = "The Ore conjecture: every element of a finite nonabelian simple group is a commutator"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+test = false
+module = "LeanEval.GroupTheory.OreConjecture"
+holes = ["ore_conjecture"]
+submitter = "Adam Topaz"
+notes = "This is Theorem 1 of the cited paper."
+source = "Martin W. Liebeck, E. A. O'Brien, Aner Shalev, and Pham Huu Tiep, *The Ore conjecture*, Journal of the European Mathematical Society 12 (2010), no. 4, 939–1008, Theorem 1, https://doi.org/10.4171/JEMS/220; https://ems.press/journals/jems/articles/3979."
+informal_solution = "See the cited paper for the proof."

@@ -1,0 +1,12 @@
+{
+  "id": "annals_hasse_principle_random_fano",
+  "module": "LeanEval.NumberTheory.HassePrincipleRandomFano",
+  "holes": [
+    {
+      "name": "HassePrincipleRandomFano.theorem_1_1",
+      "basename": "theorem_1_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.1:\n\nLet `d \u2265 2` and `n \u2265 d` with `(d, n) \u2260 (3, 3)`. Then we have `lim_{A \u2192 \u221e} \u03c1_{d,n}(A) = \u03c1\u02e1\u1d52\u1d9c_{d,n}`.\n-/\ntheorem theorem_1_1 (hd : 2 \u2264 d) (h\u2081 : d \u2264 n) (h\u2082 : (d, n) \u2260 (3, 3)) :\n    Tendsto (\u03c1 d n) atTop (nhds (\u03c1Loc d n)) := by\n  sorry"
+    }
+  ]
+}

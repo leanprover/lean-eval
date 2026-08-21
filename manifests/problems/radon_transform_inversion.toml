@@ -1,6 +1,10 @@
 id = "radon_transform_inversion"
 title = "Radon transform: Fourier-slice diagonalization and pseudo-inversion"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Analysis.RadonTransform"
 holes = ["radon_can_be_diagonalized_and_pseudo_inverted"]
 submitter = "Kim Morrison"

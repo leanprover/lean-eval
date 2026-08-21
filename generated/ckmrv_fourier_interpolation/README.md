@@ -3,7 +3,11 @@
 Fourier interpolation in dimensions 8 and 24
 
 - Problem ID: `ckmrv_fourier_interpolation`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: This is the full bijectivity content of Theorem 1.9, simultaneously in dimensions 8 and 24. `RadialSchwartz n` is Mathlib's complex Schwartz space restricted to radial functions. `RapidSampleData k0` consists of four complex sequences indexed by `k >= k0`, each rapidly decreasing. Coordinates `0`, `1`, `2`, and `3` respectively sample `f`, its Fourier transform, the radial derivative of `f`, and the radial derivative of its Fourier transform at `sqrt(2*k)`. The transform is explicitly Mathlib's Schwartz-space `FourierTransform.fourierCLM`; Mathlib and the paper both use the kernel `exp(-2*pi*i*inner(x,y))`. The coordinate-axis restriction computes the radial derivative because every sampled radius is positive. The equivalence is pinned to this sampling map, bundles the underlying bijection rather than its additional linear and topological structure, and introduces no trusted interpolation basis.
 - Source: H. Cohn, A. Kumar, S. D. Miller, D. Radchenko, and M. Viazovska, 'Universal optimality of the E8 and Leech lattices and interpolation formulas', Ann. of Math. 196 (2022), 983-1082, Theorem 1.9, https://doi.org/10.4007/annals.2022.196.3.3.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

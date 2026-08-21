@@ -1,6 +1,10 @@
 id = "morley_categoricity_theorem"
 title = "Morley's categoricity theorem"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.ModelTheory.MorleyCategoricity"
 holes = ["morley_categoricity_theorem"]
 submitter = "A. M. Berns"

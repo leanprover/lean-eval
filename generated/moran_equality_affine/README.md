@@ -3,7 +3,11 @@
 Moran's equality for affine-symmetric iterated function systems
 
 - Problem ID: `moran_equality_affine`
-- Test Problem: no
+- Group: `formalization-evaluation`
+- Status: `draft`
+- Visible: yes
+- Statement Revision: 1
+- Tags: none
 - Submitter: Kim Morrison
 - Notes: For an iterated function system on ℝᵈ whose maps are affine with a common contraction factor λ ∈ (0,1) and orthogonal linear parts, satisfying the open set condition, the Hausdorff dimension of the attractor equals the similarity dimension −log n / log λ. The trusted helpers (IsAttractor, IsAffineSymmetricIFS, OpenSetCondition) are non-holes. Mathlib has dimH, μH[d], and ContractingWith but no iterated function systems / Hutchinson operator / attractor / similarity dimension. Candidate from §105 of the Knill survey.
 - Source: P. A. P. Moran, *Additive functions of intervals and Hausdorff measure*, Proc. Cambridge Philos. Soc. 42 (1946); J. E. Hutchinson, *Fractals and self similarity*, Indiana Univ. Math. J. 30 (1981). Knill, *Some fundamental theorems in mathematics*, §105.
@@ -15,8 +19,10 @@ trusted benchmark and fixed by the repository.
 Write your solution in `Submission.lean` and any additional local modules under
 `Submission/`.
 
-Participants may use Mathlib freely. Any helper code not already available in
-Mathlib must be inlined into the submission workspace.
+Participants may use declarations from the existing Mathlib imports. Broadening
+the import header (especially to `import Mathlib`) can change elaboration of the
+fixed statement; any added import must leave `lake build Solution` green. Helper
+code not available through compatible imports must be inlined into the workspace.
 
 Multi-file submissions are allowed through `Submission.lean` and additional local
 modules under `Submission/`.

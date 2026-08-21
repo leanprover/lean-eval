@@ -1,6 +1,10 @@
 id = "wallpaper_groups_17"
 title = "Seventeen wallpaper groups (Pólya–Niggli 1924)"
-test = false
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 module = "LeanEval.Geometry.WallpaperGroups"
 holes = ["there_are_17_wallpaper_groups"]
 submitter = "Kim Morrison"

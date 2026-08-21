@@ -1,0 +1,12 @@
+{
+  "id": "annals_erdos_faber_lovasz_conjecture",
+  "module": "LeanEval.Combinatorics.ErdosFaberLovaszConjecture",
+  "holes": [
+    {
+      "name": "ErdosFaberLovaszConjecture.theorem_1_1",
+      "basename": "theorem_1_1",
+      "kind": "theorem",
+      "body": "/--\nStatement of Theorem 1.1:\n\nFor sufficiently large `n : \u2115`, every linear hypergraph on `n` vertices has chromatic index\nat most `n`.\n-/\ntheorem theorem_1_1 :\n    \u2200\u1da0 n in atTop, \u2200 \ud835\udcd7 : Hypergraph (Fin n), \ud835\udcd7.IsLinear \u2192 \ud835\udcd7.chromaticIndex \u2264 n := by\n  sorry"
+    }
+  ]
+}

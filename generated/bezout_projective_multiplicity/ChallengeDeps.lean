@@ -1,4 +1,7 @@
 import Mathlib
+import Lake.Toml
+import Lake.Util.Message
+import Lean
 
 namespace LeanEval
 namespace AlgebraicGeometry
@@ -43,6 +46,8 @@ def vanishingSet {n : ℕ} (f : MvPolynomial (Fin (n + 1)) K) :
 /-- A chosen index `i : Fin (n+1)` with `p.rep i ≠ 0`. -/
 noncomputable def chartIndex {n : ℕ} (p : ProjSpace K n) : Fin (n + 1) :=
   Classical.choose (Function.ne_iff.mp p.rep_nonzero)
+
+
 
 /-- Affine cone coordinates of `p` on the chart `X_{chartIndex p} = 1`. -/
 noncomputable def affineConeCoord {n : ℕ} (p : ProjSpace K n) :
