@@ -502,6 +502,45 @@ def main : IO UInt32 := do
     let source := "@[eval_problem, simp\ntheorem target : True := trivial\n"
     pure <| assertEq "left verbatim" (stripProblemMarkers source) source
 
+  -- Lean only accepts `@[…]` in front of a declaration, and that is the
+  -- backstop for every way this lexer can be wrong about a string: the marker
+  -- text in a message is not followed by one, so it stays.
+  check "stripProblemMarkers keeps an attribute no declaration follows" passes fails do
+    let source := "def note : String :=\n  \"which @[eval_problem] does not allow.\"\n"
+    pure <| assertEq "left verbatim" (stripProblemMarkers source) source
+
+  check "stripProblemMarkers keeps a marker behind an unclassifiable interpolation" passes fails do
+    let source := "def f (stx : Syntax) : CoreM Nat := do\n" ++
+      "  throwErrorAt stx\n" ++
+      "    \"{String.intercalate \"\\n\" [\"@[eval_problem]\"]}\"\n"
+    pure <| assertEq "message verbatim" (stripProblemMarkers source) source
+
+  check "stripProblemMarkers reads a quoted identifier inside a hole" passes fails do
+    let source := "def «{» := \"x\"\ndef note := s!\"{«{»}\"\n" ++
+      "@[eval_problem] theorem target : True := trivial\n"
+    pure <| assertEq "marker still found" (stripProblemMarkers source)
+      "def «{» := \"x\"\ndef note := s!\"{«{»}\"\ntheorem target : True := trivial\n"
+
+  check "stripProblemMarkers strips the quoted spelling of the marker" passes fails do
+    let source := "@[«eval_problem», simp] theorem target : True := trivial\n"
+    pure <| assertEq "sibling kept" (stripProblemMarkers source)
+      "@[simp] theorem target : True := trivial\n"
+
+  check "stripProblemMarkers strips two markers from one list" passes fails do
+    let source := "@[eval_problem, eval_problem, simp]\ntheorem target : True := trivial\n"
+    pure <| assertEq "both gone" (stripProblemMarkers source)
+      "@[simp]\ntheorem target : True := trivial\n"
+
+  check "stripProblemMarkers strips an import broken across lines" passes fails do
+    let source := "import\n  EvalTools.Markers\n@[eval_problem] theorem target : True := trivial\n"
+    pure <| assertEq "both gone" (stripProblemMarkers source)
+      "theorem target : True := trivial\n"
+
+  check "stripProblemMarkers strips an import with a comment inside it" passes fails do
+    let source := "import /- why -/ EvalTools.Markers\ntheorem target : True := trivial\n"
+    pure <| assertEq "import gone" (stripProblemMarkers source)
+      "theorem target : True := trivial\n"
+
   -- Regression for the shared lexeme scanner: a brace in an ordinary string
   -- must not hide the `:=` that introduces the body.
   check "extractStatementText sees past braces in a plain string" passes fails do

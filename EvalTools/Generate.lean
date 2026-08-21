@@ -468,16 +468,10 @@ private def Source.plainStringEnd (s : Source) (start : Nat) : Nat := Id.run do
       i := i + 1
   return s.size
 
-/-- Skip a double-quoted string whose `{…}` holes carry terms. `start` must point
-at the opening quote.
-
-A hole may itself hold a string, and that is what a brace-blind reader gets
-wrong: `throwError "{String.intercalate "\n" …}"` would end at the quote before
-`\n`, leaving the rest of the message to be scanned as code. Lean parses a hole
-with the whole extensible term grammar, which brace counting cannot reproduce,
-so a hole that fails to close is treated as running to the end of the source —
-opaque, and therefore inert, rather than resynchronising somewhere arbitrary. -/
-private def Source.interpolatedStringEnd (s : Source) (start : Nat) : Nat := Id.run do
+/-- Skip a double-quoted string reading each `{…}` as a hole carrying a term,
+and return `none` if the literal never closes that way. `start` must point at the
+opening quote. -/
+private def Source.interpolatedStringEnd? (s : Source) (start : Nat) : Option Nat := Id.run do
   let n := s.size
   let mut i := start + 1
   -- One entry per nested construct, innermost last: `true` while reading string
@@ -489,32 +483,38 @@ private def Source.interpolatedStringEnd (s : Source) (start : Nat) : Nat := Id.
       else if s[i]! == '"' then
         modes := modes.pop
         i := i + 1
-        if modes.isEmpty then return i
+        if modes.isEmpty then return some i
       else if s[i]! == '{' then modes := modes.push false; i := i + 1
       else i := i + 1
     else if let some stop := Source.commentEnd? s i then i := max stop (i + 1)
     else if let some stop := Source.rawStringEnd? s i then i := stop
     else if s[i]! == '"' then modes := modes.push true; i := i + 1
     else if s[i]! == '\'' then i := (Source.charLiteralEnd? s i).getD (i + 1)
+    else if s[i]! == '«' then i := Source.quotedIdentifierEnd s i
     else if s[i]! == '{' then modes := modes.push false; i := i + 1
     else if s[i]! == '}' then modes := modes.pop; i := i + 1
     else i := i + 1
-  return n
+  return none
 
 /-- Commands whose string argument Lean parses as an interpolated string even
-though it carries no `!`. -/
+though it carries no `!`. Kept to the one that occurs in this repository:
+`logInfo "{"` and its siblings fall back to an ordinary term, so listing them
+would misread a brace far more often than it would read one right. -/
 private def interpolatedStringCommands : Array String :=
-  #["throwError", "throwErrorAt", "logInfo", "logInfoAt", "logWarning",
-    "logWarningAt", "logError", "logErrorAt", "dbg_trace"]
+  #["throwError"]
 
-/-- True when the string opening at `start` is an interpolated one, so that a
-`{` in it opens a term rather than standing for itself.
+/-- True when the token in front of the string opening at `start` says the
+string interpolates, so that a `{` in it opens a term rather than standing for
+itself: a `!`-suffixed prefix (`s!`, `m!`, `f!`) or one of
+`interpolatedStringCommands`.
 
-Interpolation is introduced by a `!`-suffixed prefix (`s!`, `m!`, `f!`) or by one
-of `interpolatedStringCommands`. Everything else — an ordinary application `f
-"x"`, a literal after `:=` — is plain, and reading its braces as holes would run
-the scanner far past the end of the string: `def left := "{"` and a later `"}"`
-would swallow everything between them. -/
+The test is deliberately one-sided. Lean settles interpolation in the parser, so
+no lookback can be exact — `throwErrorAt stx "…"` interpolates behind an
+argument this does not see, and a user macro taking `interpolatedStr` is
+invisible. Reading braces as holes when they are not is the costlier mistake, as
+it runs the scan past the end of a perfectly ordinary `"{"`, so a string is read
+plainly unless something says otherwise. `Source.declarationFollows` is what
+keeps the remaining misreadings from doing damage. -/
 private def Source.stringIsInterpolated (s : Source) (start : Nat) : Bool := Id.run do
   let mut i := start
   while i > 0 && s[i - 1]!.isWhitespace do
@@ -530,10 +530,14 @@ private def Source.stringIsInterpolated (s : Source) (start : Nat) : Bool := Id.
     token := token.push s[k]!
   return interpolatedStringCommands.contains ((token.splitOn ".").getLast!)
 
-/-- Skip a double-quoted string. `start` must point at the opening quote. -/
+/-- Skip a double-quoted string. `start` must point at the opening quote. An
+interpolated string that never closes as one is read plainly, so a `{` the
+lookback misjudged costs nothing. -/
 private def Source.stringLiteralEnd (s : Source) (start : Nat) : Nat :=
-  if Source.stringIsInterpolated s start then Source.interpolatedStringEnd s start
-  else Source.plainStringEnd s start
+  if Source.stringIsInterpolated s start then
+    (Source.interpolatedStringEnd? s start).getD (Source.plainStringEnd s start)
+  else
+    Source.plainStringEnd s start
 
 /-- If `start` begins a syntax quotation `` `(…) ``, return the codepoint index
 just past its closing parenthesis. What a quotation holds is syntax the
@@ -657,14 +661,66 @@ private def Source.attributeBlockEnd? (s : Source) (start : Nat) : Option Attrib
       | _ => i := i + 1
   return none
 
+/-- Modifiers Lean allows between an attribute block and the keyword that
+introduces the declaration it modifies. -/
+private def declarationModifiers : Array String :=
+  #["private", "protected", "noncomputable", "unsafe", "partial", "nonrec",
+    "scoped", "local", "public", "meta"]
+
+/-- Keywords that introduce a declaration an attribute block can modify. -/
+private def declarationKeywords : Array String :=
+  #["theorem", "lemma", "def", "abbrev", "instance", "example", "axiom",
+    "opaque", "structure", "class", "inductive", "alias", "mutual", "macro",
+    "macro_rules", "elab", "elab_rules", "syntax", "notation", "infix", "infixl",
+    "infixr", "prefix", "postfix", "initialize", "builtin_initialize",
+    "register_simp_attr", "declare_syntax_cat", "instance_reducible"]
+
+/-- True when a declaration follows the attribute block ending at `stop`.
+
+Lean accepts `@[…]` only in front of a declaration, so this is what separates a
+real attribute from the same characters sitting in a string the scanner has
+misread as code. It is the backstop for every way this file's lexer can be wrong
+— an interpolation it did not expect, a syntax extension it cannot know about.
+With it, a misreading costs a marker left in place, which the generated
+workspace reports as `unknown attribute [eval_problem]`; without it, the cost
+would be an edit to somebody's source that nothing announces. -/
+private def Source.declarationFollows (s : Source) (stop : Nat) : Bool := Id.run do
+  let mut i := Source.skipTrivia s stop
+  -- Bounded: a declaration carries only so many modifiers, and looking further
+  -- would be scanning for a keyword rather than corroborating one.
+  for _ in [0 : 8] do
+    if i ≥ s.size then return false
+    if Source.startsWithAt s i "@[".toList then
+      match Source.attributeBlockEnd? s i with
+      | some block => i := Source.skipTrivia s block.stop
+      | none => return false
+    else
+      for keyword in declarationKeywords do
+        if Source.startsWithAt s i keyword.toList && Source.atWordEnd s (i + keyword.length) then
+          return true
+      let mut next := i
+      for modifier in declarationModifiers do
+        if next == i && Source.startsWithAt s i modifier.toList
+            && Source.atWordEnd s (i + modifier.length) then
+          next := Source.skipTrivia s (i + modifier.length)
+      if next == i then return false
+      i := next
+  return false
+
 /-- True when the attribute instance spanning `[start, stop)` is the marker and
 nothing else. Lean lets trivia sit anywhere in the list, so
-`@[/- why -/ eval_problem]` applies the marker just as `@[eval_problem]` does. -/
+`@[/- why -/ eval_problem]` applies the marker just as `@[eval_problem]` does,
+and it accepts the French-quoted spelling `@[«eval_problem»]` as the same name. -/
 private def Source.itemIsMarker (s : Source) (start stop : Nat) : Bool := Id.run do
   let nameStart := min (Source.skipTrivia s start) stop
-  if !(Source.startsWithAt s nameStart evalProblemAttrName.toList) then return false
-  let nameStop := nameStart + evalProblemAttrName.length
-  if nameStop > stop || !(Source.atWordEnd s nameStop) then return false
+  let quoted := Source.startsWithAt s nameStart ("«" ++ evalProblemAttrName ++ "»").toList
+  let nameStop :=
+    if quoted then nameStart + evalProblemAttrName.length + 2
+    else nameStart + evalProblemAttrName.length
+  if !quoted then
+    if !(Source.startsWithAt s nameStart evalProblemAttrName.toList) then return false
+    if !(Source.atWordEnd s nameStop) then return false
+  if nameStop > stop then return false
   return min (Source.skipTrivia s nameStop) stop == stop
 
 /-- True when the attribute instance spanning `[start, stop)` names no attribute
@@ -784,17 +840,33 @@ private def Source.markerItemRemovals (s : Source) (block : AttributeBlock)
     let survivor := block.items[tail - 1]!
     removals := removals.push
       (Source.rewindInlineSpace s survivor.2 survivor.1, block.items[block.items.size - 1]!.2)
-  return removals
+  -- Consecutive markers share the whitespace between them, so their spans can
+  -- meet: `@[eval_problem, eval_problem, simp]` has the first run on to the
+  -- second's name while the second starts at the comma before it. Coalesce.
+  let mut coalesced : Array (Nat × Nat) := #[]
+  for (a, b) in removals do
+    match coalesced.back? with
+    | some (previousStart, previousStop) =>
+      if a ≤ previousStop then
+        coalesced := coalesced.set! (coalesced.size - 1) (previousStart, max previousStop b)
+      else
+        coalesced := coalesced.push (a, b)
+    | none => coalesced := coalesced.push (a, b)
+  return coalesced
 
-/-- If an `import` command occupying the rest of its line begins at `i`, return
-the module it names and the codepoint index just past the command, trailing
-comment included. `none` if anything but trivia follows the module name on the
-line, since then the line is not this command's alone to delete. -/
+/-- If an `import` command begins at `i`, return the module it names and the
+codepoint index just past the command, any comment trailing it on the same line
+included. Trivia may sit anywhere in the command, so `import /- why -/ Foo` and
+an `import` whose module name is on the next line are both read.
+
+`none` if a token other than a comment follows the module name on its line: a
+second command sharing the line is not this one's to delete. That matches what
+`scanHeader` assumes of the header it walks. -/
 private def Source.importAt? (s : Source) (i : Nat) : Option (String × Nat) := Id.run do
   if !(Source.startsWithAt s i "import".toList) then return none
   let mut j := i + "import".length
   if !(Source.atWordEnd s j) then return none
-  j := Source.skipInlineSpace s j
+  j := Source.skipTrivia s j
   let nameStart := j
   while j < s.size &&
       (let c := s[j]!; c.isAlphanum || c == '_' || c == '\'' || c == '.') do
@@ -803,17 +875,19 @@ private def Source.importAt? (s : Source) (i : Nat) : Option (String × Nat) := 
   let mut name := ""
   for k in [nameStart : j] do
     name := name.push s[k]!
-  let lineStop := Source.lineEndAt s j
+  -- Trailing comments belong to the command; a comment may run past the line,
+  -- and then so does the command.
   let mut stop := j
-  while j < lineStop do
-    if s[j]!.isWhitespace then
-      j := j + 1
-    else if let some commentStop := Source.commentEnd? s j then
-      if commentStop > lineStop then return none
+  let mut atEnd := false
+  while !atEnd do
+    j := Source.skipInlineSpace s j
+    match Source.commentEnd? s j with
+    | some commentStop =>
       j := max commentStop (j + 1)
       stop := j
-    else
-      return none
+    | none =>
+      if j < s.size && s[j]! != '\n' then return none
+      atEnd := true
   return some (name, stop)
 
 /-- If an `import` command this pass drops begins at `i`, return the codepoint
@@ -887,7 +961,7 @@ def stripProblemMarkers (source : String) (localImports : Array String := #[]) :
         let survives := (List.range block.items.size).any fun k =>
           let (a, b) := block.items[k]!
           !markers.contains k && !Source.itemIsEmpty s a b
-        if markers.isEmpty then
+        if markers.isEmpty || !Source.declarationFollows s block.stop then
           freshLine := false
           i := block.stop
         else if !survives then
