@@ -1,0 +1,11 @@
+id = "faltings"
+title = "Faltings' theorem (Mordell conjecture)"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+test = false
+module = "LeanEval.AlgebraicGeometry.Faltings"
+holes = ["finite_setOf_place_notMem", "faltings"]
+submitter = "Junyan Xu"
