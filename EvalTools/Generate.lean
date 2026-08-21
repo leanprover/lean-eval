@@ -468,34 +468,6 @@ private def Source.plainStringEnd (s : Source) (start : Nat) : Nat := Id.run do
       i := i + 1
   return s.size
 
-/-- Skip a double-quoted string reading each `{…}` as a hole carrying a term,
-and return `none` if the literal never closes that way. `start` must point at the
-opening quote. -/
-private def Source.interpolatedStringEnd? (s : Source) (start : Nat) : Option Nat := Id.run do
-  let n := s.size
-  let mut i := start + 1
-  -- One entry per nested construct, innermost last: `true` while reading string
-  -- characters, `false` while reading the term inside an interpolation hole.
-  let mut modes : Array Bool := #[true]
-  while i < n do
-    if modes.back! then
-      if s[i]! == '\\' then i := min (i + 2) n
-      else if s[i]! == '"' then
-        modes := modes.pop
-        i := i + 1
-        if modes.isEmpty then return some i
-      else if s[i]! == '{' then modes := modes.push false; i := i + 1
-      else i := i + 1
-    else if let some stop := Source.commentEnd? s i then i := max stop (i + 1)
-    else if let some stop := Source.rawStringEnd? s i then i := stop
-    else if s[i]! == '"' then modes := modes.push true; i := i + 1
-    else if s[i]! == '\'' then i := (Source.charLiteralEnd? s i).getD (i + 1)
-    else if s[i]! == '«' then i := Source.quotedIdentifierEnd s i
-    else if s[i]! == '{' then modes := modes.push false; i := i + 1
-    else if s[i]! == '}' then modes := modes.pop; i := i + 1
-    else i := i + 1
-  return none
-
 /-- Commands whose string argument Lean parses as an interpolated string even
 though it carries no `!`. Kept to the one that occurs in this repository:
 `logInfo "{"` and its siblings fall back to an ordinary term, so listing them
@@ -529,6 +501,51 @@ private def Source.stringIsInterpolated (s : Source) (start : Nat) : Bool := Id.
   for k in [i : tokenEnd] do
     token := token.push s[k]!
   return interpolatedStringCommands.contains ((token.splitOn ".").getLast!)
+
+/-- What the scanner in `Source.interpolatedStringEnd?` is reading: the term
+inside an interpolation hole, a string whose braces open further holes, or a
+string whose braces stand for themselves. -/
+private inductive StringScanMode where
+  | hole
+  | interpolated
+  | plain
+  deriving BEq, Inhabited
+
+/-- Skip a double-quoted string reading each `{…}` as a hole carrying a term,
+and return `none` if the literal never closes that way. `start` must point at the
+opening quote.
+
+A string opened inside a hole carries holes of its own only if it is itself
+interpolated: in `s!"{f "a{b"}"` the inner literal's brace stands for itself, and
+reading it as a hole would leave the outer string looking unterminated. -/
+private def Source.interpolatedStringEnd? (s : Source) (start : Nat) : Option Nat := Id.run do
+  let n := s.size
+  let mut i := start + 1
+  -- One entry per nested construct, innermost last.
+  let mut modes : Array StringScanMode := #[.interpolated]
+  while i < n do
+    let mode := modes.back!
+    if mode != .hole then
+      if s[i]! == '\\' then i := min (i + 2) n
+      else if s[i]! == '"' then
+        modes := modes.pop
+        i := i + 1
+        if modes.isEmpty then return some i
+      else if s[i]! == '{' && mode == .interpolated then
+        modes := modes.push .hole
+        i := i + 1
+      else i := i + 1
+    else if let some stop := Source.commentEnd? s i then i := max stop (i + 1)
+    else if let some stop := Source.rawStringEnd? s i then i := stop
+    else if s[i]! == '"' then
+      modes := modes.push (if Source.stringIsInterpolated s i then .interpolated else .plain)
+      i := i + 1
+    else if s[i]! == '\'' then i := (Source.charLiteralEnd? s i).getD (i + 1)
+    else if s[i]! == '«' then i := Source.quotedIdentifierEnd s i
+    else if s[i]! == '{' then modes := modes.push .hole; i := i + 1
+    else if s[i]! == '}' then modes := modes.pop; i := i + 1
+    else i := i + 1
+  return none
 
 /-- Skip a double-quoted string. `start` must point at the opening quote. An
 interpolated string that never closes as one is read plainly, so a `{` the

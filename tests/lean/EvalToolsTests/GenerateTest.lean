@@ -536,6 +536,14 @@ def main : IO UInt32 := do
       "    \"{String.append \"prefix\n@[eval_problem] theorem\" \"suffix\"}\"\n"
     pure <| assertEq "message verbatim" (stripProblemMarkers source) source
 
+  -- A string opened inside a hole carries holes of its own only if it is itself
+  -- interpolated. Reading the inner `"{)"` as one leaves the outer string
+  -- looking unterminated, and the scan resumes in the middle of it.
+  check "stripProblemMarkers keeps a plain string's brace inside a hole" passes fails do
+    let source := "def quoted := s!\"{String.append \"{)\" \"\n" ++
+      "@[eval_problem] theorem target : True := trivial\n\"}\"\n"
+    pure <| assertEq "message verbatim" (stripProblemMarkers source) source
+
   check "stripProblemMarkers keeps a marker a string puts behind an `in`" passes fails do
     let source := "def f (stx : Syntax) : CoreM Nat := do\n" ++
       "  throwErrorAt stx\n" ++
