@@ -605,6 +605,119 @@ def main : IO UInt32 := do
     let hasOpenPolynomial := (block.find? "open Polynomial").isSome
     pure <| assertEq "top-level open with 'in' comment kept" hasOpenPolynomial true
 
+  -- An `open` whose namespaces run over several lines is one command; emitting
+  -- only its first line narrows the context the declaration was written in.
+  check "extractContextOpens keeps a multi-line open whole" passes fails do
+    let source :=
+      "import Mathlib\n" ++
+      "namespace Demo\n" ++
+      "open Polynomial\n" ++
+      "  Filter\n" ++
+      "\n" ++
+      "theorem target : True := trivial\n" ++
+      "end Demo\n"
+    let extracted : ExtractedTheorem := {
+      declarationName := "Demo.target"
+      module := "Demo"
+      startLine := 6, startColumn := 0
+      endLine := 6, endColumn := 30
+      sameModuleDependencies := #[]
+      kind := "theorem"
+    }
+    let block ← extractContextOpens "demo" "demo.lean" source (some extracted)
+      (includeNamespaces := true)
+    pure <| assertContains "first line" block "open Polynomial"
+      |>.or (assertContains "continuation line" block "  Filter")
+
+  -- Regression for https://github.com/leanprover/lean-eval/issues/545: the
+  -- scoped form's `in` may land on a continuation line, and reading only the
+  -- first line both hoisted the open to file level and lost its later
+  -- namespaces.
+  check "extractContextOpens skips an open … in ending a continuation line" passes fails do
+    let source :=
+      "import Mathlib\n" ++
+      "namespace Demo\n" ++
+      "open Bundle Filter\n" ++
+      "  MeasureTheory in\n" ++
+      "noncomputable def helper : Nat := 0\n" ++
+      "\n" ++
+      "theorem target : True := trivial\n" ++
+      "end Demo\n"
+    let extracted : ExtractedTheorem := {
+      declarationName := "Demo.target"
+      module := "Demo"
+      startLine := 7, startColumn := 0
+      endLine := 7, endColumn := 30
+      sameModuleDependencies := #[]
+      kind := "theorem"
+    }
+    let block ← extractContextOpens "demo" "demo.lean" source (some extracted)
+      (includeNamespaces := true)
+    pure <| assertEq "scoped open dropped" ((block.find? "open Bundle").isSome) false
+      |>.or (assertEq "continuation dropped" ((block.find? "MeasureTheory").isSome) false)
+
+  -- Lean permits indented commands, so a module written wholly inside an
+  -- indented `namespace` must not read as one enormous `open`.
+  check "extractContextOpens stops an open block at an indented command" passes fails do
+    let source :=
+      "import Mathlib\n" ++
+      "namespace Demo\n" ++
+      "  open Polynomial\n" ++
+      "  noncomputable def helper : Nat := 0\n" ++
+      "  theorem target : True := trivial\n" ++
+      "end Demo\n"
+    let extracted : ExtractedTheorem := {
+      declarationName := "Demo.target"
+      module := "Demo"
+      startLine := 5, startColumn := 2
+      endLine := 5, endColumn := 34
+      sameModuleDependencies := #[]
+      kind := "theorem"
+    }
+    let block ← extractContextOpens "demo" "demo.lean" source (some extracted)
+      (includeNamespaces := true)
+    pure <| assertContains "open kept" block "open Polynomial"
+      |>.or (assertEq "helper not absorbed" ((block.find? "helper").isSome) false)
+
+  -- The shape reported in https://github.com/leanprover/lean-eval/issues/545:
+  -- a `local notation` and a scoped `open … in` above the problem declaration.
+  -- The notation travels as a command of its own and the open travels as the
+  -- declaration's prefix, in its scoped form.
+  check "issue #545 shape: notation and scoped open both survive" passes fails do
+    let text :=
+      "import Mathlib\n" ++
+      "namespace Demo\n" ++
+      "open scoped Manifold Real\n" ++
+      "\n" ++
+      "local notation \"𝔼\" => EuclideanSpace ℝ (Fin 2)\n" ++
+      "\n" ++
+      "open Bundle Filter MeasureTheory Metric in\n" ++
+      "/-- Note that … -/\n" ++
+      "@[eval_problem]\n" ++
+      "theorem target (x : 𝔼) : True := trivial\n" ++
+      "end Demo\n"
+    let extracted : ExtractedTheorem := {
+      declarationName := "Demo.target"
+      module := "Demo"
+      startLine := 8, startColumn := 0
+      endLine := 10, endColumn := 40
+      sameModuleDependencies := #[]
+      kind := "theorem"
+    }
+    let source := Source.ofString text
+    let some target := Source.find source 0 "/-- Note".toList
+      | pure (some "no doc comment in fixture")
+    let opens ← extractContextOpens "demo" "demo.lean" text (some extracted)
+      (includeNamespaces := false)
+    let context := extractContextVariablesAndSyntax text (some extracted) #[]
+      isSyntaxContextDeclaration
+    let declPrefix := extractDeclarationPrefix source 0 target
+    pure <| assertContains "file-level open kept" opens "open scoped Manifold Real"
+      |>.or (assertEq "scoped open not hoisted" ((opens.find? "open Bundle").isSome) false)
+      |>.or (assertContains "local notation kept" context "local notation \"𝔼\"")
+      |>.or (assertContains "scoped open carried as a prefix" declPrefix
+        "open Bundle Filter MeasureTheory Metric in")
+
   check "injectSolutionHoleModifiers: plain def gains both modifiers" passes fails do
     pure <| assertEq "rewritten"
       (injectSolutionHoleModifiers "def foo : Nat := " "foo")
