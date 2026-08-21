@@ -46,9 +46,12 @@ Allowed reason categories are `initial`,
 ## Named sets
 
 Files in `manifests/sets/` list exact `(problem_id, statement_revision)` pairs.
-Once `frozen = true`, comparison with the CI base revision makes membership
-immutable. Corrections and retractions therefore remain visible historically
-and are represented through lifecycle metadata rather than deleting members.
+Once `frozen = true`, comparison with the CI base revision prevents deleting,
+unfreezing, removing or replacing members, or rewriting prior amendment
+records. Schema-2 sets may make an exceptional addition only through a new,
+later-dated amendment that names the exact added pairs and its authorization.
+Corrections and retractions remain visible historically and are represented
+through lifecycle metadata rather than deleting members.
 
 ## v1 evidence
 

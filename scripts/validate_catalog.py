@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate LeanEval catalog metadata and immutable named sets."""
+"""Validate LeanEval catalog metadata and append-only named sets."""
 
 from __future__ import annotations
 
@@ -189,16 +189,18 @@ def load_sets(
             named_set = tomllib.loads(path.read_text(encoding="utf-8"))
         except (OSError, UnicodeError, tomllib.TOMLDecodeError) as error:
             raise CatalogError(f"cannot read named set {path}: {error}") from error
-        if named_set.get("schema_version") != 1:
-            raise CatalogError(f"{path}: schema_version must be 1")
+        schema_version = named_set.get("schema_version")
+        if schema_version not in {1, 2}:
+            raise CatalogError(f"{path}: schema_version must be 1 or 2")
         set_id = _string(named_set.get("id"), f"{path}: id")
         if set_id != path.stem or TAG_RE.fullmatch(set_id) is None:
             raise CatalogError(f"{path}: id must be lowercase kebab-case and match the filename")
         _string(named_set.get("title"), f"{path}: title")
         if type(named_set.get("frozen")) is not bool:
             raise CatalogError(f"{path}: frozen must be a boolean")
+        published_at = ""
         if "published_at" in named_set:
-            _date(named_set["published_at"], f"{path}: published_at")
+            published_at = _date(named_set["published_at"], f"{path}: published_at")
         if named_set["frozen"] and "published_at" not in named_set:
             raise CatalogError(f"{path}: a frozen set requires published_at")
         members = _array(named_set.get("members"), f"{path}: members")
@@ -216,6 +218,74 @@ def load_sets(
             if key in seen:
                 raise CatalogError(f"{path}: duplicate member {problem_id}@{revision}")
             seen.add(key)
+
+        amendments = _array(named_set.get("amendments", []), f"{path}: amendments")
+        if schema_version == 1 and amendments:
+            raise CatalogError(f"{path}: amendments require schema_version 2")
+        if amendments and named_set["frozen"] is not True:
+            raise CatalogError(f"{path}: only a frozen set may have amendments")
+        amended_members: set[tuple[str, int]] = set()
+        amendment_ids: set[str] = set()
+        previous_date = published_at
+        for amendment_index, raw_amendment in enumerate(amendments):
+            label = f"{path}: amendments[{amendment_index}]"
+            amendment = _table(raw_amendment, label)
+            amendment_id = _string(amendment.get("id"), f"{label}.id")
+            if TAG_RE.fullmatch(amendment_id) is None:
+                raise CatalogError(f"{label}.id must be lowercase kebab-case")
+            if amendment_id in amendment_ids:
+                raise CatalogError(f"{path}: duplicate amendment id {amendment_id!r}")
+            amendment_ids.add(amendment_id)
+            effective_date = _date(
+                amendment.get("effective_date"), f"{label}.effective_date"
+            )
+            if effective_date <= previous_date:
+                raise CatalogError(
+                    f"{path}: amendment dates must increase strictly after publication"
+                )
+            previous_date = effective_date
+            _string(amendment.get("reason"), f"{label}.reason")
+            _string(amendment.get("authorization"), f"{label}.authorization")
+            if "evidence" in amendment:
+                evidence = pathlib.PurePosixPath(
+                    _string(amendment["evidence"], f"{label}.evidence")
+                )
+                if evidence.is_absolute() or ".." in evidence.parts:
+                    raise CatalogError(f"{label}.evidence must be a safe repository path")
+                if not (root / evidence).is_file():
+                    raise CatalogError(f"{label}.evidence does not exist: {evidence}")
+            additions = _array(amendment.get("additions"), f"{label}.additions")
+            if not additions:
+                raise CatalogError(f"{label}.additions must not be empty")
+            for addition_index, raw_addition in enumerate(additions):
+                addition_label = f"{label}.additions[{addition_index}]"
+                addition = _table(raw_addition, addition_label)
+                problem_id = _string(
+                    addition.get("problem_id"), f"{addition_label}.problem_id"
+                )
+                revision = _integer(
+                    addition.get("statement_revision"),
+                    f"{addition_label}.statement_revision",
+                )
+                key = (problem_id, revision)
+                if key not in seen:
+                    raise CatalogError(
+                        f"{addition_label}: addition is not an effective set member"
+                    )
+                if key in amended_members:
+                    raise CatalogError(
+                        f"{path}: member {problem_id}@{revision} is amended more than once"
+                    )
+                amended_members.add(key)
+
+        if schema_version == 2:
+            initial_member_count = _integer(
+                named_set.get("initial_member_count"), f"{path}: initial_member_count"
+            )
+            if len(seen) != initial_member_count + len(amended_members):
+                raise CatalogError(
+                    f"{path}: effective membership must equal initial_member_count plus amendments"
+                )
         sets[set_id] = named_set
     return sets
 
@@ -234,7 +304,7 @@ def compare_with_base(
     problems: Mapping[str, Mapping[str, object]],
     sets: Mapping[str, Mapping[str, object]],
 ) -> None:
-    """Enforce lifecycle monotonicity and membership of already-frozen sets."""
+    """Enforce lifecycle monotonicity and append-only frozen-set amendments."""
     problem_paths = _git(root, "ls-tree", "-r", "--name-only", base_ref, "--", "manifests/problems")
     for relative in sorted(path for path in problem_paths.splitlines() if path.endswith(".toml")):
         raw = tomllib.loads(_git(root, "show", f"{base_ref}:{relative}"))
@@ -271,6 +341,10 @@ def compare_with_base(
             raise CatalogError(f"{relative}: a frozen set may not be deleted")
         if current.get("frozen") is not True:
             raise CatalogError(f"{relative}: a frozen set may not be unfrozen")
+        if "initial_member_count" in old and (
+            current.get("initial_member_count") != old["initial_member_count"]
+        ):
+            raise CatalogError(f"{relative}: initial_member_count is immutable")
         old_members = {
             (member.get("problem_id"), member.get("statement_revision"))
             for member in old.get("members", [])
@@ -279,8 +353,27 @@ def compare_with_base(
             (member.get("problem_id"), member.get("statement_revision"))
             for member in current.get("members", [])
         }
-        if old_members != new_members:
-            raise CatalogError(f"{relative}: membership of a frozen set may not change")
+        removed_members = old_members - new_members
+        if removed_members:
+            raise CatalogError(
+                f"{relative}: members of a frozen set may not be removed or replaced"
+            )
+
+        old_amendments = old.get("amendments", [])
+        new_amendments = current.get("amendments", [])
+        if new_amendments[:len(old_amendments)] != old_amendments:
+            raise CatalogError(f"{relative}: frozen-set amendments are append-only")
+        appended_amendments = new_amendments[len(old_amendments):]
+        declared_additions = {
+            (member.get("problem_id"), member.get("statement_revision"))
+            for amendment in appended_amendments
+            for member in amendment.get("additions", [])
+        }
+        added_members = new_members - old_members
+        if declared_additions != added_members:
+            raise CatalogError(
+                f"{relative}: every frozen-set addition requires one new amendment record"
+            )
 
 
 def validate(root: pathlib.Path, base_ref: str | None = None) -> tuple[int, int, int]:
@@ -295,7 +388,7 @@ def validate(root: pathlib.Path, base_ref: str | None = None) -> tuple[int, int,
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=pathlib.Path, default=pathlib.Path("."))
-    parser.add_argument("--base-ref", help="Git ref used to enforce immutable frozen sets")
+    parser.add_argument("--base-ref", help="Git ref used to enforce append-only frozen sets")
     args = parser.parse_args()
     try:
         problem_count, tag_count, set_count = validate(args.root.resolve(), args.base_ref)

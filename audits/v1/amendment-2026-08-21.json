@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "set_id": "v1",
+  "amendment_id": "2026-08-21-newly-merged-problems",
+  "effective_date": "2026-08-21",
+  "authorization": "Explicit maintainer request in the implementation session on 2026-08-21.",
+  "previous_member_count": 118,
+  "added_member_count": 10,
+  "effective_member_count": 128,
+  "source_catalog_commit": "e772fc05aa1533d8370e5ca7e27bcb75595aafae",
+  "additions": [
+    {
+      "problem_id": "budney_gabai_knotted_three_spheres",
+      "statement_revision": 1,
+      "pull_request": 538,
+      "merge_commit": "a58d1a25c40c00b2847e0d593ed6fceaaca931b7"
+    },
+    {
+      "problem_id": "dimitrov",
+      "statement_revision": 1,
+      "pull_request": 479,
+      "merge_commit": "5c02c50963d0e84cc188180c5a83cd768a03262a"
+    },
+    {
+      "problem_id": "direct_summand",
+      "statement_revision": 1,
+      "pull_request": 513,
+      "merge_commit": "6191e7da43d95e2ea3a4a8076cf00d6db6cc4a05"
+    },
+    {
+      "problem_id": "einsiedler_katok_lindenstrauss",
+      "statement_revision": 1,
+      "pull_request": 515,
+      "merge_commit": "92541832ba1d24520ae144440e84cafce5417bc4"
+    },
+    {
+      "problem_id": "faltings",
+      "statement_revision": 1,
+      "pull_request": 191,
+      "merge_commit": "2f9397a184120ded9e6a6bfda828a222ccd9f211"
+    },
+    {
+      "problem_id": "four_manifold_not_smooth",
+      "statement_revision": 1,
+      "pull_request": 523,
+      "merge_commit": "f58d72e65abef64b759ca72938d8600ef822873c"
+    },
+    {
+      "problem_id": "klartag_packing",
+      "statement_revision": 1,
+      "pull_request": 522,
+      "merge_commit": "2365dfdb9462aed880620d55b3a3355198c3fc81"
+    },
+    {
+      "problem_id": "newlander_nirenberg",
+      "statement_revision": 1,
+      "pull_request": 549,
+      "merge_commit": "e772fc05aa1533d8370e5ca7e27bcb75595aafae"
+    },
+    {
+      "problem_id": "nikolov_segal",
+      "statement_revision": 1,
+      "pull_request": 526,
+      "merge_commit": "d0e716619b98294ecf4ba43072ea8d493a0f4e82"
+    },
+    {
+      "problem_id": "ore_conjecture",
+      "statement_revision": 1,
+      "pull_request": 527,
+      "merge_commit": "c4fa24c6b61dcd60abc8fc4fb950b3e780eb0bfc"
+    }
+  ]
+}
