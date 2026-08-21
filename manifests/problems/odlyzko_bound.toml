@@ -1,5 +1,10 @@
 id = "odlyzko_bound"
 title = "Unconditional Odlyzko Bound"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 test = false
 module = "LeanEval.NumberTheory.OdlyzkoBound"
 holes = ["odlyzko_bound_unconditional"]
