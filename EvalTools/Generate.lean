@@ -1278,14 +1278,28 @@ def isLocalSyntaxContextDeclaration (declarationText : String) : Bool := Id.run 
 /-- Top-level command keywords that begin a fresh declaration/command. A
 whitespace-indented line opening with one of these is never a continuation of a
 preceding `open`/`variable`/`universe` block (Lean permits indented top-level
-commands), so the block scanners must stop before absorbing it. -/
+commands), so the block scanners must stop before absorbing it.
+
+Lean's command syntax is extensible, so no list of keywords is complete. The
+cost of a miss is asymmetric: a command mistaken for a continuation is absorbed
+into the block ahead of it, and `set_option … in` absorbed into an `open` even
+makes the open look like the scoped form. Hence the keywords that open a command
+without declaring a name — `set_option`, `export`, `include` — are listed
+alongside the declaration keywords, as is the `#name` that opens a diagnostic
+command (`#[…]` is an array literal, so the `#` alone does not qualify). -/
 private def startsWithCommandKeyword (stripped : String) : Bool := Id.run do
   if stripped.startsWith "@[" then return true
+  if stripped.startsWith "#" then
+    match (stripped.toList.drop 1).head? with
+    | some c => if c.isAlpha then return true
+    | none => pure ()
   if isSyntaxContextDeclaration stripped then return true
   let kws := #["def", "theorem", "lemma", "instance", "abbrev", "opaque",
     "axiom", "class", "structure", "inductive", "namespace", "section", "end",
     "variable", "universe", "open", "example", "noncomputable", "private",
-    "protected", "scoped", "attribute", "macro", "notation", "syntax"]
+    "protected", "scoped", "attribute", "macro", "notation", "syntax",
+    "set_option", "export", "include", "omit", "mutual", "local", "unsafe",
+    "partial", "nonrec", "initialize"]
   for kw in kws do
     if startsWithKeyword stripped kw then return true
   return false
@@ -1325,6 +1339,28 @@ private def stripLineComment (s : String) : String :=
 private def commandTokens (line : String) : Array String :=
   splitWhitespace (stripLineComment (stripSingleLineBlockComments line))
 
+/-- True if `line` opens a block comment it does not close. The line scanners
+read one line at a time, so they cannot see into such a comment; a line that
+opens one is the last they can classify. -/
+private def hasUnclosedBlockComment (line : String) : Bool := Id.run do
+  let chars := line.toList.toArray
+  let n := chars.size
+  let mut depth : Nat := 0
+  let mut i : Nat := 0
+  while i < n do
+    if i + 1 < n && chars[i]! == '/' && chars[i + 1]! == '-' then
+      depth := depth + 1
+      i := i + 2
+    else if depth > 0 && i + 1 < n && chars[i]! == '-' && chars[i + 1]! == '/' then
+      depth := depth - 1
+      i := i + 2
+    else if depth == 0 && i + 1 < n && chars[i]! == '-' && chars[i + 1]! == '-' then
+      -- A line comment hides any `/-` after it.
+      return false
+    else
+      i := i + 1
+  return depth > 0
+
 /-- The lines of the command block opening at `lines[startIdx]!` (0-indexed),
 together with the index just past it; `limit` bounds the scan.
 
@@ -1332,13 +1368,16 @@ A command may spread over several lines, with its arguments indented beneath the
 opening keyword. A line at column zero starts a new command, and so does a
 whitespace-indented line opening with a command keyword — Lean permits indented
 top-level commands, and a module written wholly inside an indented `namespace`
-is otherwise read as one enormous command. A comment-only line ends the scan
-too: it is more likely to introduce what comes next than to interrupt the
-command being read. -/
+is otherwise read as one enormous command. A blank or comment-only line ends the
+scan too: Lean would read across either, but a command written that way is
+vanishingly rare, and stopping keeps this scanner's reach the same as the
+`variable`/notation scanner's. A line that leaves a block comment open ends it
+for the same reason — what follows is prose, not arguments. -/
 private def commandBlockLines (lines : Array String) (startIdx limit : Nat) :
     Array String × Nat := Id.run do
   let mut block := #[lines[startIdx]!]
   let mut idx := startIdx + 1
+  if hasUnclosedBlockComment lines[startIdx]! then return (block, idx)
   while idx < limit do
     let candidate := lines[idx]!
     let stripped := candidate.trimAscii.toString
@@ -1348,6 +1387,7 @@ private def commandBlockLines (lines : Array String) (startIdx limit : Nat) :
     if startsWithCommandKeyword stripped then break
     block := block.push candidate
     idx := idx + 1
+    if hasUnclosedBlockComment candidate then break
   return (block, idx)
 
 /-- True if the `open` command spelled by `blockLines` is the scoped `open … in`

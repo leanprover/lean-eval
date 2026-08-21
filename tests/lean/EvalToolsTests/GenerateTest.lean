@@ -679,6 +679,57 @@ def main : IO UInt32 := do
     pure <| assertContains "open kept" block "open Polynomial"
       |>.or (assertEq "helper not absorbed" ((block.find? "helper").isSome) false)
 
+  -- `set_option … in` is a command, so an indented one below an `open` is the
+  -- next command and not a continuation. Absorbing it would carry its `in`
+  -- into the open and make the open look like the scoped form.
+  check "extractContextOpens stops an open block at an indented set_option" passes fails do
+    let source :=
+      "import Mathlib\n" ++
+      "namespace Demo\n" ++
+      "open Polynomial\n" ++
+      "  set_option pp.universes true in\n" ++
+      "  noncomputable def helper : Nat := 0\n" ++
+      "\n" ++
+      "theorem target : True := trivial\n" ++
+      "end Demo\n"
+    let extracted : ExtractedTheorem := {
+      declarationName := "Demo.target"
+      module := "Demo"
+      startLine := 7, startColumn := 0
+      endLine := 7, endColumn := 30
+      sameModuleDependencies := #[]
+      kind := "theorem"
+    }
+    let block ← extractContextOpens "demo" "demo.lean" source (some extracted)
+      (includeNamespaces := true)
+    pure <| assertContains "open kept" block "open Polynomial"
+      |>.or (assertEq "set_option not absorbed" ((block.find? "set_option").isSome) false)
+
+  -- A block comment opened on the `open` line runs past the end of the line,
+  -- and the line scanner cannot see into it. Reading further would take the
+  -- comment's prose for the open's arguments — including an `in` in it.
+  check "extractContextOpens stops an open block at an unclosed block comment" passes fails do
+    let source :=
+      "import Mathlib\n" ++
+      "namespace Demo\n" ++
+      "open Polynomial /- why we open it,\n" ++
+      "  spelled out in full\n" ++
+      "-/\n" ++
+      "theorem target : True := trivial\n" ++
+      "end Demo\n"
+    let extracted : ExtractedTheorem := {
+      declarationName := "Demo.target"
+      module := "Demo"
+      startLine := 6, startColumn := 0
+      endLine := 6, endColumn := 30
+      sameModuleDependencies := #[]
+      kind := "theorem"
+    }
+    let block ← extractContextOpens "demo" "demo.lean" source (some extracted)
+      (includeNamespaces := true)
+    pure <| assertContains "open kept" block "open Polynomial"
+      |>.or (assertEq "comment body not absorbed" ((block.find? "spelled out").isSome) false)
+
   -- The shape reported in https://github.com/leanprover/lean-eval/issues/545:
   -- a `local notation` and a scoped `open … in` above the problem declaration.
   -- The notation travels as a command of its own and the open travels as the
