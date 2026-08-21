@@ -467,10 +467,12 @@ def main : IO UInt32 := do
     let source := "def left := \"{\"\n@[eval_problem] theorem target : True := trivial\ndef right := \"}\"\n"
     pure <| assertEq "left verbatim" (stripProblemMarkers source) source
 
-  check "stripProblemMarkers strips past a brace no later quote balances" passes fails do
+  -- A reading that never closes disagrees too, and by more than any other, so
+  -- the dispute runs to the end of the input. It takes a string carrying a
+  -- brace it does not close, which no file in Mathlib does.
+  check "stripProblemMarkers declines past a brace nothing closes" passes fails do
     let source := "def left := \"{\"\n@[eval_problem] theorem target : True := trivial\n"
-    pure <| assertEq "marker gone" (stripProblemMarkers source)
-      "def left := \"{\"\ntheorem target : True := trivial\n"
+    pure <| assertEq "left verbatim" (stripProblemMarkers source) source
 
   -- Reprinting the survivors would drop the newline that ends the comment and
   -- so comment out the closing `]`.
@@ -542,6 +544,14 @@ def main : IO UInt32 := do
   check "stripProblemMarkers keeps a plain string's brace inside a hole" passes fails do
     let source := "def quoted := s!\"{String.append \"{)\" \"\n" ++
       "@[eval_problem] theorem target : True := trivial\n\"}\"\n"
+    pure <| assertEq "message verbatim" (stripProblemMarkers source) source
+
+  -- The converse mistake, on syntax the lookback cannot classify: `dbg_trace`
+  -- takes an interpolated string, and the raw string inside it leaves the
+  -- interpolated reading unterminated. That is a dispute, not a licence.
+  check "stripProblemMarkers keeps a marker behind an unterminated reading" passes fails do
+    let source := "def quoted := s!\"{dbg_trace \"{String.length r#\"{)\"#}\n" ++
+      "@[eval_problem] theorem target : True := trivial\n\"; \"fixed\"}\"\n"
     pure <| assertEq "message verbatim" (stripProblemMarkers source) source
 
   check "stripProblemMarkers keeps a marker a string puts behind an `in`" passes fails do

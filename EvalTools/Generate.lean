@@ -565,10 +565,15 @@ contents needs: a hole holding a string, read plainly, puts the hole's text in
 front of the scanner as if it were code. Refusing to strip anything inside the
 span the two readings dispute removes the guess from the answer — whichever
 reading is right, that text was somebody's string or somebody's code, and this
-pass declines to say which. -/
+pass declines to say which.
+
+A reading that never closes disagrees too, and by more than any other: it says
+the literal runs to the end of the input, so that is the span. It costs nothing
+to say so. A string carrying a brace it does not close is what it takes, and
+appending a marker to each of Mathlib's 8312 files strips all 8312. -/
 private def Source.disputedStringEnd? (s : Source) (start : Nat) : Option Nat :=
   match Source.interpolatedStringEnd? s start with
-  | none => none
+  | none => some s.size
   | some interpolated =>
     let plain := Source.plainStringEnd s start
     if interpolated == plain then none else some (max interpolated plain)
@@ -986,7 +991,13 @@ refuses to resolve.
 What is left over is a marker left in place, which the generated workspace
 reports as `unknown attribute [eval_problem]` when it is built. That is the
 failure this is tuned for: exactness here wants the parser, which wants an
-environment, which this signature does not have. -/
+environment, which this signature does not have.
+
+Two ways in remain, both needing a `syntax` declaration to reach: a token
+carrying a `)` closes a quotation early, and a token carrying a `"` or a brace
+can put the two readings of a string back into agreement on the wrong answer.
+Neither is reachable by lexing alone, which is why they are the boundary of what
+this approach can do rather than a bug in it. -/
 def stripProblemMarkers (source : String) (localImports : Array String := #[]) : String :=
   Id.run do
   let s := Source.ofString source
