@@ -30,9 +30,10 @@ local notation "𝔼" => EuclideanSpace ℝ (Fin 4)
 cannot be smoothed.
 
 Note the fact that `M` is boundaryless follows from `ModelWithCorners.instBoundarylessManifold`. -/
+@[eval_problem]
 theorem four_manifold_not_smooth :
-    ∃ (M : Type*) (_ : TopologicalSpace M) (_: CompactSpace M) (_ : SimplyConnectedSpace M)
-      (_ : Nonempty (ChartedSpace 𝔼 M)),
+    ∃ (M : Type*) (_ : TopologicalSpace M) (_ : T2Space M) (_: CompactSpace M)
+      (_ : SimplyConnectedSpace M) (_ : Nonempty (ChartedSpace 𝔼 M)),
       ∀ (_ : ChartedSpace 𝔼 M), ¬ IsManifold (𝓡 4) ∞ M := by
   sorry
 
