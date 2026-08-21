@@ -1,0 +1,13 @@
+id = "newlander_nirenberg"
+title = "Newlander–Nirenberg theorem"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Geometry.NewlanderNirenberg"
+holes = ["newlander_nirenberg"]
+submitter = "Kim Morrison"
+notes = "An almost complex structure with vanishing Nijenhuis tensor admits holomorphic coordinates. The content is local, so the statement lives on an open U ⊆ ℝ^{2n}, mirroring the local Darboux problem: J is a smooth field of endomorphisms with J² = -1, the Nijenhuis tensor N(V,W) = [JV,JW] - J[JV,W] - J[V,JW] - [V,W] is written with mathlib's VectorField.lieBracket, and the conclusion is an OpenPartialHomeomorph onto an open subset of ℂⁿ, smooth in both directions, whose differential is complex linear (dφ ∘ J = i · dφ). N is tensorial, so quantifying over globally smooth vector fields is equivalent to quantifying over pairs of tangent vectors. Mathlib has no almost complex structures, no Nijenhuis tensor, and no Newlander-Nirenberg theorem; no formalization of it was found in any other proof assistant."
+source = "A. Newlander and L. Nirenberg, `Complex analytic coordinates in almost complex manifolds`, Annals of Math, 65 (3) 1957, 391-404."
+informal_solution = "Complexify: vanishing of the Nijenhuis tensor says exactly that the -i eigenbundle T^{0,1} of J in TU ⊗ ℂ is closed under the Lie bracket. The theorem is therefore the Frobenius theorem for this involutive complex distribution, which is false for general complex distributions and needs genuine analysis in the non-real-analytic case. Newlander and Nirenberg's original argument reduces, after a linear change of coordinates making J standard to first order at the point, to solving a nonlinear perturbation of the ∂̄ equation ∂̄u = A(u, ∂u), and runs a Nash-Moser-type iteration on Hölder spaces. Later proofs replace the iteration with Hörmander's L² estimates for ∂̄ on small polydiscs (Kohn, Hörmander), or with Webster's elementary iteration using only the Cauchy kernel and interior Schauder estimates. In the real-analytic case the complex Frobenius theorem applies directly and no hard analysis is needed."
