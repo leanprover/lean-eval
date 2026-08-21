@@ -1,5 +1,10 @@
 id = "nikolov_segal"
 title = "Nikolov–Segal strong completeness theorem"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
 test = false
 module = "LeanEval.GroupTheory.NikolovSegal"
 holes = ["nikolov_segal"]
