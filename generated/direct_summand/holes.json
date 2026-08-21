@@ -1,0 +1,18 @@
+{
+  "id": "direct_summand",
+  "module": "LeanEval.AlgebraicGeometry.DirectSummand",
+  "holes": [
+    {
+      "name": "LeanEval.AlgebraicGeometry.DirectSummand.derived_direct_summand",
+      "basename": "derived_direct_summand",
+      "kind": "theorem",
+      "body": "theorem derived_direct_summand [HasDerivedCategory (ModuleCat A)]\n    (X : Scheme) (f : X \u27f6 Spec (.of A)) [IsProper f] (surj : Function.Surjective f)\n    [HasDerivedCategory (SheafOfModules X.ringCatSheaf)] :\n    let \u03c6 : A \u2192+* \u0393(X, \u22a4) := ((\u0393Spec.adjunction.homEquiv _ _).symm f).unop.hom\n    let : Algebra A \u0393(X, \u22a4) := \u03c6.toAlgebra\n    \u2200 _ : EnoughInjectives (SheafOfModules X.ringCatSheaf), IsSplitMono <|\n      (DerivedCategory.Plus.singleFunctor _ 0).map\n        (ModuleCat.ofHom (Algebra.linearMap A \u0393(X, \u22a4))) \u226b\n      (rightDerivedFunctorPlusUnit' (SheafOfModules.evaluation X.ringCatSheaf \u27e8\u22a4\u27e9 \u22d9\n        ModuleCat.restrictScalars \u03c6) 0).app (SheafOfModules.unit X.ringCatSheaf) := by\n  sorry"
+    },
+    {
+      "name": "LeanEval.AlgebraicGeometry.DirectSummand.direct_summand",
+      "basename": "direct_summand",
+      "kind": "theorem",
+      "body": "theorem direct_summand (B : Type*) [CommRing B] [Algebra A B]\n    [Module.Finite A B] [FaithfulSMul A B] :\n    \u2203 \u03c0 : B \u2192\u2097[A] A, \u03c0 \u2218\u2097 Algebra.linearMap A B = .id := by\n  sorry"
+    }
+  ]
+}

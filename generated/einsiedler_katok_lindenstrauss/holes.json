@@ -1,0 +1,12 @@
+{
+  "id": "einsiedler_katok_lindenstrauss",
+  "module": "LeanEval.Dynamics.EinsiedlerKatokLindenstrauss",
+  "holes": [
+    {
+      "name": "LeanEval.Dynamics.EinsiedlerKatokLindenstrauss.einsiedler_katok_lindenstrauss",
+      "basename": "einsiedler_katok_lindenstrauss",
+      "kind": "theorem",
+      "body": "theorem einsiedler_katok_lindenstrauss :\n    dimH {(\u03b1, \u03b2) : \u211d \u00d7 \u211d | Filter.atTop.liminf\n      (fun n : \u2115 \u21a6 n * distToNearestInt (n * \u03b1) * distToNearestInt (n * \u03b2)) > 0} = 0 := by\n  sorry"
+    }
+  ]
+}

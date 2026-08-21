@@ -1270,6 +1270,21 @@
     "generated_path": "generated/brun_constant_converges"
   },
   {
+    "id": "budney_gabai_knotted_three_spheres",
+    "title": "Budney--Gabai knotted three-spheres in S\u00b9 \u00d7 S\u00b3",
+    "group": "formalization-evaluation",
+    "status": "draft",
+    "visible": true,
+    "statement_revision": 1,
+    "tags": [],
+    "submitter": "Vasily Ilin",
+    "module": "LeanEval.Topology.BudneyGabai",
+    "holes": [
+      "budney_gabai_knotted_three_spheres"
+    ],
+    "generated_path": "generated/budney_gabai_knotted_three_spheres"
+  },
+  {
     "id": "bvp_comparison",
     "title": "Comparison principle for the Dirichlet BVP",
     "group": "formalization-evaluation",
@@ -1678,6 +1693,37 @@
     "generated_path": "generated/derived_solidification_free_CW_homology"
   },
   {
+    "id": "dimitrov",
+    "title": "Dimitrov's lower bound for the house of a nonzero algebraic integer that is not a root of unity",
+    "group": "formalization-evaluation",
+    "status": "draft",
+    "visible": true,
+    "statement_revision": 1,
+    "tags": [],
+    "submitter": "Zou Jinping",
+    "module": "LeanEval.NumberTheory.SchinzelZassenhaus",
+    "holes": [
+      "dimitrov"
+    ],
+    "generated_path": "generated/dimitrov"
+  },
+  {
+    "id": "direct_summand",
+    "title": "Direct summand theorem and derived variant",
+    "group": "formalization-evaluation",
+    "status": "draft",
+    "visible": true,
+    "statement_revision": 1,
+    "tags": [],
+    "submitter": "Junyan Xu",
+    "module": "LeanEval.AlgebraicGeometry.DirectSummand",
+    "holes": [
+      "derived_direct_summand",
+      "direct_summand"
+    ],
+    "generated_path": "generated/direct_summand"
+  },
+  {
     "id": "dirichlet_eigenvalues_eq_nat_sq",
     "title": "Dirichlet eigenvalues of -y'' = lambda y on [0,pi] are n^2",
     "group": "formalization-evaluation",
@@ -1736,6 +1782,21 @@
       "e8_irrep_tensor_square_decomp"
     ],
     "generated_path": "generated/e8_irrep_tensor_square_decomp"
+  },
+  {
+    "id": "einsiedler_katok_lindenstrauss",
+    "title": "Smallness of exceptional set to Littlewood's conjecture",
+    "group": "formalization-evaluation",
+    "status": "draft",
+    "visible": true,
+    "statement_revision": 1,
+    "tags": [],
+    "submitter": "Junyan Xu",
+    "module": "LeanEval.Dynamics.EinsiedlerKatokLindenstrauss",
+    "holes": [
+      "einsiedler_katok_lindenstrauss"
+    ],
+    "generated_path": "generated/einsiedler_katok_lindenstrauss"
   },
   {
     "id": "entropy_dimension_lyapunov",
@@ -1873,6 +1934,22 @@
     "generated_path": "generated/exists_topologically_slice_not_smoothly_slice"
   },
   {
+    "id": "faltings",
+    "title": "Faltings' theorem (Mordell conjecture)",
+    "group": "formalization-evaluation",
+    "status": "draft",
+    "visible": true,
+    "statement_revision": 1,
+    "tags": [],
+    "submitter": "Junyan Xu",
+    "module": "LeanEval.AlgebraicGeometry.Faltings",
+    "holes": [
+      "finite_setOf_place_notMem",
+      "faltings"
+    ],
+    "generated_path": "generated/faltings"
+  },
+  {
     "id": "families_of_maps_b01",
     "title": "Morrison\u2013Walker Lemma B.0.1: adapting families of maps to open covers",
     "group": "formalization-evaluation",
@@ -2007,6 +2084,21 @@
       "five_transitive_card_classification"
     ],
     "generated_path": "generated/five_transitive_card_classification"
+  },
+  {
+    "id": "four_manifold_not_smooth",
+    "title": "Freedman's non-smoothability theorem",
+    "group": "formalization-evaluation",
+    "status": "draft",
+    "visible": true,
+    "statement_revision": 1,
+    "tags": [],
+    "submitter": "Oliver Nash",
+    "module": "LeanEval.Geometry.FourManifoldNotSmooth",
+    "holes": [
+      "four_manifold_not_smooth"
+    ],
+    "generated_path": "generated/four_manifold_not_smooth"
   },
   {
     "id": "fourier_dirichlet_fejer",
@@ -2702,6 +2794,21 @@
     "generated_path": "generated/kirk_normal_structure"
   },
   {
+    "id": "klartag_packing",
+    "title": "Klartag's construction of lattice sphere packings",
+    "group": "formalization-evaluation",
+    "status": "draft",
+    "visible": true,
+    "statement_revision": 1,
+    "tags": [],
+    "submitter": "Junyan Xu",
+    "module": "LeanEval.Geometry.KlartagPacking",
+    "holes": [
+      "klartag_packing"
+    ],
+    "generated_path": "generated/klartag_packing"
+  },
+  {
     "id": "kollar_lieblich_olsson_sawin",
     "title": "Topological reconstruction theorems for varieties",
     "group": "formalization-evaluation",
@@ -3275,6 +3382,36 @@
     "generated_path": "generated/neukirch_uchida"
   },
   {
+    "id": "newlander_nirenberg",
+    "title": "Newlander\u2013Nirenberg theorem",
+    "group": "formalization-evaluation",
+    "status": "draft",
+    "visible": true,
+    "statement_revision": 1,
+    "tags": [],
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.Geometry.NewlanderNirenberg",
+    "holes": [
+      "newlander_nirenberg"
+    ],
+    "generated_path": "generated/newlander_nirenberg"
+  },
+  {
+    "id": "nikolov_segal",
+    "title": "Nikolov\u2013Segal strong completeness theorem",
+    "group": "formalization-evaluation",
+    "status": "draft",
+    "visible": true,
+    "statement_revision": 1,
+    "tags": [],
+    "submitter": "Adam Topaz",
+    "module": "LeanEval.GroupTheory.NikolovSegal",
+    "holes": [
+      "nikolov_segal"
+    ],
+    "generated_path": "generated/nikolov_segal"
+  },
+  {
     "id": "noncomputable_hole_example",
     "title": "noncomputable-hole minimal example",
     "group": "formalization-evaluation",
@@ -3366,6 +3503,21 @@
       "oppenheim_inequality"
     ],
     "generated_path": "generated/oppenheim_inequality"
+  },
+  {
+    "id": "ore_conjecture",
+    "title": "The Ore conjecture: every element of a finite nonabelian simple group is a commutator",
+    "group": "formalization-evaluation",
+    "status": "draft",
+    "visible": true,
+    "statement_revision": 1,
+    "tags": [],
+    "submitter": "Adam Topaz",
+    "module": "LeanEval.GroupTheory.OreConjecture",
+    "holes": [
+      "ore_conjecture"
+    ],
+    "generated_path": "generated/ore_conjecture"
   },
   {
     "id": "ornstein_weiss_rokhlin",

@@ -1,0 +1,12 @@
+{
+  "id": "nikolov_segal",
+  "module": "LeanEval.GroupTheory.NikolovSegal",
+  "holes": [
+    {
+      "name": "LeanEval.GroupTheory.nikolov_segal",
+      "basename": "nikolov_segal",
+      "kind": "theorem",
+      "body": "/-- **Nikolov\u2013Segal strong completeness theorem.** Every finite-index subgroup of a\ntopologically finitely generated profinite group is open. -/\ntheorem nikolov_segal\n    (G : Type*) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]\n    [CompactSpace G] [TotallyDisconnectedSpace G]\n    (hG : IsTopologicallyFinitelyGenerated G)\n    (H : Subgroup G) [H.FiniteIndex] :\n    IsOpen (H : Set G) := by\n  sorry"
+    }
+  ]
+}

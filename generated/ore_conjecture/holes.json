@@ -1,0 +1,12 @@
+{
+  "id": "ore_conjecture",
+  "module": "LeanEval.GroupTheory.OreConjecture",
+  "holes": [
+    {
+      "name": "LeanEval.GroupTheory.ore_conjecture",
+      "basename": "ore_conjecture",
+      "kind": "theorem",
+      "body": "/-- **The Ore conjecture.** Every element of a finite nonabelian simple group is a\ncommutator. -/\ntheorem ore_conjecture\n    (G : Type*) [Group G] [Finite G] [IsSimpleGroup G]\n    (hG : \u00ac IsMulCommutative G) :\n    commutatorSet G = Set.univ := by\n  sorry"
+    }
+  ]
+}

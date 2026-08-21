@@ -1,0 +1,12 @@
+{
+  "id": "four_manifold_not_smooth",
+  "module": "LeanEval.Geometry.FourManifoldNotSmooth",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.four_manifold_not_smooth",
+      "basename": "four_manifold_not_smooth",
+      "kind": "theorem",
+      "body": "/-- Freedman's theorem: there exists a closed, simply-connected, topological four-manifold which\ncannot be smoothed.\n\nNote the fact that `M` is boundaryless follows from `ModelWithCorners.instBoundarylessManifold`. -/\ntheorem four_manifold_not_smooth :\n    \u2203 (M : Type*) (_ : TopologicalSpace M) (_ : T2Space M) (_: CompactSpace M)\n      (_ : SimplyConnectedSpace M) (_ : Nonempty (ChartedSpace \ud835\udd3c M)),\n      \u2200 (_ : ChartedSpace \ud835\udd3c M), \u00ac IsManifold (\ud835\udce1 4) \u221e M := by\n  sorry"
+    }
+  ]
+}

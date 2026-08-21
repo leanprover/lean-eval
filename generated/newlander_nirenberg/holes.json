@@ -1,0 +1,12 @@
+{
+  "id": "newlander_nirenberg",
+  "module": "LeanEval.Geometry.NewlanderNirenberg",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.NewlanderNirenberg.newlander_nirenberg",
+      "basename": "newlander_nirenberg",
+      "kind": "theorem",
+      "body": "/-- **The Newlander\u2013Nirenberg theorem.** An almost complex structure with\nvanishing Nijenhuis tensor is integrable. Formally: for every `x` in an open\nset `U \u2286 \u211d^{2n}` carrying such a structure `J` there is a smooth local\ndiffeomorphism `\u03c6` (an `OpenPartialHomeomorph`, smooth in both directions)\nfrom a neighbourhood of `x` inside `U` onto an open subset of `\u2102\u207f` whose\ndifferential is complex linear:\n\n  `d\u03c6_y (J y v) = i \u00b7 d\u03c6_y v`.\n\nSuch charts are holomorphic coordinates for `J`. -/\ntheorem newlander_nirenberg {n : \u2115} {U : Set (E n)} (_hU : IsOpen U)\n    (J : E n \u2192 E n \u2192L[\u211d] E n) (_hJ : IsAlmostComplexOn J U)\n    (_hN : NijenhuisVanishesOn J U) {x : E n} (_hx : x \u2208 U) :\n    \u2203 \u03c6 : OpenPartialHomeomorph (E n) (EuclideanSpace \u2102 (Fin n)),\n      x \u2208 \u03c6.source \u2227 \u03c6.source \u2286 U \u2227\n      ContDiffOn \u211d \u221e (\u03c6 : E n \u2192 EuclideanSpace \u2102 (Fin n)) \u03c6.source \u2227\n      ContDiffOn \u211d \u221e (\u03c6.symm : EuclideanSpace \u2102 (Fin n) \u2192 E n) \u03c6.target \u2227\n      \u2200 y \u2208 \u03c6.source, \u2200 v : E n,\n        fderiv \u211d (\u03c6 : E n \u2192 EuclideanSpace \u2102 (Fin n)) y (J y v)\n          = Complex.I \u2022 fderiv \u211d (\u03c6 : E n \u2192 EuclideanSpace \u2102 (Fin n)) y v := by\n  sorry"
+    }
+  ]
+}

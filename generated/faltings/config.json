@@ -1,0 +1,14 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "LeanEval.AlgebraicGeometry.Faltings.finite_setOf_place_notMem",
+    "LeanEval.AlgebraicGeometry.Faltings.faltings"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": false
+}

@@ -1,0 +1,14 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "LeanEval.AlgebraicGeometry.DirectSummand.derived_direct_summand",
+    "LeanEval.AlgebraicGeometry.DirectSummand.direct_summand"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": false
+}

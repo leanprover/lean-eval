@@ -1,0 +1,12 @@
+{
+  "id": "klartag_packing",
+  "module": "LeanEval.Geometry.KlartagPacking",
+  "holes": [
+    {
+      "name": "LeanEval.Geometry.KlartagPacking.klartag_packing",
+      "basename": "klartag_packing",
+      "kind": "theorem",
+      "body": "/-- Klartag's theorem. In the statement, the ellipsoid E is realized as the image of a ball\nunder a linear map, which we do not require to be of full rank, since if it is not of full\nrank, then the volume of E is zero and the conclusion is not satisfied. -/\ntheorem klartag_packing : \u2203 c : \u211d, 0 < c \u2227 \u2200 n : \u2115,\n    let V := EuclideanSpace \u211d (Fin (n + 1))\n    \u2203 \u03c6 : V \u2192\u2097[\u211d] V, let E := \u03c6 '' Metric.ball (0 : V) 1\n      (MeasureTheory.volume E : EReal) = c * n ^ 2 \u2227\n      {v \u2208 E | \u2200 i, v i \u2208 Set.range ((\u2191) : \u2124 \u2192 \u211d)} = {0} := by\n  sorry"
+    }
+  ]
+}

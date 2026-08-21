@@ -1,0 +1,12 @@
+{
+  "id": "budney_gabai_knotted_three_spheres",
+  "module": "LeanEval.Topology.BudneyGabai",
+  "holes": [
+    {
+      "name": "LeanEval.Topology.budney_gabai_knotted_three_spheres",
+      "basename": "budney_gabai_knotted_three_spheres",
+      "kind": "theorem",
+      "body": "/-- **Budney--Gabai, Corollary 8.6.** There are infinitely many pairwise smoothly\nnon-isotopic, nonseparating embedded three-spheres in `S^1 \u00d7 S^3`, all homotopic\nto the standard cross-section `{x\u2080} \u00d7 S^3`. -/\ntheorem budney_gabai_knotted_three_spheres\n    (x\u2080 : sphere (0 : EuclideanSpace \u211d (Fin 2)) 1) :\n    \u2203 e : \u2115 \u2192 sphere (0 : EuclideanSpace \u211d (Fin 4)) 1 \u2192\n        sphere (0 : EuclideanSpace \u211d (Fin 2)) 1 \u00d7\n          sphere (0 : EuclideanSpace \u211d (Fin 4)) 1,\n      (\u2200 n,\n        Manifold.IsSmoothEmbedding\n            (\ud835\udce1 3) ((\ud835\udce1 1).prod (\ud835\udce1 3)) \u221e (e n) \u2227\n          IsConnected (Set.range (e n))\u1d9c \u2227\n          \u2203 K : unitInterval \u00d7 sphere (0 : EuclideanSpace \u211d (Fin 4)) 1 \u2192\n              sphere (0 : EuclideanSpace \u211d (Fin 2)) 1 \u00d7\n                sphere (0 : EuclideanSpace \u211d (Fin 4)) 1,\n            Continuous K \u2227\n              (\u2200 p, K (0, p) = e n p) \u2227\n              \u2200 p, K (1, p) = (x\u2080, p)) \u2227\n        \u2200 i j, i \u2260 j \u2192\n          \u00ac \u2203 H : unitInterval \u00d7 sphere (0 : EuclideanSpace \u211d (Fin 4)) 1 \u2192\n              sphere (0 : EuclideanSpace \u211d (Fin 2)) 1 \u00d7\n                sphere (0 : EuclideanSpace \u211d (Fin 4)) 1,\n            ContMDiff\n                ((\ud835\udce1\u2202 1).prod (\ud835\udce1 3)) ((\ud835\udce1 1).prod (\ud835\udce1 3)) \u221e H \u2227\n              (\u2200 t,\n                Manifold.IsSmoothEmbedding\n                  (\ud835\udce1 3) ((\ud835\udce1 1).prod (\ud835\udce1 3)) \u221e (fun p \u21a6 H (t, p))) \u2227\n              Set.range (fun p \u21a6 H (0, p)) = Set.range (e i) \u2227\n              Set.range (fun p \u21a6 H (1, p)) = Set.range (e j) := by\n  sorry"
+    }
+  ]
+}

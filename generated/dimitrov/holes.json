@@ -1,0 +1,12 @@
+{
+  "id": "dimitrov",
+  "module": "LeanEval.NumberTheory.SchinzelZassenhaus",
+  "holes": [
+    {
+      "name": "LeanEval.NumberTheory.dimitrov",
+      "basename": "dimitrov",
+      "kind": "theorem",
+      "body": "/-- **Dimitrov's theorem**, McKee\u2013Smyth Theorem 4.1.\n\nLet `\u03b1` be a nonzero algebraic integer, not a root of unity.  Then the\nhouse of `\u03b1` is at least `2 ^ (1 / (4 * d'))`, where `d'` is the number of\ndifferent phases among its conjugates.\n\nThe condition \"not a root of unity\" is expressed as `\u00ac IsOfFinOrder \u03b1`,\nMathlib's standard predicate for an element having no positive power equal to 1.\n-/\n\ntheorem dimitrov {K : Type*} [Field K] [NumberField K]\n    (\u03b1 : K)\n    (\u03b1_int : IsIntegral \u2124 \u03b1)\n    (\u03b1_ne_zero : \u03b1 \u2260 0)\n    (\u03b1_not_rootOfUnity : \u00ac IsOfFinOrder \u03b1) :\n    (2 : \u211d) ^ (1 / (4 * (Finset.univ.image fun \u03c3 : K \u2192+* \u2102 \u21a6 (\u03c3 \u03b1).arg).card) : \u211d) \u2264\n      NumberField.house \u03b1 := by\n  sorry"
+    }
+  ]
+}
