@@ -3,6 +3,7 @@ import ChallengeDeps
 open PseudorandomGrassmann
 open Module Finset Filter
 
+set_option autoImplicit false
 local notation "𝔽₂" => ZMod 2
 
 open Classical in

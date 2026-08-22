@@ -1,6 +1,7 @@
 import EvalTools.Generate
 
 open EvalTools
+open LeanEvalGenerator.Core
 
 set_option autoImplicit false
 

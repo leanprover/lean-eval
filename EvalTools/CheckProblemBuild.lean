@@ -2,6 +2,8 @@ import EvalTools.Manifest
 
 namespace EvalTools
 
+open LeanEvalGenerator.Core
+
 set_option autoImplicit false
 
 private def hasSubstr (haystack pattern : String) : Bool :=

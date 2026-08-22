@@ -4,6 +4,8 @@ import Submission.Helpers
 open vanDerWaerdenConjecture
 open Function Polynomial Filter
 
+set_option autoImplicit false
+
 namespace Submission
 
 theorem theorem_1 (n : ℕ) (hn : 3 ≤ n) :

@@ -8,6 +8,8 @@ open Lean
 
 namespace EvalTools
 
+open LeanEvalGenerator.Core
+
 set_option autoImplicit false
 
 /-- Per-problem score, mirroring `run_eval.py`'s `ProblemScore` dataclass. -/

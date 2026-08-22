@@ -4,6 +4,7 @@ import Submission.Helpers
 open ErdosFaberLovaszConjecture
 open Filter
 
+set_option autoImplicit false
 variable {V : Type*}
 
 namespace Submission

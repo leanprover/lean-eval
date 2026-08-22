@@ -17,7 +17,7 @@ rev = "6130a47896ce867c6a4a55373441e59e565bad0f"
 [[require]]
 name = "lean-eval-generator"
 git = "https://github.com/leanprover/lean-eval-generator.git"
-rev = "a726789593eeac5c32ad82760061cd5bf6cae662"
+rev = "77373a539b31f8f304c852f288d7d8469cceebff"
 
 [[lean_lib]]
 name = "LeanEval"

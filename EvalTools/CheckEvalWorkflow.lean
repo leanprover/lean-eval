@@ -10,6 +10,8 @@ open Lean
 
 namespace EvalTools
 
+open LeanEvalGenerator.Core
+
 set_option autoImplicit false
 
 private def TWO_PLUS_TWO_ID : String := "two_plus_two"

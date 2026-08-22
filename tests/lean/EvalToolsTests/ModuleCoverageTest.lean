@@ -2,6 +2,7 @@ import EvalTools.Manifest
 import EvalTools.ModuleCoverage
 
 open EvalTools
+open LeanEvalGenerator.Core
 
 set_option autoImplicit false
 

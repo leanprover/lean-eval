@@ -6,6 +6,8 @@ open Lean
 
 namespace EvalTools
 
+open LeanEvalGenerator.Core
+
 set_option autoImplicit false
 
 /-- Mirrors the git change record from `git diff --name-status -z`. For

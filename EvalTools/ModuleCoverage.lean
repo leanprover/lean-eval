@@ -5,6 +5,8 @@ open Lean
 
 namespace EvalTools
 
+open LeanEvalGenerator.Core
+
 set_option autoImplicit false
 
 /-- Directory holding the trusted problem sources, relative to the repository

@@ -3,6 +3,7 @@ import ChallengeDeps
 open ConjectureOfMarton
 open Pointwise
 
+set_option autoImplicit false
 variable (n : ℕ)
 
 theorem theorem_1_2 (A : Set (F n)) (K : ℝ) (h₀ : A.Nonempty) (h : (A + A).ncard ≤ K * A.ncard) :

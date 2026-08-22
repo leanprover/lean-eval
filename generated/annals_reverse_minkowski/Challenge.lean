@@ -3,6 +3,7 @@ import ChallengeDeps
 open ReverseMinkowski
 open Module Real Matrix
 
+set_option autoImplicit false
 variable {n : ℕ}
 local notation "ℝⁿ" => EuclideanSpace ℝ (Fin n)
 

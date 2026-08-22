@@ -4,6 +4,7 @@ import Submission.Helpers
 open OptimalMoebius
 open Topology ContDiff
 
+set_option autoImplicit false
 local notation "ℝ²" => EuclideanSpace ℝ (Fin 2)
 local notation "ℝ³" => EuclideanSpace ℝ (Fin 3)
 

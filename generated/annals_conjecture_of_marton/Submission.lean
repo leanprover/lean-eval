@@ -4,6 +4,7 @@ import Submission.Helpers
 open ConjectureOfMarton
 open Pointwise
 
+set_option autoImplicit false
 variable (n : ℕ)
 
 namespace Submission

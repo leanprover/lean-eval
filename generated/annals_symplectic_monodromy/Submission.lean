@@ -4,6 +4,8 @@ import Submission.Helpers
 open SymplecticMonodromy
 open MvPowerSeries
 
+set_option autoImplicit false
+
 namespace Submission
 
 theorem theorem_1_1 (n : ℕ) (f : unitInterval → MvPowerSeries (Fin n) ℂ)

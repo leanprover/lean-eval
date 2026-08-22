@@ -3,6 +3,8 @@ import ChallengeDeps
 open LargeValueEstimates
 open Asymptotics Complex
 
+set_option autoImplicit false
+
 theorem theorem_1_1 : ∃ o : ℝ → ℝ, o =o[Filter.atTop] (1 : ℝ → ℝ) ∧
     ∀ (b : ℕ → ℂ) (_hb : ∀ n, ‖b n‖ ≤ 1) (N : ℕ) (V : ℝ) (T : ℝ) (R : ℕ) (t : Fin R → ℝ),
     N > 0 → V > 0 → T > 1 → -- these assumptions are necessary but not stated in the paper

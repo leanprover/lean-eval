@@ -4,6 +4,7 @@ import Submission
 open WilkiesConjecture
 open FirstOrder Language IntermediateField
 
+set_option autoImplicit false
 variable {n : ℕ}
 local notation "ℝⁿ" => Fin n → ℝ
 

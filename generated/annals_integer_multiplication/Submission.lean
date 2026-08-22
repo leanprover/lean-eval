@@ -4,6 +4,8 @@ import Submission.Helpers
 open IntegerMultiplication
 open Computability Turing Real
 
+set_option autoImplicit false
+
 namespace Submission
 
 theorem theorem_1_1 :

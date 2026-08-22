@@ -4,6 +4,7 @@ import Submission
 open ErdosFaberLovaszConjecture
 open Filter
 
+set_option autoImplicit false
 variable {V : Type*}
 
 theorem theorem_1_1 :
