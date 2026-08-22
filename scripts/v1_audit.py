@@ -53,11 +53,11 @@ def _v1_records(data: Mapping[str, Any], path: pathlib.Path) -> Iterable[dict[st
             }
 
 
-def _v2_records(data: Mapping[str, Any], path: pathlib.Path) -> Iterable[dict[str, Any]]:
+def _schema_v2_records(data: Mapping[str, Any], path: pathlib.Path) -> Iterable[dict[str, Any]]:
     file_user = data.get("user")
     records = data.get("results")
     if not isinstance(records, list):
-        raise AuditError(f"{path}: v2 file requires results array")
+        raise AuditError(f"{path}: schema version 2 file requires results array")
     for index, record in enumerate(records):
         if not isinstance(record, dict):
             raise AuditError(f"{path}: results[{index}] must be an object")
@@ -87,7 +87,7 @@ def load_records(results_dir: pathlib.Path) -> tuple[list[dict[str, Any]], int]:
         if version == 1:
             loaded = _v1_records(data, path)
         elif version == 2:
-            loaded = _v2_records(data, path)
+            loaded = _schema_v2_records(data, path)
         else:
             raise AuditError(f"{path}: unsupported schema_version {version!r}")
         for record in loaded:
