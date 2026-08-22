@@ -4,6 +4,8 @@ import Submission.Helpers
 open FlatLittlewoodPoly
 open scoped Polynomial
 
+set_option autoImplicit false
+
 namespace Submission
 
 theorem theorem_1_1 :

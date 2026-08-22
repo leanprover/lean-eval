@@ -5,6 +5,8 @@ open EquiangularLinesFixedAngle
 open Filter
 open scoped RealInnerProductSpace
 
+set_option autoImplicit false
+
 namespace Submission
 
 theorem theorem_1_2 (α : ℝ) (hα : α ∈ Set.Ioo 0 1) :

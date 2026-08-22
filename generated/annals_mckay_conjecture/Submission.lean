@@ -4,6 +4,7 @@ import Submission.Helpers
 open McKayConjecture
 open CategoryTheory Module Subgroup
 
+set_option autoImplicit false
 variable (ℓ : ℕ) (X : Type*) [Group X] [Finite X]
 
 namespace Submission

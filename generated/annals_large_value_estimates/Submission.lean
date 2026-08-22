@@ -4,6 +4,8 @@ import Submission.Helpers
 open LargeValueEstimates
 open Asymptotics Complex
 
+set_option autoImplicit false
+
 namespace Submission
 
 theorem theorem_1_1 : ∃ o : ℝ → ℝ, o =o[Filter.atTop] (1 : ℝ → ℝ) ∧

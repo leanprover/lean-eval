@@ -4,6 +4,8 @@ import Submission.Helpers
 open DirichletWeylBound
 open Complex
 
+set_option autoImplicit false
+
 namespace Submission
 
 theorem corollary_1_3 (ε : ℝ) (hε : 0 < ε) : ∃ C : ℝ,

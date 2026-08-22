@@ -5,6 +5,7 @@ open HassePrincipleRandomFano
 open MvPolynomial Filter NumberField Real
 open scoped LinearAlgebra.Projectivization
 
+set_option autoImplicit false
 variable (d n : ℕ)
 
 namespace Submission

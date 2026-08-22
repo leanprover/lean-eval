@@ -5,6 +5,7 @@ open LinearSubspaces
 open ENNReal Real Module exteriorPower InnerProductGeometry
 open scoped LinearAlgebra.Projectivization
 
+set_option autoImplicit false
 variable {d : ℕ}
 local notation "ℝᵈ" => EuclideanSpace ℝ (Fin d)
 local notation "ℤᵈ" => intPoints

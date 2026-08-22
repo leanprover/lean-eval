@@ -5,6 +5,7 @@ open Ulam
 open MeasureTheory
 open scoped ContDiff Pointwise RealInnerProductSpace
 
+set_option autoImplicit false
 variable {d : ℕ}
 local notation "ℝᵈ" => EuclideanSpace ℝ (Fin d)
 

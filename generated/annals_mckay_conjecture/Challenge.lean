@@ -3,6 +3,7 @@ import ChallengeDeps
 open McKayConjecture
 open CategoryTheory Module Subgroup
 
+set_option autoImplicit false
 variable (ℓ : ℕ) (X : Type*) [Group X] [Finite X]
 
 theorem theorem_1_1 (hℓ : ℓ.Prime) (S : Sylow ℓ X) :

@@ -4,6 +4,8 @@ import Submission.Helpers
 open OnApproximationOfReals
 open NNReal ENNReal
 
+set_option autoImplicit false
+
 namespace Submission
 
 theorem theorem_1_1 (n : ℕ) (hn : n ≥ 2) (ξ : ℝ) (hξ : Transcendental ℚ ξ) :

@@ -3,6 +3,7 @@ import ChallengeDeps
 open ViscositySolutions
 open Filter Gradient Real Set
 
+set_option autoImplicit false
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
 variable {N : ℕ}
 local notation "ℝᴺ" => Fin N → ℝ

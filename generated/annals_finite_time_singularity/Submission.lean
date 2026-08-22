@@ -4,6 +4,7 @@ import Submission.Helpers
 open FiniteTimeSingularity
 open Set Gradient Matrix Filter Topology
 
+set_option autoImplicit false
 local notation "ℝ³" => EuclideanSpace ℝ (Fin 3)
 local notation u "·∇ₓ" v => directionalDeriv v u
 local notation "∂ₜ" u => timeDeriv u

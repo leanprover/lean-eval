@@ -5,6 +5,8 @@ open RectangularPegProblem
 open Manifold Complex Real
 open scoped ContDiff
 
+set_option autoImplicit false
+
 namespace Submission
 
 theorem theorem_1 (γ : Circle → ℂ) (z w : ℂ) (θ : Real.Angle)

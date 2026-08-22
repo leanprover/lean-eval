@@ -4,6 +4,7 @@ import Submission.Helpers
 open GoodLTC
 open NNReal
 
+set_option autoImplicit false
 variable (n : ℕ)
 local notation "𝔽₂ⁿ" => Fin n → ZMod 2
 variable {n} (C : BinaryCode n)

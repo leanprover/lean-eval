@@ -5,6 +5,8 @@ open InscribedRectangles
 open Manifold Real MeasureTheory
 open scoped ContDiff
 
+set_option autoImplicit false
+
 namespace Submission
 
 theorem theorem_1 (γ : Circle → ℝ × ℝ) (hγ : IsSmoothEmbedding (𝓡 1) 𝓘(ℝ, ℝ × ℝ) ∞ γ) :

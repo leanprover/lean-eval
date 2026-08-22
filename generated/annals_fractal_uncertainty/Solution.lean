@@ -5,6 +5,7 @@ open FractalUncertainty
 open MeasureTheory FourierTransform Metric
 open scoped ENNReal
 
+set_option autoImplicit false
 variable {d : ℕ}
 local notation "ℝᵈ" => EuclideanSpace ℝ (Fin d)
 
