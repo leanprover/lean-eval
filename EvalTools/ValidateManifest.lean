@@ -3,6 +3,8 @@ import EvalTools.ModuleCoverage
 
 namespace EvalTools
 
+open LeanEvalGenerator.Core
+
 set_option autoImplicit false
 
 /-- Implementation of `lake exe lean-eval validate-manifest`. Loads the

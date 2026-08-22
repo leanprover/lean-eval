@@ -3,6 +3,8 @@ import EvalTools.Subprocess
 
 namespace EvalTools
 
+open LeanEvalGenerator.Core
+
 set_option autoImplicit false
 
 structure Semver where

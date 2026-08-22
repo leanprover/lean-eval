@@ -15,6 +15,8 @@ open Cli
 
 namespace EvalTools
 
+open LeanEvalGenerator.Core
+
 set_option autoImplicit false
 
 def runRootCmd (p : Parsed) : IO UInt32 := do
@@ -62,7 +64,7 @@ def runGenerateCmd (p : Parsed) : IO UInt32 := do
   let problem? : Option String := p.flag? "problem" |>.map fun f => f.as! String
   let check := p.hasFlag "check"
   try
-    EvalTools.generate root problem? check
+    LeanEvalGenerator.Core.generate root problem? check
     return 0
   catch e =>
     IO.eprintln (toString e)
@@ -71,7 +73,7 @@ def runGenerateCmd (p : Parsed) : IO UInt32 := do
 def runValidateGeneratedCatalogCmd (_ : Parsed) : IO UInt32 := do
   let root ← requireRepoRoot
   try
-    EvalTools.validateGeneratedCatalog root
+    LeanEvalGenerator.Core.validateGeneratedCatalog root
     return 0
   catch e =>
     IO.eprintln (toString e)

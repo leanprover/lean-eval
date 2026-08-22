@@ -2,6 +2,7 @@ import Lean
 import EvalTools.Markers
 
 open Lean
+open LeanEvalGenerator.Core
 
 structure InventoryEntry where
   module : String
@@ -26,7 +27,8 @@ def inventoryForModule (env : Environment) (moduleName : Name) : Array Inventory
       Id.run do
         let mut entries := #[]
         for (declName, constantInfo) in env.constants do
-          if env.getModuleIdxFor? declName == some moduleIdx && EvalTools.hasEvalProblemTag env declName then
+          if env.getModuleIdxFor? declName == some moduleIdx &&
+              LeanEvalGenerator.Core.hasEvalProblemTag env declName then
             let kind? : Option String := match constantInfo with
               | .thmInfo _ | .opaqueInfo _ => some "theorem"
               | .defnInfo _ =>
@@ -45,7 +47,7 @@ def inventoryForModule (env : Environment) (moduleName : Name) : Array Inventory
 
 def main (args : List String) : IO UInt32 := do
   initSearchPath (← findSysroot)
-  let moduleNames := args.map EvalTools.parseModuleName
+  let moduleNames := args.map LeanEvalGenerator.Core.parseModuleName
   let env ← importModules (moduleNames.toArray.map fun moduleName => ({ module := moduleName } : Import)) {}
   let entries := moduleNames.foldl (fun acc moduleName => acc ++ inventoryForModule env moduleName) #[]
   IO.println <| Json.pretty <| toJson entries
