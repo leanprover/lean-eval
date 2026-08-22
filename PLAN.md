@@ -4,6 +4,12 @@ Status: **accepted for staged implementation**. The original RFC was reviewed
 and merged in [lean-eval#536](https://github.com/leanprover/lean-eval/pull/536).
 Written 2026-08-19; status updated 2026-08-20.
 
+Terminology: unqualified **v1** and **v2** refer only to problem sets. This
+document calls the platform work the **lifecycle overhaul**, and the resulting
+system the **lifecycle-aware platform**. Versioned machine formats are always
+qualified, for example **results schema version 2**; their frozen identifiers
+and filenames may retain strings such as `results-v2`.
+
 This file preserves the original design discussion. Resolved decisions and
 implementation sequencing live in the
 [public implementation program](https://gist.github.com/kim-em/cd6ac1c049f459ef9aa37d6cf551d9e4)
@@ -780,9 +786,9 @@ trusted problem statements in 10.
    OAuth and agent paths, GitHub App snapshots, amendment/repair records,
    release countdown, archive publication, and the audit-archive key changes
    that automatic release requires.
-6. **Leaderboard v2**: extended site-data schema, canonical model identities,
-   client-side tables, tabs, unique-solve standings, recent feed, comparison
-   pages.
+6. **Lifecycle-aware leaderboard**: extended site-data schema, canonical model
+   identities, client-side tables, tabs, unique-solve standings, recent feed,
+   comparison pages.
 7. **Generator extraction**: factor the generator core out of `EvalTools`
    into its own repo, consumed by lean-eval and the FC importer.
 8. **FC importer**: FC-side, evolving
