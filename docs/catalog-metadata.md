@@ -55,7 +55,7 @@ through lifecycle metadata rather than deleting members.
 
 ## v1 evidence
 
-The audit tool reads either schema-v1 or schema-v2 result files and emits stable
+The audit tool reads either schema version 1 or schema version 2 result files and emits stable
 JSON and Markdown solve-count reports:
 
 ```bash

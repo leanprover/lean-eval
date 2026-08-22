@@ -17,7 +17,7 @@ SPEC.loader.exec_module(AUDIT)
 
 
 class V1AuditTest(unittest.TestCase):
-    def test_v1_and_v2_records_produce_deterministic_evidence(self):
+    def test_schema_v1_and_schema_v2_records_produce_deterministic_evidence(self):
         with tempfile.TemporaryDirectory() as directory:
             results = pathlib.Path(directory)
             (results / "v1.json").write_text(json.dumps({
