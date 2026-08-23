@@ -1,0 +1,497 @@
+{
+  "schema_version": 1,
+  "source": {
+    "repository": "https://github.com/leanprover/lean-eval",
+    "commit": "b91d4757aa0d7776c02540c9089df54fa0d0658a"
+  },
+  "semantics": "Manifest-backed mathematical prerequisites; these are not formal Lean declaration dependencies.",
+  "edge_orientation": "prerequisite_to_dependent",
+  "nodes": [
+    {
+      "id": "abel_ruffini",
+      "title": "Abel–Ruffini theorem"
+    },
+    {
+      "id": "adoCharZero",
+      "title": "Ado's theorem in characteristic zero"
+    },
+    {
+      "id": "adoIwasawa",
+      "title": "Ado–Iwasawa theorem over an arbitrary field"
+    },
+    {
+      "id": "annals_duffin_schaeffer_conjecture",
+      "title": "On the Duffin-Schaeffer conjecture"
+    },
+    {
+      "id": "boone_higman_embedding",
+      "title": "Boone–Higman theorem (easy direction)"
+    },
+    {
+      "id": "boone_higman_simple",
+      "title": "Kuznetsov's theorem: finitely presented simple groups have solvable word problem"
+    },
+    {
+      "id": "brauer_character_in_cyclotomic",
+      "title": "Character values of finite groups lie in cyclotomic fields"
+    },
+    {
+      "id": "brauer_splitting_field",
+      "title": "Brauer's splitting field theorem"
+    },
+    {
+      "id": "brauer_suzuki",
+      "title": "Brauer–Suzuki theorem (quaternion Sylow 2-subgroup)"
+    },
+    {
+      "id": "brouwer_fixed_point",
+      "title": "Brouwer fixed-point theorem"
+    },
+    {
+      "id": "cerf_gamma_four",
+      "title": "Cerf's theorem: every self-diffeomorphism of S3 is smoothly isotopic to a linear isometry"
+    },
+    {
+      "id": "conway_knot_not_smoothly_slice",
+      "title": "The Conway knot is not smoothly slice"
+    },
+    {
+      "id": "conway_knot_topologically_slice",
+      "title": "The Conway knot is topologically slice"
+    },
+    {
+      "id": "dehn_sommerville",
+      "title": "Dehn–Sommerville equations for simplicial spheres"
+    },
+    {
+      "id": "duffin_schaeffer",
+      "title": "Duffin-Schaeffer conjecture"
+    },
+    {
+      "id": "entropy_dimension_lyapunov",
+      "title": "Lai-Sang Young entropy–dimension–Lyapunov theorem"
+    },
+    {
+      "id": "erdos_unit_distance_conjecture_false",
+      "title": "Erdős's unit-distance conjecture is false"
+    },
+    {
+      "id": "exists_topologically_slice_not_smoothly_slice",
+      "title": "Existence of a topologically slice, not smoothly slice knot"
+    },
+    {
+      "id": "feit_thompson",
+      "title": "Feit–Thompson odd-order theorem"
+    },
+    {
+      "id": "frobenius_kernel_isNormal",
+      "title": "Frobenius's theorem: the Frobenius kernel is normal"
+    },
+    {
+      "id": "furstenberg_measure",
+      "title": "Furstenberg measure-preserving multiple recurrence"
+    },
+    {
+      "id": "glauberman_zStar",
+      "title": "Glauberman's Z* theorem for isolated involutions"
+    },
+    {
+      "id": "golod_shafarevich_inequality",
+      "title": "The Golod–Shafarevich inequality"
+    },
+    {
+      "id": "gorenstein_walter",
+      "title": "Gorenstein–Walter theorem (dihedral Sylow 2-subgroup)"
+    },
+    {
+      "id": "halmos_generic_weak_mixing",
+      "title": "Halmos's generic weak-mixing theorem"
+    },
+    {
+      "id": "jordan_brouwer",
+      "title": "Jordan–Brouwer separation theorem"
+    },
+    {
+      "id": "jordan_curve",
+      "title": "Jordan curve theorem"
+    },
+    {
+      "id": "kakutani_fixed_point",
+      "title": "Kakutani fixed-point theorem"
+    },
+    {
+      "id": "koszul_formula",
+      "title": "Koszul formula"
+    },
+    {
+      "id": "levi_civita_exists_unique",
+      "title": "Fundamental theorem of Riemannian geometry (Levi-Civita)"
+    },
+    {
+      "id": "lidskii_inequality",
+      "title": "Lidskii's inequality"
+    },
+    {
+      "id": "lidskii_last",
+      "title": "Lidskii–Last eigenvalue-perturbation theorem"
+    },
+    {
+      "id": "lindemann",
+      "title": "Lindemann's theorem (e and π transcendental)"
+    },
+    {
+      "id": "lindemann_weierstrass",
+      "title": "The Lindemann–Weierstrass theorem"
+    },
+    {
+      "id": "margulis_ruelle",
+      "title": "Margulis–Ruelle inequality"
+    },
+    {
+      "id": "martinet_totally_real_towers",
+      "title": "Martinet's asymptotically-good totally real towers"
+    },
+    {
+      "id": "morse_inequality",
+      "title": "Morse inequalities"
+    },
+    {
+      "id": "nash_equilibrium_exists",
+      "title": "Nash equilibrium existence theorem"
+    },
+    {
+      "id": "ornstein_weiss_rokhlin",
+      "title": "Ornstein–Weiss ℤᵈ Rokhlin lemma"
+    },
+    {
+      "id": "pesin_formula",
+      "title": "Pesin entropy formula (symplectic surface case)"
+    },
+    {
+      "id": "platonic_classification",
+      "title": "Platonic classification"
+    },
+    {
+      "id": "poincare_3d_smooth",
+      "title": "3D smooth Poincaré conjecture (Perelman)"
+    },
+    {
+      "id": "poincare_3d_topological",
+      "title": "3D topological Poincaré conjecture (Perelman)"
+    },
+    {
+      "id": "poincare_bendixson",
+      "title": "Poincaré–Bendixson theorem"
+    },
+    {
+      "id": "ramanujan_petersson",
+      "title": "Ramanujan–Petersson conjecture for the τ-function (Deligne's theorem)"
+    },
+    {
+      "id": "regular_value_ae",
+      "title": "Sard's regular-value corollary"
+    },
+    {
+      "id": "rokhlin_lemma",
+      "title": "Rokhlin lemma"
+    },
+    {
+      "id": "sard_theorem",
+      "title": "Sard's theorem (critical-set image has measure zero)"
+    },
+    {
+      "id": "schauder_fixed_point",
+      "title": "Schauder fixed-point theorem"
+    },
+    {
+      "id": "schlafli_classification",
+      "title": "Schläfli classification of regular polytopes"
+    },
+    {
+      "id": "schmidt_subspace",
+      "title": "Schmidt's subspace theorem"
+    },
+    {
+      "id": "schoenflies",
+      "title": "Schoenflies theorem"
+    },
+    {
+      "id": "shafarevich_relation_rank_bound",
+      "title": "Shafarevich's relation-rank bound"
+    },
+    {
+      "id": "smale_conjecture",
+      "title": "Smale conjecture (Hatcher) in relative parameterized form"
+    },
+    {
+      "id": "solvable_by_radicals_converse",
+      "title": "Solvable extensions ↔ solvable groups (the missing converse in Abel–Ruffini)"
+    },
+    {
+      "id": "sphere_theorem_differentiable",
+      "title": "Differentiable sphere theorem (Brendle–Schoen)"
+    },
+    {
+      "id": "sphere_theorem_topological",
+      "title": "Topological sphere theorem (Berger–Klingenberg–Rauch)"
+    },
+    {
+      "id": "szemeredi",
+      "title": "Szemerédi's theorem"
+    },
+    {
+      "id": "thue_siegel_roth",
+      "title": "Thue–Siegel–Roth theorem (irrationality measure ≤ 2 for algebraic irrationals)"
+    },
+    {
+      "id": "upper_bound_simplicial_spheres",
+      "title": "Upper bound theorem for geometric simplicial spheres (Stanley 1975)"
+    },
+    {
+      "id": "weak_morse_inequality",
+      "title": "Weak Morse inequalities"
+    },
+    {
+      "id": "weil_conjectures",
+      "title": "Weil conjectures in terms of point counts"
+    },
+    {
+      "id": "wiener_inverse_closed",
+      "title": "Wiener's 1/f theorem"
+    },
+    {
+      "id": "wiener_levy_analytic_calculus",
+      "title": "Wiener–Lévy theorem"
+    }
+  ],
+  "edges": [
+    {
+      "source": "adoCharZero",
+      "target": "adoIwasawa",
+      "relation": "proof_input",
+      "confidence": "high"
+    },
+    {
+      "source": "brauer_splitting_field",
+      "target": "brauer_character_in_cyclotomic",
+      "relation": "direct_corollary",
+      "confidence": "high"
+    },
+    {
+      "source": "smale_conjecture",
+      "target": "cerf_gamma_four",
+      "relation": "specialization",
+      "confidence": "high"
+    },
+    {
+      "source": "platonic_classification",
+      "target": "schlafli_classification",
+      "relation": "direct_corollary",
+      "confidence": "high"
+    },
+    {
+      "source": "lindemann_weierstrass",
+      "target": "lindemann",
+      "relation": "specialization",
+      "confidence": "high"
+    },
+    {
+      "source": "entropy_dimension_lyapunov",
+      "target": "pesin_formula",
+      "relation": "specialization",
+      "confidence": "high"
+    },
+    {
+      "source": "sphere_theorem_differentiable",
+      "target": "sphere_theorem_topological",
+      "relation": "direct_corollary",
+      "confidence": "high"
+    },
+    {
+      "source": "morse_inequality",
+      "target": "weak_morse_inequality",
+      "relation": "direct_corollary",
+      "confidence": "high"
+    },
+    {
+      "source": "jordan_brouwer",
+      "target": "jordan_curve",
+      "relation": "specialization",
+      "confidence": "high"
+    },
+    {
+      "source": "lidskii_inequality",
+      "target": "lidskii_last",
+      "relation": "direct_corollary",
+      "confidence": "high"
+    },
+    {
+      "source": "brouwer_fixed_point",
+      "target": "kakutani_fixed_point",
+      "relation": "proof_input",
+      "confidence": "high"
+    },
+    {
+      "source": "brouwer_fixed_point",
+      "target": "schauder_fixed_point",
+      "relation": "proof_input",
+      "confidence": "high"
+    },
+    {
+      "source": "brouwer_fixed_point",
+      "target": "nash_equilibrium_exists",
+      "relation": "alternative_proof_input",
+      "confidence": "high"
+    },
+    {
+      "source": "kakutani_fixed_point",
+      "target": "nash_equilibrium_exists",
+      "relation": "alternative_proof_input",
+      "confidence": "high"
+    },
+    {
+      "source": "jordan_curve",
+      "target": "schoenflies",
+      "relation": "proof_input",
+      "confidence": "high"
+    },
+    {
+      "source": "jordan_curve",
+      "target": "poincare_bendixson",
+      "relation": "proof_input",
+      "confidence": "high"
+    },
+    {
+      "source": "poincare_3d_topological",
+      "target": "poincare_3d_smooth",
+      "relation": "proof_input",
+      "confidence": "high"
+    },
+    {
+      "source": "sard_theorem",
+      "target": "regular_value_ae",
+      "relation": "specialization",
+      "confidence": "high"
+    },
+    {
+      "source": "dehn_sommerville",
+      "target": "upper_bound_simplicial_spheres",
+      "relation": "proof_input",
+      "confidence": "high"
+    },
+    {
+      "source": "solvable_by_radicals_converse",
+      "target": "abel_ruffini",
+      "relation": "partial_proof_input",
+      "confidence": "medium-high"
+    },
+    {
+      "source": "shafarevich_relation_rank_bound",
+      "target": "erdos_unit_distance_conjecture_false",
+      "relation": "proof_input",
+      "confidence": "high"
+    },
+    {
+      "source": "golod_shafarevich_inequality",
+      "target": "erdos_unit_distance_conjecture_false",
+      "relation": "proof_input",
+      "confidence": "high"
+    },
+    {
+      "source": "golod_shafarevich_inequality",
+      "target": "martinet_totally_real_towers",
+      "relation": "proof_input",
+      "confidence": "high"
+    },
+    {
+      "source": "glauberman_zStar",
+      "target": "brauer_suzuki",
+      "relation": "specialization",
+      "confidence": "high"
+    },
+    {
+      "source": "glauberman_zStar",
+      "target": "gorenstein_walter",
+      "relation": "proof_input",
+      "confidence": "high"
+    },
+    {
+      "source": "frobenius_kernel_isNormal",
+      "target": "feit_thompson",
+      "relation": "partial_proof_input",
+      "confidence": "medium-high"
+    },
+    {
+      "source": "margulis_ruelle",
+      "target": "pesin_formula",
+      "relation": "partial_proof_input",
+      "confidence": "medium"
+    },
+    {
+      "source": "furstenberg_measure",
+      "target": "szemeredi",
+      "relation": "proof_route",
+      "confidence": "high-semantic"
+    },
+    {
+      "source": "conway_knot_topologically_slice",
+      "target": "exists_topologically_slice_not_smoothly_slice",
+      "relation": "joint_prerequisite",
+      "confidence": "high"
+    },
+    {
+      "source": "conway_knot_not_smoothly_slice",
+      "target": "exists_topologically_slice_not_smoothly_slice",
+      "relation": "joint_prerequisite",
+      "confidence": "high"
+    },
+    {
+      "source": "koszul_formula",
+      "target": "levi_civita_exists_unique",
+      "relation": "proof_input",
+      "confidence": "high"
+    },
+    {
+      "source": "rokhlin_lemma",
+      "target": "halmos_generic_weak_mixing",
+      "relation": "proof_input",
+      "confidence": "high"
+    },
+    {
+      "source": "rokhlin_lemma",
+      "target": "ornstein_weiss_rokhlin",
+      "relation": "proof_input",
+      "confidence": "high"
+    },
+    {
+      "source": "wiener_levy_analytic_calculus",
+      "target": "wiener_inverse_closed",
+      "relation": "specialization",
+      "confidence": "high"
+    },
+    {
+      "source": "boone_higman_embedding",
+      "target": "boone_higman_simple",
+      "relation": "specialization",
+      "confidence": "high"
+    },
+    {
+      "source": "weil_conjectures",
+      "target": "ramanujan_petersson",
+      "relation": "proof_input",
+      "confidence": "high-semantic"
+    },
+    {
+      "source": "schmidt_subspace",
+      "target": "thue_siegel_roth",
+      "relation": "specialization",
+      "confidence": "medium-high"
+    },
+    {
+      "source": "duffin_schaeffer",
+      "target": "annals_duffin_schaeffer_conjecture",
+      "relation": "partial_proof_input",
+      "confidence": "medium"
+    }
+  ]
+}
