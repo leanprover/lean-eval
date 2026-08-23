@@ -204,11 +204,12 @@ that tells comparator to check your theorem from the `Submission` namespace.
 lake test
 ```
 
-`lake test` shells out to four external tools that you must install yourself:
-`landrun` (the sandbox), `lean4export` (exports oleans to text), `comparator`
-(the verifier), and `nanoda` (the independent kernel). `WorkspaceTest` forces
-comparator to replay every Solution through nanoda, so a missing `nanoda_bin`
-fails the check. All four are pinned to immutable commits; the authoritative
+`lake test` shells out to three required external tools that you must install
+yourself: `landrun` (the sandbox), `lean4export` (exports oleans to text), and
+`comparator` (the verifier). Nanoda remains integrated as an independent kernel,
+but `WorkspaceTest` temporarily disables it for submission performance, so
+`nanoda_bin` is not currently required. All four tools are pinned to immutable
+commits; the authoritative
 pin table lives in [`SECURITY.md`](SECURITY.md) ("Trusted dependencies and pin
 policy"), and CI installs exactly these in
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Reproduce that setup
@@ -236,10 +237,9 @@ git clone https://github.com/leanprover/comparator.git
   lake build comparator )
 export PATH="$PWD/comparator/.lake/build/bin:$PATH"
 
-# nanoda — the external kernel. WorkspaceTest forces comparator to replay the
-# Solution through nanoda, so `lake test` fails unless `nanoda_bin` is on your
-# PATH. Needs a Rust toolchain (`cargo`); the pin is on the source commit, not
-# the compiler version.
+# nanoda — the external kernel. It is temporarily disabled by WorkspaceTest;
+# install it when testing or restoring independent-kernel replay. Needs a Rust
+# toolchain (`cargo`); the pin is on the source commit, not the compiler version.
 git clone https://github.com/robsimmons/nanoda_lib.git
 ( cd nanoda_lib
   git checkout 68d5ca9db226849b41a6fff59d796ff19d0a8840

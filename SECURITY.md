@@ -347,26 +347,19 @@ escaping, the triage gate) are in the submissions repo's `SECURITY.md`.
    sufficiently constrain a def — and adding one would be at most a
    heuristic. The real guard is PR review of any problem that uses
    def/instance holes.
-5. **Dual-kernel defence.** nanoda is a global requirement, not a
-   per-problem option. `templates/WorkspaceTest.lean` (the harness that
-   invokes comparator, propagated verbatim into every workspace and
-   rebuilt from the template by `run-eval`) reads the committed
-   `config.json`, overrides `enable_nanoda := true`, and hands that to
-   comparator — so nanoda runs regardless of what any config file says.
-   This mirrors comparator-live, which forces the flag at the invocation
-   site (`exec.ts`) and leaves project configs untouched. A single Lean
-   kernel soundness bug (e.g. the Lean-conjecture counterexample) no
-   longer suffices to claim false credit; the proof must be accepted by
-   both kernels. The residual risk narrows to a bug present in *both*
-   kernels, or in comparator's export/axiom comparison itself. Note the
-   pinned nanoda is `robsimmons/nanoda_lib` (the fork comparator-live
-   deploys); the `builtinTargets` widening in comparator's `Main.lean`
-   still carries a `TODO: fix when nanoda fixes its string handling`, so a
-   nanoda string soundness gap would not be caught. Because enforcement
-   lives in `WorkspaceTest`, a workspace whose committed `config.json`
-   still says `enable_nanoda: false` is not a bypass — the harness
-   overrides it. Bumping the nanoda pin follows the "Bumping pinned
-   dependencies" procedure above.
+5. **Dual-kernel defence (temporarily disabled).** Nanoda remains integrated
+   and pinned, but `templates/WorkspaceTest.lean` currently overrides
+   `enable_nanoda := false` globally for submission performance. Production
+   acceptance therefore relies on comparator's export/axiom checks and Lean's
+   default kernel; it does not currently receive an independent-kernel replay,
+   so a Lean kernel soundness bug is not independently checked by nanoda. Flip
+   the template's boolean back to `true` to restore the dual-kernel policy for
+   every regenerated workspace. The pinned nanoda is
+   `robsimmons/nanoda_lib` (the fork comparator-live deploys); the
+   `builtinTargets` widening in comparator's `Main.lean` still carries a
+   `TODO: fix when nanoda fixes its string handling`, so a nanoda string
+   soundness gap would not be caught after re-enablement. Bumping the nanoda pin
+   follows the "Bumping pinned dependencies" procedure above.
 
 ## References
 

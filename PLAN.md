@@ -46,8 +46,9 @@ The repo currently ships 235 problems, including the 50 AnnalsChallenge
 statements that landed in
 [lean-eval#532 feat: add 50 AnnalsChallenge problems](https://github.com/leanprover/lean-eval/pull/532).
 Submissions arrive as GitHub issues on lean-eval-submissions, are evaluated by
-comparator (with nanoda as an independent kernel) in GitHub Actions, and land as
-sticky `(user, model, problem)` records in the append-only results store. The
+comparator in GitHub Actions, and land as sticky `(user, model, problem)`
+records in the append-only results store. Nanoda remains integrated as an
+independent kernel but is temporarily disabled for submission performance. The
 leaderboard regenerates from that store daily.
 
 The system works, but it's showing strain:
@@ -400,8 +401,8 @@ in this document's history and can be revived.
 
 ## 6. Independent kernel validation
 
-After the recent soundness discoveries, this is a priority: as well as the
-standard kernel and nanoda, test submissions against a selection of the
+After the recent soundness discoveries, this is a priority: alongside the
+standard kernel, evaluate nanoda and a selection of the
 experimental kernels at the
 [Lean Kernel Arena](https://arena.lean-lang.org), collecting both acceptance
 and performance data. A checker is eligible for **required validation** when it
@@ -422,15 +423,14 @@ incorrect acceptance or rejection.
   10x to 40x faster than official on the Mathlib export) each fail exactly one
   soundness test (`extra-rec`). Each is one fix away from candidacy, and we
   should tell their authors so.
-- `nanoda`, which we already require, has zero incorrect results but declines
-  nine tests. Note also that the arena pins a different nanoda fork and
+- `nanoda`, which is integrated but temporarily disabled, has zero incorrect
+  results but declines nine tests. Note also that the arena pins a different nanoda fork and
   revision than we do; the pins should be reconciled.
 
 **Plan.**
 
 - **Close known holes first.** Before the broader replay, check each known
-  stable-kernel failure against the current official-plus-nanoda required
-  checks. If a
+  stable-kernel failure against the official checker and a nanoda replay. If a
   known exploit passes both, update the required pin or temporarily reject the
   affected construct before accepting more submissions.
 - **Backtest immediately.** I'll decrypt the audit archive; the replay queue
