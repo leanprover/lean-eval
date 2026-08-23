@@ -16,7 +16,7 @@ def main : IO UInt32 := do
   try
     let configText ← IO.FS.readFile "config.json"
     let config ← IO.ofExcept (Json.parse configText)
-    let config := config.setObjVal! "enable_nanoda" (Json.bool true)
+    let config := config.setObjVal! "enable_nanoda" (Json.bool false)
     IO.FS.withTempFile fun handle enforcedPath => do
       handle.putStr config.pretty
       handle.flush
