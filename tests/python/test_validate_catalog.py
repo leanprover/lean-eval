@@ -67,6 +67,21 @@ class ValidateCatalogTest(unittest.TestCase):
         with temporary:
             self.assertEqual(VALIDATOR.validate(root), (1, 1, 0))
 
+    def test_open_problems_is_the_neutral_catalog_group(self):
+        temporary, root = self.make_catalog(
+            PROBLEM.replace('group = "formalization-evaluation"', 'group = "open-problems"')
+        )
+        with temporary:
+            self.assertEqual(VALIDATOR.validate(root), (1, 1, 0))
+
+        temporary, root = self.make_catalog(
+            PROBLEM.replace(
+                'group = "formalization-evaluation"', 'group = "open-conjectures"'
+            )
+        )
+        with temporary, self.assertRaisesRegex(VALIDATOR.CatalogError, "unknown group"):
+            VALIDATOR.validate(root)
+
     def test_unknown_tag_is_rejected(self):
         temporary, root = self.make_catalog(PROBLEM.replace('"annals"', '"unknown"'))
         with temporary, self.assertRaisesRegex(VALIDATOR.CatalogError, "unregistered tags"):

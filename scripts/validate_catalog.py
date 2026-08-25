@@ -15,7 +15,7 @@ from collections.abc import Mapping, Sequence
 PROBLEM_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]*$")
 TAG_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 DIGEST_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
-GROUPS = {"formalization-evaluation", "software-verification", "open-conjectures"}
+GROUPS = {"formalization-evaluation", "software-verification", "open-problems"}
 STATUSES = {"draft", "active", "archived"}
 REASONS = {
     "initial",
