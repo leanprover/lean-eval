@@ -4,6 +4,16 @@ Status: **accepted for staged implementation**. The original RFC was reviewed
 and merged in [lean-eval#536](https://github.com/leanprover/lean-eval/pull/536).
 Written 2026-08-19; status updated 2026-08-20.
 
+> **Completion amendment, 2026-08-25.** The remaining work is governed by the
+> [overhaul completion plan](docs/overhaul-completion-plan.md) and its
+> [execution runbook](docs/overhaul-execution-runbook.md). The completion plan
+> records later maintainer decisions and supersedes conflicting requirements
+> below, in particular Formal Conjectures integration, disproof support,
+> experimental independent kernels, the original phase ordering, and any
+> requirement for a dedicated submission hostname. This file remains the
+> design history and authority for product goals that the completion plan
+> retains.
+
 Terminology: unqualified **v1** and **v2** refer only to problem sets. This
 document calls the platform work the **lifecycle overhaul**, and the resulting
 system the **lifecycle-aware platform**. Versioned machine formats are always
