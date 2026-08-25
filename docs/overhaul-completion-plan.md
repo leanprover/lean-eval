@@ -1,0 +1,445 @@
+# LeanEval lifecycle overhaul completion plan
+
+Status: **accepted scope for completing the overhaul**  
+Adopted: 2026-08-25  
+Production posture at adoption: intake, general replay, production replay, and
+automatic publication are disabled.
+
+## 1. Authority and use
+
+This document is the scope authority for all remaining lifecycle-overhaul work.
+It is a maintainer amendment to [`PLAN.md`](../PLAN.md), not a new product RFC.
+It narrows the original program after implementation experience exposed work
+that was disproportionate or outside LeanEval's boundaries.
+
+The companion [`overhaul-execution-runbook.md`](overhaul-execution-runbook.md)
+turns this scope into ordered gates and a mutable completion checklist. When
+the two documents differ:
+
+1. this completion plan decides **what** is in scope and what counts as done;
+2. the runbook decides the current order and status of that work;
+3. tracked runtime configuration and current infrastructure inventories decide
+   the observed operational state, but cannot expand scope.
+
+The original plan remains authoritative for retained product details such as
+problem lifecycle, structured metadata, immutable snapshots, two-calendar-
+month release policy, append-only State, leaderboard behavior, and replay
+measurements. The explicit amendments in this document take precedence over
+conflicting original text.
+
+## 2. Two completion milestones
+
+The overhaul has two deliberately separate milestones.
+
+### 2.1 Production launch
+
+Production launch means that a new submission can:
+
+1. enter through the new server;
+2. receive a per-submission encrypted archive before evaluation;
+3. be evaluated from its immutable snapshot;
+4. produce an immutable accepted or rejected result and append-only lifecycle
+   state;
+5. appear correctly on the lifecycle-aware leaderboard;
+6. be scheduled for automatic release under the two-calendar-month policy;
+7. use the launch-approved owner and maintainer lifecycle functions; and
+8. be paused or rolled back through a tested disable path.
+
+Historical-corpus replay is not a production-launch blocker. The old issue
+intake also remains open during the overlap.
+
+### 2.2 Full overhaul completion
+
+The whole overhaul is complete only after production launch **and**:
+
+- every historical accepted result at the final cutoff has either a terminal
+  official-kernel-plus-nanoda replay record or a reviewed unavailable reason;
+- recoverable historical private archives have the required per-submission
+  envelope for replay;
+- the neutral open-problems tab exists (it may be empty initially);
+- the retained software-verification and editorial work is in its agreed
+  state; and
+- the four-week issue-intake overlap has completed and issue intake has been
+  retired under the incident and notice gates below.
+
+This distinction allows the useful new system to launch without pretending
+that the historical migration is finished.
+
+## 3. Retained product scope
+
+The following remain part of the overhaul.
+
+### 3.1 Problems and leaderboard
+
+- Lifecycle metadata, immutable statement revisions, status history, tags,
+  visibility, and frozen-set membership.
+- The frozen 128-member formalization-evaluation v1 set.
+- Lifecycle-aware group and problem pages with stable URLs and visible problem
+  statements.
+- Client-rendered data-heavy pages, unique-solve and total-solve standings,
+  recent solutions, metadata provenance, replay statistics, and released-
+  solution links.
+- The software-verification group and its already reviewed draft problems.
+- A neutrally named **open problems** tab. It has no FC dependency and may
+  launch empty.
+
+### 3.2 Submission lifecycle
+
+- Browser OAuth and the source-bound headless-agent path.
+- Structured, self-reported model, human-involvement, prompt, compute, and
+  provenance metadata.
+- Immutable source snapshots archived before evaluation.
+- Append-only State transitions and immutable base Results records.
+- Metadata backfill, result repair and retraction requests, maintainer
+  decisions, model aliases, and model renaming.
+- Visible release opt-out and the automatic two-calendar-month release policy.
+- An operator-controlled emergency pause and deterministic recovery path.
+
+### 3.3 Archive and release
+
+- A provider-neutral schema-version-3 sidecar with one fresh key envelope per
+  submission, strict submission/digest binding, and separated wrap/unwrap
+  authority.
+- Automatic reconstruction and publication from the accepted immutable
+  snapshot, with source and credentials excluded from public logs and
+  artifacts.
+- Existing grandfathering and opt-out policy for legacy submissions.
+
+### 3.4 Historical replay and statistics
+
+- Exact original source, benchmark, toolchain, and component pins.
+- The ordinary Lean build/elaboration path (the official kernel) and nanoda.
+- Terminal distinctions between acceptance, checker rejection, orchestration
+  failure, timeout, resource limit, and unavailability.
+- Versioned checker identity/revision and measurement-series fields, so a
+  later project can replay old submissions with other kernels without another
+  archive migration.
+- Build cost, checker cost, size, and other already specified measurements when
+  the pinned runtime can collect them.
+
+## 4. Explicit scope reductions
+
+The following are not requirements for launch or full overhaul completion.
+They must not be revived merely because old planning text, a branch, or an
+unchecked tracker item mentions them.
+
+### 4.1 Formal Conjectures and disproofs
+
+- No Formal Conjectures importer, FC100 integration, synchronization, external
+  coordination, or FC-owned content lane.
+- No comparator disproof support.
+- No dependency on any Formal Conjectures pull request.
+- The open-problems tab remains provider-neutral and may be empty.
+
+### 4.2 Experimental kernels
+
+- No Lean Kernel Arena candidate work.
+- No Mathgraph or other experimental checker integration.
+- No checker-series, corpus-promotion report, source-free runner-attestation
+  protocol, candidate promotion decision, or checker-author workflow.
+- No persistent qualification system for future kernels.
+
+The only obligation is not to make the replay and archive formats inherently
+nanoda-only forever. A versioned schema extension point is sufficient.
+
+### 4.3 Disproportionate qualification machinery
+
+- Delete the persistent model-identity qualification harness, its private
+  Workers, Durable Objects, workflows, fixtures, generated types, recovery
+  protocol, and rebuild instructions.
+- Do not replace it with another persistent qualification service.
+- Do not require exhaustive failure injection, contention matrices, recurring
+  certification runs, or a dedicated qualification control plane for launch.
+
+Existing focused unit tests and ordinary security hardening remain valuable;
+scope reduction is not permission to regress source-bound sessions,
+authorization checks, State CAS/idempotency, or fail-closed behavior.
+
+### 4.4 Other deferrals
+
+- Automated copycat detection remains deferred.
+- Provider-loss recovery and a second key provider remain out of scope.
+- Verified-calculation performance infrastructure requires a later trusted-
+  runner specification.
+- Agent-authored hints and flavour text remain prohibited; editorial text is
+  human work.
+- Model consolidation need not be enabled for launch or completion. Preserve
+  the existing implementation only if it is inexpensive and safe to keep dark;
+  otherwise remove it and revisit consolidation separately.
+- No new exhaustive infrastructure linter, drift service, or recurring
+  qualification harness without a new maintainer decision.
+
+## 5. Submission entry point and OAuth
+
+No dedicated LeanEval hostname is required.
+
+- Publish a stable static entry page at
+  `https://lean-lang.org/eval/submit/` in the existing leaderboard site.
+- The entry page sends the user to the authenticated production application on
+  `lean-eval-submission-server.lean-eval.workers.dev`.
+- Keep OAuth callbacks and session cookies on that Worker origin. The browser
+  address may change to `workers.dev` while the form is open.
+- Do not involve the `lean-lang.org` DNS or Cloudflare-zone owners merely to
+  keep the form under the vanity path.
+
+Serving the interactive application literally at `/eval/submit/` would require
+a same-origin dynamic route or proxy on the `lean-lang.org` zone and is outside
+the launch plan.
+
+Temporary private ownership of the production OAuth application is acceptable
+for initial launch. Record the owner, credential custodian, recovery method,
+rotation method, and intended organization-transfer path, but organization
+ownership is not a launch gate.
+
+## 6. Launch lifecycle functionality
+
+Launch with most of the implemented lifecycle surface available.
+
+| Function | Launch disposition | Minimum staging acceptance |
+| --- | --- | --- |
+| New browser submission | Enable | One successful private synthetic submission and one invalid/unauthorized request |
+| Headless-agent submission | Enable | One source-bound successful submission and one challenge/source mismatch denial |
+| Metadata backfill | Enable | One owner success and one non-owner denial |
+| Repair and retraction requests | Enable | One valid owner request and one invalid or non-owner denial |
+| Maintainer decisions | Enable | One configured-maintainer success and one non-maintainer denial |
+| Model alias and rename | Enable | One owner success and one collision or non-owner denial |
+| Release opt-out | Enable | One pre-release opt-out with scheduling consequence checked |
+| Model consolidation | Keep disabled or remove | Not a launch test |
+
+This is intentionally a bounded smoke, not a qualification campaign. Existing
+repository tests must stay green, but launch does not require a persistent
+harness, a full combinatorial route matrix, repeated live contention, or
+failure injection at every State write boundary.
+
+For each enabled route family, also prove that its tracked feature flag can
+disable it and that public health reports the expected effective state.
+
+## 7. Production-launch gates
+
+Production remains disabled until all gates below are satisfied.
+
+### 7.1 Repository and documentation cleanup
+
+- Remove the scope-excluded harnesses, experimental-kernel framework, and stale
+  instructions that would tell a later agent to rebuild them.
+- Remove historical run narratives, failed-attempt stories, and superseded
+  diagnostic artifacts that are not consumed by current operation.
+- Keep canonical replay inputs, current infrastructure identifiers and scopes,
+  current rollback instructions, and tests protecting live behavior.
+
+### 7.2 Disabled-state baseline
+
+Read-only verification must establish the current exact versions and that:
+
+- production intake is effectively disabled;
+- general and production replay are disabled;
+- automatic publication is disabled;
+- public lifecycle gates have not been enabled accidentally;
+- the protected State heads and tracked runtime pins are coherent; and
+- the live leaderboard still shows statements, stable problem URLs, group
+  views, and representative solution metadata.
+
+### 7.3 Credential and key boundary
+
+- Repair the staging release OIDC trust mismatch through an explicitly
+  approved infrastructure change.
+- Complete one credentialed staging unwrap and reconstruction for an accepted
+  staging archive with publication and production permissions disabled.
+- Prove exact one-submission scope, consume-before-unwrap, reuse refusal,
+  authority removal, source allowlisting, no plaintext artifact, and cleanup.
+- Connect and verify the production archive **Wrap-only** role required for new
+  intake. It must have no unwrap permission.
+- Reverify the production release role's trust and scope without decrypting or
+  publishing a production archive during preflight.
+
+Historical legacy-archive migration is not a launch gate for new submissions.
+
+### 7.4 Entry page and bounded lifecycle smoke
+
+- Publish and verify the no-DNS entry page.
+- Complete the bounded route-family staging cases in section 6 against the
+  exact proposed launch commit.
+- Complete one exact-version staging lifecycle from archive through accepted
+  result, State, scheduled release, staging reconstruction, and rollback.
+
+### 7.5 Human go/no-go
+
+Prepare a compact packet containing:
+
+- exact repository commits and deployed versions;
+- current feature-flag states;
+- the section 7.2-7.4 results;
+- credential owners, scopes, rotation, and revocation;
+- OAuth ownership and recovery information;
+- submitter-facing security, licensing, and release-policy text;
+- rollback and emergency-pause instructions;
+- deferred functionality and known limitations; and
+- the issue-intake overlap announcement.
+
+Production capability enablement requires an explicit maintainer go/no-go even
+when all repository work is otherwise autonomous.
+
+## 8. Launch and overlap
+
+After go/no-go, make capability changes separately:
+
+1. enable the automatic release controller initially when no release is due;
+2. enable the approved lifecycle route families;
+3. enable production intake through the finite-lease controller; and
+4. verify the public entry path, effective health, State consistency, release
+   scheduling, and leaderboard presentation read-only.
+
+Do not mix refactoring, replay expansion, documentation cleanup, or unrelated
+features into an enablement change.
+
+The four-week issue-intake overlap begins only when server intake is publicly
+announced. During the overlap:
+
+- keep issue intake available;
+- monitor severity-high incidents, State consistency, archive completion,
+  release scheduling, submitter adoption, and the first automatic releases;
+- pause new server intake through the documented disable path if safety
+  evidence fails; and
+- extend the overlap if a serious incident or inadequate adoption makes closure
+  unreasonable.
+
+## 9. Historical completion after launch
+
+Historical work may proceed in parallel with the overlap and other completion
+lanes, but it does not delay initial production launch.
+
+### 9.1 Freeze and classify the final corpus
+
+- At the announced issue-intake cutoff, generate the append-only delta from
+  the retained baseline inventory.
+- Every accepted result must be classified as public-source replayable,
+  private-archive replayable, or unavailable for a reviewed reason.
+- Use the smallest existing State event mechanism capable of recording the
+  terminal disposition. Do not create a new aggregate transaction system unless
+  an actual atomicity requirement is demonstrated.
+
+### 9.2 Private archive migration
+
+- Reconcile the recoverable private archive/result bindings and the explicit
+  orphan set.
+- Use a dedicated migration Wrap role and custodian-supplied legacy identity.
+- Rewrap the per-submission data key without changing archive bytes or stable
+  IDs.
+- Verify the result; do not retain plaintext or migration credentials.
+
+### 9.3 Replay execution
+
+- Build or qualify only exact images needed by replayable results.
+- Restore exact original source and benchmark pins. Never silently substitute a
+  newer toolchain.
+- Execute the ordinary official-kernel build and nanoda check with bounded
+  retries and explicit terminal outcomes.
+- Publish the redacted verdict and measurement projection to the leaderboard.
+- Retain versioned checker identity/revision fields for future replay projects.
+
+Full historical completion means every result at the final cutoff has a
+terminal replay record or reviewed unavailable reason.
+
+## 10. Open problems, editorial work, and retirement
+
+### 10.1 Open problems
+
+- Use the neutral name **open problems**.
+- Launching the tab with zero problems is acceptable.
+- Do not add an importer, external synchronization, disproof semantics, or FC
+  dependency.
+- Future content is an ordinary LeanEval-owned catalog decision outside this
+  overhaul.
+
+### 10.2 Software verification and editorial work
+
+- Verify that the two reviewed software-verification drafts render correctly
+  with their draft/provisional policy.
+- Complete human review of statements, citations, and background according to
+  maintainer availability.
+- Keep hints human-written.
+- Do not build verified-calculation execution infrastructure in this overhaul.
+
+### 10.3 Issue-intake retirement
+
+After at least four weeks of announced overlap, close issue intake only if:
+
+- there is no unresolved severity-high incident;
+- server intake, archive, evaluation, release scheduling, and leaderboard
+  presentation are stable;
+- submitter adoption is adequate;
+- at least two weeks of public closure notice has been given; and
+- the final historical cutoff and append-only delta have been recorded.
+
+## 11. Repository and authorization boundary
+
+Autonomous implementation is allowed only in this LeanEval repository family:
+
+- `leanprover/lean-eval`;
+- `leanprover/lean-eval-submissions`;
+- `leanprover/lean-eval-leaderboard`;
+- `leanprover/lean-eval-state`;
+- `leanprover/lean-eval-state-staging`;
+- `leanprover/lean-eval-releases`;
+- `leanprover/lean-eval-generator`; and
+- `leanprover/lean-eval-audit` (private).
+
+Within that allowlist, agents may autonomously inspect, implement, test, create
+branches and pull requests, address review, merge after required checks, and
+run ordinary repository CI. Existing automatic disabled-state deployments
+triggered by an ordinary merge are also allowed, provided the change cannot
+enable a production capability.
+
+Explicit approval is required for:
+
+1. any push, PR, issue, comment, review, reviewer request, or merge in a
+   repository outside the allowlist;
+2. AWS, Cloudflare-account/zone, DNS, OAuth-App, GitHub-App, credential,
+   ruleset, deploy-key, or protected-environment mutation;
+3. production intake, replay, publication, or public owner/maintainer feature
+   enablement; and
+4. a material product-scope expansion.
+
+No technical dependency is permission to work in an external repository.
+Prepare a local compatibility workaround or stop and request authority.
+
+## 12. Recordkeeping policy
+
+Repository documentation should contain current contracts, current state,
+current operating instructions, and canonical data needed to finish the
+product. It should not become a chronicle of agent activity.
+
+- Do not add run-by-run evidence tables, failed-attempt stories, shard
+  provenance essays, or “war stories.” Git, PRs, and Actions retain that
+  history.
+- Update a status or identifier in place when the current operational fact
+  changes.
+- Keep only canonical machine-readable historical inventories, plans,
+  mappings, and unavailable classifications that are still consumed.
+- Delete a superseded object after no current plan, profile, rollback, or
+  migration input references it.
+- Record a test or run link in a PR when useful; do not duplicate it into a
+  permanent ledger unless it is itself a current operational identifier.
+
+## 13. Final completion criteria
+
+The lifecycle overhaul is finished when all of the following are true:
+
+- production server intake is the supported intake path;
+- new submissions archive before evaluation with per-submission envelopes;
+- accepted and rejected lifecycle transitions are coherent and recoverable;
+- automatic two-calendar-month releases are operating with opt-out support;
+- the launch-approved backfill, repair/retraction, maintainer, alias, and rename
+  functions are available;
+- the leaderboard correctly exposes lifecycle, statements, standings,
+  metadata, statistics, and released solutions;
+- every historical accepted result at the final cutoff has a terminal replay
+  or unavailable disposition using the official kernel and nanoda;
+- the neutral open-problems tab exists, even if empty;
+- the software-verification drafts and agreed editorial state are visible;
+- the four-week overlap and notice gates have passed and issue intake is
+  closed;
+- current rollback and pause procedures have been verified; and
+- the repository contains no known instructions to resume scope-excluded FC,
+  disproof, experimental-kernel, or persistent-qualification work.
+
