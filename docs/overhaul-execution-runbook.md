@@ -74,28 +74,28 @@ request.
 
 Goal: make the repositories describe only the approved remaining program.
 
-- [ ] Inventory every open PR, active workflow, remote branch, and relevant
+- [x] Inventory every open PR, active workflow, remote branch, and relevant
       local worktree in the allowlisted repositories.
-- [ ] Confirm the already identified escaped external branches are absent and
+- [x] Confirm the already identified escaped external branches are absent and
       the stale LeanEval PRs are closed.
-- [ ] Review any uncommitted local cleanup attempt as an untrusted candidate
+- [x] Review any uncommitted local cleanup attempt as an untrusted candidate
       diff. Keep useful pieces only after comparing them with current upstream.
-- [ ] Delete the persistent model-identity qualification harness, private
+- [x] Delete the persistent model-identity qualification harness, private
       qualification Workers, workflows, generated types, fixtures, tests, and
       rebuild/recovery instructions.
-- [ ] Delete experimental-kernel shadow smoke, Arena/Mathgraph assets,
+- [x] Delete experimental-kernel shadow smoke, Arena/Mathgraph assets,
       checker-series and corpus-promotion machinery, wire/attestation protocols,
       candidate adapters, and tests that exist only for them.
-- [ ] Remove exact-byte solution-export capture hooks that existed only to feed
+- [x] Remove exact-byte solution-export capture hooks that existed only to feed
       the removed experimental-kernel lane.
-- [ ] Retain the existing official Lean build and nanoda replay path, its
+- [x] Retain the existing official Lean build and nanoda replay path, its
       generic checker identity/revision fields, and its focused tests.
-- [ ] Preserve source-bound agent sessions, authorization boundaries,
+- [x] Preserve source-bound agent sessions, authorization boundaries,
       idempotency, CAS conflict handling, and other generally useful security
       hardening.
 - [ ] Remove superseded run narratives, diagnostic artifacts, and tests whose
       only purpose is preserving those narratives.
-- [ ] Retain canonical replay inventories, final plans, exact toolchain/source
+- [x] Retain canonical replay inventories, final plans, exact toolchain/source
       maps, unavailable-candidate data, current rollback contracts, and current
       infrastructure identifiers.
 - [ ] Retain an older canonical input set only while a live execution profile
@@ -115,33 +115,46 @@ Goal: establish one exact safe baseline before launch work resumes.
 
 ### 5.1 Repositories and automation
 
-- [ ] Record current protected `main` commits for every allowlisted repository.
-- [ ] List open PRs and cross-referenced work; close or classify stale overhaul
+- [x] Record current protected `main` commits for every allowlisted repository.
+- [x] List open PRs and cross-referenced work; close or classify stale overhaul
       PRs.
-- [ ] Confirm no unplanned workflow dispatch is queued or running.
+- [x] Confirm no unplanned workflow dispatch is queued or running.
 - [ ] Confirm required checks, protected branches, and immutable dispatch-tag
       protections match current operating needs.
 
+Current `main` baseline:
+
+| Repository | Commit | Protection state |
+| --- | --- | --- |
+| `lean-eval` | `de48559590eb8cff2125e8e933b3e13bb8a3ff98` | Required `verify` |
+| `lean-eval-submissions` | `2bdeb2be1d1cd504a567dd01a3b040ae6e341827` | Required `verify` |
+| `lean-eval-leaderboard` | `aef3269c7dd4a98781d7f2d9b23db3c196e14766` | Required `build` |
+| `lean-eval-state` | `b0a30e3a64aa5c05660040405b32135dea4b7f1d` | Required `validate`; append-only |
+| `lean-eval-state-staging` | `8d8ef8d1e30ac617d848c705907a941209aeb23c` | Required `validate`; append-only |
+| `lean-eval-releases` | `90dadc872d624b8e6d171caf439313d185fc3e7f` | Required `validate` |
+| `lean-eval-generator` | `77373a539b31f8f304c852f288d7d8469cceebff` | Required `check` |
+| `lean-eval-audit` | `ad356e7bc5a2d650d9902ac3f6d352a0164360bc` | Protection approval required |
+
 ### 5.2 Deployed services
 
-- [ ] Read staging and production intake health.
-- [ ] Read staging and production broker/replay health and current versions.
-- [ ] Verify production intake is configured and effectively disabled.
-- [ ] Verify general and production replay are disabled.
-- [ ] Verify publication is disabled.
-- [ ] Verify public lifecycle feature gates are disabled before their launch
+- [x] Read staging and production intake health.
+- [x] Read staging and production broker/replay health and current versions.
+- [x] Verify production intake is configured and effectively disabled.
+- [x] Verify general and production replay are disabled.
+- [x] Verify publication is disabled.
+- [x] Verify public lifecycle feature gates are disabled before their launch
       smoke and approval.
-- [ ] Verify deployed commits, container image digests, and protected State pins
+- [x] Verify deployed commits, container image digests, and protected State pins
       form one coherent current unit.
 
 ### 5.3 State, credentials, and presentation
 
-- [ ] Verify protected State heads and validation status.
+- [x] Verify protected State heads and validation status.
 - [ ] Inventory credential names, owners, scopes, expiry, rotation, and
       revocation without exposing values.
-- [ ] Confirm production State contains no unexpected accepted server
+- [x] Confirm production State contains no unexpected accepted server
       submission or due release work.
-- [ ] Smoke the live leaderboard root, group tabs, stable problem URLs,
+- [x] Smoke the live leaderboard root, group tabs, stable problem URLs,
       problem statements, and representative solution metadata.
 
 Exit condition: current documentation states one coherent disabled baseline.
@@ -163,12 +176,12 @@ These lanes can proceed in parallel after Phase 1.
 
 ### 6.2 Release and archive repository preparation
 
-- [ ] Reconfirm the exact staging release OIDC trust mismatch.
-- [ ] Prepare the smallest reviewed infrastructure patch or operator command;
+- [x] Reconfirm the exact staging release OIDC trust mismatch.
+- [x] Prepare the smallest reviewed infrastructure patch or operator command;
       do not apply it yet.
 - [ ] Reconfirm the production archive Wrap-only role requirement and prove the
       desired policy excludes unwrap.
-- [ ] Verify the release controller reconstructs deterministically with
+- [x] Verify the release controller reconstructs deterministically with
       publication disabled using credential-free fixtures.
 - [ ] Verify submitter-facing license, release delay, and opt-out language.
 
@@ -410,10 +423,10 @@ Update this table in place; do not append a history beneath it.
 
 | Phase | State | Current blocker |
 | --- | --- | --- |
-| 0. Rebaseline cleanup | Not started | Review and merge scoped deletions |
-| 1. Disabled baseline | Not started | Phase 0 |
-| 2. Repository launch preparation | Not started | Phase 1 |
-| Approval A. Staging credentials | Blocked on explicit approval | Exact mutation not yet presented |
+| 0. Rebaseline cleanup | In progress | Stale-instruction cleanup PRs and final validation |
+| 1. Disabled baseline | In progress | Audit-repository protection and credential inventory |
+| 2. Repository launch preparation | In progress | Entry page, lifecycle gates, and bounded fixtures |
+| Approval A. Staging credentials | Blocked on explicit approval | Exact staging trust mutation prepared but unapplied |
 | 3. Final staging acceptance | Not started | Approval A |
 | Approval B. Production launch | Blocked on explicit approval | Go/no-go packet incomplete |
 | 4. Launch | Not started | Approval B |
@@ -421,4 +434,3 @@ Update this table in place; do not append a history beneath it.
 | 6. Historical completion | Not started | May begin after Phase 1; infrastructure steps approval-gated |
 | 7. Remaining product completion | Not started | Independent lanes; issue closure waits for overlap and final delta |
 | Final audit | Not started | All phases |
-

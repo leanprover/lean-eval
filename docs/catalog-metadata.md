@@ -10,7 +10,7 @@ python scripts/validate_catalog.py
 ## Current fields
 
 - `group` is one of `formalization-evaluation`, `software-verification`, or
-  `open-conjectures`.
+  `open-problems`.
 - `status` is one of `draft`, `active`, or `archived`.
 - `visible` controls public catalog presentation independently of lifecycle.
 - `statement_revision` is a positive integer and never decreases.
