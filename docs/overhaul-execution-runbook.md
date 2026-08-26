@@ -434,11 +434,11 @@ Update this table in place; do not append a history beneath it.
 | 0. Rebaseline cleanup | Complete | — |
 | 1. Disabled baseline | Complete | — |
 | 2. Repository launch preparation | In progress | Approval A and the exact-version staging rehearsal |
-| Approval A. Staging credentials | Approved; execution in progress | Exact staging-only trust mutation and reconstruction smoke |
-| 3. Final staging acceptance | Not started | Approval A |
+| Approval A. Staging credentials | Approved; waiting for authentication | Short-lived AWS login code for the exact staging-only trust mutation and reconstruction smoke |
+| 3. Final staging acceptance | Blocked | Approval A execution and the separately approved external-fixture proof refresh |
 | Approval B. Production launch | Blocked on explicit approval | Go/no-go packet incomplete |
 | 4. Launch | Not started | Approval B |
 | 5. Four-week overlap | Not started | Production launch |
 | 6. Historical completion | In progress | One exact `9921ef…` isolated profile probe, the private-migration specification decision, replay execution, and final cutoff remain; infrastructure steps are approval-gated |
-| 7. Remaining product completion | In progress | Open-problems and editorial work complete; issue closure waits for overlap and final delta |
+| 7. Remaining product completion | In progress | Catalog lifecycle cutover remains; open-problems and editorial work are complete; issue closure waits for overlap and final delta |
 | Final audit | Not started | All phases |
