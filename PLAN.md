@@ -328,9 +328,9 @@ under the old policy because that path does not collect the new acknowledgement.
 
 - **Evaluation-group submissions must come from private sources.** This
   applies to the formalization evaluation and software verification groups.
-  (We can't stop simultaneous publication elsewhere, but we ask.) Open
-  conjecture submissions instead must be public from the start; see the open
-  conjectures section.
+  (We can't stop simultaneous publication elsewhere, but we ask.) The neutral
+  open-problems catalog launches empty; its eventual source-visibility and
+  submission policy are deferred to a later LeanEval catalog decision.
 - **Solutions are released automatically two months after acceptance**,
   published by us from the accepted snapshot in the audit archive. Publication
   contains the exact evaluated `Submission.lean` and `Submission/` files, plus
@@ -477,9 +477,10 @@ The client-side tables support sorting and filtering.
 **Features:**
 
 - **Tabs are groups.** Top-level navigation is the three groups
-  (formalization evaluation, software verification, open problems), each
-  stating its submission policy on the tab. The open-problems tab has an
-  intentional empty state until LeanEval-owned content is added later.
+  (formalization evaluation, software verification, open problems). The two
+  evaluation tabs state their submission policy. The open-problems tab has an
+  intentional empty state and says that its content and submission policy have
+  not yet been adopted.
 - **A scope selector within each tab, defaulting to the flagship set.** On the
   formalization evaluation tab: `v1 | draft | archive`, defaulting to v1.
   Named sets and current-status views may overlap. Standings and problem tables
@@ -501,7 +502,7 @@ The client-side tables support sorting and filtering.
   the solve. Each model's card shows unique, first, and total solve counts (a
   first solve is the earliest accepted solve of a problem, by acceptance-event
   order), leading with whichever the current sort uses. There is no combined
-  cross-group leaderboard: the groups have different submission policies, so
+  cross-group leaderboard: the group scopes and policies are distinct, so
   their standings are not comparable. The front page shows headline numbers
   per tab instead.
 - **Recent solutions feed**: a chronological page of new solves (problem,

@@ -13,8 +13,9 @@ body:
         is unprovable as stated, imports are missing, or the intended
         interpretation is ambiguous.
 
-        For submitting a solution, use the "Submit benchmark solution"
-        template instead.
+        For submitting a solution, see the stable instructions at
+        https://lean-lang.org/eval/submit/. While production server intake is
+        disabled, open a submission issue in leanprover/lean-eval-submissions.
 
   - type: input
     id: problem_id

@@ -12,6 +12,11 @@ body:
 
         **https://github.com/leanprover/lean-eval-submissions/issues/new?template=submit.yml**
 
+        Issue intake remains the functioning path while production server intake
+        is disabled. The stable submission information page is:
+
+        **https://lean-lang.org/eval/submit/**
+
         Please open your submission there. Nothing filed here will be evaluated or
         recorded on the leaderboard.
 

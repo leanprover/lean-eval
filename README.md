@@ -1,6 +1,7 @@
 # Lean Eval
 
-**[View the leaderboard →](https://lean-lang.org/eval/)**
+**[View the leaderboard →](https://lean-lang.org/eval/)** ·
+**[Submission information →](https://lean-lang.org/eval/submit/)**
 
 This repository is a comparator-based Lean benchmark for formal mathematics.
 Benchmark authors write trusted problem statements once in shared Lean modules, and the
@@ -290,8 +291,14 @@ The scorer prefers `workspaces/<problem-id>/` when present and falls back to
 
 ## Submission Rules
 
-To **submit a solution** to the public leaderboard, open a submission issue on
-the submissions repository:
+The stable submission page is:
+
+> **[lean-lang.org/eval/submit/](https://lean-lang.org/eval/submit/)**
+
+Production server intake is not enabled yet. During this prelaunch period, the
+functioning way to **submit a solution** to the public leaderboard remains a
+[submission issue](https://github.com/leanprover/lean-eval-submissions/issues/new?template=submit.yml)
+in the submissions repository:
 
 > **[github.com/leanprover/lean-eval-submissions](https://github.com/leanprover/lean-eval-submissions)**
 

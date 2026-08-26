@@ -1,14 +1,17 @@
 blank_issues_enabled: true
 contact_links:
-  - name: Submit a benchmark solution
+  - name: Submission information
+    url: https://lean-lang.org/eval/submit/
+    about: Stable submission instructions and current intake status.
+  - name: Open a submission issue
     url: https://github.com/leanprover/lean-eval-submissions/issues/new?template=submit.yml
-    about: Benchmark submissions are filed in leanprover/lean-eval-submissions, not here.
+    about: Issue intake remains the functioning submission path while production server intake is disabled.
   - name: Discussion on Zulip
     url: https://leanprover.zulipchat.com/#narrow/channel/583341-Model-comparisons-for-Lean/topic/LeanEval/with/594108910
     about: General questions and discussion about lean-eval happen in the #Model-comparisons-for-Lean > LeanEval topic on the Lean Zulip.
   - name: Benchmark source code and documentation
     url: https://github.com/leanprover/lean-eval
-    about: Read the README for submission requirements before opening a submission issue.
+    about: Read the README for benchmark authoring and submission requirements.
   - name: Leaderboard (results store)
     url: https://github.com/leanprover/lean-eval-leaderboard
     about: Machine-written results per GitHub user. The schema lives in that repo's README.
