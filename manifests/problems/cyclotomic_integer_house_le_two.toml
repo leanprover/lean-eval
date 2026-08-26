@@ -1,7 +1,7 @@
 id = "cyclotomic_integer_house_le_two"
 title = "Real cyclotomic integer with house at most 2"
 group = "formalization-evaluation"
-status = "draft"
+status = "archived"
 visible = true
 statement_revision = 1
 tags = []
@@ -11,3 +11,8 @@ submitter = "Kim Morrison"
 notes = "The <= 2 branch of Theorem 1.0.5 from Calegari--Morrison--Snyder, stated using Mathlib's NumberField.house."
 source = "https://arxiv.org/pdf/1004.0665"
 informal_solution = "If the house is at most 2, then it equals 2 cos(pi / m) for some positive integer m."
+
+[[status_history]]
+status = "archived"
+effective_date = "2026-08-20"
+reason = "policy"

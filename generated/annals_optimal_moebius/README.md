@@ -4,7 +4,7 @@ The optimal paper Moebius band
 
 - Problem ID: `annals_optimal_moebius`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

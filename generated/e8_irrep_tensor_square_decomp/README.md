@@ -4,7 +4,7 @@ Existence of a 779247-dim irreducible e₈-representation with 40 tensor-square 
 
 - Problem ID: `e8_irrep_tensor_square_decomp`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ Wiener's atom-detection formula
 
 - Problem ID: `wiener_atom_detection`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

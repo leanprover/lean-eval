@@ -4,7 +4,7 @@ Freedman's non-smoothability theorem
 
 - Problem ID: `four_manifold_not_smooth`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

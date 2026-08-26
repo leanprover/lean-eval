@@ -4,7 +4,7 @@ Bauer's uniqueness at extreme points
 
 - Problem ID: `bauer_extreme_point_uniqueness`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

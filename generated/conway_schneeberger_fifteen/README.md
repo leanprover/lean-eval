@@ -4,7 +4,7 @@ Conway–Schneeberger fifteen theorem
 
 - Problem ID: `conway_schneeberger_fifteen`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ A negative answer to Ulam's Problem 19 from the Scottish Book
 
 - Problem ID: `annals_ulam`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

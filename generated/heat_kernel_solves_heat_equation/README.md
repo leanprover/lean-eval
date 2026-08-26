@@ -4,7 +4,7 @@ Gaussian heat kernel solves the 1D heat equation
 
 - Problem ID: `heat_kernel_solves_heat_equation`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

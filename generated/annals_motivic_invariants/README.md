@@ -4,7 +4,7 @@ Motivic invariants of birational maps
 
 - Problem ID: `annals_motivic_invariants`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

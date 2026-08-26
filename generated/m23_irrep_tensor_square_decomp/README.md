@@ -4,7 +4,7 @@ Existence of a simple group of order 10200960 with a 22-dim irrep whose tensor s
 
 - Problem ID: `m23_irrep_tensor_square_decomp`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

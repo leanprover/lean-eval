@@ -1,7 +1,7 @@
 id = "alternating_sign_matrix_count"
 title = "The alternating sign matrix theorem"
 group = "formalization-evaluation"
-status = "draft"
+status = "archived"
 visible = true
 statement_revision = 1
 tags = []
@@ -10,3 +10,8 @@ holes = ["alternating_sign_matrix_count"]
 submitter = "Kim Morrison"
 notes = "The number of n×n alternating sign matrices is the Robbins product ∏_{k<n} (3k+1)!/(n+k)! (Zeilberger 1994; Kuperberg 1996). Trusted helpers (IsAlternatingSignMatrix, ASMatrix, robbinsProduct, …) are non-holes. Mathlib has no ASM enumeration. Candidate from §168 of the Knill survey."
 source = "D. Zeilberger (1996); G. Kuperberg (1996). Knill, §168."
+
+[[status_history]]
+status = "archived"
+effective_date = "2026-08-20"
+reason = "policy"

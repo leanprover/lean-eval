@@ -4,7 +4,7 @@ Existence of a 64-dim irreducible g₂-representation with 14 tensor-square isot
 
 - Problem ID: `g2_irrep_tensor_square_decomp`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

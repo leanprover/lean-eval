@@ -4,7 +4,7 @@ Mandelbrot set is connected (Douady–Hubbard)
 
 - Problem ID: `mandelbrot_connected`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

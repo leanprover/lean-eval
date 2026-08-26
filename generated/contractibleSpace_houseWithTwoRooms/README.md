@@ -4,7 +4,7 @@ Bing's house with two rooms is contractible
 
 - Problem ID: `contractibleSpace_houseWithTwoRooms`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

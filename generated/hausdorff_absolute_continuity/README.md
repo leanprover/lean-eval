@@ -4,7 +4,7 @@ Hausdorff moment problem: absolute-continuity criterion
 
 - Problem ID: `hausdorff_absolute_continuity`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

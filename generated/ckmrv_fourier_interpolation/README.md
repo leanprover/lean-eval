@@ -4,7 +4,7 @@ Fourier interpolation in dimensions 8 and 24
 
 - Problem ID: `ckmrv_fourier_interpolation`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

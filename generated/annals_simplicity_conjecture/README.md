@@ -4,7 +4,7 @@ Proof of the simplicity conjecture
 
 - Problem ID: `annals_simplicity_conjecture`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

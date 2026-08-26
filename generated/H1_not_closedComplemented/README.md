@@ -4,7 +4,7 @@ No bounded projection from L^1 onto H^1
 
 - Problem ID: `H1_not_closedComplemented`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

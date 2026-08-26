@@ -4,7 +4,7 @@ On property (T) for Aut(F_n) and SL_n(Z)
 
 - Problem ID: `annals_on_property_t`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

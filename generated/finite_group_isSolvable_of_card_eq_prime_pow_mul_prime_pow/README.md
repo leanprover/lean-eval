@@ -4,7 +4,7 @@ Burnside p^a q^b theorem
 
 - Problem ID: `finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

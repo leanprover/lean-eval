@@ -4,7 +4,7 @@ Budney--Gabai knotted three-spheres in S¹ × S³
 
 - Problem ID: `budney_gabai_knotted_three_spheres`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

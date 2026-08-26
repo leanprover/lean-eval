@@ -4,7 +4,7 @@ Brun's theorem (convergence of the twin-prime reciprocal sum)
 
 - Problem ID: `brun_constant_converges`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

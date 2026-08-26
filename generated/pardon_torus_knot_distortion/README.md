@@ -4,7 +4,7 @@ Pardon's lower bound for torus-knot distortion
 
 - Problem ID: `pardon_torus_knot_distortion`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

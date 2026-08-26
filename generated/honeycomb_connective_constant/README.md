@@ -4,7 +4,7 @@ Connective constant of the honeycomb lattice
 
 - Problem ID: `honeycomb_connective_constant`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

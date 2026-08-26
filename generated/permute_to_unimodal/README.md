@@ -4,7 +4,7 @@ A competition programming problem about permuting a permutation to be unimodal
 
 - Problem ID: `permute_to_unimodal`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

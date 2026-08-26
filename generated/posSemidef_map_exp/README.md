@@ -4,7 +4,7 @@ Entrywise exponential of a PSD matrix is PSD
 
 - Problem ID: `posSemidef_map_exp`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

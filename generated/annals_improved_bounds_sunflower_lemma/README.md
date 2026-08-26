@@ -4,7 +4,7 @@ Improved bounds for the sunflower lemma
 
 - Problem ID: `annals_improved_bounds_sunflower_lemma`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

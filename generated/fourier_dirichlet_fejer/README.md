@@ -4,7 +4,7 @@ Pointwise and Cesàro convergence of Fourier series (Dirichlet, Fejér)
 
 - Problem ID: `fourier_dirichlet_fejer`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

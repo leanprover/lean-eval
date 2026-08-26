@@ -1,7 +1,7 @@
 id = "riemann_hypothesis_iff_lagarias_elementary_criterion"
 title = "Lagarias criterion is equivalent to RH"
 group = "formalization-evaluation"
-status = "draft"
+status = "active"
 visible = true
 statement_revision = 1
 tags = []
@@ -11,3 +11,8 @@ submitter = "Kim Morrison"
 notes = "Lagarias' elementary divisor-sum criterion stated using Mathlib's RiemannHypothesis, harmonic numbers, and sigma notation."
 source = "https://arxiv.org/abs/math/0008177"
 informal_solution = "Prove that the Riemann hypothesis is equivalent to the inequality σ(n) ≤ H_n + exp(H_n) log(H_n) for all positive integers n."
+
+[[status_history]]
+status = "active"
+effective_date = "2026-08-20"
+reason = "policy"

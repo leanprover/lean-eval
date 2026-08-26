@@ -4,7 +4,7 @@ Furstenberg measure-preserving multiple recurrence
 
 - Problem ID: `furstenberg_measure`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

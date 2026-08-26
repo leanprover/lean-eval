@@ -4,7 +4,7 @@ Vinogradov mean value theorem
 
 - Problem ID: `vinogradov_mean_value`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

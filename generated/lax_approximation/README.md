@@ -4,7 +4,7 @@ Lax's approximation theorem for toral homeomorphisms
 
 - Problem ID: `lax_approximation`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

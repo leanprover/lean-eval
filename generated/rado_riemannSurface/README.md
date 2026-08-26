@@ -4,7 +4,7 @@ Radó's theorem on Riemann surfaces
 
 - Problem ID: `rado_riemannSurface`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

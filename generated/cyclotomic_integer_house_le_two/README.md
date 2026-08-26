@@ -4,7 +4,7 @@ Real cyclotomic integer with house at most 2
 
 - Problem ID: `cyclotomic_integer_house_le_two`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

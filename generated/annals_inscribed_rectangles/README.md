@@ -4,7 +4,7 @@ Inscribed rectangles in a smooth Jordan curve attain at least one third of all a
 
 - Problem ID: `annals_inscribed_rectangles`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

@@ -4,7 +4,7 @@ Finite Ramsey theorem for graphs
 
 - Problem ID: `finite_graph_ramsey_theorem`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

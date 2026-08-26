@@ -4,7 +4,7 @@ Ado's theorem in characteristic zero
 
 - Problem ID: `adoCharZero`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

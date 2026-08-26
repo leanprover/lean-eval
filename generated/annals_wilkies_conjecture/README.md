@@ -4,7 +4,7 @@ Wilkie's conjecture for Pfaffian structures
 
 - Problem ID: `annals_wilkies_conjecture`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

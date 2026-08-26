@@ -4,7 +4,7 @@ Independence of the parallel postulate
 
 - Problem ID: `parallel_postulate_independent`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

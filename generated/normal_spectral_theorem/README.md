@@ -4,7 +4,7 @@ Normal spectral theorem
 
 - Problem ID: `normal_spectral_theorem`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

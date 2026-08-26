@@ -4,7 +4,7 @@ A counterexample to the unit conjecture for group rings
 
 - Problem ID: `annals_unit_conjecture`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

@@ -4,7 +4,7 @@ On a conjecture of Marton
 
 - Problem ID: `annals_conjecture_of_marton`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

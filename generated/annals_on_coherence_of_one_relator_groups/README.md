@@ -4,7 +4,7 @@ On the coherence of one-relator groups and their group algebras
 
 - Problem ID: `annals_on_coherence_of_one_relator_groups`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

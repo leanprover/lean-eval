@@ -4,7 +4,7 @@ Faltings' theorem (Mordell conjecture)
 
 - Problem ID: `faltings`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ Rational approximations to linear subspaces
 
 - Problem ID: `annals_linear_subspaces`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

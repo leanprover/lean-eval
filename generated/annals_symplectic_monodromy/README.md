@@ -4,7 +4,7 @@ Symplectic monodromy at radius zero and equimultiplicity of μ-constant families
 
 - Problem ID: `annals_symplectic_monodromy`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

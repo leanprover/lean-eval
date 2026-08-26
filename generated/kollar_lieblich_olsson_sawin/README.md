@@ -4,7 +4,7 @@ Topological reconstruction theorems for varieties
 
 - Problem ID: `kollar_lieblich_olsson_sawin`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ Spencer-Szemerédi-Trotter unit-distance upper bound
 
 - Problem ID: `unit_distance_upper_bound`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

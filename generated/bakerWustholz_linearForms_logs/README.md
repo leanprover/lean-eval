@@ -4,7 +4,7 @@ Baker-Wüstholz theorem on linear forms in logarithms
 
 - Problem ID: `bakerWustholz_linearForms_logs`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

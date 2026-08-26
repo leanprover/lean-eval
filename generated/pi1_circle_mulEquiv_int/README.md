@@ -4,7 +4,7 @@ pi_1 of the circle is Z
 
 - Problem ID: `pi1_circle_mulEquiv_int`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

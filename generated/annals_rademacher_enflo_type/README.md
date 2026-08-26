@@ -4,7 +4,7 @@ Rademacher type and Enflo type coincide
 
 - Problem ID: `annals_rademacher_enflo_type`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

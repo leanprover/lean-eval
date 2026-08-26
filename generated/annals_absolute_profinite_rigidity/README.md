@@ -4,7 +4,7 @@ Absolute profinite rigidity and hyperbolic geometry
 
 - Problem ID: `annals_absolute_profinite_rigidity`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

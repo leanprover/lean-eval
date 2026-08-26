@@ -4,7 +4,7 @@ Hessian estimates for the sigma-2 equation in dimension four
 
 - Problem ID: `annals_hessian_estimates`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

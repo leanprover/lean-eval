@@ -4,7 +4,7 @@
 
 - Problem ID: `space_groups_230`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

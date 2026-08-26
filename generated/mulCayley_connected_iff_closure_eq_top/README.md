@@ -4,7 +4,7 @@ Cayley graph connected iff generators generate the group
 
 - Problem ID: `mulCayley_connected_iff_closure_eq_top`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ Trace Cayley-Hamilton / Newton identity
 
 - Problem ID: `trace_cayley_hamilton_newton`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

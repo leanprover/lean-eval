@@ -4,7 +4,7 @@ Polynomial decay rate of y' = -y^3
 
 - Problem ID: `cubic_decay_asymptotic`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

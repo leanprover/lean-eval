@@ -1,7 +1,7 @@
 id = "hopf_umlaufsatz"
 title = "The Hopf Umlaufsatz (theorem of turning tangents)"
 group = "formalization-evaluation"
-status = "draft"
+status = "archived"
 visible = true
 statement_revision = 1
 tags = []
@@ -10,3 +10,8 @@ holes = ["hopf_umlaufsatz"]
 submitter = "Kim Morrison"
 notes = "A positively oriented simple closed unit-speed plane curve has total signed curvature 2π. Trusted helpers (signedArea, signedCurvature, totalCurvature, IsPositiveSimpleClosedUnitSpeedCurve, IsTangentAngleLift, …) are non-holes. Mathlib has no turning-tangents theorem. Candidate from §170 of the Knill survey."
 source = "H. Hopf, *Über die Drehung der Tangenten...*, Compositio Math. 2 (1935). Knill, §170."
+
+[[status_history]]
+status = "archived"
+effective_date = "2026-08-20"
+reason = "policy"

@@ -4,7 +4,7 @@ Riesz's rising sun lemma
 
 - Problem ID: `rising_sun_lemma`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

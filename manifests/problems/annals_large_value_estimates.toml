@@ -1,7 +1,7 @@
 id = "annals_large_value_estimates"
 title = "New large value estimates for Dirichlet polynomials"
 group = "formalization-evaluation"
-status = "draft"
+status = "active"
 visible = true
 statement_revision = 1
 tags = ["annals"]
@@ -10,3 +10,8 @@ holes = ["theorem_1_1"]
 submitter = "Thomas Browning"
 source = "L. Guth and J. Maynard, `New large value estimates for Dirichlet polynomials`, Annals of Math, 203 (2) 2026. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2026-203-2-LargeValueEstimates.lean"
 notes = "The proof binder `hb` is named `_hb` here. This is alpha-equivalent and suppresses an unused-variable warning in the generated `Solution.lean` delegation."
+
+[[status_history]]
+status = "active"
+effective_date = "2026-08-20"
+reason = "policy"

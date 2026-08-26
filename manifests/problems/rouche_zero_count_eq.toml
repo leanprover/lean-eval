@@ -1,7 +1,7 @@
 id = "rouche_zero_count_eq"
 title = "Rouche theorem via zero counting"
 group = "formalization-evaluation"
-status = "draft"
+status = "archived"
 visible = true
 statement_revision = 1
 tags = []
@@ -11,3 +11,8 @@ submitter = "Kim Morrison"
 notes = "Phrases Rouché's theorem as equality of multiplicity-counted zero counts for f and f + g on the closed disk of radius R."
 source = "Classical theorem in complex analysis."
 informal_solution = "Assuming f is meromorphic in normal form on ℂ and |g| < |f| on the boundary circle, f and f + g have the same number of zeros inside the disk, counted with multiplicity."
+
+[[status_history]]
+status = "archived"
+effective_date = "2026-08-20"
+reason = "policy"

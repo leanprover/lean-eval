@@ -4,7 +4,7 @@ Klartag's construction of lattice sphere packings
 
 - Problem ID: `klartag_packing`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

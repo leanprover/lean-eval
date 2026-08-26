@@ -4,7 +4,7 @@ Chen's theorem
 
 - Problem ID: `chen_theorem`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

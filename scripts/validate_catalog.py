@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import json
 import pathlib
 import re
 import subprocess
@@ -205,6 +206,7 @@ def load_sets(
             raise CatalogError(f"{path}: a frozen set requires published_at")
         members = _array(named_set.get("members"), f"{path}: members")
         seen: set[tuple[str, int]] = set()
+        member_groups: set[str] = set()
         for index, raw in enumerate(members):
             label = f"{path}: members[{index}]"
             member = _table(raw, label)
@@ -214,10 +216,13 @@ def load_sets(
                 raise CatalogError(f"{label}: unknown problem {problem_id!r}")
             if revision not in revisions[problem_id]:
                 raise CatalogError(f"{label}: unknown statement revision {revision} for {problem_id}")
+            member_groups.add(str(problems[problem_id]["group"]))
             key = (problem_id, revision)
             if key in seen:
                 raise CatalogError(f"{path}: duplicate member {problem_id}@{revision}")
             seen.add(key)
+        if len(member_groups) > 1:
+            raise CatalogError(f"{path}: a named set may not span problem groups")
 
         amendments = _array(named_set.get("amendments", []), f"{path}: amendments")
         if schema_version == 1 and amendments:
@@ -288,6 +293,175 @@ def load_sets(
                 )
         sets[set_id] = named_set
     return sets
+
+
+def _load_json_table(path: pathlib.Path) -> Mapping[str, object]:
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as error:
+        raise CatalogError(f"cannot read canonical lifecycle evidence {path}: {error}") from error
+    return _table(value, str(path))
+
+
+def _history_contains(
+    problem: Mapping[str, object], *, status: str, effective_date: str
+) -> bool:
+    return any(
+        isinstance(row, dict)
+        and row.get("status") == status
+        and row.get("effective_date") == effective_date
+        and row.get("reason") == "policy"
+        for row in problem.get("status_history", [])
+    )
+
+
+def validate_v1_lifecycle_cutover(
+    root: pathlib.Path,
+    problems: Mapping[str, Mapping[str, object]],
+    sets: Mapping[str, Mapping[str, object]],
+) -> tuple[int, int, int] | None:
+    """Validate the immutable v1 publication transitions against canonical evidence.
+
+    Problems added after the selection and amendment evidence are intentionally
+    unconstrained here, so they may enter the catalog as drafts. Later lifecycle
+    changes to the pre-freeze problems remain possible because this check requires
+    the publication event to stay in append-only history rather than requiring it
+    to remain the current status forever.
+    """
+
+    selection_path = root / "audits" / "v1" / "selection-2026-08-20.json"
+    amendment_path = root / "audits" / "v1" / "amendment-2026-08-21.json"
+    if not selection_path.is_file() and not amendment_path.is_file():
+        return None
+    if not selection_path.is_file() or not amendment_path.is_file():
+        raise CatalogError("canonical v1 lifecycle evidence is incomplete")
+
+    selection = _load_json_table(selection_path)
+    amendment = _load_json_table(amendment_path)
+    v1 = sets.get("v1")
+    if v1 is None:
+        raise CatalogError("canonical v1 lifecycle evidence requires manifests/sets/v1.toml")
+    publication_date = _date(v1.get("published_at"), "v1.published_at")
+
+    effective_members = {
+        (member.get("problem_id"), member.get("statement_revision"))
+        for member in _array(v1.get("members"), "v1.members")
+        if isinstance(member, dict)
+    }
+    all_amendment_additions = {
+        (member.get("problem_id"), member.get("statement_revision"))
+        for raw_amendment in _array(v1.get("amendments", []), "v1.amendments")
+        if isinstance(raw_amendment, dict)
+        for member in _array(raw_amendment.get("additions", []), "v1 amendment additions")
+        if isinstance(member, dict)
+    }
+    initial_members = effective_members - all_amendment_additions
+    expected_initial_count = _integer(v1.get("initial_member_count"), "v1.initial_member_count")
+    if len(initial_members) != expected_initial_count:
+        raise CatalogError("canonical v1 initial membership does not match initial_member_count")
+
+    selection_rows = _array(selection.get("problems"), f"{selection_path}: problems")
+    selection_problem_count = _integer(
+        selection.get("catalog_problem_count"), f"{selection_path}: catalog_problem_count"
+    )
+    if len(selection_rows) != selection_problem_count:
+        raise CatalogError(f"{selection_path}: catalog_problem_count does not match problems")
+    selection_keys: set[tuple[str, int]] = set()
+    archived_count = 0
+    active_initial_count = 0
+    for index, raw in enumerate(selection_rows):
+        label = f"{selection_path}: problems[{index}]"
+        row = _table(raw, label)
+        problem_id = _string(row.get("problem_id"), f"{label}.problem_id")
+        revision = _integer(row.get("statement_revision"), f"{label}.statement_revision")
+        group = _string(row.get("group"), f"{label}.group")
+        key = (problem_id, revision)
+        if key in selection_keys:
+            raise CatalogError(f"{label}: duplicate canonical selection problem revision")
+        selection_keys.add(key)
+        if group != "formalization-evaluation":
+            continue
+        problem = problems.get(problem_id)
+        if problem is None:
+            raise CatalogError(f"{label}: selected catalog problem is missing")
+        expected_status = "active" if key in initial_members else "archived"
+        if not _history_contains(
+            problem, status=expected_status, effective_date=publication_date
+        ):
+            raise CatalogError(
+                f"manifests/problems/{problem_id}.toml: missing canonical v1 "
+                f"{expected_status} transition on {publication_date}"
+            )
+        if expected_status == "active":
+            active_initial_count += 1
+        else:
+            archived_count += 1
+
+    if not initial_members.issubset(selection_keys):
+        raise CatalogError("canonical v1 initial membership is not contained in selection evidence")
+
+    amendment_id = _string(
+        amendment.get("amendment_id"), f"{amendment_path}: amendment_id"
+    )
+    amendment_date = _date(
+        amendment.get("effective_date"), f"{amendment_path}: effective_date"
+    )
+    amendment_rows = _array(amendment.get("additions"), f"{amendment_path}: additions")
+    amendment_entries: list[tuple[tuple[str, int], str]] = []
+    amendment_keys: set[tuple[str, int]] = set()
+    for index, raw in enumerate(amendment_rows):
+        label = f"{amendment_path}: additions[{index}]"
+        row = _table(raw, label)
+        key = (
+            _string(row.get("problem_id"), f"{label}.problem_id"),
+            _integer(row.get("statement_revision"), f"{label}.statement_revision"),
+        )
+        if key in amendment_keys:
+            raise CatalogError(f"{label}: duplicate canonical amendment problem revision")
+        amendment_keys.add(key)
+        amendment_entries.append((key, label))
+    matching_set_amendments = [
+        raw
+        for raw in _array(v1.get("amendments", []), "v1.amendments")
+        if isinstance(raw, dict) and raw.get("id") == amendment_id
+    ]
+    if len(matching_set_amendments) != 1:
+        raise CatalogError(f"{amendment_path}: amendment_id does not identify one v1 amendment")
+    set_amendment = matching_set_amendments[0]
+    if set_amendment.get("effective_date") != amendment_date:
+        raise CatalogError(f"{amendment_path}: effective_date does not match v1 amendment")
+    set_amendment_keys = {
+        (member.get("problem_id"), member.get("statement_revision"))
+        for member in _array(set_amendment.get("additions", []), "v1 amendment additions")
+        if isinstance(member, dict)
+    }
+    if amendment_keys != set_amendment_keys:
+        raise CatalogError(f"{amendment_path}: additions do not match the v1 amendment")
+    count_checks = (
+        ("previous_member_count", len(initial_members)),
+        ("added_member_count", len(amendment_keys)),
+        ("effective_member_count", len(effective_members)),
+    )
+    for field, expected in count_checks:
+        if _integer(amendment.get(field), f"{amendment_path}: {field}") != expected:
+            raise CatalogError(f"{amendment_path}: {field} does not match v1 membership")
+
+    active_amendment_count = 0
+    for key, label in amendment_entries:
+        problem_id, _revision = key
+        if key not in effective_members or key in selection_keys:
+            raise CatalogError(f"{label}: canonical amendment does not add a new v1 member")
+        problem = problems.get(problem_id)
+        if problem is None or not _history_contains(
+            problem, status="active", effective_date=amendment_date
+        ):
+            raise CatalogError(
+                f"manifests/problems/{problem_id}.toml: missing canonical v1 "
+                f"active transition on {amendment_date}"
+            )
+        active_amendment_count += 1
+
+    return active_initial_count, active_amendment_count, archived_count
 
 
 def _git(root: pathlib.Path, *args: str) -> str:
@@ -380,6 +554,7 @@ def validate(root: pathlib.Path, base_ref: str | None = None) -> tuple[int, int,
     registry = load_tag_registry(root)
     problems, revisions = load_problems(root, registry)
     sets = load_sets(root, problems, revisions)
+    validate_v1_lifecycle_cutover(root, problems, sets)
     if base_ref is not None:
         compare_with_base(root, base_ref, problems, sets)
     return len(problems), len(registry), len(sets)

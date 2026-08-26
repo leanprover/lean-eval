@@ -1,7 +1,7 @@
 id = "deBranges_theorem"
 title = "De Branges's theorem (Bieberbach conjecture)"
 group = "formalization-evaluation"
-status = "draft"
+status = "archived"
 visible = true
 statement_revision = 1
 tags = []
@@ -9,3 +9,8 @@ module = "LeanEval.ComplexAnalysis.DeBranges"
 holes = ["deBranges"]
 submitter = "Junyan Xu"
 source = "John B. Conway, *Functions of One Complex Variable II*, Chapter 17."
+
+[[status_history]]
+status = "archived"
+effective_date = "2026-08-20"
+reason = "policy"

@@ -4,7 +4,7 @@ Fang–Xia: tiling of the symmetric group by transpositions implies λ-transitiv
 
 - Problem ID: `fang_xia_tiling_partition_transitive`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

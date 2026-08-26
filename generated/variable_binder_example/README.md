@@ -4,7 +4,7 @@ variable-binder minimal example
 
 - Problem ID: `variable_binder_example`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: no
 - Statement Revision: 1
 - Tags: none

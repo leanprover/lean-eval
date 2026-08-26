@@ -4,7 +4,7 @@ On approximation to a real number by algebraic numbers of bounded degree
 
 - Problem ID: `annals_on_approximation_of_reals`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

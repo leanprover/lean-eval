@@ -4,7 +4,7 @@ Sard's theorem (critical-set image has measure zero)
 
 - Problem ID: `sard_theorem`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ Bender–Suzuki theorem (classification of finite simple groups with a strongly-
 
 - Problem ID: `bender_suzuki`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

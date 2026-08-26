@@ -4,7 +4,7 @@ Kolmogorov–Arnold superposition theorem (non-universal Lorentz form)
 
 - Problem ID: `kolmogorov_arnold_superposition`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

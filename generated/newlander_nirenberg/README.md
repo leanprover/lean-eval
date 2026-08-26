@@ -4,7 +4,7 @@ Newlander–Nirenberg theorem
 
 - Problem ID: `newlander_nirenberg`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

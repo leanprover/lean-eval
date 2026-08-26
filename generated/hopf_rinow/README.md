@@ -4,7 +4,7 @@ Hopf–Rinow theorem
 
 - Problem ID: `hopf_rinow`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

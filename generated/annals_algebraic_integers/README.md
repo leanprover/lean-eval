@@ -4,7 +4,7 @@ Algebraic integers with conjugates in a prescribed distribution
 
 - Problem ID: `annals_algebraic_integers`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

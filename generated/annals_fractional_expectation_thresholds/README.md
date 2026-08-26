@@ -4,7 +4,7 @@ Thresholds versus fractional expectation-thresholds
 
 - Problem ID: `annals_fractional_expectation_thresholds`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

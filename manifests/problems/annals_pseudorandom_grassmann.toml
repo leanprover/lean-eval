@@ -1,7 +1,7 @@
 id = "annals_pseudorandom_grassmann"
 title = "Pseudorandom sets in Grassmann graph have near-perfect expansion"
 group = "formalization-evaluation"
-status = "draft"
+status = "active"
 visible = true
 statement_revision = 1
 tags = ["annals"]
@@ -9,3 +9,8 @@ module = "LeanEval.Combinatorics.PseudorandomGrassmann"
 holes = ["theorem_1_12"]
 submitter = "Justus Springer"
 source = "S. Khot, D. Minzer, and M. Safra, `Pseudorandom sets in Grassmann graph have near-perfect expansion`, Annals of Math, 198 (1) 2023. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2023-198-1-PseudorandomGrassmann.lean"
+
+[[status_history]]
+status = "active"
+effective_date = "2026-08-20"
+reason = "policy"

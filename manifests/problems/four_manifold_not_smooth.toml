@@ -1,7 +1,7 @@
 id = "four_manifold_not_smooth"
 title = "Freedman's non-smoothability theorem"
 group = "formalization-evaluation"
-status = "draft"
+status = "active"
 visible = true
 statement_revision = 1
 tags = []
@@ -9,3 +9,8 @@ test = false
 module = "LeanEval.Geometry.FourManifoldNotSmooth"
 holes = ["four_manifold_not_smooth"]
 submitter = "Oliver Nash"
+
+[[status_history]]
+status = "active"
+effective_date = "2026-08-21"
+reason = "policy"

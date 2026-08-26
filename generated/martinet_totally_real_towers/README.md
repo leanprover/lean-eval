@@ -4,7 +4,7 @@ Martinet's asymptotically-good totally real towers
 
 - Problem ID: `martinet_totally_real_towers`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

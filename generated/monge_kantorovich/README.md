@@ -4,7 +4,7 @@ Monge–Kantorovich existence theorem
 
 - Problem ID: `monge_kantorovich`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ On Zagier-Hoffman's conjectures in positive characteristic
 
 - Problem ID: `annals_zagier_hoffman_positive_char`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

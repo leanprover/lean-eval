@@ -4,7 +4,7 @@ Generalized topological Poincaré conjecture in dimensions ≥ 5 (Smale)
 
 - Problem ID: `poincare_high_dim_topological`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

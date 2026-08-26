@@ -4,7 +4,7 @@ Cauchy–Kovalevskaya theorem
 
 - Problem ID: `cauchy_kovalevskaya`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

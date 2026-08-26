@@ -4,7 +4,7 @@ No continuous faithful ℤ_p action on a connected 3-manifold (Pardon 2013)
 
 - Problem ID: `hilbert_smith_padic_dimension_three`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

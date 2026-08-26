@@ -1,7 +1,7 @@
 id = "nikolov_segal"
 title = "Nikolov–Segal strong completeness theorem"
 group = "formalization-evaluation"
-status = "draft"
+status = "active"
 visible = true
 statement_revision = 1
 tags = []
@@ -12,3 +12,8 @@ submitter = "Adam Topaz"
 notes = "Every finite-index subgroup of a topologically finitely generated profinite group is open."
 source = "Nikolay Nikolov and Dan Segal, *On finitely generated profinite groups, I: strong completeness and uniform bounds*, Annals of Mathematics 165 (2007), no. 1, 171–238, Theorem 1.1, https://doi.org/10.4007/annals.2007.165.171; *On finitely generated profinite groups, II: products in quasisimple groups*, Annals of Mathematics 165 (2007), no. 1, 239–273, https://doi.org/10.4007/annals.2007.165.239."
 informal_solution = "See Nikolov and Segal, Parts I and II, cited in `source`."
+
+[[status_history]]
+status = "active"
+effective_date = "2026-08-21"
+reason = "policy"

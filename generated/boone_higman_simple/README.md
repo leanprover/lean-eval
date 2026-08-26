@@ -4,7 +4,7 @@ Kuznetsov's theorem: finitely presented simple groups have solvable word problem
 
 - Problem ID: `boone_higman_simple`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

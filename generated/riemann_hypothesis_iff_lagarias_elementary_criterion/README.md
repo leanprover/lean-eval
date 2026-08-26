@@ -4,7 +4,7 @@ Lagarias criterion is equivalent to RH
 
 - Problem ID: `riemann_hypothesis_iff_lagarias_elementary_criterion`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

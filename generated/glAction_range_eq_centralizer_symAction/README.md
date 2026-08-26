@@ -4,7 +4,7 @@ Schur-Weyl duality: GL(V) image equals centralizer of S_k image
 
 - Problem ID: `glAction_range_eq_centralizer_symAction`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

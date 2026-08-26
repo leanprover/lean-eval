@@ -4,7 +4,7 @@ Furstenberg–Weiss topological multiple recurrence (single-transformation form)
 
 - Problem ID: `furstenberg_topological`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

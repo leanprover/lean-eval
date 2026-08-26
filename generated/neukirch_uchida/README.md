@@ -4,7 +4,7 @@ Neukirch–Uchida theorem
 
 - Problem ID: `neukirch_uchida`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

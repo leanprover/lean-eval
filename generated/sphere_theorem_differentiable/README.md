@@ -4,7 +4,7 @@ Differentiable sphere theorem (Brendle–Schoen)
 
 - Problem ID: `sphere_theorem_differentiable`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

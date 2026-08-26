@@ -4,7 +4,7 @@ Wang-Zahl: the three-dimensional Kakeya conjecture
 
 - Problem ID: `wang_zahl_kakeya_dimH`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

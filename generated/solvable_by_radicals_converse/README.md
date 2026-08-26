@@ -4,7 +4,7 @@ Solvable extensions ↔ solvable groups (the missing converse in Abel–Ruffini)
 
 - Problem ID: `solvable_by_radicals_converse`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

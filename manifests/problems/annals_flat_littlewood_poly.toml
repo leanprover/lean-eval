@@ -1,7 +1,7 @@
 id = "annals_flat_littlewood_poly"
 title = "Flat Littlewood polynomials exist"
 group = "formalization-evaluation"
-status = "draft"
+status = "active"
 visible = true
 statement_revision = 1
 tags = ["annals"]
@@ -9,3 +9,8 @@ module = "LeanEval.Analysis.FlatLittlewoodPoly"
 holes = ["theorem_1_1"]
 submitter = "Katerina Hristova, Kevin Buzzard, Bhavik Mehta"
 source = "P. Balister, B. Bollobás, R. Morris, J. Sahasrabudhe, and M. Tiba, `Flat Littlewood polynomials exist`, Annals of Math, 192 (3) 2020. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2020-192-3-FlatLittlewoodPoly.lean"
+
+[[status_history]]
+status = "active"
+effective_date = "2026-08-20"
+reason = "policy"

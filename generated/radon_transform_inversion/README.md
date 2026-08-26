@@ -4,7 +4,7 @@ Radon transform: Fourier-slice diagonalization and pseudo-inversion
 
 - Problem ID: `radon_transform_inversion`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

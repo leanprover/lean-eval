@@ -4,7 +4,7 @@ KAM persistence of an invariant curve
 
 - Problem ID: `kam_invariant_curve`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

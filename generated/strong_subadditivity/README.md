@@ -4,7 +4,7 @@ Strong Subadditivity of von Neumann Entropy
 
 - Problem ID: `strong_subadditivity`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

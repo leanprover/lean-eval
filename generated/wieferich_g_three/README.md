@@ -4,7 +4,7 @@ Wieferich's theorem g(3) = 9
 
 - Problem ID: `wieferich_g_three`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

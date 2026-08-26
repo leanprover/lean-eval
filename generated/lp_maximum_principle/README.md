@@ -4,7 +4,7 @@ Linear programming: maximum principle and vertex optimality
 
 - Problem ID: `lp_maximum_principle`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

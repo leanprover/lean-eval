@@ -4,7 +4,7 @@ noncomputable-hole minimal example
 
 - Problem ID: `noncomputable_hole_example`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: no
 - Statement Revision: 1
 - Tags: none

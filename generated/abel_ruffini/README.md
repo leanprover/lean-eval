@@ -4,7 +4,7 @@ Abel–Ruffini theorem
 
 - Problem ID: `abel_ruffini`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

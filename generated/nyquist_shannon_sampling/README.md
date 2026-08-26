@@ -4,7 +4,7 @@ Nyquist–Shannon sampling theorem
 
 - Problem ID: `nyquist_shannon_sampling`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

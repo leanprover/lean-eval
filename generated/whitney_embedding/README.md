@@ -4,7 +4,7 @@ Whitney embedding theorem (strong form, dimension 2n)
 
 - Problem ID: `whitney_embedding`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

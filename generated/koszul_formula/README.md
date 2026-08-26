@@ -4,7 +4,7 @@ Koszul formula
 
 - Problem ID: `koszul_formula`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

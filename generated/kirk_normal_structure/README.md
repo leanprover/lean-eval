@@ -4,7 +4,7 @@ Kirk's normal-structure fixed point theorem
 
 - Problem ID: `kirk_normal_structure`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

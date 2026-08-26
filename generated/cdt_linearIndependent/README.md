@@ -4,7 +4,7 @@ Linear independence results of Calegari–Dimitrov–Tang
 
 - Problem ID: `cdt_linearIndependent`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

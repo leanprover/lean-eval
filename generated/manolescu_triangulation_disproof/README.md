@@ -4,7 +4,7 @@ Manolescu's disproof of the triangulation conjecture
 
 - Problem ID: `manolescu_triangulation_disproof`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

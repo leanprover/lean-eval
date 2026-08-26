@@ -4,7 +4,7 @@ Fractal uncertainty in higher dimensions
 
 - Problem ID: `annals_fractal_uncertainty`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

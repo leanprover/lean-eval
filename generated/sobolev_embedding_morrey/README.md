@@ -4,7 +4,7 @@ Sobolev embedding theorem (Morrey regime)
 
 - Problem ID: `sobolev_embedding_morrey`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

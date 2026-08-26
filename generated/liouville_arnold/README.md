@@ -4,7 +4,7 @@ Liouville–Arnold theorem on integrable systems
 
 - Problem ID: `liouville_arnold`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

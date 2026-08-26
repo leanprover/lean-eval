@@ -4,7 +4,7 @@ Erdős's unit-distance conjecture is false
 
 - Problem ID: `erdos_unit_distance_conjecture_false`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

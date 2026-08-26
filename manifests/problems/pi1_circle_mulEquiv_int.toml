@@ -1,7 +1,7 @@
 id = "pi1_circle_mulEquiv_int"
 title = "pi_1 of the circle is Z"
 group = "formalization-evaluation"
-status = "draft"
+status = "archived"
 visible = true
 statement_revision = 1
 tags = []
@@ -11,3 +11,8 @@ submitter = "Kim Morrison"
 notes = "Computes the fundamental group of the complex unit circle."
 source = "Classical theorem in algebraic topology."
 informal_solution = "Use winding number to identify loops in the circle up to homotopy with the integers."
+
+[[status_history]]
+status = "archived"
+effective_date = "2026-08-20"
+reason = "policy"

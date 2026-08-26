@@ -4,7 +4,7 @@ Sard's regular-value corollary
 
 - Problem ID: `regular_value_ae`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

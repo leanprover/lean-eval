@@ -1,7 +1,7 @@
 id = "jacobian_challenge_alggeo"
 title = "Jacobian of a smooth proper curve (Merten challenge)"
 group = "formalization-evaluation"
-status = "draft"
+status = "active"
 visible = true
 statement_revision = 1
 tags = []
@@ -10,3 +10,8 @@ holes = ["AlgebraicGeometry.JacobianChallenge.genus", "AlgebraicGeometry.Jacobia
 submitter = "Christian Merten"
 source = "https://leanprover.zulipchat.com/#narrow/stream/583336-Autoformalization/topic/Jacobian%20challenge/near/587802685"
 informal_solution = "Build the Albanese variety of C as the universal abelian variety receiving a pointed map from C; Weil's construction of the Jacobian of a curve makes this concrete via Pic^0(C). The universal property is the no-cheating clamp."
+
+[[status_history]]
+status = "active"
+effective_date = "2026-08-20"
+reason = "policy"

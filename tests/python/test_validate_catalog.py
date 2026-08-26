@@ -39,7 +39,9 @@ holes = ["alpha"]
 submitter = "tester"
 """
 
-BETA_PROBLEM = PROBLEM.replace('id = "alpha"', 'id = "beta"').replace(
+ACTIVE_PROBLEM = PROBLEM.replace('status = "draft"', 'status = "active"')
+
+BETA_PROBLEM = ACTIVE_PROBLEM.replace('id = "alpha"', 'id = "beta"').replace(
     'title = "Alpha"', 'title = "Beta"'
 ).replace('module = "LeanEval.Alpha"', 'module = "LeanEval.Beta"').replace(
     'holes = ["alpha"]', 'holes = ["beta"]'
@@ -122,7 +124,7 @@ frozen = true
 published_at = "2026-08-20"
 members = [{ problem_id = "alpha", statement_revision = 1 }]
 """
-        temporary, root = self.make_catalog(named_set=named_set)
+        temporary, root = self.make_catalog(ACTIVE_PROBLEM, named_set=named_set)
         with temporary:
             subprocess.run(["git", "init", "-q"], cwd=root, check=True)
             subprocess.run(["git", "add", "."], cwd=root, check=True)
@@ -149,7 +151,7 @@ frozen = true
 published_at = "2026-08-20"
 members = [{ problem_id = "alpha", statement_revision = 1 }]
 """
-        temporary, root = self.make_catalog(named_set=named_set)
+        temporary, root = self.make_catalog(ACTIVE_PROBLEM, named_set=named_set)
         with temporary:
             (root / "manifests" / "problems" / "beta.toml").write_text(
                 BETA_PROBLEM, encoding="utf-8"
@@ -192,7 +194,7 @@ frozen = true
 published_at = "2026-08-20"
 members = [{ problem_id = "alpha", statement_revision = 1 }]
 """
-        temporary, root = self.make_catalog(named_set=named_set)
+        temporary, root = self.make_catalog(ACTIVE_PROBLEM, named_set=named_set)
         with temporary:
             (root / "manifests" / "problems" / "beta.toml").write_text(
                 BETA_PROBLEM, encoding="utf-8"
@@ -234,7 +236,7 @@ reason = "Explicit maintainer addition."
 authorization = "Maintainer decision in issue 1."
 additions = [{ problem_id = "beta", statement_revision = 1 }]
 """
-        temporary, root = self.make_catalog(named_set=named_set)
+        temporary, root = self.make_catalog(ACTIVE_PROBLEM, named_set=named_set)
         with temporary:
             (root / "manifests" / "problems" / "beta.toml").write_text(
                 BETA_PROBLEM, encoding="utf-8"
@@ -266,6 +268,65 @@ reason = "policy"
         temporary, root = self.make_catalog(history)
         with temporary, self.assertRaisesRegex(VALIDATOR.CatalogError, "final status_history"):
             VALIDATOR.validate(root)
+
+    def test_named_set_may_not_span_problem_groups(self):
+        named_set = """\
+schema_version = 1
+id = "v1"
+title = "LeanEval v1"
+frozen = true
+published_at = "2026-08-20"
+members = [
+  { problem_id = "alpha", statement_revision = 1 },
+  { problem_id = "beta", statement_revision = 1 },
+]
+"""
+        temporary, root = self.make_catalog(ACTIVE_PROBLEM, named_set=named_set)
+        with temporary:
+            beta = BETA_PROBLEM.replace(
+                'group = "formalization-evaluation"', 'group = "software-verification"'
+            )
+            (root / "manifests" / "problems" / "beta.toml").write_text(
+                beta, encoding="utf-8"
+            )
+            with self.assertRaisesRegex(VALIDATOR.CatalogError, "may not span problem groups"):
+                VALIDATOR.validate(root)
+
+    def test_repository_v1_cutover_matches_canonical_evidence(self):
+        registry = VALIDATOR.load_tag_registry(ROOT)
+        problems, revisions = VALIDATOR.load_problems(ROOT, registry)
+        sets = VALIDATOR.load_sets(ROOT, problems, revisions)
+        self.assertEqual(
+            VALIDATOR.validate_v1_lifecycle_cutover(ROOT, problems, sets),
+            (118, 10, 179),
+        )
+
+    def test_v1_cutover_requires_the_canonical_history_event(self):
+        registry = VALIDATOR.load_tag_registry(ROOT)
+        problems, revisions = VALIDATOR.load_problems(ROOT, registry)
+        sets = VALIDATOR.load_sets(ROOT, problems, revisions)
+        problems = dict(problems)
+        problem_id = "annals_absolute_profinite_rigidity"
+        problems[problem_id] = {**problems[problem_id], "status_history": []}
+        with self.assertRaisesRegex(VALIDATOR.CatalogError, "missing canonical v1 active"):
+            VALIDATOR.validate_v1_lifecycle_cutover(ROOT, problems, sets)
+
+    def test_v1_cutover_leaves_post_freeze_drafts_unconstrained(self):
+        registry = VALIDATOR.load_tag_registry(ROOT)
+        problems, revisions = VALIDATOR.load_problems(ROOT, registry)
+        sets = VALIDATOR.load_sets(ROOT, problems, revisions)
+        problems = dict(problems)
+        problems["future_draft"] = {
+            "id": "future_draft",
+            "group": "formalization-evaluation",
+            "status": "draft",
+            "statement_revision": 1,
+            "status_history": [],
+        }
+        self.assertEqual(
+            VALIDATOR.validate_v1_lifecycle_cutover(ROOT, problems, sets),
+            (118, 10, 179),
+        )
 
 
 if __name__ == "__main__":

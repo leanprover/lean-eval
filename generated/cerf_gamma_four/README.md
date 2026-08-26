@@ -4,7 +4,7 @@ Cerf's theorem: every self-diffeomorphism of S3 is smoothly isotopic to a linear
 
 - Problem ID: `cerf_gamma_four`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

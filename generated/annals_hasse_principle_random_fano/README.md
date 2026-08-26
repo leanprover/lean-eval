@@ -4,7 +4,7 @@ The Hasse principle for random Fano hypersurfaces
 
 - Problem ID: `annals_hasse_principle_random_fano`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

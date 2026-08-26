@@ -4,7 +4,7 @@ Serre finiteness for homotopy groups of spheres
 
 - Problem ID: `pi_sphere_infinite_iff`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

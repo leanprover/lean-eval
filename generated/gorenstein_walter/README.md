@@ -4,7 +4,7 @@ Gorenstein–Walter theorem (dihedral Sylow 2-subgroup)
 
 - Problem ID: `gorenstein_walter`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

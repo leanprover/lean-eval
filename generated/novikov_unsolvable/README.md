@@ -4,7 +4,7 @@ Novikov's theorem: the word problem is undecidable for finitely presented groups
 
 - Problem ID: `novikov_unsolvable`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

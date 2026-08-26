@@ -4,7 +4,7 @@ Rokhlin lemma
 
 - Problem ID: `rokhlin_lemma`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ multi-hole-with-helpers regression example
 
 - Problem ID: `multi_hole_helpers_example`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: no
 - Statement Revision: 1
 - Tags: none

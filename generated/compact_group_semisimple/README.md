@@ -4,7 +4,7 @@ Complete reducibility for compact groups
 
 - Problem ID: `compact_group_semisimple`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ Galois groups of random integer polynomials and van der Waerden's Conjecture
 
 - Problem ID: `annals_van_der_waerden_conjecture`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

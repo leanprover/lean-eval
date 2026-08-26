@@ -4,7 +4,7 @@ Lorentzian polynomials
 
 - Problem ID: `annals_lorentzian_polynomials`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

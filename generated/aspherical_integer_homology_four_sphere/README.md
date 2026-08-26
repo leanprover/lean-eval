@@ -4,7 +4,7 @@ Existence of an aspherical integer homology 4-sphere
 
 - Problem ID: `aspherical_integer_homology_four_sphere`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

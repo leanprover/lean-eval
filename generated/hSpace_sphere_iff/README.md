@@ -4,7 +4,7 @@ Adams: S^n is an H-space iff n = 0, 1, 3, 7
 
 - Problem ID: `hSpace_sphere_iff`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

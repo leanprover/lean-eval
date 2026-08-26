@@ -4,7 +4,7 @@ Commuting probabilities are closed
 
 - Problem ID: `commProb_closed`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

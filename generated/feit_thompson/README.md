@@ -4,7 +4,7 @@ Feit–Thompson odd-order theorem
 
 - Problem ID: `feit_thompson`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

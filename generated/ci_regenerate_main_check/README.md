@@ -4,7 +4,7 @@ CI regenerate-main check
 
 - Problem ID: `ci_regenerate_main_check`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: no
 - Statement Revision: 1
 - Tags: none
