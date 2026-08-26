@@ -10,8 +10,8 @@ requires no sandbox escape. The attacker's submission would:
 
   1. Spawn a daemon during Submission's elaboration. Daemon inherits
      landrun's filesystem rules (which permit writes under `.lake/`).
-  2. Daemon detaches via setsid + double-fork, surviving the parent
-     `lake build Solution` exit (and thus surviving comparator's
+  2. Daemon detaches via `IO.Process.SpawnArgs.setsid`, surviving the
+     parent `lake build Solution` exit (and thus surviving comparator's
      landrun child).
   3. Daemon races to overwrite `.lake/build/lib/lean/Solution.olean` with a
      pre-prepared olean whose theorem statement matches Challenge but
@@ -19,9 +19,6 @@ requires no sandbox escape. The attacker's submission would:
   4. Comparator's `safeExport solutionModule` then exports the
      attacker's olean rather than the legitimate one. `verifyMatch`
      succeeds because the statement type matches Challenge.
-
-Codex flagged this attack class in the second-opinion pass. SECURITY.md
-must explicitly cite the result of this probe.
 
 Phases:
 
@@ -34,27 +31,15 @@ Phases:
 
   --phase=both (default) Run A then B, report both.
 
-LIMITATION (2026-08-20): the exec-allowlist half of this probe does not
-establish what we once read it as establishing. It shows `sh`, `setsid`,
-`bash`, `cp` and `env` are denied, and we concluded from that that no
-daemon can be spawned. But the probe's own `want_ok` case shows `lean`
-spawning successfully, and `lean` is a general-purpose interpreter: the
-daemon can simply be another `lean`. It needs no external `setsid`
-either, since `IO.Process.SpawnArgs` has a native `setsid : Bool` field.
-Step 2 above should be read as "detaches via `SpawnArgs.setsid`", not as
-requiring the `setsid` binary. Extending this probe to attempt that is
-the obvious next step; see
-https://github.com/leanprover/comparator/issues/77.
-
-This probe does NOT have a CI mode that asserts "no exploit" by default.
-Note also that the mitigations once sketched here (setsid + killpg
-around landrun, or copying the olean out before export) do not work: a
-daemon rewriting in a loop races the copy just as it raced the export,
-and `killpg` misses a process that called `setsid` itself. The remedy
-under discussion upstream is for comparator to detect surviving
-descendants and fail, rather than to try to win the race; see
-leanprover/comparator#78. Once a mitigation is in place, add a CI
-assertion that Phase B reports REJECTED.
+LIMITATION: the exec-allowlist half of this probe does not establish that a
+daemon cannot be spawned. It denies `sh`, `setsid`, `bash`, `cp`, and `env`,
+but permits `lean`. Another Lean process can detach without an external binary
+because `IO.Process.SpawnArgs` has a native `setsid : Bool` field. This probe
+does not have a CI mode that asserts "no exploit" by default. The current
+comparator pin does not guarantee that descendants cannot survive between
+`safeLakeBuild` and `safeExport`; this limitation is tracked in
+https://github.com/leanprover/comparator/issues/77, with a proposed fix in
+https://github.com/leanprover/comparator/pull/78.
 """
 
 from __future__ import annotations
