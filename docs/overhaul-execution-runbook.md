@@ -122,12 +122,13 @@ Goal: establish one exact safe baseline before launch work resumes.
 - [x] Confirm required checks, protected branches, and immutable dispatch-tag
       protections match current operating needs.
 
-Current `main` baseline:
+Verified functional baseline. Documentation-only current-state commits may be
+newer without changing this runtime and data baseline.
 
 | Repository | Commit | Protection state |
 | --- | --- | --- |
-| `lean-eval` | `5ed990bac00e75a117f58cbb2963a71378497f36` | Required `verify` |
-| `lean-eval-submissions` | `4a1d14eb433d938f8f923d340f80cad87cb2a8eb` | Required `verify` |
+| `lean-eval` | `2ce34216e68afc833b3c11e3d60d76e3256e8505` | Required `verify` |
+| `lean-eval-submissions` | `9f01ae0e2cf644437f7fe4c5a2a076436d2e6827` | Required `verify` |
 | `lean-eval-leaderboard` | `d67705cf4bbd34635251adcc4aa4bcff7ee622da` | Required `build` |
 | `lean-eval-state` | `15a96673efd44d3b198890c1e94581b33c2a1a87` | Required `validate`; append-only |
 | `lean-eval-state-staging` | `bb12184a9fbdf5cb4fd11420a16e874d07ae1938` | Required `validate`; append-only |
@@ -150,7 +151,7 @@ Current `main` baseline:
 ### 5.3 State, credentials, and presentation
 
 - [x] Verify protected State heads and validation status.
-- [ ] Inventory credential names, owners, scopes, expiry, rotation, and
+- [x] Inventory credential names, owners, scopes, expiry, rotation, and
       revocation without exposing values.
 - [x] Confirm production State contains no unexpected accepted server
       submission or due release work.
@@ -424,7 +425,7 @@ Update this table in place; do not append a history beneath it.
 | Phase | State | Current blocker |
 | --- | --- | --- |
 | 0. Rebaseline cleanup | Complete | — |
-| 1. Disabled baseline | In progress | Credential inventory |
+| 1. Disabled baseline | Complete | — |
 | 2. Repository launch preparation | In progress | Approval A and the exact-version staging rehearsal |
 | Approval A. Staging credentials | Blocked on explicit approval | Exact staging trust mutation prepared but unapplied |
 | 3. Final staging acceptance | Not started | Approval A |
