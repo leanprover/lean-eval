@@ -136,7 +136,7 @@ documents the rule and the regression history (commit `3474943`
 violated it in 2026-04, reverted in #92 in 2026-05). `lake update` and
 `lake exe cache get` are the only shell-outs allowed.
 
-**Writable `.lake/`, and why the obvious tampering attack does not work.**
+**Writable `.lake/` self-tampering is a known limitation.**
 Comparator gives `safeLakeBuild` `--rwx <workspace>/.lake`, which is
 necessary because lake writes its build outputs there. The natural
 attack to consider is: a `Submission.lean` `initialize` block spawns a
@@ -147,24 +147,16 @@ to PID 1, not killed), and races to overwrite `Solution.olean` between
 reading it — getting comparator to verify against an
 attacker-controlled olean.
 
-We ran [scripts/security_probes/artifact_tamper_probe.py](scripts/security_probes/artifact_tamper_probe.py)
-on Linux (kernel 6.12 + Lean v4.32.2 + landrun 5ed4a3db + comparator
-71b52ec) on 2026-07-29. Inside the sandbox, `IO.Process.spawn` succeeds
-for the whitelisted `lean` and `git` binaries; `sh`, `setsid`, `bash`,
-`cp`, `/bin/sh`, and `/usr/bin/env` all return exit 255 ("could not
-execute external process"). Phase B confirmed by SHA-256 that the
-deliberately distinct prepared olean was not installed.
-
-**We previously concluded from this that the attack is structurally
-impossible at the spawn step. That conclusion was wrong** (2026-08-20),
-and the probe result above is what shows it: `lean` spawns successfully.
-`lean` is a general-purpose interpreter, so the daemon does not need
-`sh` or `setsid` — it can be another `lean` running an attacker-written
-`initialize` block. Detaching it needs no external binary either:
-`IO.Process.SpawnArgs` has a native `setsid : Bool` field
-(`Init/System/IO.lean`, v4.32.2). Orphaned children are reparented
-rather than killed when the landrun child exits. Two further holes in
-the same argument: `executablePaths := #[leanPrefix, gitLocation]`
+[scripts/security_probes/artifact_tamper_probe.py](scripts/security_probes/artifact_tamper_probe.py)
+shows that `IO.Process.spawn` succeeds for the whitelisted `lean` and
+`git` binaries while `sh`, `setsid`, `bash`, `cp`, `/bin/sh`, and
+`/usr/bin/env` are denied. Phase B verifies by SHA-256 that its deliberately
+distinct prepared olean is not installed. Neither result rules out the attack:
+`lean` is a general-purpose interpreter, so the daemon can be another `lean`
+running an attacker-written `initialize` block. Detaching it needs no external
+binary because `IO.Process.SpawnArgs` has a native `setsid : Bool` field.
+Orphaned children are reparented rather than killed when the landrun child
+exits. In addition, `executablePaths := #[leanPrefix, gitLocation]`
 whitelists exec across the *entire* Lean prefix (`lake`, `clang`,
 `ld.lld`, `leanc`, ...), not just `lean`; and comparator passes `-ldd`,
 which whitelists the dynamic loader, and a permitted loader can load a
@@ -175,15 +167,12 @@ So the premise that no persistent child is possible does not hold, and
 `safeLakeBuild` produced. We have no working exploit, so this is an
 unsound argument rather than a demonstrated attack, and note that any
 substituted olean is still replayed through the kernel and
-`external_kernels`. Tracked upstream at
+`external_kernels`. This known limitation is tracked upstream at
 https://github.com/leanprover/comparator/issues/77, with a proposed fix
 in https://github.com/leanprover/comparator/pull/78 that runs each
 landrun invocation as PID 1 of a fresh PID namespace, so the kernel
-tears down any survivors before comparator proceeds. Note that the
-obvious cheaper fixes do not work: copying the olean out before
-exporting, hashing it, or renaming its directory all still race a
-daemon that rewrites in a loop, and `killpg` misses exactly the process
-that called `setsid`. Update this section when that PR lands.
+tears down any survivors before comparator proceeds. The current pin does not
+contain that proposed fix.
 
 This applies to every runner we use today; it has nothing to do with
 any particular kernel. Re-derive it after any landrun, comparator, or
@@ -329,11 +318,9 @@ escaping, the triage gate) are in the submissions repo's `SECURITY.md`.
    Re-run the probe by hand on a clean Linux box after any landrun
    bump.
 2. **Writable-`.lake` self-tampering** (Section 3). **Not currently
-   mitigated.** We used to claim landrun's exec restriction ruled out
-   the daemon this attack needs; it does not, because the daemon can be
-   `lean`, which is whitelisted. Nothing stops a descendant outliving
-   `safeLakeBuild` and racing `safeExport`. No working exploit is known,
-   and a substituted olean is still kernel-checked. Tracked at
+   mitigated at the pinned comparator commit.** A `lean` descendant can
+   outlive `safeLakeBuild` and race `safeExport`. No working exploit is
+   known, and a substituted olean is still kernel-checked. Tracked at
    https://github.com/leanprover/comparator/issues/77; proposed fix in
    https://github.com/leanprover/comparator/pull/78.
 3. **`lake env` behaviour across lake versions.** The `lake_env_probe`

@@ -4,12 +4,10 @@ Assert that comparator's landrun sandbox exposes EXACTLY the env-var
 allowlist we expect to user-controlled Submission elaboration — no more,
 no less.
 
-Codex correctly pushed back on a spot-check probe ("does GH_TOKEN leak?
-does ANTHROPIC_API_KEY leak?") because spot checks miss the next
-unknown token class. This probe is allowlist-based: the parent shell
-sets a battery of decoy-secret env vars, the Submission's initialize
-block dumps every env var visible to it, and the probe asserts the
-visible set is exactly:
+Spot checks for named credentials miss unknown token classes. This probe is
+allowlist-based: the parent shell sets a battery of decoy-secret env vars, the
+Submission's initialize block dumps every env var visible to it, and the probe
+asserts the visible set is exactly:
 
     {PATH, HOME, LEAN_ABORT_ON_PANIC}
 

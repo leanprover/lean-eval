@@ -166,8 +166,8 @@ def main():
     print(f"\n=> Now click this to install on the repo (1 click + select repo + confirm):")
     print(f"   {html_url}/installations/new")
     print(
-        f"\n=> When done, tell Claude the App ID is {app_id} "
-        f"and the Client ID is {client_id}."
+        f"\n=> Record the App ID {app_id} and Client ID {client_id} "
+        "for the repository configuration."
     )
 
 
