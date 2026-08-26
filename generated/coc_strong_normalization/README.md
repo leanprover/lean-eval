@@ -4,7 +4,7 @@ Strong normalization and consistency for the calculus of constructions with a un
 
 - Problem ID: `coc_strong_normalization`
 - Group: `software-verification`
-- Status: `active`
+- Status: `draft`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

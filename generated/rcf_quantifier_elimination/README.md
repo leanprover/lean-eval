@@ -4,7 +4,7 @@ Quantifier elimination for the theory of real closed fields
 
 - Problem ID: `rcf_quantifier_elimination`
 - Group: `software-verification`
-- Status: `active`
+- Status: `draft`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none
