@@ -93,18 +93,18 @@ Goal: make the repositories describe only the approved remaining program.
 - [x] Preserve source-bound agent sessions, authorization boundaries,
       idempotency, CAS conflict handling, and other generally useful security
       hardening.
-- [ ] Remove superseded run narratives, diagnostic artifacts, and tests whose
+- [x] Remove superseded run narratives, diagnostic artifacts, and tests whose
       only purpose is preserving those narratives.
 - [x] Retain canonical replay inventories, final plans, exact toolchain/source
       maps, unavailable-candidate data, current rollback contracts, and current
       infrastructure identifiers.
-- [ ] Retain an older canonical input set only while a live execution profile
+- [x] Retain an older canonical input set only while a live execution profile
       references it; delete the whole linked set after replacement.
-- [ ] Rewrite the submissions tracker, rollout runbook, and infrastructure
+- [x] Rewrite the submissions tracker, rollout runbook, and infrastructure
       inventory to current state and remaining gates, without a chronology.
-- [ ] Run repository tests, typechecks, linters with zero warnings, workflow
+- [x] Run repository tests, typechecks, linters with zero warnings, workflow
       validation, action-pin audit, and all relevant dry-runs.
-- [ ] Merge the cleanup in coherent repository-local PRs.
+- [x] Merge the cleanup in coherent repository-local PRs.
 
 Exit condition: no tracked instruction tells a future agent to implement FC,
 disproofs, experimental kernels, or the persistent qualification harness.
@@ -126,14 +126,14 @@ Current `main` baseline:
 
 | Repository | Commit | Protection state |
 | --- | --- | --- |
-| `lean-eval` | `de48559590eb8cff2125e8e933b3e13bb8a3ff98` | Required `verify` |
-| `lean-eval-submissions` | `2bdeb2be1d1cd504a567dd01a3b040ae6e341827` | Required `verify` |
-| `lean-eval-leaderboard` | `aef3269c7dd4a98781d7f2d9b23db3c196e14766` | Required `build` |
-| `lean-eval-state` | `b0a30e3a64aa5c05660040405b32135dea4b7f1d` | Required `validate`; append-only |
-| `lean-eval-state-staging` | `8d8ef8d1e30ac617d848c705907a941209aeb23c` | Required `validate`; append-only |
-| `lean-eval-releases` | `90dadc872d624b8e6d171caf439313d185fc3e7f` | Required `validate` |
-| `lean-eval-generator` | `77373a539b31f8f304c852f288d7d8469cceebff` | Required `check` |
-| `lean-eval-audit` | `ad356e7bc5a2d650d9902ac3f6d352a0164360bc` | Protection approval required |
+| `lean-eval` | `16945dfb367f77eaffaf167bbf70d57796e1bf08` | Required `verify` |
+| `lean-eval-submissions` | `4a1d14eb433d938f8f923d340f80cad87cb2a8eb` | Required `verify` |
+| `lean-eval-leaderboard` | `d67705cf4bbd34635251adcc4aa4bcff7ee622da` | Required `build` |
+| `lean-eval-state` | `15a96673efd44d3b198890c1e94581b33c2a1a87` | Required `validate`; append-only |
+| `lean-eval-state-staging` | `bb12184a9fbdf5cb4fd11420a16e874d07ae1938` | Required `validate`; append-only |
+| `lean-eval-releases` | `65b836c15d7ddb1c82c9454be0533d238de35520` | Required `validate` |
+| `lean-eval-generator` | `abea76e047face988e9ee2ff2be3829fdd32b73c` | Required `check` |
+| `lean-eval-audit` | `34e33e339eaac47a10c463abaedef47361c5abab` | Protection approval required |
 
 ### 5.2 Deployed services
 
@@ -167,51 +167,51 @@ These lanes can proceed in parallel after Phase 1.
 
 ### 6.1 No-DNS submission entry
 
-- [ ] Add `https://lean-lang.org/eval/submit/` to the leaderboard site.
-- [ ] Explain that authentication continues on the LeanEval Worker origin.
-- [ ] Link to the production `workers.dev` application.
-- [ ] Verify navigation, accessibility, mobile layout, and return path to the
+- [x] Add `https://lean-lang.org/eval/submit/` to the leaderboard site.
+- [x] Explain that authentication continues on the LeanEval Worker origin.
+- [x] Link to the production `workers.dev` application.
+- [x] Verify navigation, accessibility, mobile layout, and return path to the
       leaderboard.
-- [ ] Keep OAuth callback and session handling on the Worker origin.
+- [x] Keep OAuth callback and session handling on the Worker origin.
 
 ### 6.2 Release and archive repository preparation
 
 - [x] Reconfirm the exact staging release OIDC trust mismatch.
 - [x] Prepare the smallest reviewed infrastructure patch or operator command;
       do not apply it yet.
-- [ ] Reconfirm the production archive Wrap-only role requirement and prove the
+- [x] Reconfirm the production archive Wrap-only role requirement and prove the
       desired policy excludes unwrap.
 - [x] Verify the release controller reconstructs deterministically with
       publication disabled using credential-free fixtures.
-- [ ] Verify submitter-facing license, release delay, and opt-out language.
+- [x] Verify submitter-facing license, release delay, and opt-out language.
 
 ### 6.3 Lifecycle API launch surface
 
-- [ ] Confirm feature flags exist independently for the route families being
+- [x] Confirm feature flags exist independently for the route families being
       launched.
-- [ ] Keep model consolidation disabled or remove it.
-- [ ] Run all existing repository tests.
-- [ ] Prepare one success and one authorization/validation denial fixture for
+- [x] Keep model consolidation disabled or remove it.
+- [x] Run all existing repository tests.
+- [x] Prepare one success and one authorization/validation denial fixture for
       each launch route family:
-  - [ ] metadata backfill;
-  - [ ] repair/retraction request;
-  - [ ] maintainer decision;
-  - [ ] model alias/rename; and
-  - [ ] release opt-out.
-- [ ] Verify every launch gate can be returned to disabled and health reports
+  - [x] metadata backfill;
+  - [x] repair/retraction request;
+  - [x] maintainer decision;
+  - [x] model alias/rename; and
+  - [x] release opt-out.
+- [x] Verify every launch gate can be returned to disabled and health reports
       the effective state.
-- [ ] Do not build a persistent staging harness.
+- [x] Do not build a persistent staging harness.
 
 ### 6.4 Exact-version lifecycle rehearsal
 
-- [ ] Select the exact candidate commits across the repository family.
-- [ ] Use synthetic private source repositories owned for staging.
-- [ ] Prepare one browser and one source-bound headless submission.
-- [ ] Include one deliberate invalid or unauthorized case.
+- [x] Select the exact candidate commits across the repository family.
+- [x] Use synthetic private source repositories owned for staging.
+- [x] Prepare one browser and one source-bound headless submission.
+- [x] Include one deliberate invalid or unauthorized case.
 - [ ] Confirm archive-before-evaluation and schema-version-3 binding.
 - [ ] Confirm acceptance/rejection, immutable Result, append-only State, release
       scheduling, and redacted leaderboard projection.
-- [ ] Prepare the rollback/disable steps for the same exact version.
+- [x] Prepare the rollback/disable steps for the same exact version.
 
 Exit condition: repository changes and staging fixtures are ready; all external
 mutations remain unapplied until the next gate.
@@ -374,18 +374,18 @@ No experimental checker or promotion work may be added to close this phase.
 
 ### 13.1 Open problems
 
-- [ ] Add or verify the neutral open-problems tab.
-- [ ] Confirm the empty state is clear and visually intentional.
-- [ ] Confirm it has no FC branding, importer, synchronization, or disproof
+- [x] Add or verify the neutral open-problems tab.
+- [x] Confirm the empty state is clear and visually intentional.
+- [x] Confirm it has no FC branding, importer, synchronization, or disproof
       dependency.
 
 ### 13.2 Software verification and editorial state
 
-- [ ] Verify both reviewed software-verification drafts render correctly.
-- [ ] Verify provisional/draft policy text.
-- [ ] Complete the maintainer-selected human statement/citation review.
-- [ ] Confirm no agent-authored hints were introduced.
-- [ ] Leave verified-calculation runner infrastructure unimplemented.
+- [x] Verify both reviewed software-verification drafts render correctly.
+- [x] Verify provisional/draft policy text.
+- [x] Complete the maintainer-selected human statement/citation review.
+- [x] Confirm no agent-authored hints were introduced.
+- [x] Leave verified-calculation runner infrastructure unimplemented.
 
 ### 13.3 Retire issue intake
 
@@ -423,14 +423,14 @@ Update this table in place; do not append a history beneath it.
 
 | Phase | State | Current blocker |
 | --- | --- | --- |
-| 0. Rebaseline cleanup | In progress | Stale-instruction cleanup PRs and final validation |
+| 0. Rebaseline cleanup | Complete | — |
 | 1. Disabled baseline | In progress | Audit-repository protection and credential inventory |
-| 2. Repository launch preparation | In progress | Entry page, lifecycle gates, and bounded fixtures |
+| 2. Repository launch preparation | In progress | Approval A and the exact-version staging rehearsal |
 | Approval A. Staging credentials | Blocked on explicit approval | Exact staging trust mutation prepared but unapplied |
 | 3. Final staging acceptance | Not started | Approval A |
 | Approval B. Production launch | Blocked on explicit approval | Go/no-go packet incomplete |
 | 4. Launch | Not started | Approval B |
 | 5. Four-week overlap | Not started | Production launch |
-| 6. Historical completion | Not started | May begin after Phase 1; infrastructure steps approval-gated |
-| 7. Remaining product completion | Not started | Independent lanes; issue closure waits for overlap and final delta |
+| 6. Historical completion | In progress | Four exact staging image probes, private migration, replay execution, and final cutoff remain; infrastructure steps are approval-gated |
+| 7. Remaining product completion | In progress | Open-problems and editorial work complete; issue closure waits for overlap and final delta |
 | Final audit | Not started | All phases |
