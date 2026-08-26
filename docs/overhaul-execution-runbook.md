@@ -119,21 +119,21 @@ Goal: establish one exact safe baseline before launch work resumes.
 - [x] List open PRs and cross-referenced work; close or classify stale overhaul
       PRs.
 - [x] Confirm no unplanned workflow dispatch is queued or running.
-- [ ] Confirm required checks, protected branches, and immutable dispatch-tag
+- [x] Confirm required checks, protected branches, and immutable dispatch-tag
       protections match current operating needs.
 
 Current `main` baseline:
 
 | Repository | Commit | Protection state |
 | --- | --- | --- |
-| `lean-eval` | `16945dfb367f77eaffaf167bbf70d57796e1bf08` | Required `verify` |
+| `lean-eval` | `5ed990bac00e75a117f58cbb2963a71378497f36` | Required `verify` |
 | `lean-eval-submissions` | `4a1d14eb433d938f8f923d340f80cad87cb2a8eb` | Required `verify` |
 | `lean-eval-leaderboard` | `d67705cf4bbd34635251adcc4aa4bcff7ee622da` | Required `build` |
 | `lean-eval-state` | `15a96673efd44d3b198890c1e94581b33c2a1a87` | Required `validate`; append-only |
 | `lean-eval-state-staging` | `bb12184a9fbdf5cb4fd11420a16e874d07ae1938` | Required `validate`; append-only |
 | `lean-eval-releases` | `65b836c15d7ddb1c82c9454be0533d238de35520` | Required `validate` |
 | `lean-eval-generator` | `abea76e047face988e9ee2ff2be3829fdd32b73c` | Required `check` |
-| `lean-eval-audit` | `34e33e339eaac47a10c463abaedef47361c5abab` | Protection approval required |
+| `lean-eval-audit` | `34e33e339eaac47a10c463abaedef47361c5abab` | Reviewed changes; non-rewritable linear history |
 
 ### 5.2 Deployed services
 
@@ -424,7 +424,7 @@ Update this table in place; do not append a history beneath it.
 | Phase | State | Current blocker |
 | --- | --- | --- |
 | 0. Rebaseline cleanup | Complete | — |
-| 1. Disabled baseline | In progress | Audit-repository protection and credential inventory |
+| 1. Disabled baseline | In progress | Credential inventory |
 | 2. Repository launch preparation | In progress | Approval A and the exact-version staging rehearsal |
 | Approval A. Staging credentials | Blocked on explicit approval | Exact staging trust mutation prepared but unapplied |
 | 3. Final staging acceptance | Not started | Approval A |
