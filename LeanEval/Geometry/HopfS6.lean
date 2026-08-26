@@ -28,10 +28,12 @@ would constitute new mathematics, not a reconstruction of known mathematics.
 open scoped Manifold ContDiff
 
 /-- **Hole 1 (data).** An atlas of charts from the 6-sphere — the unit sphere
-in `ℝ⁷`, with its subspace topology — into `ℂ³`. -/
+in `ℝ⁷`, with its subspace topology — into `ℂ³`, taken as the plain function
+type `Fin 3 → ℂ`: all norms on a finite-dimensional space are equivalent, so
+the choice of model norm is immaterial to the statement. -/
 @[eval_problem]
 instance instChartedSpaceS6 :
-    ChartedSpace (EuclideanSpace ℂ (Fin 3))
+    ChartedSpace (Fin 3 → ℂ)
       (Metric.sphere (0 : EuclideanSpace ℝ (Fin 7)) 1) :=
   sorry
 
@@ -39,6 +41,6 @@ instance instChartedSpaceS6 :
 functions are `ℂ`-analytic on their open domains. -/
 @[eval_problem]
 instance instIsManifoldS6 :
-    IsManifold 𝓘(ℂ, EuclideanSpace ℂ (Fin 3)) ω
+    IsManifold 𝓘(ℂ, Fin 3 → ℂ) ω
       (Metric.sphere (0 : EuclideanSpace ℝ (Fin 7)) 1) :=
   sorry
