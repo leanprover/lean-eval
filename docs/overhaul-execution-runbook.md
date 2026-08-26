@@ -122,17 +122,18 @@ Goal: establish one exact safe baseline before launch work resumes.
 - [x] Confirm required checks, protected branches, and immutable dispatch-tag
       protections match current operating needs.
 
-Verified functional baseline. Documentation-only current-state commits may be
-newer without changing this runtime and data baseline.
+Verified disabled runtime and current staging-candidate baseline.
+Documentation-only current-state commits may be newer without changing this
+runtime and data baseline.
 
 | Repository | Commit | Protection state |
 | --- | --- | --- |
-| `lean-eval` | `2ce34216e68afc833b3c11e3d60d76e3256e8505` | Required `verify` |
-| `lean-eval-submissions` | `9f01ae0e2cf644437f7fe4c5a2a076436d2e6827` | Required `verify` |
+| `lean-eval` | `e90fdbf4246d7d2e9d3a5eefb30685376c52be34` | Required `verify` |
+| `lean-eval-submissions` | `af662bd57415508015545309b60f5d7e5bd4376a` | Required `verify` |
 | `lean-eval-leaderboard` | `d67705cf4bbd34635251adcc4aa4bcff7ee622da` | Required `build` |
 | `lean-eval-state` | `15a96673efd44d3b198890c1e94581b33c2a1a87` | Required `validate`; append-only |
-| `lean-eval-state-staging` | `bb12184a9fbdf5cb4fd11420a16e874d07ae1938` | Required `validate`; append-only |
-| `lean-eval-releases` | `65b836c15d7ddb1c82c9454be0533d238de35520` | Required `validate` |
+| `lean-eval-state-staging` | `52522d3e98702156c1d38526f16e7e82c54f4e75` | Required `validate`; append-only |
+| `lean-eval-releases` | `e82d91aecdb64fa0d8932590aecdeb999c42a0f8` | Required `validate` |
 | `lean-eval-generator` | `abea76e047face988e9ee2ff2be3829fdd32b73c` | Required `check` |
 | `lean-eval-audit` | `34e33e339eaac47a10c463abaedef47361c5abab` | Reviewed changes; non-rewritable linear history |
 
@@ -204,6 +205,12 @@ These lanes can proceed in parallel after Phase 1.
 - [x] Do not build a persistent staging harness.
 
 ### 6.4 Exact-version lifecycle rehearsal
+
+The exact repository-family candidate is the protected-head table in section
+5.1. The staging and production submission units are deployed from
+`af662bd57415508015545309b60f5d7e5bd4376a` with intake, ordinary and
+historical replay, lifecycle APIs, model consolidation, and publication all
+disabled. Later documentation-only commits do not change that candidate.
 
 - [x] Select the exact candidate commits across the repository family.
 - [x] Use synthetic private source repositories owned for staging.
@@ -427,11 +434,11 @@ Update this table in place; do not append a history beneath it.
 | 0. Rebaseline cleanup | Complete | — |
 | 1. Disabled baseline | Complete | — |
 | 2. Repository launch preparation | In progress | Approval A and the exact-version staging rehearsal |
-| Approval A. Staging credentials | Blocked on explicit approval | Exact staging trust mutation prepared but unapplied |
+| Approval A. Staging credentials | Approved; execution in progress | Exact staging-only trust mutation and reconstruction smoke |
 | 3. Final staging acceptance | Not started | Approval A |
 | Approval B. Production launch | Blocked on explicit approval | Go/no-go packet incomplete |
 | 4. Launch | Not started | Approval B |
 | 5. Four-week overlap | Not started | Production launch |
-| 6. Historical completion | In progress | Four exact staging image probes, private migration, replay execution, and final cutoff remain; infrastructure steps are approval-gated |
+| 6. Historical completion | In progress | One exact `9921ef…` isolated profile probe, the private-migration specification decision, replay execution, and final cutoff remain; infrastructure steps are approval-gated |
 | 7. Remaining product completion | In progress | Open-problems and editorial work complete; issue closure waits for overlap and final delta |
 | Final audit | Not started | All phases |
