@@ -4,7 +4,7 @@ Ramanujan–Petersson conjecture for the τ-function (Deligne's theorem)
 
 - Problem ID: `ramanujan_petersson`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

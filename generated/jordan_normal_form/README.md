@@ -4,7 +4,7 @@ Jordan normal form
 
 - Problem ID: `jordan_normal_form`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

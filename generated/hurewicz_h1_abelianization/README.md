@@ -4,7 +4,7 @@ Hurewicz theorem in degree 1 (H₁ = abelianization of π₁)
 
 - Problem ID: `hurewicz_h1_abelianization`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

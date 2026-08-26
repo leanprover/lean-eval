@@ -4,7 +4,7 @@ The Hausdorff positivity (complete-monotonicity) criterion
 
 - Problem ID: `hausdorff_positivity_criterion`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

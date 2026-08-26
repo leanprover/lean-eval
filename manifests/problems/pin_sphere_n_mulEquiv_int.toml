@@ -1,7 +1,7 @@
 id = "pin_sphere_n_mulEquiv_int"
 title = "pi_n of the n-sphere is Z"
 group = "formalization-evaluation"
-status = "draft"
+status = "archived"
 visible = true
 statement_revision = 1
 tags = []
@@ -11,3 +11,8 @@ submitter = "Kim Morrison"
 notes = "The diagonal sphere homotopy-group computation pi_n(S^n) = Z for n at least 1."
 source = "Classical theorem in algebraic topology."
 informal_solution = "Identify homotopy classes of self-maps of S^n with their degree."
+
+[[status_history]]
+status = "archived"
+effective_date = "2026-08-20"
+reason = "policy"

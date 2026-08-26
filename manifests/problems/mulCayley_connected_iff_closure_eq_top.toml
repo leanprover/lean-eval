@@ -1,7 +1,7 @@
 id = "mulCayley_connected_iff_closure_eq_top"
 title = "Cayley graph connected iff generators generate the group"
 group = "formalization-evaluation"
-status = "draft"
+status = "archived"
 visible = true
 statement_revision = 1
 tags = []
@@ -11,3 +11,8 @@ submitter = "Kim Morrison"
 notes = "A foundational result in geometric group theory using the newly defined Cayley graph. Connectivity of the Cayley graph is equivalent to the generating set S generating G as a group."
 source = "A. Cayley, On the theory of groups, as depending on the symbolic equation θ^n = 1, 1878."
 informal_solution = "Forward: if connected, any g ∈ G is reached from 1 by a path, which corresponds to a product of generators. Reverse: if S generates, any g is a product of generators, giving a path from 1 to g."
+
+[[status_history]]
+status = "archived"
+effective_date = "2026-08-20"
+reason = "policy"

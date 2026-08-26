@@ -4,7 +4,7 @@ Existence of a topologically slice, not smoothly slice knot
 
 - Problem ID: `exists_topologically_slice_not_smoothly_slice`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

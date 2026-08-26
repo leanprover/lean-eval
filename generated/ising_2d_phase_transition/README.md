@@ -4,7 +4,7 @@ Onsager's 2D Ising phase transition
 
 - Problem ID: `ising_2d_phase_transition`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

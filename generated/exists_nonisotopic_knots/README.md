@@ -4,7 +4,7 @@ Existence of a non-isotopic pair of oriented knots
 
 - Problem ID: `exists_nonisotopic_knots`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

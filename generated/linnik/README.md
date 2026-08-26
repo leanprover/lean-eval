@@ -4,7 +4,7 @@ Linnik's theorem (L = 5.5)
 
 - Problem ID: `linnik`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

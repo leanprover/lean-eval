@@ -4,7 +4,7 @@ A proof of the Erdős–Faber–Lovász conjecture
 
 - Problem ID: `annals_erdos_faber_lovasz_conjecture`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

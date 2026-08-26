@@ -1,7 +1,7 @@
 id = "list_append_singleton_length"
 title = "Appending a singleton increases the list length"
 group = "formalization-evaluation"
-status = "draft"
+status = "archived"
 visible = false
 statement_revision = 1
 tags = []
@@ -11,3 +11,8 @@ submitter = "Kim Morrison"
 notes = "A simple list problem that exercises notation in generated files."
 source = "Internal starter problem."
 informal_solution = "Compute the length after append."
+
+[[status_history]]
+status = "archived"
+effective_date = "2026-08-20"
+reason = "policy"

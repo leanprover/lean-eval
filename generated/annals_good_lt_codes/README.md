@@ -4,7 +4,7 @@ Good Locally Testable Codes
 
 - Problem ID: `annals_good_lt_codes`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

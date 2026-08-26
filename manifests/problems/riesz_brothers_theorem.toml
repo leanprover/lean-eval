@@ -1,7 +1,7 @@
 id = "riesz_brothers_theorem"
 title = "Riesz brothers' theorem"
 group = "formalization-evaluation"
-status = "draft"
+status = "archived"
 visible = true
 statement_revision = 1
 tags = []
@@ -10,3 +10,8 @@ holes = ["riesz_brothers_theorem"]
 submitter = "Yongxi Lin"
 source = "W. Rudin, Real and Complex Analysis; N. K. Nikolski, Operators, Functions, and Systems: An Easy Reading, Volume I: Hardy, Hankel, and Toeplitz."
 informal_solution = "One proof, given in Rudin's Real and Complex Analysis, uses the uniqueness of the Poisson integral representation. Another proof presented in Nikolski's book relies on Wold's decomposition."
+
+[[status_history]]
+status = "archived"
+effective_date = "2026-08-20"
+reason = "policy"

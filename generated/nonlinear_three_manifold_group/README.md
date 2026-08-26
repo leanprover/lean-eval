@@ -4,7 +4,7 @@ A 3-manifold group with no faithful representation into GL(4, ℝ)
 
 - Problem ID: `nonlinear_three_manifold_group`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

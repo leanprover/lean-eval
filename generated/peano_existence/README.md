@@ -4,7 +4,7 @@ Peano existence theorem for ODEs
 
 - Problem ID: `peano_existence`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

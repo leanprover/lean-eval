@@ -1,7 +1,7 @@
 id = "annals_lorentzian_polynomials"
 title = "Lorentzian polynomials"
 group = "formalization-evaluation"
-status = "draft"
+status = "active"
 visible = true
 statement_revision = 1
 tags = ["annals"]
@@ -9,3 +9,8 @@ module = "LeanEval.Combinatorics.LorentzianPolynomials"
 holes = ["theorem_2_25"]
 submitter = "Justus Springer"
 source = "P. Brändén and J. Huh, `Lorentzian polynomials`, Annals of Math, 192 (3) 2020. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2020-192-3-LorentzianPolynomials.lean"
+
+[[status_history]]
+status = "active"
+effective_date = "2026-08-20"
+reason = "policy"

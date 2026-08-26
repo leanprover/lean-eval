@@ -4,7 +4,7 @@ Frobenius determinant theorem
 
 - Problem ID: `frobenius_group_determinant`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

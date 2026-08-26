@@ -4,7 +4,7 @@ pi_(n+1) of S^n is Z/2 for n at least 3
 
 - Problem ID: `pi_succ_sphere_n_mulEquiv_zmod_two`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

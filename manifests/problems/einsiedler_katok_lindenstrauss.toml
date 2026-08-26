@@ -1,7 +1,7 @@
 id = "einsiedler_katok_lindenstrauss"
 title = "Smallness of exceptional set to Littlewood's conjecture"
 group = "formalization-evaluation"
-status = "draft"
+status = "active"
 visible = true
 statement_revision = 1
 tags = []
@@ -9,3 +9,8 @@ test = false
 module = "LeanEval.Dynamics.EinsiedlerKatokLindenstrauss"
 holes = ["einsiedler_katok_lindenstrauss"]
 submitter = "Junyan Xu"
+
+[[status_history]]
+status = "active"
+effective_date = "2026-08-21"
+reason = "policy"

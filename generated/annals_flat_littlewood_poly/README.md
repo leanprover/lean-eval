@@ -4,7 +4,7 @@ Flat Littlewood polynomials exist
 
 - Problem ID: `annals_flat_littlewood_poly`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

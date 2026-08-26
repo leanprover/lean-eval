@@ -4,7 +4,7 @@ The Ore conjecture: every element of a finite nonabelian simple group is a commu
 
 - Problem ID: `ore_conjecture`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

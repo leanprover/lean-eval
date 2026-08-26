@@ -1,7 +1,7 @@
 id = "annals_reverse_minkowski"
 title = "A reverse Minkowski theorem"
 group = "formalization-evaluation"
-status = "draft"
+status = "active"
 visible = true
 statement_revision = 1
 tags = ["annals"]
@@ -10,3 +10,8 @@ holes = ["theorem_1_2"]
 submitter = "Katerina Hristova"
 source = "O. Regev, N. Stephens-Davidowitz, `A reverse Minkowski theorem`, Annals of Math, 199 (1) 2024. Statement taken from https://github.com/ImperialCollegeLondon/AnnalsChallenge (v1.0.0, e32eb14), AnnalsChallenge/AnnalsOfMathematics/2024-199-1-ReverseMinkowski.lean"
 notes = "The proof binder `hℒℒ'` is named `_hℒℒ'` here. This is alpha-equivalent and suppresses an unused-variable warning in the generated `Solution.lean` delegation."
+
+[[status_history]]
+status = "active"
+effective_date = "2026-08-20"
+reason = "policy"

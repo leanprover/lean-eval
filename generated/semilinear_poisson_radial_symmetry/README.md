@@ -4,7 +4,7 @@ Radial symmetry for positive semilinear Poisson solutions
 
 - Problem ID: `semilinear_poisson_radial_symmetry`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ Nikolov–Segal strong completeness theorem
 
 - Problem ID: `nikolov_segal`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

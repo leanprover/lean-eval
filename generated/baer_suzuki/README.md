@@ -4,7 +4,7 @@ Baer–Suzuki theorem
 
 - Problem ID: `baer_suzuki`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

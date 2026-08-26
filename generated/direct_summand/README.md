@@ -4,7 +4,7 @@ Direct summand theorem and derived variant
 
 - Problem ID: `direct_summand`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

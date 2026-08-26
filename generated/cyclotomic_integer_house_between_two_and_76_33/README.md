@@ -4,7 +4,7 @@ Real cyclotomic integer with house in (2, 76/33)
 
 - Problem ID: `cyclotomic_integer_house_between_two_and_76_33`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

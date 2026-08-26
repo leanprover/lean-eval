@@ -1,7 +1,7 @@
 id = "morley_theorem"
 title = "Morley's trisector theorem"
 group = "formalization-evaluation"
-status = "draft"
+status = "archived"
 visible = true
 statement_revision = 1
 tags = []
@@ -10,3 +10,8 @@ holes = ["morley_theorem"]
 submitter = "Kim Morrison"
 notes = "The triangle formed by the adjacent angle-trisectors of any nondegenerate Euclidean triangle is equilateral. Trusted helpers (IsEquilateralTriple, LiesInTriangle, IsMorleyConfiguration) are non-holes. Mathlib has Euclidean angles but not Morley's theorem. Candidate from §162 of the Knill survey."
 source = "F. Morley (c. 1899). Knill, §162."
+
+[[status_history]]
+status = "archived"
+effective_date = "2026-08-20"
+reason = "policy"

@@ -4,7 +4,7 @@ Poincaré–Bendixson theorem
 
 - Problem ID: `poincare_bendixson`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

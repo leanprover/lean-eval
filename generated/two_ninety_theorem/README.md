@@ -4,7 +4,7 @@ The 290 theorem
 
 - Problem ID: `two_ninety_theorem`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

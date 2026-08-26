@@ -4,7 +4,7 @@ The local-global conjecture for Apollonian circle packings is false
 
 - Problem ID: `annals_local_global_apollonian_circle_packings`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

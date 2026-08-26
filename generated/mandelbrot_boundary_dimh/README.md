@@ -4,7 +4,7 @@ Hausdorff dimension of the Mandelbrot boundary (Shishikura)
 
 - Problem ID: `mandelbrot_boundary_dimh`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

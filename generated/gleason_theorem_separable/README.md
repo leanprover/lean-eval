@@ -4,7 +4,7 @@ Gleason's theorem (separable Hilbert space)
 
 - Problem ID: `gleason_theorem_separable`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

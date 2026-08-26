@@ -4,7 +4,7 @@ Brauer's splitting field theorem
 
 - Problem ID: `brauer_splitting_field`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -1,7 +1,7 @@
 id = "pi_succ_sphere_n_mulEquiv_zmod_two"
 title = "pi_(n+1) of S^n is Z/2 for n at least 3"
 group = "formalization-evaluation"
-status = "draft"
+status = "archived"
 visible = true
 statement_revision = 1
 tags = []
@@ -11,3 +11,8 @@ submitter = "Kim Morrison"
 notes = "A concrete stable-family homotopy-group computation."
 source = "Classical theorem in unstable homotopy theory."
 informal_solution = "Use suspension and the stable range to show the first stable stem is Z/2."
+
+[[status_history]]
+status = "archived"
+effective_date = "2026-08-20"
+reason = "policy"

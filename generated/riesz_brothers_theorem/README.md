@@ -4,7 +4,7 @@ Riesz brothers' theorem
 
 - Problem ID: `riesz_brothers_theorem`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

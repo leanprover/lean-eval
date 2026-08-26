@@ -4,7 +4,7 @@ Finite-time singularity formation for C^{1,α} solutions to the incompressible E
 
 - Problem ID: `annals_finite_time_singularity`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

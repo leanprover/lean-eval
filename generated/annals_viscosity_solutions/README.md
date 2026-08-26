@@ -4,7 +4,7 @@ Viscosity solutions and hyperbolic motions: a new PDE method for the N-body prob
 
 - Problem ID: `annals_viscosity_solutions`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

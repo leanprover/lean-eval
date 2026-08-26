@@ -4,7 +4,7 @@ Brauer–Suzuki theorem (quaternion Sylow 2-subgroup)
 
 - Problem ID: `brauer_suzuki`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

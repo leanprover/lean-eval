@@ -4,7 +4,7 @@ Linear ODE with negative-real-part eigenvalues is asymptotically stable
 
 - Problem ID: `linear_ode_asymptotic_stability`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

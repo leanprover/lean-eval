@@ -4,7 +4,7 @@ Pseudorandom sets in Grassmann graph have near-perfect expansion
 
 - Problem ID: `annals_pseudorandom_grassmann`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

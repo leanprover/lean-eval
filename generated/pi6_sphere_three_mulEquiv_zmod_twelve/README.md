@@ -4,7 +4,7 @@ pi_6 of the 3-sphere is Z/12
 
 - Problem ID: `pi6_sphere_three_mulEquiv_zmod_twelve`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

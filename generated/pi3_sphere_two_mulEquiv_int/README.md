@@ -4,7 +4,7 @@ pi_3 of the 2-sphere is Z
 
 - Problem ID: `pi3_sphere_two_mulEquiv_int`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

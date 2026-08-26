@@ -4,7 +4,7 @@ Schauder fixed-point theorem
 
 - Problem ID: `schauder_fixed_point`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ A counterexample to the periodic tiling conjecture
 
 - Problem ID: `annals_periodic_tiling_conjecture`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

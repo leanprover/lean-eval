@@ -4,7 +4,7 @@ Morrison–Walker Lemma B.0.1: adapting families of maps to open covers
 
 - Problem ID: `families_of_maps_b01`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

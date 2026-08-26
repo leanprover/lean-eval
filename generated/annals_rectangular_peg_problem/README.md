@@ -4,7 +4,7 @@ The rectangular peg problem
 
 - Problem ID: `annals_rectangular_peg_problem`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

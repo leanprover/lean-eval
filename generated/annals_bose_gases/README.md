@@ -4,7 +4,7 @@ The energy of dilute Bose gases
 
 - Problem ID: `annals_bose_gases`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

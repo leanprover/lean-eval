@@ -4,7 +4,7 @@ Upper bound theorem for geometric simplicial spheres (Stanley 1975)
 
 - Problem ID: `upper_bound_simplicial_spheres`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

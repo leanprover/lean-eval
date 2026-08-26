@@ -4,7 +4,7 @@ Bounded gaps between primes
 
 - Problem ID: `zhang_bounded_prime_gaps`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

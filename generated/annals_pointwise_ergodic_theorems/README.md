@@ -4,7 +4,7 @@ Pointwise ergodic theorems for non-conventional bilinear polynomial averages
 
 - Problem ID: `annals_pointwise_ergodic_theorems`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

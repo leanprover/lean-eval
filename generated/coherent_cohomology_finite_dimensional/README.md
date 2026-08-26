@@ -4,7 +4,7 @@ Coherent cohomology of a proper scheme over ℚ is finite-dimensional
 
 - Problem ID: `coherent_cohomology_finite_dimensional`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

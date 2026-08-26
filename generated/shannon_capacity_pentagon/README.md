@@ -4,7 +4,7 @@ Shannon capacity of the pentagon
 
 - Problem ID: `shannon_capacity_pentagon`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

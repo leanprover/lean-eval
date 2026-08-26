@@ -4,7 +4,7 @@ Tverberg's theorem
 
 - Problem ID: `tverberg_theorem`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

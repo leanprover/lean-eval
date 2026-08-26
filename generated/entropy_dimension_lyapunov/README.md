@@ -4,7 +4,7 @@ Lai-Sang Young entropy–dimension–Lyapunov theorem
 
 - Problem ID: `entropy_dimension_lyapunov`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

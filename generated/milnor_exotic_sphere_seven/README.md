@@ -4,7 +4,7 @@ Milnor's exotic 7-sphere
 
 - Problem ID: `milnor_exotic_sphere_seven`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

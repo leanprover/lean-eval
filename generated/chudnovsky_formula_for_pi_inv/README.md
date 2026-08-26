@@ -4,7 +4,7 @@ Chudnovsky formula for pi inverse
 
 - Problem ID: `chudnovsky_formula_for_pi_inv`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

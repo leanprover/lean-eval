@@ -4,7 +4,7 @@ Choquet's representation theorem
 
 - Problem ID: `choquet_representation_theorem`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

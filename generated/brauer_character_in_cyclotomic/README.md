@@ -4,7 +4,7 @@ Character values of finite groups lie in cyclotomic fields
 
 - Problem ID: `brauer_character_in_cyclotomic`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

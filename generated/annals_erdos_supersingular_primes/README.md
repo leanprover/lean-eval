@@ -4,7 +4,7 @@ A conjecture of Erdős, supersingular primes and short character sums
 
 - Problem ID: `annals_erdos_supersingular_primes`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

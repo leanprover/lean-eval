@@ -4,7 +4,7 @@ The Lindemann–Weierstrass theorem
 
 - Problem ID: `lindemann_weierstrass`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

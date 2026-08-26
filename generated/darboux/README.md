@@ -4,7 +4,7 @@ Darboux's theorem (symplectic forms are locally standard)
 
 - Problem ID: `darboux`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ The Hausdorff–Hildebrandt–Schoenberg moment theorem
 
 - Problem ID: `hausdorff_hildebrandt_schoenberg`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

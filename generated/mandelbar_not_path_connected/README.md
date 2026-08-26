@@ -4,7 +4,7 @@ Mandelbar (tricorn) is not path-connected (Hubbard–Schleicher)
 
 - Problem ID: `mandelbar_not_path_connected`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

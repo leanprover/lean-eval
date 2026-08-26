@@ -4,7 +4,7 @@ Sturm separation theorem
 
 - Problem ID: `sturm_separation`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

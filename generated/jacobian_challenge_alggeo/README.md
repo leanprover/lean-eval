@@ -4,7 +4,7 @@ Jacobian of a smooth proper curve (Merten challenge)
 
 - Problem ID: `jacobian_challenge_alggeo`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

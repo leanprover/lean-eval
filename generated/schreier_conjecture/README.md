@@ -4,7 +4,7 @@ Schreier's conjecture: outer automorphism group of a finite simple group is solv
 
 - Problem ID: `schreier_conjecture`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

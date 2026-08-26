@@ -4,7 +4,7 @@ Bourgain's polynomial ergodic theorem
 
 - Problem ID: `bourgain_polynomial_ergodic`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ Dirichlet eigenvalues of -y'' = lambda y on [0,pi] are n^2
 
 - Problem ID: `dirichlet_eigenvalues_eq_nat_sq`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

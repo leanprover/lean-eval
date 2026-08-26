@@ -4,7 +4,7 @@ Uniformity in Mordell–Lang for curves
 
 - Problem ID: `annals_uniform_mordell_lang`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

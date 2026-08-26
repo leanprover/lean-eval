@@ -4,7 +4,7 @@ Wiener's 1/f theorem
 
 - Problem ID: `wiener_inverse_closed`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

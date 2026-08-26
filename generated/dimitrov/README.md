@@ -4,7 +4,7 @@ Dimitrov's lower bound for the house of a nonzero algebraic integer that is not 
 
 - Problem ID: `dimitrov`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

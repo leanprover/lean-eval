@@ -4,7 +4,7 @@ Weil conjectures in terms of point counts
 
 - Problem ID: `weil_conjectures`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

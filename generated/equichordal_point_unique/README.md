@@ -4,7 +4,7 @@ Equichordal point theorem (convex curves have a unique equichordal point)
 
 - Problem ID: `equichordal_point_unique`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

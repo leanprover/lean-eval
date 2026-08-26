@@ -4,7 +4,7 @@ General recursive equals Turing computable
 
 - Problem ID: `turing_recursive_equiv`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

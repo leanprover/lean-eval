@@ -4,7 +4,7 @@
 
 - Problem ID: `poincare_3d_smooth`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

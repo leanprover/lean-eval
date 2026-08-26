@@ -1,7 +1,7 @@
 id = "def_hole_example"
 title = "def-hole minimal example"
 group = "formalization-evaluation"
-status = "draft"
+status = "archived"
 visible = false
 statement_revision = 1
 tags = []
@@ -9,3 +9,8 @@ module = "LeanEval.Sandbox.DefHoleExample"
 holes = ["foo", "foo_def"]
 submitter = "Kim Morrison"
 notes = "Minimal example exercising def + theorem holes through the comparator def-hole pipeline."
+
+[[status_history]]
+status = "archived"
+effective_date = "2026-08-20"
+reason = "policy"

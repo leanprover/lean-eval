@@ -4,7 +4,7 @@ On the Duffin-Schaeffer conjecture
 
 - Problem ID: `annals_duffin_schaeffer_conjecture`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

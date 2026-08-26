@@ -4,7 +4,7 @@ Mountain Pass Theorem (Ambrosetti–Rabinowitz 1973)
 
 - Problem ID: `mountain_pass`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

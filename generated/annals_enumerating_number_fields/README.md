@@ -4,7 +4,7 @@ Enumerating number fields
 
 - Problem ID: `annals_enumerating_number_fields`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

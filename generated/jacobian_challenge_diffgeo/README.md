@@ -4,7 +4,7 @@ Jacobian of a compact Riemann surface (Buzzard challenge)
 
 - Problem ID: `jacobian_challenge_diffgeo`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ Rouche theorem via zero counting
 
 - Problem ID: `rouche_zero_count_eq`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

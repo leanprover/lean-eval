@@ -4,7 +4,7 @@ instance-hole minimal example
 
 - Problem ID: `instance_hole_example`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: no
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ Weinstein conjecture in dimension three (Taubes 2007)
 
 - Problem ID: `weinstein_conjecture_dim3`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ Possible orders of 5-transitive finite permutation groups
 
 - Problem ID: `five_transitive_card_classification`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

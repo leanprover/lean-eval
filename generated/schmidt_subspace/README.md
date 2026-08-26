@@ -4,7 +4,7 @@ Schmidt's subspace theorem
 
 - Problem ID: `schmidt_subspace`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

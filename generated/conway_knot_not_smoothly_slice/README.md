@@ -4,7 +4,7 @@ The Conway knot is not smoothly slice
 
 - Problem ID: `conway_knot_not_smoothly_slice`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

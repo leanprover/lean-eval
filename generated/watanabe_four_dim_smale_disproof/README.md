@@ -4,7 +4,7 @@ Watanabe's disproof of the 4-dimensional Smale conjecture
 
 - Problem ID: `watanabe_four_dim_smale_disproof`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

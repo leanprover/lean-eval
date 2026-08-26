@@ -1,7 +1,7 @@
 id = "uniformization"
 title = "Uniformization theorem for Riemann surfaces"
 group = "formalization-evaluation"
-status = "draft"
+status = "active"
 visible = true
 statement_revision = 1
 tags = []
@@ -9,3 +9,8 @@ module = "LeanEval.Geometry.Uniformization"
 holes = ["uniformization"]
 submitter = "Junyan Xu"
 source = "John Hamal Hubbard, *Teichmüller theory and applications to geometry, topology, and dynamics. Vol. 1*, Chapter 1."
+
+[[status_history]]
+status = "active"
+effective_date = "2026-08-20"
+reason = "policy"

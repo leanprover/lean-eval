@@ -4,7 +4,7 @@ Dehn–Sommerville equations for simplicial spheres
 
 - Problem ID: `dehn_sommerville`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

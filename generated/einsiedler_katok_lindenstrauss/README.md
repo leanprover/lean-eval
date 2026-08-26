@@ -4,7 +4,7 @@ Smallness of exceptional set to Littlewood's conjecture
 
 - Problem ID: `einsiedler_katok_lindenstrauss`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

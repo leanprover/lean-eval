@@ -4,7 +4,7 @@ Strong Mason conjecture for matroid independent sets
 
 - Problem ID: `strong_mason_conjecture`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

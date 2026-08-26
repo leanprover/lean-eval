@@ -4,7 +4,7 @@ Bézout's theorem (projective, with multiplicity)
 
 - Problem ID: `bezout_projective_multiplicity`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

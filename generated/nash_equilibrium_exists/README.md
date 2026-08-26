@@ -4,7 +4,7 @@ Nash equilibrium existence theorem
 
 - Problem ID: `nash_equilibrium_exists`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -1,7 +1,7 @@
 id = "noncomputable_hole_example"
 title = "noncomputable-hole minimal example"
 group = "formalization-evaluation"
-status = "draft"
+status = "archived"
 visible = false
 statement_revision = 1
 tags = []
@@ -9,3 +9,8 @@ module = "LeanEval.Sandbox.NoncomputableHoleExample"
 holes = ["RWidget", "instInhabitedRWidget", "rwidgetPoint", "rwidgetPoint_default"]
 submitter = "Kim Morrison"
 notes = "Minimal example exercising noncomputable def/instance holes; the generated Solution.lean delegations must be noncomputable so that honest (noncomputable) submissions compile."
+
+[[status_history]]
+status = "archived"
+effective_date = "2026-08-20"
+reason = "policy"

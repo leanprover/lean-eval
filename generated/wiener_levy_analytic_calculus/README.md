@@ -4,7 +4,7 @@ Wiener–Lévy theorem
 
 - Problem ID: `wiener_levy_analytic_calculus`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ The Annulus Theorem in dimension 4 (Quinn)
 
 - Problem ID: `annulus_theorem_dim_four`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

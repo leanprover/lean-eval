@@ -4,7 +4,7 @@ Shafarevich's relation-rank bound
 
 - Problem ID: `shafarevich_relation_rank_bound`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

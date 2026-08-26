@@ -4,7 +4,7 @@ Moran's equality for affine-symmetric iterated function systems
 
 - Problem ID: `moran_equality_affine`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

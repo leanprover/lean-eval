@@ -4,7 +4,7 @@ Fermat's Last Theorem
 
 - Problem ID: `fermat_last_theorem`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

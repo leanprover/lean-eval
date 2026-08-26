@@ -4,7 +4,7 @@ Derived solidification of free CW complexes (light condensed mathematics)
 
 - Problem ID: `derived_solidification_free_CW_homology`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

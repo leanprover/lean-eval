@@ -4,7 +4,7 @@ Singularity of random Bernoulli matrices
 
 - Problem ID: `annals_random_bernoulli_matrices`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

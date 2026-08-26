@@ -1,7 +1,7 @@
 id = "pi3_sphere_two_mulEquiv_int"
 title = "pi_3 of the 2-sphere is Z"
 group = "formalization-evaluation"
-status = "draft"
+status = "archived"
 visible = true
 statement_revision = 1
 tags = []
@@ -11,3 +11,8 @@ submitter = "Kim Morrison"
 notes = "The classical computation pi_3(S^2) = Z, with an explicit basepoint."
 source = "Classical theorem in algebraic topology."
 informal_solution = "Use the Hopf fibration to identify the third homotopy group of the 2-sphere with the integers."
+
+[[status_history]]
+status = "archived"
+effective_date = "2026-08-20"
+reason = "policy"

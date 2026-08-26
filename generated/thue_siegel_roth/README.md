@@ -4,7 +4,7 @@ Thue–Siegel–Roth theorem (irrationality measure ≤ 2 for algebraic irration
 
 - Problem ID: `thue_siegel_roth`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

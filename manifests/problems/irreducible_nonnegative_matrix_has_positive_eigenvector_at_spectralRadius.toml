@@ -1,7 +1,7 @@
 id = "irreducible_nonnegative_matrix_has_positive_eigenvector_at_spectralRadius"
 title = "Perron-Frobenius for irreducible nonnegative matrices"
 group = "formalization-evaluation"
-status = "draft"
+status = "archived"
 visible = true
 statement_revision = 1
 tags = []
@@ -11,3 +11,8 @@ submitter = "Kim Morrison"
 notes = "A Perron-Frobenius style eigenvector existence statement at the spectral radius."
 source = "Classical theorem in linear algebra."
 informal_solution = "Show that an irreducible nonnegative matrix has a strictly positive eigenvector with eigenvalue equal to its spectral radius."
+
+[[status_history]]
+status = "archived"
+effective_date = "2026-08-20"
+reason = "policy"

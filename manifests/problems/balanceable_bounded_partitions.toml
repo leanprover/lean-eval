@@ -1,7 +1,7 @@
 id = "balanceable_bounded_partitions"
 title = "Balanceable k-bounded partitions"
 group = "formalization-evaluation"
-status = "draft"
+status = "archived"
 visible = true
 statement_revision = 1
 tags = []
@@ -9,3 +9,8 @@ module = "LeanEval.Combinatorics.BalanceableBoundedPartitions"
 holes = ["minimal_balanceable_of_bounded"]
 submitter = "Julia M. Himmel"
 source = "https://projecteuler.net/problem=772"
+
+[[status_history]]
+status = "archived"
+effective_date = "2026-08-20"
+reason = "policy"

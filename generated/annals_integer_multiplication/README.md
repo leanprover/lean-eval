@@ -4,7 +4,7 @@ Integer multiplication in time O(n log n)
 
 - Problem ID: `annals_integer_multiplication`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

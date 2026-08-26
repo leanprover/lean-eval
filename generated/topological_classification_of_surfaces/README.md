@@ -4,7 +4,7 @@ Topological classification of surfaces
 
 - Problem ID: `topological_classification_of_surfaces`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

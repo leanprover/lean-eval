@@ -4,7 +4,7 @@ Seventeen wallpaper groups (Pólya–Niggli 1924)
 
 - Problem ID: `wallpaper_groups_17`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

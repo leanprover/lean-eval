@@ -4,7 +4,7 @@ The spread of a finite group
 
 - Problem ID: `annals_spread_of_a_finite_group`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

@@ -4,7 +4,7 @@ Appending a singleton increases the list length
 
 - Problem ID: `list_append_singleton_length`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: no
 - Statement Revision: 1
 - Tags: none

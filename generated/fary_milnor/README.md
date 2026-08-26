@@ -4,7 +4,7 @@ Fáry–Milnor theorem (knot total curvature ≤ 4π implies unknotted)
 
 - Problem ID: `fary_milnor`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

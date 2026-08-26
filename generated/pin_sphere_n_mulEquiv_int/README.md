@@ -4,7 +4,7 @@ pi_n of the n-sphere is Z
 
 - Problem ID: `pin_sphere_n_mulEquiv_int`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

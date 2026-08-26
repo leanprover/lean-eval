@@ -4,7 +4,7 @@ Higman's infinite finitely-presented simple group
 
 - Problem ID: `higman_infinite_simple`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

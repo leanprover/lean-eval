@@ -4,7 +4,7 @@ Shafarevich's theorem on solvable Galois groups
 
 - Problem ID: `shafarevich_solvable_galois`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

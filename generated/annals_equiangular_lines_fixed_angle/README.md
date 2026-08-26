@@ -4,7 +4,7 @@ Equiangular lines with a fixed angle
 
 - Problem ID: `annals_equiangular_lines_fixed_angle`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

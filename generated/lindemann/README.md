@@ -4,7 +4,7 @@ Lindemann's theorem (e and π transcendental)
 
 - Problem ID: `lindemann`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

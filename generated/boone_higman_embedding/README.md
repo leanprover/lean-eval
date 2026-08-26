@@ -4,7 +4,7 @@ Boone–Higman theorem (easy direction)
 
 - Problem ID: `boone_higman_embedding`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

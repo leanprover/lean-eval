@@ -4,7 +4,7 @@ Pascal's theorem
 
 - Problem ID: `pascal`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

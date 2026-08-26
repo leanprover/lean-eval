@@ -4,7 +4,7 @@ The alternating sign matrix theorem
 
 - Problem ID: `alternating_sign_matrix_count`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

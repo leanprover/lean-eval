@@ -4,7 +4,7 @@ Higher uniformity of bounded multiplicative functions in short intervals on aver
 
 - Problem ID: `annals_bounded_multiplicative_functions`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

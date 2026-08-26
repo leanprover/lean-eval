@@ -4,7 +4,7 @@ Frobenius's theorem: the Frobenius kernel is normal
 
 - Problem ID: `frobenius_kernel_isNormal`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ Green–Tao theorem
 
 - Problem ID: `green_tao`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ On the Chowla and twin primes conjectures over 𝔽_q[T]
 
 - Problem ID: `annals_chowla_and_twin_prime_over_fq_t`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

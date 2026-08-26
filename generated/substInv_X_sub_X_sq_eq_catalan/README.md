@@ -4,7 +4,7 @@ Catalan generating function via compositional inversion
 
 - Problem ID: `substInv_X_sub_X_sq_eq_catalan`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

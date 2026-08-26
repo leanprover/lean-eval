@@ -4,7 +4,7 @@ Local stable/unstable sets at a hyperbolic fixed point (set-level Hadamard–Per
 
 - Problem ID: `stable_unstable_manifolds`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

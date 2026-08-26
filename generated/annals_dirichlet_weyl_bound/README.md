@@ -4,7 +4,7 @@ The Weyl bound for Dirichlet L-functions of cube-free conductor
 
 - Problem ID: `annals_dirichlet_weyl_bound`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

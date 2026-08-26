@@ -4,7 +4,7 @@ Complementary polynomial on the unit circle
 
 - Problem ID: `exists_complementary_polynomial_on_unit_circle`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

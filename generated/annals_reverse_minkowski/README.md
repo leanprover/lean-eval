@@ -4,7 +4,7 @@ A reverse Minkowski theorem
 
 - Problem ID: `annals_reverse_minkowski`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals

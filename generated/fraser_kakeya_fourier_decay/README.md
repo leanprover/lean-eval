@@ -4,7 +4,7 @@ Fraser: Fourier decay for finite-field Kakeya sets is q^{-1} and sharp
 
 - Problem ID: `fraser_kakeya_fourier_decay`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

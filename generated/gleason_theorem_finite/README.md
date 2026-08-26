@@ -4,7 +4,7 @@ Gleason's theorem (finite-dimensional)
 
 - Problem ID: `gleason_theorem_finite`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

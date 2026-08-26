@@ -4,7 +4,7 @@ Minkowski-Caratheodory theorem
 
 - Problem ID: `mem_convexHull_finset_extremePoints_of_mem_compact_convex`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

@@ -4,7 +4,7 @@ Poincaré–Siegel linearisation theorem
 
 - Problem ID: `poincare_siegel_linearisation`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

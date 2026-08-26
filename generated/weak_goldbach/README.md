@@ -4,7 +4,7 @@ Weak Goldbach theorem
 
 - Problem ID: `weak_goldbach`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

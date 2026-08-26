@@ -4,7 +4,7 @@ Avila-Jitomirskaya Ten Martini Problem
 
 - Problem ID: `ten_martini_problem`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

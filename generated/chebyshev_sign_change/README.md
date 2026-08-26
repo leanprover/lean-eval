@@ -4,7 +4,7 @@ Hardy–Littlewood sign-change for the prime race mod 4
 
 - Problem ID: `chebyshev_sign_change`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

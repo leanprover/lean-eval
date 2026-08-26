@@ -4,7 +4,7 @@
 
 - Problem ID: `two_plus_two`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: no
 - Statement Revision: 1
 - Tags: none

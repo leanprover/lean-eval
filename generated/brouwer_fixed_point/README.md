@@ -4,7 +4,7 @@ Brouwer fixed-point theorem
 
 - Problem ID: `brouwer_fixed_point`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `archived`
 - Visible: yes
 - Statement Revision: 1
 - Tags: none

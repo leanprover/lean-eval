@@ -4,7 +4,7 @@ On a conjecture of Talagrand on selector processes and a consequence on positive
 
 - Problem ID: `annals_supremum_of_selector_processes`
 - Group: `formalization-evaluation`
-- Status: `draft`
+- Status: `active`
 - Visible: yes
 - Statement Revision: 1
 - Tags: annals
