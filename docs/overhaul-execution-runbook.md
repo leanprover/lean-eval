@@ -129,10 +129,10 @@ runtime and data baseline.
 | Repository | Commit | Protection state |
 | --- | --- | --- |
 | `lean-eval` | `e90fdbf4246d7d2e9d3a5eefb30685376c52be34` | Required `verify` |
-| `lean-eval-submissions` | `af662bd57415508015545309b60f5d7e5bd4376a` | Required `verify` |
+| `lean-eval-submissions` | `7d313301f1740b8de057e0483674aeecfaa8d1ac` | Required `verify` |
 | `lean-eval-leaderboard` | `d67705cf4bbd34635251adcc4aa4bcff7ee622da` | Required `build` |
 | `lean-eval-state` | `15a96673efd44d3b198890c1e94581b33c2a1a87` | Required `validate`; append-only |
-| `lean-eval-state-staging` | `52522d3e98702156c1d38526f16e7e82c54f4e75` | Required `validate`; append-only |
+| `lean-eval-state-staging` | `58aef78b5c53e0e316e9edf8d0bb0e94110e1198` | Required `validate`; append-only |
 | `lean-eval-releases` | `e82d91aecdb64fa0d8932590aecdeb999c42a0f8` | Required `validate` |
 | `lean-eval-generator` | `abea76e047face988e9ee2ff2be3829fdd32b73c` | Required `check` |
 | `lean-eval-audit` | `34e33e339eaac47a10c463abaedef47361c5abab` | Reviewed changes; non-rewritable linear history |
@@ -208,7 +208,7 @@ These lanes can proceed in parallel after Phase 1.
 
 The exact repository-family candidate is the protected-head table in section
 5.1. The staging and production submission units are deployed from
-`af662bd57415508015545309b60f5d7e5bd4376a` with intake, ordinary and
+`7d313301f1740b8de057e0483674aeecfaa8d1ac` with intake, ordinary and
 historical replay, lifecycle APIs, model consolidation, and publication all
 disabled. Later documentation-only commits do not change that candidate.
 
