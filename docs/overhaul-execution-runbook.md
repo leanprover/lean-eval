@@ -122,20 +122,21 @@ Goal: establish one exact safe baseline before launch work resumes.
 - [x] Confirm required checks, protected branches, and immutable dispatch-tag
       protections match current operating needs.
 
-Verified disabled runtime and current staging-candidate baseline.
-Documentation-only current-state commits may be newer without changing this
-runtime and data baseline.
+The table records the latest protected repository heads verified at this
+reconciliation checkpoint. Later reviewed descendant commits do not by
+themselves change deployed-service versions or effective disabled flags;
+Section 5.2 and the current operational ledgers record those.
 
 | Repository | Commit | Protection state |
 | --- | --- | --- |
-| `lean-eval` | `e90fdbf4246d7d2e9d3a5eefb30685376c52be34` | Required `verify` |
-| `lean-eval-submissions` | `7d313301f1740b8de057e0483674aeecfaa8d1ac` | Required `verify` |
-| `lean-eval-leaderboard` | `d67705cf4bbd34635251adcc4aa4bcff7ee622da` | Required `build` |
+| `lean-eval` | `d6e05e48cd95cf8018550f2709f0feb7e2e92e8a` | Required `verify` |
+| `lean-eval-submissions` | `1dc321fe15e79457e0b8dcb62069ae9c8212b444` | Required `verify` |
+| `lean-eval-leaderboard` | `113f6026a5e3711aab85f03b8045bd22b2df80a6` | Required `build` |
 | `lean-eval-state` | `15a96673efd44d3b198890c1e94581b33c2a1a87` | Required `validate`; append-only |
 | `lean-eval-state-staging` | `58aef78b5c53e0e316e9edf8d0bb0e94110e1198` | Required `validate`; append-only |
 | `lean-eval-releases` | `e82d91aecdb64fa0d8932590aecdeb999c42a0f8` | Required `validate` |
 | `lean-eval-generator` | `abea76e047face988e9ee2ff2be3829fdd32b73c` | Required `check` |
-| `lean-eval-audit` | `34e33e339eaac47a10c463abaedef47361c5abab` | Reviewed changes; non-rewritable linear history |
+| `lean-eval-audit` | `d37d6579a9baf44e45dc3ee40caf549c32994388` | Reviewed changes; non-rewritable linear history |
 
 ### 5.2 Deployed services
 
