@@ -134,7 +134,7 @@ Section 5.2 and the current operational ledgers record those.
 | `lean-eval-leaderboard` | `113f6026a5e3711aab85f03b8045bd22b2df80a6` | Required `build` |
 | `lean-eval-state` | `15a96673efd44d3b198890c1e94581b33c2a1a87` | Required `validate`; append-only |
 | `lean-eval-state-staging` | `58aef78b5c53e0e316e9edf8d0bb0e94110e1198` | Required `validate`; append-only |
-| `lean-eval-releases` | `e82d91aecdb64fa0d8932590aecdeb999c42a0f8` | Required `validate` |
+| `lean-eval-releases` | `f7eea8b2c993dfcd0a450d8c8125a225bac07cc0` | Required `validate` |
 | `lean-eval-generator` | `abea76e047face988e9ee2ff2be3829fdd32b73c` | Required `check` |
 | `lean-eval-audit` | `d37d6579a9baf44e45dc3ee40caf549c32994388` | Reviewed changes; non-rewritable linear history |
 
@@ -238,11 +238,11 @@ Present for approval:
 
 After approval:
 
-- [ ] Apply only the approved staging trust change.
-- [ ] Run one credentialed staging release unwrap and reconstruction.
-- [ ] Verify consume-before-unwrap and identical reuse refusal.
-- [ ] Remove AWS authority before reconstruction execution.
-- [ ] Verify source allowlist, no plaintext artifact, no State/Git mutation,
+- [x] Apply only the approved staging trust change.
+- [x] Run one credentialed staging release unwrap and reconstruction.
+- [x] Verify consume-before-unwrap and identical reuse refusal.
+- [x] Remove AWS authority before reconstruction execution.
+- [x] Verify source allowlist, no plaintext artifact, no State/Git mutation,
       and cleanup.
 - [ ] Revoke or remove temporary authority that is no longer required.
 
@@ -264,9 +264,9 @@ release path has passed a credentialed staging boundary.
 - [ ] Run one successful source-bound headless submission.
 - [ ] Run the bounded lifecycle route-family cases from Phase 2.
 - [ ] Run one deliberate rejection or authorization failure.
-- [ ] Reconstruct one accepted archive through the credentialed staging release
+- [x] Reconstruct one accepted archive through the credentialed staging release
       path with publication disabled.
-- [ ] Verify no source or credential appears in public logs or artifacts.
+- [x] Verify no source or credential appears in public logs or artifacts.
 - [ ] Exercise the reviewed disable/rollback path.
 - [ ] Confirm staging State validates after the rehearsal.
 
@@ -434,9 +434,9 @@ Update this table in place; do not append a history beneath it.
 | --- | --- | --- |
 | 0. Rebaseline cleanup | Complete | — |
 | 1. Disabled baseline | Complete | — |
-| 2. Repository launch preparation | In progress | Approval A and the exact-version staging rehearsal |
-| Approval A. Staging credentials | Approved; waiting for authentication | Short-lived AWS login code for the exact staging-only trust mutation and reconstruction smoke |
-| 3. Final staging acceptance | Blocked | Approval A execution and the separately approval-gated external-fixture proof refresh |
+| 2. Repository launch preparation | In progress | Complete the exact-version staging rehearsal |
+| Approval A. Staging credentials | In progress | Remove temporary operator authority that is no longer required |
+| 3. Final staging acceptance | Blocked | Complete the separately approval-gated external-fixture proof refresh and remaining staging cases |
 | Approval B. Production launch | Blocked on explicit approval | Go/no-go packet incomplete |
 | 4. Launch | Not started | Approval B |
 | 5. Four-week overlap | Not started | Production launch |
