@@ -129,16 +129,21 @@ Section 5.2 and the current operational ledgers record those.
 
 | Repository | Commit | Protection state |
 | --- | --- | --- |
-| `lean-eval` | `d6e05e48cd95cf8018550f2709f0feb7e2e92e8a` | Required `verify` |
-| `lean-eval-submissions` | `1dc321fe15e79457e0b8dcb62069ae9c8212b444` | Required `verify` |
-| `lean-eval-leaderboard` | `113f6026a5e3711aab85f03b8045bd22b2df80a6` | Required `build` |
-| `lean-eval-state` | `15a96673efd44d3b198890c1e94581b33c2a1a87` | Required `validate`; append-only |
-| `lean-eval-state-staging` | `58aef78b5c53e0e316e9edf8d0bb0e94110e1198` | Required `validate`; append-only |
-| `lean-eval-releases` | `f7eea8b2c993dfcd0a450d8c8125a225bac07cc0` | Required `validate` |
+| `lean-eval` | `99982448e0f3bc74714ec334d50eb7f7b8478ae5` | Required `verify` |
+| `lean-eval-submissions` | `ee0da421ec0274efc0e0e473cd951d51905056ea` | Required `verify` |
+| `lean-eval-leaderboard` | `94fb7e26ec57c7a5ab6e01f636273edc99878602` | Required `build` |
+| `lean-eval-state` | `3dcf596b696b9f1f11de2e3c6127664fd0504884` | Required `validate`; append-only |
+| `lean-eval-state-staging` | `747d58293025774ed86a5b7a6b84f05e6989966b` | Required `validate`; append-only |
+| `lean-eval-releases` | `ff37a9d56aeb6906527cf7b75917907423d6f139` | Required `validate` |
 | `lean-eval-generator` | `abea76e047face988e9ee2ff2be3829fdd32b73c` | Required `check` |
-| `lean-eval-audit` | `d37d6579a9baf44e45dc3ee40caf549c32994388` | Reviewed changes; non-rewritable linear history |
+| `lean-eval-audit` | `9a1dd8440be2cfb60aa91b6a24c3d816ea25ef8b` | Reviewed changes; non-rewritable linear history |
 
 ### 5.2 Deployed services
+
+The staging and production submission units are deployed from
+`ee0da421ec0274efc0e0e473cd951d51905056ea` with intake, ordinary and
+historical replay, lifecycle APIs, model consolidation, and publication all
+disabled. Their protected State pins match the current heads in section 5.1.
 
 - [x] Read staging and production intake health.
 - [x] Read staging and production broker/replay health and current versions.
@@ -147,8 +152,8 @@ Section 5.2 and the current operational ledgers record those.
 - [x] Verify publication is disabled.
 - [x] Verify public lifecycle feature gates are disabled before their launch
       smoke and approval.
-- [x] Verify deployed commits, container image digests, and protected State pins
-      form one coherent current unit.
+- [x] Verify the final deployed commits, container image digests, and protected
+      State pins form one coherent unit.
 
 ### 5.3 State, credentials, and presentation
 
@@ -194,32 +199,32 @@ These lanes can proceed in parallel after Phase 1.
       launched.
 - [x] Keep model consolidation disabled or remove it.
 - [x] Run all existing repository tests.
-- [x] Prepare one success and one authorization/validation denial fixture for
-      each launch route family:
+- [x] Prepare the bounded success and authorization/validation fixtures required
+      by the completion plan for each launch route family:
   - [x] metadata backfill;
   - [x] repair/retraction request;
   - [x] maintainer decision;
   - [x] model alias/rename; and
-  - [x] release opt-out.
+  - [x] release opt-out success.
 - [x] Verify every launch gate can be returned to disabled and health reports
       the effective state.
 - [x] Do not build a persistent staging harness.
 
 ### 6.4 Exact-version lifecycle rehearsal
 
-The exact repository-family candidate is the protected-head table in section
-5.1. The staging and production submission units are deployed from
-`7d313301f1740b8de057e0483674aeecfaa8d1ac` with intake, ordinary and
-historical replay, lifecycle APIs, model consolidation, and publication all
-disabled. Later documentation-only commits do not change that candidate.
+The protected-head table in section 5.1 records the exact final-candidate
+repository family. The submission units are deployed from the listed commit
+with every capability disabled.
 
 - [x] Select the exact candidate commits across the repository family.
 - [x] Use synthetic private source repositories owned for staging.
 - [x] Prepare one browser and one source-bound headless submission.
 - [x] Include one deliberate invalid or unauthorized case.
-- [ ] Confirm archive-before-evaluation and schema-version-3 binding.
-- [ ] Confirm acceptance/rejection, immutable Result, append-only State, release
-      scheduling, and redacted leaderboard projection.
+- [x] Confirm archive-before-evaluation and schema-version-3 binding.
+- [x] Confirm the accepted path produces an immutable Result, append-only State,
+      release scheduling, and a redacted leaderboard projection.
+- [ ] Confirm the bounded rejection and authorization-denial cases against the
+      final candidate.
 - [x] Prepare the rollback/disable steps for the same exact version.
 
 Exit condition: repository changes and staging fixtures are ready; all external
@@ -244,14 +249,29 @@ After approval:
 - [x] Remove AWS authority before reconstruction execution.
 - [x] Verify source allowlist, no plaintext artifact, no State/Git mutation,
       and cleanup.
-- [ ] Revoke or remove temporary authority that is no longer required.
+- [x] Confirm the one-use grant was consumed and workflow AWS credentials were
+      cleared before reconstruction.
 
 Then present the production **Wrap-only** role connection separately:
 
-- [ ] Apply only after explicit approval.
-- [ ] Prove the role can wrap for the exact production archive subject.
-- [ ] Prove it cannot unwrap.
+- [ ] After explicit approval, connect repository environment
+      `archive-production` variable `AWS_WRAP_ROLE_ARN` to
+      `arn:aws:iam::161072922960:role/lean-eval-archive-wrap-production`.
+- [ ] Dispatch the immutable-tag preflight that encrypts a synthetic key for the
+      exact production archive subject.
+- [ ] Require that same preflight to prove decrypt is denied.
 - [ ] Do not accept a production submission during this preflight.
+
+Present the production release-role trust repair as a second, independent
+approval:
+
+- [ ] After separate explicit approval, change only the trust on
+      `lean-eval-release-unwrap-invoker-production` from the obsolete name-only
+      subject to
+      `repo:leanprover@7233018/lean-eval-releases@1340741242:environment:release-production`.
+- [ ] Run the trust-only production preflight with `PUBLICATION_ENABLED` absent.
+- [ ] Confirm the preflight has no archive, State, Git, or artifact write path.
+- [ ] Keep `PUBLICATION_ENABLED` absent.
 
 Exit condition: new production submissions can receive safe envelopes and the
 release path has passed a credentialed staging boundary.
@@ -267,8 +287,9 @@ release path has passed a credentialed staging boundary.
 - [x] Reconstruct one accepted archive through the credentialed staging release
       path with publication disabled.
 - [x] Verify no source or credential appears in public logs or artifacts.
-- [ ] Exercise the reviewed disable/rollback path.
-- [ ] Confirm staging State validates after the rehearsal.
+- [ ] Exercise the reviewed disable/rollback path after the final-candidate
+      cases.
+- [ ] Confirm staging State validates after the final rehearsal.
 
 Do not rerun broad historical matrices merely to obtain newer timestamps.
 
@@ -434,12 +455,12 @@ Update this table in place; do not append a history beneath it.
 | --- | --- | --- |
 | 0. Rebaseline cleanup | Complete | — |
 | 1. Disabled baseline | Complete | — |
-| 2. Repository launch preparation | In progress | Complete the exact-version staging rehearsal |
-| Approval A. Staging credentials | In progress | Remove temporary operator authority that is no longer required |
-| 3. Final staging acceptance | Blocked | Complete the separately approval-gated external-fixture proof refresh and remaining staging cases |
+| 2. Repository launch preparation | In progress | Complete the exact-version bounded lifecycle rehearsal |
+| Approval A. Staging credentials | Staging complete; production pending | Separate explicit approvals for the production Wrap-role environment connection/preflight and release-role trust repair/preflight |
+| 3. Final staging acceptance | In progress | Complete only the missing final-candidate lifecycle cases, then return every gate to disabled |
 | Approval B. Production launch | Blocked on explicit approval | Go/no-go packet incomplete |
 | 4. Launch | Not started | Approval B |
 | 5. Four-week overlap | Not started | Production launch |
-| 6. Historical completion | In progress | One exact `9921ef…` isolated profile probe, the private-migration specification decision, replay execution, and final cutoff remain; infrastructure steps are approval-gated |
+| 6. Historical completion | In progress | Execute the reviewed byte-preserving private key rewrap, terminal dispositions, and official-kernel-plus-nanoda replay; final cutoff and credential steps remain gated |
 | 7. Remaining product completion | In progress | Only issue closure remains, waiting for overlap and final delta; catalog lifecycle cutover, open-problems, and editorial work are complete |
 | Final audit | Not started | All phases |
