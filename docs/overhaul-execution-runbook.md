@@ -122,28 +122,34 @@ Goal: establish one exact safe baseline before launch work resumes.
 - [x] Confirm required checks, protected branches, and immutable dispatch-tag
       protections match current operating needs.
 
-The table records the latest protected repository heads verified at this
-reconciliation checkpoint. Later reviewed descendant commits do not by
-themselves change deployed-service versions or effective disabled flags;
-Section 5.2 and the current operational ledgers record those.
+The table records the repository-family operational baseline verified at this
+reconciliation checkpoint. Documentation-only descendants, including updates
+to this runbook, do not by themselves change deployed-service versions or
+effective flags; Section 5.2 and the current operational ledgers record those.
 
 | Repository | Commit | Protection state |
 | --- | --- | --- |
-| `lean-eval` | `99982448e0f3bc74714ec334d50eb7f7b8478ae5` | Required `verify` |
-| `lean-eval-submissions` | `ee0da421ec0274efc0e0e473cd951d51905056ea` | Required `verify` |
-| `lean-eval-leaderboard` | `94fb7e26ec57c7a5ab6e01f636273edc99878602` | Required `build` |
-| `lean-eval-state` | `3dcf596b696b9f1f11de2e3c6127664fd0504884` | Required `validate`; append-only |
-| `lean-eval-state-staging` | `747d58293025774ed86a5b7a6b84f05e6989966b` | Required `validate`; append-only |
-| `lean-eval-releases` | `ff37a9d56aeb6906527cf7b75917907423d6f139` | Required `validate` |
-| `lean-eval-generator` | `abea76e047face988e9ee2ff2be3829fdd32b73c` | Required `check` |
-| `lean-eval-audit` | `9a1dd8440be2cfb60aa91b6a24c3d816ea25ef8b` | Reviewed changes; non-rewritable linear history |
+| `lean-eval` | `7b768430d20db5532d582a757b9587603823da25` | Required `verify` |
+| `lean-eval-submissions` | `e664f5349d6a6e942b752a24c2b8c00a4daec83f` | Required `verify` |
+| `lean-eval-leaderboard` | `bf534c149e204a286a5cd9bbaff449449567834b` | Required `build` |
+| `lean-eval-state` | `c6a4bb67b55609ae7215bdd3cac2378b2db42a0a` | Required `validate`; append-only |
+| `lean-eval-state-staging` | `b0299b1e7c9a09e63ea0b6cb50c285c7f2aa9c77` | Required `validate`; append-only |
+| `lean-eval-releases` | `071a52e2095d47ae4684ee983a7e08520f3c808a` | Required `validate` |
+| `lean-eval-generator` | `010b01634cccda2db538cf9b09e6f26ddc453743` | Required `check` |
+| `lean-eval-audit` | `0c1a78f15d6fbe484fae583d2e9240ba11bc4dd3` | Reviewed changes; non-rewritable linear history |
 
 ### 5.2 Deployed services
 
 The staging and production submission units are deployed from
-`ee0da421ec0274efc0e0e473cd951d51905056ea` with intake, ordinary and
-historical replay, lifecycle APIs, model consolidation, and publication all
-disabled. Their protected State pins match the current heads in section 5.1.
+`e664f5349d6a6e942b752a24c2b8c00a4daec83f`. Production intake, ordinary and
+historical replay, staging acceptance, promotion canary, lifecycle APIs, model
+consolidation, and publication are disabled. Staging intake, ordinary and
+historical replay, lifecycle APIs, model consolidation, and publication are
+disabled; bounded staging acceptance and the promotion canary are enabled. The
+deployed contract pins are production State
+`c6a4bb67b55609ae7215bdd3cac2378b2db42a0a` and staging State
+`8ae11456f0a439f91ec5822ec36adb93b76b0d96`; the append-only staging State head
+in section 5.1 is a descendant of its contract pin.
 
 - [x] Read staging and production intake health.
 - [x] Read staging and production broker/replay health and current versions.
@@ -212,9 +218,11 @@ These lanes can proceed in parallel after Phase 1.
 
 ### 6.4 Exact-version lifecycle rehearsal
 
-The protected-head table in section 5.1 records the exact final-candidate
-repository family. The submission units are deployed from the listed commit
-with every capability disabled.
+The operational-baseline table in section 5.1 records the current executable
+repository family. The submission units are deployed from
+`e664f5349d6a6e942b752a24c2b8c00a4daec83f` in the state described in section
+5.2. Bind every remaining case to the exact final candidate selected for the
+staging acceptance gate.
 
 - [x] Select the exact candidate commits across the repository family.
 - [x] Use synthetic private source repositories owned for staging.
@@ -371,6 +379,16 @@ Historical lanes can run in parallel with the overlap.
 
 ### 12.2 Public source
 
+The current canonical public-source classification aggregate is
+`evidence/historical-public-replay-github-evidence-current.json` at
+`lean-eval-submissions@617bf711bff8cd34f02a49b7ab1e3de66a0fd86e`, with SHA-256
+digest
+`7c10dfc3e3d66f6f9ae0107ef2ed94b8f731d7f8410741ed3f5978dc55e149e5`.
+It covers 318 requests and 636 Results: 123 requests are resolved and 195 are
+classified source-unavailable, with no ambiguous, missing, indeterminate, or
+unreviewed classification. The source-unavailable cases still require reviewed
+terminal State dispositions.
+
 - [ ] Retain the final canonical public replay plan and exact toolchain/source
       mappings.
 - [ ] Review each `source_unavailable` classification for its terminal State
@@ -461,6 +479,6 @@ Update this table in place; do not append a history beneath it.
 | Approval B. Production launch | Blocked on explicit approval | Go/no-go packet incomplete |
 | 4. Launch | Not started | Approval B |
 | 5. Four-week overlap | Not started | Production launch |
-| 6. Historical completion | In progress | Execute the reviewed byte-preserving private key rewrap, terminal dispositions, and official-kernel-plus-nanoda replay; final cutoff and credential steps remain gated |
+| 6. Historical completion | In progress | Record terminal State dispositions for the current source-unavailable public cases, execute the reviewed byte-preserving private rewrap and official-kernel-plus-nanoda replay, and freeze the final cutoff; credential steps remain gated |
 | 7. Remaining product completion | In progress | Only issue closure remains, waiting for overlap and final delta; catalog lifecycle cutover, open-problems, and editorial work are complete |
 | Final audit | Not started | All phases |
