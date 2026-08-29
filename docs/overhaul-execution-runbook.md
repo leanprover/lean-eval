@@ -17,7 +17,7 @@ comment, or original-plan clause conflicts with it, the completion plan wins.
 At adoption, the intended safe posture is:
 
 - production intake disabled;
-- staging general replay disabled except for explicitly approved isolated work;
+- staging general replay disabled except for bounded isolated work;
 - production replay disabled;
 - automatic publication disabled;
 - public result-owner, maintainer, and model-identity gates disabled;
@@ -35,6 +35,15 @@ Repository implementation, tests, PRs, review fixes, merges, ordinary CI, and
 automatic disabled-state deployments are autonomous in the repository family
 listed in completion-plan section 11.
 
+Reviewed and reversible LeanEval infrastructure preparation is also autonomous
+when production capabilities remain disabled, existing users and old issue
+intake cannot be affected, no canonical production data or credential is
+destroyed, and rollback is tested. This includes isolated Cloudflare
+qualification, staging enable/disable windows, narrowly scoped AWS trust
+repair, Wrap-only connection and synthetic preflight, and disabled migration
+infrastructure. Do not turn a missing local login into a permission question:
+prepare an operator handoff when authenticated execution is required.
+
 Parallelize independent repository work and use build time productively. Do not
 sit polling one workflow while other in-scope tasks can advance.
 
@@ -42,16 +51,20 @@ sit polling one workflow while other in-scope tasks can advance.
 
 Obtain explicit maintainer approval before:
 
-- changing AWS or Cloudflare resources or permissions;
-- changing DNS, OAuth Apps, GitHub Apps, credentials, deploy keys, rulesets, or
-  protected environments;
-- enabling production intake, replay, publication, or public lifecycle APIs;
 - acting in any repository outside the allowlist; or
+- enabling production intake, replay, publication, public lifecycle APIs, or a
+  production canary;
+- publishing the launch announcement that starts the old-intake overlap;
+- making an irreversible or destructive production-data, credential, or key
+  change;
+- retiring old issue intake; or
 - expanding the completion-plan scope.
 
-At an approval gate, present the exact mutation, target, reason, rollback, and
-read-only precondition. Do not bundle several approvals into an open-ended
-request.
+At a genuine approval gate, present the exact mutation, target, user impact,
+rollback, and read-only precondition. One coherent go/no-go may cover a
+declared production launch or historical replay program; do not split it into
+ceremonial approvals for each reversible implementation step. Safety-preserving
+disable and rollback actions proceed immediately.
 
 ### 3.3 Keep changes reviewable
 
@@ -226,6 +239,10 @@ staging acceptance gate.
 
 - [x] Select the exact candidate commits across the repository family.
 - [x] Use synthetic private source repositories owned for staging.
+- [ ] Prefer an allowlisted source fixture for the final rehearsal. If the
+      source-bound protocol genuinely requires an external repository, stop
+      only for the exact runtime-generated repository, ref, and proof-file
+      mutation; do not ask for broader standing authority.
 - [x] Prepare one browser and one source-bound headless submission.
 - [x] Include one deliberate invalid or unauthorized case.
 - [x] Confirm archive-before-evaluation and schema-version-3 binding.
@@ -238,18 +255,10 @@ staging acceptance gate.
 Exit condition: repository changes and staging fixtures are ready; all external
 mutations remain unapplied until the next gate.
 
-## 7. Approval gate A — staging credential boundary
+## 7. Autonomous credential-boundary preparation
 
-Present for approval:
-
-1. exact staging AWS trust mutation;
-2. exact target role and OIDC subject;
-3. proof that publication and production authority remain absent;
-4. the single staging archive to be used;
-5. expected State/Git non-mutation; and
-6. rollback or removal steps.
-
-After approval:
+The staging boundary has been exercised with production and publication
+authority absent:
 
 - [x] Apply only the approved staging trust change.
 - [x] Run one credentialed staging release unwrap and reconstruction.
@@ -260,9 +269,10 @@ After approval:
 - [x] Confirm the one-use grant was consumed and workflow AWS credentials were
       cleared before reconstruction.
 
-Then present the production **Wrap-only** role connection separately:
+Complete the production **Wrap-only** connection autonomously while intake
+remains disabled:
 
-- [ ] After explicit approval, connect repository environment
+- [ ] Connect repository environment
       `archive-production` variable `AWS_WRAP_ROLE_ARN` to
       `arn:aws:iam::161072922960:role/lean-eval-archive-wrap-production`.
 - [ ] Dispatch the immutable-tag preflight that encrypts a synthetic key for the
@@ -270,10 +280,10 @@ Then present the production **Wrap-only** role connection separately:
 - [ ] Require that same preflight to prove decrypt is denied.
 - [ ] Do not accept a production submission during this preflight.
 
-Present the production release-role trust repair as a second, independent
-approval:
+Complete the isolated production release-role trust repair autonomously while
+publication remains disabled:
 
-- [ ] After separate explicit approval, change only the trust on
+- [ ] Change only the trust on
       `lean-eval-release-unwrap-invoker-production` from the obsolete name-only
       subject to
       `repo:leanprover@7233018/lean-eval-releases@1340741242:environment:release-production`.
@@ -301,18 +311,20 @@ release path has passed a credentialed staging boundary.
 
 Do not rerun broad historical matrices merely to obtain newer timestamps.
 
-## 9. Approval gate B — production launch
+## 9. Genuine approval gate — production launch
 
 Prepare one compact go/no-go packet specified by completion-plan section 7.5.
 
-The requested decisions must be explicit and separate:
+The packet must show these decisions separately, but they form one coherent
+launch go/no-go and may be approved in one response:
 
 - [ ] enable automatic release controller;
 - [ ] enable the approved public lifecycle APIs;
 - [ ] enable production intake; and
 - [ ] publish the overlap announcement.
 
-No approval is implied by a green staging run.
+No approval is implied by a green staging run. Ordinary preparatory changes do
+not consume or imply this user-impact approval.
 
 ## 10. Phase 4 — launch
 
@@ -369,6 +381,11 @@ Do not turn monitoring output into a permanent incident-history appendix.
 
 Historical lanes can run in parallel with the overlap.
 
+Old issue intake remains live during the overlap and can append Results-only
+commits to submissions `main`. Process the retained baseline now using immutable
+dispatch tags; do not demand a quiet protected branch. Maintain an append-only
+delta, and treat only the announced issue-intake cutoff as the final corpus.
+
 ### 12.1 Final inventory
 
 - [ ] Freeze the final issue-intake cutoff.
@@ -394,19 +411,31 @@ terminal State dispositions.
 - [ ] Review each `source_unavailable` classification for its terminal State
       disposition.
 - [ ] Build/qualify only images used by replayable results.
+- [x] Qualify the final missing image from the retained baseline plan in an
+      isolated replay-disabled Worker.
+- [ ] Commit and validate its generated qualification profile.
 
 ### 12.3 Private archives
 
 - [ ] Reconcile exact archive/result bindings and explicit orphans.
 - [ ] Prepare a dedicated migration Wrap role and exact OIDC trust.
-- [ ] Obtain the legacy identity from its custodian only for the approved run.
-- [ ] Stop for explicit infrastructure/credential approval.
+- [ ] Obtain the legacy identity from its custodian only for the bounded run;
+      this is an authenticated operator action, not a ceremonial approval.
+- [ ] Build and qualify only the exact private replay images used by the
+      retained baseline inventory.
 - [ ] Rewrap recoverable archives without changing ciphertext archive bytes or
       stable IDs.
 - [ ] Verify and remove temporary authority and plaintext.
+- [ ] Keep every legacy identity copy until the final issue-intake delta is
+      closed; obtain explicit approval before irreversible destruction.
 
 ### 12.4 Replay
 
+- [ ] Prepare one exact historical replay go/no-go packet covering the reviewed
+      public and private queues, append-only State effects, redacted public
+      projection, controller scopes, and rollback.
+- [ ] Obtain one explicit approval before enabling production replay or
+      appending the approved canonical terminal-disposition program.
 - [ ] Serialize or otherwise bound replay according to the existing controller.
 - [ ] Restore exact original source, benchmark, toolchain, comparator,
       lean4export, and nanoda pins.
@@ -442,6 +471,8 @@ No experimental checker or promotion work may be added to close this phase.
 - [ ] Confirm no unresolved severity-high incident.
 - [ ] Confirm adequate adoption and stable end-to-end operation.
 - [ ] Confirm the final historical cutoff/delta is recorded.
+- [ ] Obtain one explicit closure decision because this removes the path used
+      by existing issue-intake users.
 - [ ] Close issue intake in a single-purpose repository change.
 - [ ] Verify the server path remains available and documented.
 
@@ -474,11 +505,11 @@ Update this table in place; do not append a history beneath it.
 | 0. Rebaseline cleanup | Complete | — |
 | 1. Disabled baseline | Complete | — |
 | 2. Repository launch preparation | In progress | Complete the exact-version bounded lifecycle rehearsal |
-| Approval A. Staging credentials | Staging complete; production pending | Separate explicit approvals for the production Wrap-role environment connection/preflight and release-role trust repair/preflight |
+| Credential boundary | Staging complete; production preparation pending | Complete autonomous Wrap-only and release-trust preflights while production remains disabled |
 | 3. Final staging acceptance | In progress | Complete only the missing final-candidate lifecycle cases, then return every gate to disabled |
-| Approval B. Production launch | Blocked on explicit approval | Go/no-go packet incomplete |
-| 4. Launch | Not started | Approval B |
+| Production launch go/no-go | Not ready | Finish the exact final staging packet and current launch readbacks |
+| 4. Launch | Not started | One production launch go/no-go |
 | 5. Four-week overlap | Not started | Production launch |
-| 6. Historical completion | In progress | Record terminal State dispositions for the current source-unavailable public cases, execute the reviewed byte-preserving private rewrap and official-kernel-plus-nanoda replay, and freeze the final cutoff; credential steps remain gated |
+| 6. Historical completion | In progress | Finish baseline profiles and private rewrap preparation; production replay and canonical dispositions wait for one exact go/no-go; final delta waits for cutoff |
 | 7. Remaining product completion | In progress | Only issue closure remains, waiting for overlap and final delta; catalog lifecycle cutover, open-problems, and editorial work are complete |
 | Final audit | Not started | All phases |

@@ -241,8 +241,8 @@ Read-only verification must establish the current exact versions and that:
 
 ### 7.3 Credential and key boundary
 
-- Repair the staging release OIDC trust mismatch through an explicitly
-  approved infrastructure change.
+- Repair the staging release OIDC trust mismatch through a reviewed,
+  fail-closed infrastructure change.
 - Complete one credentialed staging unwrap and reconstruction for an accepted
   staging archive with publication and production permissions disabled.
 - Prove exact one-submission scope, consume-before-unwrap, reuse refusal,
@@ -276,8 +276,11 @@ Prepare a compact packet containing:
 - deferred functionality and known limitations; and
 - the issue-intake overlap announcement.
 
-Production capability enablement requires an explicit maintainer go/no-go even
-when all repository work is otherwise autonomous.
+Production capability enablement requires one explicit maintainer go/no-go even
+when all preparation work is otherwise autonomous. The packet must make the
+release controller, lifecycle APIs, intake and production canary, and overlap
+announcement separately visible, but the maintainer may approve them together
+in one response.
 
 ## 8. Launch and overlap
 
@@ -386,19 +389,42 @@ Autonomous implementation is allowed only in this LeanEval repository family:
 
 Within that allowlist, agents may autonomously inspect, implement, test, create
 branches and pull requests, address review, merge after required checks, and
-run ordinary repository CI. Existing automatic disabled-state deployments
-triggered by an ordinary merge are also allowed, provided the change cannot
-enable a production capability.
+run ordinary repository CI. They may also autonomously make reviewed,
+reversible infrastructure and credential-boundary changes when all of the
+following are true:
+
+- the change is confined to LeanEval-owned resources;
+- production intake, replay, publication, and public lifecycle capabilities
+  remain disabled;
+- the change cannot affect the old issue-intake path or an existing user;
+- it does not disclose, destroy, or irreversibly rotate a credential or key;
+- it does not make an irreversible canonical production-data change; and
+- a tested rollback or fail-closed recovery exists.
+
+This includes isolated staging and qualification resources, disabled-state
+deployments, narrowly scoped role-trust repair, Wrap-only connection and
+synthetic preflight, and dedicated migration infrastructure while its consumer
+remains disabled. The mere fact that an operation uses AWS, Cloudflare, GitHub
+environments, deploy keys, or scoped credentials is not by itself a reason to
+interrupt the maintainer.
 
 Explicit approval is required for:
 
 1. any push, PR, issue, comment, review, reviewer request, or merge in a
    repository outside the allowlist;
-2. AWS, Cloudflare-account/zone, DNS, OAuth-App, GitHub-App, credential,
-   ruleset, deploy-key, or protected-environment mutation;
-3. production intake, replay, publication, or public owner/maintainer feature
-   enablement; and
-4. a material product-scope expansion.
+2. enabling production intake, replay, publication, or public owner/maintainer
+   behavior, including the production canary and the public launch
+   announcement;
+3. an irreversible or destructive production-data, credential, or key change,
+   including final destruction of the legacy archive identity;
+4. retiring the old issue-intake path; and
+5. a material product-scope expansion.
+
+An authenticated maintainer action needed because the agent lacks access is an
+operator handoff, not an approval gate. Present the reviewed command and its
+expected readback, but do not describe the maintainer's login as permission for
+an otherwise autonomous isolated change. Safety-preserving disable and rollback
+actions never wait for approval.
 
 No technical dependency is permission to work in an external repository.
 Prepare a local compatibility workaround or stop and request authority.
@@ -442,4 +468,3 @@ The lifecycle overhaul is finished when all of the following are true:
 - current rollback and pause procedures have been verified; and
 - the repository contains no known instructions to resume scope-excluded FC,
   disproof, experimental-kernel, or persistent-qualification work.
-
