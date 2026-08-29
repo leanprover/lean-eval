@@ -145,19 +145,19 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 
 | Repository | Commit | Protection state |
 | --- | --- | --- |
-| `lean-eval` | `7b768430d20db5532d582a757b9587603823da25` | Required `verify` |
-| `lean-eval-submissions` | `e664f5349d6a6e942b752a24c2b8c00a4daec83f` | Required `verify` |
+| `lean-eval` | `9625d5f290ca70c293ed73e8ea91fd40e61480e2` | Required `verify` |
+| `lean-eval-submissions` | `81e94fe2f4fc819300fd7d4e036f00124166784f` | Required `verify` |
 | `lean-eval-leaderboard` | `bf534c149e204a286a5cd9bbaff449449567834b` | Required `build` |
 | `lean-eval-state` | `c6a4bb67b55609ae7215bdd3cac2378b2db42a0a` | Required `validate`; append-only |
-| `lean-eval-state-staging` | `b0299b1e7c9a09e63ea0b6cb50c285c7f2aa9c77` | Required `validate`; append-only |
+| `lean-eval-state-staging` | `e4b9316dd8d3db17751feae1b66d005c28ef02c8` | Required `validate`; append-only |
 | `lean-eval-releases` | `071a52e2095d47ae4684ee983a7e08520f3c808a` | Required `validate` |
 | `lean-eval-generator` | `010b01634cccda2db538cf9b09e6f26ddc453743` | Required `check` |
-| `lean-eval-audit` | `0c1a78f15d6fbe484fae583d2e9240ba11bc4dd3` | Reviewed changes; non-rewritable linear history |
+| `lean-eval-audit` | `eadf24b2b4a99c56ef59a43811eab9d54ae013ac` | Reviewed changes; non-rewritable linear history |
 
 ### 5.2 Deployed services
 
 The staging and production submission units are deployed from
-`e664f5349d6a6e942b752a24c2b8c00a4daec83f`. Production intake, ordinary and
+`c1013bee0b5b2f57956501e0258d27dc30413d2b`. Production intake, ordinary and
 historical replay, staging acceptance, promotion canary, lifecycle APIs, model
 consolidation, and publication are disabled. Staging intake, ordinary and
 historical replay, lifecycle APIs, model consolidation, and publication are
@@ -236,16 +236,17 @@ These lanes can proceed in parallel after Phase 1.
 
 The operational-baseline table in section 5.1 records the current executable
 repository family. The submission units are deployed from
-`e664f5349d6a6e942b752a24c2b8c00a4daec83f` in the state described in section
+`c1013bee0b5b2f57956501e0258d27dc30413d2b` in the state described in section
 5.2. Bind every remaining case to the exact final candidate selected for the
 staging acceptance gate.
 
 - [x] Select the exact candidate commits across the repository family.
 - [x] Use a synthetic private source repository owned for staging.
-- [ ] Move the final source fixture to a temporary, non-default fixture branch
-      in private allowlisted `lean-eval-state-staging`; preflight the
-      contents-read Source Reader App, use a runtime-unique tag, and remove the
-      branch/tag/App access after the terminal run.
+- [x] Move the final source fixture to a temporary, non-default fixture branch
+      in private allowlisted `lean-eval-state-staging`.
+- [ ] Preflight both contents-read source Apps against that branch, use a
+      runtime-unique tag, and remove the branch/tag/App access after the
+      terminal run.
 - [ ] Retain the exact secret-Gist proof because it binds the headless request
       to the individual GitHub login. Apply only the exact runtime-generated
       Gist file CAS write/restore under standing authorization.
@@ -536,7 +537,7 @@ Update this table in place; do not append a history beneath it.
 | --- | --- | --- |
 | 0. Rebaseline cleanup | Complete | — |
 | 1. Disabled baseline | Complete | — |
-| 2. Repository launch preparation | In progress | Complete the exact-version bounded lifecycle rehearsal |
+| 2. Repository launch preparation | In progress | Preflight the temporary allowlisted source fixture and complete the exact-version bounded lifecycle rehearsal |
 | Credential boundary | Staging and production Wrap-only complete; release trust pending | Complete the autonomous release-trust repair/preflight through an authenticated operator handoff |
 | 3. Final staging acceptance | In progress | Complete only the missing final-candidate lifecycle cases, then return every gate to disabled |
 | Production launch readiness | Standing approval recorded; packet incomplete | Finish the exact final staging packet and current launch readbacks |
