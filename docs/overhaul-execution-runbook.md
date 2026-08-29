@@ -156,13 +156,14 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 
 ### 5.2 Deployed services
 
-The staging and production submission units are deployed from
-`c1013bee0b5b2f57956501e0258d27dc30413d2b`. Production intake, ordinary and
-historical replay, staging acceptance, promotion canary, lifecycle APIs, model
-consolidation, and publication are disabled. Staging intake, ordinary and
-historical replay, lifecycle APIs, model consolidation, and publication are
-disabled; bounded staging acceptance and the promotion canary are enabled. The
-deployed contract pins are production State
+The production submission unit is deployed from
+`c1013bee0b5b2f57956501e0258d27dc30413d2b`; intake, ordinary and historical
+replay, every lifecycle API, model consolidation, the promotion canary, and
+publication are disabled. The staging submission unit is deployed from
+`a481f81cde1ebfd14b32b4c32f13d5615350ba98`; intake, ordinary and historical
+replay, every lifecycle API, model consolidation, and publication are disabled,
+while the promotion canary is enabled. The deployed contract pins are
+production State
 `c6a4bb67b55609ae7215bdd3cac2378b2db42a0a` and staging State
 `8ae11456f0a439f91ec5822ec36adb93b76b0d96`; the append-only staging State head
 in section 5.1 is a descendant of its contract pin.
