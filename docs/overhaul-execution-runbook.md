@@ -35,43 +35,39 @@ Repository implementation, tests, PRs, review fixes, merges, ordinary CI, and
 automatic disabled-state deployments are autonomous in the repository family
 listed in completion-plan section 11.
 
-Reviewed and reversible LeanEval infrastructure preparation is also autonomous
-when the operation does not alter an effective live production capability or
-user-visible service, existing users and old issue intake cannot be affected,
-no irreversible canonical production data is created, appended, rewritten, or
-destroyed, no persistent credential is created, copied, replaced, rotated,
-disclosed, destroyed, or scope-widened, and rollback is tested. This includes
-isolated Cloudflare qualification, staging enable/disable windows, narrowly
-scoped AWS trust repair, Wrap-only connection and synthetic preflight, and
-disabled migration infrastructure. Do not turn a missing local login into a
-permission question: prepare an operator handoff when authenticated execution
-is required.
+Standing maintainer authorization covers every remaining in-scope operation,
+including infrastructure, credentials, protected environments, production
+enablement, canonical data, issue-intake retirement, announcements, and
+external non-PR mutations. Complete the applicable impact packet, preconditions,
+tests, rollback, and post-change verification before acting; standing approval
+does not make an unready operation ready. Do not turn a missing local login
+into a permission question: prepare an operator handoff when authenticated
+execution is required.
 
 Parallelize independent repository work and use build time productively. Do not
 sit polling one workflow while other in-scope tasks can advance.
 
-### 3.2 Stop at these gates
+### 3.2 Standing authorization and remaining stop conditions
 
-Obtain explicit maintainer approval before:
+Do not request repeated approval for an operation already covered by the
+standing authorization in completion-plan section 11. The production-launch,
+historical migration/replay, and issue-retirement packets remain mandatory
+readiness gates; complete and review them without waiting for another
+permission response.
 
-- acting in any repository outside the allowlist; or
-- enabling production intake, replay, publication, public lifecycle APIs, or a
-  production canary;
-- publishing the launch announcement that starts the old-intake overlap;
-- creating, copying, replacing, rotating, disclosing, destroying, or widening
-  the scope of persistent secret or key material;
-- creating, appending, rewriting, or destroying irreversible canonical
-  production data;
-- retiring old issue intake; or
+Stop for exact maintainer approval only before:
+
+- opening, updating, or merging a pull request in a repository outside the
+  allowlist;
+- posting a Zulip message or comment;
+- posting a comment or review on another person's pull request; or
 - expanding the completion-plan scope.
 
-At a genuine approval gate, present the exact mutation, target, user impact,
-rollback, and read-only precondition. One coherent go/no-go may cover a
-declared production launch or historical replay program; do not split it into
-ceremonial approvals for each reversible implementation step. A fail-closed
-capability disable or credential revocation that cannot enable anything or
-rewrite canonical data proceeds immediately. Other rollback follows the same
-rules as its forward change.
+At any high-impact readiness gate, record the exact mutation, target, user
+impact, immutable inputs, rollback, and read-only precondition. A fail-closed
+capability disable or credential revocation may proceed immediately, but its
+impact and verification requirements are not waived. Other rollback follows
+the same rules as its forward change.
 
 ### 3.3 Keep changes reviewable
 
@@ -192,8 +188,8 @@ in section 5.1 is a descendant of its contract pin.
       problem statements, and representative solution metadata.
 
 Exit condition: current documentation states one coherent disabled baseline.
-Any mismatch becomes a separate repository fix or an approval-gated
-infrastructure correction.
+Any mismatch becomes a separate repository fix or a reviewed infrastructure
+correction under the standing authorization.
 
 ## 6. Phase 2 — repository launch preparation
 
@@ -251,8 +247,8 @@ staging acceptance gate.
       contents-read Source Reader App, use a runtime-unique tag, and remove the
       branch/tag/App access after the terminal run.
 - [ ] Retain the exact secret-Gist proof because it binds the headless request
-      to the individual GitHub login. Stop only for the exact runtime-generated
-      Gist file CAS write/restore; do not request standing external authority.
+      to the individual GitHub login. Apply only the exact runtime-generated
+      Gist file CAS write/restore under standing authorization.
 - [x] Prepare one browser and one source-bound headless submission.
 - [x] Include one deliberate invalid or unauthorized case.
 - [x] Confirm archive-before-evaluation and schema-version-3 binding.
@@ -262,8 +258,8 @@ staging acceptance gate.
       final candidate.
 - [x] Prepare the rollback/disable steps for the same exact version.
 
-Exit condition: repository changes and staging fixtures are ready; all external
-mutations remain unapplied until the next gate.
+Exit condition: repository changes and staging fixtures are ready; bounded
+external mutations occur only at their exact runtime step.
 
 ## 7. Autonomous credential-boundary preparation
 
@@ -281,6 +277,9 @@ authority absent:
 
 Complete the production **Wrap-only** connection autonomously while intake
 remains disabled:
+
+Current qualification: production Wrap-only preflight run `33245433960`
+completed successfully.
 
 - [x] Connect repository environment
       `archive-production` variable `AWS_WRAP_ROLE_ARN` to
@@ -309,9 +308,9 @@ release path has passed a credentialed staging boundary.
 Temporary staging feature flags and their all-false recovery are autonomous.
 Before the bounded run, tell the maintainer that the browser and headless
 canaries permanently add synthetic staging archives, Results, and append-only
-State events. The maintainer deliberately performs the browser submission and
-approves only the exact unavoidable secret-Gist CAS target for the headless
-identity proof.
+State events. The maintainer deliberately performs the browser submission as
+an operator handoff; the exact unavoidable secret-Gist CAS mutation for the
+headless identity proof is covered by standing authorization.
 
 - [ ] Deploy the exact candidate version to staging through the normal
       protected path.
@@ -328,12 +327,13 @@ identity proof.
 
 Do not rerun broad historical matrices merely to obtain newer timestamps.
 
-## 9. Genuine approval gate — production launch
+## 9. Production launch readiness gate
 
-Prepare one compact go/no-go packet specified by completion-plan section 7.5.
+Prepare the compact launch readiness packet specified by completion-plan
+section 7.5.
 
-The packet must show these decisions separately, but they form one coherent
-launch go/no-go and may be approved in one response:
+Standing authorization for these operations is recorded in completion-plan
+section 11. The packet must still show these launch components separately:
 
 - [ ] enable automatic release controller;
 - [ ] enable the approved public lifecycle APIs;
@@ -342,12 +342,13 @@ launch go/no-go and may be approved in one response:
       and
 - [ ] publish the overlap announcement.
 
-No approval is implied by a green staging run. Ordinary preparatory changes do
-not consume or imply this user-impact approval.
+Do not launch until every packet item and precondition is satisfied. Standing
+authorization removes another permission interruption; it does not allow a
+green staging run to substitute for launch readiness.
 
 ## 10. Phase 4 — launch
 
-After explicit approval:
+After the launch packet is complete:
 
 ### 10.1 Release controller
 
@@ -368,7 +369,7 @@ After explicit approval:
 - [ ] Verify the exact active version, lease transition, durable state, and
       protected State coherence.
 - [ ] Submit one tightly controlled production canary only if it was part of
-      the approved go/no-go packet.
+      the reviewed launch packet.
 - [ ] Verify archive completion, evaluation dispatch, State, Result,
       leaderboard presentation, and release scheduling.
 
@@ -432,7 +433,9 @@ terminal State dispositions.
 - [ ] Build/qualify only images used by replayable results.
 - [x] Qualify the final missing image from the retained baseline plan in an
       isolated replay-disabled Worker.
-- [ ] Commit and validate its generated qualification profile.
+- [x] Commit and validate its generated qualification profile. All 35 retained
+      public profiles are frozen at
+      `lean-eval-submissions@0bf88bf0e29c6f2abe8fe07aed1ab803ce98f2ec`.
 
 ### 12.3 Private archives
 
@@ -440,28 +443,30 @@ terminal State dispositions.
 - [ ] Prepare a dedicated migration Wrap role and exact OIDC trust.
 - [ ] Build and qualify only the exact private replay images used by the
       retained baseline inventory.
-- [ ] Prepare one immutable historical migration/replay go/no-go packet. Bind
+- [ ] Prepare one immutable historical migration/replay execution packet. Bind
       exact public/private queue and profile hashes, counts, State event IDs and
       digests, redacted projection, private rewrap inventory, controller lease
       and scopes, rollback, and exclusions. It must exclude legacy-key
       destruction, new external actions, and any item absent from those hashes.
-- [ ] Obtain one explicit approval for that exact canonical migration/replay
-      program before installing the legacy identity or writing canonical
-      archive envelopes or production State.
+- [ ] Bind execution to that exact reviewed packet before installing the legacy
+      identity or writing canonical archive envelopes or production State.
+      Standing authorization satisfies permission but not this packet gate.
 - [ ] Have the custodian install `LEGACY_ARCHIVE_IDENTITY` directly for the
-      bounded approved run without exposing its value in chat, files, logs, or
-      artifacts.
+      bounded packet-bound run without exposing its value in chat, files, logs,
+      or artifacts.
 - [ ] Rewrap recoverable archives without changing ciphertext archive bytes or
       stable IDs.
 - [ ] Verify and remove temporary authority and plaintext.
 - [ ] Keep every legacy identity copy until the final issue-intake delta is
-      closed; obtain explicit approval before irreversible destruction.
+      closed; destroy it only after the documented cutoff, reconciliation, and
+      recovery checks are complete.
 
 ### 12.4 Replay
 
 - [ ] Enable production replay and append canonical dispositions only within
-      the exact immutable program approved in section 12.3. A later final delta
-      outside its hashes requires a new exact packet.
+      the exact immutable packet reviewed in section 12.3. A later final delta
+      outside its hashes requires a new exact packet, not another permission
+      response.
 - [ ] Serialize or otherwise bound replay according to the existing controller.
 - [ ] Restore exact original source, benchmark, toolchain, comparator,
       lean4export, and nanoda pins.
@@ -497,8 +502,9 @@ No experimental checker or promotion work may be added to close this phase.
 - [ ] Confirm no unresolved severity-high incident.
 - [ ] Confirm adequate adoption and stable end-to-end operation.
 - [ ] Confirm the final historical cutoff/delta is recorded.
-- [ ] Obtain one explicit closure decision because this removes the path used
-      by existing issue-intake users.
+- [ ] Complete the issue-retirement readiness packet because this removes the
+      path used by existing issue-intake users. Standing authorization covers
+      closure only after every preceding gate is satisfied.
 - [ ] Close issue intake in a single-purpose repository change.
 - [ ] Verify the server path remains available and documented.
 
@@ -533,9 +539,9 @@ Update this table in place; do not append a history beneath it.
 | 2. Repository launch preparation | In progress | Complete the exact-version bounded lifecycle rehearsal |
 | Credential boundary | Staging and production Wrap-only complete; release trust pending | Complete the autonomous release-trust repair/preflight through an authenticated operator handoff |
 | 3. Final staging acceptance | In progress | Complete only the missing final-candidate lifecycle cases, then return every gate to disabled |
-| Production launch go/no-go | Not ready | Finish the exact final staging packet and current launch readbacks |
-| 4. Launch | Not started | One production launch go/no-go |
+| Production launch readiness | Standing approval recorded; packet incomplete | Finish the exact final staging packet and current launch readbacks |
+| 4. Launch | Not started | Complete the production launch packet |
 | 5. Four-week overlap | Not started | Production launch |
-| 6. Historical completion | In progress | Finish baseline profiles and private rewrap preparation; production replay and canonical dispositions wait for one exact go/no-go; final delta waits for cutoff |
+| 6. Historical completion | In progress | Prepare the private rewrap and exact immutable execution packet; production replay and canonical dispositions wait for packet readiness, and the final delta waits for cutoff |
 | 7. Remaining product completion | In progress | Only issue closure remains, waiting for overlap and final delta; catalog lifecycle cutover, open-problems, and editorial work are complete |
 | Final audit | Not started | All phases |
