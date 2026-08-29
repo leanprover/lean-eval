@@ -444,20 +444,27 @@ terminal State dispositions.
 - [ ] Prepare a dedicated migration Wrap role and exact OIDC trust.
 - [ ] Build and qualify only the exact private replay images used by the
       retained baseline inventory.
-- [ ] Prepare one immutable historical migration/replay execution packet. Bind
-      exact public/private queue and profile hashes, counts, State event IDs and
-      digests, redacted projection, private rewrap inventory, controller lease
-      and scopes, rollback, and exclusions. It must exclude legacy-key
-      destruction, new external actions, and any item absent from those hashes.
-- [ ] Bind execution to that exact reviewed packet before installing the legacy
-      identity or writing canonical archive envelopes or production State.
+- [ ] Complete the pre-mutation portion of one immutable retained-baseline
+      historical migration/replay packet. Bind exact public/private profile and
+      task-content hashes and counts, rewrap inventory, workflow commit and
+      digest, migration role and trust, controller leases and scopes, rollback,
+      and exclusions. It must exclude legacy-key destruction, the final intake
+      delta, new external actions, and every item absent from those hashes.
+- [ ] Bind the rewrap to that exact reviewed pre-mutation packet before
+      installing the legacy identity or writing canonical archive envelopes.
       Standing authorization satisfies permission but not this packet gate.
 - [ ] Have the custodian install `LEGACY_ARCHIVE_IDENTITY` directly for the
       bounded packet-bound run without exposing its value in chat, files, logs,
       or artifacts.
 - [ ] Rewrap recoverable archives without changing ciphertext archive bytes or
       stable IDs.
-- [ ] Verify and remove temporary authority and plaintext.
+- [ ] Complete the post-migration readback in the same packet. Bind the
+      randomized sidecar/report hashes, exact audit commit and tree, zero
+      ciphertext changes, credential cleanup, exact current State head, State
+      event IDs and digests, materialized queue hashes and counts, and redacted
+      projection before writing production State or enabling replay.
+- [ ] Verify and remove temporary authority, credentials, scratch output, and
+      plaintext.
 - [ ] Keep every legacy identity copy until the final issue-intake delta is
       closed; destroy it only after the documented cutoff, reconciliation, and
       recovery checks are complete.
@@ -465,9 +472,9 @@ terminal State dispositions.
 ### 12.4 Replay
 
 - [ ] Enable production replay and append canonical dispositions only within
-      the exact immutable packet reviewed in section 12.3. A later final delta
-      outside its hashes requires a new exact packet, not another permission
-      response.
+      the exact retained-baseline packet completed in section 12.3. After the
+      announced cutoff, process the append-only final delta through a separate
+      exact packet; extending the baseline packet by implication is forbidden.
 - [ ] Serialize or otherwise bound replay according to the existing controller.
 - [ ] Restore exact original source, benchmark, toolchain, comparator,
       lean4export, and nanoda pins.
