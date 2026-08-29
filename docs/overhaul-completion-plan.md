@@ -262,7 +262,7 @@ Historical legacy-archive migration is not a launch gate for new submissions.
 - Complete one exact-version staging lifecycle from archive through accepted
   result, State, scheduled release, staging reconstruction, and rollback.
 
-### 7.5 Human go/no-go
+### 7.5 Production launch readiness packet
 
 Prepare a compact packet containing:
 
@@ -276,15 +276,15 @@ Prepare a compact packet containing:
 - deferred functionality and known limitations; and
 - the issue-intake overlap announcement.
 
-Production capability enablement requires one explicit maintainer go/no-go even
-when all preparation work is otherwise autonomous. The packet must make the
-release controller, lifecycle APIs, intake and production canary, and overlap
-announcement separately visible, but the maintainer may approve them together
-in one response.
+The maintainer's standing authorization in section 11 covers production
+capability enablement once this packet is complete. The packet must still make
+the release controller, lifecycle APIs, intake and production canary, and
+overlap announcement separately visible. Standing authorization does not waive
+any packet item, launch precondition, verification, pause, or rollback step.
 
 ## 8. Launch and overlap
 
-After go/no-go, make capability changes separately:
+After the launch packet is complete, make capability changes separately:
 
 1. enable the automatic release controller initially when no release is due;
 2. enable the approved lifecycle route families;
@@ -389,53 +389,43 @@ Autonomous implementation is allowed only in this LeanEval repository family:
 
 Within that allowlist, agents may autonomously inspect, implement, test, create
 branches and pull requests, address review, merge after required checks, and
-run ordinary repository CI. They may also autonomously make reviewed,
-reversible infrastructure-boundary changes when all of the following are true:
+run ordinary repository CI.
 
-- the change is confined to LeanEval-owned resources;
-- the operation does not enable, disable, or alter an effective live
-  production capability or user-visible service;
-- the change cannot affect the old issue-intake path or an existing user;
-- it does not create, copy, replace, rotate, disclose, destroy, or widen the
-  scope of persistent secret or key material;
-- it does not create, append, rewrite, or destroy irreversible canonical
-  production data; and
-- a tested rollback or fail-closed recovery exists.
+Standing maintainer authorization, recorded on 2026-08-29, preapproves every
+remaining operation required by this completion plan. This includes
+infrastructure and protected-environment changes, credential creation or
+mutation, production capability enablement, production canaries, canonical
+data writes and migrations, issue-intake retirement, announcements, and
+external non-PR mutations. Do not interrupt the maintainer merely to renew
+permission for one of these in-scope operations.
 
-This includes isolated staging and qualification resources, disabled-state
-deployments, narrowly scoped role-trust repair, Wrap-only connection and
-synthetic preflight, and dedicated migration infrastructure while its consumer
-remains disabled. These operations may wire nonsecret identifiers and reviewed
-trust relationships or use short-lived workflow credentials for a closed
-synthetic/read-only check. They may not broaden permissions beyond the exact
-reviewed isolated consumer or copy, replace, or rotate persistent credentials.
-The mere fact that an operation uses AWS, Cloudflare, or a GitHub environment
-is not by itself a reason to interrupt the maintainer.
+Standing authorization satisfies permission, not readiness. Before each
+high-impact operation, complete the exact packet or checklist required by this
+plan and the runbook: bind targets, immutable inputs, scopes, user impact,
+preconditions, rollback or fail-closed recovery, and post-change verification.
+Keep changes single-purpose, preserve credential confidentiality, use the
+smallest sufficient authority, and stop rather than proceeding when a required
+precondition is false or the proposed action exceeds the reviewed packet.
 
-Explicit approval is required for:
+Only these actions still require exact maintainer approval:
 
-1. any push, PR, issue, comment, review, reviewer request, or merge in a
-   repository outside the allowlist;
-2. enabling production intake, replay, publication, or public owner/maintainer
-   behavior, including the production canary and the public launch
-   announcement;
-3. creating, copying, replacing, rotating, disclosing, destroying, or widening
-   the scope of persistent secret or key material;
-4. an irreversible canonical production-data change, including the reviewed
-   historical migration/replay program;
-5. retiring the old issue-intake path; and
-6. a material product-scope expansion.
+1. opening, updating, or merging a pull request in a repository outside the
+   allowlist;
+2. posting a Zulip message or comment;
+3. posting a comment or review on another person's pull request; and
+4. any product-scope expansion beyond this completion plan.
+
+External non-PR actions required by the accepted scope are covered by standing
+authorization, including issues, announcements outside Zulip, and bounded
+runtime identity-proof mutations. This does not authorize an external pull
+request or an unrelated external change.
 
 An authenticated maintainer action needed because the agent lacks access is an
 operator handoff, not an approval gate. Present the reviewed command and its
 expected readback, but do not describe the maintainer's login as permission for
-an otherwise autonomous isolated change. A fail-closed capability disable or
-credential revocation that cannot enable anything or rewrite canonical data
-never waits for approval. Any other rollback must satisfy the same impact,
-credential, and data rules as its forward change.
-
-No technical dependency is permission to work in an external repository.
-Prepare a local compatibility workaround or stop and request authority.
+an otherwise authorized change. Rollback and credential revocation remain
+subject to the same impact analysis, packet bounds, and verification as the
+forward change.
 
 ## 12. Recordkeeping policy
 
