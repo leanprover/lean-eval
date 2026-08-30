@@ -157,10 +157,10 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 ### 5.2 Deployed services
 
 The production and staging submission units are deployed from
-`0cdcf3f9f66db6d1555c90e976c886c936b8784c`; protected submissions `main` is
-the same commit. Production intake, ordinary and
+`5612d62f2d97c9b5521d5f761be7c4bb5c78d5d3`; protected submissions `main` is
+the same commit. Production health reports ready, with intake, ordinary and
 historical replay, staging acceptance, every lifecycle API, model
-consolidation, the promotion canary, and publication are disabled. Staging
+consolidation, the promotion canary, and publication all disabled. Staging
 intake, ordinary and historical replay, every lifecycle API, model
 consolidation, and publication are disabled, while bounded staging acceptance
 and the promotion canary are enabled. The deployed contract pins are production State
@@ -186,7 +186,7 @@ its contract pin.
       revocation without exposing values.
 - [x] Confirm production State contains no unexpected accepted server
       submission or due release work.
-- [x] Smoke the live leaderboard root, group tabs, stable problem URLs,
+- [x] Confirm the live leaderboard root, group tabs, stable problem URLs,
       problem statements, and representative solution metadata.
 
 Exit condition: current documentation states one coherent disabled baseline.
@@ -238,7 +238,7 @@ These lanes can proceed in parallel after Phase 1.
 
 The operational-baseline table in section 5.1 records the current executable
 repository family. The submission units are deployed from
-`0cdcf3f9f66db6d1555c90e976c886c936b8784c` in the state described in section
+`5612d62f2d97c9b5521d5f761be7c4bb5c78d5d3` in the state described in section
 5.2. Bind every remaining case to the exact final candidate selected for the
 staging acceptance gate.
 
@@ -315,7 +315,7 @@ State events. The maintainer deliberately performs the browser submission as
 an operator handoff; the exact unavoidable secret-Gist CAS mutation for the
 headless identity proof is covered by standing authorization.
 
-- [ ] Deploy the exact candidate version to staging through the normal
+- [x] Deploy the exact candidate version to staging through the normal
       protected path.
 - [ ] Run one successful browser submission.
 - [ ] Run one successful source-bound headless submission.
@@ -553,7 +553,7 @@ Update this table in place; do not append a history beneath it.
 | 1. Disabled baseline | Complete | — |
 | 2. Repository launch preparation | In progress | Preflight the temporary allowlisted source fixture and complete the exact-version bounded lifecycle rehearsal |
 | Credential boundary | Staging and production Wrap-only complete; release trust pending | Complete the autonomous release-trust repair/preflight through an authenticated operator handoff |
-| 3. Final staging acceptance | In progress | Complete only the missing final-candidate lifecycle cases, then return every gate to disabled |
+| 3. Final staging acceptance | In progress | Complete the browser, headless, lifecycle, and rejection cases, then return every staging gate to disabled |
 | Production launch readiness | Standing approval recorded; packet incomplete | Finish the exact final staging packet and current launch readbacks |
 | 4. Launch | Not started | Complete the production launch packet |
 | 5. Four-week overlap | Not started | Production launch |
