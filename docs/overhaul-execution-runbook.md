@@ -145,22 +145,25 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 
 | Repository | Commit | Protection state |
 | --- | --- | --- |
-| `lean-eval` | `3b88bf41bf41adad0bf1affbb4b7800d65ebe4cb` | Required `verify` |
-| `lean-eval-submissions` | `7f24d16e4549102d422efda14c2d6ececed00c82` | Required `verify` |
-| `lean-eval-leaderboard` | `8eb6188ee4296acdfa8eae279a4b0abb851fcaff` | Required `build` |
+| `lean-eval` | `b7c588ea9aa75eb2bc545d8388041458624f1745` | Required `verify` |
+| `lean-eval-submissions` | `fe8de3fbe487841883fbd97d0a55bf26e8c261d3` | Required `verify` |
+| `lean-eval-leaderboard` | `001c9a317124a6eb94942f1cc1330b630acecbc2` | Required `build` |
 | `lean-eval-state` | `0c943edde8a247b8670e10339b80fc65be6c0f33` | Required `validate`; append-only |
-| `lean-eval-state-staging` | `ab010c6a9c6234df2ad164f5d7dbd1611d816c3e` | Required `validate`; append-only |
-| `lean-eval-releases` | `1c09d096687b7dd410b775c7022c9b3496245319` | Required `validate` |
+| `lean-eval-state-staging` | `87771d9858bf53152db15d4293137e1082e6079e` | Required `validate`; append-only |
+| `lean-eval-releases` | `20c077f4916c757acfeb961c706c98833cd9ea2f` | Required `validate` |
 | `lean-eval-generator` | `010b01634cccda2db538cf9b09e6f26ddc453743` | Required `check` |
 | `lean-eval-audit` | `eadf24b2b4a99c56ef59a43811eab9d54ae013ac` | Reviewed changes; non-rewritable linear history |
 
 ### 5.2 Deployed services
 
 The staging submission unit, broker, and replay executor are deployed from the
-exact submissions candidate `0a85d3a055600c3f60149d34f611c9e10767641b`.
-Its protected deployment and promotion canary passed. The production gate was
-deliberately not crossed, and the resulting all-false production recovery was
-a verified no-op; the production unit remains deployed from
+exact lifecycle candidate `fe8de3fbe487841883fbd97d0a55bf26e8c261d3`.
+Its protected deployment, promotion canary, write-free State preflight, and
+protected State validation passed. The independent historical private-image
+campaign remains bound to source
+`0a85d3a055600c3f60149d34f611c9e10767641b`; that source no longer defines the
+deployed staging or launch binding. The production gate was deliberately not
+crossed, and the production unit remains deployed from
 `30bc92b3d46bd2a3ba1788433264fdd70ae3c74e`.
 Structured health reports coherent units in both environments. Production
 intake, ordinary and historical replay, staging acceptance, every lifecycle
@@ -171,7 +174,7 @@ and the promotion canary are enabled. The deployed contract pins are production 
 `c6a4bb67b55609ae7215bdd3cac2378b2db42a0a` and staging State
 `8ae11456f0a439f91ec5822ec36adb93b76b0d96`. Protected production State
 `0c943edde8a247b8670e10339b80fc65be6c0f33` and protected staging State
-`ab010c6a9c6234df2ad164f5d7dbd1611d816c3e` are validated append-only
+`87771d9858bf53152db15d4293137e1082e6079e` are validated append-only
 descendants of their respective contract pins.
 
 - [x] Read staging and production intake health.
@@ -242,22 +245,24 @@ These lanes can proceed in parallel after Phase 1.
 ### 6.4 Exact-version lifecycle rehearsal
 
 The operational-baseline table in section 5.1 records the current repository
-family. The exact currently deployed staging runtime is
-`0a85d3a055600c3f60149d34f611c9e10767641b`; its immutable dispatch tag,
-protected deployment, promotion canary, and zero-write staging preflight pass.
-It remains the immutable source of the independent historical private-image
-campaign, but it is not the final launch binding because protected submissions
-`main` has advanced.
-
-The selected lifecycle launch candidate is protected submissions commit
-`7f24d16e4549102d422efda14c2d6ececed00c82`, with immutable tag
-`lean-eval-dispatch/7f24d16e4549102d422efda14c2d6ececed00c82`.
+family. The exact currently deployed staging runtime and selected lifecycle
+launch candidate is protected submissions commit
+`fe8de3fbe487841883fbd97d0a55bf26e8c261d3`, with immutable tag
+`lean-eval-dispatch/fe8de3fbe487841883fbd97d0a55bf26e8c261d3`.
 Its exact staging deployment, promotion-boundary canary, write-free State
-preflight, and protected State validation pass while `cloudflare-production`
-remains held. Complete the bounded rehearsal against that exact commit and use
-the same commit for the production lifecycle deployment if the launch packet
-becomes `GO`. The
-later intake-only descendant receives its own staging promotion canary,
+preflight, and protected State validation pass in submissions runs
+[`33321612119`](https://github.com/leanprover/lean-eval-submissions/actions/runs/33321612119)
+and
+[`33321870851`](https://github.com/leanprover/lean-eval-submissions/actions/runs/33321870851),
+with protected staging State
+`87771d9858bf53152db15d4293137e1082e6079e`, while
+`cloudflare-production` remains held. Complete the bounded rehearsal against
+that exact commit and use the same commit for the production lifecycle
+deployment if the launch packet becomes `GO`. The independent historical
+private-image campaign remains bound to source
+`0a85d3a055600c3f60149d34f611c9e10767641b`, which no longer defines the
+deployed staging or launch binding. The later intake-only descendant receives
+its own staging promotion canary,
 finite-lease transition, and health and State verification. Do not repeat the
 bounded route smoke solely for that toggle. Historical image preparation is an
 independent historical lane and is not a launch-candidate prerequisite.
@@ -321,14 +326,19 @@ Complete the isolated production release-role trust repair autonomously while
 publication remains disabled:
 
 The production controller and audit-read credentials pass their current
-write-free preflights. Protected production State validates at
-`0c943edde8a247b8670e10339b80fc65be6c0f33`; the release controller remains
-bound to validated ancestor `2812517256274fe681ea112eb4fc9599b7789277`, and
-its materialized release queue is empty. Only the release role's obsolete OIDC
-subject remains to repair. The
-reviewed trust repair and inactive historical-migration infrastructure update
-remain pending the exact operator CloudShell handoff and subsequent write-free
-readbacks.
+write-free preflights at release commit
+`20c077f4916c757acfeb961c706c98833cd9ea2f` in runs
+[`33320896316`](https://github.com/leanprover/lean-eval-releases/actions/runs/33320896316)
+and
+[`33320897543`](https://github.com/leanprover/lean-eval-releases/actions/runs/33320897543).
+Protected production State validates at
+`0c943edde8a247b8670e10339b80fc65be6c0f33`; the release controller is bound
+to that exact reviewed State contract, its materialized release queue has zero
+tasks, and interrupted-release recovery reports `none`. `PUBLICATION_ENABLED`
+remains absent. Only the release role's obsolete OIDC subject remains to
+repair. The reviewed trust repair and inactive historical-migration
+infrastructure update remain pending the exact operator CloudShell handoff and
+subsequent write-free readbacks.
 
 - [ ] Change only the trust on
       `lean-eval-release-unwrap-invoker-production` from the obsolete name-only
@@ -425,6 +435,19 @@ After the launch packet is complete:
       the reviewed launch packet.
 - [ ] Verify archive completion, evaluation dispatch, State, Result,
       leaderboard presentation, and release scheduling.
+- [ ] Use the packet-bound visible archived problem and exact previously
+      accepted Kim-owned source with a distinct canary model identity.
+- [ ] Verify the initially scheduled Result on the live problem page, exercise
+      the visible pre-release opt-out, force an immediate leaderboard build,
+      and verify the withheld choice and exact source-State commit on the live
+      page.
+- [x] Keep the periodic read-only leaderboard State-drift deployment path
+      active so later State-only lifecycle events cannot leave the public site
+      stale indefinitely.
+- [ ] On success, delete the exact private canary branch and remove the private
+      fixture repository from both org App selections; on failure, run the
+      all-false recovery, pause publication, and retain those dependencies
+      until the submission reaches a reviewed terminal state.
 
 ### 10.4 Announcement
 
@@ -624,7 +647,7 @@ Update this table in place; do not append a history beneath it.
 | --- | --- | --- |
 | 0. Rebaseline cleanup | Complete | — |
 | 1. Disabled baseline | Complete | — |
-| 2. Repository launch preparation | In progress | Exact submissions `7f24d16e4549102d422efda14c2d6ececed00c82` is deployed and promotion-qualified; complete both App selections and the bounded rehearsal |
+| 2. Repository launch preparation | In progress | Exact submissions `fe8de3fbe487841883fbd97d0a55bf26e8c261d3` is deployed and promotion-qualified; complete both App selections and the bounded rehearsal |
 | Credential boundary | Staging and production Wrap-only complete; release trust pending | Run the reviewed production release-trust CloudShell handoff, then the publication-disabled write-free preflight |
 | 3. Final staging acceptance | In progress | Complete the two App selections, bounded browser-led acceptance sequence, all-false recovery, and final staging State validation |
 | Production launch readiness | Standing authorization recorded; packet incomplete | Complete production trust, final staging, and current launch readbacks; the prepared intake PR remains unmerged |
