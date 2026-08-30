@@ -145,10 +145,10 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 
 | Repository | Commit | Protection state |
 | --- | --- | --- |
-| `lean-eval` | `c2bd4432c7d8d077d17518fcce19b1660f6cced7` | Required `verify` |
-| `lean-eval-submissions` | `0a85d3a055600c3f60149d34f611c9e10767641b` | Required `verify` |
+| `lean-eval` | `37ea524beedfca6a5560ffbae96114378ff62ef9` | Required `verify` |
+| `lean-eval-submissions` | `7f24d16e4549102d422efda14c2d6ececed00c82` | Required `verify` |
 | `lean-eval-leaderboard` | `bf534c149e204a286a5cd9bbaff449449567834b` | Required `build` |
-| `lean-eval-state` | `2812517256274fe681ea112eb4fc9599b7789277` | Required `validate`; append-only |
+| `lean-eval-state` | `0c943edde8a247b8670e10339b80fc65be6c0f33` | Required `validate`; append-only |
 | `lean-eval-state-staging` | `0a41ceaf78b7c42d4b4de6e4498542d437ee02af` | Required `validate`; append-only |
 | `lean-eval-releases` | `1c09d096687b7dd410b775c7022c9b3496245319` | Required `validate` |
 | `lean-eval-generator` | `010b01634cccda2db538cf9b09e6f26ddc453743` | Required `check` |
@@ -170,7 +170,7 @@ consolidation, and publication are disabled, while bounded staging acceptance
 and the promotion canary are enabled. The deployed contract pins are production State
 `c6a4bb67b55609ae7215bdd3cac2378b2db42a0a` and staging State
 `8ae11456f0a439f91ec5822ec36adb93b76b0d96`. Protected production State
-`2812517256274fe681ea112eb4fc9599b7789277` and protected staging State
+`0c943edde8a247b8670e10339b80fc65be6c0f33` and protected staging State
 `0a41ceaf78b7c42d4b4de6e4498542d437ee02af` are validated append-only
 descendants of their respective contract pins.
 
@@ -242,14 +242,24 @@ These lanes can proceed in parallel after Phase 1.
 ### 6.4 Exact-version lifecycle rehearsal
 
 The operational-baseline table in section 5.1 records the current repository
-family. Protected submissions `main` and the exact currently deployed staging
-runtime are `0a85d3a055600c3f60149d34f611c9e10767641b`; its immutable dispatch
-tag, protected deployment, promotion canary, and zero-write staging preflight
-pass. The remaining lifecycle cases must stay bound to that exact candidate.
-Historical image preparation is an independent historical lane and is not a
-launch-candidate prerequisite.
+family. The exact currently deployed staging runtime is
+`0a85d3a055600c3f60149d34f611c9e10767641b`; its immutable dispatch tag,
+protected deployment, promotion canary, and zero-write staging preflight pass.
+It remains the immutable source of the independent historical private-image
+campaign, but it is not the final launch binding because protected submissions
+`main` has advanced.
 
-- [x] Bind the exact final candidate commits across the repository family
+The selected lifecycle launch candidate is protected submissions commit
+`7f24d16e4549102d422efda14c2d6ececed00c82`. Deploy it through staging while
+holding `cloudflare-production`, complete the bounded rehearsal against that
+exact commit and `lean-eval-dispatch/<commit>` tag, and use the same commit for
+the production lifecycle deployment if the launch packet becomes `GO`. The
+later intake-only descendant receives its own staging promotion canary,
+finite-lease transition, and health and State verification. Do not repeat the
+bounded route smoke solely for that toggle. Historical image preparation is an
+independent historical lane and is not a launch-candidate prerequisite.
+
+- [ ] Bind the exact final candidate commits across the repository family
       immediately before the final rehearsal.
 - [x] Use a synthetic private source repository owned for staging.
 - [x] Move the final source fixture to a temporary, non-default fixture branch
@@ -305,9 +315,11 @@ Complete the isolated production release-role trust repair autonomously while
 publication remains disabled:
 
 The production controller and audit-read credentials pass their current
-write-free preflights, protected production State validates at
-`2812517256274fe681ea112eb4fc9599b7789277`, and its materialized release queue
-is empty. Only the release role's obsolete OIDC subject remains to repair. The
+write-free preflights. Protected production State validates at
+`0c943edde8a247b8670e10339b80fc65be6c0f33`; the release controller remains
+bound to validated ancestor `2812517256274fe681ea112eb4fc9599b7789277`, and
+its materialized release queue is empty. Only the release role's obsolete OIDC
+subject remains to repair. The
 reviewed trust repair and inactive historical-migration infrastructure update
 remain pending the exact operator CloudShell handoff and subsequent write-free
 readbacks.
@@ -332,13 +344,15 @@ State events. The maintainer deliberately performs the browser submission as
 an operator handoff; the exact unavoidable secret-Gist CAS mutation for the
 headless identity proof is covered by standing authorization.
 
-The exact candidate deployment, promotion canary, and zero-write preflight
-pass. Final lifecycle acceptance now waits only for the two private fixture
-repository App selections and the bounded browser-led test. The source-bound
-headless case, route-family cases, deliberate denial, recovery, and State
-validation then run as parts of that same bounded acceptance sequence.
+The `0a85d3a055600c3f60149d34f611c9e10767641b` deployment, promotion canary,
+and zero-write preflight prove the machinery, but no longer satisfy the final
+exact-version binding. Final lifecycle acceptance waits for the selected
+protected-main candidate deployment, the two private fixture repository App
+selections, and the bounded browser-led test. The source-bound headless case,
+route-family cases, deliberate denial, recovery, and State validation then run
+as parts of that same bounded acceptance sequence.
 
-- [x] Deploy the exact final candidate version to staging through the normal
+- [ ] Deploy the exact final candidate version to staging through the normal
       protected path.
 - [ ] Run one successful browser submission.
 - [ ] Run one successful source-bound headless submission.
@@ -372,9 +386,10 @@ Do not launch until every packet item and precondition is satisfied. Standing
 authorization removes another permission interruption; it does not allow a
 green staging run to substitute for launch readiness.
 
-The finite-lease production-intake enablement PR is prepared but unmerged.
-Keep it unmerged until the production trust readback and final staging packet
-make the launch sequence ready.
+Keep the intake-only PR rebased on the exact lifecycle candidate and unmerged
+until production trust, final staging, the lifecycle production deployment,
+and packet `GO` are complete. Its staging promotion canary is part of the
+separate intake action.
 
 ## 10. Phase 4 — launch
 
@@ -446,16 +461,20 @@ delta, and treat only the announced issue-intake cutoff as the final corpus.
 
 ### 12.2 Public source
 
-The current retained-baseline public-source classification aggregate is
+The source-evidence snapshot
 `evidence/historical-public-replay-github-evidence-current.json` at
 `lean-eval-submissions@674ab422f1d9adcf7108f8ea1ff623b37c59409b`, with SHA-256 digest
 `7c10dfc3e3d66f6f9ae0107ef2ed94b8f731d7f8410741ed3f5978dc55e149e5`.
-It covers 318 requests and 636 Results: 123 requests are resolved and 195 are
-classified source-unavailable, with no ambiguous, missing, indeterminate, or
-unreviewed classification. Protected production State commit
-`07e68200ee20efdd363cea16c1d08a13971acc2e` contains exactly the 459 reviewed
-terminal unavailable events for those 195 requests, with no missing or extra
-Result identity.
+It is not the retained-baseline or current-corpus count: its 636 Results include
+three post-baseline public Results. It covers 318 requests: 123 are resolved and
+195 are classified source-unavailable, with no ambiguous, missing,
+indeterminate, or unreviewed classification. The retained-baseline public
+partition is exactly 633 Results: 174 replay tasks and 459 reviewed unavailable
+dispositions.
+Protected production State ancestor
+`07e68200ee20efdd363cea16c1d08a13971acc2e` introduced those dispositions, and
+current protected head `0c943edde8a247b8670e10339b80fc65be6c0f33`
+validates them with no missing or extra Result identity.
 
 - [x] Retain the retained-baseline canonical public replay plan and exact toolchain/source
       mappings.
@@ -597,12 +616,12 @@ Update this table in place; do not append a history beneath it.
 | --- | --- | --- |
 | 0. Rebaseline cleanup | Complete | — |
 | 1. Disabled baseline | Complete | — |
-| 2. Repository launch preparation | In progress | Exact `0a85d3a…` is deployed and its promotion canary and zero-write preflight pass; complete the two org App selections and bounded final lifecycle rehearsal |
-| Credential boundary | Staging and production Wrap-only complete; release trust pending | Run the reviewed production release-trust and inactive migration-infrastructure CloudShell handoff, then the publication-disabled write-free preflight |
-| 3. Final staging acceptance | In progress | Select the staging fixture repository in both org Apps, then complete the bounded browser-led acceptance sequence, all-false recovery, and staging State validation |
+| 2. Repository launch preparation | In progress | Complete both App selections and probes, then deploy and rehearse submissions `7f24d16e4549102d422efda14c2d6ececed00c82` exactly |
+| Credential boundary | Staging and production Wrap-only complete; release trust pending | Run the reviewed production release-trust CloudShell handoff, then the publication-disabled write-free preflight |
+| 3. Final staging acceptance | In progress | Deploy the selected exact lifecycle candidate, then complete the bounded browser-led acceptance sequence, all-false recovery, and staging State validation |
 | Production launch readiness | Standing authorization recorded; packet incomplete | Complete production trust, final staging, and current launch readbacks; the prepared intake PR remains unmerged |
 | 4. Launch | Not started | Complete the production launch packet; the production deployment gate has not been crossed |
 | 5. Four-week overlap | Not started | Production launch and overlap announcement |
-| 6. Historical completion | In progress | The exact private canary is running; then complete its bounded image waves, inactive migration infrastructure, and packet-bound rewrap/replay; the final delta waits for cutoff |
+| 6. Historical completion | In progress; not an initial-launch gate | Complete the bounded private-image waves, inactive migration infrastructure, and packet-bound rewrap/replay; the final delta waits for cutoff |
 | 7. Remaining product completion | In progress | Issue closure waits for production launch, stable operation, adequate adoption, the final delta, four weeks of overlap, two weeks of notice, and its readiness packet |
 | Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |
