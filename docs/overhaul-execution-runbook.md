@@ -269,8 +269,11 @@ independent historical lane and is not a launch-candidate prerequisite.
       in private allowlisted `lean-eval-state-staging`.
 - [ ] Select the private staging fixture repository in both contents-read org
       App installations, preflight both Apps against that branch, use a
-      runtime-unique tag, and remove the branch/tag/App access after the
-      terminal run.
+      runtime-unique tag, and remove the staging branch and tag after the
+      terminal run. Retain the repository selection only through the named
+      production canary, which uses a separate fixture branch in the same
+      private repository; remove the App access immediately after that canary
+      reaches its verified terminal result.
 - [ ] Retain the exact secret-Gist proof because it binds the headless request
       to the individual GitHub login. Apply only the exact runtime-generated
       Gist file CAS write/restore under standing authorization.
