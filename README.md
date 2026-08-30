@@ -1,7 +1,7 @@
 # Lean Eval
 
 **[View the leaderboard →](https://lean-lang.org/eval/)** ·
-**[Submission information →](https://lean-lang.org/eval/submit/)**
+**[Submit a solution →](https://lean-lang.org/eval/submit/)**
 
 This repository is a comparator-based Lean benchmark for formal mathematics.
 Benchmark authors write trusted problem statements once in shared Lean modules, and the
@@ -291,16 +291,14 @@ The scorer prefers `workspaces/<problem-id>/` when present and falls back to
 
 ## Submission Rules
 
-The stable submission page is:
+To **submit a solution** through the production server, start at the stable
+submission page:
 
 > **[lean-lang.org/eval/submit/](https://lean-lang.org/eval/submit/)**
 
-Production server intake is not enabled yet. During this prelaunch period, the
-functioning way to **submit a solution** to the public leaderboard remains a
-[submission issue](https://github.com/leanprover/lean-eval-submissions/issues/new?template=submit.yml)
-in the submissions repository:
-
-> **[github.com/leanprover/lean-eval-submissions](https://github.com/leanprover/lean-eval-submissions)**
+During the 28-day launch overlap, [submission issue
+intake](https://github.com/leanprover/lean-eval-submissions/issues/new?template=submit.yml)
+remains available as a fallback.
 
 That repository owns the hosted submission pipeline and the stored results.
 This repository (`leanprover/lean-eval`) holds only the problem set and the

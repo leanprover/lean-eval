@@ -13,9 +13,10 @@ body:
         is unprovable as stated, imports are missing, or the intended
         interpretation is ambiguous.
 
-        For submitting a solution, see the stable instructions at
-        https://lean-lang.org/eval/submit/. While production server intake is
-        disabled, open a submission issue in leanprover/lean-eval-submissions.
+        To submit a solution, use the stable submission page at
+        https://lean-lang.org/eval/submit/. During the 28-day launch overlap,
+        issue intake remains available as a fallback at
+        https://github.com/leanprover/lean-eval-submissions/issues/new?template=submit.yml.
 
   - type: input
     id: problem_id
