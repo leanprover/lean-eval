@@ -466,7 +466,7 @@ Result identity.
       isolated replay-disabled Worker.
 - [x] Commit and validate its generated qualification profile. All 35 retained
       public profiles are frozen at
-      `lean-eval-submissions@0bf88bf0e29c6f2abe8fe07aed1ab803ce98f2ec`.
+      `lean-eval-submissions@81e94fe2f4fc819300fd7d4e036f00124166784f`.
 
 ### 12.3 Private archives
 
@@ -508,10 +508,14 @@ operator CloudShell handoff as the production release-trust repair.
 - [ ] Rewrap recoverable archives without changing ciphertext archive bytes or
       stable IDs.
 - [ ] Complete the post-migration readback in the same packet. Bind the
-      randomized sidecar/report hashes, exact audit commit and tree, zero
-      ciphertext changes, credential cleanup, exact current State head, State
-      event IDs and digests, materialized queue hashes and counts, and redacted
-      projection before writing production State or enabling replay.
+      randomized sidecar tree, deterministic report hash, exact staged patch,
+      and then-current audit `main`. Require the pinned source to remain an
+      ancestor, zero overlap between intervening changes and migration-touched
+      paths, and promotion of exactly that patch onto the current head. Bind
+      the resulting commit and tree, zero ciphertext changes, credential
+      cleanup, exact current State head, State event IDs and digests,
+      materialized queue hashes and counts, and redacted projection before
+      writing production State or enabling replay.
 - [ ] Verify and remove temporary authority, credentials, scratch output, and
       plaintext.
 - [ ] Keep every legacy identity copy until the final issue-intake delta is
