@@ -157,16 +157,18 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 ### 5.2 Deployed services
 
 The production and staging submission units are deployed from
-`5612d62f2d97c9b5521d5f761be7c4bb5c78d5d3`; protected submissions `main` is
-the same commit. Production health reports ready, with intake, ordinary and
-historical replay, staging acceptance, every lifecycle API, model
+`34ea521927a34f81458fbaad4528cefc6ef7039b`; protected submissions `main` is
+the workflow-only descendant
+`f73caa718dcd3d4fdd8d7facee6116b4ac1a5ac2`. Production health reports ready,
+with intake, ordinary and historical replay, staging acceptance, every
+lifecycle API, model
 consolidation, the promotion canary, and publication all disabled. Staging
 intake, ordinary and historical replay, every lifecycle API, model
 consolidation, and publication are disabled, while bounded staging acceptance
 and the promotion canary are enabled. The deployed contract pins are production State
 `c6a4bb67b55609ae7215bdd3cac2378b2db42a0a` and staging State
 `8ae11456f0a439f91ec5822ec36adb93b76b0d96`; current protected staging State
-head `747d3c9523ea8b7459ac18e3e17c09219c5f44a4` is an append-only descendant of
+head `7a14c2e29a7a47b040eb4eac6a4d95fedd129d6c` is an append-only descendant of
 its contract pin.
 
 - [x] Read staging and production intake health.
@@ -552,11 +554,11 @@ Update this table in place; do not append a history beneath it.
 | 0. Rebaseline cleanup | Complete | — |
 | 1. Disabled baseline | Complete | — |
 | 2. Repository launch preparation | In progress | Preflight the temporary allowlisted source fixture and complete the exact-version bounded lifecycle rehearsal |
-| Credential boundary | Staging and production Wrap-only complete; release trust pending | Complete the autonomous release-trust repair/preflight through an authenticated operator handoff |
+| Credential boundary | Staging and production Wrap-only complete; release trust pending | Apply the reviewed production trust repair in authenticated CloudShell, then complete the write-free preflight |
 | 3. Final staging acceptance | In progress | Complete the browser, headless, lifecycle, and rejection cases, then return every staging gate to disabled |
 | Production launch readiness | Standing approval recorded; packet incomplete | Finish the exact final staging packet and current launch readbacks |
 | 4. Launch | Not started | Complete the production launch packet |
 | 5. Four-week overlap | Not started | Production launch |
 | 6. Historical completion | In progress | Finish exact private image qualification and the packet-bound rewrap/replay; the final delta waits for cutoff |
-| 7. Remaining product completion | In progress | Only issue closure remains, waiting for overlap and final delta; catalog lifecycle cutover, open-problems, and editorial work are complete |
-| Final audit | Not started | All phases |
+| 7. Remaining product completion | In progress | Issue closure waits for stable operation, adequate adoption, the final delta, four weeks of overlap, two weeks of notice, and its readiness packet; catalog lifecycle cutover, open-problems, and editorial work are complete |
+| Final audit | Preparatory cleanup complete; final audit pending | Classify remaining local work, then repeat the audit after all phases |
