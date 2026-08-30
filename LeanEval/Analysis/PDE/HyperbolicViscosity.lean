@@ -25,7 +25,7 @@ laws converge to the entropy solutions.
 
 * [1]. Bianchini and Bressan, Vanishing viscosity solutions of nonlinear hyperbolic systems. Annals of Mathematics 161 (2005).
 -/
-open Filter Topology Set Function
+open Filter Topology Set Function Bornology
 open scoped NNReal Nat EReal ContDiff
 
 local notation:arg "ℝ^" n:arg => EuclideanSpace ℝ (Fin n)
@@ -43,7 +43,8 @@ structure IsHyperbolicOn : Prop where
 `t > 0` and solves the PDE in the classical sense for `t > 0`. -/
 structure IsSmoothGlobalSolution (u : ℝ → ℝ → (ℝ^n)) : Prop where
   diff : ContDiffOn ℝ ∞ (uncurry u) (Set.Ioi 0 ×ˢ Set.univ)
-  cont : ∀ t > 0, UniformContinuousOn (uncurry u) (Set.Icc 0 t ×ˢ Set.univ)
+  cont : ∀ n ≤ 2, ∀ t > 0, UniformContinuousOn (uncurry fun s x ↦ iteratedDeriv n (u s · ) x) (Icc 0 t ×ˢ univ)
+  bdd : ∀ n ≤ 2, ∀ t > 0, IsBounded <| (uncurry (fun s x ↦ iteratedDeriv n (u s · ) x)) '' (Icc 0 t ×ˢ univ)
   pde : ∀ t > 0, ∀ x, (deriv (u · x) t) + A (u t x) (deriv (u t ·) x) = iteratedDeriv 2 (u t ·) x
 
 /-- A total variation estimate holds if the total variation of any smooth solution
