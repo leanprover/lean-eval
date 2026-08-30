@@ -145,11 +145,11 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 
 | Repository | Commit | Protection state |
 | --- | --- | --- |
-| `lean-eval` | `9acf11c780d7b885da9e116242cd0baefd8c16dd` | Required `verify` |
-| `lean-eval-submissions` | `674ab422f1d9adcf7108f8ea1ff623b37c59409b` | Required `verify` |
+| `lean-eval` | `bee67510dd465711f5f2aca022e63a7f45b302cd` | Required `verify` |
+| `lean-eval-submissions` | `f2d7f7cbecec89da19c685452ee521b8e708f51e` | Required `verify` |
 | `lean-eval-leaderboard` | `bf534c149e204a286a5cd9bbaff449449567834b` | Required `build` |
 | `lean-eval-state` | `07e68200ee20efdd363cea16c1d08a13971acc2e` | Required `validate`; append-only |
-| `lean-eval-state-staging` | `47265478629dee0a6d8be59e8707bf4410b6b9ca` | Required `validate`; append-only |
+| `lean-eval-state-staging` | `869e098021073462fc36d7de3f7aa3b58df0b9d4` | Required `validate`; append-only |
 | `lean-eval-releases` | `4f3d4cdd11d41e93294ba7821899923375ba360f` | Required `validate` |
 | `lean-eval-generator` | `010b01634cccda2db538cf9b09e6f26ddc453743` | Required `check` |
 | `lean-eval-audit` | `eadf24b2b4a99c56ef59a43811eab9d54ae013ac` | Reviewed changes; non-rewritable linear history |
@@ -158,7 +158,7 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 
 The production and staging submission units, brokers, and replay executors are
 deployed from protected submissions `main` commit
-`674ab422f1d9adcf7108f8ea1ff623b37c59409b`. Structured health reports one
+`f2d7f7cbecec89da19c685452ee521b8e708f51e`. Structured health reports one
 coherent ready unit. Production intake, ordinary and historical replay,
 staging acceptance, every lifecycle API, model consolidation, the promotion
 canary, and publication are disabled. Staging intake, ordinary and historical
@@ -168,7 +168,7 @@ enabled. The deployed contract pins are production State
 `c6a4bb67b55609ae7215bdd3cac2378b2db42a0a` and staging State
 `8ae11456f0a439f91ec5822ec36adb93b76b0d96`. Protected production State
 `07e68200ee20efdd363cea16c1d08a13971acc2e` and protected staging State
-`47265478629dee0a6d8be59e8707bf4410b6b9ca` are validated append-only
+`869e098021073462fc36d7de3f7aa3b58df0b9d4` are validated append-only
 descendants of their respective contract pins.
 
 - [x] Read staging and production intake health.
@@ -239,11 +239,14 @@ These lanes can proceed in parallel after Phase 1.
 ### 6.4 Exact-version lifecycle rehearsal
 
 The operational-baseline table in section 5.1 records the current executable
-repository family. The submission units are deployed from
-`674ab422f1d9adcf7108f8ea1ff623b37c59409b` in the state described in section
-5.2. Bind every remaining case to this exact final candidate.
+repository family. Protected submissions `main` is
+`f2d7f7cbecec89da19c685452ee521b8e708f51e`, the current protected deployment
+candidate. The final lifecycle rehearsal must instead bind every
+remaining case to the exact protected-main descendant and immutable dispatch
+tag after the bounded private-qualification and concurrency work is complete.
 
-- [x] Select the exact candidate commits across the repository family.
+- [ ] Bind the exact final candidate commits across the repository family after
+      the bounded private-qualification and concurrency work is complete.
 - [x] Use a synthetic private source repository owned for staging.
 - [x] Move the final source fixture to a temporary, non-default fixture branch
       in private allowlisted `lean-eval-state-staging`.
@@ -321,7 +324,7 @@ State events. The maintainer deliberately performs the browser submission as
 an operator handoff; the exact unavoidable secret-Gist CAS mutation for the
 headless identity proof is covered by standing authorization.
 
-- [x] Deploy the exact candidate version to staging through the normal
+- [ ] Deploy the exact final candidate version to staging through the normal
       protected path.
 - [ ] Run one successful browser submission.
 - [ ] Run one successful source-bound headless submission.
@@ -562,12 +565,12 @@ Update this table in place; do not append a history beneath it.
 | --- | --- | --- |
 | 0. Rebaseline cleanup | Complete | — |
 | 1. Disabled baseline | Complete | — |
-| 2. Repository launch preparation | In progress | Add the temporary private fixture to both source Apps, then complete the exact-version bounded lifecycle rehearsal |
-| Credential boundary | Staging and production Wrap-only complete; release trust pending | Apply the reviewed production trust repair in authenticated CloudShell, then complete the write-free preflight |
-| 3. Final staging acceptance | In progress | Complete the browser, headless, lifecycle, and rejection cases, then return every staging gate to disabled |
-| Production launch readiness | Standing approval recorded; packet incomplete | Finish the exact final staging packet and current launch readbacks |
+| 2. Repository launch preparation | In progress | Complete both App selections and probes, then deploy and rehearse the exact protected-main lifecycle candidate |
+| Credential boundary | Staging and production Wrap-only complete; release trust pending | Complete the production release-trust operator handoff and publication-disabled write-free preflight |
+| 3. Final staging acceptance | In progress | Complete the exact-candidate browser, headless, lifecycle, and rejection handoffs, then all-false recovery and staging State validation |
+| Production launch readiness | Standing authorization recorded; packet incomplete | Complete the production trust preflight, exact final staging packet, and current launch readbacks |
 | 4. Launch | Not started | Complete the production launch packet |
 | 5. Four-week overlap | Not started | Production launch |
-| 6. Historical completion | In progress | Finish exact private image qualification and migration infrastructure, then complete the packet-bound rewrap/replay; the final delta waits for cutoff |
+| 6. Historical completion | In progress | Complete exact private-image qualification with the protected reconciler, retire the temporary qualifier, then complete inactive migration infrastructure and the packet-bound rewrap/replay; the final delta waits for cutoff |
 | 7. Remaining product completion | In progress | Issue closure waits for stable operation, adequate adoption, the final delta, four weeks of overlap, two weeks of notice, and its readiness packet; catalog lifecycle cutover, open-problems, and editorial work are complete |
-| Final audit | Preparatory cleanup complete; final audit pending | Classify remaining local work, then repeat the audit after all phases |
+| Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |
