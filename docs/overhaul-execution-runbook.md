@@ -145,31 +145,31 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 
 | Repository | Commit | Protection state |
 | --- | --- | --- |
-| `lean-eval` | `9625d5f290ca70c293ed73e8ea91fd40e61480e2` | Required `verify` |
-| `lean-eval-submissions` | `81e94fe2f4fc819300fd7d4e036f00124166784f` | Required `verify` |
+| `lean-eval` | `9acf11c780d7b885da9e116242cd0baefd8c16dd` | Required `verify` |
+| `lean-eval-submissions` | `674ab422f1d9adcf7108f8ea1ff623b37c59409b` | Required `verify` |
 | `lean-eval-leaderboard` | `bf534c149e204a286a5cd9bbaff449449567834b` | Required `build` |
-| `lean-eval-state` | `c6a4bb67b55609ae7215bdd3cac2378b2db42a0a` | Required `validate`; append-only |
-| `lean-eval-state-staging` | `e4b9316dd8d3db17751feae1b66d005c28ef02c8` | Required `validate`; append-only |
-| `lean-eval-releases` | `071a52e2095d47ae4684ee983a7e08520f3c808a` | Required `validate` |
+| `lean-eval-state` | `07e68200ee20efdd363cea16c1d08a13971acc2e` | Required `validate`; append-only |
+| `lean-eval-state-staging` | `47265478629dee0a6d8be59e8707bf4410b6b9ca` | Required `validate`; append-only |
+| `lean-eval-releases` | `4f3d4cdd11d41e93294ba7821899923375ba360f` | Required `validate` |
 | `lean-eval-generator` | `010b01634cccda2db538cf9b09e6f26ddc453743` | Required `check` |
 | `lean-eval-audit` | `eadf24b2b4a99c56ef59a43811eab9d54ae013ac` | Reviewed changes; non-rewritable linear history |
 
 ### 5.2 Deployed services
 
-The production and staging submission units are deployed from
-`34ea521927a34f81458fbaad4528cefc6ef7039b`; protected submissions `main` is
-the workflow-only descendant
-`f73caa718dcd3d4fdd8d7facee6116b4ac1a5ac2`. Production health reports ready,
-with intake, ordinary and historical replay, staging acceptance, every
-lifecycle API, model
-consolidation, the promotion canary, and publication all disabled. Staging
-intake, ordinary and historical replay, every lifecycle API, model
-consolidation, and publication are disabled, while bounded staging acceptance
-and the promotion canary are enabled. The deployed contract pins are production State
+The production and staging submission units, brokers, and replay executors are
+deployed from protected submissions `main` commit
+`674ab422f1d9adcf7108f8ea1ff623b37c59409b`. Structured health reports one
+coherent ready unit. Production intake, ordinary and historical replay,
+staging acceptance, every lifecycle API, model consolidation, the promotion
+canary, and publication are disabled. Staging intake, ordinary and historical
+replay, every lifecycle API, model consolidation, and publication are
+disabled, while bounded staging acceptance and the promotion canary are
+enabled. The deployed contract pins are production State
 `c6a4bb67b55609ae7215bdd3cac2378b2db42a0a` and staging State
-`8ae11456f0a439f91ec5822ec36adb93b76b0d96`; current protected staging State
-head `7a14c2e29a7a47b040eb4eac6a4d95fedd129d6c` is an append-only descendant of
-its contract pin.
+`8ae11456f0a439f91ec5822ec36adb93b76b0d96`. Protected production State
+`07e68200ee20efdd363cea16c1d08a13971acc2e` and protected staging State
+`47265478629dee0a6d8be59e8707bf4410b6b9ca` are validated append-only
+descendants of their respective contract pins.
 
 - [x] Read staging and production intake health.
 - [x] Read staging and production broker/replay health and current versions.
@@ -240,9 +240,8 @@ These lanes can proceed in parallel after Phase 1.
 
 The operational-baseline table in section 5.1 records the current executable
 repository family. The submission units are deployed from
-`5612d62f2d97c9b5521d5f761be7c4bb5c78d5d3` in the state described in section
-5.2. Bind every remaining case to the exact final candidate selected for the
-staging acceptance gate.
+`674ab422f1d9adcf7108f8ea1ff623b37c59409b` in the state described in section
+5.2. Bind every remaining case to this exact final candidate.
 
 - [x] Select the exact candidate commits across the repository family.
 - [x] Use a synthetic private source repository owned for staging.
@@ -283,8 +282,8 @@ authority absent:
 Complete the production **Wrap-only** connection autonomously while intake
 remains disabled:
 
-Current qualification: production Wrap-only preflight run `33245433960`
-completed successfully.
+Current qualification: the immutable-tag production Wrap-only preflight
+passes, including an actual synthetic Encrypt and an explicit Decrypt denial.
 
 - [x] Connect repository environment
       `archive-production` variable `AWS_WRAP_ROLE_ARN` to
@@ -296,6 +295,11 @@ completed successfully.
 
 Complete the isolated production release-role trust repair autonomously while
 publication remains disabled:
+
+The production controller and audit-read credentials pass their current
+write-free preflights, protected production State validates at
+`07e68200ee20efdd363cea16c1d08a13971acc2e`, and its materialized release queue
+is empty. Only the release role's obsolete OIDC subject remains to repair.
 
 - [ ] Change only the trust on
       `lean-eval-release-unwrap-invoker-production` from the obsolete name-only
@@ -421,19 +425,20 @@ delta, and treat only the announced issue-intake cutoff as the final corpus.
 
 ### 12.2 Public source
 
-The current canonical public-source classification aggregate is
+The current retained-baseline public-source classification aggregate is
 `evidence/historical-public-replay-github-evidence-current.json` at
-`lean-eval-submissions@617bf711bff8cd34f02a49b7ab1e3de66a0fd86e`, with SHA-256
-digest
+`lean-eval-submissions@674ab422f1d9adcf7108f8ea1ff623b37c59409b`, with SHA-256 digest
 `7c10dfc3e3d66f6f9ae0107ef2ed94b8f731d7f8410741ed3f5978dc55e149e5`.
 It covers 318 requests and 636 Results: 123 requests are resolved and 195 are
 classified source-unavailable, with no ambiguous, missing, indeterminate, or
-unreviewed classification. The source-unavailable cases still require reviewed
-terminal State dispositions.
+unreviewed classification. Protected production State commit
+`07e68200ee20efdd363cea16c1d08a13971acc2e` contains exactly the 459 reviewed
+terminal unavailable events for those 195 requests, with no missing or extra
+Result identity.
 
-- [ ] Retain the final canonical public replay plan and exact toolchain/source
+- [x] Retain the retained-baseline canonical public replay plan and exact toolchain/source
       mappings.
-- [ ] Review each `source_unavailable` classification for its terminal State
+- [x] Review each retained-baseline `source_unavailable` classification for its terminal State
       disposition.
 - [x] Build/qualify only images used by replayable results.
 - [x] Qualify the final missing image from the retained baseline plan in an
@@ -446,8 +451,12 @@ terminal State dispositions.
 
 The canonical retained-baseline crosswalk accounts for 639 bound Results and
 29 archive-not-found dispositions. Exact qualification of the 63 private
-images required by that crosswalk is in progress from submissions commit
-`0cdcf3f9f66db6d1555c90e976c886c936b8784c`.
+images required by that crosswalk is in progress against immutable submissions
+commit `674ab422f1d9adcf7108f8ea1ff623b37c59409b`. The credentialed dry migration
+inventory passes against pinned audit commit
+`ad356e7bc5a2d650d9902ac3f6d352a0164360bc`, selected inventory digest
+`a8913f1c8b5073e5b7ab309ba10481b615ca4fc00e629e41a9e57962f3afebd4`, and
+exact count 439 without installing legacy or AWS authority.
 
 - [x] Reconcile exact archive/result bindings and explicit orphans.
 - [ ] Prepare a dedicated migration Wrap role and exact OIDC trust.
@@ -553,12 +562,12 @@ Update this table in place; do not append a history beneath it.
 | --- | --- | --- |
 | 0. Rebaseline cleanup | Complete | — |
 | 1. Disabled baseline | Complete | — |
-| 2. Repository launch preparation | In progress | Preflight the temporary allowlisted source fixture and complete the exact-version bounded lifecycle rehearsal |
+| 2. Repository launch preparation | In progress | Add the temporary private fixture to both source Apps, then complete the exact-version bounded lifecycle rehearsal |
 | Credential boundary | Staging and production Wrap-only complete; release trust pending | Apply the reviewed production trust repair in authenticated CloudShell, then complete the write-free preflight |
 | 3. Final staging acceptance | In progress | Complete the browser, headless, lifecycle, and rejection cases, then return every staging gate to disabled |
 | Production launch readiness | Standing approval recorded; packet incomplete | Finish the exact final staging packet and current launch readbacks |
 | 4. Launch | Not started | Complete the production launch packet |
 | 5. Four-week overlap | Not started | Production launch |
-| 6. Historical completion | In progress | Finish exact private image qualification and the packet-bound rewrap/replay; the final delta waits for cutoff |
+| 6. Historical completion | In progress | Finish exact private image qualification and migration infrastructure, then complete the packet-bound rewrap/replay; the final delta waits for cutoff |
 | 7. Remaining product completion | In progress | Issue closure waits for stable operation, adequate adoption, the final delta, four weeks of overlap, two weeks of notice, and its readiness packet; catalog lifecycle cutover, open-problems, and editorial work are complete |
 | Final audit | Preparatory cleanup complete; final audit pending | Classify remaining local work, then repeat the audit after all phases |
