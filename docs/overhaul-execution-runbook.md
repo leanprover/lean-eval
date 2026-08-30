@@ -145,8 +145,8 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 
 | Repository | Commit | Protection state |
 | --- | --- | --- |
-| `lean-eval` | `d448950a4d1fd33255e1c1be922a48b6a1b736c8` | Required `verify` |
-| `lean-eval-submissions` | `8b10a26137eb2e4e36691d566c37fbdd01fd3326` | Required `verify` |
+| `lean-eval` | `05a15ef7e91908ba0deb302b43fbf2dcab0447c1` | Required `verify` |
+| `lean-eval-submissions` | `226a0cd78851fda475dee9e669b30e77ccddbd0b` | Required `verify` |
 | `lean-eval-leaderboard` | `bf534c149e204a286a5cd9bbaff449449567834b` | Required `build` |
 | `lean-eval-state` | `07e68200ee20efdd363cea16c1d08a13971acc2e` | Required `validate`; append-only |
 | `lean-eval-state-staging` | `c3a82407e7c133a08669ec65303b8e57cfc1ac7d` | Required `validate`; append-only |
@@ -157,7 +157,7 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 ### 5.2 Deployed services
 
 The staging submission unit, broker, and replay executor are deployed from
-submissions commit `0025d7470914597d316e0c03884909439788a188`; the production
+submissions commit `226a0cd78851fda475dee9e669b30e77ccddbd0b`; the production
 unit remains deployed from `30bc92b3d46bd2a3ba1788433264fdd70ae3c74e`.
 Structured health reports coherent units in both environments. Production
 intake, ordinary and historical replay, staging acceptance, every lifecycle
@@ -240,12 +240,12 @@ These lanes can proceed in parallel after Phase 1.
 
 The operational-baseline table in section 5.1 records the current repository
 family. Protected submissions `main` is
-`8b10a26137eb2e4e36691d566c37fbdd01fd3326`; the exact currently deployed
-staging runtime is `0025d7470914597d316e0c03884909439788a188`. The final
+`226a0cd78851fda475dee9e669b30e77ccddbd0b`; the exact currently deployed
+staging runtime is `226a0cd78851fda475dee9e669b30e77ccddbd0b`. The final
 lifecycle rehearsal must bind every
 remaining case to the exact protected-main descendant and immutable dispatch
 tag selected immediately before the rehearsal. Historical image preparation is
-an independent post-launch lane and is not a launch-candidate prerequisite.
+an independent historical lane and is not a launch-candidate prerequisite.
 
 - [ ] Bind the exact final candidate commits across the repository family
       immediately before the final rehearsal.
@@ -326,7 +326,7 @@ State events. The maintainer deliberately performs the browser submission as
 an operator handoff; the exact unavoidable secret-Gist CAS mutation for the
 headless identity proof is covered by standing authorization.
 
-- [ ] Deploy the exact final candidate version to staging through the normal
+- [x] Deploy the exact final candidate version to staging through the normal
       protected path.
 - [ ] Run one successful browser submission.
 - [ ] Run one successful source-bound headless submission.
@@ -571,7 +571,7 @@ Update this table in place; do not append a history beneath it.
 | --- | --- | --- |
 | 0. Rebaseline cleanup | Complete | — |
 | 1. Disabled baseline | Complete | — |
-| 2. Repository launch preparation | In progress | Complete both App selections and probes, then deploy and rehearse the exact protected-main lifecycle candidate |
+| 2. Repository launch preparation | In progress | Complete both App selections and probes, then bind and rehearse the exact protected-main lifecycle candidate |
 | Credential boundary | Staging and production Wrap-only complete; release trust pending | Complete the production release-trust operator handoff and publication-disabled write-free preflight |
 | 3. Final staging acceptance | In progress | Complete the exact-candidate browser, headless, lifecycle, and rejection handoffs, then all-false recovery and staging State validation |
 | Production launch readiness | Standing authorization recorded; packet incomplete | Complete the production trust preflight, exact final staging packet, and current launch readbacks |
