@@ -145,30 +145,30 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 
 | Repository | Commit | Protection state |
 | --- | --- | --- |
-| `lean-eval` | `bee67510dd465711f5f2aca022e63a7f45b302cd` | Required `verify` |
-| `lean-eval-submissions` | `f2d7f7cbecec89da19c685452ee521b8e708f51e` | Required `verify` |
+| `lean-eval` | `d448950a4d1fd33255e1c1be922a48b6a1b736c8` | Required `verify` |
+| `lean-eval-submissions` | `8b10a26137eb2e4e36691d566c37fbdd01fd3326` | Required `verify` |
 | `lean-eval-leaderboard` | `bf534c149e204a286a5cd9bbaff449449567834b` | Required `build` |
 | `lean-eval-state` | `07e68200ee20efdd363cea16c1d08a13971acc2e` | Required `validate`; append-only |
-| `lean-eval-state-staging` | `869e098021073462fc36d7de3f7aa3b58df0b9d4` | Required `validate`; append-only |
+| `lean-eval-state-staging` | `c3a82407e7c133a08669ec65303b8e57cfc1ac7d` | Required `validate`; append-only |
 | `lean-eval-releases` | `4f3d4cdd11d41e93294ba7821899923375ba360f` | Required `validate` |
 | `lean-eval-generator` | `010b01634cccda2db538cf9b09e6f26ddc453743` | Required `check` |
 | `lean-eval-audit` | `eadf24b2b4a99c56ef59a43811eab9d54ae013ac` | Reviewed changes; non-rewritable linear history |
 
 ### 5.2 Deployed services
 
-The production and staging submission units, brokers, and replay executors are
-deployed from protected submissions `main` commit
-`f2d7f7cbecec89da19c685452ee521b8e708f51e`. Structured health reports one
-coherent ready unit. Production intake, ordinary and historical replay,
-staging acceptance, every lifecycle API, model consolidation, the promotion
-canary, and publication are disabled. Staging intake, ordinary and historical
-replay, every lifecycle API, model consolidation, and publication are
-disabled, while bounded staging acceptance and the promotion canary are
-enabled. The deployed contract pins are production State
+The staging submission unit, broker, and replay executor are deployed from
+submissions commit `0025d7470914597d316e0c03884909439788a188`; the production
+unit remains deployed from `30bc92b3d46bd2a3ba1788433264fdd70ae3c74e`.
+Structured health reports coherent units in both environments. Production
+intake, ordinary and historical replay, staging acceptance, every lifecycle
+API, model consolidation, the promotion canary, and publication are disabled.
+Staging intake, ordinary and historical replay, every lifecycle API, model
+consolidation, and publication are disabled, while bounded staging acceptance
+and the promotion canary are enabled. The deployed contract pins are production State
 `c6a4bb67b55609ae7215bdd3cac2378b2db42a0a` and staging State
 `8ae11456f0a439f91ec5822ec36adb93b76b0d96`. Protected production State
 `07e68200ee20efdd363cea16c1d08a13971acc2e` and protected staging State
-`869e098021073462fc36d7de3f7aa3b58df0b9d4` are validated append-only
+`c3a82407e7c133a08669ec65303b8e57cfc1ac7d` are validated append-only
 descendants of their respective contract pins.
 
 - [x] Read staging and production intake health.
@@ -238,10 +238,11 @@ These lanes can proceed in parallel after Phase 1.
 
 ### 6.4 Exact-version lifecycle rehearsal
 
-The operational-baseline table in section 5.1 records the current executable
-repository family. Protected submissions `main` is
-`f2d7f7cbecec89da19c685452ee521b8e708f51e`, the current protected deployment
-candidate. The final lifecycle rehearsal must instead bind every
+The operational-baseline table in section 5.1 records the current repository
+family. Protected submissions `main` is
+`8b10a26137eb2e4e36691d566c37fbdd01fd3326`; the exact currently deployed
+staging runtime is `0025d7470914597d316e0c03884909439788a188`. The final
+lifecycle rehearsal must bind every
 remaining case to the exact protected-main descendant and immutable dispatch
 tag selected immediately before the rehearsal. Historical image preparation is
 an independent post-launch lane and is not a launch-candidate prerequisite.
