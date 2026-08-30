@@ -243,10 +243,11 @@ repository family. Protected submissions `main` is
 `f2d7f7cbecec89da19c685452ee521b8e708f51e`, the current protected deployment
 candidate. The final lifecycle rehearsal must instead bind every
 remaining case to the exact protected-main descendant and immutable dispatch
-tag after the bounded private-qualification and concurrency work is complete.
+tag selected immediately before the rehearsal. Historical image preparation is
+an independent post-launch lane and is not a launch-candidate prerequisite.
 
-- [ ] Bind the exact final candidate commits across the repository family after
-      the bounded private-qualification and concurrency work is complete.
+- [ ] Bind the exact final candidate commits across the repository family
+      immediately before the final rehearsal.
 - [x] Use a synthetic private source repository owned for staging.
 - [x] Move the final source fixture to a temporary, non-default fixture branch
       in private allowlisted `lean-eval-state-staging`.
@@ -453,18 +454,22 @@ Result identity.
 ### 12.3 Private archives
 
 The canonical retained-baseline crosswalk accounts for 639 bound Results and
-29 archive-not-found dispositions. Exact qualification of the 63 private
-images required by that crosswalk is in progress against immutable submissions
-commit `674ab422f1d9adcf7108f8ea1ff623b37c59409b`. The credentialed dry migration
-inventory passes against pinned audit commit
+29 archive-not-found dispositions. The private plan needs 63 exact images that
+are not supplied by retained public profiles. Following completion-plan section
+9.3, publish and inspect those immutable images without a separate synthetic
+Cloudflare qualification campaign; the first real migrated replay is the
+serialized execution canary. The credentialed dry migration inventory passes
+against pinned audit commit
 `ad356e7bc5a2d650d9902ac3f6d352a0164360bc`, selected inventory digest
 `a8913f1c8b5073e5b7ab309ba10481b615ca4fc00e629e41a9e57962f3afebd4`, and
 exact count 439 without installing legacy or AWS authority.
 
 - [x] Reconcile exact archive/result bindings and explicit orphans.
 - [ ] Prepare a dedicated migration Wrap role and exact OIDC trust.
-- [ ] Build and qualify only the exact private replay images used by the
-      retained baseline inventory.
+- [ ] Build, publish by immutable digest, and inspect only the exact private
+      replay images used by the retained baseline inventory.
+- [ ] Retire the synthetic private-image qualifier and its bounded-wave
+      controller; do not replace them with another qualification service.
 - [ ] Complete the pre-mutation portion of one immutable retained-baseline
       historical migration/replay packet. Bind exact public/private profile and
       task-content hashes and counts, rewrap inventory, workflow commit and
@@ -571,6 +576,6 @@ Update this table in place; do not append a history beneath it.
 | Production launch readiness | Standing authorization recorded; packet incomplete | Complete the production trust preflight, exact final staging packet, and current launch readbacks |
 | 4. Launch | Not started | Complete the production launch packet |
 | 5. Four-week overlap | Not started | Production launch |
-| 6. Historical completion | In progress | Complete exact private-image qualification with the protected reconciler, retire the temporary qualifier, then complete inactive migration infrastructure and the packet-bound rewrap/replay; the final delta waits for cutoff |
+| 6. Historical completion | In progress | Publish and inspect the exact private images, retire the synthetic qualifier, then complete inactive migration infrastructure and the packet-bound rewrap/replay; the final delta waits for cutoff |
 | 7. Remaining product completion | In progress | Issue closure waits for stable operation, adequate adoption, the final delta, four weeks of overlap, two weeks of notice, and its readiness packet; catalog lifecycle cutover, open-problems, and editorial work are complete |
 | Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |
