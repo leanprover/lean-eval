@@ -157,9 +157,8 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 ### 5.2 Deployed services
 
 The production and staging submission units are deployed from
-`642f8d8a2b7fd4b032e5057ec8d24f02bfdb4381`; protected submissions `main` is
-the documentation-only descendant
-`f3c9366458c0d7163dad54c97f7e9f34a36b1c0c`. Production intake, ordinary and
+`0cdcf3f9f66db6d1555c90e976c886c936b8784c`; protected submissions `main` is
+the same commit. Production intake, ordinary and
 historical replay, staging acceptance, every lifecycle API, model
 consolidation, the promotion canary, and publication are disabled. Staging
 intake, ordinary and historical replay, every lifecycle API, model
@@ -239,7 +238,7 @@ These lanes can proceed in parallel after Phase 1.
 
 The operational-baseline table in section 5.1 records the current executable
 repository family. The submission units are deployed from
-`642f8d8a2b7fd4b032e5057ec8d24f02bfdb4381` in the state described in section
+`0cdcf3f9f66db6d1555c90e976c886c936b8784c` in the state described in section
 5.2. Bind every remaining case to the exact final candidate selected for the
 staging acceptance gate.
 
@@ -446,7 +445,7 @@ terminal State dispositions.
 The canonical retained-baseline crosswalk accounts for 639 bound Results and
 29 archive-not-found dispositions. Exact qualification of the 63 private
 images required by that crosswalk is in progress from submissions commit
-`642f8d8a2b7fd4b032e5057ec8d24f02bfdb4381`.
+`0cdcf3f9f66db6d1555c90e976c886c936b8784c`.
 
 - [x] Reconcile exact archive/result bindings and explicit orphans.
 - [ ] Prepare a dedicated migration Wrap role and exact OIDC trust.
