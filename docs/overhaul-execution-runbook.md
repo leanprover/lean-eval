@@ -156,17 +156,19 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 
 ### 5.2 Deployed services
 
-The production submission unit is deployed from
-`c1013bee0b5b2f57956501e0258d27dc30413d2b`; intake, ordinary and historical
-replay, every lifecycle API, model consolidation, the promotion canary, and
-publication are disabled. The staging submission unit is deployed from
-`a481f81cde1ebfd14b32b4c32f13d5615350ba98`; intake, ordinary and historical
-replay, every lifecycle API, model consolidation, and publication are disabled,
-while the promotion canary is enabled. The deployed contract pins are
-production State
+The production and staging submission units are deployed from
+`642f8d8a2b7fd4b032e5057ec8d24f02bfdb4381`; protected submissions `main` is
+the documentation-only descendant
+`f3c9366458c0d7163dad54c97f7e9f34a36b1c0c`. Production intake, ordinary and
+historical replay, staging acceptance, every lifecycle API, model
+consolidation, the promotion canary, and publication are disabled. Staging
+intake, ordinary and historical replay, every lifecycle API, model
+consolidation, and publication are disabled, while bounded staging acceptance
+and the promotion canary are enabled. The deployed contract pins are production State
 `c6a4bb67b55609ae7215bdd3cac2378b2db42a0a` and staging State
-`8ae11456f0a439f91ec5822ec36adb93b76b0d96`; the append-only staging State head
-in section 5.1 is a descendant of its contract pin.
+`8ae11456f0a439f91ec5822ec36adb93b76b0d96`; current protected staging State
+head `747d3c9523ea8b7459ac18e3e17c09219c5f44a4` is an append-only descendant of
+its contract pin.
 
 - [x] Read staging and production intake health.
 - [x] Read staging and production broker/replay health and current versions.
@@ -237,7 +239,7 @@ These lanes can proceed in parallel after Phase 1.
 
 The operational-baseline table in section 5.1 records the current executable
 repository family. The submission units are deployed from
-`c1013bee0b5b2f57956501e0258d27dc30413d2b` in the state described in section
+`642f8d8a2b7fd4b032e5057ec8d24f02bfdb4381` in the state described in section
 5.2. Bind every remaining case to the exact final candidate selected for the
 staging acceptance gate.
 
@@ -432,7 +434,7 @@ terminal State dispositions.
       mappings.
 - [ ] Review each `source_unavailable` classification for its terminal State
       disposition.
-- [ ] Build/qualify only images used by replayable results.
+- [x] Build/qualify only images used by replayable results.
 - [x] Qualify the final missing image from the retained baseline plan in an
       isolated replay-disabled Worker.
 - [x] Commit and validate its generated qualification profile. All 35 retained
@@ -441,7 +443,12 @@ terminal State dispositions.
 
 ### 12.3 Private archives
 
-- [ ] Reconcile exact archive/result bindings and explicit orphans.
+The canonical retained-baseline crosswalk accounts for 639 bound Results and
+29 archive-not-found dispositions. Exact qualification of the 63 private
+images required by that crosswalk is in progress from submissions commit
+`642f8d8a2b7fd4b032e5057ec8d24f02bfdb4381`.
+
+- [x] Reconcile exact archive/result bindings and explicit orphans.
 - [ ] Prepare a dedicated migration Wrap role and exact OIDC trust.
 - [ ] Build and qualify only the exact private replay images used by the
       retained baseline inventory.
@@ -551,6 +558,6 @@ Update this table in place; do not append a history beneath it.
 | Production launch readiness | Standing approval recorded; packet incomplete | Finish the exact final staging packet and current launch readbacks |
 | 4. Launch | Not started | Complete the production launch packet |
 | 5. Four-week overlap | Not started | Production launch |
-| 6. Historical completion | In progress | Prepare the private rewrap and exact immutable execution packet; production replay and canonical dispositions wait for packet readiness, and the final delta waits for cutoff |
+| 6. Historical completion | In progress | Finish exact private image qualification and the packet-bound rewrap/replay; the final delta waits for cutoff |
 | 7. Remaining product completion | In progress | Only issue closure remains, waiting for overlap and final delta; catalog lifecycle cutover, open-problems, and editorial work are complete |
 | Final audit | Not started | All phases |
