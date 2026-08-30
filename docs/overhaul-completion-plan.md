@@ -262,6 +262,13 @@ Historical legacy-archive migration is not a launch gate for new submissions.
 - Complete one exact-version staging lifecycle from archive through accepted
   result, State, scheduled release, staging reconstruction, and rollback.
 
+For this gate, the exact launch candidate is the submissions commit deployed
+for the lifecycle-API launch step. The later single-purpose intake-enable
+commit is verified separately by the protected staging promotion canary,
+finite-lease transition, and health and State readbacks in section 8; it does
+not require repeating the bounded route-family smoke. Historical image and
+profile commits are independent of this gate.
+
 ### 7.5 Production launch readiness packet
 
 Prepare a compact packet containing:
