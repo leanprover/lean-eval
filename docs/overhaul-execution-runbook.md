@@ -146,10 +146,10 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 | Repository | Commit | Protection state |
 | --- | --- | --- |
 | `lean-eval` | `b7c588ea9aa75eb2bc545d8388041458624f1745` | Required `verify` |
-| `lean-eval-submissions` | `7f24d16e4549102d422efda14c2d6ececed00c82` | Required `verify` |
+| `lean-eval-submissions` | `fe8de3fbe487841883fbd97d0a55bf26e8c261d3` | Required `verify` |
 | `lean-eval-leaderboard` | `8eb6188ee4296acdfa8eae279a4b0abb851fcaff` | Required `build` |
 | `lean-eval-state` | `0c943edde8a247b8670e10339b80fc65be6c0f33` | Required `validate`; append-only |
-| `lean-eval-state-staging` | `ab010c6a9c6234df2ad164f5d7dbd1611d816c3e` | Required `validate`; append-only |
+| `lean-eval-state-staging` | `87771d9858bf53152db15d4293137e1082e6079e` | Required `validate`; append-only |
 | `lean-eval-releases` | `20c077f4916c757acfeb961c706c98833cd9ea2f` | Required `validate` |
 | `lean-eval-generator` | `010b01634cccda2db538cf9b09e6f26ddc453743` | Required `check` |
 | `lean-eval-audit` | `eadf24b2b4a99c56ef59a43811eab9d54ae013ac` | Reviewed changes; non-rewritable linear history |
@@ -157,7 +157,7 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 ### 5.2 Deployed services
 
 The staging submission unit, broker, and replay executor are deployed from the
-exact lifecycle candidate `7f24d16e4549102d422efda14c2d6ececed00c82`.
+exact lifecycle candidate `fe8de3fbe487841883fbd97d0a55bf26e8c261d3`.
 Its protected deployment, promotion canary, write-free State preflight, and
 protected State validation passed. The independent historical private-image
 campaign remains bound to source
@@ -174,7 +174,7 @@ and the promotion canary are enabled. The deployed contract pins are production 
 `c6a4bb67b55609ae7215bdd3cac2378b2db42a0a` and staging State
 `8ae11456f0a439f91ec5822ec36adb93b76b0d96`. Protected production State
 `0c943edde8a247b8670e10339b80fc65be6c0f33` and protected staging State
-`ab010c6a9c6234df2ad164f5d7dbd1611d816c3e` are validated append-only
+`87771d9858bf53152db15d4293137e1082e6079e` are validated append-only
 descendants of their respective contract pins.
 
 - [x] Read staging and production intake health.
@@ -247,16 +247,22 @@ These lanes can proceed in parallel after Phase 1.
 The operational-baseline table in section 5.1 records the current repository
 family. The exact currently deployed staging runtime and selected lifecycle
 launch candidate is protected submissions commit
-`7f24d16e4549102d422efda14c2d6ececed00c82`, with immutable tag
-`lean-eval-dispatch/7f24d16e4549102d422efda14c2d6ececed00c82`.
+`fe8de3fbe487841883fbd97d0a55bf26e8c261d3`, with immutable tag
+`lean-eval-dispatch/fe8de3fbe487841883fbd97d0a55bf26e8c261d3`.
 Its exact staging deployment, promotion-boundary canary, write-free State
-preflight, and protected State validation pass while `cloudflare-production`
-remains held. Complete the bounded rehearsal against that exact commit and use
-the same commit for the production lifecycle deployment if the launch packet
-becomes `GO`. The independent historical private-image campaign remains bound
-to source `0a85d3a055600c3f60149d34f611c9e10767641b`, which no longer defines
-the deployed staging or launch binding. The later intake-only descendant
-receives its own staging promotion canary,
+preflight, and protected State validation pass in submissions runs
+[`33321612119`](https://github.com/leanprover/lean-eval-submissions/actions/runs/33321612119)
+and
+[`33321870851`](https://github.com/leanprover/lean-eval-submissions/actions/runs/33321870851),
+with protected staging State
+`87771d9858bf53152db15d4293137e1082e6079e`, while
+`cloudflare-production` remains held. Complete the bounded rehearsal against
+that exact commit and use the same commit for the production lifecycle
+deployment if the launch packet becomes `GO`. The independent historical
+private-image campaign remains bound to source
+`0a85d3a055600c3f60149d34f611c9e10767641b`, which no longer defines the
+deployed staging or launch binding. The later intake-only descendant receives
+its own staging promotion canary,
 finite-lease transition, and health and State verification. Do not repeat the
 bounded route smoke solely for that toggle. Historical image preparation is an
 independent historical lane and is not a launch-candidate prerequisite.
@@ -641,7 +647,7 @@ Update this table in place; do not append a history beneath it.
 | --- | --- | --- |
 | 0. Rebaseline cleanup | Complete | — |
 | 1. Disabled baseline | Complete | — |
-| 2. Repository launch preparation | In progress | Exact submissions `7f24d16e4549102d422efda14c2d6ececed00c82` is deployed and promotion-qualified; complete both App selections and the bounded rehearsal |
+| 2. Repository launch preparation | In progress | Exact submissions `fe8de3fbe487841883fbd97d0a55bf26e8c261d3` is deployed and promotion-qualified; complete both App selections and the bounded rehearsal |
 | Credential boundary | Staging and production Wrap-only complete; release trust pending | Run the reviewed production release-trust CloudShell handoff, then the publication-disabled write-free preflight |
 | 3. Final staging acceptance | In progress | Complete the two App selections, bounded browser-led acceptance sequence, all-false recovery, and final staging State validation |
 | Production launch readiness | Standing authorization recorded; packet incomplete | Complete production trust, final staging, and current launch readbacks; the prepared intake PR remains unmerged |
