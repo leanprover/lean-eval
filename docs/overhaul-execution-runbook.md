@@ -147,7 +147,7 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 | --- | --- | --- |
 | `lean-eval` | `b7c588ea9aa75eb2bc545d8388041458624f1745` | Required `verify` |
 | `lean-eval-submissions` | `fe8de3fbe487841883fbd97d0a55bf26e8c261d3` | Required `verify` |
-| `lean-eval-leaderboard` | `8eb6188ee4296acdfa8eae279a4b0abb851fcaff` | Required `build` |
+| `lean-eval-leaderboard` | `001c9a317124a6eb94942f1cc1330b630acecbc2` | Required `build` |
 | `lean-eval-state` | `0c943edde8a247b8670e10339b80fc65be6c0f33` | Required `validate`; append-only |
 | `lean-eval-state-staging` | `87771d9858bf53152db15d4293137e1082e6079e` | Required `validate`; append-only |
 | `lean-eval-releases` | `20c077f4916c757acfeb961c706c98833cd9ea2f` | Required `validate` |
@@ -441,7 +441,7 @@ After the launch packet is complete:
       the visible pre-release opt-out, force an immediate leaderboard build,
       and verify the withheld choice and exact source-State commit on the live
       page.
-- [ ] Keep the periodic read-only leaderboard State-drift deployment path
+- [x] Keep the periodic read-only leaderboard State-drift deployment path
       active so later State-only lifecycle events cannot leave the public site
       stale indefinitely.
 - [ ] On success, delete the exact private canary branch and remove the private
