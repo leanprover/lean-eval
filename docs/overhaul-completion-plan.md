@@ -92,7 +92,10 @@ The following remain part of the overhaul.
 - Append-only State transitions and immutable base Results records.
 - Metadata backfill, result repair and retraction requests, maintainer
   decisions, model aliases, and model renaming.
-- Visible release opt-out and the automatic two-calendar-month release policy.
+- A visible initial choice between scheduled publication and private source,
+  one-way later private-to-scheduled opt-in, and the automatic
+  two-calendar-month release policy. Scheduled publication cannot later be
+  changed to private.
 - An operator-controlled emergency pause and deterministic recovery path.
 
 ### 3.3 Archive and release
@@ -103,7 +106,8 @@ The following remain part of the overhaul.
 - Automatic reconstruction and publication from the accepted immutable
   snapshot, with source and credentials excluded from public logs and
   artifacts.
-- Existing grandfathering and opt-out policy for legacy submissions.
+- Existing grandfathering policy for legacy submissions, without inferring a
+  new publication choice for them.
 
 ### 3.4 Historical replay and statistics
 
@@ -203,7 +207,7 @@ Launch with most of the implemented lifecycle surface available.
 | Repair and retraction requests | Enable | One valid owner request and one invalid or non-owner denial |
 | Maintainer decisions | Enable | One configured-maintainer success and one non-maintainer denial |
 | Model alias and rename | Enable | One owner success and one collision or non-owner denial |
-| Release opt-out | Enable | One pre-release opt-out with scheduling consequence checked |
+| Publication opt-in | Enable | One post-result private-to-scheduled transition with its atomic release schedule checked |
 | Model consolidation | Keep disabled or remove | Not a launch test |
 
 This is intentionally a bounded smoke, not a qualification campaign. Existing
@@ -459,7 +463,8 @@ The lifecycle overhaul is finished when all of the following are true:
 - production server intake is the supported intake path;
 - new submissions archive before evaluation with per-submission envelopes;
 - accepted and rejected lifecycle transitions are coherent and recoverable;
-- automatic two-calendar-month releases are operating with opt-out support;
+- automatic two-calendar-month releases are operating with initial
+  scheduled/private choice and one-way private-to-scheduled opt-in;
 - the launch-approved backfill, repair/retraction, maintainer, alias, and rename
   functions are available;
 - the leaderboard correctly exposes lifecycle, statements, standings,

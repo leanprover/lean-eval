@@ -223,7 +223,8 @@ These lanes can proceed in parallel after Phase 1.
       desired policy excludes unwrap.
 - [x] Verify the release controller reconstructs deterministically with
       publication disabled using credential-free fixtures.
-- [x] Verify submitter-facing license, release delay, and opt-out language.
+- [ ] Verify submitter-facing license, release delay, initial private choice,
+      and irreversible later opt-in language.
 
 ### 6.3 Lifecycle API launch surface
 
@@ -237,7 +238,7 @@ These lanes can proceed in parallel after Phase 1.
   - [x] repair/retraction request;
   - [x] maintainer decision;
   - [x] model alias/rename; and
-  - [x] release opt-out success.
+  - [ ] publication opt-in success, including post-result atomic scheduling.
 - [x] Verify every launch gate can be returned to disabled and health reports
       the effective state.
 - [x] Do not build a persistent staging harness.
@@ -396,7 +397,7 @@ section 11. The packet must still show these launch components separately:
 - [ ] enable automatic release controller;
 - [ ] enable the approved public lifecycle APIs;
 - [ ] enable production intake and create one named production canary, with
-      permanent archive, Result, State, release-schedule, and opt-out records;
+      permanent archive, Result, State, and release-schedule records;
       and
 - [ ] publish the overlap announcement.
 
@@ -422,7 +423,8 @@ After the launch packet is complete:
 ### 10.2 Lifecycle APIs
 
 - [ ] Enable only backfill, repair/retraction, maintainer decisions,
-      alias/rename, and release opt-out.
+      alias/rename, and one-way publication opt-in. The reverse publication
+      transition must remain unavailable.
 - [ ] Keep model consolidation disabled.
 - [ ] Verify effective public health and one non-mutating authorization denial.
 
@@ -437,10 +439,10 @@ After the launch packet is complete:
       leaderboard presentation, and release scheduling.
 - [ ] Use the packet-bound visible archived problem and exact previously
       accepted Kim-owned source with a distinct canary model identity.
-- [ ] Verify the initially scheduled Result on the live problem page, exercise
-      the visible pre-release opt-out, force an immediate leaderboard build,
-      and verify the withheld choice and exact source-State commit on the live
-      page.
+- [ ] Submit the canary as private, verify that choice on the live problem page,
+      exercise the visible irreversible publication opt-in, force an immediate
+      leaderboard build, and verify the scheduled choice, release schedule,
+      and exact source-State commit on the live page.
 - [x] Keep the periodic read-only leaderboard State-drift deployment path
       active so later State-only lifecycle events cannot leave the public site
       stale indefinitely.

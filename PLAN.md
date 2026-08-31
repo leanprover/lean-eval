@@ -338,17 +338,23 @@ under the old policy because that path does not collect the new acknowledgement.
   challenge files, and unrelated files. Submitting includes an acknowledgement
   that the submitter has authority to license those files and grants a license
   (proposal: Apache 2.0) that takes effect at release.
-- **Submitters may opt out** at submission time or any time before release.
-  Opt-outs are recorded and displayed on the leaderboard entry ("solution
-  withheld"). The default is release; opting out is visible.
+- **Submitters choose scheduled release or private source at submission.**
+  Scheduled release is the default and is irreversible. A submitter who chose
+  private source may later authorize scheduled release; the reverse transition
+  is not supported. The current choice is recorded and displayed on the
+  leaderboard entry.
 - **Existing submissions are grandfathered.** Their declared tiers stand. The
-  backfill mechanism includes an invitation to opt in to release.
+  backfill mechanism includes an invitation to schedule release.
 
 The proposed two-month delay should outlast most evaluation runs while releasing
 proofs soon enough to remain useful. I'm open to argument about the duration.
-The append-only event order resolves an opt-out racing with release: an opt-out
-recorded before the release transition prevents publication. Release jobs are
-idempotent, record failures, and retry without changing the scheduled date.
+Before result recording, the recorded choice determines whether the result and
+release schedule are created together. After result recording, a
+private-to-scheduled transition atomically records the publication change and
+creates the missing release schedule. Its eligibility date remains exactly two
+UTC calendar months after acceptance, so a later authorization may make the
+release immediately due. Release jobs are idempotent, record failures, and
+retry without changing the scheduled date.
 
 **Audit-archive key management.** The archive is currently encrypted to a
 single key that only I hold, which is incompatible with automatic release.
@@ -514,7 +520,7 @@ The client-side tables support sorting and filtering.
   released solutions. These pages support fixed-problem comparisons of models
   and harnesses.
 - **Metadata display** with provenance: declared-at-submission vs backfilled,
-  self-reported throughout, opt-out status visible.
+  self-reported throughout, publication choice visible.
 - **Stable URLs**: existing problem URLs (`/eval/problems/<id>`) keep
   working. A problem's page is permanent and status-agnostic: it shows the
   problem's group, current status, status history, and all solutions, so
@@ -576,7 +582,7 @@ The active workstreams are:
 1. **Official-kernel and nanoda replay**: archive restore, exact-pin builds,
    terminal outcomes, statistics, and bounded queue mechanics.
 2. **Submission lifecycle**: server intake, append-only State, owner and
-   maintainer routes, release scheduling, opt-out, pause, and rollback.
+   maintainer routes, one-way release scheduling, pause, and rollback.
 3. **Archive and release**: per-submission envelopes, separated wrap/unwrap
    authority, deterministic reconstruction, and automatic publication.
 4. **Lifecycle-aware leaderboard**: group tabs, stable problem pages and
