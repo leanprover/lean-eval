@@ -453,9 +453,9 @@ After the launch packet is complete:
       gate, remove the publication latch, and verify effective health, a
       write-free release-controller pass, and unchanged protected State.
 - [ ] Restore the same reviewed release, lifecycle, and intake settings as
-      separate actions, then repeat the effective-health and protected-State
-      readbacks. Do not substitute the earlier staging rollback for this
-      current-production proof.
+      separate actions in that order, repeating the effective-health and
+      protected-State readbacks after each action. Do not substitute the
+      earlier staging rollback for this current-production proof.
 
 ### 10.4 Announcement
 
@@ -471,12 +471,13 @@ the system can be paused through the documented path.
 - [ ] Monitor severity-high incidents and readiness failures.
 - [ ] Monitor State validation, archive completion, evaluation dispatch,
       release scheduling, and automatic releases.
-- [ ] At the production canary's exact two-calendar-month due date, verify its
-      release task moves from scheduled to published, the reconstructed source
-      commit and live leaderboard link agree, initially withheld submissions
-      remain unpublished, and no source or credential appears in public logs or
-      artifacts. Pause publication on any mismatch; the final audit cannot
-      complete before this checkpoint passes.
+- [ ] At the first automatic controller cycle at or after the production
+      canary's exact two-calendar-month due timestamp, verify its release task
+      moves from scheduled to published, the reconstructed source commit and
+      live leaderboard link agree, every submission still carrying the withheld
+      choice remains unpublished, and no source or credential appears in public
+      logs or artifacts. Pause publication on any mismatch; the final audit
+      cannot complete before this checkpoint passes.
 - [ ] Monitor submitter adoption of the new path.
 - [ ] Keep issue intake available.
 - [ ] Pause server intake if confidentiality, State consistency, or release
@@ -498,11 +499,13 @@ delta, and treat only the announced issue-intake cutoff as the final corpus.
 
 ### 12.1 Final inventory
 
-- [ ] At the announced exact UTC cutoff, first stop accepting new issue-form
-      submissions, then drain every issue-intake run accepted before the
-      cutoff. Only after that drain, freeze the final Results head and corpus;
-      do not compute a nominally final delta while issue intake can still add a
-      Result.
+- [ ] Only after every issue-retirement gate except the final-cutoff/delta
+      readback is satisfied, disable new issue-intake acceptance at the
+      announced exact UTC cutoff in a single-purpose freeze. Drain every run
+      accepted before the cutoff, then freeze the final Results head and
+      corpus. Keep final form removal blocked until the delta is recorded and
+      the retirement packet passes; do not compute a nominally final delta
+      while issue intake can still add a Result.
 - [ ] Generate and validate the append-only inventory delta.
 - [ ] Reconcile public, private, and unavailable counts against every accepted
       Result.
@@ -625,10 +628,13 @@ Do this only after the final-delta migration is promoted, every final-cutoff
 Result is terminal, the legacy identity is absent, both replay controllers are
 disabled, and no migration or replay run or temporary executor remains.
 
-- [ ] Merge a current-head single-purpose retirement that removes the migration
-      dispatch, custodian helper and setup path, audit promotion/bootstrap
-      machinery, and temporary private-replay machinery. Keep schema-version-3
-      archives and the ordinary v2 unwrap/replay path.
+- [ ] Merge current-head single-purpose retirement changes that remove the
+      migration dispatch, custodian helper and setup path, audit
+      promotion/bootstrap machinery, and temporary private-replay machinery.
+      Keep schema-version-3 archives and the ordinary v2 unwrap/replay path.
+- [ ] Verify no migration or replay run is active, bind the last possible role
+      session issuance time, wait through the role's maximum session duration,
+      and reverify that no live session or executor remains.
 - [ ] Apply and read back the exact infrastructure retirement that removes only
       the migration Encrypt role and its stack output. Preserve ordinary
       archive, replay, and release roles and the v1+v2 Decrypt support needed by
@@ -636,9 +642,11 @@ disabled, and no migration or replay run or temporary executor remains.
 - [ ] Delete the migration GitHub environment and its variables/secrets, and
       delete the migration-only audit deploy key. Verify both are absent and
       that unrelated credentials and environments are unchanged.
-- [ ] After every possible role session has expired, delete the exact temporary
-      source branches with lease and no-open-reference checks, destroy the
-      custodian's offline legacy-key master, and verify that no installed or
+- [ ] Delete bootstrap/source branches immediately after their verified
+      installation and repin, using lease and no-open-reference checks; require
+      each exact promotion to delete its `archive-file-key-rewrap-v1` review
+      branch. After final infrastructure and credential retirement, destroy the
+      custodian's offline legacy-key master and verify that no installed or
       working copy remains.
 
 ## 13. Phase 7 — remaining product completion
@@ -673,8 +681,10 @@ disabled, and no migration or replay run or temporary executor remains.
 - [ ] Confirm no unresolved severity-high incident.
 - [ ] Confirm adequate adoption and stable end-to-end operation.
 - [ ] Confirm the final historical cutoff/delta is recorded.
-- [ ] Confirm issue intake stopped accepting new work before the final Results
-      head was frozen and every pre-cutoff run drained.
+- [ ] Confirm the cutoff freeze stopped accepting new issue work before the
+      final Results head was frozen and every pre-cutoff run drained; then
+      remove the public issue form only after the final delta and retirement
+      packet pass.
 - [ ] Complete the issue-retirement readiness packet because this removes the
       path used by existing issue-intake users. Standing authorization covers
       closure only after every preceding gate is satisfied.
