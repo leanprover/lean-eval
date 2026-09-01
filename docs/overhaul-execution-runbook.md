@@ -601,7 +601,15 @@ No experimental checker or promotion work may be added to close this phase.
 - [x] Confirm no agent-authored hints were introduced.
 - [x] Leave verified-calculation runner infrastructure unimplemented.
 
-### 13.3 Retire issue intake
+### 13.3 Final leaderboard readback
+
+- [x] Confirm lifecycle, stable problem URLs, statements, unique and total
+      standings, recent solutions, and metadata provenance are presented.
+- [ ] Confirm one live automatic released-solution link and representative
+      historical replay measurements after those operational lanes complete.
+      No further repository feature work is pending for this surface.
+
+### 13.4 Retire issue intake
 
 - [ ] Confirm at least four weeks of announced overlap.
 - [ ] Confirm at least two weeks of closure notice.
@@ -649,5 +657,5 @@ Update this table in place; do not append a history beneath it.
 | 4. Launch | Not started | Production remains disabled until the launch packet reaches `GO` |
 | 5. Four-week overlap | Not started | Production launch and overlap announcement |
 | 6. Historical completion | In progress; not an initial-launch gate | Private-image qualification is 62 of 63 with final run `33485002891` active; then complete the packet-bound rewrap/replay, with the final delta after cutoff |
-| 7. Remaining product completion | In progress | Issue closure waits for production launch, stable operation, adequate adoption, the final delta, four weeks of overlap, two weeks of notice, and its readiness packet |
+| 7. Remaining product completion | In progress | Open problems and editorial work are complete; final leaderboard readback waits for live release and replay data, and issue closure retains its overlap, notice, stability, adoption, final-delta, and readiness gates |
 | Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |
