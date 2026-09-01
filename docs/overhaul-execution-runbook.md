@@ -358,8 +358,13 @@ promotion-boundary canary, write-free State preflight, and protected State
 validation with production still held. Browser submission
 `01a05c13-2269-747c-8b15-6a0eb5d95a76` and source-bound headless submission
 `01a05c13-ce49-7028-a69f-e072bbbcac83` are accepted. Withheld lifecycle target
-`01a05c49-8061-732c-a838-ec9e0a75cfb2` remains pending; the route-family,
-denial, recovery, and final State validation cases therefore remain open.
+`01a05c49-8061-732c-a838-ec9e0a75cfb2` is accepted as
+`r2_b82a6eda570fcc9ba9717195a06a1e1e13d4598ef6d1da8e96b3c60aa1130971`.
+Owner publication opt-in, repair, model identity, alias, rename, maintainer
+decision, and bounded denial cases have succeeded. The exact remaining
+metadata/backfill tail, publication-disabled reconstruction, fixture cleanup,
+and final State validation remain open. Staging lifecycle gates were returned
+to all-false by run `33496329513`.
 
 - [x] Deploy the exact final candidate version to staging through the normal
       protected path.
@@ -524,9 +529,14 @@ against pinned audit commit
 exact count 439 without installing legacy or AWS authority.
 
 The exact private-image canary passed from submissions commit
-`0a85d3a055600c3f60149d34f611c9e10767641b`; the bounded 63-image campaign is
-at 62 of 63 profiles, with the final immutable-candidate qualification run
-`33485002891` still in progress.
+`0a85d3a055600c3f60149d34f611c9e10767641b`. The bounded campaign completed all
+63 profiles. Profile commit
+`c3c2a3b1617f4f90b8b2cae86738abad7dca3f0c` and plan digest
+`08992e62486c2b000bf4914c80cbfe734a3aa9d0d07dab481b40cd8684fe268d`
+account for 639 qualified results, 29 archive-not-found dispositions, and zero
+pending results; merge `5e7c181edef7569dcf2ecb2c33f7819adfb75b07` contains the
+canonical plan. The temporary qualification workflow and controller are
+retired; retained migration and replay machinery remains.
 The production migration environment is bound to dedicated role
 `arn:aws:iam::161072922960:role/lean-eval-archive-migration-wrap-production`.
 Its v2 policy is encrypt-only, the unwrap alias accepts exactly the reviewed v1
@@ -534,9 +544,9 @@ and v2 envelopes, and `LEGACY_ARCHIVE_IDENTITY` remains absent.
 
 - [x] Reconcile exact archive/result bindings and explicit orphans.
 - [x] Prepare a dedicated migration Wrap role and exact OIDC trust.
-- [ ] Build, publish by immutable digest, and inspect only the exact private
+- [x] Build, publish by immutable digest, and inspect only the exact private
       replay images used by the retained baseline inventory.
-- [ ] Retire the synthetic private-image qualifier and its bounded-wave
+- [x] Retire the synthetic private-image qualifier and its bounded-wave
       controller; do not replace them with another qualification service.
 - [ ] Complete the pre-mutation portion of one immutable retained-baseline
       historical migration/replay packet. Bind exact public/private profile and
@@ -652,10 +662,10 @@ Update this table in place; do not append a history beneath it.
 | 1. Disabled baseline | Complete | — |
 | 2. Repository launch preparation | In progress | Exact submissions `f09e30565ec8f180cb7b0a85935f9439f802a14c` is deployed and promotion-qualified; complete the bounded rehearsal |
 | Credential boundary | Complete | — |
-| 3. Final staging acceptance | In progress | Browser and headless submissions are accepted; lifecycle target `01a05c49-8061-732c-a838-ec9e0a75cfb2` is pending before the remaining route, denial, recovery, and final State cases |
+| 3. Final staging acceptance | In progress | Browser, headless, and lifecycle-target submissions are accepted; complete the exact metadata/reconstruction tail, cleanup, and final State validation |
 | Production launch readiness | `NO-GO`; packet incomplete | Complete final staging and current launch readbacks; keep the prepared intake PR unmerged |
 | 4. Launch | Not started | Production remains disabled until the launch packet reaches `GO` |
 | 5. Four-week overlap | Not started | Production launch and overlap announcement |
-| 6. Historical completion | In progress; not an initial-launch gate | Private-image qualification is 62 of 63 with final run `33485002891` active; then complete the packet-bound rewrap/replay, with the final delta after cutoff |
+| 6. Historical completion | In progress; not an initial-launch gate | All 63 private profiles and the final plan are canonical and the temporary qualifier is retired; complete the packet-bound rewrap/replay, with the final delta after cutoff |
 | 7. Remaining product completion | In progress | Open problems and editorial work are complete; final leaderboard readback waits for live release and replay data, and issue closure retains its overlap, notice, stability, adoption, final-delta, and readiness gates |
 | Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |
