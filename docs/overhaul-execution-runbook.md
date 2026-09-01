@@ -145,37 +145,41 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 
 | Repository | Commit | Protection state |
 | --- | --- | --- |
-| `lean-eval` | `a0a06faa95f2ee15578675c6dacc596a83b17db3` | Required `verify` |
-| `lean-eval-submissions` | `d0abf0c89f75f486fb17d5a6adfe80125663a61f` | Required `verify` |
+| `lean-eval` | `bcc165c27c6c546b27408454af35e3533e966463` | Required `verify` |
+| `lean-eval-submissions` | `a4ed8f7b811cbf647f446a3ca872ff48436ab5e0` | Required `verify` |
 | `lean-eval-leaderboard` | `b6df2533e2a6ceea8a6ed6eff5527cc3aef3e7c2` | Required `build` |
-| `lean-eval-state` | `9cf3b4999bae2b6faaa32ff1bf5f040c5e6f787f` | Required `validate`; append-only |
-| `lean-eval-state-staging` | `a2b0f4a8a2b5ddcffc556f5b3752e08f10af8389` | Required `validate`; append-only |
-| `lean-eval-releases` | `a02e06e7ce5258cdde23b6dee79666355b947a21` | Required `validate` |
+| `lean-eval-state` | `235a96c96462438c7680e6fb90fa0e6044ec1774` | Required `validate`; append-only |
+| `lean-eval-state-staging` | `42e6cab55fa31bf95d0bb0b5f3381aea433bd4dc` | Required `validate`; append-only |
+| `lean-eval-releases` | `3c68d99f3de7060f7f0fdacf9340354775546c05` | Required `validate` |
 | `lean-eval-generator` | `010b01634cccda2db538cf9b09e6f26ddc453743` | Required `check` |
-| `lean-eval-audit` | `f50c46574dd719486a01272e3eaeced396ac5ada` | Reviewed changes; non-rewritable linear history |
+| `lean-eval-audit` | `2681d179d515b6843ee4a4f862d76983f09ea2e9` | Reviewed changes; non-rewritable linear history |
 
 ### 5.2 Deployed services
 
-The staging submission unit, broker, and replay executor are deployed from the
-exact lifecycle candidate `f09e30565ec8f180cb7b0a85935f9439f802a14c`.
-Its protected deployment, promotion canary, write-free State preflight, and
-protected State validation passed. The bounded watchdog recovery restored and
-verified intake and every public lifecycle API false; publication opt-out and
-model consolidation are also disabled. The protected staging promotion canary
-remains enabled for guarded deployment checks. The independent
-historical private-image campaign remains bound to source
-`0a85d3a055600c3f60149d34f611c9e10767641b`; that source does not define the
-deployed staging or launch binding.
+The current protected staging basis is submissions commit
+`a4ed8f7b811cbf647f446a3ca872ff48436ab5e0`. Its exact staging deployment and
+promotion canary are complete. Staging intake and every public lifecycle API
+gate are disabled; the protected staging promotion canary remains enabled. The
+basis binds production State contract
+`235a96c96462438c7680e6fb90fa0e6044ec1774` and staging State contract
+`6105a6255ec40409bcce66c6cf6b6764e0e93ed4`. Protected staging State
+`42e6cab55fa31bf95d0bb0b5f3381aea433bd4dc` is a validated append-only
+descendant of that contract.
 
-The production gate has not been crossed, and the production unit remains
-deployed from `30bc92b3d46bd2a3ba1788433264fdd70ae3c74e` with intake,
-ordinary and historical replay, every lifecycle API, model consolidation, the
-promotion canary, and publication disabled. The deployed contract pins are
-production State `c6a4bb67b55609ae7215bdd3cac2378b2db42a0a` and staging State
-`41f55135a8d5f36941e615e9ec9e4f5e32a786a5`. Protected production State
-`9cf3b4999bae2b6faaa32ff1bf5f040c5e6f787f` and protected staging State
-`a2b0f4a8a2b5ddcffc556f5b3752e08f10af8389` are validated append-only
-descendants of their respective contract pins.
+The final repository-family candidate needs a protected releases descendant
+that repins the controller to these State contracts, followed by a protected
+submissions descendant of `a4ed8f7b811cbf647f446a3ca872ff48436ab5e0`
+that repins the smoke fixture to that exact releases commit and includes
+publication opt-in in every independent all-false watchdog assertion. The
+publication-disabled controller preflight currently fails closed on its
+obsolete State schema root, so final staging acceptance remains pending.
+
+Production remains deployed from exact all-false baseline
+`451856ebdd4ca4d875e43be7cd113678dea9e1b7`. Intake, replay, lifecycle APIs,
+model consolidation, the promotion canary, publication opt-in, publication
+opt-out, and publication are disabled. That dark runtime predates the selected
+production State contract; production deployment remains gated on terminal
+staging acceptance and a refreshed exact-head launch packet.
 
 - [x] Read staging and production intake health.
 - [x] Read staging and production broker/replay health and current versions.
@@ -227,6 +231,8 @@ These lanes can proceed in parallel after Phase 1.
       publication disabled using credential-free fixtures.
 - [x] Verify submitter-facing license, release delay, initial private choice,
       and irreversible later opt-in language.
+- [x] Keep publication opt-out disabled and absent from user-facing forms and
+      documentation.
 
 ### 6.3 Lifecycle API launch surface
 
@@ -248,15 +254,16 @@ These lanes can proceed in parallel after Phase 1.
 ### 6.4 Exact-version lifecycle rehearsal
 
 The operational-baseline table in section 5.1 records the current repository
-family. The exact deployed staging runtime and selected lifecycle launch
-candidate is protected submissions commit
-`f09e30565ec8f180cb7b0a85935f9439f802a14c`, with immutable tag
-`lean-eval-dispatch/f09e30565ec8f180cb7b0a85935f9439f802a14c`.
-Its exact staging deployment, promotion-boundary canary, write-free State
-preflight, bounded lifecycle cases, publication-disabled reconstruction,
-lifecycle/intake all-false recovery, and protected State validation pass, while
-`cloudflare-production` remains held. Use the same exact commit for the
-production lifecycle deployment if the launch packet becomes `GO`.
+family. Protected submissions `main` and the exact deployed staging basis are
+`a4ed8f7b811cbf647f446a3ca872ff48436ab5e0`, with immutable tag
+`lean-eval-dispatch/a4ed8f7b811cbf647f446a3ca872ff48436ab5e0`.
+The protected deployment and promotion canary are complete. The final
+repository-family candidate needs a protected releases descendant that repins
+the controller to the current State contracts, followed by a protected
+submissions descendant that repins this smoke fixture to that exact releases
+commit and closes the publication-opt-in recovery assertion. The bounded final
+lifecycle acceptance remains pending. Production remains on exact all-false baseline
+`451856ebdd4ca4d875e43be7cd113678dea9e1b7`.
 
 The independent historical private-image campaign remains bound to source
 `0a85d3a055600c3f60149d34f611c9e10767641b`, which does not define the deployed
@@ -266,12 +273,12 @@ verification. Do not repeat the bounded route smoke solely for that toggle.
 Historical image preparation is an independent historical lane and is not a
 launch-candidate prerequisite.
 
-- [x] Bind the exact final candidate commits across the repository family
+- [ ] Bind the exact final candidate commits across the repository family
       immediately before the final rehearsal.
 - [x] Use a synthetic private source repository owned for staging.
 - [x] Move the final source fixture to a temporary, non-default fixture branch
       in private allowlisted `lean-eval-state-staging`.
-- [x] Select the private staging fixture repository in both contents-read org
+- [ ] Select the private staging fixture repository in both contents-read org
       App installations, preflight both Apps against that branch, use a
       runtime-unique tag, and remove the staging branch and tag after the
       terminal run. The separately tracked production canary uses its own
@@ -282,11 +289,13 @@ launch-candidate prerequisite.
       Gist file CAS write/restore under standing authorization.
 - [x] Prepare one browser and one source-bound headless submission.
 - [x] Include one deliberate invalid or unauthorized case.
-- [x] Confirm archive-before-evaluation and schema-version-3 binding.
-- [x] Confirm the accepted path produces an immutable Result, append-only State,
-      release scheduling, and a redacted leaderboard projection.
-- [x] Confirm the bounded rejection and authorization-denial cases against the
-      final candidate.
+- [ ] Confirm archive-before-evaluation and schema-version-3 binding against
+      the exact final candidate.
+- [ ] Confirm the exact-candidate accepted path produces an immutable Result,
+      append-only State, release scheduling, and a redacted leaderboard
+      projection.
+- [ ] Confirm the bounded rejection and authorization-denial cases against the
+      exact final candidate.
 - [x] Prepare the rollback/disable steps for the same exact version.
 
 Exit condition: repository changes and staging fixtures are ready; bounded
@@ -324,7 +333,7 @@ Complete the isolated production release-role trust repair autonomously while
 publication remains disabled:
 
 At protected releases head
-`a02e06e7ce5258cdde23b6dee79666355b947a21`, the release controller remains
+`3c68d99f3de7060f7f0fdacf9340354775546c05`, the release controller remains
 bound to the reviewed production State contract, its materialized release
 queue has zero tasks, interrupted-release recovery reports `none`, and
 `PUBLICATION_ENABLED` remains absent. The release role trusts only the exact
@@ -353,31 +362,41 @@ State events. The maintainer deliberately performs the browser submission as
 an operator handoff; the exact unavoidable secret-Gist CAS mutation for the
 headless identity proof is covered by standing authorization.
 
-The selected protected-main candidate
-`f09e30565ec8f180cb7b0a85935f9439f802a14c` passes exact deployment,
-promotion-boundary canary, browser and source-bound intake, every bounded
-lifecycle route and denial, publication-disabled reconstruction,
-lifecycle/intake all-false recovery, and protected State validation with
-production still held. State
-`a2b0f4a8a2b5ddcffc556f5b3752e08f10af8389` validates 527 immutable events and
-75 deterministic views; Results remain at
-`06bfd1ed3f7a11db5cb33f5a581330077e55e80e`. The proof Gist is restored,
-generated source tags and the staging fixture branch are absent, and the
-separate production-canary branch remains. The launch packet holds exact run,
-submission, Result, event, and Worker bindings.
+The current protected staging basis is
+`a4ed8f7b811cbf647f446a3ca872ff48436ab5e0`. The final repository-family
+candidate needs a protected releases descendant that repins the controller,
+then a protected submissions descendant of this staging basis that repins the
+smoke fixture to that releases commit and checks publication opt-in in every
+all-false watchdog readback. The bounded lifecycle acceptance is not yet
+terminal, and production remains on exact all-false baseline
+`451856ebdd4ca4d875e43be7cd113678dea9e1b7`.
 
-- [x] Deploy the exact final candidate version to staging through the normal
+- [ ] Deploy the exact final candidate version to staging through the normal
       protected path.
-- [x] Run one successful browser submission.
-- [x] Run one successful source-bound headless submission.
-- [x] Run the bounded lifecycle route-family cases from Phase 2.
-- [x] Run one deliberate rejection or authorization failure.
-- [x] Reconstruct one accepted archive through the credentialed staging release
+- [ ] Run one successful browser submission.
+- [ ] Run one successful source-bound headless submission.
+- [ ] Run the bounded lifecycle route-family cases from Phase 2.
+- [ ] Run one deliberate rejection or authorization failure.
+- [ ] Reconstruct one accepted archive through the credentialed staging release
       path with publication disabled.
-- [x] Verify no source or credential appears in public logs or artifacts.
-- [x] Exercise the reviewed disable/rollback path after the final-candidate
+- [ ] Verify no source or credential appears in public logs or artifacts.
+- [ ] Exercise the reviewed disable/rollback path after the final-candidate
       cases.
-- [x] Confirm staging State validates after the final rehearsal.
+- [ ] Confirm staging State validates after the final rehearsal.
+
+### Final bounded acceptance fields — pending
+
+Fill these fields only after the bounded run and cleanup are terminal:
+
+- exact staging candidate: **pending protected descendant of
+  `a4ed8f7b811cbf647f446a3ca872ff48436ab5e0`**;
+- browser submission and Result: **pending**;
+- source-bound headless submission and Result: **pending**;
+- route-family success and denial bindings: **pending**;
+- publication-disabled reconstruction binding: **pending**;
+- terminal staging State and Results heads: **pending**;
+- proof fixture, source tag, branch, and App-selection cleanup: **pending**; and
+- terminal all-false public-health readback: **pending**.
 
 Do not rerun broad historical matrices merely to obtain newer timestamps.
 
@@ -408,6 +427,11 @@ until production trust, final staging, the lifecycle production deployment,
 and packet `GO` are complete. Its staging promotion canary is part of the
 separate intake action.
 
+The existing launch-packet and intake candidates predate protected submissions
+`a4ed8f7b811cbf647f446a3ca872ff48436ab5e0`. Refresh both onto the terminal
+staging result before packet `GO`; keep the intake change unmerged until its
+separate launch step.
+
 ## 10. Phase 4 — launch
 
 After the launch packet is complete:
@@ -422,7 +446,8 @@ After the launch packet is complete:
 
 - [ ] Enable only backfill, repair/retraction, maintainer decisions,
       alias/rename, and one-way publication opt-in. The reverse publication
-      transition must remain unavailable.
+      transition must remain unavailable, disabled, and absent from
+      user-facing forms and documentation.
 - [ ] Keep model consolidation disabled.
 - [ ] Verify effective public health and one non-mutating authorization denial.
 
@@ -667,11 +692,11 @@ Update this table in place; do not append a history beneath it.
 | --- | --- | --- |
 | 0. Rebaseline cleanup | Complete | — |
 | 1. Disabled baseline | Complete | — |
-| 2. Repository launch preparation | Complete | — |
+| 2. Repository launch preparation | In progress | Repin the release controller and smoke fixture to the current State contracts; close the opt-in watchdog assertion |
 | Credential boundary | Complete | — |
-| 3. Final staging acceptance | Complete | — |
-| Production launch readiness | In progress | Mark the exact-head `GO` packet ready and merge it; keep the prepared intake PR unmerged |
-| 4. Launch | Not started | Production remains disabled until the launch packet reaches `GO` |
+| 3. Final staging acceptance | In progress | Deploy the protected release-contract-bound descendant, fill its terminal fields, and verify all-false recovery |
+| Production launch readiness | In progress | Refresh the stale launch packet and intake candidate onto the terminal staging result, then mark packet `GO` |
+| 4. Launch | Not started | Production remains on exact all-false baseline `451856ebdd4ca4d875e43be7cd113678dea9e1b7` until packet `GO` |
 | 5. Four-week overlap | Not started | Production launch and overlap announcement |
 | 6. Historical completion | In progress; not an initial-launch gate | All 63 private profiles and the final plan are canonical and the temporary qualifier is retired; complete the packet-bound rewrap/replay, with the final delta after cutoff |
 | 7. Remaining product completion | In progress | Open problems and editorial work are complete; final leaderboard readback waits for live release and replay data, and issue closure retains its overlap, notice, stability, adoption, final-delta, and readiness gates |
