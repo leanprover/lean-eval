@@ -95,7 +95,8 @@ The following remain part of the overhaul.
 - A visible initial choice between scheduled publication and private source,
   one-way later private-to-scheduled opt-in, and the automatic
   two-calendar-month release policy. Scheduled publication cannot later be
-  changed to private.
+  changed to private. Do not expose a separate publication opt-out in forms,
+  APIs, or submitter-facing documentation; that reverse path remains disabled.
 - An operator-controlled emergency pause and deterministic recovery path.
 
 ### 3.3 Archive and release
@@ -209,6 +210,9 @@ Launch with most of the implemented lifecycle surface available.
 | Model alias and rename | Enable | One owner success and one collision or non-owner denial |
 | Publication opt-in | Enable | One post-result private-to-scheduled transition with its atomic release schedule checked |
 | Model consolidation | Keep disabled or remove | Not a launch test |
+
+Publication opt-out is not part of the launch surface. Keep its implementation
+gate disabled and omit it from user-facing forms and documentation.
 
 This is intentionally a bounded smoke, not a qualification campaign. Existing
 repository tests must stay green, but launch does not require a persistent
