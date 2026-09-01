@@ -599,6 +599,10 @@ pending. The prebinding creates no AWS authority, and
       cleanup, exact current State head, State event IDs and digests,
       materialized queue hashes and counts, and redacted projection before
       writing production State or enabling replay.
+- [ ] After installing the reviewed audit promotion contract and repinning its
+      caller, delete the exact bootstrap/source branches immediately with lease
+      and no-open-reference checks. Require each exact migration promotion to
+      delete its `archive-file-key-rewrap-v1` review branch.
 - [ ] Verify and remove temporary authority, credentials, scratch output, and
       plaintext.
 - [ ] Keep every legacy identity copy until the final issue-intake delta is
@@ -642,10 +646,8 @@ disabled, and no migration or replay run or temporary executor remains.
 - [ ] Delete the migration GitHub environment and its variables/secrets, and
       delete the migration-only audit deploy key. Verify both are absent and
       that unrelated credentials and environments are unchanged.
-- [ ] Delete bootstrap/source branches immediately after their verified
-      installation and repin, using lease and no-open-reference checks; require
-      each exact promotion to delete its `archive-file-key-rewrap-v1` review
-      branch. After final infrastructure and credential retirement, destroy the
+- [ ] Verify that no bootstrap, source, or promotion review branch remains.
+      After final infrastructure and credential retirement, destroy the
       custodian's offline legacy-key master and verify that no installed or
       working copy remains.
 
@@ -682,9 +684,8 @@ disabled, and no migration or replay run or temporary executor remains.
 - [ ] Confirm adequate adoption and stable end-to-end operation.
 - [ ] Confirm the final historical cutoff/delta is recorded.
 - [ ] Confirm the cutoff freeze stopped accepting new issue work before the
-      final Results head was frozen and every pre-cutoff run drained; then
-      remove the public issue form only after the final delta and retirement
-      packet pass.
+      final Results head was frozen and every pre-cutoff run drained. Keep the
+      public issue form frozen but present until the retirement packet passes.
 - [ ] Complete the issue-retirement readiness packet because this removes the
       path used by existing issue-intake users. Standing authorization covers
       closure only after every preceding gate is satisfied.
