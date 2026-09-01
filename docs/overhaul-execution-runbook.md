@@ -448,6 +448,14 @@ After the launch packet is complete:
       fixture repository from both org App selections; on failure, run the
       all-false recovery, pause publication, and retain those dependencies
       until the submission reaches a reviewed terminal state.
+- [ ] Before announcing the server, exercise the emergency pause against the
+      exact deployed production version: disable intake and every lifecycle
+      gate, remove the publication latch, and verify effective health, a
+      write-free release-controller pass, and unchanged protected State.
+- [ ] Restore the same reviewed release, lifecycle, and intake settings as
+      separate actions in that order, repeating the effective-health and
+      protected-State readbacks after each action. Do not substitute the
+      earlier staging rollback for this current-production proof.
 
 ### 10.4 Announcement
 
@@ -463,6 +471,13 @@ the system can be paused through the documented path.
 - [ ] Monitor severity-high incidents and readiness failures.
 - [ ] Monitor State validation, archive completion, evaluation dispatch,
       release scheduling, and automatic releases.
+- [ ] At the first automatic controller cycle at or after the production
+      canary's exact two-calendar-month due timestamp, verify its release task
+      moves from scheduled to published, the reconstructed source commit and
+      live leaderboard link agree, every submission still carrying the withheld
+      choice remains unpublished, and no source or credential appears in public
+      logs or artifacts. Pause publication on any mismatch; the final audit
+      cannot complete before this checkpoint passes.
 - [ ] Monitor submitter adoption of the new path.
 - [ ] Keep issue intake available.
 - [ ] Pause server intake if confidentiality, State consistency, or release
@@ -484,7 +499,13 @@ delta, and treat only the announced issue-intake cutoff as the final corpus.
 
 ### 12.1 Final inventory
 
-- [ ] Freeze the final issue-intake cutoff.
+- [ ] Only after every issue-retirement gate except the final-cutoff/delta
+      readback is satisfied, disable new issue-intake acceptance at the
+      announced exact UTC cutoff in a single-purpose freeze. Drain every run
+      accepted before the cutoff, then freeze the final Results head and
+      corpus. Keep final form removal blocked until the delta is recorded and
+      the retirement packet passes; do not compute a nominally final delta
+      while issue intake can still add a Result.
 - [ ] Generate and validate the append-only inventory delta.
 - [ ] Reconcile public, private, and unavailable counts against every accepted
       Result.
@@ -578,6 +599,10 @@ pending. The prebinding creates no AWS authority, and
       cleanup, exact current State head, State event IDs and digests,
       materialized queue hashes and counts, and redacted projection before
       writing production State or enabling replay.
+- [ ] After installing the reviewed audit promotion contract and repinning its
+      caller, delete the exact bootstrap/source branches immediately with lease
+      and no-open-reference checks. Require each exact migration promotion to
+      delete its `archive-file-key-rewrap-v1` review branch.
 - [ ] Verify and remove temporary authority, credentials, scratch output, and
       plaintext.
 - [ ] Keep every legacy identity copy until the final issue-intake delta is
@@ -600,6 +625,31 @@ pending. The prebinding creates no AWS authority, and
       disposition.
 
 No experimental checker or promotion work may be added to close this phase.
+
+### 12.5 Retire migration-only authority
+
+Do this only after the final-delta migration is promoted, every final-cutoff
+Result is terminal, the legacy identity is absent, both replay controllers are
+disabled, and no migration or replay run or temporary executor remains.
+
+- [ ] Merge current-head single-purpose retirement changes that remove the
+      migration dispatch, custodian helper and setup path, audit
+      promotion/bootstrap machinery, and temporary private-replay machinery.
+      Keep schema-version-3 archives and the ordinary v2 unwrap/replay path.
+- [ ] Verify no migration or replay run is active, bind the last possible role
+      session issuance time, wait through the role's maximum session duration,
+      and reverify that no live session or executor remains.
+- [ ] Apply and read back the exact infrastructure retirement that removes only
+      the migration Encrypt role and its stack output. Preserve ordinary
+      archive, replay, and release roles and the v1+v2 Decrypt support needed by
+      retained archives.
+- [ ] Delete the migration GitHub environment and its variables/secrets, and
+      delete the migration-only audit deploy key. Verify both are absent and
+      that unrelated credentials and environments are unchanged.
+- [ ] Verify that no bootstrap, source, or promotion review branch remains.
+      After final infrastructure and credential retirement, destroy the
+      custodian's offline legacy-key master and verify that no installed or
+      working copy remains.
 
 ## 13. Phase 7 — remaining product completion
 
@@ -633,6 +683,9 @@ No experimental checker or promotion work may be added to close this phase.
 - [ ] Confirm no unresolved severity-high incident.
 - [ ] Confirm adequate adoption and stable end-to-end operation.
 - [ ] Confirm the final historical cutoff/delta is recorded.
+- [ ] Confirm the cutoff freeze stopped accepting new issue work before the
+      final Results head was frozen and every pre-cutoff run drained. Keep the
+      public issue form frozen but present until the retirement packet passes.
 - [ ] Complete the issue-retirement readiness packet because this removes the
       path used by existing issue-intake users. Standing authorization covers
       closure only after every preceding gate is satisfied.
