@@ -65,6 +65,14 @@ The whole overhaul is complete only after production launch **and**:
 This distinction allows the useful new system to launch without pretending
 that the historical migration is finished.
 
+Production launch is the immediate operating milestone. Once the launch gates
+in section 7 are satisfied, proceed directly through the ordered production
+steps in section 8. Do not delay launch for a fresh exact-candidate live matrix
+of optional lifecycle routes, historical completion, the issue-intake overlap,
+or the production canary's later release date. Full overhaul completion remains
+calendar-bound by the overlap and notice periods and by verification of the
+production canary's first automatic release at its two-calendar-month due time.
+
 ## 3. Retained product scope
 
 The following remain part of the overhaul.
@@ -200,27 +208,33 @@ ownership is not a launch gate.
 
 Launch with most of the implemented lifecycle surface available.
 
-| Function | Launch disposition | Minimum staging acceptance |
+| Function | Launch disposition | Minimum launch evidence |
 | --- | --- | --- |
-| New browser submission | Enable | One successful private synthetic submission and one invalid/unauthorized request |
-| Headless-agent submission | Enable | One source-bound successful submission and one challenge/source mismatch denial |
-| Metadata backfill | Enable | One owner success and one non-owner denial |
-| Repair and retraction requests | Enable | One valid owner request and one invalid or non-owner denial |
-| Maintainer decisions | Enable | One configured-maintainer success and one non-maintainer denial |
-| Model alias and rename | Enable | One owner success and one collision or non-owner denial |
-| Publication opt-in | Enable | One post-result private-to-scheduled transition with its atomic release schedule checked |
+| New browser submission | Enable | Exact launch-candidate private submission through archive, evaluation, immutable Result, and append-only State |
+| Headless-agent submission | Enable | Exact launch-candidate source-bound submission through archive, evaluation, immutable Result, and append-only State |
+| Metadata backfill | Enable | Repository tests and the retained prior bounded staging owner-success/non-owner-denial evidence |
+| Repair and retraction requests | Enable | Repository tests and the retained prior bounded staging valid/invalid or non-owner evidence |
+| Maintainer decisions | Enable | Repository tests and the retained prior bounded staging maintainer/non-maintainer evidence |
+| Model alias and rename | Enable | Repository tests and the retained prior bounded staging success/collision or non-owner evidence |
+| Publication opt-in | Enable | Packet-bound production canary, initially private, then irreversibly opted in with its atomic release schedule and presentation checked |
 | Model consolidation | Keep disabled or remove | Not a launch test |
 
 Publication opt-out is not part of the launch surface. Keep its implementation
 gate disabled and omit it from user-facing forms and documentation.
 
-This is intentionally a bounded smoke, not a qualification campaign. Existing
-repository tests must stay green, but launch does not require a persistent
-harness, a full combinatorial route matrix, repeated live contention, or
-failure injection at every State write boundary.
+The exact-candidate live prelaunch smoke is deliberately limited to the browser
+and headless archive-evaluate-Result paths. Existing repository tests and prior
+bounded staging route evidence are sufficient for the optional lifecycle route
+families; do not rerun them as an exact-candidate live matrix. Publication
+opt-in is proved once on the production canary, not by another staging
+submission. This remains a bounded acceptance exercise, not a qualification
+campaign: launch does not require a persistent harness, repeated live
+contention, or failure injection at every State write boundary.
 
-For each enabled route family, also prove that its tracked feature flag can
-disable it and that public health reports the expected effective state.
+Keep the optional lifecycle APIs launch-enabled. For each enabled route family,
+retain an independent tracked feature flag, prove the flag can disable it, and
+require public health and the emergency rollback path to report the expected
+effective state.
 
 ## 7. Production-launch gates
 
@@ -265,17 +279,27 @@ Historical legacy-archive migration is not a launch gate for new submissions.
 ### 7.4 Entry page and bounded lifecycle smoke
 
 - Publish and verify the no-DNS entry page.
-- Complete the bounded route-family staging cases in section 6 against the
-  exact proposed launch commit.
-- Complete one exact-version staging lifecycle from archive through accepted
-  result, State, scheduled release, staging reconstruction, and rollback.
+- At exact deployed submissions commit
+  `f03f5cde4f1ac83b13ce78f294fc2273980dbf0a`, complete one browser and one
+  source-bound headless submission through schema-version-3 archive before
+  evaluation, terminal evaluation, immutable Result, and append-only State.
+- Accept the green repository tests and retained prior bounded staging route
+  evidence for metadata backfill, repair/retraction, maintainer decisions, and
+  model alias/rename. Do not require a new exact-f03 live route-family matrix.
+- Use the credentialed, publication-disabled staging reconstruction already
+  required by section 7.3; do not repeat it solely to bind it to f03.
+- Restore intake and every public lifecycle gate to disabled, verify effective
+  health and State, and clean up the temporary staging proof, tag, and branch.
+- Prove the live private-to-scheduled publication opt-in and its atomic release
+  schedule on the packet-bound production canary in section 8, before public
+  announcement.
 
 For this gate, the exact launch candidate is the submissions commit deployed
 for the lifecycle-API launch step. The later single-purpose intake-enable
 commit is verified separately by the protected staging promotion canary,
 finite-lease transition, and health and State readbacks in section 8; it does
-not require repeating the bounded route-family smoke. Historical image and
-profile commits are independent of this gate.
+not require repeating the browser/headless smoke or any optional route-family
+case. Historical image and profile commits are independent of this gate.
 
 ### 7.5 Production launch readiness packet
 
@@ -304,8 +328,13 @@ After the launch packet is complete, make capability changes separately:
 1. enable the automatic release controller initially when no release is due;
 2. enable the approved lifecycle route families;
 3. enable production intake through the finite-lease controller; and
-4. verify the public entry path, effective health, State consistency, release
-   scheduling, and leaderboard presentation read-only.
+4. submit the packet-bound production canary as private, verify archive,
+   evaluation, Result, State, and the private leaderboard presentation, then
+   exercise the visible irreversible publication opt-in and verify its atomic
+   release schedule and scheduled presentation;
+5. prove the production emergency pause and ordered restore; and
+6. verify the public entry path, effective health, State consistency, release
+   scheduling, and leaderboard presentation before announcing server intake.
 
 Do not mix refactoring, replay expansion, documentation cleanup, or unrelated
 features into an enablement change.
@@ -469,6 +498,8 @@ The lifecycle overhaul is finished when all of the following are true:
 - accepted and rejected lifecycle transitions are coherent and recoverable;
 - automatic two-calendar-month releases are operating with initial
   scheduled/private choice and one-way private-to-scheduled opt-in;
+- the production canary's first automatic release has published successfully
+  at or after its exact two-calendar-month due timestamp;
 - the launch-approved backfill, repair/retraction, maintainer, alias, and rename
   functions are available;
 - the leaderboard correctly exposes lifecycle, statements, standings,
