@@ -145,57 +145,54 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 
 | Repository | Commit | Protection state |
 | --- | --- | --- |
-| `lean-eval` | `0c566d62bd247879885dfb70061e085ff03daba6` | Required `verify` |
-| `lean-eval-submissions` | `f03f5cde4f1ac83b13ce78f294fc2273980dbf0a` | Required `verify` |
-| `lean-eval-leaderboard` | `d7f0de9d9b5abbb62a4080df31002825a1afa814` | Required `build` |
-| `lean-eval-state` | `7ffb7ffb78d79847137785c65df25770f41b62ef` | Required `validate`; append-only |
-| `lean-eval-state-staging` | `c604bb446a51fc833c96887053ec64672c912d8c` | Required `validate`; append-only |
-| `lean-eval-releases` | `c0bcb97d87eeb17c0a2f1ef7e8bfc76502deb798` | Required `validate` |
+| `lean-eval` | `313078a0962c4a929d790772a7bf2f997f22857b` | Required `verify` |
+| `lean-eval-submissions` | Frozen migration head `7050f0e100323070375bc58c3510ec322cfcce1e`; deployed Worker remains `ccd7a01a420d3c8dc18f996ea9efc65d38513b6d` | Required `verify` |
+| `lean-eval-leaderboard` | `c593bfb7dcb719ee7613848f9951828dfeb4e1da` | Required `build` |
+| `lean-eval-state` | `fb70dd6ba14cae94b30d570818e4801884e81e04` | Required `validate`; append-only |
+| `lean-eval-state-staging` | `f613a7cf3a283542c8cdbe422606b29bd9b732fb` | Required `validate`; append-only |
+| `lean-eval-releases` | `dbd9d7ca947e28b041fbb1b72667f0283265189f` | Required `validate` |
 | `lean-eval-generator` | `010b01634cccda2db538cf9b09e6f26ddc453743` | Required `check` |
-| `lean-eval-audit` | `666950ce7702d1d2a1392b12f9104781ac9446e3` | Reviewed changes; non-rewritable linear history |
+| `lean-eval-audit` | `7a53c75c6d7c263c684ebcd54590c657c9298642` | Reviewed changes; non-rewritable linear history |
 
 ### 5.2 Deployed services
 
-The current protected submissions and deployed staging commit is
-`f03f5cde4f1ac83b13ce78f294fc2273980dbf0a`. Its protected CI, immutable
-dispatch tag, staging deployment, promotion canary, and corrected bounded-smoke
-workflow pass. Staging intake and every public lifecycle gate are disabled;
-model consolidation and publication opt-out remain disabled, and only the
-staging promotion canary remains enabled. The bounded watchdog is cancelled.
-The deployed commit binds production State contract
-`235a96c96462438c7680e6fb90fa0e6044ec1774` and staging State contract
-`6105a6255ec40409bcce66c6cf6b6764e0e93ed4`. Current protected staging State
-`c604bb446a51fc833c96887053ec64672c912d8c` is a validated append-only
-descendant of that contract. Protected staging Results is
-`1deb87414faf64edfa31639a8430fcf98fb2ccb5`, and the current audit head is
-`666950ce7702d1d2a1392b12f9104781ac9446e3`. Current protected production State
-`7ffb7ffb78d79847137785c65df25770f41b62ef` is a validated append-only
-descendant of its deployed minimum contract.
+Protected submissions migration implementation and documentation are frozen at
+`7050f0e100323070375bc58c3510ec322cfcce1e`. The deployed staging and
+production Worker remains `ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`, with
+immutable dispatch tag
+`lean-eval-dispatch/ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`.
+Staging intake and every public lifecycle gate are disabled; model
+consolidation and publication opt-out remain disabled, and only the staging
+promotion canary is enabled. Production general and historical replay,
+staging acceptance, model consolidation, publication opt-out, and the
+promotion canary are disabled. The production lifecycle owner and maintainer
+families and one-way publication opt-in are enabled. The finite-lease
+transition completed and production intake is durable.
 
-The exact-f03 browser and source-bound headless submissions both completed
-schema-version-3 archive-before-evaluation, terminal evaluation, immutable
-Result, and append-only State. The scheduled headless path has a materialized
-release at `2026-11-02T00:57:18.002Z`. The temporary staging branch and tag are
-absent, the exact identity proof is restored, and the separately bound
-production-canary branch remains present.
+At the current readback, protected staging State is
+`f613a7cf3a283542c8cdbe422606b29bd9b732fb`, protected production State is
+`fb70dd6ba14cae94b30d570818e4801884e81e04`, protected staging Results is
+`1deb87414faf64edfa31639a8430fcf98fb2ccb5`, and audit is
+`7a53c75c6d7c263c684ebcd54590c657c9298642`. Production canary
+`01a0603c-6189-7751-9c43-c904b50b477a` is terminal through archive,
+official-kernel and nanoda evaluation, immutable Result
+`r2_176e0f46710a69d54b3cbcc722a948b364de2acdf2a1ee6fe667f0a331254a59`, and
+append-only State. Its one-way publication opt-in is scheduled for
+`2026-11-02T03:50:01.002Z`. Temporary staging and production-canary source
+access is removed.
 
 Protected releases commit
-`c0bcb97d87eeb17c0a2f1ef7e8bfc76502deb798` predates the current production
-State projection script. Publication remains disabled; reviewed release PR #36
-repins that exact script and State head and is green. Final staging acceptance
-is complete, so the ordered release-controller merge and no-op qualification
-are the next launch action.
+`dbd9d7ca947e28b041fbb1b72667f0283265189f` is validated and the automatic
+controller is enabled. Credential, audit-read, OIDC, and write-free no-op
+controls are qualified; no source is currently due.
 
-The compact launch packet and exact release fixture are part of the protected
-final candidate. The packet is being refreshed with the terminal staging
-bindings before its launch changes merge.
-
-Production remains deployed from exact all-false baseline
-`451856ebdd4ca4d875e43be7cd113678dea9e1b7`. Intake, replay, lifecycle APIs,
-model consolidation, the promotion canary, publication opt-in, publication
-opt-out, and publication are disabled. That dark runtime predates the selected
-production State contract; production deployment remains gated on a refreshed
-exact-head launch packet.
+The compact launch packet is `GO`. Final staging, automatic release,
+production lifecycle deployment, and durable production intake are complete.
+The canary, one-way publication opt-in, exact release scheduling, production
+all-false pause, write-free controller pass, and ordered same-release restore
+are complete. The server-primary entry and matching repository copy are live. The
+overlap began at `2026-09-02T06:57:10Z`; issue intake cannot close before
+`2026-09-30T06:57:10Z` and any closure retains the two-week notice gate.
 
 - [x] Read staging and production intake health.
 - [x] Read staging and production broker/replay health and current versions.
@@ -277,7 +274,7 @@ These lanes can proceed in parallel after Phase 1.
 ### 6.4 Exact-version core lifecycle rehearsal
 
 The operational-baseline table in section 5.1 records the current repository
-family. Protected submissions `main` and the exact deployed staging basis are
+family. The exact final-rehearsal staging basis was
 `f03f5cde4f1ac83b13ce78f294fc2273980dbf0a`, with immutable tag
 `lean-eval-dispatch/f03f5cde4f1ac83b13ce78f294fc2273980dbf0a`.
 Protected CI, staging deployment, and promotion canary pass. Protected releases
@@ -285,17 +282,14 @@ commit `c0bcb97d87eeb17c0a2f1ef7e8bfc76502deb798` remains the credentialed,
 publication-disabled staging reconstruction fixture qualified by section 7.
 The bounded final core smoke, all-false restoration, validation, and fixture
 cleanup are complete.
-Production remains on exact all-false baseline
-`451856ebdd4ca4d875e43be7cd113678dea9e1b7`, and production deployment is
-withheld.
+The launch Worker is deployed at submissions
+`ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`; section 10 records its current
+production status. Later documentation and historical-lane commits do not
+redeploy that runtime.
 
-The independent historical private-image campaign remains bound to source
-`0a85d3a055600c3f60149d34f611c9e10767641b`, which does not define the deployed
-staging or launch binding. The later intake-only descendant receives its own
-staging promotion canary, finite-lease transition, and health and State
-verification. Do not repeat the bounded route smoke solely for that toggle.
-Historical image preparation is an independent historical lane and is not a
-launch-candidate prerequisite.
+Historical private-image preparation is independent of the deployed staging
+and production Worker. Its retained artifacts do not define the launch binding,
+and the historical lane remains outside the completed launch gate.
 
 - [x] Bind the exact final candidate commits across the repository family.
 - [x] Use a synthetic private source repository owned for staging.
@@ -358,11 +352,11 @@ Complete the isolated production release-role trust repair autonomously while
 publication remains disabled:
 
 At protected releases head
-`c0bcb97d87eeb17c0a2f1ef7e8bfc76502deb798`, `PUBLICATION_ENABLED` remains
-absent and the release role trusts only the exact ID-bearing production
-environment subject. Reviewed release PR #36 supplies the required exact
-current-State projection repin after the staging smoke; reviewed stacked PR #37
-adds a write-free no-op preflight for the production pause/restore proof.
+`dbd9d7ca947e28b041fbb1b72667f0283265189f`, the release role trusts only the
+exact ID-bearing production environment subject. The exact current-State
+projection and write-free no-op preflight are protected, and
+`PUBLICATION_ENABLED=true` after the successful no-due-work controller
+qualification.
 
 - [x] Change only the trust on
       `lean-eval-release-unwrap-invoker-production` from the obsolete name-only
@@ -370,7 +364,8 @@ adds a write-free no-op preflight for the production pause/restore proof.
       `repo:leanprover@7233018/lean-eval-releases@1340741242:environment:release-production`.
 - [x] Run the trust-only production preflight with `PUBLICATION_ENABLED` absent.
 - [x] Confirm the preflight has no archive, State, Git, or artifact write path.
-- [x] Keep `PUBLICATION_ENABLED` absent.
+- [x] Keep `PUBLICATION_ENABLED` absent until the release-controller launch
+      action; it is now enabled under Phase 4.
 
 Exit condition: new production submissions can receive safe envelopes and the
 release path has passed a credentialed staging boundary.
@@ -422,25 +417,18 @@ at `GO` and are filled after each corresponding Phase 4 action. Standing
 authorization removes another permission interruption; it does not allow a
 green staging run to substitute for launch readiness.
 
-The compact launch packet is part of protected final candidate
-`f03f5cde4f1ac83b13ce78f294fc2273980dbf0a`. Finalize it only after the bounded
-browser/headless core acceptance and all-false cleanup complete. Repository
-tests and retained prior staging evidence satisfy the optional route-family
-prelaunch fields; the packet binds publication opt-in to the production canary.
-Fill only its post-action fields after the corresponding Phase 4 actions.
+The compact launch packet is protected in submissions migration head
+`7050f0e100323070375bc58c3510ec322cfcce1e`. The deployed Worker remains
+`ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`. All Phase 4 launch fields are
+complete.
 
-Production launch is the immediate milestone after packet `GO`. Do not hold it
-for another optional-route staging matrix, historical completion, overlap
-elapsed time, or the canary's later release date. Those calendar-bound checks
-remain required for full overhaul completion.
+Production launch is complete. Historical completion, overlap elapsed time,
+issue-closure notice, and the canary's later release date remain required for
+full overhaul completion.
 
-A production-intake candidate has been rebased locally onto the protected final
-candidate, but draft PR #1603 still points to its stale predecessor and must be
-refreshed before review. Launch-copy draft PR #603 at exact head
-`4ac6205ea122278db1101d4f5cd91cb4d28a954d` remains a separately visible launch
-action. Neither draft is a current runtime fact. Merge the intake change only
-at its Phase 4 intake step after packet `GO`; its promotion canary and
-finite-lease-to-durable transition belong to that separate action.
+The launch lifecycle and durable-intake configuration is deployed at
+`ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`. The server-primary entry and
+matching LeanEval copy are live.
 
 ## 10. Phase 4 — launch
 
@@ -448,70 +436,81 @@ After the launch packet is complete:
 
 ### 10.1 Release controller
 
-- [ ] Confirm no release is currently due.
-- [ ] Enable the controller in a single-purpose change.
-- [ ] Verify configuration, protected State access, and publication posture.
+- [x] Confirm no release is currently due.
+- [x] Enable the controller in a single-purpose change.
+- [x] Verify configuration, protected State access, and publication posture at
+      releases `dbd9d7ca947e28b041fbb1b72667f0283265189f`; no source is
+      currently due.
 
 ### 10.2 Lifecycle APIs
 
-- [ ] Enable only backfill, repair/retraction, maintainer decisions,
+- [x] Enable only backfill, repair/retraction, maintainer decisions,
       alias/rename, and one-way publication opt-in. The reverse publication
       transition must remain unavailable, disabled, and absent from
       user-facing forms and documentation.
-- [ ] Keep model consolidation disabled.
-- [ ] Verify effective public health and one non-mutating authorization denial.
-- [ ] Retain a separately reversible feature flag for every enabled family and
+- [x] Keep model consolidation disabled.
+- [x] Verify effective public health and one non-mutating authorization denial
+      against deployed submissions `ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`.
+- [x] Retain a separately reversible feature flag for every enabled family and
       verify the all-false rollback; do not substitute another staging matrix
       for this production readback.
 
 ### 10.3 Intake
 
-- [ ] Enable production intake through the finite-lease controller.
-- [ ] Verify the exact active version, lease transition, durable state, and
+- [x] Enable production intake through the finite-lease controller.
+- [x] Verify the exact active version, lease transition, durable state, and
       protected State coherence.
-- [ ] Submit one tightly controlled production canary only if it was part of
+- [x] Submit one tightly controlled production canary only if it was part of
       the reviewed launch packet.
-- [ ] Verify archive completion, evaluation dispatch, State, Result,
-      leaderboard presentation, and release scheduling.
-- [ ] Use the packet-bound visible archived problem and exact previously
+- [x] Verify archive completion, evaluation dispatch, State, and Result.
+- [x] Verify the initial live leaderboard presentation shows the canary exactly
+      once, keeps its source unavailable, and preserves the problem statement.
+- [x] Verify release scheduling after the one-way publication opt-in. State
+      `fb079f6c3b96388eebe106ea2938d0c2231694ba` records revision 1 as
+      `scheduled`, due exactly `2026-11-02T03:50:01.002Z`.
+- [x] Use the packet-bound visible archived problem and exact previously
       accepted Kim-owned source with a distinct canary model identity.
-- [ ] Submit the canary as private, verify that choice on the live problem page,
+- [x] Submit the canary as private, verify that choice on the live problem page,
       then perform the required live proof of the visible irreversible
-      publication opt-in. Verify the same atomic State append creates its
-      release schedule, force an immediate leaderboard build, and verify the
-      scheduled choice, release schedule, and exact source-State commit on the
-      live page.
+      publication opt-in. The same atomic State append creates its release
+      schedule.
+- [x] Complete the immediate leaderboard refresh and verify the scheduled
+      choice, release timestamp, exact State commit, and unavailable source on
+      the live page.
 - [x] Keep the periodic read-only leaderboard State-drift deployment path
       active so later State-only lifecycle events cannot leave the public site
       stale indefinitely.
-- [ ] On success, delete the exact private canary branch and remove the private
-      fixture repository from both org App selections; on failure, run the
+- [x] On success, delete the exact private canary branch and remove the private
+      fixture repository from both source App selections; on failure, run the
       all-false recovery, pause publication, and retain those dependencies
       until the submission reaches a reviewed terminal state.
-- [ ] Before announcing the server, exercise the emergency pause against the
+- [x] Before announcing the server, exercise the emergency pause against the
       exact deployed production version: disable intake and every lifecycle
       gate, remove the publication latch, and verify effective health, a
       write-free release-controller pass, and unchanged protected State.
-- [ ] Restore the same reviewed release, lifecycle, and intake settings as
+- [x] Restore the same reviewed release, lifecycle, and intake settings as
       separate actions in that order, repeating the effective-health and
       protected-State readbacks after each action. Do not substitute the
       earlier staging rollback for this current-production proof.
 
 ### 10.4 Announcement
 
-- [ ] Publish the server entry path and four-week overlap dates.
-- [ ] State that issue intake remains available during the overlap.
-- [ ] Give at least two weeks' notice before eventual issue-intake closure.
+- [x] Publish the server entry path and four-week overlap dates.
+- [x] State that issue intake remains available during the overlap.
+- [x] State that any eventual issue-intake closure requires at least two weeks'
+      notice.
 
 Exit condition: new production submissions traverse the promised lifecycle and
 the system can be paused through the documented path.
 
 ## 11. Phase 5 — four-week overlap
 
-Production launch starts this phase immediately after the Phase 4 checks and
-announcement. Full overhaul completion remains calendar-bound: it cannot occur
-before both the overlap/notice gates and the canary's exact two-calendar-month
-automatic-release checkpoint pass.
+The overlap began `2026-09-02T06:57:10Z` and cannot end before
+`2026-09-30T06:57:10Z`. No exact issue-closure notice timestamp is yet bound,
+so the separate two-week notice gate has not started. The canary's first
+automatic-release checkpoint is `2026-11-02T03:50:01.002Z`. Full overhaul
+completion remains blocked until these calendar gates and the operational
+checks below pass.
 
 - [ ] Monitor severity-high incidents and readiness failures.
 - [ ] Monitor State validation, archive completion, evaluation dispatch,
@@ -597,37 +596,40 @@ against pinned audit commit
 `a8913f1c8b5073e5b7ab309ba10481b615ca4fc00e629e41a9e57962f3afebd4`, and
 exact count 439 without installing legacy or AWS authority.
 
-The exact private-image canary passed from submissions commit
-`0a85d3a055600c3f60149d34f611c9e10767641b`. The bounded campaign completed all
-63 profiles. Profile commit
-`c3c2a3b1617f4f90b8b2cae86738abad7dca3f0c` and plan digest
+The retained private-image set contains 63 canonical profiles at
+`c3c2a3b1617f4f90b8b2cae86738abad7dca3f0c`. Plan digest
 `08992e62486c2b000bf4914c80cbfe734a3aa9d0d07dab481b40cd8684fe268d`
-account for 639 qualified results, 29 archive-not-found dispositions, and zero
-pending results; merge `5e7c181edef7569dcf2ecb2c33f7819adfb75b07` contains the
-canonical plan. The temporary qualification workflow and controller are
-retired; retained migration and replay machinery remains.
-The production migration environment is prebound to intended dedicated role
-ARN
+accounts for 639 qualified Results and 29 archive-not-found dispositions, with
+none pending. The synthetic qualifier is retired; retained migration and
+replay machinery remains.
+The production migration environment is bound to dedicated role ARN
 `arn:aws:iam::161072922960:role/lean-eval-archive-migration-wrap-production`.
-The tracked template defines Encrypt-only v2 migration and reviewed v1+v2
-unwrap policy, but the live AWS apply and authenticated readback remain
-pending. The prebinding creates no AWS authority, and
-`LEGACY_ARCHIVE_IDENTITY` remains absent.
+The live stack is `UPDATE_COMPLETE`; authenticated readback confirms the
+Encrypt-only migration role, retained v1+v2 replay unwrap policy, and unchanged
+ordinary roles. The protected environment has the migration role and audit
+read key; `LEGACY_ARCHIVE_IDENTITY` remains absent. Audit `main` is
+`7a53c75c6d7c263c684ebcd54590c657c9298642`, with the migration-promotion
+contract installed and its bootstrap path retired. The static pre-mutation
+packet is complete at frozen submissions head
+`7050f0e100323070375bc58c3510ec322cfcce1e`. Exact-main dry run
+`33607683802` succeeded and binds the reviewed packet. The bounded custodian
+install of `LEGACY_ARCHIVE_IDENTITY` is the next gate; no migration, archive,
+or State mutation has begun.
 
 - [x] Reconcile exact archive/result bindings and explicit orphans.
-- [x] Prepare the dedicated migration Wrap-role template, exact OIDC trust, and
-      inert GitHub environment binding; do not treat them as a live AWS apply.
+- [x] Apply and read back the dedicated Encrypt-only migration role, exact OIDC
+      trust, protected environment binding, and unchanged ordinary AWS roles.
 - [x] Build, publish by immutable digest, and inspect only the exact private
       replay images used by the retained baseline inventory.
 - [x] Retire the synthetic private-image qualifier and its bounded-wave
       controller; do not replace them with another qualification service.
-- [ ] Complete the pre-mutation portion of one immutable retained-baseline
+- [x] Complete the static pre-mutation portion of one immutable retained-baseline
       historical migration/replay packet. Bind exact public/private profile and
       task-content hashes and counts, rewrap inventory, workflow commit and
       digest, migration role and trust, controller leases and scopes, rollback,
       and exclusions. It must exclude legacy-key destruction, the final intake
       delta, new external actions, and every item absent from those hashes.
-- [ ] Bind the rewrap to that exact reviewed pre-mutation packet before
+- [x] Bind the rewrap to that exact reviewed pre-mutation packet before
       installing the legacy identity or writing canonical archive envelopes.
       Standing authorization satisfies permission but not this packet gate.
 - [ ] Have the custodian install `LEGACY_ARCHIVE_IDENTITY` directly for the
@@ -644,9 +646,8 @@ pending. The prebinding creates no AWS authority, and
       cleanup, exact current State head, State event IDs and digests,
       materialized queue hashes and counts, and redacted projection before
       writing production State or enabling replay.
-- [ ] After installing the reviewed audit promotion contract and repinning its
-      caller, delete the exact bootstrap/source branches immediately with lease
-      and no-open-reference checks. Require each exact migration promotion to
+- [x] Install the reviewed audit promotion contract, bind its caller, and
+      retire the bootstrap path. Require each exact migration promotion to
       delete its `archive-file-key-rewrap-v1` review branch.
 - [ ] Verify and remove temporary authority, credentials, scratch output, and
       plaintext.
@@ -753,10 +754,8 @@ disabled, and no migration or replay run or temporary executor remains.
 - [ ] Mark this runbook complete and summarize current operation and ordinary
       maintenance ownership.
 
-The overhaul is not complete merely because a token budget or agent session
-ends. Production launch is the immediate milestone, but full completion is
-deliberately calendar-bound and occurs only when every completion-plan
-criterion is actually satisfied.
+Production launch is complete. Full completion is deliberately calendar-bound
+and occurs only when every completion-plan criterion is actually satisfied.
 
 ## 15. Compact status table
 
@@ -769,9 +768,9 @@ Update this table in place; do not append a history beneath it.
 | 2. Repository launch preparation | Complete | — |
 | Credential boundary | Complete | — |
 | 3. Final staging acceptance | Complete | — |
-| Production launch readiness | In progress | Merge the refreshed compact packet and ordered release-controller/submissions launch changes; publication opt-in is bound to the production canary |
-| 4. Launch | Immediate next milestone | Production remains on exact all-false baseline `451856ebdd4ca4d875e43be7cd113678dea9e1b7` until packet `GO` |
-| 5. Four-week overlap | Calendar-bound after launch | Production launch and overlap announcement |
-| 6. Historical completion | In progress; not an initial-launch gate | All 63 private profiles and the final plan are canonical and the temporary qualifier is retired; complete the packet-bound rewrap/replay, with the final delta after cutoff |
-| 7. Remaining product completion | In progress | Open problems and editorial work are complete; final leaderboard readback waits for live release and replay data, and issue closure retains its overlap, notice, stability, adoption, final-delta, and readiness gates |
+| Production launch readiness | Complete | — |
+| 4. Launch | Complete | — |
+| 5. Four-week overlap | In progress; calendar-bound | Keep issue intake open through at least `2026-09-30T06:57:10Z`; no exact closure-notice timestamp is bound, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
+| 6. Historical completion | In progress; not a launch gate | The retained profiles, static pre-mutation packet, and exact-main dry binding are complete; the bounded custodian install is the next gate before migration/replay and the final post-cutoff delta |
+| 7. Remaining product completion | In progress | Open problems and editorial work are complete; final live release/replay presentation and issue closure retain their calendar, stability, adoption, final-delta, and readiness gates |
 | Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |
