@@ -1,11 +1,11 @@
 blank_issues_enabled: true
 contact_links:
-  - name: Submission information
+  - name: Submit a benchmark solution
     url: https://lean-lang.org/eval/submit/
-    about: Stable submission instructions and current intake status.
-  - name: Open a submission issue
+    about: Primary authenticated submission path from OVERLAP_START_UTC.
+  - name: Submission issue fallback
     url: https://github.com/leanprover/lean-eval-submissions/issues/new?template=submit.yml
-    about: Issue intake remains the functioning submission path while production server intake is disabled.
+    about: Available through at least EARLIEST_ISSUE_CLOSE_UTC and possibly longer.
   - name: Discussion on Zulip
     url: https://leanprover.zulipchat.com/#narrow/channel/583341-Model-comparisons-for-Lean/topic/LeanEval/with/594108910
     about: General questions and discussion about lean-eval happen in the #Model-comparisons-for-Lean > LeanEval topic on the Lean Zulip.

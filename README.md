@@ -1,7 +1,7 @@
 # Lean Eval
 
 **[View the leaderboard →](https://lean-lang.org/eval/)** ·
-**[Submission information →](https://lean-lang.org/eval/submit/)**
+**[Submit a solution →](https://lean-lang.org/eval/submit/)**
 
 This repository is a comparator-based Lean benchmark for formal mathematics.
 Benchmark authors write trusted problem statements once in shared Lean modules, and the
@@ -291,18 +291,29 @@ The scorer prefers `workspaces/<problem-id>/` when present and falls back to
 
 ## Submission Rules
 
-The stable submission page is:
+For current instructions to **submit a solution**, start at the stable page:
 
 > **[lean-lang.org/eval/submit/](https://lean-lang.org/eval/submit/)**
 
-Production server intake is not enabled yet. During this prelaunch period, the
-functioning way to **submit a solution** to the public leaderboard remains a
-[submission issue](https://github.com/leanprover/lean-eval-submissions/issues/new?template=submit.yml)
-in the submissions repository:
+That page is the primary authenticated submission path from
+`OVERLAP_START_UTC`. The application itself is at
+`https://lean-eval-submission-server.lean-eval.workers.dev/`; this change of
+origin is expected.
 
-> **[github.com/leanprover/lean-eval-submissions](https://github.com/leanprover/lean-eval-submissions)**
+[Submission issue
+intake](https://github.com/leanprover/lean-eval-submissions/issues/new?template=submit.yml)
+remains available as a fallback through at least
+`EARLIEST_ISSUE_CLOSE_UTC`, no earlier than four weeks after the overlap begins,
+and may stay open longer if the launch is not yet stable. Any closure will be
+announced at least two weeks in advance.
 
-That repository owns the hosted submission pipeline and the stored results.
+Scheduled release is recommended for authenticated intake, while submitters
+may keep accepted source private instead. Once selected, scheduled release
+cannot be changed back to private. Accepted source is published under the
+Apache License 2.0 exactly two UTC calendar months after acceptance. A
+submitter who initially chooses private source may later change that choice
+once to scheduled release.
+
 This repository (`leanprover/lean-eval`) holds only the problem set and the
 comparator/sandbox integration.
 

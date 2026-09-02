@@ -13,9 +13,19 @@ body:
         is unprovable as stated, imports are missing, or the intended
         interpretation is ambiguous.
 
-        For submitting a solution, see the stable instructions at
-        https://lean-lang.org/eval/submit/. While production server intake is
-        disabled, open a submission issue in leanprover/lean-eval-submissions.
+        For submission instructions, use the primary authenticated path at
+        https://lean-lang.org/eval/submit/. The launch overlap starts at
+        OVERLAP_START_UTC. Issue intake remains available as a fallback through
+        at least EARLIEST_ISSUE_CLOSE_UTC, no earlier than four weeks after the
+        overlap begins, and may stay open longer. Any closure will be announced
+        at least two weeks in advance.
+
+        Scheduled release is recommended for authenticated intake, while you
+        may keep accepted source private instead. Once selected, scheduled
+        release cannot be changed back to private and publishes accepted source
+        under the Apache License 2.0 exactly two UTC calendar months after
+        acceptance. A private choice may later be changed once to scheduled
+        release.
 
   - type: input
     id: problem_id
