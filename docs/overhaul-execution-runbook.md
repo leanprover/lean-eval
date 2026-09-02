@@ -506,11 +506,13 @@ the system can be paused through the documented path.
 ## 11. Phase 5 — four-week overlap
 
 The overlap began `2026-09-02T06:57:10Z` and cannot end before
-`2026-09-30T06:57:10Z`. No exact issue-closure notice timestamp is yet bound,
-so the separate two-week notice gate has not started. The canary's first
-automatic-release checkpoint is `2026-11-02T03:50:01.002Z`. Full overhaul
-completion remains blocked until these calendar gates and the operational
-checks below pass.
+`2026-09-30T06:57:10Z`. The conditional issue-intake retirement target of that
+same timestamp was announced at `2026-09-02T23:03:18Z`; its two-week notice
+gate matures at `2026-09-16T23:03:18Z`. Retirement remains conditional on every
+operational, adoption, final-corpus, and readiness gate below and must be
+postponed if any is not satisfied. The canary's first automatic-release
+checkpoint is `2026-11-02T03:50:01.002Z`. Full overhaul completion remains
+blocked until these calendar gates and the operational checks below pass.
 
 - [ ] Monitor severity-high incidents and readiness failures.
 - [ ] Monitor State validation, archive completion, evaluation dispatch,
@@ -770,7 +772,7 @@ Update this table in place; do not append a history beneath it.
 | 3. Final staging acceptance | Complete | — |
 | Production launch readiness | Complete | — |
 | 4. Launch | Complete | — |
-| 5. Four-week overlap | In progress; calendar-bound | Keep issue intake open through at least `2026-09-30T06:57:10Z`; no exact closure-notice timestamp is bound, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
+| 5. Four-week overlap | In progress; calendar-bound | Keep issue intake open through at least `2026-09-30T06:57:10Z`; the exact conditional closure notice matures `2026-09-16T23:03:18Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
 | 6. Historical completion | In progress; not a launch gate | The retained profiles, static pre-mutation packet, and exact-main dry binding are complete; the bounded custodian install is the next gate before migration/replay and the final post-cutoff delta |
 | 7. Remaining product completion | In progress | Open problems and editorial work are complete; final live release/replay presentation and issue closure retain their calendar, stability, adoption, final-delta, and readiness gates |
 | Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |
