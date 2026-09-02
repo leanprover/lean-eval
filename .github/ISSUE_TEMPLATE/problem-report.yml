@@ -15,8 +15,8 @@ body:
 
         For submission instructions, use the primary authenticated path at
         https://lean-lang.org/eval/submit/. The launch overlap starts at
-        OVERLAP_START_UTC. Issue intake remains available as a fallback through
-        at least EARLIEST_ISSUE_CLOSE_UTC, no earlier than four weeks after the
+        2026-09-02T06:57:10Z. Issue intake remains available as a fallback through
+        at least 2026-09-30T06:57:10Z, no earlier than four weeks after the
         overlap begins, and may stay open longer. Any closure will be announced
         at least two weeks in advance.
 

@@ -296,14 +296,14 @@ For current instructions to **submit a solution**, start at the stable page:
 > **[lean-lang.org/eval/submit/](https://lean-lang.org/eval/submit/)**
 
 That page is the primary authenticated submission path from
-`OVERLAP_START_UTC`. The application itself is at
+`2026-09-02T06:57:10Z`. The application itself is at
 `https://lean-eval-submission-server.lean-eval.workers.dev/`; this change of
 origin is expected.
 
 [Submission issue
 intake](https://github.com/leanprover/lean-eval-submissions/issues/new?template=submit.yml)
 remains available as a fallback through at least
-`EARLIEST_ISSUE_CLOSE_UTC`, no earlier than four weeks after the overlap begins,
+`2026-09-30T06:57:10Z`, no earlier than four weeks after the overlap begins,
 and may stay open longer if the launch is not yet stable. Any closure will be
 announced at least two weeks in advance.
 
