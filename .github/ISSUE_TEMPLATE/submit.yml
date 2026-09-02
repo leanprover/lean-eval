@@ -1,31 +1,39 @@
-name: "Moved: submit at lean-eval-submissions"
-description: Benchmark submissions live in leanprover/lean-eval-submissions. This template only exists to catch stale links and redirect you there.
-title: "[wrong repo] please file at leanprover/lean-eval-submissions"
+name: "Moved: use the LeanEval submission page"
+description: Benchmark submissions do not belong in this repository. This template only exists to catch stale links and redirect you.
+title: "[wrong repo] please use the LeanEval submission page"
 body:
   - type: markdown
     attributes:
       value: |
         ## Benchmark submissions have moved
 
-        The hosted submission pipeline (issue intake, fetch, evaluate, leaderboard
-        recording) is no longer in this repository. It now lives in:
-
-        **https://github.com/leanprover/lean-eval-submissions/issues/new?template=submit.yml**
-
-        Issue intake remains the functioning path while production server intake
-        is disabled. The stable submission information page is:
+        Benchmark submissions do not belong in this repository. For current
+        submission instructions, use the stable page:
 
         **https://lean-lang.org/eval/submit/**
 
-        Please open your submission there. Nothing filed here will be evaluated or
-        recorded on the leaderboard.
+        That page is the primary authenticated submission path from
+        2026-09-02T06:57:10Z. Issue intake remains available as a fallback through
+        at least 2026-09-30T06:57:10Z, no earlier than four weeks after the
+        overlap begins, and may stay open longer:
 
-        You can close this draft and follow the link above; there is nothing more
-        to do in this repository.
+        **https://github.com/leanprover/lean-eval-submissions/issues/new?template=submit.yml**
+
+        Scheduled release is recommended for authenticated intake, while you
+        may keep accepted source private instead. Once selected, scheduled
+        release cannot be changed back to private and publishes accepted source
+        under the Apache License 2.0 exactly two UTC calendar months after
+        acceptance. A private choice may later be changed once to scheduled
+        release.
+
+        Nothing filed here will be evaluated or recorded on the leaderboard.
+
+        You can close this draft and follow one of the links above; there is
+        nothing more to do in this repository.
   - type: checkboxes
     id: ack
     attributes:
       label: Acknowledgement
       options:
-        - label: I understand this repository no longer accepts submissions and I should file at leanprover/lean-eval-submissions instead.
+        - label: I understand this repository does not accept submissions and I should follow the stable LeanEval submission page or its documented issue-intake fallback instead.
           required: true
