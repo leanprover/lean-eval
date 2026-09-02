@@ -306,7 +306,7 @@ remains available as a fallback through at least `2026-09-30T06:57:10Z`, four
 weeks after the overlap began. Conditional on stable operation, adequate
 adoption, no unresolved severity-high incident, and a reconciled final corpus,
 that is the planned retirement time. This notice was issued at
-`2026-09-02T23:03:18Z`, more than two weeks in advance. Retirement will be
+`2026-09-02T23:06:35Z`, more than two weeks in advance. Retirement will be
 postponed if any gate is not satisfied.
 
 Scheduled release is recommended for authenticated intake, while submitters
