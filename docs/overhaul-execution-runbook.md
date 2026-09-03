@@ -667,11 +667,11 @@ readbacks pass. Retained terminal accounting includes accepted and safely
 failed executions.
 
 The bounded retained drain is active at submissions protected main and deployed
-runtime `e28473c5c83764a044cb9d2666e1b815517e6d0e` through driver run
-`33734521846`. At dispatch, the materialized queues contained 168 public and
-634 queueable private entries. Public run `33734536733` and private run
-`33734531889` are the heads of the automatically replenished one-task-per-lane
-chains.
+runtime `e28473c5c83764a044cb9d2666e1b815517e6d0e`. Its current bounded public
+and private chains start at runs `33736388722` and `33736885198`, respectively,
+with remaining-run budgets 255 and 767. At their common validated State
+checkpoint `e7aca87072e08d59e02a128eb4ad264df05279ac`, the materialized queues
+contained 167 public and 633 private queued entries, with no running entry.
 Both production historical replay-controller variables remain enabled only for
 this bounded drain. A safe stop deletes both variables first, before any other
 recovery action.
