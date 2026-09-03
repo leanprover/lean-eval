@@ -150,7 +150,7 @@ invalidate these bindings. Section 5.2 records the deployed runtime separately.
 | `lean-eval-leaderboard` | `c593bfb7dcb719ee7613848f9951828dfeb4e1da` | Required `build` |
 | `lean-eval-state` | Retained-baseline checkpoint `76b3b3e54f4be69161a00cd81576a58df8eae815` | Required `validate`; append-only descendants allowed |
 | `lean-eval-state-staging` | Launch-acceptance checkpoint `0849a95026ea3491ec55f1e0ef3b6ff2dff00fd5` | Required `validate`; append-only descendants allowed |
-| `lean-eval-releases` | `dbd9d7ca947e28b041fbb1b72667f0283265189f` | Required `validate` |
+| `lean-eval-releases` | `7dba9bf4f78c71ff478de8c593cb41e07201c14a` | Required `validate` |
 | `lean-eval-generator` | `010b01634cccda2db538cf9b09e6f26ddc453743` | Required `check` |
 | `lean-eval-audit` | `d73132415738b0d82c99fd43f630804fe996e342` | Reviewed changes; non-rewritable linear history |
 
@@ -163,14 +163,14 @@ its promotion canary remains enabled.
 Production intake is durably enabled, as are the approved owner, maintainer,
 and one-way publication-opt-in routes. Model consolidation and publication
 opt-out remain disabled in both environments. General replay is disabled. The
-production steady state contains neither
-`HISTORICAL_PUBLIC_REPLAY_CONTROLLER_ENABLED` nor
-`HISTORICAL_PRIVATE_REPLAY_CONTROLLER_ENABLED`, so both historical controller
-lanes are disabled between bounded retained-corpus operations in Phase 6; an
-active bounded run may temporarily install only its own lane's variable.
+production steady state contains neither historical replay-controller variable.
+The active bounded retained-corpus drain in Phase 6 temporarily installs both
+`HISTORICAL_PUBLIC_REPLAY_CONTROLLER_ENABLED` and
+`HISTORICAL_PRIVATE_REPLAY_CONTROLLER_ENABLED`; both are removed together on
+any failed run before a bounded retry is considered.
 
 Release-role trust and the automatic controller are live at releases checkpoint
-`dbd9d7ca947e28b041fbb1b72667f0283265189f`. The migrated archive checkpoint is
+`7dba9bf4f78c71ff478de8c593cb41e07201c14a`. The migrated archive checkpoint is
 audit `d73132415738b0d82c99fd43f630804fe996e342`. The launch canary is terminal
 and scheduled for `2026-11-02T03:50:01.002Z`; temporary source access is absent.
 The server-primary entry is live. The overlap began
@@ -338,7 +338,7 @@ Complete the isolated production release-role trust repair autonomously while
 publication remains disabled:
 
 At protected releases head
-`dbd9d7ca947e28b041fbb1b72667f0283265189f`, the release role trusts only the
+`7dba9bf4f78c71ff478de8c593cb41e07201c14a`, the release role trusts only the
 exact ID-bearing production environment subject. The exact current-State
 projection and write-free no-op preflight are protected, and
 `PUBLICATION_ENABLED=true` after the successful no-due-work controller
@@ -426,16 +426,14 @@ After the launch packet is complete:
 - [x] Confirm no release is currently due.
 - [x] Enable the controller in a single-purpose change.
 - [x] Verify configuration, protected State access, and publication posture at
-      releases `dbd9d7ca947e28b041fbb1b72667f0283265189f`; no source is
+      releases `7dba9bf4f78c71ff478de8c593cb41e07201c14a`; no source is
       currently due.
 
-Automatic publication is temporarily paused at both the repository and
-`release-production` environment latches. The controller correctly failed
-closed after the append-only historical State work changed its reviewed State
-schema tree. Keep both latches false until a minimal descendant-compatible
-State contract is merged, its publication-disabled no-op passes against
-protected State, and both effective latch values are read back after the
-ordered restore. No release is due during this repair window.
+Automatic publication is live. Both the repository and `release-production`
+environment latches read back `true`. The controller's reviewed State contract
+accepts the current append-only descendant while retaining exact schema and
+script tree checks; the protected-main integration, publication-disabled
+write-free no-op, and enabled no-due-work pass all succeed.
 
 ### 10.2 Lifecycle APIs
 
@@ -686,8 +684,11 @@ recovery action.
       and materialized public/private queues, and only then enable replay.
 - [x] Complete the exact-current private retained-baseline replay canary and
       its terminal readback before expanding either controller lane.
-- [x] Finish the bounded final-delta mechanism and remove the obsolete staging
-      smoke machinery.
+- [x] Remove the obsolete staging smoke machinery.
+- [ ] Merge the bounded final-delta activation and closure mechanism after the
+      retained drain. Merge its audit companion first, then rebind the
+      submissions implementation to the resulting exact protected audit head
+      and tree before final review.
 - [x] Refresh the exact operational documentation and finish the final current
       submissions deployment before starting the retained drain.
 - [ ] Drain with one bounded two-lane dispatch: start exactly one public
@@ -806,7 +807,7 @@ Update this table in place; do not append a history beneath it.
 | 3. Final staging acceptance | Complete | — |
 | Production launch readiness | Complete | — |
 | 4. Launch | Complete; live | — |
-| 5. Four-week overlap | In progress; automatic publication safely paused; calendar-bound; future cutoff variable installed | Repair and verify the release controller's descendant-compatible State contract before restoring both publication latches; keep issue intake open through at least `2026-09-30T06:57:10Z`; merge and verify the reviewed cutoff guard after the retained drain; the conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
-| 6. Historical completion | Retained drain active; not ready; final delta calendar-bound | Automatically replenished public and private chains began with runs `33721331694` and `33721331419` through bounded-wave driver `33721323539`. Process the separately bound delta only after issue-intake cutoff; safe stop deletes both controller variables first. |
+| 5. Four-week overlap | In progress; automatic publication live; calendar-bound; future cutoff variable installed | Keep issue intake open through at least `2026-09-30T06:57:10Z`; merge and verify the reviewed cutoff guard after the retained drain and before that timestamp; the conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
+| 6. Historical completion | Retained drain active; final-delta closure drafts open; not ready; calendar-bound | Continue the bounded public/private drain with the packet's safe-stop and retry rules. After it finishes, merge the audit companion and rebind the submissions final-delta implementation before the cutoff; process the separately bound delta only after issue-intake cutoff. |
 | 7. Remaining product completion | In progress | Open problems and editorial work are complete; final live release/replay presentation and issue closure retain their calendar, stability, adoption, final-delta, and readiness gates |
 | Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |
