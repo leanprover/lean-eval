@@ -650,8 +650,8 @@ The bounded private replay canary at submissions
 and Result
 `r2_99b67e41e94f0084a243ad0643510df796c56ace27fae3d9fa0755d3189d5114`.
 Its terminal State, artifact, credential cleanup, and executor-absence
-readbacks pass. Retained terminal accounting is three accepted executions and
-two safely failed executions.
+readbacks pass. Retained terminal accounting includes accepted and safely
+failed executions.
 
 The bounded retained drain is active at submissions protected main and deployed
 runtime `87f1ec9c57177099e6df6d2934d9851c43a3db71` through driver run
