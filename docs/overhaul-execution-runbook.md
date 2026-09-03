@@ -146,7 +146,7 @@ invalidate these bindings. Section 5.2 records the deployed runtime separately.
 | Repository | Durable checkpoint | Protection state |
 | --- | --- | --- |
 | `lean-eval` | Completion-plan and runbook checkpoint `59c0c18b2d14015589927b6e810386025c93ba4b` | Required `verify` |
-| `lean-eval-submissions` | Retained-State binding `36e405e558be69d50e3093d3e188d24d6fc7cfa1`; protected main and deployed Worker `87f1ec9c57177099e6df6d2934d9851c43a3db71` | Required `verify` |
+| `lean-eval-submissions` | Retained-State binding `36e405e558be69d50e3093d3e188d24d6fc7cfa1`; protected main and deployed Worker `e28473c5c83764a044cb9d2666e1b815517e6d0e` | Required `verify` |
 | `lean-eval-leaderboard` | `c593bfb7dcb719ee7613848f9951828dfeb4e1da` | Required `build` |
 | `lean-eval-state` | Retained-baseline checkpoint `76b3b3e54f4be69161a00cd81576a58df8eae815` | Required `validate`; append-only descendants allowed |
 | `lean-eval-state-staging` | Launch-acceptance checkpoint `0849a95026ea3491ec55f1e0ef3b6ff2dff00fd5` | Required `validate`; append-only descendants allowed |
@@ -157,7 +157,7 @@ invalidate these bindings. Section 5.2 records the deployed runtime separately.
 ### 5.2 Deployed services
 
 Staging and production serve healthy submissions Worker
-`87f1ec9c57177099e6df6d2934d9851c43a3db71`. Protected submissions main
+`e28473c5c83764a044cb9d2666e1b815517e6d0e`. Protected submissions main
 matches that runtime. Staging intake and public lifecycle routes are disabled;
 its promotion canary remains enabled.
 Production intake is durably enabled, as are the approved owner, maintainer,
@@ -269,7 +269,7 @@ The bounded final core smoke, all-false restoration, validation, and fixture
 cleanup are complete.
 The launch Worker was submissions
 `ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`; the current deployed descendant
-`87f1ec9c57177099e6df6d2934d9851c43a3db71` retains the launch contract and
+`e28473c5c83764a044cb9d2666e1b815517e6d0e` retains the launch contract and
 the bounded historical-replay paths. Later documentation-only commits do not
 by themselves redeploy that runtime.
 
@@ -406,7 +406,7 @@ green staging run to substitute for launch readiness.
 The compact launch packet is protected in submissions migration head
 `7050f0e100323070375bc58c3510ec322cfcce1e`. The launch Worker was
 `ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`; its current deployed descendant
-is `87f1ec9c57177099e6df6d2934d9851c43a3db71`. All Phase 4 launch fields are
+is `e28473c5c83764a044cb9d2666e1b815517e6d0e`. All Phase 4 launch fields are
 complete.
 
 Production launch is complete. Historical completion, overlap elapsed time,
@@ -414,7 +414,7 @@ issue-closure notice, and the canary's later release date remain required for
 full overhaul completion.
 
 The launch lifecycle and durable-intake configuration is deployed at
-`87f1ec9c57177099e6df6d2934d9851c43a3db71`. The server-primary entry and
+`e28473c5c83764a044cb9d2666e1b815517e6d0e`. The server-primary entry and
 matching LeanEval copy are live.
 
 ## 10. Phase 4 — launch
@@ -667,10 +667,11 @@ readbacks pass. Retained terminal accounting includes accepted and safely
 failed executions.
 
 The bounded retained drain is active at submissions protected main and deployed
-runtime `87f1ec9c57177099e6df6d2934d9851c43a3db71` through driver run
-`33721323539`. At dispatch, the materialized queues contained 173 public and
-637 private tasks. First public run `33721331694` and first private run
-`33721331419` started the automatically replenished one-task-per-lane chains.
+runtime `e28473c5c83764a044cb9d2666e1b815517e6d0e` through driver run
+`33734521846`. At dispatch, the materialized queues contained 168 public and
+634 queueable private entries. Public run `33734536733` and private run
+`33734531889` are the heads of the automatically replenished one-task-per-lane
+chains.
 Both production historical replay-controller variables remain enabled only for
 this bounded drain. A safe stop deletes both variables first, before any other
 recovery action.
