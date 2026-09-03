@@ -146,18 +146,18 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 | Repository | Commit | Protection state |
 | --- | --- | --- |
 | `lean-eval` | `313078a0962c4a929d790772a7bf2f997f22857b` | Required `verify` |
-| `lean-eval-submissions` | Frozen migration head `7050f0e100323070375bc58c3510ec322cfcce1e`; deployed Worker remains `ccd7a01a420d3c8dc18f996ea9efc65d38513b6d` | Required `verify` |
+| `lean-eval-submissions` | Historical replay controller `ffe2a6a2707136e667f1cb843098a2d2b00c716e`; deployed Worker remains `ccd7a01a420d3c8dc18f996ea9efc65d38513b6d` | Required `verify` |
 | `lean-eval-leaderboard` | `c593bfb7dcb719ee7613848f9951828dfeb4e1da` | Required `build` |
-| `lean-eval-state` | `fb70dd6ba14cae94b30d570818e4801884e81e04` | Required `validate`; append-only |
-| `lean-eval-state-staging` | `f613a7cf3a283542c8cdbe422606b29bd9b732fb` | Required `validate`; append-only |
+| `lean-eval-state` | `3e4342b54252ba7225ced558c94ad0f03acc845d` | Required `validate`; append-only |
+| `lean-eval-state-staging` | `0849a95026ea3491ec55f1e0ef3b6ff2dff00fd5` | Required `validate`; append-only |
 | `lean-eval-releases` | `dbd9d7ca947e28b041fbb1b72667f0283265189f` | Required `validate` |
 | `lean-eval-generator` | `010b01634cccda2db538cf9b09e6f26ddc453743` | Required `check` |
-| `lean-eval-audit` | `7a53c75c6d7c263c684ebcd54590c657c9298642` | Reviewed changes; non-rewritable linear history |
+| `lean-eval-audit` | `d73132415738b0d82c99fd43f630804fe996e342` | Reviewed changes; non-rewritable linear history |
 
 ### 5.2 Deployed services
 
-Protected submissions migration implementation and documentation are frozen at
-`7050f0e100323070375bc58c3510ec322cfcce1e`. The deployed staging and
+Protected submissions includes the two-lane historical replay controller at
+`ffe2a6a2707136e667f1cb843098a2d2b00c716e`. The deployed staging and
 production Worker remains `ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`, with
 immutable dispatch tag
 `lean-eval-dispatch/ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`.
@@ -170,10 +170,10 @@ families and one-way publication opt-in are enabled. The finite-lease
 transition completed and production intake is durable.
 
 At the current readback, protected staging State is
-`f613a7cf3a283542c8cdbe422606b29bd9b732fb`, protected production State is
-`fb70dd6ba14cae94b30d570818e4801884e81e04`, protected staging Results is
-`1deb87414faf64edfa31639a8430fcf98fb2ccb5`, and audit is
-`7a53c75c6d7c263c684ebcd54590c657c9298642`. Production canary
+`0849a95026ea3491ec55f1e0ef3b6ff2dff00fd5`, protected production State is
+`3e4342b54252ba7225ced558c94ad0f03acc845d`, protected staging Results is
+`1deb87414faf64edfa31639a8430fcf98fb2ccb5`, and the migrated audit head is
+`d73132415738b0d82c99fd43f630804fe996e342`. Production canary
 `01a0603c-6189-7751-9c43-c904b50b477a` is terminal through archive,
 official-kernel and nanoda evaluation, immutable Result
 `r2_176e0f46710a69d54b3cbcc722a948b364de2acdf2a1ee6fe667f0a331254a59`, and
@@ -181,7 +181,7 @@ append-only State. Its one-way publication opt-in is scheduled for
 `2026-11-02T03:50:01.002Z`. Temporary staging and production-canary source
 access is removed.
 
-Protected releases commit
+Production release-role trust is repaired. Protected releases commit
 `dbd9d7ca947e28b041fbb1b72667f0283265189f` is validated and the automatic
 controller is enabled. Credential, audit-read, OIDC, and write-free no-op
 controls are qualified; no source is currently due.
@@ -588,35 +588,18 @@ validates them with no missing or extra Result identity.
 ### 12.3 Private archives
 
 The canonical retained-baseline crosswalk accounts for 639 bound Results and
-29 archive-not-found dispositions. The private plan needs 63 exact images that
-are not supplied by retained public profiles. Following completion-plan section
-9.3, publish and inspect those immutable images without a separate synthetic
-Cloudflare qualification campaign; the first real migrated replay is the
-serialized execution canary. The credentialed dry migration inventory passes
-against pinned audit commit
-`ad356e7bc5a2d650d9902ac3f6d352a0164360bc`, selected inventory digest
-`a8913f1c8b5073e5b7ab309ba10481b615ca4fc00e629e41a9e57962f3afebd4`, and
-exact count 439 without installing legacy or AWS authority.
+29 archive-not-found dispositions. The retained private-image set contains 63
+canonical profiles and accounts for all 639 qualified Results, with none
+pending.
 
-The retained private-image set contains 63 canonical profiles at
-`c3c2a3b1617f4f90b8b2cae86738abad7dca3f0c`. Plan digest
-`08992e62486c2b000bf4914c80cbfe734a3aa9d0d07dab481b40cd8684fe268d`
-accounts for 639 qualified Results and 29 archive-not-found dispositions, with
-none pending. The synthetic qualifier is retired; retained migration and
-replay machinery remains.
-The production migration environment is bound to dedicated role ARN
-`arn:aws:iam::161072922960:role/lean-eval-archive-migration-wrap-production`.
-The live stack is `UPDATE_COMPLETE`; authenticated readback confirms the
-Encrypt-only migration role, retained v1+v2 replay unwrap policy, and unchanged
-ordinary roles. The protected environment has the migration role and audit
-read key; `LEGACY_ARCHIVE_IDENTITY` remains absent. Audit `main` is
-`7a53c75c6d7c263c684ebcd54590c657c9298642`, with the migration-promotion
-contract installed and its bootstrap path retired. The static pre-mutation
-packet is complete at frozen submissions head
-`7050f0e100323070375bc58c3510ec322cfcce1e`. Exact-main dry run
-`33607683802` succeeded and binds the reviewed packet. The bounded custodian
-install of `LEGACY_ARCHIVE_IDENTITY` is the next gate; no migration, archive,
-or State mutation has begun.
+The retained-baseline archive migration is complete. All 439 recoverable
+archives received bound schema-version-3 envelopes without changing archive
+ciphertext or stable identities. The exact reviewed patch was promoted to
+audit `main` at `d73132415738b0d82c99fd43f630804fe996e342`.
+Post-promotion readback passed, the review branch and transient installed
+identity were removed, and the protected migration environment no longer
+contains `LEGACY_ARCHIVE_IDENTITY`. Keep the retained offline legacy key until
+the final issue-intake delta has been migrated and its recovery checks pass.
 
 - [x] Reconcile exact archive/result bindings and explicit orphans.
 - [x] Apply and read back the dedicated Encrypt-only migration role, exact OIDC
@@ -634,12 +617,10 @@ or State mutation has begun.
 - [x] Bind the rewrap to that exact reviewed pre-mutation packet before
       installing the legacy identity or writing canonical archive envelopes.
       Standing authorization satisfies permission but not this packet gate.
-- [ ] Have the custodian install `LEGACY_ARCHIVE_IDENTITY` directly for the
-      bounded packet-bound run without exposing its value in chat, files, logs,
-      or artifacts.
-- [ ] Rewrap recoverable archives without changing ciphertext archive bytes or
+- [x] Install `LEGACY_ARCHIVE_IDENTITY` only for the bounded packet-bound run.
+- [x] Rewrap recoverable archives without changing ciphertext archive bytes or
       stable IDs.
-- [ ] Complete the post-migration readback in the same packet. Bind the
+- [x] Complete the post-migration readback in the same packet. Bind the
       randomized sidecar tree, deterministic report hash, exact staged patch,
       and then-current audit `main`. Require the pinned source to remain an
       ancestor, zero overlap between intervening changes and migration-touched
@@ -651,19 +632,34 @@ or State mutation has begun.
 - [x] Install the reviewed audit promotion contract, bind its caller, and
       retire the bootstrap path. Require each exact migration promotion to
       delete its `archive-file-key-rewrap-v1` review branch.
-- [ ] Verify and remove temporary authority, credentials, scratch output, and
-      plaintext.
+- [x] Remove the transient installed identity and migration scratch output;
+      retain only the authority and offline legacy-key copies required for the
+      final delta.
 - [ ] Keep every legacy identity copy until the final issue-intake delta is
       closed; destroy it only after the documented cutoff, reconciliation, and
       recovery checks are complete.
 
 ### 12.4 Replay
 
+The replay credential is installed and the bounded public/private two-lane
+controller is merged at submissions
+`ffe2a6a2707136e667f1cb843098a2d2b00c716e`. Both production replay lanes
+remain disabled until the retained-baseline State events pass isolated staging
+and are promoted exactly to protected production State.
+
+- [x] Install the production replay credential without exposing its value.
+- [x] Merge the bounded public/private two-lane controller at submissions
+      `ffe2a6a2707136e667f1cb843098a2d2b00c716e`.
+- [ ] Stage and validate the retained-baseline State events without changing
+      protected production State or enabling either replay lane.
+- [ ] Promote exactly the validated State baseline, verify the protected head
+      and materialized public/private queues, and only then enable replay.
 - [ ] Enable production replay and append canonical dispositions only within
       the exact retained-baseline packet completed in section 12.3. After the
       announced cutoff, process the append-only final delta through a separate
       exact packet; extending the baseline packet by implication is forbidden.
-- [ ] Serialize or otherwise bound replay according to the existing controller.
+- [ ] Run the bounded public and private lanes under their independent
+      controller leases and concurrency groups.
 - [ ] Restore exact original source, benchmark, toolchain, comparator,
       lean4export, and nanoda pins.
 - [ ] Execute the official Lean kernel path and nanoda only.
@@ -771,8 +767,8 @@ Update this table in place; do not append a history beneath it.
 | Credential boundary | Complete | — |
 | 3. Final staging acceptance | Complete | — |
 | Production launch readiness | Complete | — |
-| 4. Launch | Complete | — |
+| 4. Launch | Complete; live | — |
 | 5. Four-week overlap | In progress; calendar-bound | Keep issue intake open through at least `2026-09-30T06:57:10Z`; the exact conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
-| 6. Historical completion | In progress; not a launch gate | The retained profiles, static pre-mutation packet, and exact-main dry binding are complete; the bounded custodian install is the next gate before migration/replay and the final post-cutoff delta |
+| 6. Historical completion | In progress; not a launch gate | The 439-archive baseline migration, audit promotion, replay credential, and two-lane controller are complete. Replay remains disabled pending two-phase State baseline staging/validation and exact promotion; the final post-cutoff delta follows separately. |
 | 7. Remaining product completion | In progress | Open problems and editorial work are complete; final live release/replay presentation and issue closure retain their calendar, stability, adoption, final-delta, and readiness gates |
 | Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |
