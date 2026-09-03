@@ -652,10 +652,15 @@ and Result
 `r2_99b67e41e94f0084a243ad0643510df796c56ace27fae3d9fa0755d3189d5114`.
 Its terminal State, artifact, credential cleanup, and executor-absence
 readbacks pass. Retained terminal accounting is one accepted and one safely
-failed; the materialized queues now contain 174 public and 637 private tasks.
-Both production historical replay-controller variables are absent; a bounded
-run may install only its lane's variable for its exact lease and must remove it
-at terminal cleanup.
+failed.
+
+The bounded retained wave is active from submissions baseline
+`35432026d3afb37c3cf227524163918d34ed9ced` through driver run `33718776692`.
+At wave start, the materialized queues contained 174 public and 637 private
+tasks. Public run `33718786911` and private run `33718782797` are both
+executing. Both production historical replay-controller variables are enabled
+only for this bounded wave. A safe stop deletes both variables first, before
+any other recovery action.
 
 - [x] Install the production replay credential without exposing its value.
 - [x] Merge and deploy the bounded public/private two-lane controller in the
@@ -787,6 +792,6 @@ Update this table in place; do not append a history beneath it.
 | Production launch readiness | Complete | — |
 | 4. Launch | Complete; live | — |
 | 5. Four-week overlap | In progress; calendar-bound | Keep issue intake open through at least `2026-09-30T06:57:10Z`; the exact conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
-| 6. Historical completion | Retained drain ready; final delta calendar-bound | The 439-archive migration, exact retained-State promotion, private canary, final-delta mechanism, bounded cleanup, operational-document refresh, and final deployment are complete. Run one public and one private controller concurrently. Process the separately bound delta only after issue-intake cutoff; keep both controller variables absent between bounded runs. |
+| 6. Historical completion | Retained drain active; not ready; final delta calendar-bound | Public run `33718786911` and private run `33718782797` are executing through bounded-wave driver `33718776692`. Process the separately bound delta only after issue-intake cutoff; safe stop deletes both controller variables first. |
 | 7. Remaining product completion | In progress | Open problems and editorial work are complete; final live release/replay presentation and issue closure retain their calendar, stability, adoption, final-delta, and readiness gates |
 | Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |
