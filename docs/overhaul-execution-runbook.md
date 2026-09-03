@@ -160,9 +160,10 @@ Staging and production serve healthy submissions Worker
 `e28473c5c83764a044cb9d2666e1b815517e6d0e`. Protected submissions main
 matches that runtime. Staging intake and public lifecycle routes are disabled;
 its promotion canary remains enabled.
-Production intake is durably enabled, as are the approved owner, maintainer,
-and one-way publication-opt-in routes. Model consolidation and publication
-opt-out remain disabled in both environments. General replay is disabled. The
+Production intake is configured and effectively disabled while the source-App
+admission boundary is repaired. The emergency pause also keeps every public
+lifecycle route disabled. Model consolidation and both publication-choice
+mutation directions remain disabled in both environments. General replay is disabled. The
 production steady state contains neither historical replay-controller variable.
 The active bounded retained-corpus drain in Phase 6 temporarily installs both
 `HISTORICAL_PUBLIC_REPLAY_CONTROLLER_ENABLED` and
@@ -179,12 +180,12 @@ The server-primary entry is live. The overlap began
 
 - [x] Read staging and production intake health.
 - [x] Read staging and production broker/replay health and current versions.
-- [x] Verify production intake is durably enabled and staging intake is
-      disabled.
+- [x] Verify production and staging intake are configured and effectively
+      disabled during the source-App admission repair.
 - [x] Verify general replay is disabled and both historical replay-controller
       variables are absent from production outside an active bounded run.
-- [x] Verify automatic publication and the approved lifecycle routes are live,
-      while publication opt-out and model consolidation remain disabled.
+- [x] Verify automatic publication remains live while every public lifecycle
+      route is disabled during the source-App admission repair.
 - [x] Verify the exact deployed Worker is healthy and its release, archive, and
       retained-State checkpoints form one coherent unit.
 
@@ -409,9 +410,10 @@ The compact launch packet is protected in submissions migration head
 is `e28473c5c83764a044cb9d2666e1b815517e6d0e`. All Phase 4 launch fields are
 complete.
 
-Production launch is complete. Historical completion, overlap elapsed time,
-issue-closure notice, and the canary's later release date remain required for
-full overhaul completion.
+Production launch completed and server intake is temporarily paused at the
+documented safety boundary. Historical completion, overlap elapsed time,
+issue-closure notice, the source-App admission repair, and the canary's later
+release date remain required for full overhaul completion.
 
 The launch lifecycle and durable-intake configuration is deployed at
 `e28473c5c83764a044cb9d2666e1b815517e6d0e`. The server-primary entry and
@@ -792,8 +794,10 @@ disabled, and no migration or replay run or temporary executor remains.
 - [ ] Mark this runbook complete and summarize current operation and ordinary
       maintenance ownership.
 
-Production launch is complete. Full completion is deliberately calendar-bound
-and occurs only when every completion-plan criterion is actually satisfied.
+Production launch completed; server intake is temporarily paused while the
+source-App admission boundary is repaired. Full completion is deliberately
+calendar-bound and occurs only when every completion-plan criterion is actually
+satisfied.
 
 ## 15. Compact status table
 
@@ -807,8 +811,8 @@ Update this table in place; do not append a history beneath it.
 | Credential boundary | Complete | — |
 | 3. Final staging acceptance | Complete | — |
 | Production launch readiness | Complete | — |
-| 4. Launch | Complete; live | — |
-| 5. Four-week overlap | In progress; automatic publication live; calendar-bound; future cutoff variable installed | Keep issue intake open through at least `2026-09-30T06:57:10Z`; merge and verify the reviewed cutoff guard after the retained drain and before that timestamp; the conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
-| 6. Historical completion | Retained drain active; final-delta closure drafts open; not ready; calendar-bound | Continue the bounded public/private drain with the packet's safe-stop and retry rules. After it finishes, merge the audit companion and rebind the submissions final-delta implementation before the cutoff; process the separately bound delta only after issue-intake cutoff. |
+| 4. Launch | Complete; server intake temporarily paused | Repair and verify the source-App admission boundary before restoring server intake |
+| 5. Four-week overlap | In progress; automatic publication live; server intake and public lifecycle routes paused; calendar-bound; future cutoff variable installed | Resolve the source-App admission incident and restore the supported server path and approved lifecycle routes; keep issue intake open through at least `2026-09-30T06:57:10Z`; merge and verify the reviewed cutoff guard after the retained drain and before that timestamp; the conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
+| 6. Historical completion | Public retained drain active; private drain paused for an executor-readiness repair; final-delta closure drafts open; not ready; calendar-bound | Continue the bounded public drain and restore the private drain only after the reviewed readiness fix. After both finish, merge the audit companion and rebind the submissions final-delta implementation before the cutoff; process the separately bound delta only after issue-intake cutoff. |
 | 7. Remaining product completion | In progress | Open problems and editorial work are complete; final live release/replay presentation and issue closure retain their calendar, stability, adoption, final-delta, and readiness gates |
 | Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |
