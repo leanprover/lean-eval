@@ -429,6 +429,14 @@ After the launch packet is complete:
       releases `dbd9d7ca947e28b041fbb1b72667f0283265189f`; no source is
       currently due.
 
+Automatic publication is temporarily paused at both the repository and
+`release-production` environment latches. The controller correctly failed
+closed after the append-only historical State work changed its reviewed State
+schema tree. Keep both latches false until a minimal descendant-compatible
+State contract is merged, its publication-disabled no-op passes against
+protected State, and both effective latch values are read back after the
+ordered restore. No release is due during this repair window.
+
 ### 10.2 Lifecycle APIs
 
 - [x] Enable only backfill, repair/retraction, maintainer decisions,
@@ -500,6 +508,13 @@ operational, adoption, final-corpus, and readiness gate below and must be
 postponed if any is not satisfied. The canary's first automatic-release
 checkpoint is `2026-11-02T03:50:01.002Z`. Full overhaul completion remains
 blocked until these calendar gates and the operational checks below pass.
+
+The repository variable `ISSUE_INTAKE_CUTOFF` is already installed and read
+back as the exact announced timestamp `2026-09-30T06:57:10Z`. It has no effect
+until the reviewed cutoff guard reaches protected `main`; merge that guard only
+after the retained replay chains are terminal, then verify its protected-main
+CI before the timestamp. Deleting the variable is the reversible incident
+recovery that reopens issue intake before the form itself is retired.
 
 - [ ] Monitor severity-high incidents and readiness failures.
 - [ ] Monitor State validation, archive completion, evaluation dispatch,
@@ -791,7 +806,7 @@ Update this table in place; do not append a history beneath it.
 | 3. Final staging acceptance | Complete | — |
 | Production launch readiness | Complete | — |
 | 4. Launch | Complete; live | — |
-| 5. Four-week overlap | In progress; calendar-bound | Keep issue intake open through at least `2026-09-30T06:57:10Z`; the exact conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
+| 5. Four-week overlap | In progress; automatic publication safely paused; calendar-bound; future cutoff variable installed | Repair and verify the release controller's descendant-compatible State contract before restoring both publication latches; keep issue intake open through at least `2026-09-30T06:57:10Z`; merge and verify the reviewed cutoff guard after the retained drain; the conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
 | 6. Historical completion | Retained drain active; not ready; final delta calendar-bound | Automatically replenished public and private chains began with runs `33721331694` and `33721331419` through bounded-wave driver `33721323539`. Process the separately bound delta only after issue-intake cutoff; safe stop deletes both controller variables first. |
 | 7. Remaining product completion | In progress | Open problems and editorial work are complete; final live release/replay presentation and issue closure retain their calendar, stability, adoption, final-delta, and readiness gates |
 | Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |
