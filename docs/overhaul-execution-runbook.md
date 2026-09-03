@@ -146,7 +146,7 @@ invalidate these bindings. Section 5.2 records the deployed runtime separately.
 | Repository | Durable checkpoint | Protection state |
 | --- | --- | --- |
 | `lean-eval` | Completion-plan and runbook checkpoint `59c0c18b2d14015589927b6e810386025c93ba4b` | Required `verify` |
-| `lean-eval-submissions` | Retained-State binding `36e405e558be69d50e3093d3e188d24d6fc7cfa1`; protected main `35432026d3afb37c3cf227524163918d34ed9ced`; deployed Worker `b6f8c8834213a26a19ba1e8c7440db30ad0c05f2` | Required `verify` |
+| `lean-eval-submissions` | Retained-State binding `36e405e558be69d50e3093d3e188d24d6fc7cfa1`; protected main and deployed Worker `87f1ec9c57177099e6df6d2934d9851c43a3db71` | Required `verify` |
 | `lean-eval-leaderboard` | `c593bfb7dcb719ee7613848f9951828dfeb4e1da` | Required `build` |
 | `lean-eval-state` | Retained-baseline checkpoint `76b3b3e54f4be69161a00cd81576a58df8eae815` | Required `validate`; append-only descendants allowed |
 | `lean-eval-state-staging` | Launch-acceptance checkpoint `0849a95026ea3491ec55f1e0ef3b6ff2dff00fd5` | Required `validate`; append-only descendants allowed |
@@ -157,10 +157,9 @@ invalidate these bindings. Section 5.2 records the deployed runtime separately.
 ### 5.2 Deployed services
 
 Staging and production serve healthy submissions Worker
-`b6f8c8834213a26a19ba1e8c7440db30ad0c05f2`. Protected submissions main
-`35432026d3afb37c3cf227524163918d34ed9ced` is its documentation-only
-descendant. Staging intake and public lifecycle routes are disabled; its
-promotion canary remains enabled.
+`87f1ec9c57177099e6df6d2934d9851c43a3db71`. Protected submissions main
+matches that runtime. Staging intake and public lifecycle routes are disabled;
+its promotion canary remains enabled.
 Production intake is durably enabled, as are the approved owner, maintainer,
 and one-way publication-opt-in routes. Model consolidation and publication
 opt-out remain disabled in both environments. General replay is disabled. The
@@ -270,7 +269,7 @@ The bounded final core smoke, all-false restoration, validation, and fixture
 cleanup are complete.
 The launch Worker was submissions
 `ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`; the current deployed descendant
-`b6f8c8834213a26a19ba1e8c7440db30ad0c05f2` retains the launch contract and
+`87f1ec9c57177099e6df6d2934d9851c43a3db71` retains the launch contract and
 the bounded historical-replay paths. Later documentation-only commits do not
 by themselves redeploy that runtime.
 
@@ -407,7 +406,7 @@ green staging run to substitute for launch readiness.
 The compact launch packet is protected in submissions migration head
 `7050f0e100323070375bc58c3510ec322cfcce1e`. The launch Worker was
 `ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`; its current deployed descendant
-is `b6f8c8834213a26a19ba1e8c7440db30ad0c05f2`. All Phase 4 launch fields are
+is `87f1ec9c57177099e6df6d2934d9851c43a3db71`. All Phase 4 launch fields are
 complete.
 
 Production launch is complete. Historical completion, overlap elapsed time,
@@ -415,7 +414,7 @@ issue-closure notice, and the canary's later release date remain required for
 full overhaul completion.
 
 The launch lifecycle and durable-intake configuration is deployed at
-`b6f8c8834213a26a19ba1e8c7440db30ad0c05f2`. The server-primary entry and
+`87f1ec9c57177099e6df6d2934d9851c43a3db71`. The server-primary entry and
 matching LeanEval copy are live.
 
 ## 10. Phase 4 — launch
@@ -651,16 +650,17 @@ The bounded private replay canary at submissions
 and Result
 `r2_99b67e41e94f0084a243ad0643510df796c56ace27fae3d9fa0755d3189d5114`.
 Its terminal State, artifact, credential cleanup, and executor-absence
-readbacks pass. Retained terminal accounting is one accepted and one safely
-failed.
+readbacks pass. Retained terminal accounting is three accepted executions and
+two safely failed executions.
 
-The bounded retained wave is active from submissions baseline
-`35432026d3afb37c3cf227524163918d34ed9ced` through driver run `33718776692`.
-At wave start, the materialized queues contained 174 public and 637 private
-tasks. Public run `33718786911` and private run `33718782797` are both
-executing. Both production historical replay-controller variables are enabled
-only for this bounded wave. A safe stop deletes both variables first, before
-any other recovery action.
+The bounded retained drain is active at submissions protected main and deployed
+runtime `87f1ec9c57177099e6df6d2934d9851c43a3db71` through driver run
+`33721323539`. At dispatch, the materialized queues contained 173 public and
+637 private tasks. First public run `33721331694` and first private run
+`33721331419` started the automatically replenished one-task-per-lane chains.
+Both production historical replay-controller variables remain enabled only for
+this bounded drain. A safe stop deletes both variables first, before any other
+recovery action.
 
 - [x] Install the production replay credential without exposing its value.
 - [x] Merge and deploy the bounded public/private two-lane controller in the
@@ -792,6 +792,6 @@ Update this table in place; do not append a history beneath it.
 | Production launch readiness | Complete | — |
 | 4. Launch | Complete; live | — |
 | 5. Four-week overlap | In progress; calendar-bound | Keep issue intake open through at least `2026-09-30T06:57:10Z`; the exact conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
-| 6. Historical completion | Retained drain active; not ready; final delta calendar-bound | Public run `33718786911` and private run `33718782797` are executing through bounded-wave driver `33718776692`. Process the separately bound delta only after issue-intake cutoff; safe stop deletes both controller variables first. |
+| 6. Historical completion | Retained drain active; not ready; final delta calendar-bound | Automatically replenished public and private chains began with runs `33721331694` and `33721331419` through bounded-wave driver `33721323539`. Process the separately bound delta only after issue-intake cutoff; safe stop deletes both controller variables first. |
 | 7. Remaining product completion | In progress | Open problems and editorial work are complete; final live release/replay presentation and issue closure retain their calendar, stability, adoption, final-delta, and readiness gates |
 | Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |
