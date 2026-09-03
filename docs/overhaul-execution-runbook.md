@@ -146,7 +146,7 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 | Repository | Commit | Protection state |
 | --- | --- | --- |
 | `lean-eval` | `313078a0962c4a929d790772a7bf2f997f22857b` | Required `verify` |
-| `lean-eval-submissions` | Historical replay controller `ffe2a6a2707136e667f1cb843098a2d2b00c716e`; deployed Worker remains `ccd7a01a420d3c8dc18f996ea9efc65d38513b6d` | Required `verify` |
+| `lean-eval-submissions` | Historical replay controller `ffe2a6a2707136e667f1cb843098a2d2b00c716e`; deployed Worker `f8ead98ef60c50d3a4f31e20af87fcc4f3e03784` | Required `verify` |
 | `lean-eval-leaderboard` | `c593bfb7dcb719ee7613848f9951828dfeb4e1da` | Required `build` |
 | `lean-eval-state` | `3e4342b54252ba7225ced558c94ad0f03acc845d` | Required `validate`; append-only |
 | `lean-eval-state-staging` | `0849a95026ea3491ec55f1e0ef3b6ff2dff00fd5` | Required `validate`; append-only |
@@ -158,9 +158,9 @@ effective flags; Section 5.2 and the current operational ledgers record those.
 
 Protected submissions includes the two-lane historical replay controller at
 `ffe2a6a2707136e667f1cb843098a2d2b00c716e`. The deployed staging and
-production Worker remains `ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`, with
+production Worker is `f8ead98ef60c50d3a4f31e20af87fcc4f3e03784`, with
 immutable dispatch tag
-`lean-eval-dispatch/ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`.
+`lean-eval-dispatch/f8ead98ef60c50d3a4f31e20af87fcc4f3e03784`.
 Staging intake and every public lifecycle gate are disabled; model
 consolidation and publication opt-out remain disabled, and only the staging
 promotion canary is enabled. Production general and historical replay,
@@ -282,9 +282,10 @@ commit `c0bcb97d87eeb17c0a2f1ef7e8bfc76502deb798` remains the credentialed,
 publication-disabled staging reconstruction fixture qualified by section 7.
 The bounded final core smoke, all-false restoration, validation, and fixture
 cleanup are complete.
-The launch Worker is deployed at submissions
-`ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`; section 10 records its current
-production status. Later documentation and historical-lane commits do not
+The launch Worker was submissions
+`ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`; the current deployed descendant
+`f8ead98ef60c50d3a4f31e20af87fcc4f3e03784` updates only its protected State
+projection roots. Later documentation and historical-lane commits do not
 redeploy that runtime.
 
 Historical private-image preparation is independent of the deployed staging
@@ -418,8 +419,9 @@ authorization removes another permission interruption; it does not allow a
 green staging run to substitute for launch readiness.
 
 The compact launch packet is protected in submissions migration head
-`7050f0e100323070375bc58c3510ec322cfcce1e`. The deployed Worker remains
-`ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`. All Phase 4 launch fields are
+`7050f0e100323070375bc58c3510ec322cfcce1e`. The launch Worker was
+`ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`; its current deployed descendant
+is `f8ead98ef60c50d3a4f31e20af87fcc4f3e03784`. All Phase 4 launch fields are
 complete.
 
 Production launch is complete. Historical completion, overlap elapsed time,
@@ -427,7 +429,7 @@ issue-closure notice, and the canary's later release date remain required for
 full overhaul completion.
 
 The launch lifecycle and durable-intake configuration is deployed at
-`ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`. The server-primary entry and
+`f8ead98ef60c50d3a4f31e20af87fcc4f3e03784`. The server-primary entry and
 matching LeanEval copy are live.
 
 ## 10. Phase 4 — launch
