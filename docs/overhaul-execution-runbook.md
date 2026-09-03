@@ -131,78 +131,63 @@ Goal: establish one exact safe baseline before launch work resumes.
 
 ### 5.1 Repositories and automation
 
-- [x] Record current protected `main` commits for every allowlisted repository.
+- [x] Record the protected `main` commits at reconciliation and retain stable
+      component checkpoints for later operational bindings.
 - [x] List open PRs and cross-referenced work; close or classify stale overhaul
       PRs.
 - [x] Confirm no unplanned workflow dispatch is queued or running.
 - [x] Confirm required checks, protected branches, and immutable dispatch-tag
       protections match current operating needs.
 
-The table records the repository-family operational baseline verified at this
-reconciliation checkpoint. Documentation-only descendants, including updates
-to this runbook, do not by themselves change deployed-service versions or
-effective flags; Section 5.2 and the current operational ledgers record those.
+The table records durable component checkpoints, not the moving tip of an
+append-only repository. Later Results-only or State-only descendants do not
+invalidate these bindings. Section 5.2 records the deployed runtime separately.
 
-| Repository | Commit | Protection state |
+| Repository | Durable checkpoint | Protection state |
 | --- | --- | --- |
-| `lean-eval` | `313078a0962c4a929d790772a7bf2f997f22857b` | Required `verify` |
-| `lean-eval-submissions` | Historical replay controller `ffe2a6a2707136e667f1cb843098a2d2b00c716e`; deployed Worker `f8ead98ef60c50d3a4f31e20af87fcc4f3e03784` | Required `verify` |
+| `lean-eval` | Completion-plan and runbook checkpoint `59c0c18b2d14015589927b6e810386025c93ba4b` | Required `verify` |
+| `lean-eval-submissions` | Retained-State binding `36e405e558be69d50e3093d3e188d24d6fc7cfa1`; protected main `35432026d3afb37c3cf227524163918d34ed9ced`; deployed Worker `b6f8c8834213a26a19ba1e8c7440db30ad0c05f2` | Required `verify` |
 | `lean-eval-leaderboard` | `c593bfb7dcb719ee7613848f9951828dfeb4e1da` | Required `build` |
-| `lean-eval-state` | `3e4342b54252ba7225ced558c94ad0f03acc845d` | Required `validate`; append-only |
-| `lean-eval-state-staging` | `0849a95026ea3491ec55f1e0ef3b6ff2dff00fd5` | Required `validate`; append-only |
+| `lean-eval-state` | Retained-baseline checkpoint `76b3b3e54f4be69161a00cd81576a58df8eae815` | Required `validate`; append-only descendants allowed |
+| `lean-eval-state-staging` | Launch-acceptance checkpoint `0849a95026ea3491ec55f1e0ef3b6ff2dff00fd5` | Required `validate`; append-only descendants allowed |
 | `lean-eval-releases` | `dbd9d7ca947e28b041fbb1b72667f0283265189f` | Required `validate` |
 | `lean-eval-generator` | `010b01634cccda2db538cf9b09e6f26ddc453743` | Required `check` |
 | `lean-eval-audit` | `d73132415738b0d82c99fd43f630804fe996e342` | Reviewed changes; non-rewritable linear history |
 
 ### 5.2 Deployed services
 
-Protected submissions includes the two-lane historical replay controller at
-`ffe2a6a2707136e667f1cb843098a2d2b00c716e`. The deployed staging and
-production Worker is `f8ead98ef60c50d3a4f31e20af87fcc4f3e03784`, with
-immutable dispatch tag
-`lean-eval-dispatch/f8ead98ef60c50d3a4f31e20af87fcc4f3e03784`.
-Staging intake and every public lifecycle gate are disabled; model
-consolidation and publication opt-out remain disabled, and only the staging
-promotion canary is enabled. Production general and historical replay,
-staging acceptance, model consolidation, publication opt-out, and the
-promotion canary are disabled. The production lifecycle owner and maintainer
-families and one-way publication opt-in are enabled. The finite-lease
-transition completed and production intake is durable.
+Staging and production serve healthy submissions Worker
+`b6f8c8834213a26a19ba1e8c7440db30ad0c05f2`. Protected submissions main
+`35432026d3afb37c3cf227524163918d34ed9ced` is its documentation-only
+descendant. Staging intake and public lifecycle routes are disabled; its
+promotion canary remains enabled.
+Production intake is durably enabled, as are the approved owner, maintainer,
+and one-way publication-opt-in routes. Model consolidation and publication
+opt-out remain disabled in both environments. General replay is disabled. The
+production steady state contains neither
+`HISTORICAL_PUBLIC_REPLAY_CONTROLLER_ENABLED` nor
+`HISTORICAL_PRIVATE_REPLAY_CONTROLLER_ENABLED`, so both historical controller
+lanes are disabled between bounded retained-corpus operations in Phase 6; an
+active bounded run may temporarily install only its own lane's variable.
 
-At the current readback, protected staging State is
-`0849a95026ea3491ec55f1e0ef3b6ff2dff00fd5`, protected production State is
-`3e4342b54252ba7225ced558c94ad0f03acc845d`, protected staging Results is
-`1deb87414faf64edfa31639a8430fcf98fb2ccb5`, and the migrated audit head is
-`d73132415738b0d82c99fd43f630804fe996e342`. Production canary
-`01a0603c-6189-7751-9c43-c904b50b477a` is terminal through archive,
-official-kernel and nanoda evaluation, immutable Result
-`r2_176e0f46710a69d54b3cbcc722a948b364de2acdf2a1ee6fe667f0a331254a59`, and
-append-only State. Its one-way publication opt-in is scheduled for
-`2026-11-02T03:50:01.002Z`. Temporary staging and production-canary source
-access is removed.
-
-Production release-role trust is repaired. Protected releases commit
-`dbd9d7ca947e28b041fbb1b72667f0283265189f` is validated and the automatic
-controller is enabled. Credential, audit-read, OIDC, and write-free no-op
-controls are qualified; no source is currently due.
-
-The compact launch packet is `GO`. Final staging, automatic release,
-production lifecycle deployment, and durable production intake are complete.
-The canary, one-way publication opt-in, exact release scheduling, production
-all-false pause, write-free controller pass, and ordered same-release restore
-are complete. The server-primary entry and matching repository copy are live. The
-overlap began at `2026-09-02T06:57:10Z`; issue intake cannot close before
-`2026-09-30T06:57:10Z` and any closure retains the two-week notice gate.
+Release-role trust and the automatic controller are live at releases checkpoint
+`dbd9d7ca947e28b041fbb1b72667f0283265189f`. The migrated archive checkpoint is
+audit `d73132415738b0d82c99fd43f630804fe996e342`. The launch canary is terminal
+and scheduled for `2026-11-02T03:50:01.002Z`; temporary source access is absent.
+The server-primary entry is live. The overlap began
+`2026-09-02T06:57:10Z`, so issue intake cannot close before
+`2026-09-30T06:57:10Z` or before its separate notice and readiness gates pass.
 
 - [x] Read staging and production intake health.
 - [x] Read staging and production broker/replay health and current versions.
-- [x] Verify production intake is configured and effectively disabled.
-- [x] Verify general and production replay are disabled.
-- [x] Verify publication is disabled.
-- [x] Verify public lifecycle feature gates are disabled before their launch
-      smoke and approval.
-- [x] Verify the final deployed commits, container image digests, and protected
-      State pins form one coherent unit.
+- [x] Verify production intake is durably enabled and staging intake is
+      disabled.
+- [x] Verify general replay is disabled and both historical replay-controller
+      variables are absent from production outside an active bounded run.
+- [x] Verify automatic publication and the approved lifecycle routes are live,
+      while publication opt-out and model consolidation remain disabled.
+- [x] Verify the exact deployed Worker is healthy and its release, archive, and
+      retained-State checkpoints form one coherent unit.
 
 ### 5.3 State, credentials, and presentation
 
@@ -216,9 +201,10 @@ overlap began at `2026-09-02T06:57:10Z`; issue intake cannot close before
 - [x] Confirm the scheduled-release presentation deploys from reviewed main and
       the canonical live asset is byte-identical.
 
-Exit condition: current documentation states one coherent disabled baseline.
-Any mismatch becomes a separate repository fix or a reviewed infrastructure
-correction under the standing authorization.
+Exit condition: the coherent disabled baseline was captured before launch.
+Section 5.2 now records the live launch posture; a future mismatch becomes a
+separate repository fix or infrastructure correction under standing
+authorization.
 
 ## 6. Phase 2 — repository launch preparation
 
@@ -284,9 +270,9 @@ The bounded final core smoke, all-false restoration, validation, and fixture
 cleanup are complete.
 The launch Worker was submissions
 `ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`; the current deployed descendant
-`f8ead98ef60c50d3a4f31e20af87fcc4f3e03784` updates only its protected State
-projection roots. Later documentation and historical-lane commits do not
-redeploy that runtime.
+`b6f8c8834213a26a19ba1e8c7440db30ad0c05f2` retains the launch contract and
+the bounded historical-replay paths. Later documentation-only commits do not
+by themselves redeploy that runtime.
 
 Historical private-image preparation is independent of the deployed staging
 and production Worker. Its retained artifacts do not define the launch binding,
@@ -421,7 +407,7 @@ green staging run to substitute for launch readiness.
 The compact launch packet is protected in submissions migration head
 `7050f0e100323070375bc58c3510ec322cfcce1e`. The launch Worker was
 `ccd7a01a420d3c8dc18f996ea9efc65d38513b6d`; its current deployed descendant
-is `f8ead98ef60c50d3a4f31e20af87fcc4f3e03784`. All Phase 4 launch fields are
+is `b6f8c8834213a26a19ba1e8c7440db30ad0c05f2`. All Phase 4 launch fields are
 complete.
 
 Production launch is complete. Historical completion, overlap elapsed time,
@@ -429,7 +415,7 @@ issue-closure notice, and the canary's later release date remain required for
 full overhaul completion.
 
 The launch lifecycle and durable-intake configuration is deployed at
-`f8ead98ef60c50d3a4f31e20af87fcc4f3e03784`. The server-primary entry and
+`b6f8c8834213a26a19ba1e8c7440db30ad0c05f2`. The server-primary entry and
 matching LeanEval copy are live.
 
 ## 10. Phase 4 — launch
@@ -572,9 +558,11 @@ indeterminate, or unreviewed classification. The retained-baseline public
 partition is exactly 633 Results: 174 replay tasks and 459 reviewed unavailable
 dispositions.
 Protected production State ancestor
-`07e68200ee20efdd363cea16c1d08a13971acc2e` introduced those dispositions, and
-current protected head `9cf3b4999bae2b6faaa32ff1bf5f040c5e6f787f`
-validates them with no missing or extra Result identity.
+`07e68200ee20efdd363cea16c1d08a13971acc2e` introduced those dispositions.
+Retained-baseline checkpoint
+`76b3b3e54f4be69161a00cd81576a58df8eae815` validates them and the complete
+retained replay queues with no missing or extra Result identity. Later
+append-only State commits do not replace this retained checkpoint.
 
 - [x] Retain the retained-baseline canonical public replay plan and exact toolchain/source
       mappings.
@@ -643,25 +631,53 @@ the final issue-intake delta has been migrated and its recovery checks pass.
 
 ### 12.4 Replay
 
-The replay credential is installed and the bounded public/private two-lane
-controller is merged at submissions
-`ffe2a6a2707136e667f1cb843098a2d2b00c716e`. Both production replay lanes
-remain disabled until the retained-baseline State events pass isolated staging
-and are promoted exactly to protected production State.
+The replay credential and bounded public/private two-lane controller are
+installed. Retained-baseline State binding
+`e2b95a76d5d854f27d95358a2aafd380a40acc8445c3ab13ae7621614ce8d31f`
+was generated by submissions implementation
+`d8834749c3f21f14d5d42ad259cc67a687417ea9`, protected at checkpoint
+`36e405e558be69d50e3093d3e188d24d6fc7cfa1`, and promoted exactly as State
+checkpoint `76b3b3e54f4be69161a00cd81576a58df8eae815` (tree
+`e196521b812a0942eea9d11a8bcb2d7569728d50`). It contributes 2,439 lifecycle
+events and 813 deterministic replay tasks: 174 public and 639 private. The
+retained public unavailable set is 459 Results and the private unavailable set
+is 29 Results. All 439 recoverable private archives are migrated. The fixed
+review branch is absent and State validation passes.
+
+The bounded private replay canary at submissions
+`c26054f15198d0bc842b687efe328db1ab8b49c5` is accepted at terminal State
+`c6243f8ab5758847942861ed13e34650e166a0e8` for task
+`rt1_0124080c80e6f8f9d1ea4fff1aaf51728c62986f0d2e49a1b577622b9047fb5d`
+and Result
+`r2_99b67e41e94f0084a243ad0643510df796c56ace27fae3d9fa0755d3189d5114`.
+Its terminal State, artifact, credential cleanup, and executor-absence
+readbacks pass. Retained terminal accounting is one accepted and one safely
+failed; the materialized queues now contain 174 public and 637 private tasks.
+Both production historical replay-controller variables are absent; a bounded
+run may install only its lane's variable for its exact lease and must remove it
+at terminal cleanup.
 
 - [x] Install the production replay credential without exposing its value.
-- [x] Merge the bounded public/private two-lane controller at submissions
-      `ffe2a6a2707136e667f1cb843098a2d2b00c716e`.
-- [ ] Stage and validate the retained-baseline State events without changing
+- [x] Merge and deploy the bounded public/private two-lane controller in the
+      current submissions runtime.
+- [x] Stage and validate the retained-baseline State events without changing
       protected production State or enabling either replay lane.
-- [ ] Promote exactly the validated State baseline, verify the protected head
+- [x] Promote exactly the validated State baseline, verify the protected head
       and materialized public/private queues, and only then enable replay.
-- [ ] Enable production replay and append canonical dispositions only within
+- [x] Complete the exact-current private retained-baseline replay canary and
+      its terminal readback before expanding either controller lane.
+- [x] Finish the bounded final-delta mechanism and remove the obsolete staging
+      smoke machinery.
+- [x] Refresh the exact operational documentation and finish the final current
+      submissions deployment before starting the retained drain.
+- [ ] Drain with one bounded two-lane dispatch: start exactly one public
+      controller and one private controller concurrently under their
+      independent leases and concurrency groups. Use another dispatch only for
+      bounded retries left by those runs.
+- [ ] Append canonical dispositions only within
       the exact retained-baseline packet completed in section 12.3. After the
       announced cutoff, process the append-only final delta through a separate
       exact packet; extending the baseline packet by implication is forbidden.
-- [ ] Run the bounded public and private lanes under their independent
-      controller leases and concurrency groups.
 - [ ] Restore exact original source, benchmark, toolchain, comparator,
       lean4export, and nanoda pins.
 - [ ] Execute the official Lean kernel path and nanoda only.
@@ -771,6 +787,6 @@ Update this table in place; do not append a history beneath it.
 | Production launch readiness | Complete | — |
 | 4. Launch | Complete; live | — |
 | 5. Four-week overlap | In progress; calendar-bound | Keep issue intake open through at least `2026-09-30T06:57:10Z`; the exact conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
-| 6. Historical completion | In progress; not a launch gate | The 439-archive baseline migration, audit promotion, replay credential, and two-lane controller are complete. Replay remains disabled pending two-phase State baseline staging/validation and exact promotion; the final post-cutoff delta follows separately. |
+| 6. Historical completion | Retained drain ready; final delta calendar-bound | The 439-archive migration, exact retained-State promotion, private canary, final-delta mechanism, bounded cleanup, operational-document refresh, and final deployment are complete. Run one public and one private controller concurrently. Process the separately bound delta only after issue-intake cutoff; keep both controller variables absent between bounded runs. |
 | 7. Remaining product completion | In progress | Open problems and editorial work are complete; final live release/replay presentation and issue closure retain their calendar, stability, adoption, final-delta, and readiness gates |
 | Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |
