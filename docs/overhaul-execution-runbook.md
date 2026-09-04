@@ -146,7 +146,7 @@ invalidate these bindings. Section 5.2 records the deployed runtime separately.
 | Repository | Durable checkpoint | Protection state |
 | --- | --- | --- |
 | `lean-eval` | Completion-plan and runbook checkpoint `59c0c18b2d14015589927b6e810386025c93ba4b` | Required `verify` |
-| `lean-eval-submissions` | Retained-State binding `36e405e558be69d50e3093d3e188d24d6fc7cfa1`; protected main and replay packet `d26a3090a338358915cc94651ec7efddde71d241`; deployed production Worker `6e0aeb2b5c71fb857f09feff6172c4ee7bdfae08` | Required `verify` |
+| `lean-eval-submissions` | Retained-State binding `36e405e558be69d50e3093d3e188d24d6fc7cfa1`; replay packet `d26a3090a338358915cc94651ec7efddde71d241`; protected main `b686eb49743ff5340a34801c0f8f36d921aa9094`; deployed production Worker `6e0aeb2b5c71fb857f09feff6172c4ee7bdfae08` | Required `verify` |
 | `lean-eval-leaderboard` | Protected and deployed main `939d69c88292358adf60b124f29605215a1e422a` | Required `build`; exact Pages deployment and live readback complete |
 | `lean-eval-state` | Retained-baseline checkpoint `76b3b3e54f4be69161a00cd81576a58df8eae815` | Required `validate`; append-only descendants allowed |
 | `lean-eval-state-staging` | Launch-acceptance checkpoint `0849a95026ea3491ec55f1e0ef3b6ff2dff00fd5` | Required `validate`; append-only descendants allowed |
@@ -158,9 +158,9 @@ invalidate these bindings. Section 5.2 records the deployed runtime separately.
 
 Production serves deployed submissions implementation
 `6e0aeb2b5c71fb857f09feff6172c4ee7bdfae08` with durable intake and exactly
-the approved lifecycle routes enabled; protected `main` is the
-documentation-only replay-packet descendant
-`d26a3090a338358915cc94651ec7efddde71d241`. Deployment, CI, readiness,
+the approved lifecycle routes enabled; protected `main`
+`b686eb49743ff5340a34801c0f8f36d921aa9094` retains the replay packet and adds
+bounded exact-shape private poll-response retries. Deployment, CI, readiness,
 health, non-mutating authorization denial, and protected-State validation pass.
 Staging intake and public lifecycle routes remain disabled, with its promotion
 canary enabled. Model consolidation, publication opt-out, production promotion
@@ -169,17 +169,22 @@ canary, and general replay remain disabled.
 The source-App admission repair, private replay stream transfer, and bound
 start diagnostics are included in the launch commit. The exact post-repair
 private replay canary is terminal accepted; its credential, artifact, and
-temporary-executor cleanup readbacks pass. The post-launch replay packet is
-bound at protected submissions `main`
-`d26a3090a338358915cc94651ec7efddde71d241` to controller source
-`6e0aeb2b5c71fb857f09feff6172c4ee7bdfae08`. At activation State checkpoint
+temporary-executor cleanup readbacks pass. The post-launch replay packet was
+protected at submissions `d26a3090a338358915cc94651ec7efddde71d241`.
+Protected main `b686eb49743ff5340a34801c0f8f36d921aa9094` updates the current private
+controller binding to implementation `7c79adcfe020c7ab2258662647dd5518358ae075`
+and workflow SHA-256
+`0d86af8b627ca474fc882ef6f93996a29099d9349e2700d84c5b4aa4acf34c78`.
+At activation State checkpoint
 `4fae55f7699e80d5b50314cf678bcf6caa020ad8`, the retained queues contained
-161 public and 630 private queued entries. Both bounded sustained chains are
-active with independent controller variables and concurrency groups. Repeated
-exact-packet public and private tasks are reaching terminal accepted State,
-performing their required source/credential/resource cleanup, and starting
-exactly one successor per lane. The private non-replenishing proof is terminal
-accepted at protected State
+161 public and 630 private queued entries. The last all-terminal checkpoint
+before the current runs, protected State
+`e5751a5b22b5663e1cdad7d87e9fa6f551852b40`, public accounting is 23
+accepted, one terminal failed, and 150 queued; private accounting is 14
+accepted, three terminal failed, one retryable failure, and 621 queued. Both
+controller variables are true, and exactly one current run in each sustained
+lane is active on protected submissions `main`. The private non-replenishing
+proof is terminal accepted at protected State
 `24bcb65c8849b95f569c8ee037503049c7fe568f`; its source-free artifact,
 credential scrub, sandbox destruction, and temporary-executor deletion pass.
 
@@ -683,20 +688,25 @@ The exact post-repair private replay canary is terminal accepted. Its terminal
 State, artifact, credential cleanup, and executor-absence readbacks pass.
 Retained terminal accounting includes accepted and safely failed executions.
 
-The post-launch replay packet is protected at submissions
-`d26a3090a338358915cc94651ec7efddde71d241` and binds controller source
-`6e0aeb2b5c71fb857f09feff6172c4ee7bdfae08`. Activation State checkpoint
+The post-launch replay packet was protected at submissions
+`d26a3090a338358915cc94651ec7efddde71d241`. Protected main
+`b686eb49743ff5340a34801c0f8f36d921aa9094` updates the current private
+controller binding to implementation `7c79adcfe020c7ab2258662647dd5518358ae075`,
+workflow SHA-256
+`0d86af8b627ca474fc882ef6f93996a29099d9349e2700d84c5b4aa4acf34c78`,
+and bounded exact-shape poll-response retries. Activation State checkpoint
 `4fae55f7699e80d5b50314cf678bcf6caa020ad8` materialized 161 public and 630
-private queued entries. The first public sustained task is terminal accepted
-and exactly one successor continues that chain. Repeated monitored public and
-private terminals preserve that invariant and complete the required cleanup.
-Private non-replenishing proof
+private queued entries. The last all-terminal checkpoint before the current
+runs, protected State
+`e5751a5b22b5663e1cdad7d87e9fa6f551852b40` records 23 accepted, one terminal
+failed, and 150 queued public tasks; it records 14 accepted, three terminal
+failed, one retryable `runner_lost` failure at attempt two, and 621 queued
+private tasks. The materialized actionable queues therefore contain 150 public
+and 622 private tasks. Both controller variables are true, with exactly one
+current run active in each independent lane. Private non-replenishing proof
 run `33823645564` is terminal accepted at State
 `24bcb65c8849b95f569c8ee037503049c7fe568f`, with its redacted artifact and
-resource/credential cleanup reviewed. Both sustained lanes remain active on the
-same exact baseline. Both controller variables are installed; a future safe
-stop deletes the relevant lane variable first, before any other recovery
-action.
+resource/credential cleanup reviewed.
 
 - [x] Install the production replay credential without exposing its value.
 - [x] Merge and deploy the bounded public/private two-lane controller in the
@@ -840,6 +850,6 @@ Update this table in place; do not append a history beneath it.
 | Production launch readiness | Complete | — |
 | 4. Launch | Complete: backend `6e0aeb2b5c71fb857f09feff6172c4ee7bdfae08` live with durable intake; leaderboard `939d69c88292358adf60b124f29605215a1e422a` protected, deployed, and read back | — |
 | 5. Four-week overlap | In progress; automatic publication, durable server intake, and server-primary entry live; calendar-bound; future cutoff variable installed | Keep issue intake open through at least `2026-09-30T06:57:10Z`; merge and verify the reviewed cutoff guard after the retained drain and before that timestamp; the conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
-| 6. Historical completion | Packet bound; both bounded sustained drains active from a 161-public/630-private activation checkpoint after terminal private proof; repeated exact-packet terminals and single successors pass; final-delta and issue-retirement drafts are open, including the matching leaderboard-copy retirement; not ready; calendar-bound | Complete both retained drains; then merge the audit companion and rebind the submissions final-delta implementation before the cutoff; process the separately bound delta only after issue-intake cutoff |
+| 6. Historical completion | Packet bound; retained private migration and all required image/profile work complete; both bounded sustained drains active on protected submissions `b686eb49743ff5340a34801c0f8f36d921aa9094`; final-delta and issue-retirement drafts are open, including the matching leaderboard-copy retirement; not ready; calendar-bound | Complete both retained drains, then merge the audit companion and rebind the submissions final-delta implementation before the cutoff; process the separately bound delta only after issue-intake cutoff |
 | 7. Remaining product completion | In progress | Open problems and editorial work are complete; final live release/replay presentation and issue closure retain their calendar, stability, adoption, final-delta, and readiness gates |
 | Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |
