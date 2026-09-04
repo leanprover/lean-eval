@@ -2,10 +2,7 @@ blank_issues_enabled: true
 contact_links:
   - name: Submit a benchmark solution
     url: https://lean-lang.org/eval/submit/
-    about: Primary authenticated submission path from 2026-09-02T06:57:10Z.
-  - name: Submission issue fallback
-    url: https://github.com/leanprover/lean-eval-submissions/issues/new?template=submit.yml
-    about: Available through at least 2026-09-30T06:57:10Z and possibly longer.
+    about: Supported authenticated submission path.
   - name: Discussion on Zulip
     url: https://leanprover.zulipchat.com/#narrow/channel/583341-Model-comparisons-for-Lean/topic/LeanEval/with/594108910
     about: General questions and discussion about lean-eval happen in the #Model-comparisons-for-Lean > LeanEval topic on the Lean Zulip.
