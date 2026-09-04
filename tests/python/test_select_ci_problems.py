@@ -103,8 +103,33 @@ class SelectCIProblemsTest(unittest.TestCase):
         self.assertEqual(selection.mode, "targeted")
         self.assertEqual(selection.problems, ("c",))
 
-    def test_push_always_selects_full_catalog(self):
-        selection = self.select((Change("M", ("README.md",)),), event="push")
+    def test_relevant_push_selects_full_catalog(self):
+        for path in (
+            "LeanEval/A.lean",
+            "LeanEval.lean",
+            "EvalTools.lean",
+            "generated/index.json",
+            "scripts/validate_catalog.py",
+            ".github/workflows/other.yml",
+            ".gitignore",
+            "future-input.unknown",
+        ):
+            with self.subTest(path=path):
+                selection = self.select((Change("M", (path,)),), event="push")
+                self.assertEqual(selection.mode, "full")
+                self.assertEqual(len(selection.problems), 4)
+
+    def test_docs_only_push_selects_no_catalog_work(self):
+        for path in ("README.md", "SECURITY.md", "docs/overhaul.md"):
+            with self.subTest(path=path):
+                selection = self.select((Change("M", (path,)),), event="push")
+                self.assertEqual(selection.mode, "none")
+                self.assertFalse(selection.run_catalog)
+
+    def test_initial_push_selects_full_catalog(self):
+        selection = self.select(
+            (Change("A", ("<initial-push>",)),), event="push"
+        )
         self.assertEqual(selection.mode, "full")
         self.assertEqual(len(selection.problems), 4)
 

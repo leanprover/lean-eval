@@ -4,8 +4,8 @@
 Pull requests validate changed problem modules and every manifest root that
 imports them, transitively. Lean itself parses module headers and provides the
 dependency graph consumed here. Changes to shared generator/infrastructure
-inputs are conservative full-catalog sentinels. Pushes validate the full
-catalog.
+inputs are conservative full-catalog sentinels. Relevant pushes validate the
+full catalog; documentation-only pushes do not launch catalog shards.
 """
 
 from __future__ import annotations
@@ -206,9 +206,16 @@ def select(
 
     all_ids = tuple(sorted(by_id))
     all_modules = tuple(sorted(by_module))
-    if event == "push":
+    initial_push = "<initial-push>" in changed_paths
+    documentation_only = bool(changed_paths) and all(
+        path.startswith("docs/")
+        or ("/" not in path and path.endswith(".md"))
+        for path in changed_paths
+    )
+    if event == "push" and not documentation_only:
         return Selection(
-            "full", ("push to main",), all_ids, all_modules,
+            "full", ("initial push" if initial_push else "non-documentation push to main",),
+            all_ids, all_modules,
             source_changed, generated_changed, run_checks,
         )
 
