@@ -174,10 +174,12 @@ bound at protected submissions `main`
 `d26a3090a338358915cc94651ec7efddde71d241` to controller source
 `6e0aeb2b5c71fb857f09feff6172c4ee7bdfae08`. At activation State checkpoint
 `4fae55f7699e80d5b50314cf678bcf6caa020ad8`, the retained queues contained
-161 public and 630 private queued entries. Public sustained run `33823643732`
-and private non-replenishing proof run `33823645564` started concurrently. The
-public replay-controller variable remains installed for its bounded chain; the
-private variable was removed after the proof run passed its exact protected-main
+161 public and 630 private queued entries. Both bounded sustained chains are
+active with independent controller variables and concurrency groups. The
+private non-replenishing proof is terminal accepted at protected State
+`24bcb65c8849b95f569c8ee037503049c7fe568f`; its source-free artifact,
+credential scrub, sandbox destruction, and temporary-executor deletion pass.
+Current sustained private run `33826897577` passed its exact protected-main
 entry gate.
 
 Leaderboard commit `939d69c88292358adf60b124f29605215a1e422a` is protected and
@@ -684,11 +686,14 @@ The post-launch replay packet is protected at submissions
 `d26a3090a338358915cc94651ec7efddde71d241` and binds controller source
 `6e0aeb2b5c71fb857f09feff6172c4ee7bdfae08`. Activation State checkpoint
 `4fae55f7699e80d5b50314cf678bcf6caa020ad8` materialized 161 public and 630
-private queued entries. Public sustained run `33823643732` is active. Private
-non-replenishing proof run `33823645564` is active with its controller variable
-already absent after the exact entry gate; no private successor can start until
-that proof is terminal and reviewed. A future safe stop deletes the remaining
-public variable first, before any other recovery action.
+private queued entries. The first public sustained task is terminal accepted
+and exactly one successor continues that chain. Private non-replenishing proof
+run `33823645564` is terminal accepted at State
+`24bcb65c8849b95f569c8ee037503049c7fe568f`, with its redacted artifact and
+resource/credential cleanup reviewed. Sustained private run `33826897577` is
+active on the same exact baseline. Both controller variables are installed; a
+future safe stop deletes the relevant lane variable first, before any other
+recovery action.
 
 - [x] Install the production replay credential without exposing its value.
 - [x] Merge and deploy the bounded public/private two-lane controller in the
@@ -712,9 +717,10 @@ public variable first, before any other recovery action.
 - [x] Start exactly one bounded public controller and one non-replenishing
       private proof concurrently under their independent leases and concurrency
       groups.
-- [ ] After the private proof reaches a reviewed terminal state, start its
-      bounded sustained lane and drain both queues. Use another dispatch only
-      for bounded retries left by those runs.
+- [x] After the private proof reaches a reviewed terminal state, start its
+      bounded sustained lane.
+- [ ] Drain both queues. Use another dispatch only for bounded retries left by
+      those runs.
 - [ ] Append canonical dispositions only within
       the exact retained-baseline packet completed in section 12.3. After the
       announced cutoff, process the append-only final delta through a separate
@@ -831,6 +837,6 @@ Update this table in place; do not append a history beneath it.
 | Production launch readiness | Complete | — |
 | 4. Launch | Complete: backend `6e0aeb2b5c71fb857f09feff6172c4ee7bdfae08` live with durable intake; leaderboard `939d69c88292358adf60b124f29605215a1e422a` protected, deployed, and read back | — |
 | 5. Four-week overlap | In progress; automatic publication, durable server intake, and server-primary entry live; calendar-bound; future cutoff variable installed | Keep issue intake open through at least `2026-09-30T06:57:10Z`; merge and verify the reviewed cutoff guard after the retained drain and before that timestamp; the conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
-| 6. Historical completion | Packet bound; public sustained drain and one non-replenishing private proof active from a 161-public/630-private activation checkpoint; final-delta closure drafts open; not ready; calendar-bound | Review the private proof, start its sustained lane, and complete both retained drains; then merge the audit companion and rebind the submissions final-delta implementation before the cutoff; process the separately bound delta only after issue-intake cutoff |
+| 6. Historical completion | Packet bound; both bounded sustained drains active from a 161-public/630-private activation checkpoint after terminal private proof; final-delta closure drafts open; not ready; calendar-bound | Complete both retained drains; then merge the audit companion and rebind the submissions final-delta implementation before the cutoff; process the separately bound delta only after issue-intake cutoff |
 | 7. Remaining product completion | In progress | Open problems and editorial work are complete; final live release/replay presentation and issue closure retain their calendar, stability, adoption, final-delta, and readiness gates |
 | Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |
