@@ -1,0 +1,12 @@
+id = "hopf_s6_complex_structure"
+title = "The Hopf problem: a complex structure on the 6-sphere"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Geometry.HopfS6"
+holes = ["instChartedSpaceS6", "instIsManifoldS6"]
+submitter = "Jack McCarthy"
+notes = "OPEN PROBLEM (Hopf 1948): whether S⁶ admits a complex structure is unresolved, so unlike the rest of the benchmark this problem has no known solution and a comparator-accepted fill would be new mathematics. Two holes: ChartedSpace data into ℂ³ (the plain function type Fin 3 → ℂ; the model norm is immaterial) on the topological 6-sphere, and the IsManifold 𝓘(ℂ, Fin 3 → ℂ) ω proof that the atlas is holomorphic. No compatibility with the standard smooth atlas is demanded; by Smale's h-cobordism theorem and Θ₆ = 0 (Kervaire–Milnor) this is equivalent to a complex structure on the standard smooth S⁶. Known constraints: S² and S⁶ are the only spheres with almost complex structures (Borel–Serre); no complex structure on S⁶ is orthogonal for the round metric (LeBrun 1987). Claimed resolutions in both directions (Etesi affirmative, Atiyah negative, Alpöge 2026 affirmative) lack community acceptance."
+source = "H. Hopf, 'Zur Topologie der komplexen Mannigfaltigkeiten', Studies and Essays Presented to R. Courant, Interscience, 1948. Survey: I. Agricola, G. Bazzoni, O. Goertsches, P. Konstantis, S. Rollenske, 'On the history of the Hopf problem', Differ. Geom. Appl. 57 (2018). https://arxiv.org/abs/1708.01068"
