@@ -159,6 +159,7 @@ jobs:
           lake exe test_validate_submission
           lake exe test_generate
           lake exe test_module_coverage
+          lake exe test_check_library_drift
           lake exe test_check_comparator_installation
 
       - name: Run Python unit tests
@@ -318,6 +319,22 @@ jobs:
           mkdir -p .ci/problem-inventory
           lake exe lean-eval problem-inventory \
             ".ci/problem-inventory/$SHARD_INDEX.json" "${module_args[@]}"
+
+      # A toolchain or Mathlib bump can turn a problem into a one-line library
+      # lookup without changing its statement. The selector already sends such
+      # bumps to the full catalog, so this step sees every hole exactly when it
+      # needs to and only the changed modules otherwise.
+      - name: Check problem holes for library drift
+        env:
+          MODULES: ${{ matrix.modules }}
+        run: |
+          set -euo pipefail
+          IFS=',' read -r -a modules <<< "$MODULES"
+          module_args=()
+          for module in "${modules[@]}"; do
+            module_args+=(--module "$module")
+          done
+          lake exe lean-eval check-library-drift "${module_args[@]}"
 
       - name: Generate or verify this shard
         env:
