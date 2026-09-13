@@ -146,7 +146,7 @@ invalidate these bindings. Section 5.2 records the deployed runtime separately.
 | Repository | Durable checkpoint | Protection state |
 | --- | --- | --- |
 | `lean-eval` | Completion-plan and runbook checkpoint `59c0c18b2d14015589927b6e810386025c93ba4b` | Required `verify` |
-| `lean-eval-submissions` | Protected main and deployed production Worker `0aef118adbe2e2e48917827839c6b37714cc7c50` | Required `verify` |
+| `lean-eval-submissions` | Protected main and deployed production Worker `98d7172786fad65c02173d49eccf415a32e2285d` | Required `verify` |
 | `lean-eval-leaderboard` | Protected and deployed main `939d69c88292358adf60b124f29605215a1e422a` | Required `build`; exact Pages deployment and live readback complete |
 | `lean-eval-state` | Retained-baseline checkpoint `76b3b3e54f4be69161a00cd81576a58df8eae815` | Required `validate`; append-only descendants allowed |
 | `lean-eval-state-staging` | Launch-acceptance checkpoint `0849a95026ea3491ec55f1e0ef3b6ff2dff00fd5` | Required `validate`; append-only descendants allowed |
@@ -157,7 +157,7 @@ invalidate these bindings. Section 5.2 records the deployed runtime separately.
 ### 5.2 Deployed services
 
 Production serves deployed submissions implementation
-`0aef118adbe2e2e48917827839c6b37714cc7c50` with durable intake and exactly
+`98d7172786fad65c02173d49eccf415a32e2285d` with durable intake and exactly
 the approved lifecycle routes enabled. Deployment, CI, readiness, health, and
 protected-State validation pass.
 Staging intake and public lifecycle routes remain disabled, with its promotion
@@ -511,7 +511,7 @@ write-free no-op, and enabled no-due-work pass all succeed.
       historical counter-unavailability reasons.
 - [x] Add immutable exact-submission claims and per-owner intake indexes to
       both production and staging State.
-- [ ] Deploy clean-break intake API schema version 2. The server resolves group
+- [x] Deploy clean-break intake API schema version 2. The server resolves group
       and revision from protected benchmark `main`, requires current terms,
       rejects withheld publication for public repositories, deduplicates exact
       submissions, and permits at most four active submissions per owner.
@@ -692,7 +692,7 @@ checker or persistent qualification machinery may be added to this phase.
 
 Production launch restore `39b2e67f7583926a4f1d66b723b5d4cf4756dd32`
 is live through deployed descendant
-`0aef118adbe2e2e48917827839c6b37714cc7c50` with durable intake. Full
+`98d7172786fad65c02173d49eccf415a32e2285d` with durable intake. Full
 completion is deliberately calendar-bound and occurs only when every
 completion-plan criterion is actually satisfied.
 
@@ -708,7 +708,7 @@ Update this table in place; do not append a history beneath it.
 | Credential boundary | Complete | — |
 | 3. Final staging acceptance | Complete | — |
 | Production launch readiness | Complete | — |
-| 4. Launch | Live; P0/P1 hardening in progress | Merge and deploy clean-break intake v2, update public guidance, and complete one bounded production readback |
+| 4. Launch | Live; clean-break intake v2 deployed | Merge the updated public guidance and complete one bounded production readback |
 | 5. Four-week overlap | In progress; automatic publication, durable server intake, and server-primary entry live; calendar-bound; future cutoff variable installed | Keep issue intake open through at least `2026-09-30T06:57:10Z`; the conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
 | 6. Historical completion | Complete: v1 public and private queues are terminal; no replay or task-scoped private resource remains; temporary controllers and qualification machinery are removed | — |
 | 7. Remaining product completion | In progress | Open problems and editorial work are complete; final live release/replay presentation and issue closure retain their calendar, stability, adoption, and readiness gates |
