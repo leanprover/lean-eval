@@ -571,6 +571,11 @@ binding has SHA-256
 Non-v1 historical Results remain available for later replay work but do not
 block this overhaul.
 
+The completed historical baseline contains 1,301 terminal in-scope records.
+At the 2026-09-13 reconciliation, 80 later legacy issue-intake records formed
+the append-only post-baseline delta. That delta may grow until issue intake is
+frozen; keep it separate from the already terminal historical baseline.
+
 ### 12.1 Frozen v1 scope
 
 - [x] Freeze and validate the v1 problem-set binding.
