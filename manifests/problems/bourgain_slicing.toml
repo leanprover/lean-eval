@@ -1,0 +1,16 @@
+id = "bourgain_slicing"
+title = "Affirmative resolution of Bourgain's slicing problem"
+group = "formalization-evaluation"
+status = "active"
+visible = true
+statement_revision = 1
+tags = []
+test = false
+module = "LeanEval.Geometry.BourgainSlicing"
+holes = ["guan_lehec_klartag"]
+submitter = "Junyan Xu"
+
+[[status_history]]
+status = "active"
+effective_date = "2026-09-14"
+reason = "policy"
