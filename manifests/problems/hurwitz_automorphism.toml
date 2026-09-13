@@ -1,0 +1,15 @@
+id = "hurwitz_automorphism"
+title = "Hurwitz's automorphisms theorem"
+group = "formalization-evaluation"
+status = "active"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Geometry.HurwitzAutomorphism"
+holes = ["hurwitz_automorphism"]
+submitter = "Junyan Xu"
+
+[[status_history]]
+status = "active"
+effective_date = "2026-09-14"
+reason = "policy"
