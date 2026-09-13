@@ -129,6 +129,18 @@ match, and that no module under `LeanEval/` escapes the manifest's reach.
 do not slip through. Both catch the most common mistakes before a CI roundtrip;
 on a clean checkout, validating the full problem inventory can take some time.
 
+```bash
+lake exe lean-eval check-library-drift --module LeanEval.My.Module
+```
+
+`check-library-drift` states each Prop-valued hole of the module as a fresh goal
+and runs a fixed tactic battery plus library search against it, failing if the
+kernel accepts a closing term. It catches a statement that the pinned Mathlib
+already proves. A hole meant to close, such as an anti-vacuity guard, is listed
+in the manifest's `probe_exempt`. CI runs this over the changed modules of a
+PR and over the whole catalog when `lean-toolchain` or `lake-manifest.json`
+changes.
+
 ### 5. Open a PR
 
 That's it — push your branch and open a PR. CI regenerates the comparator workspaces
@@ -377,6 +389,7 @@ For a local health pass over the repository:
 ```bash
 lake exe lean-eval validate-manifest
 lake exe lean-eval check-problem-build
+lake exe lean-eval check-library-drift
 lake exe lean-eval generate --check
 lake exe lean-eval check-generated-builds
 lake exe lean-eval run-eval

@@ -34,6 +34,12 @@ name = "eval_inventory"
 root = "EvalTools.ProblemInventory"
 
 [[lean_exe]]
+name = "eval_library_drift"
+root = "EvalTools.LibraryDriftProbe"
+# Runs tactics from the imported problem modules through the interpreter.
+supportInterpreter = true
+
+[[lean_exe]]
 name = "lean-eval"
 root = "EvalTools.Main"
 
@@ -56,3 +62,8 @@ root = "EvalToolsTests.GenerateTest"
 name = "test_module_coverage"
 srcDir = "tests/lean"
 root = "EvalToolsTests.ModuleCoverageTest"
+
+[[lean_exe]]
+name = "test_check_library_drift"
+srcDir = "tests/lean"
+root = "EvalToolsTests.CheckLibraryDriftTest"
