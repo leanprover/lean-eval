@@ -1,0 +1,15 @@
+id = "four_color"
+title = "The four color theorem"
+group = "formalization-evaluation"
+status = "active"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.GraphTheory.EmbeddingAndMinor"
+holes = ["four_color"]
+submitter = "Junyan Xu"
+
+[[status_history]]
+status = "active"
+effective_date = "2026-09-13"
+reason = "policy"
