@@ -146,8 +146,8 @@ invalidate these bindings. Section 5.2 records the deployed runtime separately.
 | Repository | Durable checkpoint | Protection state |
 | --- | --- | --- |
 | `lean-eval` | Completion-plan and runbook checkpoint `59c0c18b2d14015589927b6e810386025c93ba4b` | Required `verify` |
-| `lean-eval-submissions` | Protected main and deployed production Worker `98d7172786fad65c02173d49eccf415a32e2285d` | Required `verify` |
-| `lean-eval-leaderboard` | Protected and deployed main `939d69c88292358adf60b124f29605215a1e422a` | Required `build`; exact Pages deployment and live readback complete |
+| `lean-eval-submissions` | Protected main and deployed production Worker `27fe540135dfcc6c0e21fccf3ab0f9eff51d49d8` | Required `verify` |
+| `lean-eval-leaderboard` | Protected and deployed main `72fc27fb8f302b38a2741831130fd73f4dcfc41a` | Required `build`; exact Pages deployment and live readback complete |
 | `lean-eval-state` | Retained-baseline checkpoint `76b3b3e54f4be69161a00cd81576a58df8eae815` | Required `validate`; append-only descendants allowed |
 | `lean-eval-state-staging` | Launch-acceptance checkpoint `0849a95026ea3491ec55f1e0ef3b6ff2dff00fd5` | Required `validate`; append-only descendants allowed |
 | `lean-eval-releases` | `7dba9bf4f78c71ff478de8c593cb41e07201c14a` | Required `validate` |
@@ -157,7 +157,7 @@ invalidate these bindings. Section 5.2 records the deployed runtime separately.
 ### 5.2 Deployed services
 
 Production serves deployed submissions implementation
-`98d7172786fad65c02173d49eccf415a32e2285d` with durable intake and exactly
+`27fe540135dfcc6c0e21fccf3ab0f9eff51d49d8` with durable intake and exactly
 the approved lifecycle routes enabled. Deployment, CI, readiness, health, and
 protected-State validation pass.
 Staging intake and public lifecycle routes remain disabled, with its promotion
@@ -170,7 +170,7 @@ and no task-scoped private Worker or container application remains. Temporary
 replay controllers and qualification machinery have been removed; canonical
 archives, plans, pins, schemas, and terminal State remain for reproducibility.
 
-Leaderboard commit `939d69c88292358adf60b124f29605215a1e422a` is protected and
+Leaderboard commit `72fc27fb8f302b38a2741831130fd73f4dcfc41a` is protected and
 deployed. The live submit entry directs users to the production service,
 requires both read-only Apps, recommends scheduled release by default, and
 retains the dated issue-intake fallback. A representative problem page retains
@@ -187,7 +187,7 @@ The server-primary entry is live. The overlap began
 - [x] Read staging and production intake health.
 - [x] Read staging and production broker/replay health and current versions.
 - [x] Verify production serves deployed implementation
-      `0aef118adbe2e2e48917827839c6b37714cc7c50` and reports durable intake plus
+      `27fe540135dfcc6c0e21fccf3ab0f9eff51d49d8` and reports durable intake plus
       exactly the approved lifecycle routes.
 - [x] Verify general replay is disabled and historical replay-controller
       variables are absent.
@@ -207,7 +207,7 @@ The server-primary entry is live. The overlap began
 - [x] Confirm the scheduled-release presentation deploys from reviewed main and
       the canonical live asset is byte-identical.
 - [x] Verify leaderboard commit
-      `939d69c88292358adf60b124f29605215a1e422a` is the exact live Pages
+      `72fc27fb8f302b38a2741831130fd73f4dcfc41a` is the exact live Pages
       deployment.
 
 Exit condition: the coherent disabled baseline was captured before launch.
@@ -515,14 +515,19 @@ write-free no-op, and enabled no-due-work pass all succeed.
       and revision from protected benchmark `main`, requires current terms,
       rejects withheld publication for public repositories, deduplicates exact
       submissions, and permits at most four active submissions per owner.
-- [ ] Update the submission service, stable submit page, and repository guide
+- [x] Update the submission service, stable submit page, and repository guide
       to describe the same contract and remove superseded overhaul narratives.
-- [ ] Read back production health and exercise one bounded exact submission
+- [x] Read back production health and exercise one bounded exact submission
       after the hardened Worker is deployed.
 
 Exit condition: the launch commit is live, new production submissions traverse
 the promised lifecycle, and the system can be paused through the documented
 path.
+
+Lower-priority UX, performance, reliability, and cleanup findings are collected
+in [lean-eval #634](https://github.com/leanprover/lean-eval/issues/634) for later
+triage. They are not part of this overhaul unless the completion plan is
+explicitly amended.
 
 ## 11. Phase 5 — four-week overlap
 
@@ -692,7 +697,7 @@ checker or persistent qualification machinery may be added to this phase.
 
 Production launch restore `39b2e67f7583926a4f1d66b723b5d4cf4756dd32`
 is live through deployed descendant
-`98d7172786fad65c02173d49eccf415a32e2285d` with durable intake. Full
+`27fe540135dfcc6c0e21fccf3ab0f9eff51d49d8` with durable intake. Full
 completion is deliberately calendar-bound and occurs only when every
 completion-plan criterion is actually satisfied.
 
@@ -708,7 +713,7 @@ Update this table in place; do not append a history beneath it.
 | Credential boundary | Complete | — |
 | 3. Final staging acceptance | Complete | — |
 | Production launch readiness | Complete | — |
-| 4. Launch | Live; clean-break intake v2 deployed | Merge the updated public guidance and complete one bounded production readback |
+| 4. Launch | Complete; clean-break intake v2 and updated public guidance are live, and the bounded production submission reached an accepted result | — |
 | 5. Four-week overlap | In progress; automatic publication, durable server intake, and server-primary entry live; calendar-bound; future cutoff variable installed | Keep issue intake open through at least `2026-09-30T06:57:10Z`; the conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
 | 6. Historical completion | Complete: v1 public and private queues are terminal; no replay or task-scoped private resource remains; temporary controllers and qualification machinery are removed | — |
 | 7. Remaining product completion | In progress | Open problems and editorial work are complete; final live release/replay presentation and issue closure retain their calendar, stability, adoption, and readiness gates |
