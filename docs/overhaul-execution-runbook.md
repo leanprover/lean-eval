@@ -502,6 +502,24 @@ write-free no-op, and enabled no-due-work pass all succeed.
 - [x] State that any eventual issue-intake closure requires at least two weeks'
       notice.
 
+### 10.5 Post-launch P0/P1 hardening
+
+- [x] Make server submissions evaluate only the catalog problem and statement
+      revision accepted into State; keep workspace scanning only in the
+      temporary legacy issue lane.
+- [x] Align the public State projection and leaderboard adapter on all current
+      historical counter-unavailability reasons.
+- [x] Add immutable exact-submission claims and per-owner intake indexes to
+      both production and staging State.
+- [ ] Deploy clean-break intake API schema version 2. The server resolves group
+      and revision from protected benchmark `main`, requires current terms,
+      rejects withheld publication for public repositories, deduplicates exact
+      submissions, and permits at most four active submissions per owner.
+- [ ] Update the submission service, stable submit page, and repository guide
+      to describe the same contract and remove superseded overhaul narratives.
+- [ ] Read back production health and exercise one bounded exact submission
+      after the hardened Worker is deployed.
+
 Exit condition: the launch commit is live, new production submissions traverse
 the promised lifecycle, and the system can be paused through the documented
 path.
@@ -685,7 +703,7 @@ Update this table in place; do not append a history beneath it.
 | Credential boundary | Complete | — |
 | 3. Final staging acceptance | Complete | — |
 | Production launch readiness | Complete | — |
-| 4. Launch | Complete: backend `0aef118adbe2e2e48917827839c6b37714cc7c50` live with durable intake; leaderboard `939d69c88292358adf60b124f29605215a1e422a` protected, deployed, and read back | — |
+| 4. Launch | Live; P0/P1 hardening in progress | Merge and deploy clean-break intake v2, update public guidance, and complete one bounded production readback |
 | 5. Four-week overlap | In progress; automatic publication, durable server intake, and server-primary entry live; calendar-bound; future cutoff variable installed | Keep issue intake open through at least `2026-09-30T06:57:10Z`; the conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
 | 6. Historical completion | Complete: v1 public and private queues are terminal; no replay or task-scoped private resource remains; temporary controllers and qualification machinery are removed | — |
 | 7. Remaining product completion | In progress | Open problems and editorial work are complete; final live release/replay presentation and issue closure retain their calendar, stability, adoption, and readiness gates |

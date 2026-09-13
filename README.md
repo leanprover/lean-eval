@@ -316,6 +316,21 @@ Apache License 2.0 exactly two UTC calendar months after acceptance. A
 submitter who initially chooses private source may later change that choice
 once to scheduled release.
 
+The service takes a problem ID and resolves its group and current statement
+revision from the protected LeanEval catalog; clients do not supply those
+canonical fields. Formalization problems must be visible and active.
+Software-verification problems may be visible and draft or active. Public
+source repositories must use scheduled publication; withholding is available
+only for private repositories.
+
+Before acceptance, the submitter explicitly authorizes private fetch, archive,
+build, and execution of the exact commit, indefinite encrypted retention even
+after rejection or failure, and public display of the result and submitted
+metadata. Do not submit secrets. Every new request is archived with a fresh
+per-submission key envelope before evaluation, and the service evaluates only
+the selected problem. Exact resubmissions by the same owner return the original
+submission, and each owner may have at most four active submissions.
+
 This repository (`leanprover/lean-eval`) holds only the problem set and the
 comparator/sandbox integration.
 
