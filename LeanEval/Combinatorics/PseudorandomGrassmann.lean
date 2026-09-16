@@ -7,7 +7,7 @@ Authors: Justus Springer
 import Mathlib.Algebra.Field.ZMod
 import Mathlib.Combinatorics.SimpleGraph.Density
 import Mathlib.Combinatorics.SimpleGraph.Finite
-import Mathlib.Data.Real.Basic
+import Mathlib.Basic.Real.Basic
 import Mathlib.Data.SetLike.Fintype
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.Order.Filter.AtTopBot.Defs

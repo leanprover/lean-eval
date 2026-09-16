@@ -1,4 +1,4 @@
-import Mathlib.Data.Finite.Defs
+import Mathlib.Basic.Finite.Defs
 import Mathlib.GroupTheory.Commutator.Basic
 import Mathlib.GroupTheory.Subgroup.Simple
 import EvalTools.Markers
