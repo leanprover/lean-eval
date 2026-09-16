@@ -295,19 +295,9 @@ For current instructions to **submit a solution**, start at the stable page:
 
 > **[lean-lang.org/eval/submit/](https://lean-lang.org/eval/submit/)**
 
-That page is the primary authenticated submission path from
-`2026-09-02T06:57:10Z`. The application itself is at
+That page is the supported authenticated submission path. The application itself is at
 `https://lean-eval-submission-server.lean-eval.workers.dev/`; this change of
 origin is expected.
-
-[Submission issue
-intake](https://github.com/leanprover/lean-eval-submissions/issues/new?template=submit.yml)
-remains available as a fallback through at least `2026-09-30T06:57:10Z`, four
-weeks after the overlap began. Conditional on stable operation, adequate
-adoption, no unresolved severity-high incident, and a reconciled final corpus,
-that is the planned retirement time. This notice was issued at
-`2026-09-02T23:06:35Z`, more than two weeks in advance. Retirement will be
-postponed if any gate is not satisfied.
 
 Scheduled release is recommended for authenticated intake, while submitters
 may keep accepted source private instead. Once selected, scheduled release
