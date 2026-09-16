@@ -2,7 +2,7 @@ import Mathlib.Algebra.Lie.SerreConstruction
 import Mathlib.Algebra.Lie.TensorProduct
 import Mathlib.Algebra.Lie.UniversalEnveloping
 import Mathlib.Algebra.Lie.Semisimple.Defs
-import Mathlib.Data.Complex.Basic
+import Mathlib.Basic.Complex.Basic
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.RingTheory.SimpleModule.Isotypic
 import EvalTools.Markers

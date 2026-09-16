@@ -14,8 +14,8 @@ equilibrium.
 Nash gave two proofs: the 1950 one uses Brouwer's fixed-point theorem; the
 1951 one uses Kakutani's set-valued generalization.
 
-mathlib has `stdSimplex ℝ S` (the natural model of a mixed strategy) and the
-standard finite-sum/product machinery, but **no game theory at all** —
+mathlib has the standard finite-sum/product machinery needed to describe the standard simplex,
+but **no game theory at all** —
 there is no `Mathlib/GameTheory/` module, and `grep -ri nash`,
 `mixed.strategy`, `best.response` returns nothing relevant. No formalization
 of Nash equilibrium existence was found in any major proof assistant.
@@ -25,7 +25,8 @@ open Set Function
 
 /-- A **mixed strategy** for a player with finite pure-strategy set `S` is a
 probability distribution on `S`: a non-negative function summing to `1`. -/
-abbrev MixedStrategy (S : Type*) [Fintype S] : Set (S → ℝ) := stdSimplex ℝ S
+abbrev MixedStrategy (S : Type*) [Fintype S] : Set (S → ℝ) :=
+  { f | (∀ x, 0 ≤ f x) ∧ ∑ x, f x = 1 }
 
 /-- A **strategy profile** is a tuple assigning each of the `n` players a
 pure strategy from their own set. -/

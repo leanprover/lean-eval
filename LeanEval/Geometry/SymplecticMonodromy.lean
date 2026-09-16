@@ -28,7 +28,7 @@ open MvPowerSeries
 
 /-- The Milnor number of `f` is `dim_ℂ ℂ⟦z₁, ⋯, zₙ⟧ / ⟨∂f/∂z₁, ⋯, ∂f/∂zₙ⟩`. -/
 noncomputable def milnorNumber {σ R : Type*} [CommRing R] (f : MvPowerSeries σ R) : ℕ∞ :=
-  (Module.rank R (MvPowerSeries σ R ⧸ Ideal.span (Set.range (pderiv R · f)))).toENat
+  (Module.rank R (MvPowerSeries σ R ⧸ Ideal.span (Set.range (pderiv · f)))).toENat
 
 /--
 Statement of Theorem 1.1:
