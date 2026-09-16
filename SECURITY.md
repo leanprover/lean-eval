@@ -68,10 +68,10 @@ verifier. Given a `config.json` listing `theorem_names`,
    every transitively-used constant (other than def-hole targets, where
    only the type signature must match) is byte-identical between
    Challenge and Solution. See
-   [comparator/Comparator/Compare.lean](../comparator/Comparator/Compare.lean).
+   [comparator/Comparator/Compare.lean](https://github.com/leanprover/comparator/blob/master/Comparator/Compare.lean).
 3. Walks the same graph for axioms and requires every reachable axiom
    to be in the `permitted_axioms` allowlist. See
-   [comparator/Comparator/Axioms.lean](../comparator/Comparator/Axioms.lean).
+   [comparator/Comparator/Axioms.lean](https://github.com/leanprover/comparator/blob/master/Comparator/Axioms.lean).
    Our allowlist is `{propext, Quot.sound, Classical.choice}`. Notably
    absent: `sorryAx` (so `sorry` is rejected) and `Lean.ofReduceBool`
    (so `native_decide` is rejected).
@@ -357,7 +357,7 @@ escaping, the triage gate) are in the submissions repo's `SECURITY.md`.
 
 ## References
 
-- [comparator/Main.lean](../comparator/Main.lean), [comparator/Comparator/Compare.lean](../comparator/Comparator/Compare.lean), [comparator/Comparator/Axioms.lean](../comparator/Comparator/Axioms.lean) — verifier internals.
+- [comparator/Main.lean](https://github.com/leanprover/comparator/blob/master/Main.lean), [comparator/Comparator/Compare.lean](https://github.com/leanprover/comparator/blob/master/Comparator/Compare.lean), [comparator/Comparator/Axioms.lean](https://github.com/leanprover/comparator/blob/master/Comparator/Axioms.lean) — verifier internals.
 - [leanprover/comparator README](https://github.com/leanprover/comparator) — upstream trust model.
 - [scripts/security_probes/](scripts/security_probes/) — the security probes cited above.
 - [scripts/action_pin_audit.py](scripts/action_pin_audit.py),
