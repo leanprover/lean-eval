@@ -213,9 +213,9 @@ jobs:
           set -euo pipefail
           git clone https://github.com/leanprover/lean4export.git .ci/lean4export
           cd .ci/lean4export
-          # lean4export pinned to 15f6055e (= refs/tags/v4.33.0 as of 2026-08-14).
+          # lean4export pinned to 076e8e57 (= refs/tags/v4.34.0 as of 2026-09-16).
           # Bump procedure: SECURITY.md > "Bumping pinned dependencies".
-          git checkout 15f6055e299ad5b89345e533cc2192f4cc00f659  # pin-audit: exempt -- SHA, see comment
+          git checkout 076e8e57707e813375e8f9da8bf989799ace9680  # pin-audit: exempt -- SHA, see comment
           cp "$GITHUB_WORKSPACE/lean-toolchain" lean-toolchain
           lake build lean4export
           echo "$PWD/.lake/build/bin" >> "$GITHUB_PATH"
@@ -224,9 +224,9 @@ jobs:
         run: |
           git clone https://github.com/leanprover/comparator.git .ci/comparator
           cd .ci/comparator
-          # comparator pinned to 71b52ec2 (leanprover/comparator, originally adopted before 2026-05-04).
+          # comparator pinned to d03acab1 (= refs/tags/v4.34.0 as of 2026-09-16).
           # Bump procedure: SECURITY.md > "Bumping pinned dependencies".
-          git checkout 71b52ec29e06d4b7d882726553b1ceb99a2499e0  # pin-audit: exempt -- SHA, see comment
+          git checkout d03acab154d269c06e60e4de7e4cc85deebff94b  # pin-audit: exempt -- SHA, see comment
           lake build comparator
           echo "$PWD/.lake/build/bin" >> "$GITHUB_PATH"
 

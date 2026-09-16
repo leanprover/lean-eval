@@ -1,4 +1,5 @@
 import Mathlib.Algebra.Polynomial.Basic
+import Mathlib.Algebra.Polynomial.Degree.Defs
 import Mathlib.Analysis.Complex.Circle
 import EvalTools.Markers
 

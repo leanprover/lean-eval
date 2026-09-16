@@ -225,7 +225,7 @@ export PATH="$(go env GOPATH)/bin:$PATH"
 lean_eval_root="$(pwd)"  # run this setup from the lean-eval repository root
 git clone https://github.com/leanprover/lean4export.git
 ( cd lean4export
-  git checkout 4e7915201d3f9f04470d9eae002fa695f7cdc589
+  git checkout 076e8e57707e813375e8f9da8bf989799ace9680
   cp "$lean_eval_root/lean-toolchain" lean-toolchain
   lake build lean4export )
 export PATH="$PWD/lean4export/.lake/build/bin:$PATH"
@@ -233,7 +233,7 @@ export PATH="$PWD/lean4export/.lake/build/bin:$PATH"
 # comparator — clone, check out the pin (adds `def`-hole support), and build.
 git clone https://github.com/leanprover/comparator.git
 ( cd comparator
-  git checkout 71b52ec29e06d4b7d882726553b1ceb99a2499e0
+  git checkout d03acab154d269c06e60e4de7e4cc85deebff94b
   lake build comparator )
 export PATH="$PWD/comparator/.lake/build/bin:$PATH"
 
@@ -249,7 +249,7 @@ export PATH="$PWD/nanoda_lib/target/release:$PATH"
 ```
 
 `lean4export` and `comparator` are Lean programs. The pinned lean4export source
-uses Lean v4.33.0 by default, but its build command above deliberately selects
+uses Lean v4.34.0 by default, and its build command above deliberately selects
 the workspace's exact toolchain by copying `lean-toolchain`; different Lean
 releases have incompatible olean headers. Comparator builds `Challenge.olean` with the
 workspace toolchain and then reads it back with `lean4export`, so exact

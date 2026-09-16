@@ -126,7 +126,7 @@ verifies on every run of the test suite that `lake env -- <cmd>` (and
 nested `lake env -- lake env -- <cmd>`) on a workspace whose
 `Submission.lean` has top-level `initialize` and `#eval` markers does
 NOT produce those markers in stdout. Confirmed on the pinned toolchain
-(Lean v4.33.0, 2026-08-14). If a future lake version starts evaluating project Lean
+(Lean v4.34.0, 2026-09-16). If a future lake version starts evaluating project Lean
 during `lake env`, this probe must be re-run before the toolchain
 bump lands.
 
@@ -212,12 +212,12 @@ time, the upstream publisher controls our supply chain.
 
 | Dependency | Repo | Pinned to | Purpose | Last bumped |
 |---|---|---|---|---|
-| Lean toolchain | leanprover/lean4 | `v4.33.0` | compiler and Lake | 2026-08-14 |
-| mathlib | leanprover-community/mathlib4 | `6f1ef4e5dd604a435bddba4747b13970cd65d2a1` | theorem library | 2026-08-14 |
-| lean4-cli | leanprover/lean4-cli | `6130a47896ce867c6a4a55373441e59e565bad0f` | command-line parsing | 2026-08-14 |
+| Lean toolchain | leanprover/lean4 | `v4.34.0` | compiler and Lake | 2026-09-16 |
+| mathlib | leanprover-community/mathlib4 | `5ed2965256430c3649e86755f9576b54eca72435` | theorem library | 2026-09-16 |
+| lean4-cli | leanprover/lean4-cli | `e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204` | command-line parsing | 2026-09-16 |
 | landrun | zouuup/landrun | `5ed4a3db3a4ad930d577215c6b9abaa19df7f99f` | Linux landlock sandbox | 2026-05-04 |
-| lean4export | leanprover/lean4export | `15f6055e299ad5b89345e533cc2192f4cc00f659` | exports olean to text | 2026-08-14 |
-| comparator | leanprover/comparator | `71b52ec29e06d4b7d882726553b1ceb99a2499e0` | the verifier | pre-2026-05 |
+| lean4export | leanprover/lean4export | `076e8e57707e813375e8f9da8bf989799ace9680` | exports olean to text | 2026-09-16 |
+| comparator | leanprover/comparator | `d03acab154d269c06e60e4de7e4cc85deebff94b` | the verifier | 2026-09-16 |
 | nanoda | robsimmons/nanoda_lib | `68d5ca9db226849b41a6fff59d796ff19d0a8840` | independent kernel (external checker) | 2026-07-29 |
 | `jlumbroso/free-disk-space` | (action) | `54081f138730dfa15788a46383842cd2f914a1be` | runner disk cleanup | 2026-05-04 |
 | `actions/checkout` | (action) | `3d3c42e5aac5ba805825da76410c181273ba90b1` (v7.0.1) | repo checkout | 2026-07-30 |
