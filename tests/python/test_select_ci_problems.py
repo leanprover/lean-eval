@@ -3,6 +3,7 @@ from __future__ import annotations
 import importlib.util
 import json
 import pathlib
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -169,6 +170,40 @@ class SelectCIProblemsTest(unittest.TestCase):
     def test_nul_git_changes_reject_truncated_records(self):
         with self.assertRaisesRegex(ValueError, "unexpected git diff record"):
             SELECTOR.parse_git_changes(b"R100\0LeanEval/Old.lean\0")
+
+    def test_pr_changes_exclude_updates_only_on_base_branch(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+
+            def git(*args: str) -> str:
+                return subprocess.check_output(
+                    ["git", *args], cwd=root, text=True
+                ).strip()
+
+            git("init", "-q")
+            git("config", "user.name", "CI test")
+            git("config", "user.email", "ci@example.test")
+            (root / "README.md").write_text("base\n", encoding="utf-8")
+            git("add", "README.md")
+            git("commit", "-qm", "base")
+            git("branch", "-M", "main")
+            git("switch", "-qc", "feature")
+            (root / "LeanEval").mkdir()
+            (root / "LeanEval" / "New.lean").write_text("-- new\n", encoding="utf-8")
+            git("add", "LeanEval/New.lean")
+            git("commit", "-qm", "new problem")
+            head = git("rev-parse", "HEAD")
+            git("switch", "-q", "main")
+            (root / "generated").mkdir()
+            (root / "generated" / "index.json").write_text("{}\n", encoding="utf-8")
+            git("add", "generated/index.json")
+            git("commit", "-qm", "regenerate main")
+            base = git("rev-parse", "HEAD")
+
+            pr_changes = SELECTOR.git_changes(root, base, head, "pull_request")
+            self.assertEqual(pr_changes, (Change("A", ("LeanEval/New.lean",)),))
+            push_changes = SELECTOR.git_changes(root, base, head, "push")
+            self.assertIn(Change("D", ("generated/index.json",)), push_changes)
 
     def test_loads_graph_emitted_by_lean(self):
         payload = [
