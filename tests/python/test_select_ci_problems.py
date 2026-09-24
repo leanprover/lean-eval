@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import os
 import pathlib
 import subprocess
 import sys
@@ -174,10 +175,11 @@ class SelectCIProblemsTest(unittest.TestCase):
     def test_pr_changes_exclude_updates_only_on_base_branch(self):
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
+            env = {**os.environ, "GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_NOSYSTEM": "1"}
 
             def git(*args: str) -> str:
                 return subprocess.check_output(
-                    ["git", *args], cwd=root, text=True
+                    ["git", *args], cwd=root, text=True, env=env
                 ).strip()
 
             git("init", "-q")

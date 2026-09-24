@@ -141,7 +141,8 @@ jobs:
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
-          mapfile -t changed_files < <(git diff --name-only "$BASE_SHA".."$HEAD_SHA")
+          MERGE_BASE=$(git merge-base "$BASE_SHA" "$HEAD_SHA")
+          mapfile -t changed_files < <(git diff --name-only "$MERGE_BASE".."$HEAD_SHA")
           if [ "${#changed_files[@]}" -eq 0 ]; then
             echo "No changed files; skipping submission diff validation."
             exit 0
@@ -152,7 +153,7 @@ jobs:
               exit 0
             fi
           done
-          lake exe lean-eval validate-submission --base "$BASE_SHA" --head "$HEAD_SHA"
+          lake exe lean-eval validate-submission --base "$MERGE_BASE" --head "$HEAD_SHA"
 
       - name: Run Lean unit tests
         run: |
