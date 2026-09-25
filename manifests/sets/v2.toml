@@ -3,5 +3,6 @@ id = "v2"
 title = "LeanEval v2"
 frozen = false
 members = [
+  { problem_id = "classification_finite_simple_groups", statement_revision = 1 },
   { problem_id = "hopf_s6_complex_structure", statement_revision = 1 },
 ]

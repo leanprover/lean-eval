@@ -81,7 +81,7 @@ def runProblemTest (workspace : System.FilePath) : IO UInt32 := do
 def scoreProblems (root : System.FilePath) (problems : Array EvalProblemMetadata)
     (workspacesRoot : System.FilePath) : IO (Array ProblemScore) := do
   let toolchain ← IO.FS.readFile (root / "lean-toolchain")
-  let mathlibDep ← loadRootMathlibDependency root
+  let deps ← loadRootDependencies root
   let workspaceTest ← loadWorkspaceTestTemplate root
   let mut scores : Array ProblemScore := #[]
   for entry in problems do
@@ -89,7 +89,7 @@ def scoreProblems (root : System.FilePath) (problems : Array EvalProblemMetadata
     for hole in entry.holes do
       let e ← extractOne root entry hole
       extracteds := extracteds.push e
-    let expectedFiles ← renderWorkspace root entry extracteds toolchain mathlibDep workspaceTest
+    let expectedFiles ← renderWorkspace root entry extracteds toolchain deps workspaceTest
     let workspace ← workspacePathForProblem root entry.id workspacesRoot
     let relDisplay :=
       let wsStr := workspace.toString

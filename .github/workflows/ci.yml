@@ -351,19 +351,18 @@ jobs:
             done
           fi
 
-          # Every workspace has the same pinned Mathlib dependency. Reuse the
-          # root cache with symlinks instead of cloning/decompressing it once
-          # and hard-link-walking ~13 GB hundreds of times.
+          # Every workspace requires a subset of the root's pinned dependencies
+          # (always Mathlib, plus e.g. TauCeti for problems that import it).
+          # Reuse the root cache with symlinks instead of cloning/decompressing
+          # it once and hard-link-walking ~13 GB hundreds of times, and give
+          # each workspace the root manifest, which pins all of them. Running
+          # `lake update` here instead could re-resolve transitive dependencies
+          # and check them out inside the shared package directory.
           for problem in "${selected[@]}"; do
             mkdir -p "generated/$problem/.lake"
             ln -s "$GITHUB_WORKSPACE/.lake/packages" \
               "generated/$problem/.lake/packages"
-          done
-          first="${selected[0]}"
-          (cd "generated/$first" && lake update)
-          for problem in "${selected[@]:1}"; do
-            cp "generated/$first/lake-manifest.json" \
-              "generated/$problem/lake-manifest.json"
+            cp lake-manifest.json "generated/$problem/lake-manifest.json"
           done
 
           build_args=()

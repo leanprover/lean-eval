@@ -1,0 +1,17 @@
+id = "classification_finite_simple_groups"
+title = "The classification of finite simple groups"
+group = "formalization-evaluation"
+status = "active"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.GroupTheory.ClassificationFiniteSimpleGroups"
+holes = ["classification_finite_simple_groups"]
+submitter = "Kim Morrison"
+notes = "Every finite simple group is isomorphic to a cyclic group of prime order, an alternating group Aₙ with n ≥ 5, a group of Lie type, or one of the twenty-six sporadic groups. The list is the Tau Ceti project's TauCeti.CFSGIndex, and the statement is TauCeti.ClassificationStatement spelled out. The Lie-type groups are explicit constructions (the derived subgroup of the fixed points of a Steinberg endomorphism, modulo its centre), and the sporadic groups are given by explicit finite presentations; the problem inherits the correctness of those definitions from Tau Ceti. Only the direction 'every finite simple group is on the list' is required: finiteness, simplicity and irredundancy of the listed groups are not part of the statement."
+source = "D. Gorenstein, R. Lyons and R. Solomon, The Classification of the Finite Simple Groups (AMS Mathematical Surveys and Monographs 40, 1994–); M. Aschbacher, R. Lyons, S. D. Smith and R. Solomon, The Classification of Finite Simple Groups: Groups of Characteristic 2 Type (AMS, 2011). Statement: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/GroupTheory/SpecificGroups/CFSG/Classification.lean"
+
+[[status_history]]
+status = "active"
+effective_date = "2026-09-25"
+reason = "policy"

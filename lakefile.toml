@@ -4,6 +4,15 @@ defaultTargets = ["LeanEval"]
 [leanOptions]
 autoImplicit = false
 
+# TauCeti supplies the definitions in the classification of finite simple groups
+# problem. Its rev must build against the Mathlib rev below. It is listed before
+# Mathlib because Lake takes shared transitive dependencies (batteries, aesop, ...)
+# from the later require, and those must be Mathlib's.
+[[require]]
+name = "TauCeti"
+git = "https://github.com/TauCetiProject/TauCeti"
+rev = "9965de63baed364af97a4148480b71072a4d21e3"
+
 [[require]]
 name = "mathlib"
 git = "https://github.com/leanprover-community/mathlib4.git"
@@ -17,7 +26,7 @@ rev = "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204"
 [[require]]
 name = "lean-eval-generator"
 git = "https://github.com/leanprover/lean-eval-generator.git"
-rev = "77373a539b31f8f304c852f288d7d8469cceebff"
+rev = "2de74049bd91d2c592e7009df8f5e5968599a272"
 
 [[lean_lib]]
 name = "LeanEval"
