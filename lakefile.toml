@@ -13,7 +13,7 @@ autoImplicit = false
 [[require]]
 name = "TauCeti"
 git = "https://github.com/TauCetiProject/TauCeti"
-rev = "9965de63baed364af97a4148480b71072a4d21e3"
+rev = "23bfe9bc742f8713b58ce40b155f994848ae8a5e"
 
 [[require]]
 name = "mathlib"
