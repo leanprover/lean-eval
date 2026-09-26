@@ -16,6 +16,8 @@
 # A project whose manifest has no TauCeti package needs nothing, and the script exits cleanly.
 # The dependencies must already be checked out (for example by `lake exe cache get`).
 set -euo pipefail
+# Stdout carries only the final `export` line (see below), so it can be passed to `eval`.
+exec 3>&1 1>&2
 
 PROJECT_DIR="$(cd "${1:?usage: fetch_dependency_caches.sh <project-dir>}" && pwd)"
 ARTIFACT_ENDPOINT="${TAUCETI_ARTIFACT_ENDPOINT:-https://cache.taucetiproject.org/artifacts}"
@@ -85,5 +87,5 @@ if [ -n "${GITHUB_ENV:-}" ]; then
     echo "LAKE_ARTIFACT_CACHE=true"
   } >> "$GITHUB_ENV"
 else
-  echo "export LAKE_CONFIG=$CONFIG LAKE_ARTIFACT_CACHE=true"
+  echo "export LAKE_CONFIG=$CONFIG LAKE_ARTIFACT_CACHE=true" >&3
 fi
