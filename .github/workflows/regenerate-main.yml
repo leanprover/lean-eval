@@ -39,6 +39,16 @@ jobs:
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
           use-mathlib-cache: true
+          # The build below fetches TauCeti's oleans; building here first
+          # would compile TauCeti before its cache is configured.
+          build: false
+          test: false
+          lint: false
+
+      - name: Fetch TauCeti's build cache
+        # Problem modules that import TauCeti download its published oleans
+        # instead of compiling it; see scripts/fetch_dependency_caches.sh.
+        run: bash scripts/fetch_dependency_caches.sh .
 
       - name: Regenerate against a stable main
         # A merge can land during the hour-long full-catalog generation. Repeat

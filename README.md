@@ -24,8 +24,15 @@ Use this path if you are adding or editing benchmark problems.
 
 ```bash
 lake exe cache get
+eval "$(bash scripts/fetch_dependency_caches.sh .)"
 lake build
 ```
+
+The second line makes the build download the oleans of
+[Tau Ceti](https://github.com/TauCetiProject/TauCeti), which some problems
+import, instead of compiling it. This requires lean-eval to pin exactly the Lean
+toolchain and Mathlib revision of the pinned Tau Ceti commit, which the script
+checks.
 
 ### 2. Add or edit a trusted theorem
 

@@ -296,6 +296,11 @@ jobs:
           test: false
           lint: false
 
+      - name: Fetch TauCeti's build cache
+        # Problem modules that import TauCeti download its published oleans
+        # instead of compiling it; see scripts/fetch_dependency_caches.sh.
+        run: bash scripts/fetch_dependency_caches.sh .
+
       - name: Clear cached problem-module artifacts
         run: |
           set -euo pipefail
