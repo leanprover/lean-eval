@@ -102,23 +102,36 @@ if [ "$fetched" != 1 ]; then
 fi
 
 if [ "$RESTORE" = 1 ]; then
-  mapfile -t modules < <(
-    find "$PROJECT_DIR" -path "$PROJECT_DIR/.lake" -prune -o -name '*.lean' -print0 \
-      | xargs -0 -r grep -hoE '^[[:space:]]*(public[[:space:]]+)?import[[:space:]]+TauCeti(\.[A-Za-z0-9_]+)*' \
-      | awk '{print $NF}' | sort -u
-  )
-  if [ "${#modules[@]}" -gt 0 ]; then
-    echo "fetch_dependency_caches: restoring ${#modules[@]} imported TauCeti module(s) and their dependencies"
+  # Every TauCeti module a `.lean` file of the project (outside .lake) imports, one per line.
+  # Lean's header syntax is `[public] [meta] import [all] Module`; a file that cannot be read
+  # makes this fail rather than silently restore less.
+  modules="$(python3 - "$PROJECT_DIR" <<'PY'
+import pathlib, re, sys
+root = pathlib.Path(sys.argv[1])
+pattern = re.compile(
+    r"^\s*(?:public\s+)?(?:meta\s+)?import\s+(?:all\s+)?(TauCeti(?:\.[^\s.-]+)*)", re.M)
+found = set()
+for path in root.rglob("*.lean"):
+    if ".lake" in path.relative_to(root).parts:
+        continue
+    found.update(pattern.findall(path.read_text(encoding="utf-8")))
+print("\n".join(sorted(found)))
+PY
+)"
+  if [ -n "$modules" ]; then
+    count="$(printf '%s\n' "$modules" | wc -l)"
+    echo "fetch_dependency_caches: restoring $count imported TauCeti module(s) and their dependencies"
     log="$(mktemp)"
+    # shellcheck disable=SC2086 # one module name per word; names contain no whitespace
     if ! (cd "$PROJECT_DIR" && LAKE_CONFIG="$CONFIG" LAKE_ARTIFACT_CACHE=true \
-          LAKE_RESTORE_ARTIFACTS=true lake build "${modules[@]}") > "$log" 2>&1; then
+          LAKE_RESTORE_ARTIFACTS=true lake build $modules) > "$log" 2>&1; then
       tail -n 50 "$log"
       echo "::error::fetch_dependency_caches: building TauCeti from its cache failed"
       exit 1
     fi
     compiled="$(grep -cE 'Built TauCeti(\.|$| )' "$log" || true)"
     if [ "$compiled" != 0 ]; then
-      grep -E 'Built TauCeti(\.|$| )' "$log" | head -n 20
+      grep -m 20 -E 'Built TauCeti(\.|$| )' "$log" || true
       echo "::error::fetch_dependency_caches: $compiled TauCeti module(s) were compiled instead of downloaded; TauCeti's cache does not cover this pin"
       exit 1
     fi

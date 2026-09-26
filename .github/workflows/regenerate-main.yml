@@ -59,6 +59,10 @@ jobs:
             # Problem modules that import TauCeti restore its published oleans
             # instead of compiling it, at the pins of this checkout; see
             # scripts/fetch_dependency_caches.sh.
+            # Check out the dependencies this revision pins before comparing
+            # them, and drop the previous attempt's cache settings.
+            lake exe cache get
+            unset LAKE_CONFIG LAKE_ARTIFACT_CACHE
             cache_env="$(env -u GITHUB_ENV bash scripts/fetch_dependency_caches.sh --restore .)"
             eval "$cache_env"
             base_sha=$(git rev-parse HEAD)
