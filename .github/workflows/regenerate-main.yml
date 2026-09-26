@@ -45,11 +45,6 @@ jobs:
           test: false
           lint: false
 
-      - name: Fetch TauCeti's build cache
-        # Problem modules that import TauCeti download its published oleans
-        # instead of compiling it; see scripts/fetch_dependency_caches.sh.
-        run: bash scripts/fetch_dependency_caches.sh .
-
       - name: Regenerate against a stable main
         # A merge can land during the hour-long full-catalog generation. Repeat
         # from the new main instead of rebasing stale generated output over it.
@@ -61,6 +56,11 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
             git clean -ffd generated/
+            # Problem modules that import TauCeti restore its published oleans
+            # instead of compiling it, at the pins of this checkout; see
+            # scripts/fetch_dependency_caches.sh.
+            cache_env="$(env -u GITHUB_ENV bash scripts/fetch_dependency_caches.sh --restore .)"
+            eval "$cache_env"
             base_sha=$(git rev-parse HEAD)
             echo "Regeneration attempt $attempt/$max_attempts at $base_sha"
             lake exe lean-eval generate

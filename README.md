@@ -24,15 +24,15 @@ Use this path if you are adding or editing benchmark problems.
 
 ```bash
 lake exe cache get
-eval "$(bash scripts/fetch_dependency_caches.sh .)"
+cache_env="$(bash scripts/fetch_dependency_caches.sh --restore .)" && eval "$cache_env"
 lake build
 ```
 
-The second line makes the build download the oleans of
+The second line downloads the oleans of
 [Tau Ceti](https://github.com/TauCetiProject/TauCeti), which some problems
-import, instead of compiling it. This requires lean-eval to pin exactly the Lean
-toolchain and Mathlib revision of the pinned Tau Ceti commit, which the script
-checks.
+import, instead of compiling it, and fails if any would have to be compiled.
+This requires lean-eval to pin exactly the Lean toolchain and Mathlib revision
+of the pinned Tau Ceti commit, which the script checks.
 
 ### 2. Add or edit a trusted theorem
 

@@ -104,6 +104,12 @@ jobs:
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
           use-mathlib-cache: true
+          # Nothing here needs the whole library built, and building it would
+          # compile TauCeti; the catalog shards build problem modules from its
+          # cache.
+          build: false
+          test: false
+          lint: false
 
       # Module compilation and tagged-declaration inventory now run in the
       # catalog shards. Keep the cheap whole-repository invariants here.
@@ -195,6 +201,12 @@ jobs:
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
           use-mathlib-cache: true
+          # Nothing here needs the whole library built, and building it would
+          # compile TauCeti; the catalog shards build problem modules from its
+          # cache.
+          build: false
+          test: false
+          lint: false
 
       # actions/setup-go pinned to b7ad1dad (= refs/tags/v7.0.0 as of 2026-07-30).
       - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
@@ -299,7 +311,7 @@ jobs:
       - name: Fetch TauCeti's build cache
         # Problem modules that import TauCeti download its published oleans
         # instead of compiling it; see scripts/fetch_dependency_caches.sh.
-        run: bash scripts/fetch_dependency_caches.sh .
+        run: bash scripts/fetch_dependency_caches.sh --restore .
 
       - name: Clear cached problem-module artifacts
         run: |
