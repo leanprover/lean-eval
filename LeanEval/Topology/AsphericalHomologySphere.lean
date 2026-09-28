@@ -59,7 +59,7 @@ attribute [instance] Closed4Manifold.topology Closed4Manifold.t2
 /-- `Hₖ(X; ℤ)`, the `k`-th singular homology with integer coefficients, as an
 object of `ModuleCat ℤ`. -/
 noncomputable def intHomology (k : ℕ) (X : TopCat) : ModuleCat ℤ :=
-  ((singularHomologyFunctor (ModuleCat ℤ) k).obj (ModuleCat.of ℤ ℤ)).obj X
+  ((singularHomologyFunctor (ModuleCat.{0} ℤ) k).obj (ModuleCat.of ℤ ℤ)).obj X
 
 /-- `M` is **aspherical**: every higher homotopy group vanishes at every
 basepoint. -/

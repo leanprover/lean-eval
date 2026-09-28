@@ -369,14 +369,14 @@ abbrev freeLightCondAbOfTopFunctor : TopCat ⥤ LightCondAb :=
 abelian group. -/
 abbrev singularHomologyLightCondAb (X : TopCat) (n : ℕ) : LightCondAb :=
   (LightCondensed.discrete (ModuleCat ℤ)).obj
-    (((AlgebraicTopology.singularHomologyFunctor (ModuleCat ℤ) n).obj (ModuleCat.of ℤ ℤ)).obj X)
+    (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) n).obj (ModuleCat.of ℤ ℤ)).obj X)
 
 /-- The integral singular chain complex of a topological space, viewed as a cochain complex of
 light condensed abelian groups by applying the discrete functor degreewise and placing homological
 chain degree `n` in cohomological degree `-n`. -/
 abbrev singularChainsLightCondAbComplexFunctor :
     TopCat ⥤ CochainComplex LightCondAb ℤ :=
-  ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat ℤ)).obj (ModuleCat.of ℤ ℤ)) ⋙
+  ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{0} ℤ)).obj (ModuleCat.of ℤ ℤ)) ⋙
     (LightCondensed.discrete (ModuleCat ℤ)).mapHomologicalComplex (ComplexShape.down ℕ) ⋙
     ComplexShape.embeddingDownNat.extendFunctor LightCondAb
 

@@ -93,10 +93,12 @@ three-step self-avoiding walks from a fixed honeycomb vertex. -/
 theorem walkCount_three : walkCount 3 = 12 := by
   decide
 
-set_option maxRecDepth 10000 in
-/-- At six steps the first hexagonal cycle appears; the standard count is `90`. -/
+/-- At six steps the first hexagonal cycle appears; the standard count is `90`.
+The `+kernel` evaluation keeps the enumeration of all `3 ^ 6` direction words in
+the kernel; reducing it in the elaborator costs several times the default
+heartbeat budget. -/
 theorem walkCount_six : walkCount 6 = 90 := by
-  decide
+  decide +kernel
 
 /-- **Duminil-Copin-Smirnov honeycomb connective-constant theorem.** The
 exponential growth rate of the number of self-avoiding walks is
