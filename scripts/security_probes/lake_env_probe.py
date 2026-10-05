@@ -4,12 +4,14 @@ Confirm that `lake env <cmd>` does NOT elaborate any project Lean
 source as a side effect.
 
 The trust model in `evaluate_submission.py:_prime_workspace` (in the
-leanprover/lean-eval-submissions repo) and `generated/*/WorkspaceTest.lean`
+leanprover/lean-eval-submissions repo) and diagnostic comparator invocations
 depends on this: the only place
 user-controlled `Submission.lean` should get elaborated is comparator's
 sandboxed `safeLakeBuild Solution`. If `lake env` ever started building
 project libraries, an attacker's `Submission.lean` would run outside
-landrun before comparator even started — RCE on the runner.
+landrun before comparator even started — RCE on the runner. The generated
+test driver inherits Lake's environment and starts comparator directly;
+`tool_path_probe.py` exercises that production invocation.
 
 This is a one-shot diagnostic, not a CI assertion. SECURITY.md cites
 its outcome.
