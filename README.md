@@ -282,9 +282,16 @@ to end, so it isolates an install problem from a proof problem:
 lake exe lean-eval check-comparator-installation
 ```
 
-If you keep the comparator binary somewhere off your `PATH`, point `lake test` at
-it explicitly (`landrun` and `lean4export` must still be on `PATH`, since
-comparator invokes them):
+Install the tools outside the evaluation workspace. The test harness removes
+workspace and writable cache directories from executable and library search
+paths, then resolves comparator and its helpers to absolute paths before any
+submission runs.
+`LEAN_PATH` remains available for exporting the compiled proof.
+
+If a tool is off your `PATH`, set its override: `COMPARATOR_BIN`,
+`COMPARATOR_LANDRUN`, `COMPARATOR_LEAN4EXPORT`, or `COMPARATOR_NANODA`.
+Overrides resolving inside the evaluation workspace or its writable `.lake`
+cache are rejected, including when `.lake` is a symlink:
 
 ```bash
 COMPARATOR_BIN=/path/to/comparator lake test

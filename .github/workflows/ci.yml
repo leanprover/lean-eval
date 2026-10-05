@@ -262,6 +262,9 @@ jobs:
       - name: Probe env-var allowlist
         run: python scripts/security_probes/env_dump_probe.py --require-tools
 
+      - name: Probe trusted comparator tool paths
+        run: python scripts/security_probes/tool_path_probe.py --require-tools
+
       - name: Refresh smoke-test workspace
         run: lake exe lean-eval generate --problem two_plus_two
 

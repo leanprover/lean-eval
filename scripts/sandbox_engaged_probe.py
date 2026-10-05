@@ -19,8 +19,8 @@ How it works:
    attempts five writes and records the outcome of each to a results
    file inside `.lake/probe/results.txt` (the only path the sandbox is
    allowed to touch under our policy).
-3. Run `lake env comparator config.json` exactly the way
-   `generated/*/WorkspaceTest.lean` does. Comparator builds Solution
+3. Run `lake env comparator config.json` to exercise comparator's sandbox
+   directly. Comparator builds Solution
    (which imports Submission), elaborating the initialize block inside
    landrun.
 4. Read the results file and the inside-ok marker. Assert: the four
@@ -125,18 +125,6 @@ import Submission.Thm
 theorem sandbox_engaged_probe_thm : True := Submission.sandbox_engaged_probe_thm
 """
 
-WORKSPACE_TEST_LEAN = '''\
-import Lean
-
-def main : IO UInt32 := do
-  let comparatorBin := (← IO.getEnv "COMPARATOR_BIN").getD "comparator"
-  let child ← IO.Process.spawn {
-    cmd := "lake"
-    args := #["env", comparatorBin, "config.json"]
-  }
-  child.wait
-'''
-
 LAKEFILE_TOML = """\
 name = "sandbox_engaged_probe"
 defaultTargets = ["Challenge", "Solution", "Submission"]
@@ -150,9 +138,6 @@ name = "Solution"
 [[lean_lib]]
 name = "Submission"
 
-[[lean_exe]]
-name = "workspace_test"
-root = "WorkspaceTest"
 """
 
 CONFIG_JSON = {
@@ -199,7 +184,6 @@ def _write_workspace(workspace: pathlib.Path) -> None:
     submission_dir = workspace / "Submission"
     submission_dir.mkdir(parents=True, exist_ok=True)
     (submission_dir / "Thm.lean").write_text(SUBMISSION_THM_LEAN, encoding="utf-8")
-    (workspace / "WorkspaceTest.lean").write_text(WORKSPACE_TEST_LEAN, encoding="utf-8")
     (workspace / "config.json").write_text(
         json.dumps(CONFIG_JSON, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
@@ -232,9 +216,8 @@ def _run_comparator(workspace: pathlib.Path) -> subprocess.CompletedProcess[str]
             raise ProbeError(
                 f"`{' '.join(cmd)}` failed in {workspace}:\n{result.stderr.strip()}"
             )
-    # Mirror what generated/<id>/WorkspaceTest.lean does: invoke comparator
-    # with `lake env`. We use the binary directly (not via `lake test`)
-    # so the probe doesn't depend on lake's testDriver behaviour.
+    # Exercise comparator's sandbox directly under Lake's environment.
+    # tool_path_probe.py separately checks the production test driver.
     return subprocess.run(
         ["lake", "env", "comparator", "config.json"],
         cwd=workspace,

@@ -106,7 +106,7 @@ code.
 | `_prime_workspace` runs `lake exe cache get` | downloads pre-built oleans | runner | No |
 | `lake exe lean-eval run-eval` (host exe) | trusted Lean | runner | No |
 | `lake test` builds `WorkspaceTest` | only `import Lean` | runner | No |
-| `WorkspaceTest` spawns `lake env comparator config.json` | `lake env` is an env-shim | runner | No |
+| `WorkspaceTest` resolves tools and spawns comparator directly | trusted tool paths, inherited `LEAN_PATH` | runner | No |
 | `comparator` calls `lean --print-prefix` / `which git` | side-effect-free | runner | No |
 | `comparator.safeLakeBuild Challenge` | trusted source, sandboxed | **inside landrun** | No |
 | `comparator.safeExport challengeModule` | reads trusted olean | **inside landrun** | No |
@@ -119,7 +119,28 @@ code.
 describe what it does when it drives an evaluation against this
 benchmark.)
 
-Two boundary concerns to call out explicitly:
+Boundary concerns to call out explicitly:
+
+**Comparator tool paths must stay outside the writable workspace.** Lake starts
+`WorkspaceTest` with package binary directories prepended to `PATH`, including
+the submission-writable `.lake/build/bin`. The harness removes canonical paths
+inside the workspace or its writable `.lake` cache (including a symlinked cache)
+from `PATH`, `LD_LIBRARY_PATH`, and `DYLD_LIBRARY_PATH`,
+omits empty or nonexistent search directories, and resolves comparator,
+landrun, lean4export, and nanoda to absolute paths outside these roots.
+An empty filtered executable path is rejected; empty filtered library paths
+are unset to avoid interpreting them as the current directory.
+Explicit `COMPARATOR_*` overrides are checked after symlink resolution too.
+Comparator is launched directly with these overrides; `LEAN_PATH` from the
+outer `lake test` is preserved for sandboxed export. Consequently, a submission
+cannot change the supervisor or external kernel selected by later tool lookup
+by creating new executables under `.lake`. Filtering `PATH` also protects
+Landrun's unsandboxed `ldconfig` lookup while preparing later sandboxes.
+This guarantee applies to the
+generated harness, not arbitrary direct `lake env comparator` invocations.
+Evaluation must still start from a trusted, freshly prepared workspace and
+cache: this protects tool lookup after submission elaboration, while an
+already compromised cache could run code as Lake starts the test driver.
 
 **Lake env doesn't elaborate.** [scripts/security_probes/lake_env_probe.py](scripts/security_probes/lake_env_probe.py)
 verifies on every run of the test suite that `lake env -- <cmd>` (and
@@ -262,8 +283,9 @@ own `submission.yml`. A bump must update both repos in lockstep.
    - `lean-eval-leaderboard/.benchmark-commit` (for the lean-eval
      benchmark commit only)
 3. Open a PR. CI runs `scripts/action_pin_audit.py`,
-   `scripts/sandbox_engaged_probe.py`, and
-   `scripts/security_probes/env_dump_probe.py`. All three must pass.
+   `scripts/sandbox_engaged_probe.py`,
+   `scripts/security_probes/env_dump_probe.py`, and
+   `scripts/security_probes/tool_path_probe.py`. All four must pass.
 4. Re-run the one-shot probes locally on Linux:
    - [scripts/security_probes/lake_env_probe.py](scripts/security_probes/lake_env_probe.py)
    - [scripts/security_probes/artifact_tamper_probe.py](scripts/security_probes/artifact_tamper_probe.py)
@@ -295,6 +317,13 @@ own `submission.yml`. A bump must update both repos in lockstep.
   itself when it spawns `lean` and may or may not be present
   depending on the OS. They point at the workspace's `.lake/build/lib`
   and the toolchain's shared libs and contain no secrets.
+- **Tool-path probe.** [scripts/security_probes/tool_path_probe.py](scripts/security_probes/tool_path_probe.py)
+  runs in the security CI job through the production `WorkspaceTest` template.
+  Submission elaboration creates executable stand-ins for landrun, lean4export,
+  nanoda, Lean, and additional lookup commands (including `ldconfig`) in
+  `.lake/build/bin`; the probe requires that none is used and
+  that the valid proof passes comparator and nanoda. Harness tests also cover
+  relative paths, missing directories, symlink aliases, and explicit overrides.
 - **Permitted axioms.** Every generated `config.json` has
   `permitted_axioms = {propext, Quot.sound, Classical.choice}`. No
   `sorryAx`, no `Lean.ofReduceBool`.
