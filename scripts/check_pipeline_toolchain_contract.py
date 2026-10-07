@@ -6,10 +6,11 @@ and the State ledger each validate the toolchain string against their own
 contracts. A pin they reject (as `v4.35.0-rc3` was before 2026-10-07) breaks
 every server-dispatched evaluation while the benchmark's own CI stays green.
 
-This check fetches the live contracts from the protected `main` branches and
-matches the pin against every toolchain pattern they carry, plus the shared
-acceptance vectors in State. It needs the network and runs in the classify job
-of CI, which has no Lean build to hide behind.
+This check fetches the live contracts from the pipeline's protected `main`
+branch and matches the pin against every toolchain pattern they carry, plus
+the shared acceptance vectors that State and the Worker are bound to. It needs
+the network and runs in the classify job of CI, which has no Lean build to
+hide behind.
 """
 from __future__ import annotations
 
@@ -22,13 +23,14 @@ import urllib.request
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DEFAULT_BASE_URL = "https://raw.githubusercontent.com"
+# leanprover/lean-eval-state is private; its schemas and validator are bound
+# to the same vectors by its own CI, so checking the public pipeline contracts
+# and the vectors covers the whole chain.
 CONTRACTS = (
     ("leanprover/lean-eval-submissions", "schemas/evaluation-completion-v1.schema.json"),
     ("leanprover/lean-eval-submissions", "schemas/replay-queue-v1.schema.json"),
-    ("leanprover/lean-eval-state", "schema/state-event-v1.schema.json"),
-    ("leanprover/lean-eval-state", "schema/submission-view-v2.schema.json"),
 )
-VECTORS = ("leanprover/lean-eval-state", "schema/toolchain-vectors-v1.json")
+VECTORS = ("leanprover/lean-eval-submissions", "schemas/toolchain-vectors-v1.json")
 MAX_BYTES = 1 << 20
 
 
