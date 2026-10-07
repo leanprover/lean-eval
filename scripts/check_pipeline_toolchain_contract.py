@@ -39,7 +39,7 @@ CONTRACTS = (
     ("schemas/evaluation-completion-v1.schema.json", ("properties", "toolchain", "pattern")),
     ("schemas/replay-queue-v1.schema.json", ("$defs", "task", "properties", "toolchain", "pattern")),
 )
-VECTORS = "schemas/toolchain-vectors-v1.json"
+VECTORS = "contracts/toolchain-vectors-v1.json"
 MAX_BYTES = 1 << 20
 ANCHORED = re.compile(r"\^.*\$\Z", re.DOTALL)
 
