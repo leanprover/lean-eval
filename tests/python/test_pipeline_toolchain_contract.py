@@ -62,6 +62,11 @@ class PipelineToolchainContractTests(unittest.TestCase):
         # The accepted vector is an rc too, so the drifted schema is reported on its own.
         self.assertTrue(any("rejects the shared accepted vector" in v for v in violations))
 
+    def test_trailing_newline_is_rejected_like_the_schemas_mean_it(self) -> None:
+        self._tree(RC_PATTERN, rejected=(RC3 + "\n",))
+        self.assertEqual(contract.check(RC3, self.base_url), [])
+        self.assertTrue(contract.check(RC3 + "\n", self.base_url))
+
     def test_schema_that_accepts_a_rejected_vector_is_reported(self) -> None:
         self._tree("^leanprover/lean4:v.*$")
         violations = contract.check(RC3, self.base_url)

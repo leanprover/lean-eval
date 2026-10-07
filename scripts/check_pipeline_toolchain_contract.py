@@ -74,7 +74,9 @@ def pattern_at(document: object, pointer: tuple[str, ...], label: str) -> re.Pat
     if not isinstance(node, str) or ANCHORED.match(node) is None:
         raise ContractError(f"{label} toolchain pattern is not an anchored string; unsupported contract shape")
     try:
-        return re.compile(node)
+        # JSON Schema patterns are ECMA-262, where `$` is the end of input;
+        # Python's `$` also matches before a trailing newline, so use `\Z`.
+        return re.compile(node[:-1] + r"\Z")
     except re.error as error:
         raise ContractError(f"{label} toolchain pattern is not readable by Python re: {error}") from error
 
@@ -102,7 +104,7 @@ def check(toolchain: str, base_url: str) -> list[str]:
         # `search`, not `fullmatch`: JSON Schema patterns are unanchored unless
         # they say otherwise, and this checker only accepts anchored ones.
         if pattern.search(toolchain) is None:
-            violations.append(f"{label} rejects {toolchain!r} ({pattern.pattern})")
+            violations.append(f"{label} rejects {toolchain!r} ({pattern.pattern[:-2]}$)")
         for vector in vectors["accepted"]:
             if pattern.search(vector) is None:
                 violations.append(f"{label} rejects the shared accepted vector {vector!r}")
