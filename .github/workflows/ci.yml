@@ -40,6 +40,11 @@ jobs:
 
       - name: Python syntax checks
         run: python -m py_compile scripts/*.py scripts/security_probes/*.py
+      # The pipeline, the Worker and State each validate the toolchain string;
+      # a pin they reject breaks every server-dispatched evaluation while this
+      # repository's CI stays green (v4.35.0-rc3, 2026-09-30 to 2026-10-07).
+      - name: Check the pipeline accepts the pinned toolchain
+        run: python scripts/check_pipeline_toolchain_contract.py
 
       # Install the pinned Lean toolchain without building the project. The
       # dependency selector consumes a graph produced by Lean's header parser;
