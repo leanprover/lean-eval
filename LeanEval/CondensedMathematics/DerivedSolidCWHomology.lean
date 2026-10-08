@@ -6,9 +6,12 @@ import EvalTools.Markers
 
 This challenge is extracted from the LeanCondensed project
 <https://github.com/dagurtomas/LeanCondensed>, which develops the theory of light condensed
-mathematics of Clausen–Scholze in Lean.  The target statement is the comparison theorem for a CW
-complex `X`: the homology of the derived solidification of the free light condensed abelian group
+mathematics of Clausen–Scholze in Lean.  The target statement is the comparison theorem for a Hausdorff
+CW complex `X`: the homology of the derived solidification of the free light condensed abelian group
 on `X` is integral singular homology.
+
+Mathlib's `Topology.CWComplex` does not include a Hausdorff assumption. We require it separately:
+without it, the CW predicate admits non-Hausdorff spaces for which the comparison fails.
 
 The non-`sorry` part of this file develops, using only Mathlib, the definition of
 *light solid abelian groups*: a light condensed abelian group `A` is solid if the map
@@ -389,24 +392,26 @@ abbrev singularChainsLightCondAbDerivedFunctor : TopCat ⥤ DLightCondAb :=
 abbrev singularChainsLightCondAbDerived (X : TopCat) : DLightCondAb :=
   singularChainsLightCondAbDerivedFunctor.obj X
 
-/-- The property of topological spaces admitting a classical CW complex structure. -/
+/-- The property of Hausdorff spaces admitting a classical CW complex structure. -/
 abbrev isCWTopCat : ObjectProperty TopCat :=
-  fun X ↦ Nonempty (Topology.CWComplex (Set.univ : Set X))
+  fun X ↦ T2Space X ∧ Nonempty (Topology.CWComplex (Set.univ : Set X))
 
-/-- The full subcategory of topological spaces admitting a classical CW complex structure. -/
+/-- The full subcategory of Hausdorff spaces admitting a classical CW complex structure. -/
 abbrev CWTopCat : Type _ := isCWTopCat.FullSubcategory
 
 namespace CWTopCat
 
+instance (X : CWTopCat) : T2Space X.obj := X.property.1
+
 instance (X : CWTopCat) : Topology.CWComplex (Set.univ : Set X.obj) :=
-  Classical.choice X.property
+  Classical.choice X.property.2
 
 /-- The inclusion of CW spaces into topological spaces. -/
 abbrev toTopCat : CWTopCat ⥤ TopCat := isCWTopCat.ι
 
 end CWTopCat
 
-/-- **Hole 8.** The functor sending a CW complex to the derived inclusion of the derived
+/-- **Hole 8.** The functor sending a Hausdorff CW complex to the derived inclusion of the derived
 solidification of the free light condensed abelian group on it. -/
 @[eval_problem]
 def derivedSolidificationFreeCWFunctor : CWTopCat ⥤ DLightCondAb := sorry
@@ -424,8 +429,8 @@ condensed abelian groups. -/
 abbrev singularChainsLightCondAbCWDerivedFunctor : CWTopCat ⥤ DLightCondAb :=
   CWTopCat.toTopCat ⋙ singularChainsLightCondAbDerivedFunctor
 
-/-- **Hole 10.** The derived comparison theorem, naturally in a CW complex `X`: after applying the
-exact derived inclusion from solid light condensed abelian groups to light condensed abelian groups,
+/-- **Hole 10.** The derived comparison theorem, naturally in a Hausdorff CW complex `X`: after applying
+the exact derived inclusion from solid light condensed abelian groups to light condensed abelian groups,
 the derived solidification of the free light condensed abelian group on `X` is the integral singular
 chain complex of `X` as a derived object of light condensed abelian groups. -/
 @[eval_problem]
@@ -434,20 +439,20 @@ def derivedSolidification_free_CW_derivedNatIso :
 
 /-- The pointwise component of `derivedSolidification_free_CW_derivedNatIso`. -/
 def derivedSolidification_free_CW_derivedIso
-    (X : TopCat) [Topology.CWComplex (Set.univ : Set X)] :
+    (X : TopCat) [T2Space X] [Topology.CWComplex (Set.univ : Set X)] :
     derivedInclusion.obj
       (derivedSolidification.obj
         ((DerivedCategory.singleFunctor LightCondAb 0).obj (freeLightCondAbOfTop X))) ≅
       singularChainsLightCondAbDerived X :=
-  (derivedSolidificationFreeCWFunctorSpec.app ⟨X, ⟨inferInstance⟩⟩).symm.trans
-    (derivedSolidification_free_CW_derivedNatIso.app ⟨X, ⟨inferInstance⟩⟩)
+  (derivedSolidificationFreeCWFunctorSpec.app ⟨X, inferInstance, ⟨inferInstance⟩⟩).symm.trans
+    (derivedSolidification_free_CW_derivedNatIso.app ⟨X, inferInstance, ⟨inferInstance⟩⟩)
 
-/-- **Hole 11.** For a CW complex `X`, the homology of the derived solidification of the free
+/-- **Hole 11.** For a Hausdorff CW complex `X`, the homology of the derived solidification of the free
 light condensed abelian group on `X` is integral singular homology.  Since the derived category
 is cohomologically indexed, the `n`-th singular homology group occurs in degree `-n`. -/
 @[eval_problem]
 def derivedSolidification_free_CW_homologyIso
-    (X : TopCat) [Topology.CWComplex (Set.univ : Set X)] (n : ℕ) :
+    (X : TopCat) [T2Space X] [Topology.CWComplex (Set.univ : Set X)] (n : ℕ) :
     isSolid.ι.obj
       ((DerivedCategory.homologyFunctor Solid (-(n : ℤ))).obj
         (derivedSolidification.obj
@@ -455,11 +460,11 @@ def derivedSolidification_free_CW_homologyIso
       singularHomologyLightCondAb X n := sorry
 
 /-- **Hole 12.** The theorem form of `derivedSolidification_free_CW_homologyIso`: the derived
-solidification of the free light condensed abelian group on a CW complex computes integral
+solidification of the free light condensed abelian group on a Hausdorff CW complex computes integral
 singular homology. -/
 @[eval_problem]
 theorem derivedSolidification_free_CW_homology
-    (X : TopCat) [Topology.CWComplex (Set.univ : Set X)] (n : ℕ) :
+    (X : TopCat) [T2Space X] [Topology.CWComplex (Set.univ : Set X)] (n : ℕ) :
     Nonempty
       (isSolid.ι.obj
         ((DerivedCategory.homologyFunctor Solid (-(n : ℤ))).obj
