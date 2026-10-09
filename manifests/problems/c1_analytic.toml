@@ -1,0 +1,15 @@
+id = "c1_analytic"
+title = "From C¹-manifold to real analytic"
+group = "formalization-evaluation"
+status = "archived"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Analysis.C1ToAnalytic"
+holes = ["exists_isManifold_of_le", "exists_homotopy_of_diffeomorph"]
+submitter = "Junyan Xu"
+
+[[status_history]]
+status = "archived"
+effective_date = "2026-09-26"
+reason = "policy"
