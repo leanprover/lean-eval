@@ -20,13 +20,13 @@ jobs:
           persist-credentials: false
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          ref: 5cb38ef8
+          ref: 5cb38ef8f003a83a3d34f9963bda6139197d080f
           path: benchmark
           persist-credentials: false
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: leanprover/lean-eval-submissions
-          ref: 8d8a290f
+          ref: 8d8a290f39cfbc0e715f77fda0adf460ad8e240a
           path: pipeline
           persist-credentials: false
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
