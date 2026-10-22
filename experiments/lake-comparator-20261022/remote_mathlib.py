@@ -45,6 +45,13 @@ def main() -> None:
     (workspace / ".lake/packages").symlink_to(probe.CACHE)
     probe.compare("remote-generated-unmodified-cache-layout", workspace, expected=1,
                   env={"PATH": probe.trusted_path()})
+    # The benchmark-owned Challenge is trusted. Warm only it before freezing
+    # package caches; source is never built here through Solution/Submission.
+    priming = probe.run("remote-trusted-challenge-cache-priming", workspace,
+        [str(probe.LAKE), "build", "Challenge"], env={"PATH": probe.trusted_path()},
+        expected=0, timeout=600)
+    if priming["exit_code"]:
+        raise SystemExit("Trusted dependency cache priming failed; see experiment log")
     wrapper = probe.cache_wrapper(scratch)
     result = probe.compare("remote-generated-cache-readonly-bind", workspace,
         env={"COMPARATOR_BWRAP": str(wrapper), "PATH": probe.trusted_path()}, expected=0, timeout=600)
