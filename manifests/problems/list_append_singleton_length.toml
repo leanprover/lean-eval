@@ -7,6 +7,7 @@ statement_revision = 1
 tags = []
 module = "LeanEval.EasyProblems"
 holes = ["list_append_singleton_length"]
+probe_exempt = ["list_append_singleton_length"]
 submitter = "Kim Morrison"
 notes = "A simple list problem that exercises notation in generated files."
 source = "Internal starter problem."
