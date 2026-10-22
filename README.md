@@ -218,84 +218,44 @@ Comparator and nanoda checks apply as usual.
 lake test
 ```
 
-`lake test` shells out to four external tools that you must install yourself:
-`landrun` (the sandbox), `lean4export` (exports oleans to text), `comparator`
-(the verifier), and `nanoda` (the independent kernel). `WorkspaceTest` forces
-comparator to replay every Solution through nanoda, so a missing `nanoda_bin`
-fails the check. All four are pinned to immutable commits; the authoritative
-pin table lives in [`SECURITY.md`](SECURITY.md) ("Trusted dependencies and pin
-policy"), and CI installs exactly these in
-[`.github/workflows/ci.yml`](.github/workflows/ci.yml). Reproduce that setup
-locally:
+The pinned Lean toolchain includes Lake comparator, `leanexport`, the Lean
+checker, and NanoDa. The trusted test driver always requires both Lean and NanoDa.
+The only additional verifier dependency is bubblewrap on Linux with user namespaces.
+
+Install bubblewrap 0.12.0 using the same checksum-verified installer as CI
+(requires Meson, Ninja, libcap development headers, curl, and a C compiler):
 
 ```bash
-# landrun — install at the pinned commit (NOT @main; the version string is
-# unreliable, and tagged releases through v0.1.15 lack fixes comparator needs).
-go install github.com/zouuup/landrun/cmd/landrun@5ed4a3db3a4ad930d577215c6b9abaa19df7f99f
-export PATH="$(go env GOPATH)/bin:$PATH"
-
-# lean4export — clone, check out the pin, and build.
-lean_eval_root="$(pwd)"  # run this setup from the lean-eval repository root
-git clone https://github.com/leanprover/lean4export.git
-( cd lean4export
-  git checkout 076e8e57707e813375e8f9da8bf989799ace9680
-  cp "$lean_eval_root/lean-toolchain" lean-toolchain
-  lake build lean4export )
-export PATH="$PWD/lean4export/.lake/build/bin:$PATH"
-
-# comparator — clone, check out the pin (adds `def`-hole support), and build.
-git clone https://github.com/leanprover/comparator.git
-( cd comparator
-  git checkout d03acab154d269c06e60e4de7e4cc85deebff94b
-  lake build comparator )
-export PATH="$PWD/comparator/.lake/build/bin:$PATH"
-
-# nanoda — the external kernel. WorkspaceTest forces comparator to replay the
-# Solution through nanoda, so `lake test` fails unless `nanoda_bin` is on your
-# PATH. Needs a Rust toolchain (`cargo`); the pin is on the source commit, not
-# the compiler version.
-git clone https://github.com/robsimmons/nanoda_lib.git
-( cd nanoda_lib
-  git checkout 68d5ca9db226849b41a6fff59d796ff19d0a8840
-  cargo build --release )
-export PATH="$PWD/nanoda_lib/target/release:$PATH"
+# Run from the lean-eval repository root, outside a problem workspace.
+export COMPARATOR_BWRAP="$(bash scripts/install_bwrap.sh "$PWD/.tools/bubblewrap")"
 ```
 
-`lean4export` and `comparator` are Lean programs. The pinned lean4export source
-uses Lean v4.34.0 by default, and its build command above deliberately selects
-the workspace's exact toolchain by copying `lean-toolchain`; different Lean
-releases have incompatible olean headers. Comparator builds `Challenge.olean` with the
-workspace toolchain and then reads it back with `lean4export`, so exact
-compatibility is required. If the formats differ you get
-`failed to read file '.../Challenge.olean', incompatible header` — that error
-means a Lean/olean version mismatch (or a stale `.lake` artifact left over from
-an earlier toolchain), never a problem with your proof. If you hit it, rebuild
-`lean4export` at the pinned commit after copying this repository's
-`lean-toolchain` into its checkout, rebuild comparator at its pinned commit, and clear the affected
-workspace's `.lake/build` before retrying.
+On Ubuntu 24.04 the installer loads an executable-specific AppArmor profile using
+`sudo` when user namespaces are restricted. On a system where bubblewrap 0.12.0
+is already configured, put `bwrap` on PATH or set `COMPARATOR_BWRAP` to its
+absolute path.
 
-Once the tools are on your `PATH`, verify the whole pipeline against the starter
-problem before attempting a real one — this builds and scores `two_plus_two` end
-to end, so it isolates an install problem from a proof problem:
+Check the installation against the starter problem:
 
 ```bash
 lake exe lean-eval check-comparator-installation
 ```
 
-Install the tools outside the evaluation workspace. The test harness removes
-workspace and writable cache directories from executable and library search
-paths, then resolves comparator and its helpers to absolute paths before any
-submission runs.
-`LEAN_PATH` remains available for exporting the compiled proof.
+Run `lake test` in a problem workspace to invoke the toolchain's
+`lake comparator`. It pins the exporter and checker to the same Lean release,
+avoiding separate exporter builds and incompatible olean formats. When changing
+toolchains, refresh the dependency caches and remove stale workspace build outputs.
 
-If a tool is off your `PATH`, set its override: `COMPARATOR_BIN`,
-`COMPARATOR_LANDRUN`, `COMPARATOR_LEAN4EXPORT`, or `COMPARATOR_NANODA`.
-Overrides resolving inside the evaluation workspace or its writable `.lake`
-cache are rejected, including when `.lake` is a symlink:
+The trusted driver uses Lake's `LAKE` and `LEAN_SYSROOT` settings and removes
+workspace/cache directories from executable and library search paths before
+starting comparator. `LEAN_PATH` remains available for module imports.
+Install bubblewrap and the toolchain outside submission-writable directories.
+The old `COMPARATOR_BIN`, `COMPARATOR_LANDRUN`, `COMPARATOR_LEAN4EXPORT`,
+and `COMPARATOR_NANODA` overrides are no longer used.
 
-```bash
-COMPARATOR_BIN=/path/to/comparator lake test
-```
+Root scoring makes the trusted shared package cache visible read-only inside
+Lake's sandboxes. Direct local workspaces can keep their own dependencies; no
+cache wrapper is needed for that layout.
 
 ### 6. Check your local score
 

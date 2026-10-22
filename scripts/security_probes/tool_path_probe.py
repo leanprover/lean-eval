@@ -17,7 +17,7 @@ SUBMISSION = r'''import Lean
 initialize do
   let binDir : System.FilePath := ".lake/build/bin"
   IO.FS.createDirAll binDir
-  for name in #["landrun", "lean4export", "nanoda_bin", "lean", "ldconfig", "lake", "git", "which"] do
+  for name in #["nanoda_bin", "ldconfig", "lake", "git", "which"] do
     let path := binDir / name
     IO.FS.writeFile path "#!/bin/sh\nprintf 'unexpected tool lookup\n' > .lake/tool-shadow-used\nexit 73\n"
     IO.setAccessRights path {
@@ -35,7 +35,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--require-tools", action="store_true")
     args = parser.parse_args()
-    missing = [name for name in ("lake", "lean", "comparator", "landrun", "lean4export", "nanoda_bin")
+    missing = [name for name in ("lake", "lean")
                if shutil.which(name) is None]
     if missing:
         message = f"Missing tools: {', '.join(missing)}"
