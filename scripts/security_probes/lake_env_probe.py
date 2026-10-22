@@ -9,7 +9,7 @@ depends on this: the only place
 user-controlled `Submission.lean` should get elaborated is comparator's
 sandboxed `safeLakeBuild Solution`. If `lake env` ever started building
 project libraries, an attacker's `Submission.lean` would run outside
-landrun before comparator even started — RCE on the runner. The generated
+bubblewrap before comparator even started — code execution on the runner. The generated
 test driver inherits Lake's environment and starts comparator directly;
 `tool_path_probe.py` exercises that production invocation.
 

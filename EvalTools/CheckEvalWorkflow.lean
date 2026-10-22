@@ -61,7 +61,8 @@ private def reuseRootPackages (root workspace : System.FilePath) : IO Unit := do
   let workspaceLake := workspace / ".lake"
   IO.FS.createDirAll workspaceLake
   let packagesLink := workspaceLake / "packages"
-  let _ ← runCmdCheckedCaptured "ln" #["-s", rootPackages.toString, packagesLink.toString]
+  let packages ← IO.FS.realPath rootPackages
+  let _ ← runCmdCheckedCaptured "ln" #["-s", packages.toString, packagesLink.toString]
     root "Failed to share the root Lake package cache with the eval workspace"
   IO.FS.writeFile (workspace / "lake-manifest.json") (← IO.FS.readFile rootManifest)
 

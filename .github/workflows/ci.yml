@@ -213,51 +213,12 @@ jobs:
           test: false
           lint: false
 
-      # actions/setup-go pinned to b7ad1dad (= refs/tags/v7.0.0 as of 2026-07-30).
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
-        with:
-          go-version: '1.25.12'
-          cache: false
-
-      - name: Install landrun
+      - name: Install bubblewrap
         run: |
-          # landrun pinned to 5ed4a3db (zouuup/landrun main HEAD as of 2026-05-04).
-          # Bump procedure: SECURITY.md > "Bumping pinned dependencies".
-          go install github.com/zouuup/landrun/cmd/landrun@5ed4a3db3a4ad930d577215c6b9abaa19df7f99f
-          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
-
-      - name: Build lean4export
-        run: |
-          set -euo pipefail
-          git clone https://github.com/leanprover/lean4export.git .ci/lean4export
-          cd .ci/lean4export
-          # lean4export pinned to 076e8e57 (= refs/tags/v4.34.0 as of 2026-09-16).
-          # Bump procedure: SECURITY.md > "Bumping pinned dependencies".
-          git checkout 076e8e57707e813375e8f9da8bf989799ace9680  # pin-audit: exempt -- SHA, see comment
-          cp "$GITHUB_WORKSPACE/lean-toolchain" lean-toolchain
-          lake build lean4export
-          echo "$PWD/.lake/build/bin" >> "$GITHUB_PATH"
-
-      - name: Build comparator
-        run: |
-          git clone https://github.com/leanprover/comparator.git .ci/comparator
-          cd .ci/comparator
-          # comparator pinned to d03acab1 (= refs/tags/v4.34.0 as of 2026-09-16).
-          # Bump procedure: SECURITY.md > "Bumping pinned dependencies".
-          git checkout d03acab154d269c06e60e4de7e4cc85deebff94b  # pin-audit: exempt -- SHA, see comment
-          lake build comparator
-          echo "$PWD/.lake/build/bin" >> "$GITHUB_PATH"
-
-      - name: Build nanoda
-        run: |
-          set -euo pipefail
-          git clone https://github.com/robsimmons/nanoda_lib.git .ci/nanoda
-          cd .ci/nanoda
-          # nanoda pinned to 68d5ca9 (robsimmons/nanoda_lib HEAD as of 2026-07-29).
-          # Bump procedure: SECURITY.md > "Bumping pinned dependencies".
-          git checkout 68d5ca9db226849b41a6fff59d796ff19d0a8840  # pin-audit: exempt -- SHA, see comment
-          cargo build --release
-          echo "$PWD/target/release" >> "$GITHUB_PATH"
+          sudo apt-get update
+          sudo apt-get install --yes meson ninja-build libcap-dev
+          bwrap_path=$(bash scripts/install_bwrap.sh "$RUNNER_TEMP/lean-eval-bwrap")
+          echo "COMPARATOR_BWRAP=$bwrap_path" >> "$GITHUB_ENV"
 
       # These probes stay in the mandatory path. Parallelization must not
       # weaken the submission trust boundary.
@@ -269,6 +230,11 @@ jobs:
 
       - name: Probe trusted comparator tool paths
         run: python scripts/security_probes/tool_path_probe.py --require-tools
+
+      - name: Check comparator verdicts and descendant cleanup
+        run: |
+          python scripts/security_probes/comparator_probe.py --require-tools
+          python scripts/security_probes/artifact_tamper_probe.py --require-tools
 
       - name: Refresh smoke-test workspace
         run: lake exe lean-eval generate --problem two_plus_two

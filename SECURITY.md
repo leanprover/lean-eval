@@ -1,399 +1,159 @@
 # Security model: lean-eval
 
-This repository owns the benchmark problem set and the
-**comparator / landrun sandbox integration** — the machinery that bounds
-untrusted submitter Lean code. This document explains the sandbox
-invariants, the comparator trust model, and the pinned-dependency policy
-that the whole evaluation pipeline rests on.
-
-The **submission pipeline** itself — issue intake, fetching submission
-source, the evaluation workflow, recording results, and the overall
-adversarial-submission threat model — lives in the submissions
-repository and is documented there:
-
-> **[`leanprover/lean-eval-submissions` → `SECURITY.md`](https://github.com/leanprover/lean-eval-submissions/blob/main/SECURITY.md)**
-
-The two documents are complementary. The pipeline's guarantees are only
-as strong as the sandbox guarantees described here; this repository is
-where a change (a pin bump, a `templates/` edit, a generated-workspace
-lakefile change) can weaken the sandbox, so this is the doc a reviewer
-of a `lean-eval` PR must check against.
+This repository owns the problem set and the integration between the trusted
+evaluation harness and the pinned toolchain's `lake comparator`. Intake,
+fetching, credentials, archiving, and result publication are documented in
+[lean-eval-submissions/SECURITY.md](https://github.com/leanprover/lean-eval-submissions/blob/main/SECURITY.md).
 
 ## Reporting a vulnerability
 
-If you find a way for a submitter to receive credit for a theorem they
-have not proved, or to read another submission's private source, or to
-execute code outside the landrun sandbox: do not file a public issue.
-Email the maintainers (see the repository's `leanprover` org contacts)
-with the details and a reproduction.
+If a submission can receive credit without proving its statement, read another
+submission's private source, or execute code outside the sandbox, email the
+maintainers through the Lean organization contacts with details and a reproduction.
+Do not disclose a vulnerability in a public issue.
 
-## 1. What this document covers
+## Submission boundary
 
-The adversary is a submitter who controls a `Submission.lean` (and files
-under `Submission/`). The goal we resist here: **untrusted submitter Lean
-escaping comparator's sandbox, or comparator accepting a Solution that
-does not actually prove the Challenge.** The pipeline-level framing of
-the same adversary (issue intake, token handling, confidentiality) is in
-the submissions repo's `SECURITY.md`.
+Submitters control only `Submission.lean` and files under `Submission/`.
+The pipeline copies Challenge, Solution, config, toolchain, Lake configuration,
+and the test driver from the trusted benchmark revision. It checks paths and
+dependency pins before overlaying permitted files. Problem helpers and statements
+cannot import the solution-only Lean Pool dependency.
 
-The submitter does not control `Challenge.lean`, `Solution.lean`,
-`lakefile.toml`, `lean-toolchain`, `config.json`, or `WorkspaceTest.lean`
-in the generated workspace — these are taken from a pristine
-`generated/<id>/` checkout each run — nor any pinned upstream commit.
+Challenge expresses the trusted statement. Solution imports Submission and exposes
+the declarations named in the trusted comparator config. Definition holes are
+explicitly named separately from theorem targets. Neither successful elaboration
+nor a submission's printed output is evidence of acceptance.
 
-## 2. Architecture: Challenge / Submission / Solution
+## Verifier and kernel policy
 
-Every benchmark problem ships as a self-contained Lake project in
-[generated/<id>/](generated/two_plus_two/) with a fixed three-file shape:
+The trusted `WorkspaceTest` driver invokes the toolchain's absolute Lake
+executable with `comparator --config <temporary-config>`. It unconditionally
+registers the toolchain's bundled NanoDa, regardless of the on-disk
+`enable_nanoda` flag or `external_kernels` map. Every acceptance requires
+NanoDa and the default Lean checker. Missing tools or failed checkers cannot
+produce acceptance. `--paranoid` is not enabled.
 
-- **Challenge.lean** is the trusted theorem statement, body `sorry`. The
-  benchmark author writes this and reviewers approve it. It is what the
-  problem ASKS.
-- **Submission.lean** is the only file the solver edits. It must define
-  a theorem of the same signature inside `namespace Submission`. This
-  is what the solver provides as their PROOF.
-- **Solution.lean** is a generated bridge: it has the same theorem
-  signature as Challenge and provides `exact Submission.foo` (or, for
-  multi-hole problems, the structured equivalent). It exists so that
-  comparator can verify "Solution typechecks => Submission really
-  proves Challenge."
+Lake builds and exports Challenge before building/exporting Solution. Its trusted
+supervisor parses the exports, compares target statements and their constant
+graphs (with the configured definition holes), checks the allowed axioms, and runs
+the checkers in separate processes. The solution exporter is untrusted: the design
+must remain sound even if it fabricates its output. Exporter behavior alone is
+not a soundness guarantee.
 
-[leanprover/comparator](https://github.com/leanprover/comparator) is the
-verifier. Given a `config.json` listing `theorem_names`,
-`definition_names`, and `permitted_axioms`, it:
+The permitted axioms are `propext`, `Quot.sound`, and `Classical.choice`.
+The trust assumptions include the comparator's graph/axiom checks, the trusted
+challenge, the export parser, kernel implementations, and the operating system's
+sandbox isolation. Extra axioms, mismatched statements, and uses of sorry must be
+rejected. A native computation that introduces an unpermitted axiom is not a
+substitute for a checked proof.
 
-1. Builds Challenge and Solution **separately** under a `landrun` Linux
-   landlock sandbox, then runs `lean4export` on each (also sandboxed).
-2. Walks the constant graph from each named theorem and requires that
-   every transitively-used constant (other than def-hole targets, where
-   only the type signature must match) is byte-identical between
-   Challenge and Solution. See
-   [comparator/Comparator/Compare.lean](../comparator/Comparator/Compare.lean).
-3. Walks the same graph for axioms and requires every reachable axiom
-   to be in the `permitted_axioms` allowlist. See
-   [comparator/Comparator/Axioms.lean](../comparator/Comparator/Axioms.lean).
-   Our allowlist is `{propext, Quot.sound, Classical.choice}`. Notably
-   absent: `sorryAx` (so `sorry` is rejected) and `Lean.ofReduceBool`
-   (so `native_decide` is rejected).
-4. Replays the exported Solution environment into the in-process Lean
-   kernel for a final type-check.
+## Where submitted code runs
 
-Because Solution's only proof step is `exact Submission.foo`, and
-because Compare.lean rejects any drift in the constant graph from
-Challenge's theorem statement, the only way for verification to succeed
-is if `Submission.foo` is definitionally equal to a proof of Challenge's
-exact theorem statement, using only the permitted axioms.
+| Operation | Trust and execution boundary |
+| --- | --- |
+| Root dependency restoration and benchmark build | Trusted pinned sources, on the runner before submission extraction |
+| Building the generated test driver | Trusted source; it must not import Submission |
+| Driver config enforcement and launching comparator | Trusted supervisor on the runner |
+| Comparator workspace resolution/build/export | Lake's bubblewrap sandboxes; solution build/imports execute submitted code |
+| Export comparison and axiom checking | Trusted supervisor parsing untrusted export data |
+| NanoDa and Lean checker | Separate sandboxed processes reading the solution export |
 
-## 3. Where untrusted code runs, and what bounds it
+Do not add an unsandboxed `lake build Solution`, `lake build Submission`, or a
+test-driver import of submitted modules. `lake env` itself does not build project
+libraries, but it is unnecessary for starting this driver. Challenge preparation
+must use trusted source and dependencies only.
 
-User-submitted Lean is elaborated in exactly one place: comparator's
-`safeLakeBuild Solution`, which runs `lake build Solution` (and
-transitively `lake build Submission`) inside a landrun sandbox. Every
-other step either does not elaborate Lean, or elaborates only trusted
-code.
+The driver filters executable and library search paths to remove the workspace,
+its writable cache, relative/empty entries resolving there, symlink aliases, and
+nonexistent directories. It uses Lake's supplied `LAKE` and `LEAN_SYSROOT`
+paths outside writable roots. Keep this filtering: supervisor tool lookups must
+not execute a program planted in a workspace build directory. The bundled
+exporter and Lean checker are selected by Lake from its own toolchain.
 
-| Step | Process | Location | Elaborates Submission? |
-|---|---|---|---|
-| `actions/checkout` | trusted | runner | No |
-| `rm -rf .git` | trusted | runner | No |
-| `lake build comparator` (in `.ci/comparator/`) | trusted | runner | No |
-| `lake build lean4export` (in `.ci/lean4export/`) | trusted | runner | No |
-| `cargo build --release` (in `.ci/nanoda/`) | trusted, pinned source | runner | No |
-| Submission tarball extracted | inert data | runner | No |
-| `evaluate_submission.py` overlay walk | trusted Python | runner | No |
-| `_share_packages` symlink setup | trusted Python | runner | No |
-| `_prime_workspace` runs `lake update` | parses TOML lakefile | runner | No |
-| `_prime_workspace` runs `lake exe cache get` | downloads pre-built oleans | runner | No |
-| `lake exe lean-eval run-eval` (host exe) | trusted Lean | runner | No |
-| `lake test` builds `WorkspaceTest` | only `import Lean` | runner | No |
-| `WorkspaceTest` resolves tools and spawns comparator directly | trusted tool paths, inherited `LEAN_PATH` | runner | No |
-| `comparator` calls `lean --print-prefix` / `which git` | side-effect-free | runner | No |
-| `comparator.safeLakeBuild Challenge` | trusted source, sandboxed | **inside landrun** | No |
-| `comparator.safeExport challengeModule` | reads trusted olean | **inside landrun** | No |
-| **`comparator.safeLakeBuild Solution`** | builds Solution -> imports Submission | **inside landrun** | **YES** |
-| `comparator.safeExport solutionModule` | reads the just-built olean | **inside landrun** | No |
-| `runNanoda solution` | pipes the export to `nanoda_bin` (independent kernel) | **inside landrun** | No |
-| `runKernel solution` | replays exported env in comparator process | runner | No |
+## Sandbox and caches
 
-(`evaluate_submission.py` lives in the submissions repo; the steps above
-describe what it does when it drives an evaluation against this
-benchmark.)
+Linux bubblewrap 0.12.0 is installed from a checksum-verified release using
+`scripts/install_bwrap.sh`. Ubuntu's user-namespace restriction is handled by an
+AppArmor profile granting userns permission to that executable. Failure to create
+a sandbox is an error; there is no unsandboxed fallback.
 
-Boundary concerns to call out explicitly:
+Lake binds the host filesystem read-only, masks home and temporary paths, clears
+the child environment, provides private writable temporary directories, and
+grants writes to the workspace's private `.lake` for builds. Network isolation,
+PID namespaces, parent-death cleanup, and new sessions are configured by Lake.
+A successful write to sandbox-private HOME or /tmp is allowed; it must not change
+the corresponding host file.
 
-**Comparator tool paths must stay outside the writable workspace.** Lake starts
-`WorkspaceTest` with package binary directories prepended to `PATH`, including
-the submission-writable `.lake/build/bin`. The harness removes canonical paths
-inside the workspace or its writable `.lake` cache (including a symlinked cache)
-from `PATH`, `LD_LIBRARY_PATH`, and `DYLD_LIBRARY_PATH`,
-omits empty or nonexistent search directories, and resolves comparator,
-landrun, lean4export, and nanoda to absolute paths outside these roots.
-An empty filtered executable path is rejected; empty filtered library paths
-are unset to avoid interpreting them as the current directory.
-Explicit `COMPARATOR_*` overrides are checked after symlink resolution too.
-Comparator is launched directly with these overrides; `LEAN_PATH` from the
-outer `lake test` is preserved for sandboxed export. Consequently, a submission
-cannot change the supervisor or external kernel selected by later tool lookup
-by creating new executables under `.lake`. Filtering `PATH` also protects
-Landrun's unsandboxed `ldconfig` lookup while preparing later sandboxes.
-This guarantee applies to the
-generated harness, not arbitrary direct `lake env comparator` invocations.
-Evaluation must still start from a trusted, freshly prepared workspace and
-cache: this protects tool lookup after submission elaboration, while an
-already compromised cache could run code as Lake starts the test driver.
+Scoring creates a trusted temporary `COMPARATOR_BWRAP` wrapper to bind the root's
+canonical shared package directory read-only after Lake's masking mounts. The
+wrapper embeds the real bubblewrap and cache paths because Lake launches it with
+an empty environment. It preserves Lake's other arguments and settings.
+Mounts come from trusted root state, never submission input. Private local
+workspaces do not need this visibility adapter.
 
-**Lake env doesn't elaborate.** [scripts/security_probes/lake_env_probe.py](scripts/security_probes/lake_env_probe.py)
-verifies on every run of the test suite that `lake env -- <cmd>` (and
-nested `lake env -- lake env -- <cmd>`) on a workspace whose
-`Submission.lean` has top-level `initialize` and `#eval` markers does
-NOT produce those markers in stdout. Confirmed on the pinned toolchain
-(Lean v4.34.0, 2026-09-16). If a future lake version starts evaluating project Lean
-during `lake env`, this probe must be re-run before the toolchain
-bump lands.
+Existing trusted root builds finish dependency setup before evaluation, including
+ProofWidgets metadata that cannot be updated in a read-only cache. Shared source
+and cached artifacts remain read-only during submission builds. The submissions
+adapter gives Lean Pool its own writable build outputs in each workspace while
+sharing its pinned source read-only; one submission must never supply writable
+artifacts to another.
 
-**`_prime_workspace` doesn't build user-controlled targets.** The
-docstring at `evaluate_submission.py` (in the submissions repo)
-documents the rule and the regression history (commit `3474943`
-violated it in 2026-04, reverted in #92 in 2026-05). `lake update` and
-`lake exe cache get` are the only shell-outs allowed.
+The former Landrun setup allowed detached build descendants to survive between
+phases. Lake's PID namespaces tear down descendants; the descendant-cleanup probe
+checks that the heartbeat stops. Historical replay images keep their recorded
+legacy tools and are not covered by this current-path migration.
 
-**Writable `.lake/` self-tampering is a known limitation.**
-Comparator gives `safeLakeBuild` `--rwx <workspace>/.lake`, which is
-necessary because lake writes its build outputs there. The natural
-attack to consider is: a `Submission.lean` `initialize` block spawns a
-detached `setsid` daemon that inherits landrun's filesystem rules,
-survives the per-build landrun child's exit (children get reparented
-to PID 1, not killed), and races to overwrite `Solution.olean` between
-`safeLakeBuild Solution` returning and `safeExport solutionModule`
-reading it — getting comparator to verify against an
-attacker-controlled olean.
+## Trusted dependencies and pin policy
 
-[scripts/security_probes/artifact_tamper_probe.py](scripts/security_probes/artifact_tamper_probe.py)
-shows that `IO.Process.spawn` succeeds for the whitelisted `lean` and
-`git` binaries while `sh`, `setsid`, `bash`, `cp`, `/bin/sh`, and
-`/usr/bin/env` are denied. Phase B verifies by SHA-256 that its deliberately
-distinct prepared olean is not installed. Neither result rules out the attack:
-`lean` is a general-purpose interpreter, so the daemon can be another `lean`
-running an attacker-written `initialize` block. Detaching it needs no external
-binary because `IO.Process.SpawnArgs` has a native `setsid : Bool` field.
-Orphaned children are reparented rather than killed when the landrun child
-exits. In addition, `executablePaths := #[leanPrefix, gitLocation]`
-whitelists exec across the *entire* Lean prefix (`lake`, `clang`,
-`ld.lld`, `leanc`, ...), not just `lean`; and comparator passes `-ldd`,
-which whitelists the dynamic loader, and a permitted loader can load a
-readable ELF that is not itself exec-whitelisted.
+The Lean release in `lean-toolchain` pins Lake comparator, exporter, Lean checker,
+and bundled NanoDa together. Mathematics and generator revisions are in
+`lakefile.toml` and `lake-manifest.json`. Bubblewrap's release and SHA256 are
+in `scripts/install_bwrap.sh`. Workflow actions use immutable commit SHAs;
+`scripts/action_pin_audit.py` checks mutable selectors.
 
-So the premise that no persistent child is possible does not hold, and
-`safeExport` has nothing guaranteeing it reads the olean that
-`safeLakeBuild` produced. We have no working exploit, so this is an
-unsound argument rather than a demonstrated attack, and note that any
-substituted olean is still replayed through the kernel and
-`external_kernels`. This known limitation is tracked upstream at
-https://github.com/leanprover/comparator/issues/77, with a proposed fix
-in https://github.com/leanprover/comparator/pull/78 that runs each
-landrun invocation as PID 1 of a fresh PID namespace, so the kernel
-tears down any survivors before comparator proceeds. The current pin does not
-contain that proposed fix.
+When changing the Lean toolchain, update compatible mathematics pins and generated
+workspaces together, restore their exact caches, and run the normal CI and
+sandbox/scoring checks. When changing bubblewrap, update the release and checksum
+in both benchmark and submission installers. Review the actual sandbox behavior,
+not just the reported version. No standalone comparator/exporter/NanoDa build or
+Landrun pin is required by this benchmark.
 
-This applies to every runner we use today; it has nothing to do with
-any particular kernel. Re-derive it after any landrun, comparator, or
-lean-toolchain pin bump.
+The generator rejects Lean Pool imports in trusted statements and helpers while
+making its pinned source available to solutions. Maintain that separation.
+Historical replay locks and instrumentation are versioned independently; do not
+silently change their verifier or metric semantics.
 
-## 4. Trust model for the comparator
+## Validations done at evaluation time
 
-We rely on the following claims about [leanprover/comparator](https://github.com/leanprover/comparator)
-at the pinned commit:
+Before unpacking submitted source, the production job runs the benchmark's
+sandbox and environment probes. Benchmark CI also runs these through the same
+`lake test` driver used for scoring:
 
-1. The constant-graph walk in `compareAt` reaches every constant that
-   the theorem's statement type or proof body transitively uses. If a
-   constant is reachable, it must be byte-identical between Challenge
-   and Solution unless it is listed in `definition_names` (which the
-   benchmark author controls via the manifest).
-2. The axiom walk in `checkAxioms` reaches every axiom transitively
-   used by the theorem and definition targets, and rejects any axiom
-   not in the configured allowlist.
-3. `safeLakeBuild` and `safeExport` run inside landrun with the
-   filesystem and environment policy described in
-   `comparator/Main.lean`.
-4. Lean kernel re-replay (`runKernel`) catches any malformed olean
-   structure that lean4export accepts but the kernel rejects.
+- `scripts/sandbox_engaged_probe.py`: source/host writes denied, host marker
+  hidden, private build/temp writes work, and no IPv4 routes appear.
+- `scripts/security_probes/env_dump_probe.py`: a synthetic parent secret is
+  absent during submission elaboration.
+- `scripts/security_probes/tool_path_probe.py`: workspace helper stand-ins do
+  not displace the trusted supervisor/kernel commands.
+- `scripts/security_probes/artifact_tamper_probe.py`: a detached build
+  descendant stops before comparator returns.
+- `scripts/security_probes/comparator_probe.py`: valid/invalid proofs,
+  definition holes, dependent holes, mandatory NanoDa, and missing sandbox.
+- `check-comparator-installation` and `check-eval-workflow`: a real generated
+  Mathlib workspace, shared cache visibility, Lean Pool import, and exact counts.
 
-If any of those claims drifts in a future comparator commit, our
-guarantees regress with it. The comparator pin (see Section 5) is the
-mechanism that prevents silent drift; the bump procedure is the
-mechanism that forces a re-audit.
+The `run-eval` command can exit successfully while reporting rejected proofs.
+Consumers must inspect per-problem JSON. Exit 2 from the driver denotes setup
+failure and aborts scoring; exit 1 can include runtime infrastructure failures, so
+retain raw diagnostics. Resource exhaustion is not evidence of an invalid theorem.
 
-## 5. Trusted dependencies and pin policy
+## Limits
 
-Every source dependency and CI action in the evaluation pipeline is
-pinned to an immutable commit SHA. The Lean binary toolchain is pinned
-to an exact release selector. Branches and loose action tags are mutable;
-if `landrun@main` or `actions/checkout@v4` is ever resolved at install
-time, the upstream publisher controls our supply chain.
-
-| Dependency | Repo | Pinned to | Purpose | Last bumped |
-|---|---|---|---|---|
-| Lean toolchain | leanprover/lean4 | `v4.35.0-rc3` | compiler and Lake | 2026-09-28 |
-| mathlib | leanprover-community/mathlib4 | `5e0c4e5239cb0a2d86d68a884bf52cfd963fce22` | theorem library (the pin of TauCeti `522706e`) | 2026-09-28 |
-| TauCeti | TauCetiProject/TauCeti | `522706e83ca349c3d6bde045e56778d17354ae8d` | definitions used by `classification_finite_simple_groups`; oleans from its public Lake cache | 2026-09-28 |
-| lean-pool | Vilin97/lean-pool | `e9d53e9cbcff8dfd0cc816ba94db7a26b082929f` | solution-only library; forbidden in trusted problem imports | 2026-09-28 |
-| lean-eval-generator | leanprover/lean-eval-generator | `0b8cc2d141710a18515c53448f006c971dd8eeb4` | workspace generation and solution-dependency policy | 2026-09-28 |
-| lean4-cli | leanprover/lean4-cli | `843844fa601dd56767b1eb22b7ada5b64d5e567a` | command-line parsing | 2026-09-28 |
-| landrun | zouuup/landrun | `5ed4a3db3a4ad930d577215c6b9abaa19df7f99f` | Linux landlock sandbox | 2026-05-04 |
-| lean4export | leanprover/lean4export | `076e8e57707e813375e8f9da8bf989799ace9680` | exports olean to text | 2026-09-16 |
-| comparator | leanprover/comparator | `d03acab154d269c06e60e4de7e4cc85deebff94b` | the verifier | 2026-09-16 |
-| nanoda | robsimmons/nanoda_lib | `68d5ca9db226849b41a6fff59d796ff19d0a8840` | independent kernel (external checker) | 2026-07-29 |
-| `jlumbroso/free-disk-space` | (action) | `54081f138730dfa15788a46383842cd2f914a1be` | runner disk cleanup | 2026-05-04 |
-| `actions/checkout` | (action) | `3d3c42e5aac5ba805825da76410c181273ba90b1` (v7.0.1) | repo checkout | 2026-07-30 |
-| `actions/setup-python` | (action) | `5fda3b95a4ea91299a34e894583c3862153e4b97` (v7.0.0) | python setup (`lean-eval-submissions`) | 2026-07-30 |
-| `actions/setup-go` | (action) | `b7ad1dad31e06c5925ef5d2fc7ad053ef454303e` (v7.0.0) | go setup | 2026-07-30 |
-| `actions/create-github-app-token` | (action) | `bcd2ba49218906704ab6c1aa796996da409d3eb1` (v3.2.0) | App auth | 2026-07-30 |
-| `actions/upload-artifact` | (action) | `043fb46d1a93c77aae656e7c1c64a875d1fc6a0a` (v7.0.1) | submission artifact upload (`lean-eval-submissions`) | 2026-07-30 |
-| `actions/download-artifact` | (action) | `3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c` (v8.0.1) | submission artifact download (`lean-eval-submissions`) | 2026-07-30 |
-| `leanprover/lean-action` | (action) | `38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9` | Lean toolchain | 2026-05-04 |
-| Go toolchain | (setup-go arg) | `1.25.12` | concrete version, not `stable` | 2026-07-30 |
-| Python | (setup-python arg) | `3.11.10` | concrete patch version | 2026-05-04 |
-| `permitted_axioms` (every workspace) | comparator config | `{propext, Quot.sound, Classical.choice}` | axioms allowed in proofs | unchanged |
-
-Mutable selectors are forbidden anywhere in `.github/workflows/`. The
-[`scripts/action_pin_audit.py`](scripts/action_pin_audit.py) script
-walks every workflow and hard-fails on `uses: ...@main`,
-`uses: ...@v<N>` (loose tag), `go-version: stable`, `python-version`
-without a patch component, and `go install ...@<branch>`. It runs on
-every CI build; an unpinned dependency cannot be merged.
-
-The submission pipeline (`leanprover/lean-eval-submissions`) pins the
-same landrun / lean4export / comparator / GitHub Actions versions in its
-own `submission.yml`. A bump must update both repos in lockstep.
-
-### Bumping pinned dependencies
-
-1. Find the new SHA. For tags: `git ls-remote <repo> refs/tags/<tag>`.
-   For branch HEAD: `git ls-remote <repo> refs/heads/main`.
-2. Update **every** site listed below in lockstep, and add a dated
-   comment of the form `# <dep> pinned to <sha7> (<note> as of YYYY-MM-DD).`
-   - `.github/workflows/ci.yml` (this repo; includes the nanoda pin)
-   - `.github/workflows/regenerate-main.yml` (this repo)
-   - `.github/workflows/submission.yml` (leanprover/lean-eval-submissions;
-     includes the nanoda pin)
-   - `README.md` (this repo; the local-setup nanoda / comparator /
-     lean4export / landrun clone commands)
-   - `EvalTools/CheckComparatorInstallation.lean` (`landrunInstallTarget`,
-     for landrun only)
-   - `lean-eval-leaderboard/.benchmark-commit` (for the lean-eval
-     benchmark commit only)
-3. Open a PR. CI runs `scripts/action_pin_audit.py`,
-   `scripts/sandbox_engaged_probe.py`,
-   `scripts/security_probes/env_dump_probe.py`, and
-   `scripts/security_probes/tool_path_probe.py`. All four must pass.
-4. Re-run the one-shot probes locally on Linux:
-   - [scripts/security_probes/lake_env_probe.py](scripts/security_probes/lake_env_probe.py)
-   - [scripts/security_probes/artifact_tamper_probe.py](scripts/security_probes/artifact_tamper_probe.py)
-   Update Sections 3 and 6 of this doc if either changes verdict.
-5. Merge.
-
-## 6. Validations done at evaluation time
-
-- **Action pin audit.** [scripts/action_pin_audit.py](scripts/action_pin_audit.py)
-  runs in CI; mutable workflow refs are blocked from merging.
-- **Sandbox-engaged probe.** [scripts/sandbox_engaged_probe.py](scripts/sandbox_engaged_probe.py)
-  runs in `ci.yml` and on every `submission` workflow run (the
-  submissions repo invokes it from this repo's checkout). It builds a
-  synthetic comparator workspace whose `Submission.lean` attempts five
-  writes — `/tmp/...`, `$HOME/...`, `../outside`, through a `.lake/`
-  symlink to outside, and `.lake/probe/inside-ok` — and asserts only
-  the inside-ok write succeeds. Catches landrun fail-open, kernel
-  landlock regressions, and policy drift in comparator's flag set.
-- **Env-allowlist probe.** [scripts/security_probes/env_dump_probe.py](scripts/security_probes/env_dump_probe.py)
-  runs in `ci.yml` and on every `submission` workflow run. The probe
-  salts the parent env with decoy secrets (`GH_TOKEN`,
-  `LD_PRELOAD`, `AWS_ACCESS_KEY_ID`, `LEAN_EVAL_BOT_PRIVATE_KEY`,
-  etc.) and asserts that `Submission`'s elaboration sees a subset
-  of `{PATH, HOME, LEAN_ABORT_ON_PANIC, LEAN_PATH, LD_LIBRARY_PATH}`
-  containing the required `{PATH, HOME, LEAN_ABORT_ON_PANIC}`.
-  Allowlist-based, not spot-check, so the next unknown token class
-  can't slip through. The required three are forwarded by comparator's
-  `envPass`; `LEAN_PATH` and `LD_LIBRARY_PATH` are added by `lake`
-  itself when it spawns `lean` and may or may not be present
-  depending on the OS. They point at the workspace's `.lake/build/lib`
-  and the toolchain's shared libs and contain no secrets.
-- **Tool-path probe.** [scripts/security_probes/tool_path_probe.py](scripts/security_probes/tool_path_probe.py)
-  runs in the security CI job through the production `WorkspaceTest` template.
-  Submission elaboration creates executable stand-ins for landrun, lean4export,
-  nanoda, Lean, and additional lookup commands (including `ldconfig`) in
-  `.lake/build/bin`; the probe requires that none is used and
-  that the valid proof passes comparator and nanoda. Harness tests also cover
-  relative paths, missing directories, symlink aliases, and explicit overrides.
-- **Permitted axioms.** Every generated `config.json` has
-  `permitted_axioms = {propext, Quot.sound, Classical.choice}`. No
-  `sorryAx`, no `Lean.ofReduceBool`.
-
-Why CI runs the probes: a `lean-eval` PR can weaken the sandbox by
-bumping the comparator/landrun pin, editing `templates/`, or changing a
-generated workspace's lakefile. The probes run as a required check here
-so such a regression is caught on the PR that introduces it, before any
-submission is ever evaluated against it. The submission pipeline re-runs
-them per-submission as a last-second pre-flight gate.
-
-## 7. Soft spots — where to look first
-
-Each item is something we believe is OK today but where the assumption
-is fragile or hard to audit. Pipeline-level soft spots (leaderboard
-escaping, the triage gate) are in the submissions repo's `SECURITY.md`.
-
-1. **landrun `--best-effort` semantics on novel kernels.** landrun
-   silently runs without sandbox if the kernel lacks landlock support.
-   Today's `ubuntu-latest` runners are fine. The sandbox-engaged probe
-   catches this in CI on every run, but the probe only exercises the
-   policy comparator uses — if comparator's policy ever diverges from
-   the probe's mock workspace shape, a real false negative is possible.
-   Re-run the probe by hand on a clean Linux box after any landrun
-   bump.
-2. **Writable-`.lake` self-tampering** (Section 3). **Not currently
-   mitigated at the pinned comparator commit.** A `lean` descendant can
-   outlive `safeLakeBuild` and race `safeExport`. No working exploit is
-   known, and a substituted olean is still kernel-checked. Tracked at
-   https://github.com/leanprover/comparator/issues/77; proposed fix in
-   https://github.com/leanprover/comparator/pull/78.
-3. **`lake env` behaviour across lake versions.** The `lake_env_probe`
-   confirms current behaviour. Lake version bumps must re-run it.
-4. **`definition_names` author trap.** Comparator only requires that
-   def/instance holes match Challenge in TYPE, not body. If the
-   benchmark author writes a theorem whose statement does not pin the
-   def's value, a submitter can satisfy the manifest with a trivial
-   def. There is no automated guard against this — comparator
-   structurally cannot verify that an author's spec theorems
-   sufficiently constrain a def — and adding one would be at most a
-   heuristic. The real guard is PR review of any problem that uses
-   def/instance holes.
-5. **Dual-kernel defence.** nanoda is a global requirement, not a
-   per-problem option. `templates/WorkspaceTest.lean` (the harness that
-   invokes comparator, propagated verbatim into every workspace and
-   rebuilt from the template by `run-eval`) reads the committed
-   `config.json`, overrides `enable_nanoda := true`, and hands that to
-   comparator — so nanoda runs regardless of what any config file says.
-   This mirrors comparator-live, which forces the flag at the invocation
-   site (`exec.ts`) and leaves project configs untouched. A single Lean
-   kernel soundness bug (e.g. the Lean-conjecture counterexample) no
-   longer suffices to claim false credit; the proof must be accepted by
-   both kernels. The residual risk narrows to a bug present in *both*
-   kernels, or in comparator's export/axiom comparison itself. Note the
-   pinned nanoda is `robsimmons/nanoda_lib` (the fork comparator-live
-   deploys); the `builtinTargets` widening in comparator's `Main.lean`
-   still carries a `TODO: fix when nanoda fixes its string handling`, so a
-   nanoda string soundness gap would not be caught. Because enforcement
-   lives in `WorkspaceTest`, a workspace whose committed `config.json`
-   still says `enable_nanoda: false` is not a bypass — the harness
-   overrides it. Bumping the nanoda pin follows the "Bumping pinned
-   dependencies" procedure above.
-
-## References
-
-- [comparator/Main.lean](../comparator/Main.lean), [comparator/Comparator/Compare.lean](../comparator/Comparator/Compare.lean), [comparator/Comparator/Axioms.lean](../comparator/Comparator/Axioms.lean) — verifier internals.
-- [leanprover/comparator README](https://github.com/leanprover/comparator) — upstream trust model.
-- [scripts/security_probes/](scripts/security_probes/) — the security probes cited above.
-- [scripts/action_pin_audit.py](scripts/action_pin_audit.py),
-  [scripts/sandbox_engaged_probe.py](scripts/sandbox_engaged_probe.py),
-  [EvalTools/CheckComparatorInstallation.lean](EvalTools/CheckComparatorInstallation.lean) — the integrity scripts referenced above.
-- Workflow files: [.github/workflows/ci.yml](.github/workflows/ci.yml), [.github/workflows/regenerate-main.yml](.github/workflows/regenerate-main.yml), [.github/workflows/notify-leaderboard.yml](.github/workflows/notify-leaderboard.yml).
-- [`leanprover/lean-eval-submissions` SECURITY.md](https://github.com/leanprover/lean-eval-submissions/blob/main/SECURITY.md) — the submission-pipeline threat model.
+This boundary does not make arbitrary benchmark changes safe: changing the
+trusted statement, Solution adapter, config, driver, dependency source, or
+executable paths changes what is trusted. Reviews must preserve those assumptions.
+A flaw shared by the checkers, comparator comparison/axiom logic, export parser,
+or Linux isolation can defeat the system. Keep runner credentials and unrelated
+private data out of the evaluation environment even though child environment and
+filesystem access are restricted.

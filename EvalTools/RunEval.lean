@@ -52,12 +52,14 @@ def workspacePathForProblem (root : System.FilePath) (problemId : String)
 JSON-mode callers can keep their stdout clean. Mirrors `run_problem_test`.
 Streams each chunk as it arrives so noisy / hanging child output doesn't
 accumulate unbounded memory before the child exits. -/
-def runProblemTest (workspace : System.FilePath) : IO UInt32 := do
+def runProblemTest (workspace : System.FilePath)
+    (env : Array (String × Option String) := #[]) : IO UInt32 := do
   let stderr ← IO.getStderr
   let child ← IO.Process.spawn {
     cmd := "lake"
     args := #["test"]
     cwd := workspace
+    env
     stdin := .inherit
     stdout := .piped
     stderr := .piped
@@ -77,43 +79,78 @@ def runProblemTest (workspace : System.FilePath) : IO UInt32 := do
   let _ ← IO.wait errForward
   return exitCode
 
+/-- Resolve preparation tools before any submitted code runs. -/
+private def resolveExecutable (name : String) : IO System.FilePath := do
+  if name.contains System.FilePath.pathSeparator then
+    return ← IO.FS.realPath name
+  for dir in System.SearchPath.parse ((← IO.getEnv "PATH").getD "") do
+    let candidate := dir / name
+    if ← candidate.pathExists then
+      return ← IO.FS.realPath candidate
+  throw <| IO.userError s!"Missing evaluation tool: {name}"
+
+/-- Make the trusted shared cache visible after Lake covers home and /tmp.
+The wrapper runs with an empty environment, so all paths are embedded. -/
+private def withCacheSandbox {α : Type} (root : System.FilePath)
+    (f : Array (String × Option String) → IO α) : IO α := do
+  let cache ← IO.FS.realPath (root / ".lake" / "packages")
+  let bwrap ← resolveExecutable ((← IO.getEnv "COMPARATOR_BWRAP").getD "bwrap")
+  let shell ← resolveExecutable "sh"
+  IO.FS.withTempDir fun tmp => do
+    let wrapper := tmp / "bwrap-with-cache"
+    let quoted (path : System.FilePath) := "'" ++ path.toString.replace "'" "'\\''" ++ "'"
+    IO.FS.writeFile wrapper <|
+      s!"#!{shell}\ninserted=\nfor arg do\n  shift\n" ++
+      "  if [ \"$arg\" = -- ] && [ -z \"$inserted\" ]; then\n" ++
+      s!"    set -- \"$@\" --ro-bind {quoted cache} {quoted cache}\n" ++
+      "    inserted=1\n  fi\n  set -- \"$@\" \"$arg\"\ndone\n" ++
+      s!"exec {quoted bwrap} \"$@\"\n"
+    IO.setAccessRights wrapper { user := { read := true, write := true, execution := true } }
+    f #[("COMPARATOR_BWRAP", some wrapper.toString)]
+
 /-- Score every problem in `problems`. Mirrors `score_problems`. -/
 def scoreProblems (root : System.FilePath) (problems : Array EvalProblemMetadata)
     (workspacesRoot : System.FilePath) : IO (Array ProblemScore) := do
-  let toolchain ← IO.FS.readFile (root / "lean-toolchain")
-  let deps ← loadRootDependencies root
-  let workspaceTest ← loadWorkspaceTestTemplate root
-  let mut scores : Array ProblemScore := #[]
-  for entry in problems do
-    let mut extracteds : Array ExtractedTheorem := #[]
-    for hole in entry.holes do
-      let e ← extractOne root entry hole
-      extracteds := extracteds.push e
-    let expectedFiles ← renderWorkspace root entry extracteds toolchain deps workspaceTest
-    let workspace ← workspacePathForProblem root entry.id workspacesRoot
-    let relDisplay :=
-      let wsStr := workspace.toString
-      let rootStr := root.toString ++ "/"
-      if wsStr.startsWith rootStr then wsStr.drop rootStr.length |>.toString else wsStr
-    let mismatches ← checkWorkspace workspace relDisplay expectedFiles
-    let attempted := !mismatches.isEmpty
-    let (exitCode?, succeeded) ←
-      if attempted then
-        let code ← runProblemTest workspace
-        pure (some code, code == 0)
-      else
-        pure (none, false)
-    scores := scores.push {
-      id := entry.id
-      title := entry.title
-      visible := entry.visible
-      attempted := attempted
-      succeeded := succeeded
-      exitCode := exitCode?
-      mismatches := mismatches
-      workspacePath := relDisplay
-    }
-  return scores
+  withCacheSandbox root fun env => do
+    score env
+where
+  score (env : Array (String × Option String)) : IO (Array ProblemScore) := do
+    let toolchain ← IO.FS.readFile (root / "lean-toolchain")
+    let deps ← loadRootDependencies root
+    let workspaceTest ← loadWorkspaceTestTemplate root
+    let mut scores : Array ProblemScore := #[]
+    for entry in problems do
+      let mut extracteds : Array ExtractedTheorem := #[]
+      for hole in entry.holes do
+        let e ← extractOne root entry hole
+        extracteds := extracteds.push e
+      let expectedFiles ← renderWorkspace root entry extracteds toolchain deps workspaceTest
+      let workspace ← workspacePathForProblem root entry.id workspacesRoot
+      let relDisplay :=
+        let wsStr := workspace.toString
+        let rootStr := root.toString ++ "/"
+        if wsStr.startsWith rootStr then wsStr.drop rootStr.length |>.toString else wsStr
+      let mismatches ← checkWorkspace workspace relDisplay expectedFiles
+      let attempted := !mismatches.isEmpty
+      let (exitCode?, succeeded) ←
+        if attempted then
+          let code ← runProblemTest workspace env
+          if code == 2 then
+            throw <| IO.userError s!"Comparator could not run for {entry.id}; see the setup diagnostics above."
+          pure (some code, code == 0)
+        else
+          pure (none, false)
+      scores := scores.push {
+        id := entry.id
+        title := entry.title
+        visible := entry.visible
+        attempted := attempted
+        succeeded := succeeded
+        exitCode := exitCode?
+        mismatches := mismatches
+        workspacePath := relDisplay
+      }
+    return scores
 
 /-- Aggregated counts. Mirrors `summarize_scores`. -/
 structure ScoreSummary where
