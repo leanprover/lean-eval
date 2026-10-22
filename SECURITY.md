@@ -6,7 +6,7 @@ untrusted submitter Lean code. This document explains the sandbox
 invariants, the comparator trust model, and the pinned-dependency policy
 that the whole evaluation pipeline rests on.
 
-The **submission pipeline** itself — issue intake, fetching submission
+The **submission pipeline** itself — authenticated intake, fetching submission
 source, the evaluation workflow, recording results, and the overall
 adversarial-submission threat model — lives in the submissions
 repository and is documented there:
@@ -33,7 +33,7 @@ The adversary is a submitter who controls a `Submission.lean` (and files
 under `Submission/`). The goal we resist here: **untrusted submitter Lean
 escaping comparator's sandbox, or comparator accepting a Solution that
 does not actually prove the Challenge.** The pipeline-level framing of
-the same adversary (issue intake, token handling, confidentiality) is in
+the same adversary (server intake, token handling, confidentiality) is in
 the submissions repo's `SECURITY.md`.
 
 The submitter does not control `Challenge.lean`, `Solution.lean`,
