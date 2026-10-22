@@ -95,15 +95,16 @@ private def withCacheSandbox {α : Type} (root : System.FilePath)
     (f : Array (String × Option String) → IO α) : IO α := do
   let cache ← IO.FS.realPath (root / ".lake" / "packages")
   let bwrap ← resolveExecutable ((← IO.getEnv "COMPARATOR_BWRAP").getD "bwrap")
-  let python ← resolveExecutable "python3"
+  let shell ← resolveExecutable "sh"
   IO.FS.withTempDir fun tmp => do
     let wrapper := tmp / "bwrap-with-cache"
-    let quoted (path : System.FilePath) := (toJson path.toString).compress
+    let quoted (path : System.FilePath) := "'" ++ path.toString.replace "'" "'\\''" ++ "'"
     IO.FS.writeFile wrapper <|
-      s!"#!{python}\nimport os, sys\n" ++
-      "args = sys.argv[1:]\ni = args.index('--')\n" ++
-      s!"cache = {quoted cache}\nreal = {quoted bwrap}\n" ++
-      "os.execv(real, [real, *args[:i], '--ro-bind', cache, cache, *args[i:]])\n"
+      s!"#!{shell}\ninserted=\nfor arg do\n  shift\n" ++
+      "  if [ \"$arg\" = -- ] && [ -z \"$inserted\" ]; then\n" ++
+      s!"    set -- \"$@\" --ro-bind {quoted cache} {quoted cache}\n" ++
+      "    inserted=1\n  fi\n  set -- \"$@\" \"$arg\"\ndone\n" ++
+      s!"exec {quoted bwrap} \"$@\"\n"
     IO.setAccessRights wrapper { user := { read := true, write := true, execution := true } }
     f #[("COMPARATOR_BWRAP", some wrapper.toString)]
 
