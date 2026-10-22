@@ -1,59 +1,61 @@
-name: Isolated lake comparator experiment
+name: Lake comparator adapter canary
+
 on:
   push:
     branches: [experiment/lake-comparator-20261022]
+
 permissions:
   contents: read
+
 jobs:
-  probe:
-    strategy:
-      fail-fast: false
-      matrix:
-        toolchain: [v4.35.0-rc3]
-        runner: [github, namespace]
-        include:
-          - runner: github
-            labels: '["ubuntu-24.04"]'
-          - runner: namespace
-            labels: '["nscloud-ubuntu-24.04-amd64-16x32-with-features", "namespace-features:container.privileged=true"]'
-    runs-on: ${{ fromJSON(matrix.labels) }}
-    timeout-minutes: 20
-    env:
-      LEAN_COMPARATOR_PROBE_TOOLCHAIN: leanprover/lean4:${{ matrix.toolchain }}
+  adapter:
+    runs-on:
+      - nscloud-ubuntu-24.04-amd64-16x32-with-features
+      - namespace-features:container.privileged=true
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          path: canary
           persist-credentials: false
-      - name: Install pinned sandbox and toolchain
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: 5cb38ef8
+          path: benchmark
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: leanprover/lean-eval-submissions
+          ref: 8d8a290f
+          path: pipeline
+          persist-credentials: false
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          lake-package-directory: benchmark
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+          use-github-cache: false
+      - name: Provision bubblewrap
+        id: bwrap
         run: |
-          set -euo pipefail
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq meson ninja-build libcap-dev pkg-config
-          bash experiments/lake-comparator-20261022/install_bwrap.sh "$RUNNER_TEMP/bwrap-bin"
-          echo "$RUNNER_TEMP/bwrap-bin" >> "$GITHUB_PATH"
-          curl --fail --location --retry 3 --output "$RUNNER_TEMP/elan.tar.gz" \
-            https://github.com/leanprover/elan/releases/download/v4.2.3/elan-x86_64-unknown-linux-gnu.tar.gz
-          echo "df0b2b3a439961ffcbb3985214365ffe40f49bc871df04dff268c7d8e21ca8b2  $RUNNER_TEMP/elan.tar.gz" | sha256sum --check
-          mkdir "$RUNNER_TEMP/elan"
-          tar -xzf "$RUNNER_TEMP/elan.tar.gz" -C "$RUNNER_TEMP/elan"
-          "$RUNNER_TEMP/elan/elan-init" -y --no-modify-path --default-toolchain none
-          "$HOME/.elan/bin/elan" toolchain install "$LEAN_COMPARATOR_PROBE_TOOLCHAIN"
-          uname -a
-          "$RUNNER_TEMP/bwrap-bin/bwrap" --version
-          nproc
-          free -h
-      - name: Run compatibility and confinement probes
+          sudo apt-get update
+          sudo apt-get install --yes meson ninja-build libcap-dev
+          bash pipeline/scripts/install_bwrap.sh "$RUNNER_TEMP/lean-eval-bwrap"
+          echo "path=$RUNNER_TEMP/lean-eval-bwrap/bwrap" >> "$GITHUB_OUTPUT"
+      - name: Build trusted benchmark with production cache preparation
+        run: python3 pipeline/scripts/build_benchmark_root.py benchmark
+      - name: Exercise real submission adapter without publication
+        env:
+          COMPARATOR_BWRAP: ${{ steps.bwrap.outputs.path }}
         run: |
-          python3 experiments/lake-comparator-20261022/probe.py core --scratch "$RUNNER_TEMP/lake-comparator-core"
-          python3 experiments/lake-comparator-20261022/probe.py security --scratch "$RUNNER_TEMP/lake-comparator-security"
-      - name: Test real generated Mathlib workspace with immutable external cache
-        run: python3 experiments/lake-comparator-20261022/remote_mathlib.py "$RUNNER_TEMP/lake-comparator-mathlib"
-      - name: Upload evidence
+          python3 canary/experiments/lake-comparator-20261022/verify_submission_adapter.py \
+            "$PWD/pipeline" "$RUNNER_TEMP/adapter-canary" --benchmark "$PWD/benchmark"
+      - name: Upload controlled canary evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: comparator-${{ matrix.runner }}-${{ matrix.toolchain }}
-          path: |
-            experiments/lake-comparator-20261022/logs/
-            experiments/lake-comparator-20261022/results.jsonl
-            experiments/lake-comparator-20261022/confinement-observations.txt
+          name: lake-comparator-adapter-canary
+          path: ${{ runner.temp }}/adapter-canary
+          retention-days: 7
