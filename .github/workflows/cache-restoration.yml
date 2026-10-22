@@ -6,6 +6,7 @@ on:
       - scripts/fetch_dependency_caches.sh
       - scripts/lake_cache_curl.py
       - tests/python/test_lake_cache_*.py
+      - tests/python/test_fetch_dependency_caches.py
       - .github/workflows/cache-restoration.yml
       - lean-toolchain
   push:
@@ -14,6 +15,7 @@ on:
       - scripts/fetch_dependency_caches.sh
       - scripts/lake_cache_curl.py
       - tests/python/test_lake_cache_*.py
+      - tests/python/test_fetch_dependency_caches.py
       - .github/workflows/cache-restoration.yml
       - lean-toolchain
 
@@ -43,3 +45,4 @@ jobs:
         run: |
           export ELAN_TOOLCHAIN="$(cat lean-toolchain)"
           python -m unittest discover -v -s tests/python -p 'test_lake_cache_*.py'
+          python -m unittest discover -v -s tests/python -p test_fetch_dependency_caches.py

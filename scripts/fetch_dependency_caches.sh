@@ -19,8 +19,8 @@
 # later cache attempts.
 # Later builds then find those modules up to date even without the cache settings.
 #
-# Under GitHub Actions the two settings are appended to $GITHUB_ENV, for later steps. Otherwise,
-# and when GITHUB_ENV is unset or empty, stdout is a single `export` line for the caller:
+# Under GitHub Actions the cache and curl settings are appended to $GITHUB_ENV. Otherwise,
+# when GITHUB_ENV is unset or empty, stdout is a single `export` line for the caller:
 #
 #   cache_env="$(bash scripts/fetch_dependency_caches.sh .)" && eval "$cache_env"
 #
@@ -125,12 +125,23 @@ PY
     count="$(printf '%s\n' "$modules" | wc -l)"
     echo "fetch_dependency_caches: restoring $count imported TauCeti module(s) and their dependencies"
     log="$(mktemp)"
-    # shellcheck disable=SC2086 # one module name per word; names contain no whitespace
-    if ! (cd "$PROJECT_DIR" && CURL="$CACHE_CURL" LAKE_CONFIG="$CONFIG" LAKE_ARTIFACT_CACHE=true \
-          LAKE_RESTORE_ARTIFACTS=true lake -v --no-build build $modules) > "$log" 2>&1; then
+    restored=0
+    for attempt in 1 2; do
+      # shellcheck disable=SC2086 # one module name per word; no whitespace
+      if (cd "$PROJECT_DIR" && CURL="$CACHE_CURL" LAKE_CONFIG="$CONFIG" LAKE_ARTIFACT_CACHE=true \
+            LAKE_RESTORE_ARTIFACTS=true lake -v --no-build build $modules) > "$log" 2>&1; then
+        restored=1
+        break
+      fi
       cat "$log"
+      if [ "$attempt" = 1 ]; then
+        echo "::notice::cache-only restoration failed (attempt 1 of 2); retrying without compiling dependencies"
+        sleep 5
+      fi
+    done
+    if [ "$restored" != 1 ]; then
       rm -f "$log"
-      echo "::error::fetch_dependency_caches: dependency cache restoration failed after bounded download retries; no compilation was permitted. Inspect the artifact diagnostics above, then retry on a fresh runner for retrieval failures or check the pins and published cache coverage."
+      echo "::error::fetch_dependency_caches: dependency cache restoration failed after bounded retries; no compilation was permitted. Inspect the diagnostics above for unavailable artifacts or out-of-date dependencies, and check the pins and published cache coverage."
       exit 1
     fi
     compiled="$(grep -cE 'Built TauCeti(\.|$| )' "$log" || true)"
@@ -148,7 +159,8 @@ if [ -n "${GITHUB_ENV:-}" ]; then
   {
     echo "LAKE_CONFIG=$CONFIG"
     echo "LAKE_ARTIFACT_CACHE=true"
+    echo "CURL=$CACHE_CURL"
   } >> "$GITHUB_ENV"
 else
-  printf 'export LAKE_CONFIG=%q LAKE_ARTIFACT_CACHE=true\n' "$CONFIG" >&3
+  printf 'export LAKE_CONFIG=%q LAKE_ARTIFACT_CACHE=true CURL=%q\n' "$CONFIG" "$CACHE_CURL" >&3
 fi
