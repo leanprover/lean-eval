@@ -144,7 +144,7 @@ def trusted_path() -> str:
 
 def cache_wrapper(scratch: Path) -> Path:
     wrapper = scratch / "bwrap-with-cache"
-    wrapper.write_text("#!/run/current-system/sw/bin/python3\nimport os, sys\n"
+    wrapper.write_text(f"#!{sys.executable}\nimport os, sys\n"
         f"real = {str(BWRAP)!r}\ncache = {str(CACHE)!r}\n"
         "args = sys.argv[1:]\ni = args.index('--')\n"
         "os.execv(real, [real, *args[:i], '--ro-bind', cache, cache, *args[i:]])\n")

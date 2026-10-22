@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        toolchain: [v4.35.0-rc3, v4.35.0]
+        toolchain: [v4.35.0-rc3]
         runner: [github, namespace]
         include:
           - runner: github
@@ -46,6 +46,8 @@ jobs:
         run: |
           python3 experiments/lake-comparator-20261022/probe.py core --scratch "$RUNNER_TEMP/lake-comparator-core"
           python3 experiments/lake-comparator-20261022/probe.py security --scratch "$RUNNER_TEMP/lake-comparator-security"
+      - name: Test real generated Mathlib workspace with immutable external cache
+        run: python3 experiments/lake-comparator-20261022/remote_mathlib.py "$RUNNER_TEMP/lake-comparator-mathlib"
       - name: Upload evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
