@@ -8,9 +8,12 @@ import Lean
 
 This challenge is extracted from the LeanCondensed project
 <https://github.com/dagurtomas/LeanCondensed>, which develops the theory of light condensed
-mathematics of Clausen–Scholze in Lean.  The target statement is the comparison theorem for a CW
-complex `X`: the homology of the derived solidification of the free light condensed abelian group
+mathematics of Clausen–Scholze in Lean.  The target statement is the comparison theorem for a Hausdorff
+CW complex `X`: the homology of the derived solidification of the free light condensed abelian group
 on `X` is integral singular homology.
+
+Mathlib's `Topology.CWComplex` does not include a Hausdorff assumption. We require it separately:
+without it, the CW predicate admits non-Hausdorff spaces for which the comparison fails.
 
 The non-`sorry` part of this file develops, using only Mathlib, the definition of
 *light solid abelian groups*: a light condensed abelian group `A` is solid if the map
@@ -349,14 +352,16 @@ abbrev singularChainsLightCondAbDerivedFunctor : TopCat ⥤ DLightCondAb :=
 
 
 
-/-- The property of topological spaces admitting a classical CW complex structure. -/
+/-- The property of Hausdorff spaces admitting a classical CW complex structure. -/
 abbrev isCWTopCat : ObjectProperty TopCat :=
-  fun X ↦ Nonempty (Topology.CWComplex (Set.univ : Set X))
+  fun X ↦ T2Space X ∧ Nonempty (Topology.CWComplex (Set.univ : Set X))
 
-/-- The full subcategory of topological spaces admitting a classical CW complex structure. -/
+/-- The full subcategory of Hausdorff spaces admitting a classical CW complex structure. -/
 abbrev CWTopCat : Type _ := isCWTopCat.FullSubcategory
 
 namespace CWTopCat
+
+
 
 
 
