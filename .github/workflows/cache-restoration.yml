@@ -1,0 +1,48 @@
+name: Dependency cache restoration
+
+on:
+  pull_request:
+    paths:
+      - scripts/fetch_dependency_caches.sh
+      - scripts/lake_cache_curl.py
+      - tests/python/test_lake_cache_*.py
+      - tests/python/test_fetch_dependency_caches.py
+      - .github/workflows/cache-restoration.yml
+      - lean-toolchain
+  push:
+    branches: [main]
+    paths:
+      - scripts/fetch_dependency_caches.sh
+      - scripts/lake_cache_curl.py
+      - tests/python/test_lake_cache_*.py
+      - tests/python/test_fetch_dependency_caches.py
+      - .github/workflows/cache-restoration.yml
+      - lean-toolchain
+
+permissions:
+  contents: read
+
+jobs:
+  restore:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+
+      - name: Test atomic downloads and cache-only Lake restoration
+        env:
+          LEAN_EVAL_LAKE_CACHE_TEST: '1'
+        run: |
+          export ELAN_TOOLCHAIN="$(cat lean-toolchain)"
+          python -m unittest discover -v -s tests/python -p 'test_lake_cache_*.py'
+          python -m unittest discover -v -s tests/python -p test_fetch_dependency_caches.py

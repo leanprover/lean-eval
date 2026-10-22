@@ -392,6 +392,14 @@ In practice, solvers should normally work in `Submission.lean` and `Submission/`
 
 ## End-To-End Repo Checks
 
+`bash scripts/fetch_dependency_caches.sh --restore .` restores imported TauCeti
+modules without permitting compilation. Downloads have bounded retries and
+timeouts and use temporary files to keep interrupted transfers out of the
+artifact cache. Cache-only restoration is retried once; if it still fails, the
+script prints verbose diagnostics before stopping. Verify the pinned versions
+and published cache when outputs are missing. The exported cache settings keep
+the download wrapper active for subsequent trusted builds.
+
 For a local health pass over the repository:
 
 ```bash
