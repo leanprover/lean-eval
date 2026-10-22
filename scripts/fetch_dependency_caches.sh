@@ -13,8 +13,10 @@
 # artifacts they need.
 #
 # With --restore, the script also builds every TauCeti module that a `.lean` file of the project
-# imports, restoring the downloaded outputs into TauCeti's build directory, and fails if any
-# TauCeti module had to be compiled instead: a cache miss is an error, not a silent rebuild.
+# imports, restoring the downloaded outputs into TauCeti's build directory. --no-build prevents
+# compilation on a cache miss. Verbose diagnostics retain artifact errors; a curl wrapper adds
+# bounded retries and publishes downloads atomically so interrupted transfers cannot poison
+# later cache attempts.
 # Later builds then find those modules up to date even without the cache settings.
 #
 # Under GitHub Actions the two settings are appended to $GITHUB_ENV, for later steps. Otherwise,
@@ -36,6 +38,7 @@ if [ "${1:-}" = "--restore" ]; then
   shift
 fi
 PROJECT_DIR="$(cd "${1:?usage: fetch_dependency_caches.sh [--restore] <project-dir>}" && pwd)"
+CACHE_CURL="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lake_cache_curl.py"
 ARTIFACT_ENDPOINT="${TAUCETI_ARTIFACT_ENDPOINT:-https://cache.taucetiproject.org/artifacts}"
 REVISION_ENDPOINT="${TAUCETI_REVISION_ENDPOINT:-https://cache.taucetiproject.org/revisions}"
 
@@ -88,7 +91,7 @@ PY
 
 fetched=0
 for attempt in 1 2 3; do
-  if (cd "$PROJECT_DIR" && LAKE_CONFIG="$CONFIG" lake cache get --service tauceti-public \
+  if (cd "$PROJECT_DIR" && CURL="$CACHE_CURL" LAKE_CONFIG="$CONFIG" lake -v cache get --service tauceti-public \
         --repo TauCetiProject/TauCeti --package TauCeti --rev "$TAUCETI_REV" --mappings-only); then
     fetched=1
     break
@@ -123,18 +126,21 @@ PY
     echo "fetch_dependency_caches: restoring $count imported TauCeti module(s) and their dependencies"
     log="$(mktemp)"
     # shellcheck disable=SC2086 # one module name per word; names contain no whitespace
-    if ! (cd "$PROJECT_DIR" && LAKE_CONFIG="$CONFIG" LAKE_ARTIFACT_CACHE=true \
-          LAKE_RESTORE_ARTIFACTS=true lake build $modules) > "$log" 2>&1; then
-      tail -n 50 "$log"
-      echo "::error::fetch_dependency_caches: building TauCeti from its cache failed"
+    if ! (cd "$PROJECT_DIR" && CURL="$CACHE_CURL" LAKE_CONFIG="$CONFIG" LAKE_ARTIFACT_CACHE=true \
+          LAKE_RESTORE_ARTIFACTS=true lake -v --no-build build $modules) > "$log" 2>&1; then
+      cat "$log"
+      rm -f "$log"
+      echo "::error::fetch_dependency_caches: dependency cache restoration failed after bounded download retries; no compilation was permitted. Inspect the artifact diagnostics above, then retry on a fresh runner for retrieval failures or check the pins and published cache coverage."
       exit 1
     fi
     compiled="$(grep -cE 'Built TauCeti(\.|$| )' "$log" || true)"
     if [ "$compiled" != 0 ]; then
       grep -m 20 -E 'Built TauCeti(\.|$| )' "$log" || true
+      rm -f "$log"
       echo "::error::fetch_dependency_caches: $compiled TauCeti module(s) were compiled instead of downloaded; TauCeti's cache does not cover this pin"
       exit 1
     fi
+    rm -f "$log"
   fi
 fi
 
