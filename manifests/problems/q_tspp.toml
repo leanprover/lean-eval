@@ -1,0 +1,19 @@
+id = "q_tspp"
+title = "The q-TSPP theorem"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Combinatorics.QTSPP"
+holes = ["QTSPP.q_tspp"]
+submitter = "Timothy Y. Chow"
+
+source = "Koutschan, Kauers, and Zeilberger (2011), Theorem 1. DOI: 10.1073/pnas.1019186108"
+
+notes = """
+The orbit-counting formula for totally symmetric plane partitions,
+stated as an identity of integer polynomials after clearing denominators.
+Coordinates start at zero, and orbits are counted by their unique
+representatives with weakly increasing coordinates.
+"""

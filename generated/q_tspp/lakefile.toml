@@ -1,0 +1,33 @@
+name = "q_tspp"
+testDriver = "workspace_test"
+defaultTargets = ["Challenge", "Solution", "Submission"]
+allowNonModules = true
+
+[leanOptions]
+autoImplicit = false
+
+[[require]]
+name = "lean-pool"
+git = "https://github.com/Vilin97/lean-pool.git"
+rev = "e9d53e9cbcff8dfd0cc816ba94db7a26b082929f"
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "5e0c4e5239cb0a2d86d68a884bf52cfd963fce22"
+
+[[lean_lib]]
+name = "ChallengeDeps"
+
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_lib]]
+name = "Solution"
+
+[[lean_lib]]
+name = "Submission"
+
+[[lean_exe]]
+name = "workspace_test"
+root = "WorkspaceTest"

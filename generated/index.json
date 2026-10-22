@@ -3896,6 +3896,21 @@
     "generated_path": "generated/posSemidef_map_exp"
   },
   {
+    "id": "q_tspp",
+    "title": "The q-TSPP theorem",
+    "group": "formalization-evaluation",
+    "status": "draft",
+    "visible": true,
+    "statement_revision": 1,
+    "tags": [],
+    "submitter": "Timothy Y. Chow",
+    "module": "LeanEval.Combinatorics.QTSPP",
+    "holes": [
+      "QTSPP.q_tspp"
+    ],
+    "generated_path": "generated/q_tspp"
+  },
+  {
     "id": "rado_riemannSurface",
     "title": "Rad\u00f3's theorem on Riemann surfaces",
     "group": "formalization-evaluation",
