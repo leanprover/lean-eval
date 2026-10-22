@@ -10,6 +10,7 @@ from pathlib import Path
 import shutil
 import signal
 import subprocess
+import sys
 import time
 import importlib.util
 
@@ -205,6 +206,18 @@ def security(scratch: Path) -> None:
     compare("security-tool-shadow-direct", workspace, expected=0, env={"PATH": trusted_path()})
     print("tool shadows:", {name: (workspace / ".lake" / name).exists()
           for name in ["tool-shadow-planted", "tool-shadow-used"]}, flush=True)
+    wrapper = scratch / "bwrap-pin-export-path"
+    wrapper.write_text(f"#!{sys.executable}\nimport os, sys\n"
+        f"real = {str(BWRAP)!r}\ntrusted = {str(LEAN_BIN)!r}\n"
+        "args = sys.argv[1:]\ni = args.index('--')\n"
+        "if args[i + 1].endswith('/leanexport'):\n"
+        " for j in range(i - 2):\n"
+        "  if args[j:j + 2] == ['--setenv', 'PATH']: args[j + 2] = trusted\n"
+        "os.execv(real, [real, *args])\n")
+    wrapper.chmod(0o755)
+    workspace = fixture(scratch / "tool-shadow-fixed", submission=module.SUBMISSION)
+    compare("security-tool-shadow-export-path-fixed", workspace, expected=0,
+            env={"PATH": trusted_path(), "COMPARATOR_BWRAP": str(wrapper)})
     marker = scratch / "synthetic-host-marker"
     marker.write_text("probe-only")
     submission = '''import Lean
