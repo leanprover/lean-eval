@@ -20,12 +20,12 @@ rev = "e9d53e9cbcff8dfd0cc816ba94db7a26b082929f"
 [[require]]
 name = "TauCeti"
 git = "https://github.com/TauCetiProject/TauCeti"
-rev = "522706e83ca349c3d6bde045e56778d17354ae8d"
+rev = "6e0c6acab5f4c6f42e5f5bab9bd5e4e84f74c380"
 
 [[require]]
 name = "mathlib"
 git = "https://github.com/leanprover-community/mathlib4.git"
-rev = "5e0c4e5239cb0a2d86d68a884bf52cfd963fce22"
+rev = "b63f6e8a68d220e3b3bc4f3792bb53650d375f24"
 
 [[require]]
 name = "lean-eval-generator"
