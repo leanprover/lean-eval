@@ -89,6 +89,23 @@ class ValidateCatalogTest(unittest.TestCase):
         with temporary, self.assertRaisesRegex(VALIDATOR.CatalogError, "unregistered tags"):
             VALIDATOR.validate(root)
 
+    def test_probe_exempt_must_name_distinct_holes(self):
+        temporary, root = self.make_catalog(PROBLEM + 'probe_exempt = ["alpha"]\n')
+        with temporary:
+            self.assertEqual(VALIDATOR.validate(root), (1, 1, 0))
+
+        temporary, root = self.make_catalog(PROBLEM + 'probe_exempt = ["beta"]\n')
+        with temporary, self.assertRaisesRegex(VALIDATOR.CatalogError, "not in holes"):
+            VALIDATOR.validate(root)
+
+        temporary, root = self.make_catalog(PROBLEM + 'probe_exempt = ["alpha", "alpha"]\n')
+        with temporary, self.assertRaisesRegex(VALIDATOR.CatalogError, "duplicates"):
+            VALIDATOR.validate(root)
+
+        temporary, root = self.make_catalog(PROBLEM + 'probe_exempt = "alpha"\n')
+        with temporary, self.assertRaisesRegex(VALIDATOR.CatalogError, "must be an array"):
+            VALIDATOR.validate(root)
+
     def test_revision_history_requires_digest_and_current_revision(self):
         history = PROBLEM.replace("statement_revision = 1", "statement_revision = 2") + """
 

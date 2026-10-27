@@ -135,6 +135,27 @@ def _validate_revision_history(path: pathlib.Path, problem: Mapping[str, object]
     return revisions
 
 
+def _validate_probe_exempt(path: pathlib.Path, problem: Mapping[str, object]) -> None:
+    """Check `probe_exempt`, the holes `check-library-drift` may close.
+
+    Every entry must be a distinct hole of the same problem. A name that matches
+    nothing would exempt nothing, so it is rejected as a typo rather than ignored.
+    """
+    if "probe_exempt" not in problem:
+        return
+    holes = _array(problem.get("holes"), f"{path}: holes")
+    raw = _array(problem["probe_exempt"], f"{path}: probe_exempt")
+    seen: set[str] = set()
+    for index, name in enumerate(raw):
+        label = f"{path}: probe_exempt[{index}]"
+        hole = _string(name, label)
+        if hole not in holes:
+            raise CatalogError(f"{label} names {hole!r}, which is not in holes")
+        if hole in seen:
+            raise CatalogError(f"{path}: probe_exempt must not contain duplicates")
+        seen.add(hole)
+
+
 def load_problems(
     root: pathlib.Path, registry: Mapping[str, object]
 ) -> tuple[dict[str, Mapping[str, object]], dict[str, set[int]]]:
@@ -170,6 +191,7 @@ def load_problems(
         unknown = sorted(set(tags) - registry.keys())
         if unknown:
             raise CatalogError(f"{path}: unregistered tags: {', '.join(unknown)}")
+        _validate_probe_exempt(path, problem)
         _validate_status_history(path, problem)
         revisions[problem_id] = _validate_revision_history(path, problem)
         problems[problem_id] = problem
