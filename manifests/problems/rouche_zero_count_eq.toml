@@ -1,7 +1,7 @@
 id = "rouche_zero_count_eq"
 title = "Rouche theorem via zero counting"
 group = "formalization-evaluation"
-status = "archived"
+status = "active"
 visible = true
 statement_revision = 1
 tags = []
@@ -16,3 +16,8 @@ informal_solution = "Assuming f is meromorphic in normal form on ℂ and |g| < |
 status = "archived"
 effective_date = "2026-08-20"
 reason = "policy"
+
+[[status_history]]
+status = "active"
+effective_date = "2026-10-27"
+reason = "restoration"
