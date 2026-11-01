@@ -2,9 +2,6 @@ import Mathlib.Geometry.Manifold.Instances.Sphere
 import Mathlib.Geometry.Manifold.SmoothEmbedding
 import Mathlib.MeasureTheory.Measure.Haar.OfBasis
 import Mathlib.Probability.Distributions.Fernique
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Inscribed rectangles in a smooth Jordan curve attain at least

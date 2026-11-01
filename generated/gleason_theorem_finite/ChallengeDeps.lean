@@ -1,9 +1,6 @@
 import Mathlib.Analysis.InnerProductSpace.Positive
 import Mathlib.Analysis.InnerProductSpace.l2Space
 import Mathlib.LinearAlgebra.Trace
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 namespace LeanEval
 namespace Analysis

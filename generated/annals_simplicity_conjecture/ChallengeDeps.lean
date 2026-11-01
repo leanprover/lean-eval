@@ -1,9 +1,6 @@
 import Mathlib.Analysis.Normed.Lp.MeasurableSpace
 import Mathlib.Dynamics.FixedPoints.Support
 import Mathlib.MeasureTheory.Measure.Haar.OfBasis
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Proof of the simplicity conjecture

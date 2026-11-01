@@ -1,9 +1,6 @@
 import Mathlib.Analysis.VonNeumannAlgebra.Basic
 import Mathlib.Analysis.InnerProductSpace.WeakOperatorTopology
 import Mathlib.Topology.Algebra.Module.Spaces.PointwiseConvergenceCLM
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 theorem vonNeumann_doubleCommutant_tfae {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
     (S : StarSubalgebra ℂ (H →L[ℂ] H)) :

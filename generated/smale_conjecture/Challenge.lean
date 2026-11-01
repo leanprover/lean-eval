@@ -3,9 +3,6 @@ import Mathlib.Geometry.Manifold.Instances.Sphere
 import Mathlib.Geometry.Manifold.Instances.Real
 import Mathlib.Geometry.Manifold.IsManifold.InteriorBoundary
 import Mathlib.LinearAlgebra.UnitaryGroup
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 open scoped Manifold ContDiff
 open Metric (sphere)

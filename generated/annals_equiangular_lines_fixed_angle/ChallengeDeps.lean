@@ -1,9 +1,6 @@
 import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.Analysis.Normed.Algebra.Spectrum
 import Mathlib.Combinatorics.SimpleGraph.AdjMatrix
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Equiangular lines with a fixed angle

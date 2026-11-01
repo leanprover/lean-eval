@@ -1,7 +1,4 @@
 import Mathlib.Analysis.Fourier.LpSpace
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Fractal uncertainty in higher dimensions

@@ -2,9 +2,6 @@ import Mathlib.AlgebraicTopology.FundamentalGroupoid.FundamentalGroup
 import Mathlib.Analysis.Complex.Basic
 import Mathlib.Analysis.Complex.UpperHalfPlane.Manifold
 import Mathlib.Geometry.Manifold.Diffeomorph
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Uniformization theorem for Riemann surfaces

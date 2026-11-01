@@ -2,9 +2,6 @@ import Mathlib.LinearAlgebra.TensorPower.Basic
 import Mathlib.LinearAlgebra.PiTensorProduct.Basic
 import Mathlib.Algebra.Algebra.Subalgebra.Centralizer
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 namespace LeanEval
 namespace RepresentationTheory

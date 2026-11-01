@@ -4,9 +4,6 @@ import Mathlib.LinearAlgebra.CrossProduct
 import Mathlib.LinearAlgebra.Trace
 import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
 import Mathlib.Topology.MetricSpace.Holder
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Finite-time singularity formation for C^{1,α} solutions to

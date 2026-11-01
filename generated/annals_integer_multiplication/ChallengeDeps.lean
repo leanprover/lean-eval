@@ -1,8 +1,5 @@
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
 import Mathlib.Computability.TuringMachine.Computable
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Integer multiplication in time O(n log n)

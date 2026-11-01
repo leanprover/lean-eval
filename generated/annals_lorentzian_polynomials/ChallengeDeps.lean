@@ -3,9 +3,6 @@ import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
 import Mathlib.LinearAlgebra.Matrix.Charpoly.Basic
 import Mathlib.RingTheory.MvPolynomial.EulerIdentity
 import Mathlib.Topology.Algebra.Module.ModuleTopology
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Lorentzian polynomials

@@ -1,7 +1,4 @@
 import Mathlib.Analysis.SpecialFunctions.Log.Base
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Improved bounds for the sunflower lemma

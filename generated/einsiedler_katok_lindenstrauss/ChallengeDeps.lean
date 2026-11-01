@@ -1,7 +1,4 @@
 import Mathlib
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Smallness of exceptional set to Littlewood's conjecture

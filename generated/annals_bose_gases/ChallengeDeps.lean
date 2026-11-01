@@ -3,9 +3,6 @@ import Mathlib.Analysis.Normed.Lp.MeasurableSpace
 import Mathlib.MeasureTheory.Function.LocallyIntegrable
 import Mathlib.MeasureTheory.Integral.Bochner.Basic
 import Mathlib.MeasureTheory.Measure.Haar.OfBasis
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from The energy of dilute Bose gases

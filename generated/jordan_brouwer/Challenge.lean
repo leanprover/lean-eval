@@ -1,7 +1,4 @@
 import Mathlib
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 theorem jordan_brouwer (d : ℕ) (_hd : 2 ≤ d)
     (r : Metric.sphere (0 : EuclideanSpace ℝ (Fin d)) 1 → EuclideanSpace ℝ (Fin d))

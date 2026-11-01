@@ -1,8 +1,5 @@
 import Mathlib.Algebra.Field.ZMod
 import Mathlib.Combinatorics.Additive.CovBySMul
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from On a conjecture of Marton

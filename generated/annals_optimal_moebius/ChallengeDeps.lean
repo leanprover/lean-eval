@@ -1,8 +1,5 @@
 import Mathlib.Analysis.Calculus.ContDiff.Defs
 import Mathlib.Analysis.InnerProductSpace.PiL2
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from The optimal paper Moebius band

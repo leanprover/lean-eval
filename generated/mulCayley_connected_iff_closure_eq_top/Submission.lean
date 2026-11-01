@@ -1,9 +1,6 @@
 import Mathlib.Combinatorics.SimpleGraph.Cayley
 import Mathlib.Combinatorics.SimpleGraph.Connectivity.Connected
 import Mathlib.Algebra.Group.Subgroup.Lattice
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 import Submission.Helpers
 
 namespace Submission

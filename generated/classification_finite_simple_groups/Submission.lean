@@ -1,7 +1,4 @@
 import TauCeti.GroupTheory.SpecificGroups.CFSG.Classification
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 import Submission.Helpers
 
 namespace Submission

@@ -1,9 +1,6 @@
 import Mathlib.Order.Lattice.Nat
 import Mathlib.Data.Set.Card
 import Mathlib.Order.Filter.AtTopBot.Defs
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from A proof of the Erdős–Faber–Lovász conjecture

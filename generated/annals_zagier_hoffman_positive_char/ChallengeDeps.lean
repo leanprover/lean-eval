@@ -1,9 +1,6 @@
 import Mathlib.NumberTheory.FunctionField
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Topology.Algebra.InfiniteSum.Defs
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statements from On Zagier-Hoffman's conjectures in positive characteristic

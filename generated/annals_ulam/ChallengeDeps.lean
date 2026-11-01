@@ -2,9 +2,6 @@ import Mathlib.Analysis.Calculus.ContDiff.Defs
 import Mathlib.Analysis.Normed.Lp.MeasurableSpace
 import Mathlib.MeasureTheory.Integral.Average
 import Mathlib.MeasureTheory.Measure.Haar.OfBasis
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from A negative answer to Ulam's Problem 19 from the Scottish Book

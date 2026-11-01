@@ -1,9 +1,6 @@
 import Mathlib.Basic.Finite.Defs
 import Mathlib.GroupTheory.Commutator.Basic
 import Mathlib.GroupTheory.Subgroup.Simple
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 import Submission
 
 theorem ore_conjecture (G : Type*) [Group G] [Finite G] [IsSimpleGroup G]

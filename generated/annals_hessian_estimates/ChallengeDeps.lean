@@ -3,9 +3,6 @@ import Mathlib.Analysis.InnerProductSpace.Spectrum
 import Mathlib.Analysis.Normed.Lp.MeasurableSpace
 import Mathlib.MeasureTheory.Function.LpSeminorm.Defs
 import Mathlib.MeasureTheory.Measure.Haar.OfBasis
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Hessian estimates for the sigma-2 equation in dimension four

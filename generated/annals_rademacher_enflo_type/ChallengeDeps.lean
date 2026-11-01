@@ -1,9 +1,6 @@
 import Mathlib.Probability.ProductMeasure
 import Mathlib.Probability.Distributions.Bernoulli
 import Mathlib.MeasureTheory.Integral.Bochner.Basic
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Notation for AnnalsChallenge

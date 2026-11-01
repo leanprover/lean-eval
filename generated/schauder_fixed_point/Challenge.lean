@@ -1,7 +1,4 @@
 import Mathlib
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 theorem schauder_fixed_point {E : Type*}
     [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E]

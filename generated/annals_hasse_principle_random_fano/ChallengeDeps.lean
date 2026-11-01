@@ -1,9 +1,6 @@
 import Mathlib.LinearAlgebra.Projectivization.Basic
 import Mathlib.NumberTheory.NumberField.AdeleRing
 import Mathlib.RingTheory.MvPolynomial.Homogeneous
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from The Hasse principle for random Fano hypersurfaces

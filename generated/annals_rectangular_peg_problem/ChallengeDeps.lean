@@ -2,9 +2,6 @@ import Mathlib.Analysis.SpecialFunctions.Complex.Circle
 import Mathlib.Geometry.Manifold.Instances.Sphere
 import Mathlib.Geometry.Manifold.SmoothEmbedding
 import Mathlib.Topology.MetricSpace.Similarity
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from The rectangular peg problem

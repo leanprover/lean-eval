@@ -1,9 +1,6 @@
 import Mathlib.Algebra.Field.ZMod
 import Mathlib.Algebra.MonoidAlgebra.Defs
 import Mathlib.GroupTheory.PresentedGroup
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from A counterexample to the unit conjecture for group rings

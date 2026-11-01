@@ -1,6 +1,3 @@
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 The fixed calculus used by the CoC strong-normalization evaluation problem.
