@@ -1,7 +1,4 @@
 import Mathlib
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-
 Copyright (c) 2026 Christian Merten. All rights reserved.

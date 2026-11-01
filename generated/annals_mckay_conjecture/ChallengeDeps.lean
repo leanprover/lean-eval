@@ -1,9 +1,6 @@
 import Mathlib.Basic.Complex.Basic
 import Mathlib.GroupTheory.Sylow
 import Mathlib.RepresentationTheory.Character
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from The McKay Conjecture on character degrees

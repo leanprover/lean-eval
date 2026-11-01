@@ -1,8 +1,5 @@
 import Mathlib.FieldTheory.KrullTopology
 import Mathlib.NumberTheory.NumberField.Basic
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 theorem neukirch_uchida {K₁ K₂ K₁' K₂' : Type*} [Field K₁] [Field K₂] [Field K₁'] [Field K₂']
     [NumberField K₁] [NumberField K₂] [Algebra K₁ K₁'] [Algebra K₂ K₂'] [IsSepClosure K₁ K₁']

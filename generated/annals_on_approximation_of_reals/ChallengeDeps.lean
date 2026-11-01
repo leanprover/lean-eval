@@ -1,9 +1,6 @@
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
 import Mathlib.FieldTheory.Minpoly.Basic
 import Mathlib.RingTheory.Algebraic.Defs
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from On approximation to a real number by algebraic numbers of bounded degree

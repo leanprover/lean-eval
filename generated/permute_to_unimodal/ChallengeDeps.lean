@@ -1,6 +1,3 @@
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 namespace LeanEval
 namespace ProgramVerification

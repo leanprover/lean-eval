@@ -1,9 +1,6 @@
 import Mathlib.ModelTheory.Algebra.Ring.Basic
 import Mathlib.ModelTheory.Definability
 import Mathlib.NumberTheory.Height.NumberField
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Wilkie's conjecture for Pfaffian structures

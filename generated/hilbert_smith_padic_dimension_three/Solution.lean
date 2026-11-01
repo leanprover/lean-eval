@@ -3,9 +3,6 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.Geometry.Manifold.ChartedSpace
 import Mathlib.NumberTheory.Padics.PadicIntegers
 import Mathlib.Topology.Algebra.MulAction
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 import Submission
 
 theorem hilbert_smith_padic_dimension_three (p : ℕ) [Fact p.Prime]

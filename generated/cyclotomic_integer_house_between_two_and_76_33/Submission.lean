@@ -1,8 +1,5 @@
 import Mathlib.NumberTheory.NumberField.Cyclotomic.Basic
 import Mathlib.NumberTheory.NumberField.House
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 import Submission.Helpers
 
 open NumberField

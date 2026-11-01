@@ -2,9 +2,6 @@ import Mathlib.Algebra.Module.ZLattice.Basic
 import Mathlib.Analysis.InnerProductSpace.ExteriorPower
 import Mathlib.Geometry.Euclidean.Angle.Unoriented.Basic
 import Mathlib.LinearAlgebra.Projectivization.Basic
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Rational approximations to linear subspaces

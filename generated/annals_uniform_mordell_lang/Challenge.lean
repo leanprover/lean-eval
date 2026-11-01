@@ -1,7 +1,4 @@
 import Mathlib.AlgebraicGeometry.Group.Abelian
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-
 Copyright (c) 2026 Thomas Browning. All rights reserved.

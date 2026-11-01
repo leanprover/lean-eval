@@ -2,9 +2,6 @@ import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
 import Mathlib.NumberTheory.ArithmeticFunction.Liouville
 import Mathlib.NumberTheory.DirichletCharacter.Basic
 import Mathlib.NumberTheory.SmoothNumbers
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statements from Higher uniformity of bounded multiplicative functions in short intervals

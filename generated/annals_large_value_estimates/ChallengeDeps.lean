@@ -1,7 +1,4 @@
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from New large value estimates for Dirichlet polynomials

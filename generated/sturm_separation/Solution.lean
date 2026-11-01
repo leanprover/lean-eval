@@ -1,7 +1,4 @@
 import Mathlib.Analysis.Calculus.Deriv.Basic
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 import Submission
 
 theorem sturm_separation (p q y₁ y₂ : ℝ → ℝ) (a b : ℝ) (hab : a < b)

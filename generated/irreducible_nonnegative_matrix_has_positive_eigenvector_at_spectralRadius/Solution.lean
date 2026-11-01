@@ -1,9 +1,6 @@
 import Mathlib.Analysis.Normed.Algebra.Spectrum
 import Mathlib.LinearAlgebra.Eigenspace.Basic
 import Mathlib.LinearAlgebra.Matrix.Irreducible.Defs
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 import Submission
 
 open scoped NNReal

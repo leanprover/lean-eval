@@ -5,9 +5,6 @@ import Mathlib.Algebra.Lie.Semisimple.Defs
 import Mathlib.Basic.Complex.Basic
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.RingTheory.SimpleModule.Isotypic
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 namespace LeanEval
 namespace RepresentationTheory

@@ -2,9 +2,6 @@ import Mathlib.Algebra.Field.ZMod
 import Mathlib.InformationTheory.Hamming
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.Probability.ProbabilityMassFunction.Basic
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Good Locally Testable Codes

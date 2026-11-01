@@ -1,7 +1,4 @@
 import Mathlib
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 import Submission
 
 theorem jordan_brouwer (d : ℕ) (_hd : 2 ≤ d)

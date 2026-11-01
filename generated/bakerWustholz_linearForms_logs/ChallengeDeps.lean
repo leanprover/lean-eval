@@ -1,8 +1,5 @@
 import Mathlib.NumberTheory.Height.NumberField
 import Mathlib.Analysis.SpecialFunctions.Complex.Log
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # The Baker–Wüstholz theorem on linear forms in logarithms

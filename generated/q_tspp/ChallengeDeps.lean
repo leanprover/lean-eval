@@ -2,9 +2,6 @@ import Mathlib.Algebra.Polynomial.Basic
 import Mathlib.Data.Finset.Powerset
 import Mathlib.Data.Finset.Prod
 import Mathlib.Order.UpperLower.Basic
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # The q-TSPP theorem
