@@ -84,7 +84,8 @@ class SelectCIProblemsTest(unittest.TestCase):
 
     def test_toolchain_configuration_changes_compile_the_full_catalog(self):
         for path in ["supported-toolchains.json", "toolchains/v4.35.0/lake-manifest.json",
-                     "scripts/prepare_toolchain.py", "scripts/select_submission_toolchain.py"]:
+                     "scripts/prepare_toolchain.py", "scripts/select_submission_toolchain.py",
+                     "scripts/prepare_ci_dependencies.py"]:
             with self.subTest(path=path):
                 selection = self.select((Change("M", (path,)),))
                 self.assertEqual(selection.mode, "full")

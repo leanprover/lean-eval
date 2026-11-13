@@ -187,6 +187,7 @@ def is_full_catalog_sentinel(path: str) -> bool:
         or path == "manifests/tags.toml"
         or path == "scripts/select_ci_problems.py"
         or path == "scripts/prepare_toolchain.py"
+        or path == "scripts/prepare_ci_dependencies.py"
         or path == "scripts/select_submission_toolchain.py"
         or path == "supported-toolchains.json"
         or path.startswith("toolchains/")

@@ -121,6 +121,9 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - name: Prepare solution-only package metadata
+        run: python scripts/prepare_ci_dependencies.py
+
       # leanprover/lean-action pinned to 38fbc41a (= refs/tags/v1.5.0, also v1 HEAD as of 2026-05-04).
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
@@ -225,6 +228,9 @@ jobs:
       - name: Select benchmark configuration
         run: python scripts/prepare_toolchain.py "${{ matrix.configuration }}" --apply
 
+      - name: Prepare solution-only package metadata
+        run: python scripts/prepare_ci_dependencies.py
+
       # leanprover/lean-action pinned to 38fbc41a (= refs/tags/v1.5.0, also v1 HEAD as of 2026-05-04).
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
@@ -309,6 +315,9 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+
+      - name: Prepare solution-only package metadata
+        run: python scripts/prepare_ci_dependencies.py
 
       # leanprover/lean-action pinned to 38fbc41a (= refs/tags/v1.5.0, also v1 HEAD as of 2026-05-04).
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
@@ -442,6 +451,9 @@ jobs:
       - name: Select stable toolchain and dependency pins
         run: python scripts/prepare_toolchain.py stable --apply
 
+      - name: Prepare solution-only package metadata
+        run: python scripts/prepare_ci_dependencies.py
+
       # leanprover/lean-action pinned to 38fbc41a (= refs/tags/v1.5.0, also v1 HEAD as of 2026-05-04).
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
@@ -484,7 +496,7 @@ jobs:
     needs: [classify, catalog]
     if: needs.classify.outputs.run_catalog == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - name: Free up disk space
         # jlumbroso/free-disk-space pinned to 54081f13 (= refs/tags/v1.3.1, also main HEAD as of 2026-05-04).
@@ -503,6 +515,9 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
+
+      - name: Prepare solution-only package metadata
+        run: python scripts/prepare_ci_dependencies.py
 
       # leanprover/lean-action pinned to 38fbc41a (= refs/tags/v1.5.0, also v1 HEAD as of 2026-05-04).
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9

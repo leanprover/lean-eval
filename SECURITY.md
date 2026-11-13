@@ -137,6 +137,11 @@ The generator rejects Lean Pool, CFSG, and Stacks imports in trusted statements
 and helpers while making their pinned source available to solutions. Cache
 preparation parses submission headers without elaborating them and restores only
 registered library targets with `lake --no-build`. Maintain that separation.
+Benchmark CI checks out only package metadata for the solution-only CFSG and
+Stacks dependencies using `scripts/prepare_ci_dependencies.py`. Their real
+pinned Lake configuration and manifests remain available; the generator's
+statement-import prohibition remains enforced. Submission evaluation uses full
+source checkouts and never invokes this CI-only preparation helper.
 Historical replay locks and instrumentation are versioned independently; do not
 silently change their verifier or metric semantics.
 
