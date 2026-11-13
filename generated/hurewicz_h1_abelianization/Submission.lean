@@ -7,7 +7,7 @@ open CategoryTheory AlgebraicTopology
 namespace Submission
 
 theorem hurewicz_h1_abelianization (X : Type) [TopologicalSpace X] [PathConnectedSpace X] (x : X) :
-    Nonempty (Additive (Abelianization (FundamentalGroup X x)) ≃+
+    Nonempty (Additive ((FundamentalGroup X x) ⧸ commutator (FundamentalGroup X x)) ≃+
       (IntegralHomology 1 X : Type)) := by
   sorry
 
