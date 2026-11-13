@@ -1,0 +1,15 @@
+id = "wagner_kuratowski"
+title = "Wagner's and Kuratowski's theorems on planar graphs"
+group = "formalization-evaluation"
+status = "active"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.GraphTheory.EmbeddingAndMinor"
+holes = ["wagner_kuratowski"]
+submitter = "Junyan Xu"
+
+[[status_history]]
+status = "active"
+effective_date = "2026-09-13"
+reason = "policy"
