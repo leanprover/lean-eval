@@ -81,6 +81,12 @@ class SelectSubmissionToolchainTests(unittest.TestCase):
                  for path, content in files]
         self.assertEqual(MODULE.select(self.archive(files), self.root)[1], ["a"])
 
+    def test_an_implicit_and_explicit_default_are_the_same_configuration(self):
+        files = self.workspace() + self.workspace("a", "source/another-a")
+        files.append(("source/another-a/lean-toolchain", "leanprover/lean4:v4.36.0-rc2"))
+        self.assertEqual(MODULE.select(self.archive(files), self.root),
+                         ("leanprover/lean4:v4.36.0-rc2", ["a"]))
+
     def test_unsupported_pins_escaping_paths_symlinks_and_duplicates_fail_closed(self):
         cases = [self.workspace() + [("source/lean-toolchain", "leanprover/lean4:nightly")],
                  [("../lean-toolchain", "ignored")], self.workspace() + [("source/lean-toolchain", None)],

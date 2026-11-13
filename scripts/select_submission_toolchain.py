@@ -22,7 +22,8 @@ class ToolchainRequestError(ValueError):
     """Archived source cannot select an approved evaluation configuration."""
 
 
-def source_requests(archive: Path, root: Path, problem: str | None = None) -> dict[str, str | None]:
+def source_requests(archive: Path, root: Path, default: str,
+                    problem: str | None = None) -> dict[str, str | None]:
     known = {p.stem for p in (root / "manifests/problems").glob("*.toml")}
     if problem is not None:
         if problem not in known:
@@ -81,7 +82,9 @@ def source_requests(archive: Path, root: Path, problem: str | None = None) -> di
                           if parent in pins), None)
         if isinstance(requested, ValueError):
             raise requested
-        if name in result and result[name] != requested:
+        previous = result.get(name)
+        if name in result and (default if previous is None else previous) != (
+                default if requested is None else requested):
             raise ValueError(f"multiple toolchains requested for {name}")
         result[name] = requested
     return result
@@ -90,7 +93,7 @@ def source_requests(archive: Path, root: Path, problem: str | None = None) -> di
 def select(archive: Path, root: Path, problem: str | None = None) -> tuple[str, list[str]]:
     default, supported = configurations(root)
     try:
-        requests = source_requests(archive, root, problem)
+        requests = source_requests(archive, root, default, problem)
     except Exception as error:
         # TOML and archive readers can also raise RecursionError or resource
         # errors on malformed source. No source parser failure may block its
