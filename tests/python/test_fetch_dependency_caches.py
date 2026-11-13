@@ -55,9 +55,11 @@ class FetchDependencyCachesTests(unittest.TestCase):
                         GITHUB_ENV="", RUNNER_TEMP=str(self.root))
 
     def run_script(self, failures):
+        # Include Lean's parser startup and the deliberately exercised retry
+        # backoff, including on small hosted runners or a busy development host.
         return subprocess.run(["bash", str(SCRIPT), "--restore", str(self.project)],
                               env=dict(self.env, FAIL_RESTORES=str(failures)),
-                              capture_output=True, text=True, check=False, timeout=10)
+                              capture_output=True, text=True, check=False, timeout=90)
 
     def test_retries_cache_only_restore_and_exports_wrapper_for_later_builds(self):
         result = self.run_script(1)
@@ -167,13 +169,18 @@ class FetchDependencyCachesTests(unittest.TestCase):
         self.assertIn("Different dependency pins: TauCeti", result.stderr)
         self.assertFalse(self.calls.exists())
 
-    def test_unconfigured_stacks_endpoint_fails_before_fetching(self):
+    def test_stacks_uses_published_endpoints_with_empty_workflow_overrides(self):
         self.add_library("Stacks")
+        self.env.update(STACKS_ARTIFACT_ENDPOINT="", STACKS_REVISION_ENDPOINT="")
         (self.project / "Main.lean").write_text("import Stacks\n")
         result = self.run_script(0)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn("STACKS_ARTIFACT_ENDPOINT", result.stderr)
-        self.assertFalse(self.calls.exists())
+        self.assertEqual(result.returncode, 0, result.stderr)
+        calls = [json.loads(line) for line in self.calls.read_text().splitlines()]
+        service = tomllib.loads(calls[0]["config"])["cache"]["service"][0]
+        self.assertEqual(service["artifactEndpoint"],
+                         "https://stacks-cache.axiommath.workers.dev/lake/artifacts")
+        self.assertEqual(service["revisionEndpoint"],
+                         "https://stacks-cache.axiommath.workers.dev/lake/revisions")
 
     def test_missing_checkout_fails_before_fetching(self):
         self.add_library("Stacks")

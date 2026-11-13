@@ -228,12 +228,13 @@ pins. Unused libraries require no artifact downloads.
 
 LeanEval currently uses Lean **v4.36.0-rc2**. The public CFSG pin still uses
 v4.35.0-rc3, and the public Stacks pin uses v4.35.0. Their imports will fail the
-cache compatibility check until matching upstream builds are published. CFSG's
-published cache URLs are configured in the helper. Stacks' public README does not
-yet give cache URLs; set `STACKS_ARTIFACT_ENDPOINT` and `STACKS_REVISION_ENDPOINT`
-when preparing a compatible Stacks checkout. Endpoint overrides are also available
-as `CFSG_*` and `TAUCETI_*`. CI and the submission runner read the Stacks URLs
-from repository variables with those same names.
+cache compatibility check until matching upstream builds are published. The helper
+uses the published [CFSG cache](https://cfsg-downloads.axiommath.workers.dev/lake/lake-cache-get-fast.sh)
+and [Stacks cache](https://stacks-cache.axiommath.workers.dev/lake/lake-cache-get-fast.sh)
+endpoints by default. Set `STACKS_ARTIFACT_ENDPOINT` and `STACKS_REVISION_ENDPOINT`
+to override the Stacks endpoints; corresponding overrides are available as
+`CFSG_*` and `TAUCETI_*`. CI and the submission runner accept the Stacks overrides
+from repository variables with those same names; empty variables use the defaults.
 
 ### 5. Run comparator locally
 

@@ -32,9 +32,8 @@ LIBRARIES = (
             "https://cache.taucetiproject.org"),
     Library("cfsg", "AxiomMath/CFSG", ("CFSG", "CFSGWithCertificates", "Certificates", "Comparator"),
             "CFSG", "https://cfsg-downloads.axiommath.workers.dev/lake"),
-    # Supply STACKS_ARTIFACT_ENDPOINT and STACKS_REVISION_ENDPOINT until the
-    # publisher confirms its public URLs. Never guess a cache's provenance.
-    Library("Stacks", "AxiomMath/Stacks", ("Stacks", "StacksCore", "StacksFrontier"), "STACKS"),
+    Library("Stacks", "AxiomMath/Stacks", ("Stacks", "StacksCore", "StacksFrontier"),
+            "STACKS", "https://stacks-cache.axiommath.workers.dev/lake"),
 )
 
 
@@ -56,7 +55,7 @@ def imported_modules(project: Path) -> dict[str, list[str]]:
         source_list = Path(temporary) / "paths.json"
         source_list.write_text(json.dumps(paths), encoding="utf-8")
         result = subprocess.run(
-            ["lean", "--run", str(SCRIPTS / "dependency_imports.lean"), str(source_list)],
+            ["lean", "-j2", "--run", str(SCRIPTS / "dependency_imports.lean"), str(source_list)],
             cwd=project, text=True, capture_output=True, check=False,
         )
     if result.returncode:
@@ -147,10 +146,10 @@ def prepare(project: Path, restore: bool) -> dict[str, str]:
                 f"this project pins {toolchain}. Different dependency pins: {', '.join(mismatches) or 'none'}. "
                 "Pin the same toolchain and Mathlib (and other transitive dependencies) as the library "
                 "commit so its build cache applies.")
-        artifacts = os.environ.get(f"{library.prefix}_ARTIFACT_ENDPOINT",
-                                   f"{library.endpoint}/artifacts" if library.endpoint else "")
-        revisions = os.environ.get(f"{library.prefix}_REVISION_ENDPOINT",
-                                   f"{library.endpoint}/revisions" if library.endpoint else "")
+        artifacts = (os.environ.get(f"{library.prefix}_ARTIFACT_ENDPOINT") or
+                     (f"{library.endpoint}/artifacts" if library.endpoint else ""))
+        revisions = (os.environ.get(f"{library.prefix}_REVISION_ENDPOINT") or
+                     (f"{library.endpoint}/revisions" if library.endpoint else ""))
         if not artifacts or not revisions:
             raise RuntimeError(f"set {library.prefix}_ARTIFACT_ENDPOINT and "
                                f"{library.prefix}_REVISION_ENDPOINT to the publisher's public cache URLs")
