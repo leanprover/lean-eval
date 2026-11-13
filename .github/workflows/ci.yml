@@ -128,6 +128,10 @@ jobs:
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
           use-mathlib-cache: true
+          # Keep the CI-only sparse package checkouts intact. Published
+          # Mathlib and TauCeti caches supply artifacts without restoring a
+          # previous job's multi-gigabyte source/package tree over them.
+          use-github-cache: false
           # Nothing here needs the whole library built, and building it would
           # compile TauCeti; the catalog shards build problem modules from its
           # cache.
@@ -235,6 +239,10 @@ jobs:
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
           use-mathlib-cache: true
+          # Keep the CI-only sparse package checkouts intact. Published
+          # Mathlib and TauCeti caches supply artifacts without restoring a
+          # previous job's multi-gigabyte source/package tree over them.
+          use-github-cache: false
           # Nothing here needs the whole library built, and building it would
           # compile TauCeti; the catalog shards build problem modules from its
           # cache.
@@ -323,6 +331,10 @@ jobs:
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
           use-mathlib-cache: true
+          # Keep the CI-only sparse package checkouts intact. Published
+          # Mathlib and TauCeti caches supply artifacts without restoring a
+          # previous job's multi-gigabyte source/package tree over them.
+          use-github-cache: false
           build: false
           test: false
           lint: false
@@ -458,6 +470,10 @@ jobs:
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
           use-mathlib-cache: true
+          # Keep the CI-only sparse package checkouts intact. Published
+          # Mathlib and TauCeti caches supply artifacts without restoring a
+          # previous job's multi-gigabyte source/package tree over them.
+          use-github-cache: false
           build: false
           test: false
           lint: false
@@ -523,6 +539,10 @@ jobs:
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
           use-mathlib-cache: true
+          # Keep the CI-only sparse package checkouts intact. Published
+          # Mathlib and TauCeti caches supply artifacts without restoring a
+          # previous job's multi-gigabyte source/package tree over them.
+          use-github-cache: false
           build: false
           test: false
           lint: false
