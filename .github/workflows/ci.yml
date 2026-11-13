@@ -76,9 +76,9 @@ jobs:
       - name: Export Lean import graph
         run: |
           set -euo pipefail
-          mkdir -p .ci
-          lake build EvalTools.CIImportGraph
-          lake env lean --run EvalTools/CIImportGraph.lean > .ci/import-graph.json
+          mkdir -p .ci/EvalTools
+          lean -o .ci/EvalTools/ProblemSources.olean EvalTools/ProblemSources.lean
+          LEAN_PATH="$PWD/.ci" lean --run EvalTools/CIImportGraph.lean > .ci/import-graph.json
 
       - name: Select affected catalog problems
         id: changes
