@@ -10,6 +10,31 @@ tooling generates one comparator workspace per problem under `generated/`.
 A submission is scored entirely by comparator results: a problem counts as solved iff
 comparator accepts the submitted solution.
 
+LeanEval supports **Lean v4.35.0** and **Lean v4.36.0-rc2**. The latter is the
+default checkout. Each configuration in `supported-toolchains.json` pins its own
+Mathlib, TauCeti, and transitive dependencies. CI requires the shared problem
+statements to compile on both toolchains without unexpected warnings; it does
+not compare their elaborated meanings across dependency versions.
+
+To work on the stable configuration in an isolated directory:
+
+```bash
+python scripts/prepare_toolchain.py stable --destination /tmp/lean-eval-stable
+cd /tmp/lean-eval-stable
+lake exe cache get
+cache_env="$(bash scripts/fetch_dependency_caches.sh --restore .)" && eval "$cache_env"
+lake exe lean-eval generate --problem two_plus_two
+lake exe lean-eval start-problem two_plus_two
+```
+
+Use `rc` instead of `stable` for the default configuration. Existing build outputs
+are excluded from these copies. After selecting a configuration, regenerate each
+workspace you use so its pins and extracted statements match that configuration.
+The submission service reads the closest `lean-toolchain` at or above each
+submitted workspace and selects the corresponding approved configuration. Omit
+the file to use the default. Submit workspaces for different toolchains separately.
+Result verification receipts and archive sidecars record the selected toolchain and exact benchmark commit.
+
 The main user-facing entrypoint is:
 
 ```bash
@@ -206,11 +231,37 @@ Trusted files you should not edit in the normal solver workflow are:
 `Challenge.lean` contains the benchmark statement. `Solution.lean` is the fixed bridge
 that tells comparator to check your theorem from the `Submission` namespace.
 
-Solutions may import `LeanPool.*` modules from [Lean Pool](https://github.com/Vilin97/lean-pool)
-in `Submission.lean` or `Submission/` helpers. The pinned dependency is included in
-all generated workspaces via `solution-dependencies.json`. Problem statements and
-their local helpers may not import it; workspace generation rejects these imports.
-Comparator and nanoda checks apply as usual.
+Solutions may import modules from [Lean Pool](https://github.com/Vilin97/lean-pool),
+[CFSG](https://github.com/AxiomMath/CFSG), and
+[Stacks](https://github.com/AxiomMath/Stacks) in `Submission.lean` or `Submission/`
+helpers. These pinned dependencies are included in generated workspaces via
+`solution-dependencies.json`. Problem statements and their local helpers may not
+import them; workspace generation rejects these imports. Comparator and NanoDa
+checks apply as usual.
+
+After fetching the workspace dependencies, prepare the libraries it imports:
+
+```bash
+cache_env="$(bash /path/to/lean-eval/scripts/fetch_dependency_caches.sh --restore .)" && eval "$cache_env"
+```
+
+This parses Lean import headers, fetches each required library's revision mappings,
+and restores only the imported modules and their transitive dependencies. It uses
+`lake --no-build`, so missing artifacts fail rather than starting a large rebuild.
+Each library must match the workspace's Lean toolchain and all transitive dependency
+pins. Unused libraries require no artifact downloads.
+
+The public CFSG pin still uses v4.35.0-rc3. Stacks uses v4.35.0 with Mathlib
+`56a00585`, while LeanEval's stable configuration uses Mathlib `07406378` to
+match TauCeti's stable release. These library imports fail the cache compatibility
+check until matching dependency builds are published, including the Mathlib pin.
+Unused solution libraries do not prevent evaluation on either toolchain. The helper
+uses the published [CFSG cache](https://cfsg-downloads.axiommath.workers.dev/lake/lake-cache-get-fast.sh)
+and [Stacks cache](https://stacks-cache.axiommath.workers.dev/lake/lake-cache-get-fast.sh)
+endpoints by default. Set `STACKS_ARTIFACT_ENDPOINT` and `STACKS_REVISION_ENDPOINT`
+to override the Stacks endpoints; corresponding overrides are available as
+`CFSG_*` and `TAUCETI_*`. CI and the submission runner accept the Stacks overrides
+from repository variables with those same names; empty variables use the defaults.
 
 ### 5. Run comparator locally
 
@@ -352,8 +403,8 @@ In practice, solvers should normally work in `Submission.lean` and `Submission/`
 
 ## End-To-End Repo Checks
 
-`bash scripts/fetch_dependency_caches.sh --restore .` restores imported TauCeti
-modules without permitting compilation. Downloads have bounded retries and
+`bash scripts/fetch_dependency_caches.sh --restore .` restores imported TauCeti,
+CFSG, and Stacks modules without permitting compilation. Downloads have bounded retries and
 timeouts and use temporary files to keep interrupted transfers out of the
 artifact cache. Cache-only restoration is retried once; if it still fails, the
 script prints verbose diagnostics before stopping. Verify the pinned versions

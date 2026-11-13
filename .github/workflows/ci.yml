@@ -18,7 +18,7 @@ jobs:
   classify:
     name: Classify changes
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     outputs:
       source_changed: ${{ steps.changes.outputs.source_changed }}
       generated_changed: ${{ steps.changes.outputs.generated_changed }}
@@ -29,6 +29,19 @@ jobs:
       selected_modules: ${{ steps.changes.outputs.selected_modules }}
       matrix: ${{ steps.changes.outputs.matrix }}
     steps:
+      - name: Free up disk space
+        # jlumbroso/free-disk-space pinned to 54081f13 (= refs/tags/v1.3.1, also main HEAD as of 2026-05-04).
+        # Bump procedure: SECURITY.md > "Bumping pinned dependencies".
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
+        with:
+          tool-cache: false
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
+
       # actions/checkout pinned to 3d3c42e5 (= refs/tags/v7.0.1 as of 2026-07-30).
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -44,7 +57,10 @@ jobs:
       # a pin they reject breaks every server-dispatched evaluation while this
       # repository's CI stays green (v4.35.0-rc3, 2026-09-30 to 2026-10-07).
       - name: Check the pipeline accepts the pinned toolchain
-        run: python scripts/check_pipeline_toolchain_contract.py
+        run: |
+          python scripts/check_pipeline_toolchain_contract.py
+          python scripts/check_pipeline_toolchain_contract.py \
+            --toolchain-file toolchains/v4.35.0/lean-toolchain
 
       # Install the pinned Lean toolchain without building the project. The
       # dependency selector consumes a graph produced by Lean's header parser;
@@ -60,9 +76,9 @@ jobs:
       - name: Export Lean import graph
         run: |
           set -euo pipefail
-          mkdir -p .ci
-          lake build EvalTools.CIImportGraph
-          lake env lean --run EvalTools/CIImportGraph.lean > .ci/import-graph.json
+          mkdir -p .ci/EvalTools
+          lean -o .ci/EvalTools/ProblemSources.olean EvalTools/ProblemSources.lean
+          LEAN_PATH="$PWD/.ci" lean --run EvalTools/CIImportGraph.lean > .ci/import-graph.json
 
       - name: Select affected catalog problems
         id: changes
@@ -105,10 +121,17 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - name: Prepare solution-only package metadata
+        run: python scripts/prepare_ci_dependencies.py
+
       # leanprover/lean-action pinned to 38fbc41a (= refs/tags/v1.5.0, also v1 HEAD as of 2026-05-04).
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
           use-mathlib-cache: true
+          # Keep the CI-only sparse package checkouts intact. Published
+          # Mathlib and TauCeti caches supply artifacts without restoring a
+          # previous job's multi-gigabyte source/package tree over them.
+          use-github-cache: false
           # Nothing here needs the whole library built, and building it would
           # compile TauCeti; the catalog shards build problem modules from its
           # cache.
@@ -176,12 +199,16 @@ jobs:
       - name: Run Python unit tests
         run: python -m unittest discover -s tests/python -p 'test_*.py'
 
-  security:
-    name: Security and scoring smoke tests
+  security_toolchains:
+    name: Security and scoring smoke tests (${{ matrix.configuration }})
     needs: classify
     if: needs.classify.outputs.run_checks == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [rc, stable]
     steps:
       - name: Free up disk space
         # jlumbroso/free-disk-space pinned to 54081f13 (= refs/tags/v1.3.1, also main HEAD as of 2026-05-04).
@@ -202,10 +229,20 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - name: Select benchmark configuration
+        run: python scripts/prepare_toolchain.py "${{ matrix.configuration }}" --apply
+
+      - name: Prepare solution-only package metadata
+        run: python scripts/prepare_ci_dependencies.py
+
       # leanprover/lean-action pinned to 38fbc41a (= refs/tags/v1.5.0, also v1 HEAD as of 2026-05-04).
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
           use-mathlib-cache: true
+          # Keep the CI-only sparse package checkouts intact. Published
+          # Mathlib and TauCeti caches supply artifacts without restoring a
+          # previous job's multi-gigabyte source/package tree over them.
+          use-github-cache: false
           # Nothing here needs the whole library built, and building it would
           # compile TauCeti; the catalog shards build problem modules from its
           # cache.
@@ -245,6 +282,19 @@ jobs:
       - name: Run eval workflow smoke test
         run: lake exe lean-eval check-eval-workflow
 
+  security:
+    name: Security and scoring smoke tests
+    if: always()
+    needs: security_toolchains
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Require both toolchain sandbox and scoring checks
+        env:
+          RESULT: ${{ needs.security_toolchains.result }}
+        run: |
+          case "$RESULT" in success|skipped) ;; *) exit 1 ;; esac
+
   catalog:
     name: Catalog validation (shard ${{ matrix.shard }}/${{ matrix.shard_count }})
     needs: classify
@@ -274,17 +324,27 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - name: Prepare solution-only package metadata
+        run: python scripts/prepare_ci_dependencies.py
+
       # leanprover/lean-action pinned to 38fbc41a (= refs/tags/v1.5.0, also v1 HEAD as of 2026-05-04).
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
           use-mathlib-cache: true
+          # Keep the CI-only sparse package checkouts intact. Published
+          # Mathlib and TauCeti caches supply artifacts without restoring a
+          # previous job's multi-gigabyte source/package tree over them.
+          use-github-cache: false
           build: false
           test: false
           lint: false
 
-      - name: Fetch TauCeti's build cache
-        # Problem modules that import TauCeti download its published oleans
-        # instead of compiling it; see scripts/fetch_dependency_caches.sh.
+      - name: Fetch imported dependency build caches
+        env:
+          STACKS_ARTIFACT_ENDPOINT: ${{ vars.STACKS_ARTIFACT_ENDPOINT }}
+          STACKS_REVISION_ENDPOINT: ${{ vars.STACKS_REVISION_ENDPOINT }}
+        # Imported large libraries download their published oleans
+        # without compiling on a cache miss; see scripts/fetch_dependency_caches.sh.
         run: bash scripts/fetch_dependency_caches.sh --restore .
 
       - name: Clear cached problem-module artifacts
@@ -371,22 +431,118 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-  catalog_inventory:
-    name: Manifest inventory aggregate
-    needs: [classify, catalog]
+  stable_catalog:
+    name: Stable catalog compilation (shard ${{ matrix.shard }}/${{ matrix.shard_count }})
+    needs: classify
     if: needs.classify.outputs.run_catalog == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.classify.outputs.matrix) }}
     steps:
+      - name: Free up disk space
+        # jlumbroso/free-disk-space pinned to 54081f13 (= refs/tags/v1.3.1, also main HEAD as of 2026-05-04).
+        # Bump procedure: SECURITY.md > "Bumping pinned dependencies".
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
+        with:
+          tool-cache: false
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
+
       # actions/checkout pinned to 3d3c42e5 (= refs/tags/v7.0.1 as of 2026-07-30).
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          fetch-depth: 0
           persist-credentials: false
+
+      - name: Select stable toolchain and dependency pins
+        run: python scripts/prepare_toolchain.py stable --apply
+
+      - name: Prepare solution-only package metadata
+        run: python scripts/prepare_ci_dependencies.py
 
       # leanprover/lean-action pinned to 38fbc41a (= refs/tags/v1.5.0, also v1 HEAD as of 2026-05-04).
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
           use-mathlib-cache: true
+          # Keep the CI-only sparse package checkouts intact. Published
+          # Mathlib and TauCeti caches supply artifacts without restoring a
+          # previous job's multi-gigabyte source/package tree over them.
+          use-github-cache: false
+          build: false
+          test: false
+          lint: false
+
+      - name: Fetch imported dependency build caches
+        env:
+          STACKS_ARTIFACT_ENDPOINT: ${{ vars.STACKS_ARTIFACT_ENDPOINT }}
+          STACKS_REVISION_ENDPOINT: ${{ vars.STACKS_REVISION_ENDPOINT }}
+        # Imported large libraries download their published oleans
+        # without compiling on a cache miss; see scripts/fetch_dependency_caches.sh.
+        run: bash scripts/fetch_dependency_caches.sh --restore .
+
+      - name: Clear cached problem-module artifacts
+        run: |
+          set -euo pipefail
+          artifact_dir=.lake/build/lib/lean/LeanEval
+          if [ -d "$artifact_dir" ]; then
+            find "$artifact_dir" \( -type f -o -type l \) -delete
+          fi
+
+      - name: Build problem modules without warnings
+        env:
+          MODULES: ${{ matrix.modules }}
+          SHARD_INDEX: ${{ matrix.shard }}
+        run: |
+          set -euo pipefail
+          IFS=',' read -r -a modules <<< "$MODULES"
+          module_args=()
+          for module in "${modules[@]}"; do
+            module_args+=(--module "$module")
+          done
+          lake exe lean-eval check-problem-build "${module_args[@]}"
+
+  catalog_inventory:
+    name: Manifest inventory aggregate
+    needs: [classify, catalog]
+    if: needs.classify.outputs.run_catalog == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Free up disk space
+        # jlumbroso/free-disk-space pinned to 54081f13 (= refs/tags/v1.3.1, also main HEAD as of 2026-05-04).
+        # Bump procedure: SECURITY.md > "Bumping pinned dependencies".
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
+        with:
+          tool-cache: false
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
+
+      # actions/checkout pinned to 3d3c42e5 (= refs/tags/v7.0.1 as of 2026-07-30).
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Prepare solution-only package metadata
+        run: python scripts/prepare_ci_dependencies.py
+
+      # leanprover/lean-action pinned to 38fbc41a (= refs/tags/v1.5.0, also v1 HEAD as of 2026-05-04).
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          use-mathlib-cache: true
+          # Keep the CI-only sparse package checkouts intact. Published
+          # Mathlib and TauCeti caches supply artifacts without restoring a
+          # previous job's multi-gigabyte source/package tree over them.
+          use-github-cache: false
           build: false
           test: false
           lint: false
@@ -417,7 +573,7 @@ jobs:
   verify:
     name: verify
     if: always()
-    needs: [classify, checks, security, catalog, catalog_inventory]
+    needs: [classify, checks, security, catalog, stable_catalog, catalog_inventory]
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
@@ -427,11 +583,12 @@ jobs:
           CHECKS_RESULT: ${{ needs.checks.result }}
           SECURITY_RESULT: ${{ needs.security.result }}
           CATALOG_RESULT: ${{ needs.catalog.result }}
+          STABLE_CATALOG_RESULT: ${{ needs.stable_catalog.result }}
           CATALOG_INVENTORY_RESULT: ${{ needs.catalog_inventory.result }}
         run: |
           set -euo pipefail
           for result in "$CLASSIFY_RESULT" "$CHECKS_RESULT" \
-              "$SECURITY_RESULT" "$CATALOG_RESULT" \
+              "$SECURITY_RESULT" "$CATALOG_RESULT" "$STABLE_CATALOG_RESULT" \
               "$CATALOG_INVENTORY_RESULT"; do
             if [ "$result" != success ] && [ "$result" != skipped ]; then
               echo "A required CI branch ended with: $result" >&2

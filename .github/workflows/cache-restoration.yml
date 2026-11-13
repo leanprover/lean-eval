@@ -4,32 +4,50 @@ on:
   pull_request:
     paths:
       - scripts/fetch_dependency_caches.sh
+      - scripts/fetch_dependency_caches.py
+      - scripts/dependency_imports.lean
       - scripts/lake_cache_curl.py
       - tests/python/test_lake_cache_*.py
       - tests/python/test_fetch_dependency_caches.py
       - .github/workflows/cache-restoration.yml
       - lean-toolchain
+      - supported-toolchains.json
+      - toolchains/**
+      - scripts/prepare_toolchain.py
   push:
     branches: [main]
     paths:
       - scripts/fetch_dependency_caches.sh
+      - scripts/fetch_dependency_caches.py
+      - scripts/dependency_imports.lean
       - scripts/lake_cache_curl.py
       - tests/python/test_lake_cache_*.py
       - tests/python/test_fetch_dependency_caches.py
       - .github/workflows/cache-restoration.yml
       - lean-toolchain
+      - supported-toolchains.json
+      - toolchains/**
+      - scripts/prepare_toolchain.py
 
 permissions:
   contents: read
 
 jobs:
-  restore:
+  restore_toolchains:
+    name: restore (${{ matrix.configuration }})
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [rc, stable]
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
+
+      - name: Select benchmark configuration
+        run: python scripts/prepare_toolchain.py "${{ matrix.configuration }}" --apply
 
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
@@ -46,3 +64,14 @@ jobs:
           export ELAN_TOOLCHAIN="$(cat lean-toolchain)"
           python -m unittest discover -v -s tests/python -p 'test_lake_cache_*.py'
           python -m unittest discover -v -s tests/python -p test_fetch_dependency_caches.py
+
+  restore:
+    if: always()
+    needs: restore_toolchains
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Require both toolchain cache checks
+        env:
+          RESULT: ${{ needs.restore_toolchains.result }}
+        run: test "$RESULT" = success

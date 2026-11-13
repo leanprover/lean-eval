@@ -92,9 +92,12 @@ an empty environment. It preserves Lake's other arguments and settings.
 Mounts come from trusted root state, never submission input. Private local
 workspaces do not need this visibility adapter.
 
-Existing trusted root builds finish dependency setup before evaluation, including
-ProofWidgets metadata that cannot be updated in a read-only cache. Shared source
-and cached artifacts remain read-only during submission builds. The submissions
+Trusted root builds prepare dependencies before evaluation, including ProofWidgets
+metadata that cannot be updated in a read-only cache. After overlaying solver files,
+the submissions adapter can restore additional publisher artifacts selected by
+registered library imports and pinned cache mappings. It parses headers without
+elaborating solver code and permits no compilation during restoration. Shared
+source and cached artifacts remain read-only during submission builds. The submissions
 adapter gives Lean Pool its own writable build outputs in each workspace while
 sharing its pinned source read-only; one submission must never supply writable
 artifacts to another.
@@ -119,8 +122,26 @@ in both benchmark and submission installers. Review the actual sandbox behavior,
 not just the reported version. No standalone comparator/exporter/NanoDa build or
 Landrun pin is required by this benchmark.
 
-The generator rejects Lean Pool imports in trusted statements and helpers while
-making its pinned source available to solutions. Maintain that separation.
+`supported-toolchains.json` selects only benchmark-owned configurations under
+`toolchains/`. Keep the default configuration identical to the root Lake files.
+Each configuration has separate package checkouts and build outputs. Source
+`lean-toolchain` files request a configuration; they cannot authorize arbitrary
+toolchains, dependency pins, Lake code, or build commands. Selection reads the
+archived tar stream without extracting or executing submission code. The archive
+lane retains invalid requests; evaluation rejects them after archival. Regenerate
+selected pristine workspaces from trusted sources before overlaying solver files.
+CI checks compilation under both supported configurations, without asserting
+equivalence of their elaborated problem statements.
+
+The generator rejects Lean Pool, CFSG, and Stacks imports in trusted statements
+and helpers while making their pinned source available to solutions. Cache
+preparation parses submission headers without elaborating them and restores only
+registered library targets with `lake --no-build`. Maintain that separation.
+Benchmark CI checks out only package metadata for the solution-only CFSG and
+Stacks dependencies using `scripts/prepare_ci_dependencies.py`. Their real
+pinned Lake configuration and manifests remain available; the generator's
+statement-import prohibition remains enforced. Submission evaluation uses full
+source checkouts and never invokes this CI-only preparation helper.
 Historical replay locks and instrumentation are versioned independently; do not
 silently change their verifier or metric semantics.
 

@@ -1,0 +1,8 @@
+{
+  "default": "leanprover/lean4:v4.36.0-rc2",
+  "configurations": {
+    "leanprover/lean4:v4.36.0-rc2": "toolchains/v4.36.0-rc2",
+    "leanprover/lean4:v4.35.0": "toolchains/v4.35.0"
+  },
+  "stable": "leanprover/lean4:v4.35.0"
+}
