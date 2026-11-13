@@ -43,11 +43,11 @@ def vanishingSet {n : ℕ} (f : MvPolynomial (Fin (n + 1)) K) :
 
 /-- A chosen index `i : Fin (n+1)` with `p.rep i ≠ 0`. -/
 noncomputable def chartIndex {n : ℕ} (p : ProjSpace K n) : Fin (n + 1) :=
-  Classical.choose (Function.ne_iff.mp p.rep_ne_zero)
+  Classical.choose (Function.ne_iff.mp p.out.property)
 
 lemma chartIndex_rep_ne_zero {n : ℕ} (p : ProjSpace K n) :
     Projectivization.rep p (chartIndex p) ≠ 0 :=
-  Classical.choose_spec (Function.ne_iff.mp p.rep_ne_zero)
+  Classical.choose_spec (Function.ne_iff.mp p.out.property)
 
 /-- Affine cone coordinates of `p` on the chart `X_{chartIndex p} = 1`. -/
 noncomputable def affineConeCoord {n : ℕ} (p : ProjSpace K n) :

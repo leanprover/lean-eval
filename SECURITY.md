@@ -122,6 +122,17 @@ in both benchmark and submission installers. Review the actual sandbox behavior,
 not just the reported version. No standalone comparator/exporter/NanoDa build or
 Landrun pin is required by this benchmark.
 
+`supported-toolchains.json` selects only benchmark-owned configurations under
+`toolchains/`. Keep the default configuration identical to the root Lake files.
+Each configuration has separate package checkouts and build outputs. Source
+`lean-toolchain` files request a configuration; they cannot authorize arbitrary
+toolchains, dependency pins, Lake code, or build commands. Selection reads the
+archived tar stream without extracting or executing submission code. The archive
+lane retains invalid requests; evaluation rejects them after archival. Regenerate
+selected pristine workspaces from trusted sources before overlaying solver files.
+CI checks compilation under both supported configurations, without asserting
+equivalence of their elaborated problem statements.
+
 The generator rejects Lean Pool, CFSG, and Stacks imports in trusted statements
 and helpers while making their pinned source available to solutions. Cache
 preparation parses submission headers without elaborating them and restores only

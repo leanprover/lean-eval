@@ -82,6 +82,14 @@ class SelectCIProblemsTest(unittest.TestCase):
         self.assertEqual(selection.mode, "full")
         self.assertTrue(selection.source_changed)
 
+    def test_toolchain_configuration_changes_compile_the_full_catalog(self):
+        for path in ["supported-toolchains.json", "toolchains/v4.35.0/lake-manifest.json",
+                     "scripts/prepare_toolchain.py", "scripts/select_submission_toolchain.py"]:
+            with self.subTest(path=path):
+                selection = self.select((Change("M", (path,)),))
+                self.assertEqual(selection.mode, "full")
+                self.assertEqual(selection.problems, ("a", "b", "b_second", "c"))
+
     def test_tag_registry_change_is_a_full_catalog_sentinel(self):
         selection = self.select((Change("M", ("manifests/tags.toml",)),))
         self.assertEqual(selection.mode, "full")

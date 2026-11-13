@@ -10,6 +10,31 @@ tooling generates one comparator workspace per problem under `generated/`.
 A submission is scored entirely by comparator results: a problem counts as solved iff
 comparator accepts the submitted solution.
 
+LeanEval supports **Lean v4.35.0** and **Lean v4.36.0-rc2**. The latter is the
+default checkout. Each configuration in `supported-toolchains.json` pins its own
+Mathlib, TauCeti, and transitive dependencies. CI requires the shared problem
+statements to compile on both toolchains without unexpected warnings; it does
+not compare their elaborated meanings across dependency versions.
+
+To work on the stable configuration in an isolated directory:
+
+```bash
+python scripts/prepare_toolchain.py stable --destination /tmp/lean-eval-stable
+cd /tmp/lean-eval-stable
+lake exe cache get
+cache_env="$(bash scripts/fetch_dependency_caches.sh --restore .)" && eval "$cache_env"
+lake exe lean-eval generate --problem two_plus_two
+lake exe lean-eval start-problem two_plus_two
+```
+
+Use `rc` instead of `stable` for the default configuration. Existing build outputs
+are excluded from these copies. After selecting a configuration, regenerate each
+workspace you use so its pins and extracted statements match that configuration.
+The submission service reads the closest `lean-toolchain` at or above each
+submitted workspace and selects the corresponding approved configuration. Omit
+the file to use the default. Submit workspaces for different toolchains separately.
+Result verification receipts and archive sidecars record the selected toolchain and exact benchmark commit.
+
 The main user-facing entrypoint is:
 
 ```bash
@@ -226,9 +251,11 @@ and restores only the imported modules and their transitive dependencies. It use
 Each library must match the workspace's Lean toolchain and all transitive dependency
 pins. Unused libraries require no artifact downloads.
 
-LeanEval currently uses Lean **v4.36.0-rc2**. The public CFSG pin still uses
-v4.35.0-rc3, and the public Stacks pin uses v4.35.0. Their imports will fail the
-cache compatibility check until matching upstream builds are published. The helper
+The public CFSG pin still uses v4.35.0-rc3. Stacks uses v4.35.0 with Mathlib
+`56a00585`, while LeanEval's stable configuration uses Mathlib `07406378` to
+match TauCeti's stable release. These library imports fail the cache compatibility
+check until matching dependency builds are published, including the Mathlib pin.
+Unused solution libraries do not prevent evaluation on either toolchain. The helper
 uses the published [CFSG cache](https://cfsg-downloads.axiommath.workers.dev/lake/lake-cache-get-fast.sh)
 and [Stacks cache](https://stacks-cache.axiommath.workers.dev/lake/lake-cache-get-fast.sh)
 endpoints by default. Set `STACKS_ARTIFACT_ENDPOINT` and `STACKS_REVISION_ENDPOINT`
