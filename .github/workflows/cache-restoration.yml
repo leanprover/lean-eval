@@ -11,6 +11,8 @@ on:
       - tests/python/test_fetch_dependency_caches.py
       - .github/workflows/cache-restoration.yml
       - lean-toolchain
+      - lakefile.toml
+      - lake-manifest.json
       - supported-toolchains.json
       - toolchains/**
       - scripts/prepare_toolchain.py
@@ -25,6 +27,8 @@ on:
       - tests/python/test_fetch_dependency_caches.py
       - .github/workflows/cache-restoration.yml
       - lean-toolchain
+      - lakefile.toml
+      - lake-manifest.json
       - supported-toolchains.json
       - toolchains/**
       - scripts/prepare_toolchain.py
@@ -65,13 +69,70 @@ jobs:
           python -m unittest discover -v -s tests/python -p 'test_lake_cache_*.py'
           python -m unittest discover -v -s tests/python -p test_fetch_dependency_caches.py
 
+  # Evaluation restores dependencies with compilation disabled, so a single
+  # module missing from Mathlib's cache for a pinned revision fails every
+  # submission. Reject such pins here. Only Mathlib is cloned: materializing the
+  # benchmark workspace would also clone the large solution libraries.
+  mathlib_cache:
+    name: mathlib cache (${{ matrix.configuration }})
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [rc, stable]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Select benchmark configuration
+        run: python scripts/prepare_toolchain.py "${{ matrix.configuration }}" --apply
+
+      - name: Check out the pinned Mathlib
+        run: |
+          set -euo pipefail
+          rev="$(jq -r '.packages[] | select(.name == "mathlib") | .rev' lake-manifest.json)"
+          test -n "$rev"
+          git init -q "$RUNNER_TEMP/mathlib"
+          cd "$RUNNER_TEMP/mathlib"
+          git remote add origin https://github.com/leanprover-community/mathlib4.git
+          git fetch -q --depth=1 origin "$rev"
+          git checkout -q --detach FETCH_HEAD
+          # Mathlib's outputs are keyed by toolchain, so the configuration must use Mathlib's.
+          if [ "$(cat lean-toolchain)" != "$(cat "$GITHUB_WORKSPACE/lean-toolchain")" ]; then
+            echo "::error::Mathlib $rev pins $(cat lean-toolchain), but this configuration pins $(cat "$GITHUB_WORKSPACE/lean-toolchain")"
+            exit 1
+          fi
+
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          lake-package-directory: ${{ runner.temp }}/mathlib
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+
+      - name: Require Mathlib's cache to cover every module
+        working-directory: ${{ runner.temp }}/mathlib
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          if ! lake --no-build build Mathlib > "$RUNNER_TEMP/mathlib-no-build.log" 2>&1; then
+            grep -E '✖|error:' "$RUNNER_TEMP/mathlib-no-build.log" | head -40
+            echo "::error::Mathlib's cache for $(git rev-parse HEAD) lacks some modules. Evaluation never compiles dependencies, so it would fail every submission. Pin a Mathlib revision (and a matching TauCeti) whose cache is complete."
+            exit 1
+          fi
+
   restore:
     if: always()
-    needs: restore_toolchains
+    needs: [restore_toolchains, mathlib_cache]
     runs-on: ubuntu-24.04
     timeout-minutes: 2
     steps:
       - name: Require both toolchain cache checks
         env:
-          RESULT: ${{ needs.restore_toolchains.result }}
-        run: test "$RESULT" = success
+          RESTORE_RESULT: ${{ needs.restore_toolchains.result }}
+          MATHLIB_RESULT: ${{ needs.mathlib_cache.result }}
+        run: test "$RESTORE_RESULT" = success && test "$MATHLIB_RESULT" = success
