@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - scripts/fetch_dependency_caches.sh
+      - scripts/fetch_dependency_caches.py
+      - scripts/dependency_imports.lean
       - scripts/lake_cache_curl.py
       - tests/python/test_lake_cache_*.py
       - tests/python/test_fetch_dependency_caches.py
@@ -13,6 +15,8 @@ on:
     branches: [main]
     paths:
       - scripts/fetch_dependency_caches.sh
+      - scripts/fetch_dependency_caches.py
+      - scripts/dependency_imports.lean
       - scripts/lake_cache_curl.py
       - tests/python/test_lake_cache_*.py
       - tests/python/test_fetch_dependency_caches.py

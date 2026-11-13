@@ -25,8 +25,11 @@ class LakeCacheRestoreTests(unittest.TestCase):
             (root / "lakefile.toml").write_text(
                 'name = "cache-probe"\ndefaultTargets = ["CacheProbe"]\n'
                 '[[lean_lib]]\nname = "CacheProbe"\n'
+                '[[lean_lib]]\nname = "Precompiled"\nprecompileModules = true\n'
             )
-            (root / "CacheProbe.lean").write_text("def cacheProbe : Nat := 42\n")
+            (root / "Precompiled.lean").write_text("def precompiledValue : Nat := 41\n")
+            (root / "CacheProbe.lean").write_text(
+                "import Precompiled\ndef cacheProbe : Nat := precompiledValue + 1\n")
             (root / "UseCacheProbe.lean").write_text(
                 "import CacheProbe\nexample : cacheProbe = 42 := rfl\n"
             )
@@ -71,6 +74,10 @@ class LakeCacheRestoreTests(unittest.TestCase):
                 self.assertEqual(built.returncode, 0, built.stdout + built.stderr)
                 artifacts = cache / "artifacts"
                 self.assertTrue(list(artifacts.glob("*.olean")))
+                # CFSG uses precompiled libraries. Their linked native outputs
+                # must also restore without invoking a compiler or linker.
+                self.assertTrue(any(p.suffix in {".so", ".dylib", ".dll"}
+                                    for p in artifacts.iterdir()))
                 payloads.update({p.stem: p.read_bytes() for p in artifacts.iterdir()})
                 # Remote mappings imported by `lake cache get --mappings-only`
                 # bind their service and scope; locally produced mappings do not.
@@ -84,16 +91,17 @@ class LakeCacheRestoreTests(unittest.TestCase):
                 thread = threading.Thread(target=server.serve_forever, daemon=True)
                 thread.start()
                 try:
-                    failed = lake("-v", "--no-build", "build")
+                    failed = lake("-v", "--no-build", "build", "+CacheProbe")
                     self.assertNotEqual(failed.returncode, 0)
                     self.assertIn("curl", failed.stdout + failed.stderr)
                     self.assertTrue(requests)
                     self.assertFalse((root / ".lake/build/lib/lean/CacheProbe.olean").exists())
                     self.assertEqual(list(artifacts.iterdir()), [])
                     healthy = True
-                    restored = lake("-v", "--no-build", "build")
+                    restored = lake("-v", "--no-build", "build", "+CacheProbe")
                     self.assertEqual(restored.returncode, 0, restored.stdout + restored.stderr)
                     self.assertNotIn("Built CacheProbe", restored.stdout + restored.stderr)
+                    self.assertNotIn("Built Precompiled", restored.stdout + restored.stderr)
                     checked = lake("env", "lean", "UseCacheProbe.lean")
                     self.assertEqual(checked.returncode, 0, checked.stdout + checked.stderr)
                 finally:

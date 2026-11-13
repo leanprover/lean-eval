@@ -1,1 +1,27 @@
-[{"name": "lean-pool", "moduleRoots": ["LeanPool", "Challenge", "Solution"]}]
+[
+  {
+    "name": "lean-pool",
+    "moduleRoots": [
+      "LeanPool",
+      "Challenge",
+      "Solution"
+    ]
+  },
+  {
+    "name": "cfsg",
+    "moduleRoots": [
+      "CFSG",
+      "CFSGWithCertificates",
+      "Certificates",
+      "Comparator"
+    ]
+  },
+  {
+    "name": "Stacks",
+    "moduleRoots": [
+      "Stacks",
+      "StacksCore",
+      "StacksFrontier"
+    ]
+  }
+]

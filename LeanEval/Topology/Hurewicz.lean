@@ -25,7 +25,7 @@ abelianization of `π₁(X, x)`. -/
 @[eval_problem]
 theorem hurewicz_h1_abelianization
     (X : Type) [TopologicalSpace X] [PathConnectedSpace X] (x : X) :
-    Nonempty (Additive (Abelianization (FundamentalGroup X x)) ≃+
+    Nonempty (Additive (Group.Abelianization (FundamentalGroup X x)) ≃+
       (IntegralHomology 1 X : Type)) := by
   sorry
 

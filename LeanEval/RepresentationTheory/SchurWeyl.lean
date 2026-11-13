@@ -29,11 +29,11 @@ def symAction (R M : Type*) [CommSemiring R] [AddCommMonoid M] [Module R M] (k :
   map_one' := by
     ext x
     simp only [LinearEquiv.coe_coe, LinearMap.coe_compMultilinearMap, Function.comp_apply,
-      PiTensorProduct.reindex_tprod, Module.End.one_apply]
+      PiTensorProduct.reindex_tprod, one_apply_eq_self]
     rfl
   map_mul' σ τ := by
     ext x
-    simp only [Module.End.mul_apply, LinearEquiv.coe_coe, LinearMap.coe_compMultilinearMap,
+    simp only [mul_apply_eq_comp, LinearEquiv.coe_coe, LinearMap.coe_compMultilinearMap,
       Function.comp_apply, PiTensorProduct.reindex_tprod]
     rfl
 
