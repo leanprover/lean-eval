@@ -1,0 +1,25 @@
+id = "annals_monge_ampere_l_infinity"
+title = "L-infinity estimates for complex Monge–Ampère and fully non-linear equations on Kähler manifolds"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.Geometry.MongeAmpereLInfinity"
+holes = ["MongeAmpereLInfinity.theorem_1", "MongeAmpereLInfinity.theorem_1_rescaled", "MongeAmpereLInfinity.theorem_2", "MongeAmpereLInfinity.theorem_4", "MongeAmpereLInfinity.theorem_5", "MongeAmpereLInfinity.theorem_6"]
+supported_configurations = ["latest"]
+submitter = "Kim Morrison"
+source = "B. Guo, D. H. Phong and F. Tong, `On L^∞ estimates for complex Monge–Ampère equations`, Annals of Math, 198 (1) 2023, https://doi.org/10.4007/annals.2023.198.1.4 (arXiv:2106.02224). Theorems 1, 2, 4, 5 and 6, numbered as in the arXiv text."
+notes = """
+Stated against Tau Ceti. Theorem 1 appears twice: `theorem_1` as stated in the paper (right-hand side
+e^F with F normalised), and `theorem_1_rescaled` in the form its proof establishes (right-hand side
+c e^F with c^n bounded), which implies the first. The Gårding cones and σ_k are defined inline; they
+would be replaced by `hessianCone` from https://github.com/TauCetiProject/TauCeti/pull/43590. The
+eigenvalue vector λ[h_{t,φ}] of ω_t + i∂∂̄φ relative to ω_X is defined inline through a unitary
+diagonalising basis; it would be replaced by `LinearMap.IsSymm.relEigenvalues` from
+https://github.com/TauCetiProject/TauCeti/pull/43573. The structural conditions on (f, Γ) take f to
+be C¹ on an open cone Γ (the paper states no regularity) and do not assume f > 0. Constants are
+uniform over t ∈ (0, 1] and over all admissible pairs with the given γ. The Monge–Ampère and Hessian
+equations of Theorems 4 and 6 are written on eigenvalues, (ω_t + i∂∂̄φ)^n / ω_X^n = ∏ λ_j and
+(ω_t + i∂∂̄φ)^k ∧ ω_X^(n-k) / ω_X^n = σ_k(λ) / binom(n, k).
+"""
