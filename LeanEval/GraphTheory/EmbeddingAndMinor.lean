@@ -4,38 +4,19 @@ import EvalTools.Markers
 /-!
 ## Theorems in graph theory
 
-This file states four theorems about embedding of graphs in surfaces:
-the Ringel–Youngs theorem, the four color theorem, Wagner's theorem, and Kuratowski's theorem.
-
-It also defines the graph minor relation and state the Robertson–Seymour theorem.
+This file states the Ringel–Youngs and four color theorems about graph embeddings in surfaces.
+It also defines the graph minor relation and states the Robertson–Seymour theorem.
 -/
 
 namespace SimpleGraph
 
-section Sigma
+variable {V V' : Type*} (G : SimpleGraph V)
 
-variable {ι : Type*} {V : ι → Type*} (G : Π i, SimpleGraph (V i))
-
-/-- The binary relation underlying a disjoint union of simple graphs. -/
-inductive SigmaRel : (Σ i, V i) → (Σ i, V i) → Prop
-  | mk {i : ι} {v w : V i} (h : (G i).Adj v w) : SigmaRel (.mk i v) (.mk i w)
-
-/-- The disjoint union of simple graphs. -/
-def sigma : SimpleGraph (Σ i, V i) where
-  Adj := SigmaRel G
-  symm := ⟨fun _ _ ↦ by rintro ⟨⟩; tauto⟩
-  loopless := ⟨fun _ ↦ by rintro ⟨h⟩; exact (G _).loopless.1 _ h⟩
-
-end Sigma
-
-variable {V V' : Type*} (G : SimpleGraph V) (G' : SimpleGraph V')
-
-/-- The disjoint union of vertices and edges of a simple graph (every edge appears twice in
-opposite orientation). -/
+/-- The disjoint union of the vertices and one interval for each unoriented edge. -/
 abbrev VertexEdgeSpace : Type _ :=
   (Σ _ : V, Unit) ⊕ (Σ _ : G.edgeSet, unitInterval)
 
-/-- The relation identifying repeated edges and endpoints of edges with vertices. -/
+/-- The relation identifying endpoints of edge intervals with their vertices. -/
 inductive SpaceRel : G.VertexEdgeSpace → G.VertexEdgeSpace → Prop
   | fst e : SpaceRel (.inr ⟨e, 0⟩) (.inl ⟨e.1.out.1, ()⟩)
   | snd e : SpaceRel (.inr ⟨e, 1⟩) (.inl ⟨e.1.out.2, ()⟩)
@@ -59,25 +40,6 @@ def IsContraction (G' : SimpleGraph V') : Prop :=
 From https://github.com/leanprover-community/mathlib4/pull/36210. -/
 def IsMinor (G' : SimpleGraph V') : Prop :=
   ∃ K : Subgraph G', G.IsContraction K.coe
-
-variable {G} (n : G.edgeSet → ℕ)
-
-/-- To subdivide a simple graph, we assign a natural number nₑ to each edge `e` of the graph, and
-divide the edge `e` into a path of length `nₑ + 1` (`nₑ = 0` means that the edge is not subdivided,
-and the `nₑ = -1` case can be used to define contraction).
-The subdivided graph can be obtained by identifying vertices of the disjoint union of the original
-graph (with all edges removed) together with one path graph (on `Fin (nₑ + 2)`) for each edge `e`
-of the original graph. `SubdivideType n` is the vertex type of the disjoint union. -/
-def SubdivideType : Type _ := V ⊕ Σ e : G.edgeSet, Fin (n e + 2)
-
-/-- The relation to identify vertices of the disjoint union. -/
-inductive SubdivideRel : SubdivideType n → SubdivideType n → Prop
-  | fst e : SubdivideRel (.inr ⟨e, 0⟩) (.inl e.1.out.fst)
-  | snd e : SubdivideRel (.inr ⟨e, .last _⟩) (.inl e.1.out.snd)
-
-/-- The subdivided simple graph. -/
-def subdivide : SimpleGraph (Quot (SubdivideRel n)) :=
-  .map (Quot.mk _) <| .sum ⊥ <| .sigma fun _ ↦ .pathGraph _
 
 end SimpleGraph
 
@@ -123,7 +85,7 @@ noncomputable def iSupChromaticNumber (X : Type*) [TopologicalSpace X] : ℕ∞ 
   ⨆ G : Σ n : ℕ, {G : SimpleGraph (Fin n) // ∃ f : G.Space → X, Topology.IsEmbedding f},
     G.snd.1.chromaticNumber
 
-/-- The **Ringle–Youngs theorem** (1068, formerly **Heawood conjecture**), which determines the
+/-- The **Ringel–Youngs theorem** (1968, formerly **Heawood conjecture**), which determines the
 chromatic number of every closed surface (except the sphere, which is later work of Appel and Haken
 in 1976). Allowing surfaces with boundaries (e.g. replacing `OrientableRel g 0` by
 `OrientableRel g n`) should not change the chromatic number.
@@ -144,33 +106,6 @@ theorem ringel_youngs (g : ℕ+) :
 Rocq proof https://github.com/rocq-community/fourcolor. -/
 @[eval_problem]
 theorem four_color : iSupChromaticNumber (ℝ × ℝ) = 4 := by
-  sorry
-
-/-- The complete graph K₅. -/
-abbrev K5 : SimpleGraph (Fin 5) := .completeGraph _
-
-/-- The complete bipartite graph K_{3,3}. -/
-abbrev K33 : SimpleGraph (Fin 3 ⊕ Fin 3) := completeBipartiteGraph ..
-
-/--
-**Kuratowski's theorem**: a (finite simple) graph is planar iff it does not contain a subgraph
-that is a subdivision of K₅ or K_{3,3}.
-
-**Wagner's theorem**: a (finite simple) graph is planar iff it does not contain K₅ or K_{3,3}
-as a minor. Reference: Wagner, K. "Über eine Eigenschaft der ebenen Komplexe."
-Math. Ann. 114, 570-590, 1937.
-
-According to https://en.wikipedia.org/wiki/Kuratowski%27s_theorem, both theorems are equivalent.
-
-Finiteness of the vertex set can probably be relaxed to countability; uncountable sets do not
-embed discretely in an Euclidean space. -/
-@[eval_problem]
-theorem wagner_kuratowski {V : Type*} (G : SimpleGraph V) [Finite V] :
-    List.TFAE
-    [ ∃ f : G.Space → ℝ × ℝ, Topology.IsEmbedding f,
-      ¬ K5.IsMinor G ∧ ¬ K33.IsMinor G,
-      ∀ (S : G.Subgraph) (n5 : K5.edgeSet → ℕ) (n33 : K33.edgeSet → ℕ),
-        IsEmpty ((K5.subdivide n5).Iso S.coe) ∧ IsEmpty ((K33.subdivide n33).Iso S.coe) ] := by
   sorry
 
 /-- The type of finite simple graphs. -/
