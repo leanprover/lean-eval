@@ -1,9 +1,6 @@
 import Mathlib.Analysis.Normed.Lp.PiLp
 import Mathlib.Algebra.Polynomial.Degree.Defs
 import Mathlib.MeasureTheory.Function.LpSpace.Basic
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statements from Pointwise ergodic theorems for non-conventional bilinear polynomial averages

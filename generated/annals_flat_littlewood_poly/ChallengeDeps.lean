@@ -1,9 +1,6 @@
 import Mathlib.Algebra.Polynomial.Degree.Defs
 import Mathlib.Algebra.Polynomial.Eval.Defs
 import Mathlib.Analysis.Complex.Norm
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Flat Littlewood polynomials exist

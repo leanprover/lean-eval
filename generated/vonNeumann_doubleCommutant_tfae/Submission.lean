@@ -1,9 +1,6 @@
 import Mathlib.Analysis.VonNeumannAlgebra.Basic
 import Mathlib.Analysis.InnerProductSpace.WeakOperatorTopology
 import Mathlib.Topology.Algebra.Module.Spaces.PointwiseConvergenceCLM
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 import Submission.Helpers
 
 namespace Submission

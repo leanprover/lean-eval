@@ -569,12 +569,14 @@ Do not turn monitoring output into a permanent incident-history appendix.
 
 ## 12. Phase 6 — historical completion
 
-This overhaul's historical scope is the legacy accepted Results whose problem
-belongs to the frozen 128-problem v1 release set. The canonical v1 problem-set
-binding has SHA-256
+This overhaul's historical scope is every legacy accepted Result recorded
+before issue intake closes. The completed v1 baseline remains bound to the
+canonical v1 problem-set SHA-256
 `546706914389696b93653189ba870550e9853a4ac653664f482ba8d4d9eb9492`.
-Non-v1 historical Results remain available for later replay work but do not
-block this overhaul.
+The non-v1 queues are now part of completion under the same official-kernel and
+nanoda policy. Issue intake remains open until the announced cutoff, so the
+campaign has two finite parts: drain the current queues, then freeze and drain
+the append-only cutoff delta.
 
 The completed historical baseline contains 1,301 terminal in-scope records.
 At the 2026-09-13 reconciliation, 80 later legacy issue-intake records formed
@@ -622,18 +624,52 @@ frozen; keep it separate from the already terminal historical baseline.
 - [x] Delete the temporary controller, qualification, and resource-audit
       machinery after that resource proof succeeds.
 
-The remaining materialized public queue contains 145 non-v1 tasks. They are
-outside the frozen v1 scope and are deliberately deferred. No experimental
-checker or persistent qualification machinery may be added to this phase.
+The v1 baseline remains complete and immutable. Reopening replay for the
+non-v1 campaign does not reopen or rewrite any v1 terminal record.
 
-### 12.5 Retained future-replay boundary
+### 12.5 Non-v1 completion campaign
+
+The initial campaign snapshot is production State
+`1e52235612fec220be054bccb442325bcc9c9526`, whose 4,420-event source digest is
+`20284ac890fa03b7a36e0491c8202d513562dcee656790ce83c02603788c9a57`.
+It materializes 145 public tasks (144 queued and one retryable failure) and 562
+queued private tasks. All 562 private tasks already use schema-version-3
+envelopes; the largest plaintext archive is below 7 MB, so no archive transport
+expansion is required. The tasks use 90 already reviewed execution profiles
+across five historical Lean toolchains.
+
+- [ ] Amend and merge the completion-plan scope before enabling replay.
+- [ ] Restore only the finite public controller and four finite private lanes
+      needed to drain the preserved queues; keep all controller gates dark by
+      default.
+- [ ] Revalidate the retained execution profiles, exact State/Audit bindings,
+      OIDC and unwrap scope, network isolation, bounded retries, and terminal
+      State writer before enabling the campaign.
+- [ ] Drain the 145 public tasks through the official Lean path and nanoda,
+      recording a terminal outcome or reviewed unavailability for each.
+- [ ] Drain the 562 private tasks through the same checker path without
+      retaining plaintext source, keys, credentials, or task-scoped resources.
+- [ ] At the issue-intake cutoff, freeze the final Results/State delta and
+      classify every additional legacy accepted Result.
+- [ ] Migrate any recoverable private archive in that final delta to a
+      per-submission envelope without changing archive bytes or stable IDs.
+- [ ] Drain the final public and private delta and prove both planners empty,
+      production State valid, and no historical replay running.
+- [ ] Disable the replay gates and delete the temporary controller, runner,
+      qualification, and resource-audit machinery and all task-scoped cloud
+      resources.
+
+No experimental checker, persistent qualification service, or replay of
+ordinary server-intake submissions is part of this campaign.
+
+### 12.6 Retained future-replay boundary
 
 - [x] Keep schema-version-3 archives, canonical migration inputs, and the
       ordinary v1/v2 unwrap and replay path.
 - [x] Keep the legacy identity absent from GitHub and remove transient identity
       and plaintext scratch material.
 - [x] Leave the dedicated Encrypt-only migration role and protected environment
-      dormant for a possible later non-v1 migration; neither has replay,
+      dormant except for a bounded final-delta migration; neither has replay,
       production intake, release, or State-write authority.
 - [x] Keep the offline legacy identity under custodian control. Its eventual
       destruction is an explicit future custodian decision, not part of this
@@ -670,7 +706,8 @@ checker or persistent qualification machinery may be added to this phase.
 - [ ] Confirm at least two weeks of closure notice.
 - [ ] Confirm no unresolved severity-high incident.
 - [ ] Confirm adequate adoption and stable end-to-end operation.
-- [x] Confirm the frozen v1 historical scope has terminal dispositions.
+- [ ] Confirm every legacy accepted Result through the issue-intake cutoff has
+      a terminal replay or reviewed-unavailable disposition.
 - [ ] Freeze issue intake at the announced cutoff. Keep the public issue form
       frozen but present until the retirement packet passes.
 - [ ] Complete the issue-retirement readiness packet because this removes the
@@ -715,6 +752,6 @@ Update this table in place; do not append a history beneath it.
 | Production launch readiness | Complete | — |
 | 4. Launch | Complete; clean-break intake v2 and updated public guidance are live, and the bounded production submission reached an accepted result | — |
 | 5. Four-week overlap | In progress; automatic publication, durable server intake, and server-primary entry live; calendar-bound; future cutoff variable installed | Keep issue intake open through at least `2026-09-30T06:57:10Z`; the conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
-| 6. Historical completion | Complete: v1 public and private queues are terminal; no replay or task-scoped private resource remains; temporary controllers and qualification machinery are removed | — |
+| 6. Historical completion | In progress: v1 is terminal; the finite non-v1 campaign has been added to scope | Drain 145 public and 562 private tasks, then freeze and drain the final issue-intake delta before removing temporary machinery again |
 | 7. Remaining product completion | In progress | Open problems and editorial work are complete; final live release/replay presentation and issue closure retain their calendar, stability, adoption, and readiness gates |
 | Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |

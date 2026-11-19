@@ -1,7 +1,4 @@
 import Mathlib.NumberTheory.LSeries.DirichletContinuation
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from The Weyl bound for Dirichlet L-functions of cube-free conductor

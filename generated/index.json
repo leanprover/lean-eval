@@ -1435,6 +1435,21 @@
     "generated_path": "generated/ckmrv_fourier_interpolation"
   },
   {
+    "id": "classification_finite_simple_groups",
+    "title": "The classification of finite simple groups",
+    "group": "formalization-evaluation",
+    "status": "active",
+    "visible": true,
+    "statement_revision": 1,
+    "tags": [],
+    "submitter": "Kim Morrison",
+    "module": "LeanEval.GroupTheory.ClassificationFiniteSimpleGroups",
+    "holes": [
+      "classification_finite_simple_groups"
+    ],
+    "generated_path": "generated/classification_finite_simple_groups"
+  },
+  {
     "id": "coc_strong_normalization",
     "title": "Strong normalization and consistency for the calculus of constructions with a universe hierarchy",
     "group": "software-verification",
@@ -1672,7 +1687,7 @@
     "group": "formalization-evaluation",
     "status": "active",
     "visible": true,
-    "statement_revision": 1,
+    "statement_revision": 2,
     "tags": [],
     "submitter": "Dagur Asgeirsson",
     "module": "LeanEval.CondensedMathematics.DerivedSolidCWHomology",
@@ -3879,6 +3894,21 @@
       "posSemidef_map_exp"
     ],
     "generated_path": "generated/posSemidef_map_exp"
+  },
+  {
+    "id": "q_tspp",
+    "title": "The q-TSPP theorem",
+    "group": "formalization-evaluation",
+    "status": "draft",
+    "visible": true,
+    "statement_revision": 1,
+    "tags": [],
+    "submitter": "Timothy Y. Chow",
+    "module": "LeanEval.Combinatorics.QTSPP",
+    "holes": [
+      "QTSPP.q_tspp"
+    ],
+    "generated_path": "generated/q_tspp"
   },
   {
     "id": "rado_riemannSurface",

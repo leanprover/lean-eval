@@ -1,0 +1,12 @@
+{
+  "id": "classification_finite_simple_groups",
+  "module": "LeanEval.GroupTheory.ClassificationFiniteSimpleGroups",
+  "holes": [
+    {
+      "name": "LeanEval.GroupTheory.classification_finite_simple_groups",
+      "basename": "classification_finite_simple_groups",
+      "kind": "theorem",
+      "body": "/-- **The classification of finite simple groups.** -/\ntheorem classification_finite_simple_groups\n    (G : Type) [Group G] [Finite G] [IsSimpleGroup G] :\n    \u2203 i : TauCeti.CFSGIndex, Nonempty (G \u2243* i.Group) := by\n  sorry"
+    }
+  ]
+}

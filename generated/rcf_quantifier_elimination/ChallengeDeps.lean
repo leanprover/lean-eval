@@ -1,7 +1,4 @@
 import Mathlib.Analysis.Real.Sqrt
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Quantifier elimination for real closed fields

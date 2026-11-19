@@ -1,8 +1,5 @@
 import Mathlib.Analysis.Asymptotics.Defs
 import Mathlib.FieldTheory.PolynomialGaloisGroup
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Galois groups of random integer polynomials and van der Waerden's Conjecture

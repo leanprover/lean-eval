@@ -1,9 +1,6 @@
 import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.Analysis.Calculus.ContDiff.Basic
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 namespace LeanEval
 namespace KnotTheory

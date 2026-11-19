@@ -1,7 +1,4 @@
 import Mathlib
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 namespace LeanEval.LinearAlgebra.TraceNewton
 
@@ -30,7 +27,7 @@ stated uniformly for all positive `k`. -/
 noncomputable def charpolyDescendingCoeff {R : Type*} [CommRing R]
     (A : Matrix n n R) (k : ℕ) : R :=
   if k ≤ Fintype.card n then
-    Polynomial.coeff A.charpoly (Fintype.card n - k)
+    A.charpoly.coeff (Fintype.card n - k)
   else
     0
 
