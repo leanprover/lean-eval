@@ -2,6 +2,7 @@ import Cli
 import EvalTools.CheckComparatorInstallation
 import EvalTools.CheckEvalWorkflow
 import EvalTools.CheckGeneratedBuilds
+import EvalTools.CheckLibraryDrift
 import EvalTools.CheckProblemBuild
 import EvalTools.Generate
 import EvalTools.Markers
@@ -39,6 +40,10 @@ def runValidateManifestCmd (p : Parsed) : IO UInt32 := do
 def runCheckProblemBuildCmd (p : Parsed) : IO UInt32 := do
   let root ← requireRepoRoot
   EvalTools.runCheckProblemBuild root (requestedModules p)
+
+def runCheckLibraryDriftCmd (p : Parsed) : IO UInt32 := do
+  let root ← requireRepoRoot
+  EvalTools.runCheckLibraryDrift root (requestedModules p)
 
 def runProblemInventoryCmd (p : Parsed) : IO UInt32 := do
   let output : String := p.positionalArg! "output" |>.as! String
@@ -166,6 +171,14 @@ def checkProblemBuildCmd : Cmd := `[Cli|
     module : Array String; "Restrict the warning-sensitive build to these manifest modules."
 ]
 
+def checkLibraryDriftCmd : Cmd := `[Cli|
+  "check-library-drift" VIA runCheckLibraryDriftCmd;
+  "Probe every Prop-valued `@[eval_problem]` hole with a fixed tactic battery and fail if one not listed in `probe_exempt` closes at the pinned toolchain."
+
+  FLAGS:
+    module : Array String; "Restrict the probe to these manifest modules."
+]
+
 def problemInventoryCmd : Cmd := `[Cli|
   "problem-inventory" VIA runProblemInventoryCmd;
   "Write tagged-declaration inventory JSON for already-built problem modules."
@@ -248,6 +261,7 @@ def leanEvalCmd : Cmd := `[Cli|
   SUBCOMMANDS:
     validateManifestCmd;
     checkProblemBuildCmd;
+    checkLibraryDriftCmd;
     problemInventoryCmd;
     generateCmd;
     validateGeneratedCatalogCmd;

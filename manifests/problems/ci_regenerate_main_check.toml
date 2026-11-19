@@ -7,6 +7,7 @@ statement_revision = 1
 tags = []
 module = "LeanEval.EasyProblems"
 holes = ["ci_regenerate_main_check"]
+probe_exempt = ["ci_regenerate_main_check"]
 submitter = "Kim Morrison"
 notes = "Internal trivial problem used to exercise the regenerate-main workflow end-to-end."
 source = "Internal CI check."

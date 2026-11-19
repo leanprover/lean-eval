@@ -15,6 +15,10 @@ python scripts/validate_catalog.py
 - `visible` controls public catalog presentation independently of lifecycle.
 - `statement_revision` is a positive integer and never decreases.
 - `tags` contains unique keys registered in `manifests/tags.toml`.
+- `probe_exempt` (optional) lists holes that `lake exe lean-eval
+  check-library-drift` may close without failing: anti-vacuity guards and the
+  hidden test problems. Every name must also appear in `holes`. Any other hole
+  the probe closes at the pinned toolchain is treated as library drift.
 
 The initial metadata migration establishes revision 1 and draft status without
 history rows. A later status transition appends a `[[status_history]]` table:
