@@ -66,10 +66,11 @@ theorem keevash_large_set (q r : ℕ+) (hrq : r ≤ q) :
         ↑p ⊆ Set.range fun d : Design (Fin n) q r lam ↦ d.blocks := by
   sorry
 
-/-- Existence of a complete resolution of Kₙ^q. Theorem 1.3 in *The existence of designs II*. -/
+/-- Existence of a complete resolution of Kₙ^q. The divisibility condition is
+`n = q` modulo `lcm(1, ..., q)`, as in Theorem 1.3 of *The existence of designs II*. -/
 @[eval_problem]
 theorem keevash_complete_resolution (q : ℕ+) :
-    ∃ N : ℕ, ∀ n > N, (∀ i ≤ q, (i : ℕ) ∣ (n - q)) →
+    ∃ N : ℕ, ∀ n > N, (∀ i ∈ Finset.Icc 1 (q : ℕ), i ∣ (n - q)) →
       ∃ s : Π i : Fin q, Set (Design (Fin n) q (i + 1) 1),
         (s (.rev 0)).encard = 1 ∧ ∀ i j : Fin q, i ≤ j →
           ∀ d ∈ s j, ∃ p : Partition d.blocks, ↑p ⊆ Design.blocks '' s i := by
