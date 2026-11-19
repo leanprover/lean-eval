@@ -1,8 +1,5 @@
 import Mathlib.Probability.HasLaw
 import Mathlib.Probability.Distributions.Bernoulli
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statements from Singularity of random Bernoulli matrices

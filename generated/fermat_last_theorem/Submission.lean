@@ -1,7 +1,4 @@
 import Mathlib.NumberTheory.FLT.Basic
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 import Submission.Helpers
 
 namespace Submission

@@ -4,8 +4,8 @@
 Pull requests validate changed problem modules and every manifest root that
 imports them, transitively. Lean itself parses module headers and provides the
 dependency graph consumed here. Changes to shared generator/infrastructure
-inputs are conservative full-catalog sentinels. Pushes validate the full
-catalog.
+inputs are conservative full-catalog sentinels. Relevant pushes validate the
+full catalog; documentation-only pushes do not launch catalog shards.
 """
 
 from __future__ import annotations
@@ -137,9 +137,21 @@ def parse_git_changes(output: bytes) -> tuple[Change, ...]:
     return tuple(changes)
 
 
-def git_changes(root: pathlib.Path, base: str, head: str) -> tuple[Change, ...]:
+def git_changes(root: pathlib.Path, base: str, head: str, event: str) -> tuple[Change, ...]:
     if base == ZERO_SHA:
         return (Change("A", ("<initial-push>",)),)
+    if event == "pull_request":
+        # The base branch may have advanced after the contributor branched.
+        # Comparing its tip directly to the PR head treats base-only changes
+        # as reversions by the PR, triggering unrelated catalog checks.
+        ancestor = subprocess.run(
+            ["git", "merge-base", base, head],
+            cwd=root,
+            check=True,
+            stdout=subprocess.PIPE,
+            text=True,
+        )
+        base = ancestor.stdout.strip()
     result = subprocess.run(
         ["git", "diff", "--name-status", "-z", "--find-renames", f"{base}..{head}"],
         cwd=root,
@@ -174,7 +186,13 @@ def is_full_catalog_sentinel(path: str) -> bool:
         or path == ".github/workflows/ci.yml"
         or path == "manifests/tags.toml"
         or path == "scripts/select_ci_problems.py"
-        or path in {"lakefile.toml", "lake-manifest.json", "lean-toolchain"}
+        or path == "scripts/prepare_toolchain.py"
+        or path == "scripts/prepare_ci_dependencies.py"
+        or path == "scripts/select_submission_toolchain.py"
+        or path == "scripts/problem_configurations.py"
+        or path == "supported-toolchains.json"
+        or path.startswith("toolchains/")
+        or path in {"lakefile.toml", "lake-manifest.json", "lean-toolchain", "solution-dependencies.json"}
     )
 
 
@@ -193,8 +211,9 @@ def select(
 
     changed_paths = [path for change in changes for path in change.paths]
     source_changed = any(
-        path.startswith(("LeanEval/", "EvalTools/", "templates/", "manifests/"))
-        or path in {"lakefile.toml", "lake-manifest.json", "lean-toolchain"}
+        path.startswith(("LeanEval/", "EvalTools/", "templates/", "manifests/", "toolchains/"))
+        or path in {"supported-toolchains.json", "scripts/prepare_toolchain.py"}
+        or path in {"lakefile.toml", "lake-manifest.json", "lean-toolchain", "solution-dependencies.json"}
         for path in changed_paths
     )
     generated_changed = any(path.startswith("generated/") for path in changed_paths)
@@ -206,9 +225,16 @@ def select(
 
     all_ids = tuple(sorted(by_id))
     all_modules = tuple(sorted(by_module))
-    if event == "push":
+    initial_push = "<initial-push>" in changed_paths
+    documentation_only = bool(changed_paths) and all(
+        path.startswith("docs/")
+        or ("/" not in path and path.endswith(".md"))
+        for path in changed_paths
+    )
+    if event == "push" and not documentation_only:
         return Selection(
-            "full", ("push to main",), all_ids, all_modules,
+            "full", ("initial push" if initial_push else "non-documentation push to main",),
+            all_ids, all_modules,
             source_changed, generated_changed, run_checks,
         )
 
@@ -352,7 +378,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         parser.error("--shards must be positive")
     root = args.root.resolve()
     problems = load_problems(root)
-    changes = git_changes(root, args.base, args.head)
+    changes = git_changes(root, args.base, args.head, args.event)
     graph = load_import_graph(args.import_graph)
     selection = select(root, args.event, changes, problems, graph)
     matrix = make_matrix(selection, problems, args.shards)

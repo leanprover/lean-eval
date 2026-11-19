@@ -2,9 +2,6 @@ import Mathlib.Algebra.Polynomial.Roots
 import Mathlib.Analysis.CStarAlgebra.Classes
 import Mathlib.FieldTheory.Minpoly.Basic
 import Mathlib.RingTheory.Algebraic.Defs
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Algebraic integers with conjugates in a prescribed distribution

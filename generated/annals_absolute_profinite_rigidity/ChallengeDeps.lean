@@ -1,9 +1,6 @@
 import Mathlib.LinearAlgebra.Matrix.ProjectiveSpecialLinearGroup
 import Mathlib.NumberTheory.NumberField.Basic
 import Mathlib.Topology.Algebra.Category.ProfiniteGrp.Completion
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Absolute profinite rigidity and hyperbolic geometry

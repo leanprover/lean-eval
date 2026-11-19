@@ -2,9 +2,6 @@ import Mathlib.Analysis.Calculus.ContDiff.Defs
 import Mathlib.Analysis.Normed.Lp.MeasurableSpace
 import Mathlib.MeasureTheory.Integral.Average
 import Mathlib.MeasureTheory.Measure.Haar.OfBasis
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from A negative answer to Ulam's Problem 19 from the Scottish Book
@@ -27,7 +24,7 @@ local notation "ℝᵈ" => EuclideanSpace ℝ (Fin d)
 
 variable (d) in
 /-- The unit sphere in `ℝᵈ`, centered at the origin. This is denoted `Sᵈ⁻¹` in the paper. -/
-abbrev S : Set ℝᵈ := Metric.sphere 0 1
+noncomputable abbrev S : Set ℝᵈ := Metric.sphere 0 1
 
 /-- A subset `K ⊆ ℝᵈ` is called origin-symmetric if `K = -K`. -/
 abbrev IsOriginSymmetric (K : Set ℝᵈ) : Prop :=

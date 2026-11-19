@@ -10,6 +10,88 @@ tooling generates one comparator workspace per problem under `generated/`.
 A submission is scored entirely by comparator results: a problem counts as solved iff
 comparator accepts the submitted solution.
 
+We intend to support three dependency configurations:
+
+| Configuration | Intended versions |
+| --- | --- |
+| `stable` | The most recent stable Lean release, with matching Mathlib and TauCeti pins. |
+| `rc` | The most recent Lean release candidate, with a fixed compatible Mathlib/TauCeti snapshot. |
+| `latest` (default) | The same most recent Lean RC toolchain, with newer compatible Mathlib and TauCeti commits that we try to keep fairly current. |
+
+To request an update, **@Kim Morrison on [Lean Zulip](https://leanprover.zulipchat.com/)**.
+Updates require compatible published dependency caches and passing CI, so a new
+Lean release can precede our adoption of it. These are three configurations;
+`rc` and `latest` normally share a Lean version and differ in library revisions.
+Every configuration pins exact commits, including all transitive dependencies;
+evaluation never follows a moving branch.
+
+Maintainers: follow the [configuration update runbook](docs/updating-configurations.md).
+
+The currently available configurations in `supported-toolchains.json` are:
+
+| Configuration | Lean | Mathlib | TauCeti |
+| --- | --- | --- | --- |
+| `stable` | `v4.35.0` | `07406378` | `1f9b4414` |
+| `rc` | `v4.36.0-rc2` | `2ddf59c8` | `be86813d` |
+| `latest` (default) | `v4.36.0-rc2` | `048fffa1` | `cd41bffc` |
+
+Lean `v4.36.0` stable and `v4.37.0-rc1` have been released, but matching
+Mathlib/TauCeti builds are not yet available for all three intended configurations.
+In particular, [TauCeti's stable upgrade](https://github.com/TauCetiProject/TauCeti/pull/43422)
+is still in progress. The table records actual support until those dependencies
+and their caches are ready.
+
+The `latest` configuration is the default checkout so it can build the full catalog.
+CI requires each problem to compile on every configuration it declares as supported
+without unexpected warnings; it does not compare their elaborated meanings
+across dependency versions. Cache restoration and sandbox/scoring checks also
+run on all three configurations. Mathlib's published cache must cover every module.
+
+Problems may declare one of these support levels in their manifest:
+
+```toml
+supported_configurations = ["latest"]
+# or ["latest", "rc"]
+# or ["latest", "rc", "stable"] (the default when omitted)
+```
+
+All problems must support `latest`. Authors can add a problem before it works on
+older configurations. Keep statements that need newer APIs in separate Lean
+modules from problems that must compile on older configurations; Lean compiles
+whole modules, including their imports. CI builds a module on every configuration
+needed by any problem in it.
+
+**Upgrades must preserve or increase each existing problem's supported
+configurations.** Fix problem sources as necessary for new Lean/Mathlib/TauCeti
+versions; do not narrow a problem's support declaration to make an upgrade pass.
+CI compares manifests with the base commit and rejects lost compatibility.
+Generation and submission evaluation enforce the declared support levels.
+
+To work on the stable configuration in an isolated directory:
+
+```bash
+python scripts/prepare_toolchain.py stable --destination /tmp/lean-eval-stable
+cd /tmp/lean-eval-stable
+lake exe cache get
+cache_env="$(bash scripts/fetch_dependency_caches.sh --restore .)" && eval "$cache_env"
+lake exe lean-eval generate --problem two_plus_two
+lake exe lean-eval start-problem two_plus_two
+```
+
+Use `rc` for the release-candidate snapshot, or `latest` for the default newer
+library snapshot. Existing build outputs are excluded from these copies.
+After selecting a configuration, regenerate each
+workspace you use so its pins and extracted statements match that configuration.
+The submission service reads the closest `lean-toolchain` at or above each
+submitted workspace and its exact Mathlib/TauCeti requirements in `lakefile.toml`
+to select an approved configuration. The dependency pins distinguish `rc` from
+`latest` even when their Lean toolchains are identical. Missing pins use the
+default configuration for the requested toolchain; unsupported combinations
+are rejected. Submit workspaces for different configurations separately.
+Result verification receipts and archive sidecars record the selected toolchain
+and exact benchmark commit. The retained source includes the dependency pins,
+so replay selects the same configuration from that benchmark commit.
+
 The main user-facing entrypoint is:
 
 ```bash
@@ -22,10 +104,19 @@ Use this path if you are adding or editing benchmark problems.
 
 ### 1. Install and fetch dependencies
 
+Install Lean through elan and Python 3.11 or newer, then run:
+
 ```bash
 lake exe cache get
+cache_env="$(bash scripts/fetch_dependency_caches.sh --restore .)" && eval "$cache_env"
 lake build
 ```
+
+The second line downloads the oleans of
+[Tau Ceti](https://github.com/TauCetiProject/TauCeti), which some problems
+import, instead of compiling it, and fails if any would have to be compiled.
+This requires lean-eval to pin exactly the Lean toolchain and Mathlib revision
+of the pinned Tau Ceti commit, which the script checks.
 
 ### 2. Add or edit a trusted theorem
 
@@ -152,7 +243,7 @@ benchmark files.
 ### 1. Pick a problem
 
 Generated workspaces live under `generated/`, one directory per problem. The current
-catalog is summarized in [`generated/index.json`](/home/kim/lean-evals/generated/index.json).
+catalog is summarized in [`generated/index.json`](generated/index.json).
 
 Examples:
 
@@ -199,83 +290,82 @@ Trusted files you should not edit in the normal solver workflow are:
 `Challenge.lean` contains the benchmark statement. `Solution.lean` is the fixed bridge
 that tells comparator to check your theorem from the `Submission` namespace.
 
+Solutions may import modules from [Lean Pool](https://github.com/Vilin97/lean-pool),
+[CFSG](https://github.com/AxiomMath/CFSG), and
+[Stacks](https://github.com/AxiomMath/Stacks) in `Submission.lean` or `Submission/`
+helpers. These pinned dependencies are included in generated workspaces via
+`solution-dependencies.json`. Problem statements and their local helpers may not
+import them; workspace generation rejects these imports. Comparator and NanoDa
+checks apply as usual.
+
+After fetching the workspace dependencies, prepare the libraries it imports:
+
+```bash
+cache_env="$(bash /path/to/lean-eval/scripts/fetch_dependency_caches.sh --restore .)" && eval "$cache_env"
+```
+
+This parses Lean import headers, fetches each required library's revision mappings,
+and restores only the imported modules and their transitive dependencies. It uses
+`lake --no-build`, so missing artifacts fail rather than starting a large rebuild.
+Each library must match the workspace's Lean toolchain and all transitive dependency
+pins. Unused libraries require no artifact downloads.
+
+The public CFSG pin still uses v4.35.0-rc3. Stacks uses v4.35.0 with Mathlib
+`56a00585`, while LeanEval's stable configuration uses Mathlib `07406378` to
+match TauCeti's stable release. These library imports fail the cache compatibility
+check until matching dependency builds are published, including the Mathlib pin.
+Unused solution libraries do not prevent evaluation on either toolchain. The helper
+uses the published [CFSG cache](https://cfsg-downloads.axiommath.workers.dev/lake/lake-cache-get-fast.sh)
+and [Stacks cache](https://stacks-cache.axiommath.workers.dev/lake/lake-cache-get-fast.sh)
+endpoints by default. Set `STACKS_ARTIFACT_ENDPOINT` and `STACKS_REVISION_ENDPOINT`
+to override the Stacks endpoints; corresponding overrides are available as
+`CFSG_*` and `TAUCETI_*`. CI and the submission runner accept the Stacks overrides
+from repository variables with those same names; empty variables use the defaults.
+
 ### 5. Run comparator locally
 
 ```bash
 lake test
 ```
 
-`lake test` shells out to four external tools that you must install yourself:
-`landrun` (the sandbox), `lean4export` (exports oleans to text), `comparator`
-(the verifier), and `nanoda` (the independent kernel). `WorkspaceTest` forces
-comparator to replay every Solution through nanoda, so a missing `nanoda_bin`
-fails the check. All four are pinned to immutable commits; the authoritative
-pin table lives in [`SECURITY.md`](SECURITY.md) ("Trusted dependencies and pin
-policy"), and CI installs exactly these in
-[`.github/workflows/ci.yml`](.github/workflows/ci.yml). Reproduce that setup
-locally:
+The pinned Lean toolchain includes Lake comparator, `leanexport`, the Lean
+checker, and NanoDa. The trusted test driver always requires both Lean and NanoDa.
+The only additional verifier dependency is bubblewrap on Linux with user namespaces.
+
+Install bubblewrap 0.12.0 using the same checksum-verified installer as CI
+(requires Meson, Ninja, libcap development headers, curl, and a C compiler):
 
 ```bash
-# landrun — install at the pinned commit (NOT @main; the version string is
-# unreliable, and tagged releases through v0.1.15 lack fixes comparator needs).
-go install github.com/zouuup/landrun/cmd/landrun@5ed4a3db3a4ad930d577215c6b9abaa19df7f99f
-export PATH="$(go env GOPATH)/bin:$PATH"
-
-# lean4export — clone, check out the pin, and build.
-lean_eval_root="$(pwd)"  # run this setup from the lean-eval repository root
-git clone https://github.com/leanprover/lean4export.git
-( cd lean4export
-  git checkout 4e7915201d3f9f04470d9eae002fa695f7cdc589
-  cp "$lean_eval_root/lean-toolchain" lean-toolchain
-  lake build lean4export )
-export PATH="$PWD/lean4export/.lake/build/bin:$PATH"
-
-# comparator — clone, check out the pin (adds `def`-hole support), and build.
-git clone https://github.com/leanprover/comparator.git
-( cd comparator
-  git checkout 71b52ec29e06d4b7d882726553b1ceb99a2499e0
-  lake build comparator )
-export PATH="$PWD/comparator/.lake/build/bin:$PATH"
-
-# nanoda — the external kernel. WorkspaceTest forces comparator to replay the
-# Solution through nanoda, so `lake test` fails unless `nanoda_bin` is on your
-# PATH. Needs a Rust toolchain (`cargo`); the pin is on the source commit, not
-# the compiler version.
-git clone https://github.com/robsimmons/nanoda_lib.git
-( cd nanoda_lib
-  git checkout 68d5ca9db226849b41a6fff59d796ff19d0a8840
-  cargo build --release )
-export PATH="$PWD/nanoda_lib/target/release:$PATH"
+# Run from the lean-eval repository root, outside a problem workspace.
+export COMPARATOR_BWRAP="$(bash scripts/install_bwrap.sh "$PWD/.tools/bubblewrap")"
 ```
 
-`lean4export` and `comparator` are Lean programs. The pinned lean4export source
-uses Lean v4.33.0 by default, but its build command above deliberately selects
-the workspace's exact toolchain by copying `lean-toolchain`; different Lean
-releases have incompatible olean headers. Comparator builds `Challenge.olean` with the
-workspace toolchain and then reads it back with `lean4export`, so exact
-compatibility is required. If the formats differ you get
-`failed to read file '.../Challenge.olean', incompatible header` — that error
-means a Lean/olean version mismatch (or a stale `.lake` artifact left over from
-an earlier toolchain), never a problem with your proof. If you hit it, rebuild
-`lean4export` at the pinned commit after copying this repository's
-`lean-toolchain` into its checkout, rebuild comparator at its pinned commit, and clear the affected
-workspace's `.lake/build` before retrying.
+On Ubuntu 24.04 the installer loads an executable-specific AppArmor profile using
+`sudo` when user namespaces are restricted. On a system where bubblewrap 0.12.0
+is already configured, put `bwrap` on PATH or set `COMPARATOR_BWRAP` to its
+absolute path.
 
-Once the tools are on your `PATH`, verify the whole pipeline against the starter
-problem before attempting a real one — this builds and scores `two_plus_two` end
-to end, so it isolates an install problem from a proof problem:
+Check the installation against the starter problem:
 
 ```bash
 lake exe lean-eval check-comparator-installation
 ```
 
-If you keep the comparator binary somewhere off your `PATH`, point `lake test` at
-it explicitly (`landrun` and `lean4export` must still be on `PATH`, since
-comparator invokes them):
+Run `lake test` in a problem workspace to invoke the toolchain's
+`lake comparator`. It pins the exporter and checker to the same Lean release,
+avoiding separate exporter builds and incompatible olean formats. When changing
+toolchains, refresh the dependency caches and remove stale workspace build outputs.
 
-```bash
-COMPARATOR_BIN=/path/to/comparator lake test
-```
+The trusted driver uses Lake's `LAKE` and `LEAN_SYSROOT` settings and removes
+workspace/cache directories from executable and library search paths before
+starting comparator. `LEAN_PATH` remains available for module imports.
+Install bubblewrap and the toolchain outside submission-writable directories.
+The old `COMPARATOR_BIN`, `COMPARATOR_LANDRUN`, `COMPARATOR_LEAN4EXPORT`,
+and `COMPARATOR_NANODA` overrides are no longer used.
+
+Root scoring makes the trusted shared package cache visible read-only inside
+Lake's sandboxes. Direct local workspaces can keep their own dependencies; no
+cache wrapper is needed for that layout.
 
 ### 6. Check your local score
 
@@ -305,6 +395,21 @@ cannot be changed back to private. Accepted source is published under the
 Apache License 2.0 exactly two UTC calendar months after acceptance. A
 submitter who initially chooses private source may later change that choice
 once to scheduled release.
+
+The service takes a problem ID and resolves its group and current statement
+revision from the protected LeanEval catalog; clients do not supply those
+canonical fields. Formalization problems must be visible and active.
+Software-verification problems may be visible and draft or active. Public
+source repositories must use scheduled publication; withholding is available
+only for private repositories.
+
+Before acceptance, the submitter explicitly authorizes private fetch, archive,
+build, and execution of the exact commit, indefinite encrypted retention even
+after rejection or failure, and public display of the result and submitted
+metadata. Do not submit secrets. Every new request is archived with a fresh
+per-submission key envelope before evaluation, and the service evaluates only
+the selected problem. Exact resubmissions by the same owner return the original
+submission, and each owner may have at most four active submissions.
 
 This repository (`leanprover/lean-eval`) holds only the problem set and the
 comparator/sandbox integration.
@@ -337,15 +442,23 @@ In practice, solvers should normally work in `Submission.lean` and `Submission/`
 
 ## Repository Layout
 
-- [`LeanEval/`](/home/kim/lean-evals/LeanEval): trusted authored problem statements
+- [`LeanEval/`](LeanEval): trusted authored problem statements
 - [`manifests/problems/`](manifests/problems/): one TOML file per problem, named `<id>.toml`
 - [`manifests/tags.toml`](manifests/tags.toml): stable tag registry
 - [`manifests/sets/`](manifests/sets/): versioned and optionally frozen named problem sets
-- [`generated/`](/home/kim/lean-evals/generated): generated comparator workspaces
-- [`scripts/`](/home/kim/lean-evals/scripts): generation, validation, and scoring helpers
-- [`PLAN.md`](/home/kim/lean-evals/PLAN.md): deferred design and roadmap notes
+- [`generated/`](generated): generated comparator workspaces
+- [`scripts/`](scripts): generation, validation, and scoring helpers
+- [`PLAN.md`](PLAN.md): deferred design and roadmap notes
 
 ## End-To-End Repo Checks
+
+`bash scripts/fetch_dependency_caches.sh --restore .` restores imported TauCeti,
+CFSG, and Stacks modules without permitting compilation. Downloads have bounded retries and
+timeouts and use temporary files to keep interrupted transfers out of the
+artifact cache. Cache-only restoration is retried once; if it still fails, the
+script prints verbose diagnostics before stopping. Verify the pinned versions
+and published cache when outputs are missing. The exported cache settings keep
+the download wrapper active for subsequent trusted builds.
 
 For a local health pass over the repository:
 

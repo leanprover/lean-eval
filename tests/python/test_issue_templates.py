@@ -26,7 +26,7 @@ class IssueTemplateTests(unittest.TestCase):
                     "2026-09-30T06:57:10Z",
                     "fallback through",
                 ):
-                    self.assertNotIn(retired_copy, text.lower())
+                    self.assertNotIn(retired_copy.lower(), text.lower())
 
 
 if __name__ == "__main__":

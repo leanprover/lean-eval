@@ -1,7 +1,4 @@
 import Mathlib.Analysis.Fourier.LpSpace
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Fractal uncertainty in higher dimensions
@@ -34,7 +31,8 @@ def PorousOnLines (ν α₀ α₁ : ℝ) (X : Set ℝᵈ) : Prop :=
     ∃ x ∈ segment ℝ y₁ y₂, closedBall x (ν * R) ∩ X = ∅
 
 /-- Given `a b : ℝ`, the cube `[a,b]ᵈ` in `ℝᵈ`. -/
-abbrev cube (a b : ℝ) : Set ℝᵈ := EuclideanSpace.equiv (Fin d) ℝ ⁻¹' Set.univ.pi fun _ ↦ Set.Icc a b
+noncomputable abbrev cube (a b : ℝ) : Set ℝᵈ :=
+  EuclideanSpace.equiv (Fin d) ℝ ⁻¹' Set.univ.pi fun _ ↦ Set.Icc a b
 
 
 

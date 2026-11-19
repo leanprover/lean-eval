@@ -1,9 +1,6 @@
 import Mathlib.Analysis.Calculus.Deriv.Basic
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 open scoped Real
 

@@ -1,11 +1,8 @@
 import Mathlib.Algebra.Group.Pointwise.Set.Basic
 import Mathlib.Algebra.MonoidAlgebra.MapDomain
-import Mathlib.Data.Real.Basic
+import Mathlib.Basic.Real.Basic
 import Mathlib.GroupTheory.FreeGroup.Basic
 import Mathlib.SetTheory.Cardinal.Finite
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from On property (T) for Aut(F_n) and SL_n(Z)
@@ -15,6 +12,8 @@ We formalise the statement of the main result from M. Kaluba, D. Kielak, and P. 
 -/
 
 set_option autoImplicit false
+
+open scoped Pointwise
 
 namespace OnPropertyT
 

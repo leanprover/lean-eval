@@ -1,7 +1,4 @@
 import Mathlib.LinearAlgebra.Matrix.Permutation
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statements from The local-global conjecture for Apollonian circle packings is false

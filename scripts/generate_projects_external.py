@@ -83,6 +83,7 @@ def request_for(problem_id: str) -> dict[str, object]:
         "contextRoot": str(ROOT),
         "leanToolchain": (ROOT / "lean-toolchain").read_text(encoding="utf-8"),
         "mathlib": mathlib[0],
+        "dependencies": [item for item in lakefile["require"] if item["name"] != "mathlib"],
         "templates": {
             "workspaceTest": (ROOT / "templates/WorkspaceTest.lean").read_text(
                 encoding="utf-8"
