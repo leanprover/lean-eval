@@ -34,13 +34,16 @@ def IsMeromorphicAt (c : OnePoint ℝ) (f : UpperHalfPlane → ℂ) (k : ℤ) : 
     ∃ t : ℝ, SlashAction.map k g f =O[UpperHalfPlane.atImInfty] fun z ↦ (z.1 * t * .I).exp
 
 /-- In the statement we use the fact that if `[SL(2,ℤ) : Γ] = n`, then `n!` is a period of `f`:
-in general, if `[G : H] = n` then the `n!`th power of every element of `G` is in `H`. -/
+in general, if `[G : H] = n` then the `n!`th power of every element of `G` is in `H`.
+Meromorphicity is required only at the rational cusps. The congruence level is positive:
+`CongruenceSubgroup.Gamma 0` is the trivial subgroup, which would make the conclusion vacuous. -/
 @[eval_problem]
 theorem unbounded_denominators (Γ : Subgroup (Matrix.SpecialLinearGroup (Fin 2) ℤ)) [Γ.FiniteIndex]
     (k : ℤ) (f : SlashInvariantForm Γ k) (mdiff : MDiff f)
-    (bdd : UpperHalfPlane.IsBoundedAtImInfty f) (mero : ∀ c, IsMeromorphicAt c f k)
+    (bdd : UpperHalfPlane.IsBoundedAtImInfty f)
+    (mero : ∀ c : OnePoint ℚ, IsMeromorphicAt (c.map ((↑) : ℚ → ℝ)) f k)
     (int : ∀ n, IsIntegral ℤ (UpperHalfPlane.qExpansion Γ.index.factorial f n)) :
-    ∃ N, ∀ γ ∈ CongruenceSubgroup.Gamma N, SlashAction.map k γ ⇑f = f := by
+    ∃ N > 0, ∀ γ ∈ CongruenceSubgroup.Gamma N, SlashAction.map k γ ⇑f = f := by
   sorry
 
 end LeanEval.ComplexAnalysis
