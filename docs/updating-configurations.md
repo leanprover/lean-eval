@@ -166,6 +166,9 @@ keeping catalog validation small. The submission runner still uses full source
 checkouts. Missing dependency caches must fail rather than trigger dependency
 compilation. Mathlib's complete cache and imported TauCeti artifacts must restore
 for the exact selected Lean and dependency pins.
+Keep the helper's exported `LAKE_RESTORE_ARTIFACTS=true`: runtime extraction and
+inventory tools need canonical `.olean` paths even when builds reuse a warm
+artifact cache from another checkout or profile.
 
 Run Lean unit tests and representative generated workspace builds, including
 problems changed during the upgrade and one importing TauCeti. CI also requires
