@@ -385,9 +385,9 @@ For current instructions to **submit a solution**, start at the stable page:
 
 > **[lean-lang.org/eval/submit/](https://lean-lang.org/eval/submit/)**
 
-That page is the supported authenticated submission path. The application itself is at
-`https://lean-eval-submission-server.lean-eval.workers.dev/`; this change of
-origin is expected.
+That page is the supported authenticated submission path. The application
+itself is at `https://lean-eval-submission-server.lean-eval.workers.dev/`;
+this change of origin is expected.
 
 Scheduled release is recommended for authenticated intake, while submitters
 may keep accepted source private instead. Once selected, scheduled release
