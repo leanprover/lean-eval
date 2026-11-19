@@ -1,7 +1,4 @@
 import Mathlib
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Adapting families of maps to open covers (Morrison–Walker, *The Blob Complex*)

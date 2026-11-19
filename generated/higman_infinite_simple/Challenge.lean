@@ -1,7 +1,4 @@
 import Mathlib
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 theorem higman_infinite_simple :
     ∃ (n : ℕ) (rels : Set (FreeGroup (Fin n))),

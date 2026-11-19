@@ -1,0 +1,18 @@
+{
+  "id": "hopf_s6_complex_structure",
+  "module": "LeanEval.Geometry.HopfS6",
+  "holes": [
+    {
+      "name": "instChartedSpaceS6",
+      "basename": "instChartedSpaceS6",
+      "kind": "def",
+      "body": "/-- **Hole 1 (data).** An atlas of charts from the 6-sphere \u2014 the unit sphere\nin `\u211d\u2077`, with its subspace topology \u2014 into `\u2102\u00b3`, taken as the plain function\ntype `Fin 3 \u2192 \u2102`: all norms on a finite-dimensional space are equivalent, so\nthe choice of model norm is immaterial to the statement. -/\ninstance instChartedSpaceS6 :\n    ChartedSpace (Fin 3 \u2192 \u2102)\n      (Metric.sphere (0 : EuclideanSpace \u211d (Fin 7)) 1) :=\n  sorry"
+    },
+    {
+      "name": "instIsManifoldS6",
+      "basename": "instIsManifoldS6",
+      "kind": "theorem",
+      "body": "/-- **Hole 2 (proof).** The atlas of hole 1 is holomorphic: its transition\nfunctions are `\u2102`-analytic on their open domains. -/\ninstance instIsManifoldS6 :\n    IsManifold \ud835\udcd8(\u2102, Fin 3 \u2192 \u2102) \u03c9\n      (Metric.sphere (0 : EuclideanSpace \u211d (Fin 7)) 1) :=\n  sorry"
+    }
+  ]
+}

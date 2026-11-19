@@ -1,0 +1,12 @@
+{
+  "id": "q_tspp",
+  "module": "LeanEval.Combinatorics.QTSPP",
+  "holes": [
+    {
+      "name": "QTSPP.q_tspp",
+      "basename": "q_tspp",
+      "kind": "theorem",
+      "body": "theorem q_tspp (n : \u2115) :\n    generatingPolynomial n *\n      (\u220f c \u2208 sortedTriples n,\n        (1 - q ^ (coordinateSum c + 1))) =\n    \u220f c \u2208 sortedTriples n,\n      (1 - q ^ (coordinateSum c + 2)) := by\n  sorry"
+    }
+  ]
+}

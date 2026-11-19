@@ -17,6 +17,7 @@ on:
       - 'manifests/**'
       - 'generated/**'
       - 'lakefile.toml'
+      - 'solution-dependencies.json'
       - 'lean-toolchain'
   workflow_dispatch:
 

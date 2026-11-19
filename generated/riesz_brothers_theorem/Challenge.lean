@@ -3,9 +3,6 @@ import Mathlib.Analysis.Normed.Operator.Mul
 import Mathlib.MeasureTheory.Measure.Complex
 import Mathlib.MeasureTheory.VectorMeasure.Decomposition.RadonNikodym
 import Mathlib.MeasureTheory.VectorMeasure.Integral
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 open MeasureTheory
 

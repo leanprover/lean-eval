@@ -1,7 +1,4 @@
 import Mathlib
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 import Submission
 
 theorem five_transitive_card_classification (G X : Type) [Group G] [Fintype G] [Fintype X]

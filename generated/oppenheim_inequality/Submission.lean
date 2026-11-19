@@ -1,7 +1,4 @@
 import Mathlib.Analysis.Matrix.Order
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 import Submission.Helpers
 
 open scoped MatrixOrder Matrix

@@ -1,7 +1,4 @@
 import Mathlib.Algebra.Module.ZLattice.Basic
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from A reverse Minkowski theorem

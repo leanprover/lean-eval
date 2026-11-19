@@ -5,6 +5,7 @@ Authors: David Ledvinka
 -/
 
 import Mathlib.Analysis.Normed.Lp.PiLp
+import Mathlib.Algebra.Polynomial.Degree.Defs
 import Mathlib.MeasureTheory.Function.LpSpace.Basic
 import Submission.Helpers
 import ChallengeDeps

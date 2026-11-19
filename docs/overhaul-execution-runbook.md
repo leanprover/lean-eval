@@ -146,8 +146,8 @@ invalidate these bindings. Section 5.2 records the deployed runtime separately.
 | Repository | Durable checkpoint | Protection state |
 | --- | --- | --- |
 | `lean-eval` | Completion-plan and runbook checkpoint `59c0c18b2d14015589927b6e810386025c93ba4b` | Required `verify` |
-| `lean-eval-submissions` | Retained-State binding `36e405e558be69d50e3093d3e188d24d6fc7cfa1`; replay packet `d26a3090a338358915cc94651ec7efddde71d241`; protected main `b686eb49743ff5340a34801c0f8f36d921aa9094`; deployed production Worker `6e0aeb2b5c71fb857f09feff6172c4ee7bdfae08` | Required `verify` |
-| `lean-eval-leaderboard` | Protected and deployed main `939d69c88292358adf60b124f29605215a1e422a` | Required `build`; exact Pages deployment and live readback complete |
+| `lean-eval-submissions` | Protected main and deployed production Worker `27fe540135dfcc6c0e21fccf3ab0f9eff51d49d8` | Required `verify` |
+| `lean-eval-leaderboard` | Protected and deployed main `72fc27fb8f302b38a2741831130fd73f4dcfc41a` | Required `build`; exact Pages deployment and live readback complete |
 | `lean-eval-state` | Retained-baseline checkpoint `76b3b3e54f4be69161a00cd81576a58df8eae815` | Required `validate`; append-only descendants allowed |
 | `lean-eval-state-staging` | Launch-acceptance checkpoint `0849a95026ea3491ec55f1e0ef3b6ff2dff00fd5` | Required `validate`; append-only descendants allowed |
 | `lean-eval-releases` | `7dba9bf4f78c71ff478de8c593cb41e07201c14a` | Required `validate` |
@@ -157,38 +157,20 @@ invalidate these bindings. Section 5.2 records the deployed runtime separately.
 ### 5.2 Deployed services
 
 Production serves deployed submissions implementation
-`6e0aeb2b5c71fb857f09feff6172c4ee7bdfae08` with durable intake and exactly
-the approved lifecycle routes enabled; protected `main`
-`b686eb49743ff5340a34801c0f8f36d921aa9094` retains the replay packet and adds
-bounded exact-shape private poll-response retries. Deployment, CI, readiness,
-health, non-mutating authorization denial, and protected-State validation pass.
+`27fe540135dfcc6c0e21fccf3ab0f9eff51d49d8` with durable intake and exactly
+the approved lifecycle routes enabled. Deployment, CI, readiness, health, and
+protected-State validation pass.
 Staging intake and public lifecycle routes remain disabled, with its promotion
 canary enabled. Model consolidation, publication opt-out, production promotion
 canary, and general replay remain disabled.
 
-The source-App admission repair, private replay stream transfer, and bound
-start diagnostics are included in the launch commit. The exact post-repair
-private replay canary is terminal accepted; its credential, artifact, and
-temporary-executor cleanup readbacks pass. The post-launch replay packet was
-protected at submissions `d26a3090a338358915cc94651ec7efddde71d241`.
-Protected main `b686eb49743ff5340a34801c0f8f36d921aa9094` updates the current private
-controller binding to implementation `7c79adcfe020c7ab2258662647dd5518358ae075`
-and workflow SHA-256
-`0d86af8b627ca474fc882ef6f93996a29099d9349e2700d84c5b4aa4acf34c78`.
-At activation State checkpoint
-`4fae55f7699e80d5b50314cf678bcf6caa020ad8`, the retained queues contained
-161 public and 630 private queued entries. The last all-terminal checkpoint
-before the current runs, protected State
-`e5751a5b22b5663e1cdad7d87e9fa6f551852b40`, public accounting is 23
-accepted, one terminal failed, and 150 queued; private accounting is 14
-accepted, three terminal failed, one retryable failure, and 621 queued. Both
-controller variables are true, and exactly one current run in each sustained
-lane is active on protected submissions `main`. The private non-replenishing
-proof is terminal accepted at protected State
-`24bcb65c8849b95f569c8ee037503049c7fe568f`; its source-free artifact,
-credential scrub, sandbox destruction, and temporary-executor deletion pass.
+The frozen v1 public and private replay scopes are terminal. Production State
+validates with no historical replay running, controller variables are absent,
+and no task-scoped private Worker or container application remains. Temporary
+replay controllers and qualification machinery have been removed; canonical
+archives, plans, pins, schemas, and terminal State remain for reproducibility.
 
-Leaderboard commit `939d69c88292358adf60b124f29605215a1e422a` is protected and
+Leaderboard commit `72fc27fb8f302b38a2741831130fd73f4dcfc41a` is protected and
 deployed. The live submit entry directs users to the production service,
 requires both read-only Apps, recommends scheduled release by default, and
 retains the dated issue-intake fallback. A representative problem page retains
@@ -205,10 +187,10 @@ The server-primary entry is live. The overlap began
 - [x] Read staging and production intake health.
 - [x] Read staging and production broker/replay health and current versions.
 - [x] Verify production serves deployed implementation
-      `6e0aeb2b5c71fb857f09feff6172c4ee7bdfae08` and reports durable intake plus
+      `27fe540135dfcc6c0e21fccf3ab0f9eff51d49d8` and reports durable intake plus
       exactly the approved lifecycle routes.
 - [x] Verify general replay is disabled and historical replay-controller
-      variables are present only for an active bounded lane.
+      variables are absent.
 - [x] Verify automatic publication remains live.
 - [x] Verify the deployed launch Worker and its release, archive, and
       retained-State checkpoints form one coherent unit.
@@ -225,7 +207,7 @@ The server-primary entry is live. The overlap began
 - [x] Confirm the scheduled-release presentation deploys from reviewed main and
       the canonical live asset is byte-identical.
 - [x] Verify leaderboard commit
-      `939d69c88292358adf60b124f29605215a1e422a` is the exact live Pages
+      `72fc27fb8f302b38a2741831130fd73f4dcfc41a` is the exact live Pages
       deployment.
 
 Exit condition: the coherent disabled baseline was captured before launch.
@@ -297,8 +279,8 @@ The bounded final core smoke, all-false restoration, validation, and fixture
 cleanup are complete.
 Launch restore commit `39b2e67f7583926a4f1d66b723b5d4cf4756dd32`
 completed the production launch. Current deployed descendant
-`6e0aeb2b5c71fb857f09feff6172c4ee7bdfae08` retains that contract and adds the
-reviewed private-replay correction. Its production deployment and exact live
+`0aef118adbe2e2e48917827839c6b37714cc7c50` retains that contract. Its
+production deployment and exact live
 readbacks pass; later documentation-only commits do not by themselves redeploy
 that runtime.
 
@@ -435,7 +417,7 @@ green staging run to substitute for launch readiness.
 The compact launch packet is protected in submissions migration head
 `7050f0e100323070375bc58c3510ec322cfcce1e`. The reviewed launch restore is
 `39b2e67f7583926a4f1d66b723b5d4cf4756dd32`; deployed descendant
-`6e0aeb2b5c71fb857f09feff6172c4ee7bdfae08` retains its contract. Exact
+`0aef118adbe2e2e48917827839c6b37714cc7c50` retains its contract. Exact
 deployed-commit, capability, authorization-denial, and protected-State readbacks
 pass.
 
@@ -468,7 +450,7 @@ write-free no-op, and enabled no-due-work pass all succeed.
       user-facing forms and documentation.
 - [x] Keep model consolidation disabled.
 - [x] Verify effective public health and one non-mutating authorization denial
-      against deployed submissions `6e0aeb2b5c71fb857f09feff6172c4ee7bdfae08`.
+      against deployed submissions `0aef118adbe2e2e48917827839c6b37714cc7c50`.
 - [x] Retain a separately reversible feature flag for every enabled family and
       verify the all-false rollback; do not substitute another staging matrix
       for this production readback.
@@ -477,7 +459,7 @@ write-free no-op, and enabled no-due-work pass all succeed.
 
 - [x] Enable production intake durably at launch restore
       `39b2e67f7583926a4f1d66b723b5d4cf4756dd32`; verify current deployed
-      descendant `6e0aeb2b5c71fb857f09feff6172c4ee7bdfae08` retains it.
+      descendant `0aef118adbe2e2e48917827839c6b37714cc7c50` retains it.
 - [x] Verify the exact active version, durable state, and
       protected State coherence.
 - [x] Submit one tightly controlled production canary only if it was part of
@@ -520,9 +502,32 @@ write-free no-op, and enabled no-due-work pass all succeed.
 - [x] State that any eventual issue-intake closure requires at least two weeks'
       notice.
 
+### 10.5 Post-launch P0/P1 hardening
+
+- [x] Make server submissions evaluate only the catalog problem and statement
+      revision accepted into State; keep workspace scanning only in the
+      temporary legacy issue lane.
+- [x] Align the public State projection and leaderboard adapter on all current
+      historical counter-unavailability reasons.
+- [x] Add immutable exact-submission claims and per-owner intake indexes to
+      both production and staging State.
+- [x] Deploy clean-break intake API schema version 2. The server resolves group
+      and revision from protected benchmark `main`, requires current terms,
+      rejects withheld publication for public repositories, deduplicates exact
+      submissions, and permits at most four active submissions per owner.
+- [x] Update the submission service, stable submit page, and repository guide
+      to describe the same contract and remove superseded overhaul narratives.
+- [x] Read back production health and exercise one bounded exact submission
+      after the hardened Worker is deployed.
+
 Exit condition: the launch commit is live, new production submissions traverse
 the promised lifecycle, and the system can be paused through the documented
 path.
+
+Lower-priority UX, performance, reliability, and cleanup findings are collected
+in [lean-eval #634](https://github.com/leanprover/lean-eval/issues/634) for later
+triage. They are not part of this overhaul unless the completion plan is
+explicitly amended.
 
 ## 11. Phase 5 — four-week overlap
 
@@ -564,214 +569,111 @@ Do not turn monitoring output into a permanent incident-history appendix.
 
 ## 12. Phase 6 — historical completion
 
-Historical lanes can run in parallel with the overlap.
+This overhaul's historical scope is every legacy accepted Result recorded
+before issue intake closes. The completed v1 baseline remains bound to the
+canonical v1 problem-set SHA-256
+`546706914389696b93653189ba870550e9853a4ac653664f482ba8d4d9eb9492`.
+The non-v1 queues are now part of completion under the same official-kernel and
+nanoda policy. Issue intake remains open until the announced cutoff, so the
+campaign has two finite parts: drain the current queues, then freeze and drain
+the append-only cutoff delta.
 
-Old issue intake remains live during the overlap and can append Results-only
-commits to submissions `main`. Process the retained baseline now using immutable
-dispatch tags; do not demand a quiet protected branch. Maintain an append-only
-delta, and treat only the announced issue-intake cutoff as the final corpus.
+The completed historical baseline contains 1,301 terminal in-scope records.
+At the 2026-09-13 reconciliation, 80 later legacy issue-intake records formed
+the append-only post-baseline delta. That delta may grow until issue intake is
+frozen; keep it separate from the already terminal historical baseline.
 
-### 12.1 Final inventory
+### 12.1 Frozen v1 scope
 
-- [ ] Only after every issue-retirement gate except the final-cutoff/delta
-      readback is satisfied, disable new issue-intake acceptance at the
-      announced exact UTC cutoff in a single-purpose freeze. Drain every run
-      accepted before the cutoff, then freeze the final Results head and
-      corpus. Keep final form removal blocked until the delta is recorded and
-      the retirement packet passes; do not compute a nominally final delta
-      while issue intake can still add a Result.
-- [ ] Generate and validate the append-only inventory delta.
-- [ ] Reconcile public, private, and unavailable counts against every accepted
-      Result.
-- [ ] Ensure no accepted Result disappears or changes identity.
+- [x] Freeze and validate the v1 problem-set binding.
+- [x] Reconcile every in-scope accepted Result into public-source,
+      private-archive, or reviewed-unavailable handling.
+- [x] Retain canonical source, archive, toolchain, image, checker-version, and
+      Result bindings needed for later reproducibility.
+- [x] Confirm production State validates and has no running historical replay.
 
 ### 12.2 Public source
 
-The source-evidence snapshot
-`evidence/historical-public-replay-github-evidence-current.json` at
-`lean-eval-submissions@674ab422f1d9adcf7108f8ea1ff623b37c59409b`, with SHA-256 digest
-`7c10dfc3e3d66f6f9ae0107ef2ed94b8f731d7f8410741ed3f5978dc55e149e5`.
-It is not the retained-baseline or current-corpus count: its 636 Results include
-three post-baseline public Results. It covers 318 requests: 123 are resolved and
-195 are classified source-unavailable, with no ambiguous, missing,
-indeterminate, or unreviewed classification. The retained-baseline public
-partition is exactly 633 Results: 174 replay tasks and 459 reviewed unavailable
-dispositions.
-Protected production State ancestor
-`07e68200ee20efdd363cea16c1d08a13971acc2e` introduced those dispositions.
-Retained-baseline checkpoint
-`76b3b3e54f4be69161a00cd81576a58df8eae815` validates them and the complete
-retained replay queues with no missing or extra Result identity. Later
-append-only State commits do not replace this retained checkpoint.
-
-- [x] Retain the retained-baseline canonical public replay plan and exact toolchain/source
-      mappings.
-- [x] Review each retained-baseline `source_unavailable` classification for its terminal State
-      disposition.
-- [x] Build/qualify only images used by replayable results.
-- [x] Qualify the final missing image from the retained baseline plan in an
-      isolated replay-disabled Worker.
-- [x] Commit and validate its generated qualification profile. All 35 retained
-      public profiles are frozen at
-      `lean-eval-submissions@81e94fe2f4fc819300fd7d4e036f00124166784f`.
+- [x] Retain the canonical public plan and exact source/toolchain mappings.
+- [x] Build or qualify only images required by replayable v1 Results.
+- [x] Run the official Lean kernel path and nanoda with bounded retries.
+- [x] Record a terminal replay or reviewed-unavailable disposition for every
+      public-source v1 Result.
+- [x] Publish the redacted verdict and measurement projection.
 
 ### 12.3 Private archives
 
-The canonical retained-baseline crosswalk accounts for 639 bound Results and
-29 archive-not-found dispositions. The retained private-image set contains 63
-canonical profiles and accounts for all 639 qualified Results, with none
-pending.
-
-The retained-baseline archive migration is complete. All 439 recoverable
-archives received bound schema-version-3 envelopes without changing archive
-ciphertext or stable identities. The exact reviewed patch was promoted to
-audit `main` at `d73132415738b0d82c99fd43f630804fe996e342`.
-Post-promotion readback passed, the review branch and transient installed
-identity were removed, and the protected migration environment no longer
-contains `LEGACY_ARCHIVE_IDENTITY`. Keep the retained offline legacy key until
-the final issue-intake delta has been migrated and its recovery checks pass.
-
 - [x] Reconcile exact archive/result bindings and explicit orphans.
-- [x] Apply and read back the dedicated Encrypt-only migration role, exact OIDC
-      trust, protected environment binding, and unchanged ordinary AWS roles.
-- [x] Build, publish by immutable digest, and inspect only the exact private
-      replay images used by the retained baseline inventory.
-- [x] Retire the synthetic private-image qualifier and its bounded-wave
-      controller; do not replace them with another qualification service.
-- [x] Complete the static pre-mutation portion of one immutable retained-baseline
-      historical migration/replay packet. Bind exact public/private profile and
-      task-content hashes and counts, rewrap inventory, workflow commit and
-      digest, migration role and trust, controller leases and scopes, rollback,
-      and exclusions. It must exclude legacy-key destruction, the final intake
-      delta, new external actions, and every item absent from those hashes.
-- [x] Bind the rewrap to that exact reviewed pre-mutation packet before
-      installing the legacy identity or writing canonical archive envelopes.
-      Standing authorization satisfies permission but not this packet gate.
-- [x] Install `LEGACY_ARCHIVE_IDENTITY` only for the bounded packet-bound run.
-- [x] Rewrap recoverable archives without changing ciphertext archive bytes or
-      stable IDs.
-- [x] Complete the post-migration readback in the same packet. Bind the
-      randomized sidecar tree, deterministic report hash, exact staged patch,
-      and then-current audit `main`. Require the pinned source to remain an
-      ancestor, zero overlap between intervening changes and migration-touched
-      paths, and promotion of exactly that patch onto the current head. Bind
-      the resulting commit and tree, zero ciphertext changes, credential
-      cleanup, exact current State head, State event IDs and digests,
-      materialized queue hashes and counts, and redacted projection before
-      writing production State or enabling replay.
-- [x] Install the reviewed audit promotion contract, bind its caller, and
-      retire the bootstrap path. Require each exact migration promotion to
-      delete its `archive-file-key-rewrap-v1` review branch.
-- [x] Remove the transient installed identity and migration scratch output;
-      retain only the authority and offline legacy-key copies required for the
-      final delta.
-- [ ] Keep every legacy identity copy until the final issue-intake delta is
-      closed; destroy it only after the documented cutoff, reconciliation, and
-      recovery checks are complete.
+- [x] Rewrap recoverable per-submission data keys without changing archive
+      ciphertext bytes or stable IDs.
+- [x] Build and inspect only the immutable images required by replayable v1
+      Results.
+- [x] Run the official Lean kernel path and nanoda with bounded retries.
+- [x] Record a terminal replay or reviewed-unavailable disposition for every
+      private-archive v1 Result.
+- [x] Remove migration credentials and plaintext scratch material.
+- [x] Retain canonical archive envelopes, crosswalks, image pins, and terminal
+      State needed for future verification.
 
 ### 12.4 Replay
 
-The replay credential and bounded public/private two-lane controller are
-installed. Retained-baseline State binding
-`e2b95a76d5d854f27d95358a2aafd380a40acc8445c3ab13ae7621614ce8d31f`
-was generated by submissions implementation
-`d8834749c3f21f14d5d42ad259cc67a687417ea9`, protected at checkpoint
-`36e405e558be69d50e3093d3e188d24d6fc7cfa1`, and promoted exactly as State
-checkpoint `76b3b3e54f4be69161a00cd81576a58df8eae815` (tree
-`e196521b812a0942eea9d11a8bcb2d7569728d50`). It contributes 2,439 lifecycle
-events and 813 deterministic replay tasks: 174 public and 639 private. The
-retained public unavailable set is 459 Results and the private unavailable set
-is 29 Results. All 439 recoverable private archives are migrated. The fixed
-review branch is absent and State validation passes.
+- [x] Confirm the public v1 planner and all four private v1 planners are empty.
+- [x] Confirm production State has no running historical replay.
+- [x] Disable the public and private historical controller gates.
+- [x] Prove that no task-scoped private Worker or container application remains.
+- [x] Delete the temporary controller, qualification, and resource-audit
+      machinery after that resource proof succeeds.
 
-The exact post-repair private replay canary is terminal accepted. Its terminal
-State, artifact, credential cleanup, and executor-absence readbacks pass.
-Retained terminal accounting includes accepted and safely failed executions.
+The v1 baseline remains complete and immutable. Reopening replay for the
+non-v1 campaign does not reopen or rewrite any v1 terminal record.
 
-The post-launch replay packet was protected at submissions
-`d26a3090a338358915cc94651ec7efddde71d241`. Protected main
-`b686eb49743ff5340a34801c0f8f36d921aa9094` updates the current private
-controller binding to implementation `7c79adcfe020c7ab2258662647dd5518358ae075`,
-workflow SHA-256
-`0d86af8b627ca474fc882ef6f93996a29099d9349e2700d84c5b4aa4acf34c78`,
-and bounded exact-shape poll-response retries. Activation State checkpoint
-`4fae55f7699e80d5b50314cf678bcf6caa020ad8` materialized 161 public and 630
-private queued entries. The last all-terminal checkpoint before the current
-runs, protected State
-`e5751a5b22b5663e1cdad7d87e9fa6f551852b40` records 23 accepted, one terminal
-failed, and 150 queued public tasks; it records 14 accepted, three terminal
-failed, one retryable `runner_lost` failure at attempt two, and 621 queued
-private tasks. The materialized actionable queues therefore contain 150 public
-and 622 private tasks. Both controller variables are true, with exactly one
-current run active in each independent lane. Private non-replenishing proof
-run `33823645564` is terminal accepted at State
-`24bcb65c8849b95f569c8ee037503049c7fe568f`, with its redacted artifact and
-resource/credential cleanup reviewed.
+### 12.5 Non-v1 completion campaign
 
-- [x] Install the production replay credential without exposing its value.
-- [x] Merge and deploy the bounded public/private two-lane controller in the
-      current submissions runtime.
-- [x] Stage and validate the retained-baseline State events without changing
-      protected production State or enabling either replay lane.
-- [x] Promote exactly the validated State baseline, verify the protected head
-      and materialized public/private queues, and only then enable replay.
-- [x] Complete the exact-current private retained-baseline replay canary and
-      its terminal readback before expanding either controller lane.
-- [x] Remove the obsolete staging smoke machinery.
-- [ ] Merge the bounded final-delta activation and closure mechanism after the
-      retained drain. Merge its audit companion first, then rebind the
-      submissions implementation to the resulting exact protected audit head
-      and tree before final review.
-- [x] Refresh the exact operational documentation and finish the final current
-      submissions deployment before starting the retained drain.
-- [x] Bind the post-launch replay packet to the exact deployed implementation
-      and current protected State before reinstalling either controller
-      variable.
-- [x] Start exactly one bounded public controller and one non-replenishing
-      private proof concurrently under their independent leases and concurrency
-      groups.
-- [x] After the private proof reaches a reviewed terminal state, start its
-      bounded sustained lane.
-- [ ] Drain both queues. Use another dispatch only for bounded retries left by
-      those runs.
-- [ ] Append canonical dispositions only within
-      the exact retained-baseline packet completed in section 12.3. After the
-      announced cutoff, process the append-only final delta through a separate
-      exact packet; extending the baseline packet by implication is forbidden.
-- [ ] Restore exact original source, benchmark, toolchain, comparator,
-      lean4export, and nanoda pins.
-- [ ] Execute the official Lean kernel path and nanoda only.
-- [ ] Record terminal outcomes with bounded retries.
-- [ ] Publish redacted verdicts and measurements.
-- [ ] Confirm every final-cutoff Result has a replay or reviewed unavailable
-      disposition.
+The initial campaign snapshot is production State
+`1e52235612fec220be054bccb442325bcc9c9526`, whose 4,420-event source digest is
+`20284ac890fa03b7a36e0491c8202d513562dcee656790ce83c02603788c9a57`.
+It materializes 145 public tasks (144 queued and one retryable failure) and 562
+queued private tasks. All 562 private tasks already use schema-version-3
+envelopes; the largest plaintext archive is below 7 MB, so no archive transport
+expansion is required. The tasks use 90 already reviewed execution profiles
+across five historical Lean toolchains.
 
-No experimental checker or promotion work may be added to close this phase.
+- [ ] Amend and merge the completion-plan scope before enabling replay.
+- [ ] Restore only the finite public controller and four finite private lanes
+      needed to drain the preserved queues; keep all controller gates dark by
+      default.
+- [ ] Revalidate the retained execution profiles, exact State/Audit bindings,
+      OIDC and unwrap scope, network isolation, bounded retries, and terminal
+      State writer before enabling the campaign.
+- [ ] Drain the 145 public tasks through the official Lean path and nanoda,
+      recording a terminal outcome or reviewed unavailability for each.
+- [ ] Drain the 562 private tasks through the same checker path without
+      retaining plaintext source, keys, credentials, or task-scoped resources.
+- [ ] At the issue-intake cutoff, freeze the final Results/State delta and
+      classify every additional legacy accepted Result.
+- [ ] Migrate any recoverable private archive in that final delta to a
+      per-submission envelope without changing archive bytes or stable IDs.
+- [ ] Drain the final public and private delta and prove both planners empty,
+      production State valid, and no historical replay running.
+- [ ] Disable the replay gates and delete the temporary controller, runner,
+      qualification, and resource-audit machinery and all task-scoped cloud
+      resources.
 
-### 12.5 Retire migration-only authority
+No experimental checker, persistent qualification service, or replay of
+ordinary server-intake submissions is part of this campaign.
 
-Do this only after the final-delta migration is promoted, every final-cutoff
-Result is terminal, the legacy identity is absent, both replay controllers are
-disabled, and no migration or replay run or temporary executor remains.
+### 12.6 Retained future-replay boundary
 
-- [ ] Merge current-head single-purpose retirement changes that remove the
-      migration dispatch, custodian helper and setup path, audit
-      promotion/bootstrap machinery, and temporary private-replay machinery.
-      Keep schema-version-3 archives and the ordinary v2 unwrap/replay path.
-- [ ] Verify no migration or replay run is active, bind the last possible role
-      session issuance time, wait through the role's maximum session duration,
-      and reverify that no live session or executor remains.
-- [ ] Apply and read back the exact infrastructure retirement that removes only
-      the migration Encrypt role and its stack output. Preserve ordinary
-      archive, replay, and release roles and the v1+v2 Decrypt support needed by
-      retained archives.
-- [ ] Delete the migration GitHub environment and its variables/secrets, and
-      delete the migration-only audit deploy key. Verify both are absent and
-      that unrelated credentials and environments are unchanged.
-- [ ] Verify that no bootstrap, source, or promotion review branch remains.
-      After final infrastructure and credential retirement, destroy the
-      custodian's offline legacy-key master and verify that no installed or
-      working copy remains.
+- [x] Keep schema-version-3 archives, canonical migration inputs, and the
+      ordinary v1/v2 unwrap and replay path.
+- [x] Keep the legacy identity absent from GitHub and remove transient identity
+      and plaintext scratch material.
+- [x] Leave the dedicated Encrypt-only migration role and protected environment
+      dormant except for a bounded final-delta migration; neither has replay,
+      production intake, release, or State-write authority.
+- [x] Keep the offline legacy identity under custodian control. Its eventual
+      destruction is an explicit future custodian decision, not part of this
+      overhaul.
 
 ## 13. Phase 7 — remaining product completion
 
@@ -804,10 +706,10 @@ disabled, and no migration or replay run or temporary executor remains.
 - [ ] Confirm at least two weeks of closure notice.
 - [ ] Confirm no unresolved severity-high incident.
 - [ ] Confirm adequate adoption and stable end-to-end operation.
-- [ ] Confirm the final historical cutoff/delta is recorded.
-- [ ] Confirm the cutoff freeze stopped accepting new issue work before the
-      final Results head was frozen and every pre-cutoff run drained. Keep the
-      public issue form frozen but present until the retirement packet passes.
+- [ ] Confirm every legacy accepted Result through the issue-intake cutoff has
+      a terminal replay or reviewed-unavailable disposition.
+- [ ] Freeze issue intake at the announced cutoff. Keep the public issue form
+      frozen but present until the retirement packet passes.
 - [ ] Complete the issue-retirement readiness packet because this removes the
       path used by existing issue-intake users. Standing authorization covers
       closure only after every preceding gate is satisfied.
@@ -832,7 +734,7 @@ disabled, and no migration or replay run or temporary executor remains.
 
 Production launch restore `39b2e67f7583926a4f1d66b723b5d4cf4756dd32`
 is live through deployed descendant
-`6e0aeb2b5c71fb857f09feff6172c4ee7bdfae08` with durable intake. Full
+`27fe540135dfcc6c0e21fccf3ab0f9eff51d49d8` with durable intake. Full
 completion is deliberately calendar-bound and occurs only when every
 completion-plan criterion is actually satisfied.
 
@@ -848,8 +750,8 @@ Update this table in place; do not append a history beneath it.
 | Credential boundary | Complete | — |
 | 3. Final staging acceptance | Complete | — |
 | Production launch readiness | Complete | — |
-| 4. Launch | Complete: backend `6e0aeb2b5c71fb857f09feff6172c4ee7bdfae08` live with durable intake; leaderboard `939d69c88292358adf60b124f29605215a1e422a` protected, deployed, and read back | — |
-| 5. Four-week overlap | In progress; automatic publication, durable server intake, and server-primary entry live; calendar-bound; future cutoff variable installed | Keep issue intake open through at least `2026-09-30T06:57:10Z`; merge and verify the reviewed cutoff guard after the retained drain and before that timestamp; the conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
-| 6. Historical completion | Packet bound; retained private migration and all required image/profile work complete; both bounded sustained drains active on protected submissions `b686eb49743ff5340a34801c0f8f36d921aa9094`; final-delta and issue-retirement drafts are open, including the matching leaderboard-copy retirement; not ready; calendar-bound | Complete both retained drains, then merge the audit companion and rebind the submissions final-delta implementation before the cutoff; process the separately bound delta only after issue-intake cutoff |
-| 7. Remaining product completion | In progress | Open problems and editorial work are complete; final live release/replay presentation and issue closure retain their calendar, stability, adoption, final-delta, and readiness gates |
+| 4. Launch | Complete; clean-break intake v2 and updated public guidance are live, and the bounded production submission reached an accepted result | — |
+| 5. Four-week overlap | In progress; automatic publication, durable server intake, and server-primary entry live; calendar-bound; future cutoff variable installed | Keep issue intake open through at least `2026-09-30T06:57:10Z`; the conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
+| 6. Historical completion | In progress: v1 is terminal; the finite non-v1 campaign has been added to scope | Drain 145 public and 562 private tasks, then freeze and drain the final issue-intake delta before removing temporary machinery again |
+| 7. Remaining product completion | In progress | Open problems and editorial work are complete; final live release/replay presentation and issue closure retain their calendar, stability, adoption, and readiness gates |
 | Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |

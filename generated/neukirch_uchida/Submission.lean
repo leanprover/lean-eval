@@ -1,8 +1,5 @@
 import Mathlib.FieldTheory.KrullTopology
 import Mathlib.NumberTheory.NumberField.Basic
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 import Submission.Helpers
 
 namespace Submission
