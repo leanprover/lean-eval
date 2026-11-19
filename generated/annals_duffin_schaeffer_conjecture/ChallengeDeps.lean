@@ -1,7 +1,4 @@
 import Mathlib.Topology.MetricSpace.HausdorffDimension
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statements from On the Duffin-Schaeffer conjecture

@@ -1,7 +1,4 @@
 import Mathlib.NumberTheory.NumberField.House
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 import Submission
 
 theorem dimitrov {K : Type*} [Field K] [NumberField K]

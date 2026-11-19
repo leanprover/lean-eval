@@ -1,7 +1,4 @@
 import Mathlib.Probability.Distributions.SetBernoulli
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Thresholds versus fractional expectation-thresholds

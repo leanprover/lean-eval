@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import os
 import pathlib
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -74,6 +76,20 @@ class SelectCIProblemsTest(unittest.TestCase):
         selection = self.select((Change("M", ("EvalTools/Generate.lean",)),))
         self.assertEqual(selection.mode, "full")
         self.assertEqual(selection.problems, ("a", "b", "b_second", "c"))
+
+    def test_solution_dependency_change_regenerates_every_workspace(self):
+        selection = self.select((Change("M", ("solution-dependencies.json",)),))
+        self.assertEqual(selection.mode, "full")
+        self.assertTrue(selection.source_changed)
+
+    def test_toolchain_configuration_changes_compile_the_full_catalog(self):
+        for path in ["supported-toolchains.json", "toolchains/v4.35.0/lake-manifest.json",
+                     "scripts/prepare_toolchain.py", "scripts/select_submission_toolchain.py",
+                     "scripts/prepare_ci_dependencies.py"]:
+            with self.subTest(path=path):
+                selection = self.select((Change("M", (path,)),))
+                self.assertEqual(selection.mode, "full")
+                self.assertEqual(selection.problems, ("a", "b", "b_second", "c"))
 
     def test_tag_registry_change_is_a_full_catalog_sentinel(self):
         selection = self.select((Change("M", ("manifests/tags.toml",)),))
@@ -169,6 +185,41 @@ class SelectCIProblemsTest(unittest.TestCase):
     def test_nul_git_changes_reject_truncated_records(self):
         with self.assertRaisesRegex(ValueError, "unexpected git diff record"):
             SELECTOR.parse_git_changes(b"R100\0LeanEval/Old.lean\0")
+
+    def test_pr_changes_exclude_updates_only_on_base_branch(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            env = {**os.environ, "GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_NOSYSTEM": "1"}
+
+            def git(*args: str) -> str:
+                return subprocess.check_output(
+                    ["git", *args], cwd=root, text=True, env=env
+                ).strip()
+
+            git("init", "-q")
+            git("config", "user.name", "CI test")
+            git("config", "user.email", "ci@example.test")
+            (root / "README.md").write_text("base\n", encoding="utf-8")
+            git("add", "README.md")
+            git("commit", "-qm", "base")
+            git("branch", "-M", "main")
+            git("switch", "-qc", "feature")
+            (root / "LeanEval").mkdir()
+            (root / "LeanEval" / "New.lean").write_text("-- new\n", encoding="utf-8")
+            git("add", "LeanEval/New.lean")
+            git("commit", "-qm", "new problem")
+            head = git("rev-parse", "HEAD")
+            git("switch", "-q", "main")
+            (root / "generated").mkdir()
+            (root / "generated" / "index.json").write_text("{}\n", encoding="utf-8")
+            git("add", "generated/index.json")
+            git("commit", "-qm", "regenerate main")
+            base = git("rev-parse", "HEAD")
+
+            pr_changes = SELECTOR.git_changes(root, base, head, "pull_request")
+            self.assertEqual(pr_changes, (Change("A", ("LeanEval/New.lean",)),))
+            push_changes = SELECTOR.git_changes(root, base, head, "push")
+            self.assertIn(Change("D", ("generated/index.json",)), push_changes)
 
     def test_loads_graph_emitted_by_lean(self):
         payload = [

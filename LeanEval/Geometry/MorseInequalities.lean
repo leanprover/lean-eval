@@ -90,7 +90,7 @@ noncomputable def morseCount
 coefficients. -/
 noncomputable def bettiNumber (M : Type) [TopologicalSpace M] (k : ℕ) : ℕ :=
   Module.finrank ℝ
-    (((AlgebraicTopology.singularHomologyFunctor (ModuleCat ℝ) k).obj
+    (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℝ) k).obj
         (ModuleCat.of ℝ ℝ)).obj (TopCat.of M))
 
 /-- The alternating partial sum `∑_{j=0}^{k} (−1)^{k−j} a_j`. -/

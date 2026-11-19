@@ -1,7 +1,4 @@
 import Mathlib
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 theorem mihailescu {x y m n : ℕ}
     (hx : 0 < x) (hy : 0 < y) (hm : 1 < m) (hn : 1 < n)

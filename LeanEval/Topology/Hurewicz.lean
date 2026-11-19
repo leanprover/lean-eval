@@ -18,14 +18,14 @@ open CategoryTheory AlgebraicTopology
 
 /-- Integral singular homology in degree `n`, as an additive group. -/
 noncomputable abbrev IntegralHomology (n : ℕ) (X : Type) [TopologicalSpace X] : AddCommGrpCat :=
-  ((singularHomologyFunctor AddCommGrpCat n).obj (AddCommGrpCat.of ℤ)).obj (TopCat.of X)
+  ((singularHomologyFunctor AddCommGrpCat.{0} n).obj (AddCommGrpCat.of ℤ)).obj (TopCat.of X)
 
 /-- **Hurewicz (n = 1).** For a path-connected space `X`, `H₁(X;ℤ)` is the
 abelianization of `π₁(X, x)`. -/
 @[eval_problem]
 theorem hurewicz_h1_abelianization
     (X : Type) [TopologicalSpace X] [PathConnectedSpace X] (x : X) :
-    Nonempty (Additive (Abelianization (FundamentalGroup X x)) ≃+
+    Nonempty (Additive ((FundamentalGroup X x) ⧸ commutator (FundamentalGroup X x)) ≃+
       (IntegralHomology 1 X : Type)) := by
   sorry
 

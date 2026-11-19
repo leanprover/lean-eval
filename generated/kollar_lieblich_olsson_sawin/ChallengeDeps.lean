@@ -1,7 +1,4 @@
 import Mathlib
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Topological reconstruction theorems for varieties
