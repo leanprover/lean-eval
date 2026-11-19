@@ -7,7 +7,7 @@ Authors: Justus Springer
 import Mathlib.AlgebraicGeometry.Birational.Birational
 import Mathlib.AlgebraicGeometry.Birational.Composition
 import Mathlib.AlgebraicGeometry.Morphisms.Proper
-import Mathlib.Data.Complex.Basic
+import Mathlib.Basic.Complex.Basic
 import Mathlib.NumberTheory.NumberField.Basic
 import EvalTools.Markers
 

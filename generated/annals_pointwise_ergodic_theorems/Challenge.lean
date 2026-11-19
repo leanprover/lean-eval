@@ -7,6 +7,7 @@ Authors: David Ledvinka
 -/
 
 import Mathlib.Analysis.Normed.Lp.PiLp
+import Mathlib.Algebra.Polynomial.Degree.Defs
 import Mathlib.MeasureTheory.Function.LpSpace.Basic
 /-!
 # Main Statements from Pointwise ergodic theorems for non-conventional bilinear polynomial averages

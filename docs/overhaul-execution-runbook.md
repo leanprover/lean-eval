@@ -146,8 +146,8 @@ invalidate these bindings. Section 5.2 records the deployed runtime separately.
 | Repository | Durable checkpoint | Protection state |
 | --- | --- | --- |
 | `lean-eval` | Completion-plan and runbook checkpoint `59c0c18b2d14015589927b6e810386025c93ba4b` | Required `verify` |
-| `lean-eval-submissions` | Protected main and deployed production Worker `0aef118adbe2e2e48917827839c6b37714cc7c50` | Required `verify` |
-| `lean-eval-leaderboard` | Protected and deployed main `939d69c88292358adf60b124f29605215a1e422a` | Required `build`; exact Pages deployment and live readback complete |
+| `lean-eval-submissions` | Protected main and deployed production Worker `27fe540135dfcc6c0e21fccf3ab0f9eff51d49d8` | Required `verify` |
+| `lean-eval-leaderboard` | Protected and deployed main `72fc27fb8f302b38a2741831130fd73f4dcfc41a` | Required `build`; exact Pages deployment and live readback complete |
 | `lean-eval-state` | Retained-baseline checkpoint `76b3b3e54f4be69161a00cd81576a58df8eae815` | Required `validate`; append-only descendants allowed |
 | `lean-eval-state-staging` | Launch-acceptance checkpoint `0849a95026ea3491ec55f1e0ef3b6ff2dff00fd5` | Required `validate`; append-only descendants allowed |
 | `lean-eval-releases` | `7dba9bf4f78c71ff478de8c593cb41e07201c14a` | Required `validate` |
@@ -157,7 +157,7 @@ invalidate these bindings. Section 5.2 records the deployed runtime separately.
 ### 5.2 Deployed services
 
 Production serves deployed submissions implementation
-`0aef118adbe2e2e48917827839c6b37714cc7c50` with durable intake and exactly
+`27fe540135dfcc6c0e21fccf3ab0f9eff51d49d8` with durable intake and exactly
 the approved lifecycle routes enabled. Deployment, CI, readiness, health, and
 protected-State validation pass.
 Staging intake and public lifecycle routes remain disabled, with its promotion
@@ -170,7 +170,7 @@ and no task-scoped private Worker or container application remains. Temporary
 replay controllers and qualification machinery have been removed; canonical
 archives, plans, pins, schemas, and terminal State remain for reproducibility.
 
-Leaderboard commit `939d69c88292358adf60b124f29605215a1e422a` is protected and
+Leaderboard commit `72fc27fb8f302b38a2741831130fd73f4dcfc41a` is protected and
 deployed. The live submit entry directs users to the production service,
 requires both read-only Apps, recommends scheduled release by default, and
 retains the dated issue-intake fallback. A representative problem page retains
@@ -187,7 +187,7 @@ The server-primary entry is live. The overlap began
 - [x] Read staging and production intake health.
 - [x] Read staging and production broker/replay health and current versions.
 - [x] Verify production serves deployed implementation
-      `0aef118adbe2e2e48917827839c6b37714cc7c50` and reports durable intake plus
+      `27fe540135dfcc6c0e21fccf3ab0f9eff51d49d8` and reports durable intake plus
       exactly the approved lifecycle routes.
 - [x] Verify general replay is disabled and historical replay-controller
       variables are absent.
@@ -207,7 +207,7 @@ The server-primary entry is live. The overlap began
 - [x] Confirm the scheduled-release presentation deploys from reviewed main and
       the canonical live asset is byte-identical.
 - [x] Verify leaderboard commit
-      `939d69c88292358adf60b124f29605215a1e422a` is the exact live Pages
+      `72fc27fb8f302b38a2741831130fd73f4dcfc41a` is the exact live Pages
       deployment.
 
 Exit condition: the coherent disabled baseline was captured before launch.
@@ -502,9 +502,32 @@ write-free no-op, and enabled no-due-work pass all succeed.
 - [x] State that any eventual issue-intake closure requires at least two weeks'
       notice.
 
+### 10.5 Post-launch P0/P1 hardening
+
+- [x] Make server submissions evaluate only the catalog problem and statement
+      revision accepted into State; keep workspace scanning only in the
+      temporary legacy issue lane.
+- [x] Align the public State projection and leaderboard adapter on all current
+      historical counter-unavailability reasons.
+- [x] Add immutable exact-submission claims and per-owner intake indexes to
+      both production and staging State.
+- [x] Deploy clean-break intake API schema version 2. The server resolves group
+      and revision from protected benchmark `main`, requires current terms,
+      rejects withheld publication for public repositories, deduplicates exact
+      submissions, and permits at most four active submissions per owner.
+- [x] Update the submission service, stable submit page, and repository guide
+      to describe the same contract and remove superseded overhaul narratives.
+- [x] Read back production health and exercise one bounded exact submission
+      after the hardened Worker is deployed.
+
 Exit condition: the launch commit is live, new production submissions traverse
 the promised lifecycle, and the system can be paused through the documented
 path.
+
+Lower-priority UX, performance, reliability, and cleanup findings are collected
+in [lean-eval #634](https://github.com/leanprover/lean-eval/issues/634) for later
+triage. They are not part of this overhaul unless the completion plan is
+explicitly amended.
 
 ## 11. Phase 5 — four-week overlap
 
@@ -546,12 +569,19 @@ Do not turn monitoring output into a permanent incident-history appendix.
 
 ## 12. Phase 6 — historical completion
 
-This overhaul's historical scope is the legacy accepted Results whose problem
-belongs to the frozen 128-problem v1 release set. The canonical v1 problem-set
-binding has SHA-256
+This overhaul's historical scope is every legacy accepted Result recorded
+before issue intake closes. The completed v1 baseline remains bound to the
+canonical v1 problem-set SHA-256
 `546706914389696b93653189ba870550e9853a4ac653664f482ba8d4d9eb9492`.
-Non-v1 historical Results remain available for later replay work but do not
-block this overhaul.
+The non-v1 queues are now part of completion under the same official-kernel and
+nanoda policy. Issue intake remains open until the announced cutoff, so the
+campaign has two finite parts: drain the current queues, then freeze and drain
+the append-only cutoff delta.
+
+The completed historical baseline contains 1,301 terminal in-scope records.
+At the 2026-09-13 reconciliation, 80 later legacy issue-intake records formed
+the append-only post-baseline delta. That delta may grow until issue intake is
+frozen; keep it separate from the already terminal historical baseline.
 
 ### 12.1 Frozen v1 scope
 
@@ -594,18 +624,52 @@ block this overhaul.
 - [x] Delete the temporary controller, qualification, and resource-audit
       machinery after that resource proof succeeds.
 
-The remaining materialized public queue contains 145 non-v1 tasks. They are
-outside the frozen v1 scope and are deliberately deferred. No experimental
-checker or persistent qualification machinery may be added to this phase.
+The v1 baseline remains complete and immutable. Reopening replay for the
+non-v1 campaign does not reopen or rewrite any v1 terminal record.
 
-### 12.5 Retained future-replay boundary
+### 12.5 Non-v1 completion campaign
+
+The initial campaign snapshot is production State
+`1e52235612fec220be054bccb442325bcc9c9526`, whose 4,420-event source digest is
+`20284ac890fa03b7a36e0491c8202d513562dcee656790ce83c02603788c9a57`.
+It materializes 145 public tasks (144 queued and one retryable failure) and 562
+queued private tasks. All 562 private tasks already use schema-version-3
+envelopes; the largest plaintext archive is below 7 MB, so no archive transport
+expansion is required. The tasks use 90 already reviewed execution profiles
+across five historical Lean toolchains.
+
+- [ ] Amend and merge the completion-plan scope before enabling replay.
+- [ ] Restore only the finite public controller and four finite private lanes
+      needed to drain the preserved queues; keep all controller gates dark by
+      default.
+- [ ] Revalidate the retained execution profiles, exact State/Audit bindings,
+      OIDC and unwrap scope, network isolation, bounded retries, and terminal
+      State writer before enabling the campaign.
+- [ ] Drain the 145 public tasks through the official Lean path and nanoda,
+      recording a terminal outcome or reviewed unavailability for each.
+- [ ] Drain the 562 private tasks through the same checker path without
+      retaining plaintext source, keys, credentials, or task-scoped resources.
+- [ ] At the issue-intake cutoff, freeze the final Results/State delta and
+      classify every additional legacy accepted Result.
+- [ ] Migrate any recoverable private archive in that final delta to a
+      per-submission envelope without changing archive bytes or stable IDs.
+- [ ] Drain the final public and private delta and prove both planners empty,
+      production State valid, and no historical replay running.
+- [ ] Disable the replay gates and delete the temporary controller, runner,
+      qualification, and resource-audit machinery and all task-scoped cloud
+      resources.
+
+No experimental checker, persistent qualification service, or replay of
+ordinary server-intake submissions is part of this campaign.
+
+### 12.6 Retained future-replay boundary
 
 - [x] Keep schema-version-3 archives, canonical migration inputs, and the
       ordinary v1/v2 unwrap and replay path.
 - [x] Keep the legacy identity absent from GitHub and remove transient identity
       and plaintext scratch material.
 - [x] Leave the dedicated Encrypt-only migration role and protected environment
-      dormant for a possible later non-v1 migration; neither has replay,
+      dormant except for a bounded final-delta migration; neither has replay,
       production intake, release, or State-write authority.
 - [x] Keep the offline legacy identity under custodian control. Its eventual
       destruction is an explicit future custodian decision, not part of this
@@ -642,7 +706,8 @@ checker or persistent qualification machinery may be added to this phase.
 - [ ] Confirm at least two weeks of closure notice.
 - [ ] Confirm no unresolved severity-high incident.
 - [ ] Confirm adequate adoption and stable end-to-end operation.
-- [x] Confirm the frozen v1 historical scope has terminal dispositions.
+- [ ] Confirm every legacy accepted Result through the issue-intake cutoff has
+      a terminal replay or reviewed-unavailable disposition.
 - [ ] Freeze issue intake at the announced cutoff. Keep the public issue form
       frozen but present until the retirement packet passes.
 - [ ] Complete the issue-retirement readiness packet because this removes the
@@ -669,7 +734,7 @@ checker or persistent qualification machinery may be added to this phase.
 
 Production launch restore `39b2e67f7583926a4f1d66b723b5d4cf4756dd32`
 is live through deployed descendant
-`0aef118adbe2e2e48917827839c6b37714cc7c50` with durable intake. Full
+`27fe540135dfcc6c0e21fccf3ab0f9eff51d49d8` with durable intake. Full
 completion is deliberately calendar-bound and occurs only when every
 completion-plan criterion is actually satisfied.
 
@@ -685,8 +750,8 @@ Update this table in place; do not append a history beneath it.
 | Credential boundary | Complete | — |
 | 3. Final staging acceptance | Complete | — |
 | Production launch readiness | Complete | — |
-| 4. Launch | Complete: backend `0aef118adbe2e2e48917827839c6b37714cc7c50` live with durable intake; leaderboard `939d69c88292358adf60b124f29605215a1e422a` protected, deployed, and read back | — |
+| 4. Launch | Complete; clean-break intake v2 and updated public guidance are live, and the bounded production submission reached an accepted result | — |
 | 5. Four-week overlap | In progress; automatic publication, durable server intake, and server-primary entry live; calendar-bound; future cutoff variable installed | Keep issue intake open through at least `2026-09-30T06:57:10Z`; the conditional closure notice matures `2026-09-16T23:06:35Z`, and the canary automatic-release checkpoint is `2026-11-02T03:50:01.002Z` |
-| 6. Historical completion | Complete: v1 public and private queues are terminal; no replay or task-scoped private resource remains; temporary controllers and qualification machinery are removed | — |
+| 6. Historical completion | In progress: v1 is terminal; the finite non-v1 campaign has been added to scope | Drain 145 public and 562 private tasks, then freeze and drain the final issue-intake delta before removing temporary machinery again |
 | 7. Remaining product completion | In progress | Open problems and editorial work are complete; final live release/replay presentation and issue closure retain their calendar, stability, adoption, and readiness gates |
 | Final audit | Preparatory cleanup complete; final audit pending | Repeat the audit after all phases and confirm only explained launch and retirement work remains |

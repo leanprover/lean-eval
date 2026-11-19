@@ -1,7 +1,4 @@
 import Mathlib
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 variable {n : Type*} [Fintype n] [DecidableEq n]
 

@@ -28,13 +28,16 @@ def symAction (R M : Type*) [CommSemiring R] [AddCommMonoid M] [Module R M] (k :
   toFun σ := (PiTensorProduct.reindex R (fun _ : Fin k => M) σ).toLinearMap
   map_one' := by
     ext x
-    simp only [LinearEquiv.coe_coe, LinearMap.coe_compMultilinearMap, Function.comp_apply,
-      PiTensorProduct.reindex_tprod, Module.End.one_apply]
+    change PiTensorProduct.reindex R (fun _ : Fin k => M) 1 (PiTensorProduct.tprod R x) =
+      PiTensorProduct.tprod R x
+    simp only [PiTensorProduct.reindex_tprod]
     rfl
   map_mul' σ τ := by
     ext x
-    simp only [Module.End.mul_apply, LinearEquiv.coe_coe, LinearMap.coe_compMultilinearMap,
-      Function.comp_apply, PiTensorProduct.reindex_tprod]
+    change PiTensorProduct.reindex R (fun _ : Fin k => M) (σ * τ) (PiTensorProduct.tprod R x) =
+      PiTensorProduct.reindex R (fun _ : Fin k => M) σ
+        (PiTensorProduct.reindex R (fun _ : Fin k => M) τ (PiTensorProduct.tprod R x))
+    simp only [PiTensorProduct.reindex_tprod]
     rfl
 
 /-- The general linear group `GL(V)` acts diagonally on `V^⊗k`:

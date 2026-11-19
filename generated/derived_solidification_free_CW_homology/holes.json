@@ -48,7 +48,7 @@
       "name": "LightCondensed.Solid.derivedSolidificationFreeCWFunctor",
       "basename": "derivedSolidificationFreeCWFunctor",
       "kind": "def",
-      "body": "/-- **Hole 8.** The functor sending a CW complex to the derived inclusion of the derived\nsolidification of the free light condensed abelian group on it. -/\ndef derivedSolidificationFreeCWFunctor : CWTopCat \u2964 DLightCondAb := sorry"
+      "body": "/-- **Hole 8.** The functor sending a Hausdorff CW complex to the derived inclusion of the derived\nsolidification of the free light condensed abelian group on it. -/\ndef derivedSolidificationFreeCWFunctor : CWTopCat \u2964 DLightCondAb := sorry"
     },
     {
       "name": "LightCondensed.Solid.derivedSolidificationFreeCWFunctorSpec",
@@ -60,19 +60,19 @@
       "name": "LightCondensed.Solid.derivedSolidification_free_CW_derivedNatIso",
       "basename": "derivedSolidification_free_CW_derivedNatIso",
       "kind": "def",
-      "body": "/-- **Hole 10.** The derived comparison theorem, naturally in a CW complex `X`: after applying the\nexact derived inclusion from solid light condensed abelian groups to light condensed abelian groups,\nthe derived solidification of the free light condensed abelian group on `X` is the integral singular\nchain complex of `X` as a derived object of light condensed abelian groups. -/\ndef derivedSolidification_free_CW_derivedNatIso :\n    derivedSolidificationFreeCWFunctor \u2245 singularChainsLightCondAbCWDerivedFunctor := sorry"
+      "body": "/-- **Hole 10.** The derived comparison theorem, naturally in a Hausdorff CW complex `X`: after applying\nthe exact derived inclusion from solid light condensed abelian groups to light condensed abelian groups,\nthe derived solidification of the free light condensed abelian group on `X` is the integral singular\nchain complex of `X` as a derived object of light condensed abelian groups. -/\ndef derivedSolidification_free_CW_derivedNatIso :\n    derivedSolidificationFreeCWFunctor \u2245 singularChainsLightCondAbCWDerivedFunctor := sorry"
     },
     {
       "name": "LightCondensed.Solid.derivedSolidification_free_CW_homologyIso",
       "basename": "derivedSolidification_free_CW_homologyIso",
       "kind": "def",
-      "body": "/-- **Hole 11.** For a CW complex `X`, the homology of the derived solidification of the free\nlight condensed abelian group on `X` is integral singular homology.  Since the derived category\nis cohomologically indexed, the `n`-th singular homology group occurs in degree `-n`. -/\ndef derivedSolidification_free_CW_homologyIso\n    (X : TopCat) [Topology.CWComplex (Set.univ : Set X)] (n : \u2115) :\n    isSolid.\u03b9.obj\n      ((DerivedCategory.homologyFunctor Solid (-(n : \u2124))).obj\n        (derivedSolidification.obj\n          ((DerivedCategory.singleFunctor LightCondAb 0).obj (freeLightCondAbOfTop X)))) \u2245\n      singularHomologyLightCondAb X n := sorry"
+      "body": "/-- **Hole 11.** For a Hausdorff CW complex `X`, the homology of the derived solidification of the free\nlight condensed abelian group on `X` is integral singular homology.  Since the derived category\nis cohomologically indexed, the `n`-th singular homology group occurs in degree `-n`. -/\ndef derivedSolidification_free_CW_homologyIso\n    (X : TopCat) [T2Space X] [Topology.CWComplex (Set.univ : Set X)] (n : \u2115) :\n    isSolid.\u03b9.obj\n      ((DerivedCategory.homologyFunctor Solid (-(n : \u2124))).obj\n        (derivedSolidification.obj\n          ((DerivedCategory.singleFunctor LightCondAb 0).obj (freeLightCondAbOfTop X)))) \u2245\n      singularHomologyLightCondAb X n := sorry"
     },
     {
       "name": "LightCondensed.Solid.derivedSolidification_free_CW_homology",
       "basename": "derivedSolidification_free_CW_homology",
       "kind": "theorem",
-      "body": "/-- **Hole 12.** The theorem form of `derivedSolidification_free_CW_homologyIso`: the derived\nsolidification of the free light condensed abelian group on a CW complex computes integral\nsingular homology. -/\ntheorem derivedSolidification_free_CW_homology\n    (X : TopCat) [Topology.CWComplex (Set.univ : Set X)] (n : \u2115) :\n    Nonempty\n      (isSolid.\u03b9.obj\n        ((DerivedCategory.homologyFunctor Solid (-(n : \u2124))).obj\n          (derivedSolidification.obj\n            ((DerivedCategory.singleFunctor LightCondAb 0).obj (freeLightCondAbOfTop X)))) \u2245\n        singularHomologyLightCondAb X n) := sorry"
+      "body": "/-- **Hole 12.** The theorem form of `derivedSolidification_free_CW_homologyIso`: the derived\nsolidification of the free light condensed abelian group on a Hausdorff CW complex computes integral\nsingular homology. -/\ntheorem derivedSolidification_free_CW_homology\n    (X : TopCat) [T2Space X] [Topology.CWComplex (Set.univ : Set X)] (n : \u2115) :\n    Nonempty\n      (isSolid.\u03b9.obj\n        ((DerivedCategory.homologyFunctor Solid (-(n : \u2124))).obj\n          (derivedSolidification.obj\n            ((DerivedCategory.singleFunctor LightCondAb 0).obj (freeLightCondAbOfTop X)))) \u2245\n        singularHomologyLightCondAb X n) := sorry"
     }
   ]
 }

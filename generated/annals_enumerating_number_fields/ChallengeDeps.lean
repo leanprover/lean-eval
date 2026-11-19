@@ -2,9 +2,6 @@ import Mathlib.Algebra.Lie.OfAssociative
 import Mathlib.Algebra.MvPolynomial.PDeriv
 import Mathlib.AlgebraicGeometry.IdealSheaf.IrreducibleComponent
 import Mathlib.NumberTheory.NumberField.Discriminant.Basic
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statements from Enumerating number fields

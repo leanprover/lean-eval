@@ -87,7 +87,7 @@ noncomputable def morseCount
 /-- `b_k(M) := dim_ℝ H_k(M; ℝ)`. -/
 noncomputable def bettiNumber (M : Type) [TopologicalSpace M] (k : ℕ) : ℕ :=
   Module.finrank ℝ
-    (((AlgebraicTopology.singularHomologyFunctor (ModuleCat ℝ) k).obj
+    (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℝ) k).obj
         (ModuleCat.of ℝ ℝ)).obj (TopCat.of M))
 
 /-- **Weak Morse inequalities.** For a Morse function `f` on a closed

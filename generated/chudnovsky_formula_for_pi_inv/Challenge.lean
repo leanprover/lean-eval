@@ -1,7 +1,4 @@
 import Mathlib.Analysis.Real.Pi.Chudnovsky
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 open scoped Real
 

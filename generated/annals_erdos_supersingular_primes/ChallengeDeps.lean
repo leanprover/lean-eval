@@ -1,7 +1,4 @@
 import Mathlib.Analysis.Complex.Exponential
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from A conjecture of Erdős, supersingular primes and short character sums

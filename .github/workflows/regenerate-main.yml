@@ -12,6 +12,7 @@ on:
       - 'manifests/**'
       - '.github/workflows/regenerate-main.yml'
       - 'lakefile.toml'
+      - 'solution-dependencies.json'
       - 'lean-toolchain'
   workflow_dispatch:
 
@@ -26,6 +27,19 @@ jobs:
   regenerate:
     runs-on: ubuntu-latest
     steps:
+      - name: Free up disk space
+        # jlumbroso/free-disk-space pinned to 54081f13 (= refs/tags/v1.3.1, also main HEAD as of 2026-05-04).
+        # Bump procedure: SECURITY.md > "Bumping pinned dependencies".
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
+        with:
+          tool-cache: false
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
+
       # actions/checkout pinned to 3d3c42e5 (= refs/tags/v7.0.1 as of 2026-07-30).
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -39,8 +53,16 @@ jobs:
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
           use-mathlib-cache: true
+          # The build below fetches TauCeti's oleans; building here first
+          # would compile TauCeti before its cache is configured.
+          build: false
+          test: false
+          lint: false
 
       - name: Regenerate against a stable main
+        env:
+          STACKS_ARTIFACT_ENDPOINT: ${{ vars.STACKS_ARTIFACT_ENDPOINT }}
+          STACKS_REVISION_ENDPOINT: ${{ vars.STACKS_REVISION_ENDPOINT }}
         # A merge can land during the hour-long full-catalog generation. Repeat
         # from the new main instead of rebasing stale generated output over it.
         # Three attempts bound runner use during an unusually busy merge burst.
@@ -51,6 +73,15 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
             git clean -ffd generated/
+            # Imported large libraries restore their published oleans
+            # without compiling on a cache miss, at the pins of this checkout; see
+            # scripts/fetch_dependency_caches.sh.
+            # Check out the dependencies this revision pins before comparing
+            # them, and drop the previous attempt's cache settings.
+            lake exe cache get
+            unset LAKE_CONFIG LAKE_ARTIFACT_CACHE
+            cache_env="$(env -u GITHUB_ENV bash scripts/fetch_dependency_caches.sh --restore .)"
+            eval "$cache_env"
             base_sha=$(git rev-parse HEAD)
             echo "Regeneration attempt $attempt/$max_attempts at $base_sha"
             lake exe lean-eval generate

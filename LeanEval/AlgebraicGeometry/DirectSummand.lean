@@ -50,7 +50,7 @@ noncomputable def rightDerivedFunctorPlusUnit' {C D : Type*} [Category* C] [Cate
     F ⋙ DerivedCategory.Plus.singleFunctor _ n ⟶
     DerivedCategory.Plus.singleFunctor _ n ⋙ F.rightDerivedFunctorPlus :=
   Functor.whiskerRight (singleFunctorMapHomotopyCategoryPlus F n).inv DerivedCategory.Plus.Qh ≫
-    (HomotopyCategory.Plus.singleFunctor _ n).whiskerLeft F.rightDerivedFunctorPlusUnit
+    (HomotopyCategory.Plus.singleFunctor C n).whiskerLeft F.rightDerivedFunctorPlusUnith
 
 instance {C : Type*} [Category* C] {J : GrothendieckTopology C} (R : Sheaf J RingCat) (X : Cᵒᵖ) :
     (SheafOfModules.evaluation R X).Additive where

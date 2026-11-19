@@ -3,9 +3,6 @@ import Mathlib.Analysis.SpecialFunctions.Log.Base
 import Mathlib.FieldTheory.Finite.GaloisField
 import Mathlib.RingTheory.Ideal.Norm.AbsNorm
 import Mathlib.RingTheory.UniqueFactorizationDomain.Moebius
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statements from On the Chowla and twin primes conjectures over 𝔽_q[T]
