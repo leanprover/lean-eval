@@ -1,8 +1,5 @@
 import Mathlib.Analysis.Calculus.Deriv.Basic
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 open Filter Topology
 

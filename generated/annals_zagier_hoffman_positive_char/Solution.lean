@@ -6,6 +6,7 @@ Authors: Katerina Hristova
 
 import Mathlib.NumberTheory.FunctionField
 import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.Topology.Algebra.InfiniteSum.Defs
 import Submission
 import ChallengeDeps
 /-!

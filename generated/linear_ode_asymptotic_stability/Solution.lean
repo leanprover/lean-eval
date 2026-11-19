@@ -2,9 +2,6 @@ import Mathlib.Analysis.Calculus.Deriv.Basic
 import Mathlib.Analysis.Calculus.FDeriv.Basic
 import Mathlib.Analysis.Normed.Algebra.MatrixExponential
 import Mathlib.LinearAlgebra.Eigenspace.Basic
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 import Submission
 
 open scoped Matrix

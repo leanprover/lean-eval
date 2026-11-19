@@ -1,8 +1,5 @@
 import Mathlib.Algebra.Module.FinitePresentation
 import Mathlib.GroupTheory.FinitelyPresentedGroup
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from On the coherence of one-relator groups and their group algebras

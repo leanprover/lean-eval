@@ -1,7 +1,4 @@
 import Mathlib
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 import Submission
 
 theorem klartag_packing : ∃ c : ℝ, 0 < c ∧ ∀ n : ℕ,

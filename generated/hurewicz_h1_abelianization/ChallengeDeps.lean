@@ -1,7 +1,4 @@
 import Mathlib
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 namespace LeanEval.Topology.Hurewicz
 
@@ -20,7 +17,7 @@ open CategoryTheory AlgebraicTopology
 
 /-- Integral singular homology in degree `n`, as an additive group. -/
 noncomputable abbrev IntegralHomology (n : ℕ) (X : Type) [TopologicalSpace X] : AddCommGrpCat :=
-  ((singularHomologyFunctor AddCommGrpCat n).obj (AddCommGrpCat.of ℤ)).obj (TopCat.of X)
+  ((singularHomologyFunctor AddCommGrpCat.{0} n).obj (AddCommGrpCat.of ℤ)).obj (TopCat.of X)
 
 
 
