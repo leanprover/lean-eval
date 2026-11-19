@@ -1,7 +1,4 @@
 import Mathlib
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 import Submission
 
 theorem shafarevich_solvable_galois (G : Type*) [Group G] [Finite G] [Group.IsSolvable G] :

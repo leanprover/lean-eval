@@ -1,16 +1,16 @@
 import Mathlib
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Derived solidification of free CW complexes
 
 This challenge is extracted from the LeanCondensed project
 <https://github.com/dagurtomas/LeanCondensed>, which develops the theory of light condensed
-mathematics of Clausen–Scholze in Lean.  The target statement is the comparison theorem for a CW
-complex `X`: the homology of the derived solidification of the free light condensed abelian group
+mathematics of Clausen–Scholze in Lean.  The target statement is the comparison theorem for a Hausdorff
+CW complex `X`: the homology of the derived solidification of the free light condensed abelian group
 on `X` is integral singular homology.
+
+Mathlib's `Topology.CWComplex` does not include a Hausdorff assumption. We require it separately:
+without it, the CW predicate admits non-Hausdorff spaces for which the comparison fails.
 
 The non-`sorry` part of this file develops, using only Mathlib, the definition of
 *light solid abelian groups*: a light condensed abelian group `A` is solid if the map
@@ -331,14 +331,14 @@ abbrev freeLightCondAbOfTopFunctor : TopCat ⥤ LightCondAb :=
 abelian group. -/
 abbrev singularHomologyLightCondAb (X : TopCat) (n : ℕ) : LightCondAb :=
   (LightCondensed.discrete (ModuleCat ℤ)).obj
-    (((AlgebraicTopology.singularHomologyFunctor (ModuleCat ℤ) n).obj (ModuleCat.of ℤ ℤ)).obj X)
+    (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) n).obj (ModuleCat.of ℤ ℤ)).obj X)
 
 /-- The integral singular chain complex of a topological space, viewed as a cochain complex of
 light condensed abelian groups by applying the discrete functor degreewise and placing homological
 chain degree `n` in cohomological degree `-n`. -/
 abbrev singularChainsLightCondAbComplexFunctor :
     TopCat ⥤ CochainComplex LightCondAb ℤ :=
-  ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat ℤ)).obj (ModuleCat.of ℤ ℤ)) ⋙
+  ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{0} ℤ)).obj (ModuleCat.of ℤ ℤ)) ⋙
     (LightCondensed.discrete (ModuleCat ℤ)).mapHomologicalComplex (ComplexShape.down ℕ) ⋙
     ComplexShape.embeddingDownNat.extendFunctor LightCondAb
 
@@ -349,14 +349,16 @@ abbrev singularChainsLightCondAbDerivedFunctor : TopCat ⥤ DLightCondAb :=
 
 
 
-/-- The property of topological spaces admitting a classical CW complex structure. -/
+/-- The property of Hausdorff spaces admitting a classical CW complex structure. -/
 abbrev isCWTopCat : ObjectProperty TopCat :=
-  fun X ↦ Nonempty (Topology.CWComplex (Set.univ : Set X))
+  fun X ↦ T2Space X ∧ Nonempty (Topology.CWComplex (Set.univ : Set X))
 
-/-- The full subcategory of topological spaces admitting a classical CW complex structure. -/
+/-- The full subcategory of Hausdorff spaces admitting a classical CW complex structure. -/
 abbrev CWTopCat : Type _ := isCWTopCat.FullSubcategory
 
 namespace CWTopCat
+
+
 
 
 

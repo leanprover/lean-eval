@@ -1,8 +1,5 @@
 import Mathlib.Analysis.Calculus.Gradient.Basic
 import Mathlib.Analysis.Calculus.IteratedDeriv.Defs
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Viscosity solutions and hyperbolic motions:

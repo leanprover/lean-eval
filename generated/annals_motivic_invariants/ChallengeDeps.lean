@@ -3,9 +3,6 @@ import Mathlib.AlgebraicGeometry.Birational.Composition
 import Mathlib.AlgebraicGeometry.Morphisms.Proper
 import Mathlib.Basic.Complex.Basic
 import Mathlib.NumberTheory.NumberField.Basic
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Motivic invariants of birational maps

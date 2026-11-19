@@ -3,9 +3,6 @@ import Mathlib.LinearAlgebra.Dimension.Basic
 import Mathlib.RingTheory.Ideal.Quotient.Defs
 import Mathlib.RingTheory.MvPowerSeries.Derivative
 import Mathlib.Topology.UnitInterval
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from Symplectic monodromy at radius zero and equimultiplicity of

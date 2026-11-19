@@ -1220,15 +1220,16 @@ def main : IO UInt32 := do
     catch _ => pure true
     pure <| assertEq "prelude rejected" rejected true
 
-  check "problemImportHeader preserves the environment behind EvalTools.Markers" passes fails do
+  check "problemImportHeader omits marker implementation imports" passes fails do
     let root ← IO.currentDir
     let header ← problemImportHeader root "LeanEval.ProgramVerification.PermuteToUnimodal"
-    pure <| assertEq "Lean retained" (header.find? "import Lean\n").isSome true |>.or
-      (assertEq "Lake Toml retained" (header.find? "import Lake.Toml\n").isSome true) |>.or
-      (assertEq "Lake messages retained"
-        (header.find? "import Lake.Util.Message\n").isSome true) |>.or
-      (assertEq "repository-only marker removed"
-        (header.find? "import EvalTools.Markers\n").isSome false)
+    pure <| assertEq "marker-only module needs no imports" header ""
+
+  check "problemImportHeader preserves narrow mathematical imports" passes fails do
+    let root ← IO.currentDir
+    let header ← problemImportHeader root "LeanEval.Combinatorics.Ramsey"
+    pure <| assertEq "only the mathematical import" header
+      "import Mathlib.Combinatorics.SimpleGraph.Clique\n"
 
   -- `section` opens a scope for `open` just as `namespace` does. Counting only
   -- namespaces meant the matching `end` popped a namespace frame and discarded

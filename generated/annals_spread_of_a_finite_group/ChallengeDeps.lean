@@ -1,8 +1,5 @@
 import Mathlib.GroupTheory.QuotientGroup.Defs
 import Mathlib.Data.ENat.Lattice
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from The spread of a finite group

@@ -3,9 +3,6 @@ import Mathlib.Algebra.MonoidAlgebra.MapDomain
 import Mathlib.Basic.Real.Basic
 import Mathlib.GroupTheory.FreeGroup.Basic
 import Mathlib.SetTheory.Cardinal.Finite
-import Lake.Toml
-import Lake.Util.Message
-import Lean
 
 /-!
 # Main Statement from On property (T) for Aut(F_n) and SL_n(Z)
