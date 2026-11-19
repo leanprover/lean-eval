@@ -25,6 +25,8 @@ Lean release can precede our adoption of it. These are three configurations;
 Every configuration pins exact commits, including all transitive dependencies;
 evaluation never follows a moving branch.
 
+Maintainers: follow the [configuration update runbook](docs/updating-configurations.md).
+
 The currently available configurations in `supported-toolchains.json` are:
 
 | Configuration | Lean | Mathlib | TauCeti |
