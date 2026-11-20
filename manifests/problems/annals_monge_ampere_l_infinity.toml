@@ -7,7 +7,6 @@ statement_revision = 1
 tags = ["annals"]
 module = "LeanEval.Geometry.MongeAmpereLInfinity"
 holes = ["MongeAmpereLInfinity.theorem_1", "MongeAmpereLInfinity.theorem_1_rescaled", "MongeAmpereLInfinity.theorem_2", "MongeAmpereLInfinity.theorem_4", "MongeAmpereLInfinity.theorem_5", "MongeAmpereLInfinity.theorem_6"]
-supported_configurations = ["latest"]
 submitter = "Kim Morrison"
 source = "B. Guo, D. H. Phong and F. Tong, `On L^∞ estimates for complex Monge–Ampère equations`, Annals of Math, 198 (1) 2023, https://doi.org/10.4007/annals.2023.198.1.4 (arXiv:2106.02224). Theorems 1, 2, 4, 5 and 6, numbered as in the arXiv text."
 notes = """
