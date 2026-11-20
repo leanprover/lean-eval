@@ -1,0 +1,18 @@
+id = "furuta_ten_eighths"
+title = "Furuta's 10/8 theorem for smooth spin 4-manifolds"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Topology.FurutaTenEighths"
+holes = ["furuta_ten_eighths"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "M. Furuta, Monopole equation and the 11/8-conjecture, Math. Res. Lett. 8 (2001), no. 3, 279–291."
+notes = """
+Stated against Tau Ceti (HomologicalOrientation, integralCohomology, integralCup): for every closed simply connected oriented smooth 4-manifold with even indefinite intersection form (b_2^+ > 0 and b_2^- > 0), 10 * |sigma(M)| + 16 <= 8 * b_2(M), i.e. b_2(M) >= (10/8)|sigma(M)| + 2.
+"""
+informal_solution = """
+Reversing orientation if necessary, assume sigma(M) = -16 k <= 0 (using Rokhlin's theorem 16 | sigma(M)); since M is simply connected and even, M admits a spin structure and b_2(M) = 2 b_2^+(M) + 16 k, so the claim reduces to b_2^+(M) >= 2 k + 1 (which holds trivially from b_2^+ > 0 when k = 0). For k >= 1, the unperturbed Seiberg-Witten monopole map for the spin structure is Pin(2)-equivariant between infinite-dimensional Sobolev completions of spinors and forms. Furuta's finite-dimensional approximation (Bauer-Furuta invariant) compresses it to a continuous Pin(2)-equivariant map f : S(H^k + R_tilde^m) -> S(H^0 + R_tilde^(m + b_2^+)) between representation spheres (where H is the quaternions and R_tilde the sign representation), preserving the origin. Applying tom Dieck's character formula / Adams operations in complex Pin(2)-equivariant K-theory to the induced map on Thom spaces gives 2^(b_2^+ - 1) divisible by 2^(2 k), forcing b_2^+ >= 2 k + 1.
+"""
