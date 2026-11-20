@@ -1,0 +1,17 @@
+id = "kamienny_merel_uniform_torsion"
+title = "Kamienny–Merel uniform boundedness of elliptic curve torsion"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.NumberTheory.KamiennyMerel"
+holes = ["kamienny_merel_uniform_torsion"]
+submitter = "Edward Lockhart"
+source = "L. Merel, Bornes pour la torsion des courbes elliptiques sur les corps de nombres, Invent. Math. 124 (1996), 437–449; building on B. Mazur, Modular curves and the Eisenstein ideal, Publ. Math. IHÉS 47 (1977), 33–186, and S. Kamienny, Torsion points on elliptic curves and q-coefficients of modular forms, Invent. Math. 109 (1992), 221–229."
+notes = """
+For every d >= 1, there exists a uniform bound B such that for every number field K with [K : Q] <= d and every elliptic curve E over K, the K-rational torsion subgroup E(K)_tors (represented via Mathlib's WeierstrassCurve.Affine.Point, which includes the point at infinity 0) is finite and has cardinality at most B. Stated with zero new definitions on top of Mathlib.
+"""
+informal_solution = """
+By Faltings/Mordell-Weil and reduction theory (using Oesterlé's argument via prime powers once prime orders are bounded), uniform boundedness of |E(K)_tors| reduces to showing that no elliptic curve over a degree-d number field has a K-rational point of prime order p > p_0(d). Such a point gives a non-cuspidal point on the symmetric power X_1(p)^(d) (or X_0(p)^(d)). Following Mazur and Kamienny, Merel embeds X_0(p)^(d) into the d-th power of Kolyvagin-Logachev's rank-0 Eisenstein/winding quotient J_e of J_0(p), proves formal immersion at the infinity cusp for large p by proving linear independence of Hecke operators T_1, ..., T_d acting on the winding element via modular symbols, and concludes finiteness and absence of non-cuspidal points for p > d^(3 d^2).
+"""
