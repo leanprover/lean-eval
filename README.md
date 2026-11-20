@@ -15,13 +15,17 @@ We intend to support three dependency configurations:
 | Configuration | Intended versions |
 | --- | --- |
 | `stable` | The most recent stable Lean release, with matching Mathlib and TauCeti pins. |
-| `rc` | The most recent Lean release candidate, with a fixed compatible Mathlib/TauCeti snapshot. |
-| `latest` (default) | The same most recent Lean RC toolchain, with newer compatible Mathlib and TauCeti commits that we try to keep fairly current. |
+| `rc` | The most recent supported Lean release candidate newer than stable, with a fixed compatible Mathlib/TauCeti snapshot; otherwise the stable configuration. |
+| `latest` (default) | The same Lean toolchain as `rc`, with compatible Mathlib and TauCeti commits that we try to keep fairly current. It may coincide with `rc` and `stable`. |
 
 To request an update, **@Kim Morrison on [Lean Zulip](https://leanprover.zulipchat.com/)**.
 Updates require compatible published dependency caches and passing CI, so a new
 Lean release can precede our adoption of it. These are three configurations;
-`rc` and `latest` normally share a Lean version and differ in library revisions.
+`rc` and `latest` share a Lean version and may differ in library revisions.
+When a stable release supersedes the supported RC, move `rc` to stable and
+advance `latest` to that same snapshot. Keep these three names even when all
+three configurations coincide. Adopt the next RC for `rc` and `latest` together
+once compatible libraries and caches pass validation; retain stable meanwhile.
 Every configuration pins exact commits, including all transitive dependencies;
 evaluation never follows a moving branch.
 
@@ -32,12 +36,13 @@ The currently available configurations in `supported-toolchains.json` are:
 | Configuration | Lean | Mathlib | TauCeti |
 | --- | --- | --- | --- |
 | `stable` | `v4.36.0` | `fc4f59e5` | `d91980bd` |
-| `rc` | `v4.36.0-rc2` | `2ddf59c8` | `be86813d` |
-| `latest` (default) | `v4.36.0-rc2` | `048fffa1` | `cd41bffc` |
+| `rc` | `v4.36.0` | `fc4f59e5` | `d91980bd` |
+| `latest` (default) | `v4.36.0` | `fc4f59e5` | `d91980bd` |
 
-Stable pins TauCeti main at `d91980bd`, ahead of its release tag, with
-Mathlib’s `v4.36.0` release commit. Lean `v4.37.0-rc1` has been released;
-`rc` and `latest` still await compatible Mathlib/TauCeti builds for that toolchain.
+All three currently use the Mathlib and TauCeti `v4.36.0` release commits.
+Lean `v4.37.0-rc1` has been released; `rc` and `latest` remain on stable while
+awaiting compatible Mathlib/TauCeti builds for that toolchain.
+The superseded `v4.36.0-rc2` snapshot is retired from new evaluations.
 
 The `latest` configuration is the default checkout so it can build the full catalog.
 CI requires each problem to compile on every configuration it declares as supported
@@ -76,8 +81,9 @@ lake exe lean-eval generate --problem two_plus_two
 lake exe lean-eval start-problem two_plus_two
 ```
 
-Use `rc` for the release-candidate snapshot, or `latest` for the default newer
-library snapshot. Existing build outputs are excluded from these copies.
+Use `rc` for the release-candidate snapshot (or its stable fallback), or `latest`
+for the default current library snapshot. Existing build outputs are excluded
+from these copies.
 After selecting a configuration, regenerate each
 workspace you use so its pins and extracted statements match that configuration.
 The submission service reads the closest `lean-toolchain` at or above each
@@ -85,7 +91,9 @@ submitted workspace and its exact Mathlib/TauCeti requirements in `lakefile.toml
 to select an approved configuration. The dependency pins distinguish `rc` from
 `latest` even when their Lean toolchains are identical. Missing pins use the
 default configuration for the requested toolchain; unsupported combinations
-are rejected. Submit workspaces for different configurations separately.
+are rejected. Identical approved snapshots select the default `latest`
+configuration when it matches, so coincident profiles also accept `latest`-only
+problems. Submit workspaces for different configurations separately.
 Result verification receipts and archive sidecars record the selected toolchain
 and exact benchmark commit. The retained source includes the dependency pins,
 so replay selects the same configuration from that benchmark commit.

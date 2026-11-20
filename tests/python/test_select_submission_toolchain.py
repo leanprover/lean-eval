@@ -122,6 +122,30 @@ class SelectSubmissionToolchainTests(unittest.TestCase):
         with self.assertRaisesRegex(MODULE.ToolchainRequestError, "one toolchain and dependency"):
             MODULE.select(self.archive(files), self.root)
 
+    def test_coincident_profiles_select_latest_including_latest_only_problems(self):
+        self.latest_configuration()
+        registry = self.root / "supported-toolchains.json"
+        data = json.loads(registry.read_text())
+        stable = data["stable"]
+        retired = data["default"]
+        del data["configurations"][retired]
+        data.update(default="latest", latest="latest", rc=stable)
+        registry.write_text(json.dumps(data))
+        (self.root / "stable/lakefile.toml").write_text(
+            '[[require]]\nname = "mathlib"\nrev = "stable-mathlib"\n')
+        for name in ("lean-toolchain", "lakefile.toml", "lake-manifest.json"):
+            shutil.copyfile(self.root / "stable" / name, self.root / "latest" / name)
+        (self.root / "manifests/problems/a.toml").write_text('supported_configurations = ["latest"]\n')
+        for pin in (None, stable):
+            with self.subTest(pin=pin):
+                files = self.pinned_workspace("stable-mathlib")
+                if pin is not None:
+                    files.append(("source/lean-toolchain", pin))
+                self.assertEqual(MODULE.select(self.archive(files), self.root), ("latest", ["a"]))
+        files = self.workspace() + [("source/lean-toolchain", retired)]
+        with self.assertRaisesRegex(MODULE.ToolchainRequestError, "unsupported requested toolchain"):
+            MODULE.select(self.archive(files), self.root)
+
     def test_tauceti_pins_can_distinguish_snapshots_with_the_same_mathlib(self):
         self.latest_configuration()
         for relative, revision in [("rc", "older-tauceti"), ("latest", "newer-tauceti")]:
