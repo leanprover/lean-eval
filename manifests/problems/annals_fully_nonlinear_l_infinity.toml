@@ -7,6 +7,7 @@ statement_revision = 1
 tags = ["annals"]
 module = "LeanEval.Geometry.FullyNonlinearLInfinity"
 holes = ["FullyNonlinearLInfinity.theorem_1", "FullyNonlinearLInfinity.corollary_1"]
+supported_configurations = ["latest", "rc", "stable"]
 submitter = "Kim Morrison"
 source = "B. Guo and D. H. Phong, `On L^∞ estimates for fully non-linear partial differential equations`, Annals of Math, 200 (1) 2024, https://doi.org/10.4007/annals.2024.200.1.6 (arXiv:2204.12549). Theorem 1 and Corollary 1."
 notes = """
