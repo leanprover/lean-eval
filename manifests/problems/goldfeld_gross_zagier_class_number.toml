@@ -1,0 +1,17 @@
+id = "goldfeld_gross_zagier_class_number"
+title = "Goldfeld–Gross–Zagier–Oesterlé effective lower bound on imaginary quadratic class numbers"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.NumberTheory.GoldfeldGrossZagier"
+holes = ["goldfeld_gross_zagier_class_number"]
+submitter = "Edward Lockhart"
+source = "D. Goldfeld, The class number of quadratic fields and the conjectures of Birch and Swinnerton-Dyer, Ann. Scuola Norm. Sup. Pisa Cl. Sci. (4) 3 (1976), 624–631; B. H. Gross and D. B. Zagier, Heegner points and derivatives of L-series, Invent. Math. 84 (1986), 225–320; J. Oesterlé, Nombres de classes des corps quadratiques imaginaires, Sém. Bourbaki 1983/84, Exp. 631, Astérisque 121–122 (1985), 309–323, Théorème 3."
+notes = """
+Effective solution of Gauss's imaginary quadratic class number problem in Oesterlé's explicit unconditional form: for every imaginary quadratic field K of discriminant D < 0 (with Delta = |D|), h(K) > (1/7000) * log(Delta) * prod_{p | Delta, p != Delta} (1 - floor(2*sqrt(p))/(p + 1)). Stated directly in terms of Mathlib's NumberField.discr and NumberField.classNumber.
+"""
+informal_solution = """
+Let E be the modular elliptic curve y^2 + y = x^3 - 7x + 6 of conductor 5077 over Q. By the Gross-Zagier height formula (1986) applied to a suitable imaginary quadratic discriminant (such as -139), L'(E, 1) = 0, and combined with sign +1 in the functional equation and explicit computation of L'''(E, 1) != 0, L(E, s) has a zero of exact order 3 at s = 1. For any imaginary quadratic character chi_D of discriminant D < 0, the base-changed Hasse-Weil L-function L(E/K, s) = L(E, s) L(E_D, s) therefore vanishes to order >= 3 (in fact >= 4 when (D, 5077) = 1). Goldfeld's contour-integration method, made completely explicit by Oesterlé (1985, Astérisque 121-122, Théorème 3, handling also discriminants not coprime to 5077 via auxiliary curves or small-discriminant checks), yields h(D) > (1/7000) log(|D|) prod_{p | D, p != |D|} (1 - floor(2 sqrt(p))/(p + 1)).
+"""
