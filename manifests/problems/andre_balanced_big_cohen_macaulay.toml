@@ -1,0 +1,17 @@
+id = "andre_balanced_big_cohen_macaulay"
+title = "André's existence of balanced big Cohen–Macaulay algebras"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.RingTheory.AndreBigCohenMacaulay"
+holes = ["andre_balanced_big_cohen_macaulay"]
+submitter = "Edward Lockhart"
+source = "Y. André, La conjecture du facteur direct, Publ. Math. Inst. Hautes Études Sci. 127 (2018), 71–93, Theorem 0.2; Y. André, Weak functoriality of Cohen–Macaulay algebras, J. Amer. Math. Soc. 31 (2018), 163–190; M. Hochster and C. Huneke, Infinite integral extensions and big Cohen–Macaulay algebras, Ann. of Math. (2) 135 (1992), 53–89; see also B. Bhatt, On the direct summand conjecture and its derived variant, Invent. Math. 212 (2018), 297–341."
+notes = """
+Every complete Noetherian local integral domain (R, m) admits a commutative R-algebra B that is balanced big Cohen-Macaulay (m B != B and every system of parameters of R is a B-regular sequence). Strictly stronger than the direct summand theorem. Stated with zero custom definitions on top of Mathlib.
+"""
+informal_solution = """
+By Cohen's structure theorem, a complete Noetherian local domain R is module-finite over a complete regular local subring A (either k[[x_1, ..., x_d]] in equal characteristic or W(k)[[x_2, ..., x_d]] in mixed characteristic (0, p) when p != 0 in R; and a system of parameters of A is also one of R). In equal characteristic p, take B = R^+ (the absolute integral closure), which is balanced big CM by Hochster-Huneke (1992); equal characteristic 0 reduces to characteristic p via Hochster's equicharacteristic reduction / ultraproducts. In mixed characteristic (0, p), André (2018) builds a faithfully flat perfectoid extension A_infty of A adjoining p-power roots of p and the parameters, applies Scholze's tilting equivalence and André's perfectoid Abhyankar lemma to construct an almost Cohen-Macaulay perfectoid R-algebra over discriminant loci g^(1/p^infty), and eliminates the almost-mathematics ambiguity (via Hochster's modification trick / Gabber's ultraproduct-and-completion construction) to obtain a genuine balanced big Cohen-Macaulay R-algebra B (and sharpening from one s.o.p. to all s.o.p.'s follows by Bartijn-Strooker on m-adic completion).
+"""
