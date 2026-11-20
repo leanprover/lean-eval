@@ -1,0 +1,17 @@
+id = "green_tao_ziegler_gowers_inverse"
+title = "Green–Tao–Ziegler inverse theorem for the Gowers U^{s+1}[N] norms"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Combinatorics.GreenTaoZiegler"
+holes = ["green_tao_ziegler_gowers_inverse"]
+submitter = "Edward Lockhart"
+source = "B. Green, T. Tao, and T. Ziegler, An inverse theorem for the Gowers U^{s+1}[N]-norm, Ann. of Math. (2) 176 (2012), no. 2, 1231–1372, Theorem 1.3; see also F. Manners, Quantitative bounds in the inverse theorem for the Gowers U^{s+1}-norm over cyclic groups (arXiv:1811.00718)."
+notes = """
+For every s >= 1 and delta > 0, there exist c > 0 and a finite family of connected s-step filtered nilmanifolds G_m / Gamma_m (with right-invariant metrics) such that every 1-bounded f : [1, N] -> C with ||f||_{U^{s+1}[N]} >= delta correlates by at least c with a 1-bounded 1-Lipschitz s-step polynomial nilsequence n |-> Phi(g(n) Gamma_m). Stated purely in Mathlib.
+"""
+informal_solution = """
+Induct on s. For s = 1, Fourier inversion gives large correlation with a linear phase e(alpha n) on R / Z. Assuming GI(s - 1), take a 1-bounded f on [N] with ||f||_{U^{s+1}[N]} >= delta; then for >= c_1 N shifts h, the multiplicative derivative Delta_h f(n) = f(n + h) conj(f(n)) has ||Delta_h f||_{U^s[N]} >= c_1, so by GI(s - 1) correlates with an (s - 1)-step nilsequence n |-> F_h(g_h(n) Gamma). Using quantitative equidistribution of polynomial orbits on nilmanifolds (Green-Tao 2012), approximate symmetry arguments in additive combinatorics (Freiman/Balog-Szemerédi-Gowers/Bohr-nilbohr geometry of the frequency dependence h |-> g_h), bracket-polynomial linearization, and Mal'cev-basis group extensions constructing a degree-s nilmanifold covering the symmetry group of the family F_h(g_h(.)), integrate the approximate cocycle Delta_h f to obtain a single s-step polynomial nilsequence from a bounded-complexity catalog correlating with f.
+"""
