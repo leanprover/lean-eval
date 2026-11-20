@@ -1,0 +1,18 @@
+id = "jensen_covering_lemma"
+title = "Jensen's covering lemma for Godel's constructible universe L"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.SetTheory.JensenCoveringLemma"
+holes = ["jensen_covering_lemma"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "K. J. Devlin and R. B. Jensen, Marginalia to a theorem of Silver, in ISILC Logic Conference (Proc. Internat. Summer Inst. and Logic Colloq., Kiel, 1974), Lecture Notes in Math. 499, Springer (1975), 115–142; T. Jech, Set Theory, 3rd Millennium ed., Springer (2003), Theorems 18.20 and 18.30."
+notes = """
+Stated purely in Mathlib (universe-polymorphic in u) using ZFSet, Ordinal, Cardinal, and FirstOrder.Language: L is defined via transfinite recursion of first-order definable powersets, 0^# is defined via Kunen's equivalent existence of a nontrivial elementary embedding j : L -> L, and assuming not 0^#, every set X of ordinals with aleph_1 <= |X| is contained in a set Y in L of ordinals with |Y| = |X|.
+"""
+informal_solution = """
+Suppose for contradiction that covering fails, and let tau be the least ordinal such that some uncountable subset X subseteq tau cannot be covered by any Y in L with |Y| = |X| (setting kappa = |X| >= aleph_1, so kappa < tau and tau is a limit ordinal > omega_1). Develop Jensen's fine-structural hierarchy (J_alpha)_{alpha in Ord} with L = union_alpha J_alpha, Sigma_n projecta rho_n, standard parameters, Sigma_n Skolem functions, and condensation. Form the Sigma_1 hull H of X in L_tau (having size |H| = |X| = kappa < tau) and let pi : L_bar -> L_tau be the inverse of its Mostowski collapse, with critical point gamma < tau and X subseteq ran(pi). If L_tau is not a cardinal of L, lift pi along the least fine-structural level J_beta >= J_tau projecting strictly below tau (preserving Sigma_n-elementarity via fine-structural ultrapowers / upward extension of embeddings); because gamma is uncountable in L_bar (otherwise X could be covered using minimality of tau and countable cofinality lifting), the induced L-ultrafilter U = {A in P(gamma) cap L_bar | gamma in pi(A)} is wellfounded on all iterated ultrapowers (by countable completeness from uncountable coverage of countable subsets or the Devlin-Jensen wellfoundedness argument). The limit of Ord-many iterated ultrapowers embeds J_beta cofinally into L, producing a nontrivial elementary embedding j : L -> L and contradicting not ZeroSharpExists.
+"""
