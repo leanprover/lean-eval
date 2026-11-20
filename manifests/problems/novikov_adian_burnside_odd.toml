@@ -1,0 +1,17 @@
+id = "novikov_adian_burnside_odd"
+title = "Novikov–Adian solution of the unbounded Burnside problem for odd exponents"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.GroupTheory.NovikovAdianBurnsideOdd"
+holes = ["novikov_adian_burnside_odd"]
+submitter = "Edward Lockhart"
+source = "P. S. Novikov and S. I. Adian, Infinite periodic groups I, II, III, Izv. Akad. Nauk SSSR Ser. Mat. 32 (1968), 212–244, 251–524, 709–731; S. I. Adian, The Burnside Problem and Identities in Groups, Ergebnisse der Mathematik und ihrer Grenzgebiete 95, Springer (1979; Russian original 1975)."
+notes = """
+For all m >= 2 and odd n >= 665, there exists an infinite m-generated group of exponent dividing n (equivalently, the free Burnside group B(m, n) is infinite). Adian (1975) sharpened the original 1968 threshold n >= 4381 to n >= 665. Stated with zero new definitions on top of Mathlib.
+"""
+informal_solution = """
+Realize the free Burnside group B(m, n) = F_m / <w^n> via a simultaneous graded induction over the rank alpha >= 0, classifying reduced words into periodic, elementary, reduced, and cascade classes of rank alpha (Adian 1975/1979; see also Ol'shanskii's geometric diagram reformulation for larger odd n). For odd n >= 665, the coupled inductive invariants show that there exist arbitrarily long words containing no subword of the form A^k with large k that remain nontrivial and pairwise inequivalent in B(m, n), proving B(m, n) is infinite.
+"""
