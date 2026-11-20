@@ -1,0 +1,18 @@
+id = "elliptic_curve_modularity"
+title = "The modularity theorem for elliptic curves over Q"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.NumberTheory.EllipticCurveModularity"
+holes = ["elliptic_curve_modularity"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "A. Wiles, Modular elliptic curves and Fermat's last theorem, Ann. of Math. (2) 141 (1995), 443–551; R. Taylor and A. Wiles, Ring-theoretic properties of certain Hecke algebras, Ann. of Math. (2) 141 (1995), 553–572; C. Breuil, B. Conrad, F. Diamond, and R. Taylor, On the modularity of elliptic curves over Q: wild 3-adic exercises, J. Amer. Math. Soc. 14 (2001), no. 4, 843–939."
+notes = """
+Stated against Mathlib's WeierstrassCurve.LFunction (computed via local minimal models at every prime) and Tau Ceti's HeckeRing.GL2.Newform: every elliptic curve over Q has Hasse–Weil L-function coefficients matching the q-expansion of a weight-2 cuspidal newform of some positive level N with trivial nebentypus.
+"""
+informal_solution = """
+Consider the mod-3 Galois representation rho_{E, 3} : Gal(Q_bar/Q) -> GL_2(F_3) on E[3]. If rho_{E, 3} is irreducible, Langlands-Tunnell proves its modularity (since PGL_2(F_3) = S_4 is solvable), and modularity lifting (R = T via Taylor-Wiles patching, extended from semistable curves by Diamond 1996, Conrad-Diamond-Taylor 1999, and Breuil-Conrad-Diamond-Taylor 2001 using Breuil modules to classify potentially Barsotti-Tate 3-adic deformations with wild inertia action at 3) proves the 3-adic Tate module rho_{E, 3^infty} arises from a weight-2 newform f of trivial character. If rho_{E, 3} is reducible, apply Wiles's 3-5 switch to pick an auxiliary elliptic curve E' with E'[5] = E[5] and irreducible E'[3] (modular by the first case), then apply 5-adic modularity lifting to E. Finally, matching local factors at bad primes by Carayol's theorem (local-global compatibility) identifies all L-function coefficients a_n(E) with the Fourier coefficients of f.
+"""
