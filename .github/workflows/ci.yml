@@ -297,20 +297,36 @@ jobs:
       - name: Refresh smoke-test workspace
         run: lake exe lean-eval generate --problem two_plus_two
 
-      - name: Exercise a Stacks import in comparator and scoring smoke tests
-        if: matrix.configuration == 'stacks'
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          submission = Path("generated/two_plus_two/Submission.lean")
-          submission.write_text("import StacksCore.Algebra.Algebra.Defs\n" + submission.read_text())
-          PY
-
       - name: Check comparator installation
         run: lake exe lean-eval check-comparator-installation
 
       - name: Run eval workflow smoke test
         run: lake exe lean-eval check-eval-workflow
+
+      - name: Score a submitted proof importing Stacks
+        if: matrix.configuration == 'stacks'
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import shutil
+          root = Path.cwd()
+          workspace = root / ".ci/stacks-workspaces/two_plus_two"
+          shutil.copytree(root / "generated/two_plus_two", workspace,
+                          ignore=shutil.ignore_patterns(".lake"))
+          (workspace / ".lake").mkdir()
+          (workspace / ".lake/packages").symlink_to(root / ".lake/packages", target_is_directory=True)
+          shutil.copyfile(root / "lake-manifest.json", workspace / "lake-manifest.json")
+          submission = workspace / "Submission.lean"
+          content = submission.read_text()
+          assert "  sorry\n" in content
+          submission.write_text("import StacksCore.Algebra.Algebra.Defs\n" +
+                                content.replace("  sorry\n", "  norm_num\n", 1))
+          PY
+          cache_env="$(env -u GITHUB_ENV bash scripts/fetch_dependency_caches.sh \
+            --restore .ci/stacks-workspaces/two_plus_two)"
+          eval "$cache_env"
+          lake env lean --run tests/lean/StacksImportSmoke.lean .ci/stacks-workspaces
 
   security:
     name: Security and scoring smoke tests
