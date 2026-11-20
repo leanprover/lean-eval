@@ -1,0 +1,18 @@
+id = "agol_virtual_fibering"
+title = "Agol's virtual fibering theorem"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Topology.AgolVirtualFibering"
+holes = ["agol_virtual_fibering"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "I. Agol, The virtual Haken conjecture (with an appendix by I. Agol, D. Groves, and J. Manning), Doc. Math. 18 (2013), 1045–1087; I. Agol, Criteria for virtual fibering, J. Topol. 1 (2008), 269–284."
+notes = """
+Stated against Tau Ceti (TauCeti.VirtualFiberingConjecture.{0} spelled out): every closed connected smooth hyperbolic 3-manifold has a connected finite-sheeted covering space that fibers over the circle S^1.
+"""
+informal_solution = """
+As in the proof of the virtual Haken theorem, combine Kahn-Markovic's surface subgroup theorem (2012), Bergeron-Wise cubulation (2012), and Agol's theorem that cubulated hyperbolic groups are virtually special (2013) to obtain a finite-index subgroup of pi_1(M) embedding into a right-angled Artin group (RAAG) and corresponding to an orientable irreducible cover M'. Every RAAG is virtually RFRS (residually finite rationally solvable), and subgroups inherit RFRS, so pi_1(M') is virtually RFRS. By Agol's 2008 virtual fibering criterion (using taut sutured manifold hierarchies and Stallings's fibration theorem), every closed irreducible orientable 3-manifold with virtually RFRS fundamental group admits a finite-sheeted cover that fibers over S^1.
+"""
