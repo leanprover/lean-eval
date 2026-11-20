@@ -1,7 +1,7 @@
-import TauCeti.Geometry.Symplectic.Manifold.AlmostComplex.Topology
 import TauCeti.Geometry.Symplectic.Manifold.AlmostComplex.Chart
 import TauCeti.Geometry.Symplectic.Manifold.AlmostComplex.Pullback
 import TauCeti.Geometry.Manifold.Complex.AlmostComplexStructure
+import TauCeti.Geometry.Manifold.VectorBundle.Section.Topology
 import TauCeti.Geometry.Symplectic.JHolomorphic.Linearization
 import TauCeti.Analysis.Complex.RiemannSurface.Degree
 import TauCeti.Analysis.Complex.RiemannSurface.LocalMultiplicity
@@ -84,12 +84,16 @@ variable {E H : Type} [NormedAddCommGroup E] [NormedSpace ℝ E] [TopologicalSpa
   [IsManifold I ∞ M]
 
 variable (I M) in
-/-- The `C^∞` topology on smooth almost complex structures, in the standard trivializations of
-`End(TM)` (`TauCeti.SmoothAlmostComplexStructure.frameTopology`; for a finite-dimensional model it
-does not depend on the covering frames, `frameTopology_eq_of_covers`). -/
+/-- The `C^∞` topology on smooth almost complex structures: the topology induced by the
+compact derivative topology `ContMDiffSection.frameTopology` on sections of `End(TM)`, in the
+standard trivializations. This is Tau Ceti's `SmoothAlmostComplexStructure.frameTopology` (module
+`TauCeti.Geometry.Symplectic.Manifold.AlmostComplex.Topology`) in those trivializations, unfolded
+so that the statement also elaborates against Tau Ceti revisions without that module; for a
+finite-dimensional model it does not depend on the covering frames (`frameTopology_eq_of_covers`). -/
 @[instance_reducible]
 def cInftyTopology : TopologicalSpace (SmoothAlmostComplexStructure I M) :=
-  SmoothAlmostComplexStructure.frameTopology (ι := M)
+  .induced SmoothAlmostComplexStructure.toEndomorphism <|
+  ContMDiffSection.frameTopology (I := I) (n := ∞) (ι := M)
     (fun x ↦ trivializationAt (E →L[ℝ] E)
       (fun x : M ↦ TangentSpace I x →L[ℝ] TangentSpace I x) x)
     (fun x ↦ ⟨_, (trivializationAt (E →L[ℝ] E)
