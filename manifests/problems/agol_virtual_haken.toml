@@ -1,0 +1,18 @@
+id = "agol_virtual_haken"
+title = "Agol's virtual Haken theorem"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Topology.AgolVirtualHaken"
+holes = ["agol_virtual_haken"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "I. Agol, The virtual Haken conjecture (with an appendix by I. Agol, D. Groves, and J. Manning), Doc. Math. 18 (2013), 1045–1087; building on J. Kahn and V. Markovic, Immersed essential surfaces in closed hyperbolic 3-manifolds, Ann. of Math. (2) 175 (2012), 1127–1190, and D. T. Wise, The Structure of Groups with a Quasiconvex Hierarchy, Ann. of Math. Stud. 209 (2021)."
+notes = """
+Stated against Tau Ceti (TauCeti.VirtualHakenConjecture.{0} spelled out): every closed connected smooth hyperbolic 3-manifold admits a connected finite-sheeted Haken cover.
+"""
+informal_solution = """
+Let G = pi_1(M) for a closed hyperbolic 3-manifold M (passing first to an orientable double cover if needed). By Kahn and Markovic (2012), M contains enough ubiquitous pi_1-injective quasi-Fuchsian immersed closed surfaces to separate points on the boundary at infinity of H^3, which via Sageev's construction gives a proper cocompact action of G on a CAT(0) cube complex X (Bergeron-Wise 2012). Agol (2013) proves that every hyperbolic group acting properly and cocompactly on a CAT(0) cube complex is virtually special in the sense of Haglund and Wise (inducing the cube complex hierarchy via Wise's malnormal special quotient theorem and the Agol-Groves-Manning weak separation / coloring theorem). A finite-index special subgroup of G embeds into a right-angled Artin group, has positive first Betti number (and separable quasiconvex surface subgroups), so the corresponding finite-sheeted cover of M contains an embedded two-sided incompressible surface and is Haken.
+"""
