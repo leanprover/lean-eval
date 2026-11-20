@@ -55,6 +55,16 @@ class PrepareCIDependenciesTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "trusted statement imports"):
                 MODULE.prepare(root)
 
+    def test_a_profile_may_omit_unavailable_solution_libraries(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "solution-dependencies.json").write_text(json.dumps([
+                {"name": name} for name in MODULE.PACKAGES]))
+            (root / "lake-manifest.json").write_text('{"packages": []}')
+            MODULE.prepare(root)
+            self.assertFalse((root / ".lake/packages/cfsg").exists())
+            self.assertFalse((root / ".lake/packages/Stacks").exists())
+
 
 if __name__ == "__main__":
     unittest.main()
