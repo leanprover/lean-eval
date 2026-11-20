@@ -1,0 +1,18 @@
+id = "freedman_four_manifold_even_classification"
+title = "Freedman's homeomorphism classification of even simply connected 4-manifolds"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Topology.FreedmanFourManifoldEvenClassification"
+holes = ["freedman_four_manifold_even_classification"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "M. H. Freedman, The topology of four-dimensional manifolds, J. Differential Geom. 17 (1982), no. 3, 357–453, Theorem 1.5; M. H. Freedman and F. Quinn, Topology of 4-Manifolds, Princeton Math. Ser. 39 (1990)."
+notes = """
+Stated against Tau Ceti (HomologicalOrientation, integralCohomology, integralCup): any two closed simply connected oriented topological 4-manifolds with isometric even intersection forms are homeomorphic.
+"""
+informal_solution = """
+For an even unimodular symmetric bilinear form Q, the signature sigma(Q) is divisible by 8, and the Kirby-Siebenmann triangulation obstruction ks(M) in Z/2Z of any closed simply connected topological 4-manifold M with even intersection form Q is uniquely determined by Rokhlin's congruence ks(M) = (sigma(Q)/8) mod 2. Given an isometry Q_{M_1} = Q_{M_2}, Whitehead's theorem constructs an orientation-preserving homotopy equivalence f : M_1 -> M_2 inducing the isometry and matching ks(M_1) = ks(M_2), hence producing a 5-dimensional topological h-cobordism W^5 between M_1 and M_2 (Wall 1964 + Kirby-Siebenmann). Freedman's 5-dimensional topological s-cobordism theorem for trivial fundamental group — proved by replacing Whitney disks with embedded topological disks via Casson handles and Freedman's disk embedding theorem — yields a product structure W^5 = M_1 x [0, 1] and thus a homeomorphism M_1 = M_2.
+"""
