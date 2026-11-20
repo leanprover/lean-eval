@@ -1,0 +1,18 @@
+id = "perelman_geometrization"
+title = "Perelman's proof of Thurston's geometrization conjecture"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Topology.PerelmanGeometrization"
+holes = ["perelman_geometrization"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "W. P. Thurston, Three-dimensional manifolds, Kleinian groups and hyperbolic geometry, Bull. Amer. Math. Soc. (N.S.) 6 (1982), 357–381; G. Perelman, The entropy formula for the Ricci flow and its geometric applications (arXiv:math/0211159, 2002), Ricci flow with surgery on three-manifolds (arXiv:math/0303109, 2003), Finite extinction time for the solutions to the Ricci flow on certain three-manifolds (arXiv:math/0307245, 2003); B. Kleiner and J. Lott, Notes on Perelman's papers, Geom. Topol. 12 (2008), 2587–2855; J. Morgan and G. Tian, The Geometrization Conjecture, Clay Math. Monogr. 5, AMS (2014)."
+notes = """
+Stated against Tau Ceti (TauCeti.GeometrizationConjecture.{0} spelled out): every closed orientable irreducible smooth 3-manifold admits a finite family of pairwise disjoint locally flat incompressible tori whose complementary connected components are each Seifert-fibred or finite-volume hyperbolic.
+"""
+informal_solution = """
+Equip M with an arbitrary smooth Riemannian metric and evolve it under Hamilton's Ricci flow with Perelman's surgery procedure (cutting along delta-necks S^2 x I and capping with standard 3-balls, using Perelman's W-functional no-local-collapsing theorem and canonical neighborhood classification of high-curvature regions as epsilon-necks, epsilon-caps, or compact elliptic/round pieces). Because M is irreducible, surgeries only split off S^3 summands and preserve the diffeomorphism type of M. Analyzing the long-time thick-thin decomposition of the surgical Ricci flow shows that at large times the thick part converges (after rescaling) to complete finite-volume hyperbolic manifolds bounded by incompressible cuspidal tori, while the thin part is locally volume-collapsed with lower sectional curvature bound and hence is a graph manifold (decomposed along incompressible tori into Seifert-fibred pieces by Shioya-Yamaguchi / Morgan-Tian / Kleiner-Lott), yielding a geometric torus decomposition of M.
+"""
