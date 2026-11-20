@@ -1,0 +1,18 @@
+id = "hanselman_cosmetic_surgery"
+title = "Hanselman's theorem on purely cosmetic surgeries on knots in S^3"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Topology.HanselmanCosmeticSurgery"
+holes = ["hanselman_cosmetic_surgery"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "J. Hanselman, Heegaard Floer homology and cosmetic surgeries in S^3, J. Eur. Math. Soc. (JEMS) 25 (2023), 1627–1651, Theorem 2; Y. Ni and Z. Wu, Cosmetic surgeries on knots in S^3, J. Reine Angew. Math. 706 (2015), 1–17."
+notes = """
+Stated against Tau Ceti (TauCeti.HanselmanCosmeticSurgeryTheorem spelled out): if two distinct slopes on a nontrivial smooth knot in S^3 yield orientation-preservingly homeomorphic Dehn fillings, their preferred-framing surgery coefficients are {2, -2} or {1/q, -1/q} for a positive integer q.
+"""
+informal_solution = """
+By Ni and Wu (2015), using the d-invariants (correction terms) and reduced Heegaard Floer homology HF^+_red of rational surgeries computed via the Ozsvath-Szabo mapping cone formula together with the Casson-Walker surgery formula, any pair of distinct purely cosmetic slopes on a nontrivial knot K in S^3 has opposite rational coefficients r = p/q and -r (with p, q > 0 coprime), tau(K) = 0, and identical Spin^c-summed reduced Heegaard Floer ranks. Express the bordered Heegaard Floer invariant CFD^(S^3 \\ K) of the knot exterior as an immersed multicurve gamma_K in the punctured torus T = (partial(S^3 \\ K)) \\ z (Hanselman-Rasmussen-Watson), so that rank HF-hat(S^3_{p/q}(K)) equals the minimal geometric intersection number of gamma_K with a line of slope p/q. Combining the equality of intersection numbers for slopes +p/q and -p/q with the L-space obstruction (Kronheimer-Mrowka-Ozsvath-Szabo / Ozsvath-Szabo), the Seifert genus bound g(K) from knot Floer homology, and the Turaev torsion / Alexander polynomial constraint forces the non-vertical components of gamma_K into rigid symmetric configurations allowing only (p, q) = (2, 1) (with g(K) = 2) or p = 1 (i.e. |r| = 2 or |r| = 1/q).
+"""
