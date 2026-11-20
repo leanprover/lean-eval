@@ -42,7 +42,7 @@ The currently available configurations in `supported-toolchains.json` are:
 | `previous-stable` | `v4.35.0` | `07406378` | `1f9b4414` |
 | `rc` | `v4.36.0` | `fc4f59e5` | `d91980bd` |
 | `latest` (default) | `v4.36.0` | `fc4f59e5` | `d91980bd` |
-| `stacks` (library variant) | `v4.35.0` | `56a00585` | Not included |
+| `stacks` (library variant) | `v4.35.0` | `56a00585` | `1f9b4414` (metadata only) |
 
 `stable`, `rc`, and `latest` currently use the Mathlib and TauCeti `v4.36.0`
 release commits; `previous-stable` retains the previously supported 4.35.0 pins.
@@ -54,7 +54,9 @@ The `stacks` variant uses Stacks commit `c496df0d` and the exact Mathlib snapsho
 of its published olean cache. It follows each problem's `previous-stable` support
 declaration. The finite-simple-groups problem requires TauCeti's different
 Mathlib snapshot and remains available through the canonical `previous-stable`
-configuration. Existing problem support on the four roles is preserved.
+configuration. TauCeti and CFSG dependency metadata is retained for workspace
+generation; their incompatible artifacts are unused in this variant. Existing
+problem support on the four roles is preserved.
 
 The `latest` configuration is the default checkout so it can build the full catalog.
 CI requires each problem to compile on every configuration it declares as supported

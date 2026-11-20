@@ -38,7 +38,9 @@ same Lean release. Register these as library variants, preserving the canonical
 four support roles. For example, `stacks` uses the published Lean 4.35.0/Mathlib
 release cache, while canonical `previous-stable` uses TauCeti's later Mathlib pin.
 The registry's `variants` entry assigns a `support_role` and lists any
-`unsupported_modules` requiring absent libraries. A variant must use the same
+`unsupported_modules` requiring unavailable library artifacts.
+Retain all configured solution-library requires: the workspace generator validates
+them even when unused. A variant must use the same
 Lean toolchain as that role. Validate all remaining modules and real solver
 imports with compilation disabled for dependency restoration.
 
@@ -222,8 +224,9 @@ narrowed declarations, while compilation checks actual compatibility.
 
 ## 4. Validate each profile and its caches
 
-Repeat this sequence for `latest`, `rc`, `stable`, and `previous-stable`:
-Also repeat it for registered variants, currently `stacks`.
+Repeat this sequence for `latest`, `rc`, `stable`, `previous-stable`, and registered
+variants, currently `stacks`. Restore libraries only for eligible problem modules
+and submitted imports; a whole-root import scan includes excluded modules too.
 
 ```bash
 configuration=latest
@@ -233,7 +236,9 @@ cd "$validation_root/$configuration"
 python scripts/prepare_ci_dependencies.py
 lake exe cache get
 lake --no-build build Mathlib
-cache_env="$(bash scripts/fetch_dependency_caches.sh --restore .)" && eval "$cache_env"
+if [ "$configuration" != stacks ]; then
+  cache_env="$(bash scripts/fetch_dependency_caches.sh --restore .)" && eval "$cache_env"
+fi
 lake exe lean-eval check-problem-build
 lake exe lean-eval validate-manifest --assume-modules-built
 lake exe lean-eval generate

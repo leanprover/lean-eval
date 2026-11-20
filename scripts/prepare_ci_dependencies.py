@@ -31,7 +31,7 @@ def prepare(root: Path) -> None:
         raise ValueError("metadata-only packages must be forbidden in trusted statement imports")
     manifest = json.loads((root / "lake-manifest.json").read_text())
     packages = {p["name"].strip("«»"): p for p in manifest["packages"]}
-    for name in sorted(PACKAGES & packages.keys()):
+    for name in sorted(PACKAGES):
         package = packages[name]
         revision = package["rev"]
         if re.fullmatch(r"[0-9a-f]{40}", revision) is None:

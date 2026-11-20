@@ -30,6 +30,11 @@ class PrepareToolchainTests(unittest.TestCase):
             lakefile = tomllib.loads((profile / "lakefile.toml").read_text())
             packages = {p["name"].strip("«»"): p for p in json.loads(
                 (profile / "lake-manifest.json").read_text())["packages"]}
+            # The generator requires every solution-policy entry in each root
+            # lakefile, even when that profile cannot use the library's cache.
+            solutions = json.loads((ROOT / "solution-dependencies.json").read_text())
+            requirements = {dependency["name"] for dependency in lakefile["require"]}
+            self.assertLessEqual({entry["name"] for entry in solutions}, requirements)
             for dependency in lakefile["require"]:
                 self.assertEqual(dependency["rev"], packages[dependency["name"]]["rev"])
 

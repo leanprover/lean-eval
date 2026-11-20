@@ -123,6 +123,18 @@
       "configFile": "lakefile.toml"
     },
     {
+      "url": "https://github.com/TauCetiProject/TauCeti",
+      "type": "git",
+      "subDir": null,
+      "scope": "",
+      "rev": "1f9b4414105d86e487a4ac4c3d3397076a44d0d2",
+      "name": "TauCeti",
+      "manifestFile": "lake-manifest.json",
+      "inputRev": "1f9b4414105d86e487a4ac4c3d3397076a44d0d2",
+      "inherited": false,
+      "configFile": "lakefile.toml"
+    },
+    {
       "url": "https://github.com/AxiomMath/Stacks.git",
       "type": "git",
       "subDir": null,
@@ -131,6 +143,18 @@
       "name": "Stacks",
       "manifestFile": "lake-manifest.json",
       "inputRev": "c496df0d9beea9deaeabcea8492605f9a0a2313b",
+      "inherited": false,
+      "configFile": "lakefile.toml"
+    },
+    {
+      "url": "https://github.com/AxiomMath/CFSG.git",
+      "type": "git",
+      "subDir": null,
+      "scope": "",
+      "rev": "5437cdc31389dd9aeaa5c2a9465a4e164f8dea33",
+      "name": "cfsg",
+      "manifestFile": "lake-manifest.json",
+      "inputRev": "5437cdc31389dd9aeaa5c2a9465a4e164f8dea33",
       "inherited": false,
       "configFile": "lakefile.toml"
     },
