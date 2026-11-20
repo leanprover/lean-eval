@@ -1,0 +1,18 @@
+id = "gordon_luecke_knot_complement"
+title = "Gordon–Luecke knot complement theorem"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Topology.GordonLueckeKnotComplement"
+holes = ["gordon_luecke_knot_complement"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "C. McA. Gordon and J. Luecke, Knots are determined by their complements, J. Amer. Math. Soc. 2 (1989), no. 2, 371–415, Theorem 1."
+notes = """
+Stated against Tau Ceti (TauCeti.SmoothCircleEmbedding): if two smooth knots in S^3 have homeomorphic complements, there exists a (not necessarily orientation-preserving) smooth diffeomorphism of S^3 mapping the image of one knot onto the image of the other.
+"""
+informal_solution = """
+Given a homeomorphism between the knot exteriors X(K_1) and X(K_2), smoothing (Moise/Cerf) gives a diffeomorphism preserving the peripheral torus; filling X(K_1) along the slope r corresponding to the meridian of K_2 yields a Dehn surgery K_1(r) diffeomorphic to S^3. If r equals the meridian of K_1, the diffeomorphism extends across the tubular neighborhoods to a self-diffeomorphism of S^3 sending K_1 to K_2. Otherwise r is a nontrivial slope of distance Delta >= 1 from the meridian; by the cyclic surgery theorem (Culler-Gordon-Luecke-Shalen 1987), Delta = 1 (so r = +/- 1). Intersecting a thin-position level sphere in S^3 = K_1 and a minimal spanning/planar surface in K_1(r) = S^3 produces two labelled intersection graphs Gamma_P, Gamma_Q on planar surfaces whose Scharlemann cycles and combinatorial parity/representing-all-types analysis (Gordon-Luecke 1989) yield a contradiction whenever K_1 is nontrivial (while for the unknot +/-1 surgery is again S^3 and K_2 is also unknotted).
+"""
