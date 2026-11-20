@@ -1,0 +1,17 @@
+id = "torunczyk_hilbert_cube"
+title = "Toruńczyk's topological characterization of the Hilbert cube"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Topology.TorunczykHilbertCube"
+holes = ["torunczyk_hilbert_cube"]
+submitter = "Edward Lockhart"
+source = "H. Toruńczyk, On CE-images of the Hilbert cube and characterization of Q-manifolds, Fund. Math. 106 (1980), no. 1, 31–40; see also J. van Mill, Infinite-Dimensional Topology: Prerequisites and Introduction, North-Holland (1989), Chapter 7."
+notes = """
+A compact metric space X that is an absolute retract for metrizable spaces and has the disjoint Hilbert-cube maps approximation property is homeomorphic to the Hilbert cube Q = [0, 1]^N. Stated purely in Mathlib.
+"""
+informal_solution = """
+Since X is a compact metric AR, X embeds as a retract of Q, so X x Q is a compact contractible Q-manifold and hence homeomorphic to Q by Chapman's / Anderson-Schori's product and triangulation theorems for Q-manifolds (using Z-set unknotting). The projection pi : X x Q -> X is a cell-like (CE) map. Using the disjoint Q-maps property of X and Z-set absorption in X x Q, one applies Bing's shrinking criterion iteratively to shrink the fibers {x} x Q of pi to arbitrarily small diameter via self-homeomorphisms of X x Q, showing pi is a near-homeomorphism and therefore X is homeomorphic to X x Q = Q.
+"""
