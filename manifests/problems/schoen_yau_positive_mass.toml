@@ -1,0 +1,18 @@
+id = "schoen_yau_positive_mass"
+title = "Schoen–Yau positive mass theorem"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Geometry.SchoenYauPositiveMass"
+holes = ["schoen_yau_positive_mass"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "R. Schoen and S.-T. Yau, On the proof of the positive mass conjecture in general relativity, Comm. Math. Phys. 65 (1979), 45–76; R. Schoen, Variational theory for the total scalar curvature functional for Riemannian metrics and related topics, Lecture Notes in Math. 1365 (1989), 120–154; R. Bartnik, The mass of an asymptotically flat manifold, Comm. Pure Appl. Math. 39 (1986), 661–693; D. A. Lee, Geometric Relativity, AMS GSM 201 (2019), Theorem 3.18."
+notes = """
+Stated against Tau Ceti's Riemannian manifolds, Levi-Civita scalar curvature, Riemannian distance, and Riemannian isometries: a complete connected smooth Riemannian manifold of dimension 3 <= d <= 7 with nonnegative scalar curvature and a single asymptotically flat end of Bartnik order tau > (d - 2)/2 has ADM mass m >= 0, with m = 0 implying global Riemannian isometry to R^d.
+"""
+informal_solution = """
+First show (by harmonic asymptotics / Bartnik density) that if an asymptotically flat (n+1)-manifold (2 <= n <= 6) with R_g >= 0 had strictly negative ADM mass m < 0, solving the conformal Laplacian equation modifies g slightly to a harmonically flat metric (conformally Euclidean g_ij = u^{4/(n-1)} delta_ij outside a compact set, where u(x) = 1 + a |x|^{1-n} + O(|x|^{-n}) with a < 0) having strictly positive scalar curvature near infinity and R >= 0 everywhere, still with negative mass. Proceed by dimension descent from n + 1 down to 3: between two parallel hyperplanes {x_{n+1} = +-h} at large height, negative mass makes the slabs strictly mean-convex toward the interior, so taking a limit as radius -> infinity of Plateau solutions spanning horizontal (n-1)-spheres yields a complete smooth embedded area-minimizing hypersurface Sigma^n (smooth since n + 1 <= 7 by Simons-Federer regularity). The second variation inequality combined with the Gauss equation lets one conformally deform the induced metric on Sigma via the lowest eigenfunction of the conformal Laplacian to an asymptotically flat n-manifold of zero mass and R >= 0 (contradicting induction via Gauss-Bonnet in the base case n = 2). Finally, if m = 0 and Ric_g is not identically zero, deforming along -t eta Ric_g and conformally restoring R >= 0 strictly lowers m below 0, so Ric_g = 0; harmonic coordinates on a Ricci-flat single-end asymptotically flat manifold are parallel and furnish a global isometry to R^{n+1}.
+"""
