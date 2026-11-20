@@ -175,6 +175,20 @@ class SelectSubmissionToolchainTests(unittest.TestCase):
         self.assertEqual(MODULE.select(self.archive(self.pinned_workspace("newer")), self.root),
                          ("latest", ["a"]))
 
+    def test_previous_stable_is_allowed_only_for_problems_declaring_support(self):
+        path = self.root / "supported-toolchains.json"
+        data = json.loads(path.read_text())
+        previous_stable = data["stable"]
+        data.update(stable=data["default"], rc=data["default"])
+        data["previous-stable"] = previous_stable
+        path.write_text(json.dumps(data))
+        files = self.workspace() + [("source/lean-toolchain", previous_stable)]
+        self.assertEqual(MODULE.select(self.archive(files), self.root), (previous_stable, ["a"]))
+        (self.root / "manifests/problems/a.toml").write_text(
+            'supported_configurations = ["latest", "rc", "stable"]\n')
+        with self.assertRaisesRegex(MODULE.ToolchainRequestError, "does not support previous-stable"):
+            MODULE.select(self.archive(files), self.root)
+
     def test_cli_applies_latest_pins_and_preserves_the_runner_toolchain_contract(self):
         self.latest_configuration()
         scripts = self.root / "scripts"

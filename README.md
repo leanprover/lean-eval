@@ -10,22 +10,25 @@ tooling generates one comparator workspace per problem under `generated/`.
 A submission is scored entirely by comparator results: a problem counts as solved iff
 comparator accepts the submitted solution.
 
-We intend to support three dependency configurations:
+We support the last two stable releases alongside release-candidate and rolling
+configurations:
 
 | Configuration | Intended versions |
 | --- | --- |
 | `stable` | The most recent stable Lean release, with matching Mathlib and TauCeti pins. |
+| `previous-stable` | The preceding stable Lean release, with a compatible fixed Mathlib/TauCeti snapshot. |
 | `rc` | The most recent supported Lean release candidate newer than stable, with a fixed compatible Mathlib/TauCeti snapshot; otherwise the stable configuration. |
 | `latest` (default) | The same Lean toolchain as `rc`, with compatible Mathlib and TauCeti commits that we try to keep fairly current. It may coincide with `rc` and `stable`. |
 
 To request an update, **@Kim Morrison on [Lean Zulip](https://leanprover.zulipchat.com/)**.
 Updates require compatible published dependency caches and passing CI, so a new
-Lean release can precede our adoption of it. These are three configurations;
+Lean release can precede our adoption of it. These are four support roles;
 `rc` and `latest` share a Lean version and may differ in library revisions.
 When a stable release supersedes the supported RC, move `rc` to stable and
-advance `latest` to that same snapshot. Keep these three names even when all
-three configurations coincide. Adopt the next RC for `rc` and `latest` together
-once compatible libraries and caches pass validation; retain stable meanwhile.
+advance `latest` to that same snapshot. Keep these names even when configurations
+coincide. Retain the preceding stable snapshot as `previous-stable`. Adopt the
+next RC for `rc` and `latest` together once compatible libraries and caches pass
+validation; retain both stable snapshots meanwhile.
 Every configuration pins exact commits, including all transitive dependencies;
 evaluation never follows a moving branch.
 
@@ -36,10 +39,12 @@ The currently available configurations in `supported-toolchains.json` are:
 | Configuration | Lean | Mathlib | TauCeti |
 | --- | --- | --- | --- |
 | `stable` | `v4.36.0` | `fc4f59e5` | `d91980bd` |
+| `previous-stable` | `v4.35.0` | `07406378` | `1f9b4414` |
 | `rc` | `v4.36.0` | `fc4f59e5` | `d91980bd` |
 | `latest` (default) | `v4.36.0` | `fc4f59e5` | `d91980bd` |
 
-All three currently use the Mathlib and TauCeti `v4.36.0` release commits.
+`stable`, `rc`, and `latest` currently use the Mathlib and TauCeti `v4.36.0`
+release commits; `previous-stable` retains the previously supported 4.35.0 pins.
 Lean `v4.37.0-rc1` has been released; `rc` and `latest` remain on stable while
 awaiting compatible Mathlib/TauCeti builds for that toolchain.
 The superseded `v4.36.0-rc2` snapshot is retired from new evaluations.
@@ -48,14 +53,15 @@ The `latest` configuration is the default checkout so it can build the full cata
 CI requires each problem to compile on every configuration it declares as supported
 without unexpected warnings; it does not compare their elaborated meanings
 across dependency versions. Cache restoration and sandbox/scoring checks also
-run on all three configurations. Mathlib's published cache must cover every module.
+run on all four configurations. Mathlib's published cache must cover every module.
 
 Problems may declare one of these support levels in their manifest:
 
 ```toml
 supported_configurations = ["latest"]
 # or ["latest", "rc"]
-# or ["latest", "rc", "stable"] (the default when omitted)
+# or ["latest", "rc", "stable"]
+# or ["latest", "rc", "stable", "previous-stable"] (the default when omitted)
 ```
 
 All problems must support `latest`. Authors can add a problem before it works on
@@ -69,6 +75,10 @@ configurations.** Fix problem sources as necessary for new Lean/Mathlib/TauCeti
 versions; do not narrow a problem's support declaration to make an upgrade pass.
 CI compares manifests with the base commit and rejects lost compatibility.
 Generation and submission evaluation enforce the declared support levels.
+New problems may omit `previous-stable` (and other older configurations) by
+declaring one of the shorter support lists above. On each stable release,
+promote the old `stable` snapshot to `previous-stable` and retire the older one;
+keep or repair each problem's declared support on the updated snapshots.
 
 To work on the stable configuration in an isolated directory:
 
@@ -84,6 +94,7 @@ lake exe lean-eval start-problem two_plus_two
 Use `rc` for the release-candidate snapshot (or its stable fallback), or `latest`
 for the default current library snapshot. Existing build outputs are excluded
 from these copies.
+Use `previous-stable` to prepare the preceding stable release in the same way.
 After selecting a configuration, regenerate each
 workspace you use so its pins and extracted statements match that configuration.
 The submission service reads the closest `lean-toolchain` at or above each

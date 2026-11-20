@@ -1,7 +1,7 @@
 # Updating supported configurations
 
 Use this runbook to refresh `latest`, adopt a new RC, or adopt a new stable
-release. The [README policy](../README.md) defines the three profiles and the
+release. The [README policy](../README.md) defines the four profiles and the
 allowed per-problem support levels. Ask **@Kim Morrison on
 [Lean Zulip](https://leanprover.zulipchat.com/)** for an update.
 
@@ -19,6 +19,13 @@ gh api 'repos/TauCetiProject/TauCeti/tags?per_page=10' --jq '.[].name'
 ```
 
 For `stable`, choose the newest stable Lean release and compatible libraries.
+For `previous-stable`, retain the preceding stable release's working snapshot.
+When adopting a new stable release, move the old `stable` configuration to
+`previous-stable` before replacing `stable`; retire the former `previous-stable`
+only after no registry alias needs it. For example, adopting 4.37.0 will move
+4.36.0 to `previous-stable` and retire 4.35.0. This is a rolling two-release
+support window, not a promise to evaluate new submissions on every past release.
+
 For `rc`, choose the newest Lean RC newer than stable and a compatible fixed
 library snapshot. If no such RC is supported yet, point `rc` at stable.
 For `latest`, choose a recent TauCeti commit on the same Lean toolchain as `rc`,
@@ -26,18 +33,19 @@ using exactly its Mathlib revision and transitive dependency pins. A recent
 Mathlib commit alone is insufficient: TauCeti's artifacts must match the complete
 dependency set.
 
-The three names describe support roles, not necessarily three distinct versions.
+The four names describe support roles, not necessarily four distinct versions.
 When adopting a stable release that supersedes the current RC, retire that RC,
 point `rc` at stable, and advance `latest` to the new stable snapshot in the same
-update. For example, after adopting `v4.36.0`, all three may use the identical
-`v4.36.0` Lean/Mathlib/TauCeti pins until `v4.37.0-rc1` is ready for us. Do not keep
+update. For example, after adopting `v4.36.0`, `stable`, `rc`, and `latest` may use
+identical `v4.36.0` Lean/Mathlib/TauCeti pins until `v4.37.0-rc1` is ready for us,
+while `previous-stable` remains on `v4.35.0`. Do not keep
 `v4.36.0-rc2` just to fill the RC slot, or leave `latest` behind stable.
 
 This fallback also covers the interval after the next Lean RC is tagged but
 before compatible Mathlib/TauCeti commits and published caches are available.
 Once that RC passes the validation below, move both `rc` and `latest` to it;
-leave stable on the stable release. `latest` can initially use the RC snapshot
-and then advance to newer compatible library commits. If a supported RC already
+leave both stable configurations on their stable releases. `latest` can initially
+use the RC snapshot and then advance to newer compatible library commits. If a supported RC already
 uses a newer Lean release than the new stable, retain that newer RC and `latest`.
 
 Use stock Lean releases. A commit on TauCeti `main` may not yet have a published
@@ -111,7 +119,8 @@ PY
 For a stable or RC version change, update `supported-toolchains.json`:
 
 - Register the new exact `leanprover/lean4:v...` key and profile directory.
-- Point `stable` or `rc` at that key. They may both point at the same key.
+- For a new stable release, first point `previous-stable` at the old `stable` key.
+- Point `stable` or `rc` at the new key. They may both point at the same key.
 - Remove old configuration entries only when no alias refers to them.
 - Keep `latest` and `default` pointing at `latest`.
 - Remove retired profile directories once no registry entry refers to them.
@@ -120,6 +129,8 @@ Existing archived evaluations retain their original benchmark commit, so their
 configuration remains available there. Update actual-version assertions in
 `tests/python/test_prepare_toolchain.py` when changing supported Lean versions;
 the synthetic historical versions in selector fixtures need not change.
+Update the stable-version paths in the pipeline toolchain contract step of
+`.github/workflows/ci.yml` as part of each stable promotion.
 
 For the interval between a stable release and adoption of the next RC, reuse
 the stable profile for `rc` and copy its exact three pin files into `latest`:
@@ -132,7 +143,7 @@ path = root / "supported-toolchains.json"
 registry = json.loads(path.read_text())
 registry["rc"] = registry["stable"]
 for key in list(registry["configurations"]):
-    if key not in {registry[alias] for alias in ("default", "stable", "rc", "latest")}:
+    if key not in {registry[alias] for alias in ("default", "stable", "previous-stable", "rc", "latest")}:
         del registry["configurations"][key]
 path.write_text(json.dumps(registry, indent=2) + "\n")
 stable = root / registry["configurations"][registry["stable"]]
@@ -178,8 +189,9 @@ python -m unittest discover -s tests/python -p 'test_*.py'
 python scripts/action_pin_audit.py
 ```
 
-Existing problems retain their declared support sets; omission means all three
-profiles. New problems may start at `latest` or `latest` plus `rc`. If an upgrade
+Existing problems retain their declared support sets; omission means all four
+profiles. New problems may start at `latest`, `latest` plus `rc`, or `latest`
+plus `rc` and `stable`; only the full list includes `previous-stable`. If an upgrade
 breaks an existing problem, repair its statement source, imports, or API usage
 instead of reducing its support. Keep any required statement-revision and
 lifecycle metadata consistent with the catalog's existing rules.
@@ -190,7 +202,7 @@ narrowed declarations, while compilation checks actual compatibility.
 
 ## 4. Validate each profile and its caches
 
-Repeat this sequence for `latest`, `rc`, and `stable`:
+Repeat this sequence for `latest`, `rc`, `stable`, and `previous-stable`:
 
 ```bash
 configuration=latest
@@ -217,7 +229,7 @@ artifact cache from another checkout or profile.
 
 Run Lean unit tests and representative generated workspace builds, including
 problems changed during the upgrade and one importing TauCeti. CI also requires
-cache restoration and comparator sandbox/scoring checks on all three profiles.
+cache restoration and comparator sandbox/scoring checks on all four profiles.
 Unexpected warnings must be fixed; benchmark placeholder `sorry` warnings are
 the existing exception.
 
