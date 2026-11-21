@@ -1,0 +1,18 @@
+id = "donaldson_diagonalizability"
+title = "Donaldson's diagonalizability theorem for smooth definite 4-manifolds"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Topology.DonaldsonDiagonalizability"
+holes = ["donaldson_diagonalizability"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "S. K. Donaldson, An application of gauge theory to four-dimensional topology, J. Differential Geom. 18 (1983), no. 2, 279–315; S. K. Donaldson, The orientation of Yang–Mills moduli spaces and 4-manifold topology, J. Differential Geom. 26 (1987), no. 3, 397–428."
+notes = """
+Stated against Tau Ceti (HomologicalOrientation, integralCohomology, integralCup): if a closed connected oriented smooth 4-manifold has positive-definite intersection form on H^2(M; Z) / Tors, that form is isometric over Z to the standard diagonal form sum_i x_i y_i on Z^n for some n.
+"""
+informal_solution = """
+Equip M with a smooth Riemannian metric and reverse orientation so Q_M is negative-definite of rank n, and form the moduli space M_1 of charge-1 anti-self-dual (ASD) SU(2) connections modulo gauge equivalence (perturbed generically following Freed-Uhlenbeck, and handling nontrivial fundamental group / 2-torsion as in Donaldson 1987; or alternatively via Seiberg-Witten moduli spaces and Elkies's lattice theorem). By the Atiyah-Singer index theorem, M_1 is a smooth orientable 5-manifold outside finitely many reducible cones over CP^2 corresponding to pairs +/- alpha in H^2(M; Z)/Tors with Q_M(alpha, alpha) = -1, and by Uhlenbeck compactness plus Taubes's grafting theorem its single end is collared by M x (0, lambda_0). Counting reducible endpoints with compatible orientations gives m = #{alpha : Q_M(alpha, alpha) = -1}/2 = n (after establishing orientability), producing n orthogonal vectors of square -1 spanning a unimodular sublattice and hence diagonalizing Q_M over Z.
+"""
