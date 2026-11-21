@@ -1,0 +1,18 @@
+id = "voevodsky_norm_residue"
+title = "Voevodsky's norm residue isomorphism theorem (Bloch–Kato conjecture)"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.AlgebraicTopology.VoevodskyNormResidue"
+holes = ["voevodsky_norm_residue"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "V. Voevodsky, On motivic cohomology with Z/l-coefficients, Ann. of Math. (2) 174 (2011), no. 1, 401–438; V. Voevodsky, Motivic cohomology with Z/2-coefficients, Publ. Math. Inst. Hautes Études Sci. 98 (2003), 59–104; M. Rost, Chain lemma for splitting fields of symbols (1998); C. Haesemeyer and C. A. Weibel, The Norm Residue Theorem in Motivic Cohomology, Ann. of Math. Stud. 200, Princeton Univ. Press (2019)."
+notes = """
+Stated against Tau Ceti (KummerCoeff, kummerMapCanonical, TopPairing.cup, ContinuousCohomology.degreeZeroClass): for every field F, integer m invertible in F, and n >= 0, the mod-m Milnor K-group K_n^M(F) / m is isomorphic to continuous Galois cohomology H^n_cont(G_F, mu_m^(tensor n)) via an isomorphism sending every pure Milnor symbol {u_0, ..., u_{n-1}} mod m to the iterated cup product of Kummer classes.
+"""
+informal_solution = """
+First verify Tate's Steinberg relation kappa(u) cup kappa(1 - u) = 0 in H^2(G_F, mu_m^(tensor 2)) so the Galois symbol h_{F, m}^n is well-defined, and reduce by primary decomposition and standard Kummer/transfer exact sequences from arbitrary m invertible in F to prime l != char(F), and by limit/reduction arguments to characteristic 0. Induct on n (with n = 0 trivial and n = 1 Kummer theory). Assuming the Bloch-Kato conjecture in degree n - 1 over all fields over F, compare motivic cohomology H^{p, q}(X, Z/l) and étale cohomology via the Beilinson-Lichtenbaum conjecture (proved equivalent in weight <= n - 1 by Suslin-Voevodsky) and prove Hilbert's Theorem 90 in weight n: for any pure symbol a = {a_1, ..., a_n} in K_n^M(F)/l, Rost builds a smooth projective norm variety X_a of dimension l^(n-1) - 1 splitting a with a degree-l-not-divisible-by-l^2 zero-cycle condition and a Rost motive summand (constructed via Voevodsky's motivic Steenrod operations and Margolis homology of the Cech simplicial scheme C(X_a)), proving exactness of the Bloch-Kato splitting sequence and yielding bijectivity in degree n.
+"""
