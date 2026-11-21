@@ -1,0 +1,18 @@
+id = "yamabe_problem"
+title = "The Yamabe problem on conformal metrics of constant scalar curvature"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Geometry.Yamabe"
+holes = ["yamabe_problem"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "H. Yamabe, On a deformation of Riemannian structures on compact manifolds, Osaka Math. J. 12 (1960), 21–37; N. S. Trudinger, Remarks concerning the conformal deformation of Riemannian structures on compact manifolds, Ann. Scuola Norm. Sup. Pisa Cl. Sci. (3) 22 (1968), 265–274; T. Aubin, Équations différentielles non linéaires et problème de Yamabe concernant la courbure scalaire, J. Math. Pures Appl. (9) 55 (1976), 269–296; R. Schoen, Conformal deformation of a Riemannian metric to constant scalar curvature, J. Differential Geom. 20 (1984), 479–495; J. M. Lee and T. H. Parker, The Yamabe problem, Bull. Amer. Math. Soc. (N.S.) 17 (1987), 37–91."
+notes = """
+Stated against Tau Ceti (ContMDiffRiemannianMetric, rescale, scalarCurvature): on every compact connected Hausdorff boundaryless smooth manifold of dimension >= 3, every smooth Riemannian metric admits a smooth positive conformal rescaling with constant scalar curvature.
+"""
+informal_solution = """
+Writing g_tilde = u^(4/(n-2)) g (so f = u^(4/(n-2)) > 0), constant scalar curvature is the critical-exponent Euler-Lagrange equation of the normalized Yamabe functional Q(u) = (int (4(n-1)/(n-2) |nabla u|^2 + R_g u^2) dV_g) / (int u^(2n/(n-2)) dV_g)^((n-2)/n). Trudinger and Aubin proved that subcritical minimizers converge smoothly to a positive minimizer of Q whenever the Yamabe invariant Y(M, [g]) = inf_{u > 0} Q(u) satisfies the strict inequality Y(M, [g]) < Y(S^n, [g_round]). Aubin (1976) verified this strict inequality via local Weyl-tensor test functions when n >= 6 and (M, g) is not locally conformally flat. In the remaining cases (n in {3, 4, 5} or locally conformally flat, with (M, [g]) not conformally S^n), Schoen (1984) constructs test functions interpolating a localized bubble with the Green's function G_p of the conformal Laplacian: in conformal normal coordinates (M \\ {p}, G_p^(4/(n-2)) g) is asymptotically flat with zero scalar curvature, and its constant term is proportional to the ADM mass, which is strictly positive by the Schoen-Yau positive mass theorem, yielding Y(M, [g]) < Y(S^n).
+"""
