@@ -1,0 +1,18 @@
+id = "bray_riemannian_penrose"
+title = "Bray's Riemannian Penrose inequality"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Geometry.BrayRiemannianPenrose"
+holes = ["bray_riemannian_penrose"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "H. L. Bray, Proof of the Riemannian Penrose inequality using the positive mass theorem, J. Differential Geom. 59 (2001), 177–267, Theorem 1; G. Huisken and T. Ilmanen, The inverse mean curvature flow and the Riemannian Penrose inequality, J. Differential Geom. 59 (2001), 353–477."
+notes = """
+Stated against Tau Ceti's Riemannian manifolds, scalar curvature, maximal geodesics, covariant curve acceleration, and Riemannian volume: on a complete smooth Riemannian 3-manifold with R_g >= 0, an asymptotically flat end of order tau > 1/2 with ADM mass m, and an outermost smooth closed (possibly disconnected) embedded minimal surface Sigma bounding the single exterior region Omega, sqrt(Area(Sigma) / (16 pi)) <= m.
+"""
+informal_solution = """
+First reduce (via harmonic asymptotics approximating (closure Omega, g) by harmonically flat metrics preserving R >= 0 and small perturbation of m and outermost horizon area) to the case where g is harmonically flat at infinity. Evolve the metric on Omega_0 = Omega by Bray's conformal flow g_t = u_t(x)^4 g_0 (t >= 0) with u_0 = 1 and d/dt u_t = v_t, where Sigma(t) is the outermost minimal area enclosure of Sigma(0) in (closure Omega_0, g_0) relative to g_t (smooth embedded and non-intersecting across jump times), and v_t solves the exterior harmonic problem Delta_{g_0} v_t = 0 outside Sigma(t) with v_t = 0 on Sigma(t) and v_t(x) -> -e^{-t} as |x| -> infinity. By the maximum principle u_t > 0 and R(g_t) >= 0 is preserved. Because Sigma(t) is minimal in g_t and v_t vanishes on Sigma(t), the horizon area A(t) = Area_{g_t}(Sigma(t)) stays constant at A(0) = Area(Sigma). Reflecting (Omega(t), g_t) across Sigma(t) yields a manifold with distributional R >= 0 across the minimal boundary (mean curvatures match), and applying the Schoen-Yau positive mass theorem to the smoothed reflection proves that d/dt m(t) <= 0. As t -> infinity, the rescaled metrics converge to an exterior spatial Schwarzschild slice for which m(infinity) = sqrt(A(infinity) / (16 pi)) = sqrt(Area(Sigma) / (16 pi)), giving m(0) >= m(infinity) = sqrt(Area(Sigma) / (16 pi)).
+"""
