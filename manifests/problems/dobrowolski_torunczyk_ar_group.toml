@@ -1,0 +1,17 @@
+id = "dobrowolski_torunczyk_ar_group"
+title = "Dobrowolski–Toruńczyk characterization of non-locally-compact Polish AR groups"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Topology.DobrowolskiTorunczykArGroup"
+holes = ["dobrowolski_torunczyk_ar_group"]
+submitter = "Edward Lockhart"
+source = "T. Dobrowolski and H. Toruńczyk, Separable complete ANRs admitting a group structure are Hilbert manifolds, Topology Appl. 12 (1981), no. 3, 229–232."
+notes = """
+Every non-locally-compact Polish topological group G that is an absolute retract for metrizable spaces is homeomorphic to the real separable Hilbert space l^2(N, R). Stated purely in Mathlib.
+"""
+informal_solution = """
+Because G is a Polish topological group that is not locally compact, no neighborhood of the identity has compact closure; hence every identity neighborhood contains an infinite discrete sequence of points bounded away from each other in a left-invariant compatible metric. Using multiplication in G together with the AR local equiconnectedness / homotopy extension structure to perturb continuous maps f_n : Q -> G along small discrete translates and strong Z-sets, one verifies Toruńczyk's discrete countable cells property on G, and concludes G is homeomorphic to l^2 by Toruńczyk's 1981 characterization of separable Hilbert space.
+"""
