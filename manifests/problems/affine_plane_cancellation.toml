@@ -1,0 +1,17 @@
+id = "affine_plane_cancellation"
+title = "Fujita–Miyanishi–Sugie–Russell affine plane cancellation theorem"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.AlgebraicGeometry.AffinePlaneCancellation"
+holes = ["affine_plane_cancellation"]
+submitter = "Edward Lockhart"
+source = "T. Fujita, On Zariski problem, Proc. Japan Acad. Ser. A Math. Sci. 55 (1979), 106–110; M. Miyanishi and T. Sugie, Affine surfaces containing cylinderlike open sets, J. Math. Kyoto Univ. 20 (1980), 11–42; P. Russell, On affine-ruled rational surfaces, Math. Ann. 255 (1981), 287–302; T. Kambayashi, On the absence of nontrivial separable forms of the affine plane, J. Algebra 35 (1975), 41–45."
+notes = """
+Solution of the two-dimensional Zariski cancellation problem over any perfect field k: if A[T_0, ..., T_{m-1}] is isomorphic as a k-algebra to k[X_0, ..., X_{m+1}] for some m >= 0, then A is isomorphic as a k-algebra to k[X_0, X_1]. Stated with zero new definitions on top of Mathlib.
+"""
+informal_solution = """
+First extend scalars from the perfect field k to an algebraic closure K: X = Spec(A_K) satisfies X x A^m = A^{m+2}, so X is a smooth factorial rational affine surface over K with trivial units (A_K^* = K^*) and logarithmic Kodaira dimension kappa_bar(X) = -infinity (since kappa_bar(X) <= kappa_bar(X x A^m) = kappa_bar(A^{m+2}) = -infinity by Iitaka-Fujita invariance). By the Fujita-Miyanishi-Sugie-Russell theorem (proved via minimal SNC completions of X and the theory of open surfaces of logarithmic Kodaira dimension -infinity, valid also in positive characteristic by Russell 1981), X contains a cylinderlike open set U = C x A^1; factoriality, A_K^* = K^*, and rationality then force X = A^2_K. Finally, because k is perfect, A_K = K[X_0, X_1] descends to A = k[X_0, X_1] by Kambayashi's theorem (1975) that the affine plane has no nontrivial separable forms (using Jung-van der Kulk's amalgamated-product structure of Aut(k[x, y]) and Galois cohomology).
+"""
