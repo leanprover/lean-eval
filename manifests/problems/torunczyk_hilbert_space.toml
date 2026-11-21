@@ -1,0 +1,17 @@
+id = "torunczyk_hilbert_space"
+title = "Toruńczyk's topological characterization of separable Hilbert space"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Topology.TorunczykHilbertSpace"
+holes = ["torunczyk_hilbert_space"]
+submitter = "Edward Lockhart"
+source = "H. Toruńczyk, Characterizing Hilbert space topology, Fund. Math. 111 (1981), no. 3, 247–262; see also C. Bessaga and A. Pełczyński, Selected Topics in Infinite-Dimensional Topology, PWN (1975), and J. van Mill, The Infinite-Dimensional Topology of Function Spaces, North-Holland (2001)."
+notes = """
+A Polish space X that is an absolute retract for metrizable spaces and satisfies Toruńczyk's discrete countable Hilbert-cubes approximation property is homeomorphic to real separable Hilbert space l^2(N, R) (lp (fun _ : N => R) 2). Stated purely in Mathlib.
+"""
+informal_solution = """
+First prove the stability theorem X x l^2 is homeomorphic to l^2 for every Polish AR X (via Toruńczyk's factor theorem showing X x l^2 is an AR embeddable as a retract and combining Henderson/West/Anderson-Kadec theory for l^2-manifolds and strong Z-sets). Then show that the projection pi : X x l^2 -> X is a near-homeomorphism using Bing's shrinking criterion with respect to arbitrary open covers: the discrete countable Hilbert-cubes property supplies strong Z-set absorption (a sigma-Z-set skeleton in X absorbing compacta while staying close to identity relative to any open cover), letting one shrink fibers of pi and produce a homeomorphism X = X x l^2 = l^2.
+"""
