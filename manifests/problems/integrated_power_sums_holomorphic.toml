@@ -1,0 +1,56 @@
+id = "integrated_power_sums_holomorphic"
+title = "Holomorphy of integrated sums of powers with positive bases"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.ComplexAnalysis.IntegratedPowerSums"
+holes = ["integrated_power_sums_holomorphic"]
+submitter = "mkahugu"
+supported_configurations = ["latest"]
+notes = """
+An analytic supporting statement from the Riemann hypothesis development. The
+statement preserves the source's arbitrary index type and arbitrary measure;
+neither countability nor sigma-finiteness is assumed. Positivity concerns the bases,
+not the exponents. The conclusion includes integrability of the complex sums as well
+as holomorphy of their integral. In the source development,
+GlobalTheory.EisCT.constTerm applies this result to powers of positive height
+functions integrated against a restricted Haar measure, obtaining a holomorphic
+middle contribution to an Eisenstein constant term.
+"""
+source = """
+GlobalTheory.T.dirichlet_series_integral_holomorphic, Riemann hypothesis development,
+commit 2f097b744a6460c73f3e4cc550baa83698409876:
+https://github.com/leanprover-community/riemann-hypothesis/blob/2f097b744a6460c73f3e4cc550baa83698409876/src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/DirichletSeriesIntegralHolomorphicStatement.lean
+The proof is GlobalTheory.TsumCpowHol.tsum_cpow_integrable_and_differentiableOn in:
+https://github.com/leanprover-community/riemann-hypothesis/blob/2f097b744a6460c73f3e4cc550baa83698409876/src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/DirichletSeriesIntegralHolomorphic.lean
+Application in GlobalTheory.EisCT.constTerm:
+https://github.com/leanprover-community/riemann-hypothesis/blob/2f097b744a6460c73f3e4cc550baa83698409876/src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/EisensteinConstantTermSetting.lean#L51
+"""
+informal_solution = """
+If the measure is zero, both conclusions are immediate. Otherwise, finiteness at
+the real exponent a + 1 forces the index type to be countable: an uncountable family
+of strictly positive extended nonnegative real numbers has infinite sum at every
+point, whose lower integral against a nonzero measure would be infinite.
+
+For each real sigma > a, the hypothesis gives almost-everywhere summability of
+r(i,x)^sigma and integrability of its sum. For positive r, the absolute value of
+r^z is r^(Re z). Thus, at every z in the half-plane, the complex series is almost
+everywhere absolutely summable and its sum is almost everywhere strongly measurable
+and integrable.
+
+Fix z0 in the half-plane and choose delta > 0 with a < Re z0 - 2 delta. Put
+lo = Re z0 - 2 delta and hi = Re z0 + 2 delta. For |z - z0| < delta, both the powers
+and their derivatives in z are bounded by integrable sums of endpoint real powers.
+In particular, for any c > 0,
+|c^z log c| <= (2 / delta) (c^lo + c^hi).
+This follows from |log c| <= (c^delta + c^(-delta)) / delta and monotonicity of
+real powers, splitting into c <= 1 and c >= 1.
+
+The finite endpoint integrals give a common full-measure set on which the series
+and its derivative converge locally uniformly. Differentiate the series termwise,
+then differentiate its integral using the integrable derivative bound. This gives
+complex differentiability at z0. Since z0 was arbitrary, the integral is holomorphic
+throughout the half-plane. Null exceptional sets do not affect the integrals.
+"""
