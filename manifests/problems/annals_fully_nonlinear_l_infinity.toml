@@ -1,0 +1,22 @@
+id = "annals_fully_nonlinear_l_infinity"
+title = "L-infinity estimates for fully non-linear equations on Hermitian manifolds"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.Geometry.FullyNonlinearLInfinity"
+holes = ["FullyNonlinearLInfinity.theorem_1", "FullyNonlinearLInfinity.corollary_1"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Kim Morrison"
+source = "B. Guo and D. H. Phong, `On L^∞ estimates for fully non-linear partial differential equations`, Annals of Math, 200 (1) 2024, https://doi.org/10.4007/annals.2024.200.1.6 (arXiv:2204.12549). Theorem 1 and Corollary 1."
+notes = """
+Stated against Tau Ceti. The Gårding cones Γ_n and Γ_1 are defined inline; they would be replaced by
+`hessianCone` from https://github.com/TauCetiProject/TauCeti/pull/43590. The eigenvalue vector
+λ[h_φ] of ω + i∂∂̄φ relative to ω is defined inline through a unitary diagonalising basis; it would
+be replaced by `LinearMap.IsSymm.relEigenvalues` from
+https://github.com/TauCetiProject/TauCeti/pull/43573. The structural conditions on (f, Γ) take f to
+be C¹ on an open cone Γ (the paper states no regularity); positivity of f on Γ, which the paper
+assumes, is a separate hypothesis of Theorem 1. The constant C is uniform over all admissible pairs
+with the given γ, as in the paper. Corollary 1 writes ∫ (ω + i∂∂̄φ)^n as ∫ det(h_φ) ω^n.
+"""
