@@ -1,0 +1,18 @@
+id = "gabai_property_r"
+title = "Gabai's Property R theorem"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Topology.GabaiPropertyR"
+holes = ["gabai_property_r"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "D. Gabai, Foliations and the topology of 3-manifolds. III, J. Differential Geom. 26 (1987), no. 3, 479–536, Corollary 8.3."
+notes = """
+Stated against Tau Ceti (TauCeti.GabaiPropertyRTheorem spelled out): every smooth knot in S^3 not smoothly ambient isotopic to the unknot has Property R, meaning longitudinal 0-surgery along it is never homeomorphic to S^1 x S^2.
+"""
+informal_solution = """
+Let K be a nontrivial smooth knot in S^3 and let S be a minimal-genus Seifert surface for K, so g(S) = g(K) >= 1. Capping boundary(S) with a meridian disk of the Dehn-filling solid torus produces a closed orientable surface S_hat of genus g(K) >= 1 generating H_2(Y_0; Z) in the 0-surgery Y_0. Constructing a sutured manifold hierarchy on the knot complement cut along S, Gabai (1987) produces a finite-depth taut foliation on Y_0 having S_hat as a compact leaf. By Novikov's theorem / Thurston norm minimality of compact leaves of taut foliations (Gabai 1983), Y_0 contains no essential embedded 2-sphere (in fact S_hat is Thurston-norm minimizing of genus g(K) >= 1), whereas S^1 x S^2 has an embedded nonseparating sphere representing a generator of H_2, so Y_0 cannot be homeomorphic to S^1 x S^2.
+"""
