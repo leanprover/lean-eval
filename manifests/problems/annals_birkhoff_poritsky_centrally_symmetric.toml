@@ -1,0 +1,22 @@
+id = "annals_birkhoff_poritsky_centrally_symmetric"
+title = "The Birkhoff-Poritsky conjecture for centrally-symmetric billiard tables"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.Dynamics.BirkhoffPoritsky"
+holes = ["BirkhoffPoritsky.birkhoff_poritsky_centrally_symmetric"]
+supported_configurations = ["latest"]
+submitter = "Kim Morrison"
+source = "M. Bialy and A. E. Mironov, `The Birkhoff-Poritsky conjecture for centrally-symmetric billiard tables`, Annals of Math, 196 (1) 2022, https://doi.org/10.4007/annals.2022.196.1.2 (arXiv:2008.03566). Theorem 1.1."
+notes = """
+Stated against Tau Ceti's `StrictConvexBilliardTable` (a C² table with χ'' ≠ 0) and its lifted
+billiard map `nextCollision` on the strip ℝ × (-1, 1), in the coordinates (s, v = cos δ), where the
+boundary {δ = 0} is {v = 1}. Rotational invariant curves are taken as invariant graphs
+(`IsInvariantGraph`) with rotation numbers `IsInvariantGraph.rotationNumber`; by Birkhoff's theorem
+every rotational invariant curve of the billiard map is a graph, as the paper recalls in Section 3.
+The curve α of 4-periodic orbits is a graph ψ₀ of rotation number 1/4 on which the fourth iterate
+of the lift is a deck translation. The foliation of the domain {ψ₀(s) < v < 1} is a family of
+invariant graphs partitioning it. Central symmetry and ellipses are defined inline.
+"""
