@@ -36,7 +36,7 @@ rev = "c496df0d9beea9deaeabcea8492605f9a0a2313b"
 [[require]]
 name = "TauCeti"
 git = "https://github.com/TauCetiProject/TauCeti"
-rev = "602b813ed6f418a0356ad1a1c3d2e3ecc623e414"
+rev = "c14c036584d8fb1a4a6e1c1d34fe8c4fcc2c06ac"
 
 [[require]]
 name = "mathlib"

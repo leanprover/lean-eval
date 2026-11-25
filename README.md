@@ -40,8 +40,8 @@ The currently available configurations in `supported-toolchains.json` are:
 | --- | --- | --- | --- |
 | `stable` | `v4.36.0` | `fc4f59e5` | `d91980bd` |
 | `previous-stable` | `v4.35.0` | `07406378` | `1f9b4414` |
-| `rc` | `v4.37.0-rc1` | `31ce06ea` | `602b813e` |
-| `latest` (default) | `v4.37.0-rc1` | `31ce06ea` | `602b813e` |
+| `rc` | `v4.37.0-rc1` | `31ce06ea` | `c14c0365` |
+| `latest` (default) | `v4.37.0-rc1` | `31ce06ea` | `c14c0365` |
 | `stacks` (library variant) | `v4.35.0` | `56a00585` | `1f9b4414` (metadata only) |
 
 `rc` and `latest` use a TauCeti `main` commit built with Lean `v4.37.0-rc1`
