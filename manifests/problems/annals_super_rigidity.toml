@@ -1,0 +1,23 @@
+id = "annals_super_rigidity"
+title = "Transversality and super-rigidity for multiply covered holomorphic curves"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = ["annals"]
+module = "LeanEval.Geometry.SuperRigidity"
+holes = ["SuperRigidity.super_rigidity", "SuperRigidity.super_rigidity_four", "SuperRigidity.transversality_unbranched", "SuperRigidity.transversality_branched"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Kim Morrison"
+source = "C. Wendl, `Transversality and super-rigidity for multiply covered holomorphic curves`, Annals of Math, 198 (1) 2023, https://doi.org/10.4007/annals.2023.198.1.2 (arXiv:1609.09867). Theorems A, B and C."
+notes = """
+Stated against Tau Ceti. Theorem A is split by dimension: `super_rigidity` (dim M ≥ 6) and
+`super_rigidity_four` (dim M = 4, genus 0 or 1). The linearized Cauchy–Riemann operator D_u is
+defined pointwise in charts from Tau Ceti's `cauchyRiemannLinearization`, with kernel and cokernel
+taken on smooth sections. The index ind(u) = (n - 3)χ(S) + 2c₁(u) is written ind(D_u) - 3χ(S),
+equal to it by Riemann–Roch, since Tau Ceti has no first Chern class. The generalized normal bundle
+is not available, so super-rigidity (injectivity of D^N for all covers) and Fredholm regularity
+(surjectivity of D^N, the criterion of the paper's Proposition 2.2) are expressed through D_u
+modulo the image of du. In Theorem C, a perturbed complex structure on a domain is a Riemann surface
+with a diffeomorphism from the original, and closeness is in the C^∞ topologies of Tau Ceti.
+"""
