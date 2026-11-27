@@ -1,0 +1,18 @@
+id = "savin_de_giorgi_conjecture"
+title = "Savin's theorem on De Giorgi's conjecture in dimensions 1 ≤ n ≤ 8"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Analysis.SavinDeGiorgi"
+holes = ["savin_de_giorgi_conjecture"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "O. Savin, Regularity of flat level sets in phase transitions, Ann. of Math. (2) 169 (2009), no. 1, 41–78, Theorem 1.2; see also N. Ghoussoub and C. Gui, Math. Ann. 311 (1998), 481–491 (n = 2), and L. Ambrosio and X. Cabré, J. Amer. Math. Soc. 13 (2000), 725–742 (n = 3)."
+notes = """
+Here Δ is Mathlib's analyst Laplacian Δu = ∑_i ∂²u/∂x_i² (Mathlib.Analysis.InnerProductSpace.Laplacian), so -Δu = u - u³ is the Euler–Lagrange equation Δu = W'(u) of the double-well potential W(u) = (1 - u²)²/4, whose unique monotone 1D transition profile with limits ±1 is t ↦ tanh(t/√2). Pairs with del_pino_kowalczyk_wei_de_giorgi, which shows sharpness of n ≤ 8 under identical hypotheses.
+"""
+informal_solution = """
+First show that u is a global energy minimizer of the Allen–Cahn functional J_Ω(v) = ∫_Ω (|∇v|²/2 + (1 - v²)²/4) dx with respect to compactly supported perturbations satisfying |v| ≤ 1: following Alberti–Ambrosio–Cabré, the monotonicity ∂_ν u > 0 and pointwise limits lim_{s → ±∞} u(x + sν) = ±1 allow one to foliate ℝⁿ by the translates u_s(x) = u(x + sν) and construct a calibration (or apply a sliding maximum principle). Rescaling u_ε(x) = u(x/ε), Modica–Mortola BV compactness and energy monotonicity show that as ε → 0 along a subsequence, the level sets {u_ε = 0} converge locally to the boundary of an area-minimizing cone C ⊂ ℝⁿ. Since 1 ≤ n ≤ 8, Simons's theorem (together with Fleming and Almgren) implies that every area-minimizing hypercone in ℝⁿ is a hyperplane (for n = 8, any singular minimizing cone such as the Simons cone forces non-monotone / non-graphical behavior ruled out by the limit condition lim_{s → ±∞} u(x + sν) = ±1, via Savin's Theorem 1.2 sliding reduction from 8D minimizing graphs as in Bombieri–De Giorgi–Giusti / Simon). Therefore {u = 0} is asymptotically flat inside large balls B_R: it stays trapped in a slab {|⟨e_R, x⟩| ≤ θ R} with θ → 0 as R → ∞. Applying Savin's improvement-of-flatness theorem (Theorem 1.1, proved via a viscosity Harnack inequality and blow-up to the linearized Laplace equation on the limiting hyperplane) down from arbitrarily large scales R implies that every level set {u = t} is an affine hyperplane orthogonal to a fixed unit vector e. Hence u(x) = g(⟨e, x⟩), where g solves -g'' = g - g³ with g' > 0 and g(±∞) = ±1, giving g(s) = tanh((s - c)/√2) and ⟨e, ν⟩ > 0.
+"""
