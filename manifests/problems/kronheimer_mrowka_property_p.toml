@@ -1,0 +1,18 @@
+id = "kronheimer_mrowka_property_p"
+title = "Kronheimer–Mrowka Property P theorem"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Topology.KronheimerMrowkaPropertyP"
+holes = ["kronheimer_mrowka_property_p"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "P. B. Kronheimer and T. S. Mrowka, Witten's conjecture and Property P, Geom. Topol. 8 (2004), 295–310; M. Culler, C. McA. Gordon, J. Luecke, and P. B. Shalen, Dehn surgery on knots, Ann. of Math. (2) 125 (1987), 237–300."
+notes = """
+Stated against Tau Ceti (TauCeti.KronheimerMrowkaPropertyPTheorem spelled out): every smooth knot in S^3 not smoothly ambient isotopic to the unknot has Property P (no nontrivial Dehn surgery along it produces a simply connected 3-manifold).
+"""
+informal_solution = """
+Let K be a nontrivial smooth knot in S^3. By the cyclic surgery theorem (Culler-Gordon-Luecke-Shalen 1987), any nontrivial surgery with trivial fundamental group must have slope +/- 1 (replacing K by its mirror, assume +1-surgery Y_1). By Gabai's taut foliation existence theorem (1983/1987) applied to a minimal-genus Seifert surface (genus g >= 1 since K is nontrivial), the 0-surgery Y_0 carries a smooth taut foliation, which by Eliashberg-Thurston (1998) perturbs to a weakly symplectically fillable contact structure; gluing a symplectic cap (Eliashberg 2004 / Etnyre 2004) embeds Y_0 as a separating hypersurface inside a closed symplectic 4-manifold X with b_2^+ > 1. Using Taubes's nonvanishing of Seiberg-Witten invariants for symplectic 4-manifolds, Kronheimer-Mrowka's Witten-type relation between Seiberg-Witten and SO(3) Donaldson/instanton Floer invariants, and Floer's exact surgery triangle connecting S^3, Y_0, and Y_1, one obtains a nontrivial projective SU(2) representation of pi_1(Y_1) that lifts to SU(2), proving pi_1(Y_1) != 1.
+"""
