@@ -1,0 +1,18 @@
+id = "gabai_zero_surgery_genus"
+title = "Gabai's zero-surgery genus theorem"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Topology.GabaiZeroSurgeryGenus"
+holes = ["gabai_zero_surgery_genus"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "D. Gabai, Foliations and the topology of 3-manifolds. III, J. Differential Geom. 26 (1987), no. 3, 479–536, Corollary 8.3."
+notes = """
+Stated against Tau Ceti (TauCeti.GabaiZeroSurgeryGenusTheorem): for every smooth knot K in S^3, the minimal genus of any generator of H_2 of the longitudinal 0-surgery on K equals the Seifert genus of K.
+"""
+informal_solution = """
+Capping a minimal-genus Seifert surface S of K with a meridian disk of the surgery solid torus gives a closed oriented embedded surface S_hat in the 0-surgery Y_0 of genus g(K) representing a generator of H_2(Y_0; Z) = Z, establishing the upper bound minimalGenus(c) <= g(K). For the reverse inequality (nontrivial when g(K) >= 1), Gabai (1987) uses taut sutured manifold hierarchies on the exterior of K decomposed along S to construct a taut foliation of Y_0 extending S_hat as a compact leaf (transverse to the core of the surgery solid torus). By Thurston's theorem that compact leaves of taut foliations minimize the Thurston norm in their homology class (and Gabai's equality of singular and embedded Thurston norms, 1983), no embedded connected orientable surface representing +/- [S_hat] can have genus strictly smaller than g(S_hat) = g(K).
+"""
