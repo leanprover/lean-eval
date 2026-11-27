@@ -1,0 +1,18 @@
+id = "martin_steel_projective_determinacy"
+title = "Martin–Steel projective determinacy theorem"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.SetTheory.MartinSteelProjectiveDeterminacy"
+holes = ["martin_steel_projective_determinacy"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "D. A. Martin and J. R. Steel, A proof of projective determinacy, J. Amer. Math. Soc. 2 (1989), 71–125, Main Theorem; A. Kanamori, The Higher Infinite, 2nd ed., Springer (2003), Chapter 6, Theorem 32.14."
+notes = """
+Stated purely in Mathlib (universe-polymorphic in u so ZFC + large-cardinal models instantiate Type u without vacuity): if there exist n >= 1 strictly increasing Woodin cardinals delta_0 < ... < delta_{n-1} below a measurable cardinal kappa, then every boldface Pi^1_{n+1} subset of Baire space N^N is Gale-Stewart determined.
+"""
+informal_solution = """
+Represent a Pi^1_{n+1} set A subseteq N^N via a homogeneously Suslin tree representation at the base: the measurable cardinal kappa above delta_{n-1} implies every Pi^1_1 set is kappa-homogeneously Suslin (Martin 1970). Prove the Martin-Steel Homogeneous-to-Weakly-Homogeneous Transfer Theorem using iteration trees of alternating length omega: if delta is a Woodin cardinal and T is a delta^+-homogeneously Suslin tree on omega x Z projecting to B subseteq N^N, then the complement N^N \\ p[T] is <delta-weakly homogeneously Suslin (constructing continuous systems of countably complete measures via one-step Woodinness and Martin-Steel's uniqueness of wellfounded cofinal branches of alternating iteration trees). Since the projection along N of any delta-weakly homogeneously Suslin set is delta-homogeneously Suslin, stepping down sequentially through the n Woodin cardinals delta_{n-1} > ... > delta_0 converts the kappa-homogeneously Suslin Pi^1_1 matrix of A into a homogeneously Suslin tree representation for A (or its Sigma^1_n projection complement), and apply Martin's theorem that every homogeneously Suslin subset of N^N is determined (lifting the game to an auxiliary closed game weighted by the homogeneity measures and using Gale-Stewart closed determinacy plus countable completeness of the ultrafilters).
+"""
