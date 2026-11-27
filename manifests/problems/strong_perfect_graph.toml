@@ -1,0 +1,18 @@
+id = "strong_perfect_graph"
+title = "The Strong Perfect Graph Theorem (Chudnovsky–Robertson–Seymour–Thomas)"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Combinatorics.StrongPerfectGraph"
+holes = ["strong_perfect_graph"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "M. Chudnovsky, N. Robertson, P. Seymour, and R. Thomas, The strong perfect graph theorem, Ann. of Math. (2) 164 (2006), no. 1, 51–229, Theorem 1.2 (arXiv:math/0212070); L. Lovász, Normal hypergraphs and the perfect graph conjecture, Discrete Math. 2 (1972), 253–267."
+notes = """
+Pure Mathlib statement using SimpleGraph.cycleGraph, graph embeddings H ↪g G (which encode induced subgraphs), SimpleGraph.chromaticNumber, and SimpleGraph.cliqueNum: a finite simple graph G is perfect if and only if neither G nor Gᶜ contains an induced odd cycle of length at least 5.
+"""
+informal_solution = """
+Necessity (IsPerfect G → IsBerge G) is elementary: an odd cycle C_{2k+1} with k ≥ 2 has clique number 2 and chromatic number 3, while its complement C_{2k+1}ᶜ has clique number k and independence number 2 so chromatic number ≥ ⌈(2k+1)/2⌉ = k + 1 > k. For sufficiency (IsBerge G → IsPerfect G), prove by structural analysis that every finite Berge graph either belongs to one of five basic classes—bipartite graphs, complements of bipartite graphs, line graphs of bipartite graphs, complements of line graphs of bipartite graphs, and double split graphs—or admits one of four structural decompositions: a 2-join in G, a 2-join in Gᶜ, a homogeneous pair, or a balanced skew partition. Verify directly (using König's edge-coloring and matching theorems together with Lovász's Perfect Graph Theorem that perfection is closed under complementation) that all five basic classes are perfect. Suppose for contradiction that G is a vertex-minimal imperfect Berge graph. Using Lovász's replication lemma and Chvátal's star-cutset / skew-partition properties (extended via Chudnovsky–Robertson–Seymour–Thomas's parity analysis and Roussel–Rubio lemma for balanced skew partitions, plus Cornuéjols–Cunningham for 2-joins and Chvátal–Sbihi for homogeneous pairs), show that a minimal imperfect Berge graph cannot belong to any basic class and cannot admit a 2-join (in G or Gᶜ), a homogeneous pair, or a balanced skew partition, contradicting the decomposition theorem for Berge graphs.
+"""
