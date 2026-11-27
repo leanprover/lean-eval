@@ -1,0 +1,18 @@
+id = "gross_zagier_kolyvagin"
+title = "The Gross–Zagier–Kolyvagin theorem (BSD in analytic rank ≤ 1)"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.NumberTheory.GrossZagierKolyvagin"
+holes = ["gross_zagier_kolyvagin"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "B. H. Gross and D. B. Zagier, Heegner points and derivatives of L-series, Invent. Math. 84 (1986), 225–320; V. A. Kolyvagin, Finiteness of E(ℚ) and Ш(E, ℚ) for a subclass of Weil curves, Izv. Akad. Nauk SSSR Ser. Mat. 52 (1988), 522–540; V. A. Kolyvagin, Euler systems, The Grothendieck Festschrift, Vol. II, Progr. Math. 87, Birkhäuser (1990), 435–483; D. Bump, S. Friedberg, and J. Hoffstein, Nonvanishing theorems for L-functions of modular forms and their derivatives, Invent. Math. 102 (1990), 543–618; M. R. Murty and V. K. Murty, Mean values of derivatives of modular L-series, Ann. of Math. (2) 133 (1991), 447–475; A. Wiles, Ann. of Math. (2) 141 (1995), 443–551; C. Breuil, B. Conrad, F. Diamond, and R. Taylor, J. Amer. Math. Soc. 14 (2001), 843–939."
+notes = """
+Stated directly against Tau Ceti's Birch–Swinnerton-Dyer framework (TauCeti.AlgebraicGeometry.EllipticCurve.BirchSwinnertonDyer.Statement): for any elliptic curve E over ℚ and any analytic continuation F of its Hasse–Weil L-series to a connected open set U containing 1 with analyticOrderAt F 1 ≤ 1, the order of vanishing at s = 1 equals the Mordell–Weil rank Module.finrank ℤ E.toAffine.Point and the Tate–Shafarevich group E.sha is finite.
+"""
+informal_solution = """
+By the modularity theorem (Wiles, Taylor–Wiles, Breuil–Conrad–Diamond–Taylor), E admits a nonconstant modular parametrization φ : X_0(N) → E over ℚ attached to a weight-2 newform f of level N equal to the conductor of E, with L(E, s) = L(f, s). Using Bump–Friedberg–Hoffstein or Murty–Murty (together with Waldspurger's theorem in analytic rank 1), choose an imaginary quadratic field K satisfying the Heegner hypothesis for N (every prime dividing N splits in K) such that ord_{s=1} L(E/K, s) = 1: when ord_{s=1} L(E, s) = 0, pick K so L'(E^K, 1) ≠ 0; when ord_{s=1} L(E, s) = 1, pick K so L(E^K, 1) ≠ 0. By the Gross–Zagier formula, the Néron–Tate canonical height of the trace y_K ∈ E(K) of the Heegner point on X_0(N) is a nonzero multiple of L'(E/K, 1) ≠ 0, so y_K has infinite order in E(K) and lies in the (-ε)-eigenspace for complex conjugation, where ε = (-1)^{ord_{s=1} L(E, s)} is the root number of E/ℚ. Kolyvagin's Euler system built from Heegner points over ring class fields of K then bounds the p-primary Selmer groups of E/K for all primes p (and annihilates them up to a bounded index independent of p), proving that E(K) has rank 1 and Ш(E/K) is finite. Splitting into ±-eigenspaces under Gal(K/ℚ) yields rank E(ℚ) = ord_{s=1} L(E, s) ∈ {0, 1} and finiteness of Ш(E/ℚ).
+"""
