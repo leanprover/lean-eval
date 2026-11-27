@@ -1,0 +1,18 @@
+id = "maynard_primes_restricted_digits"
+title = "Maynard's theorem on primes with restricted decimal digits"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.NumberTheory.MaynardRestrictedDigits"
+holes = ["maynard_primes_restricted_digits"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "J. Maynard, Primes with restricted digits, Invent. Math. 217 (2019), no. 1, 127–218, Theorem 1.1 (arXiv:1604.01041)."
+notes = """
+For every digit d ∈ {0, …, 9}, the set of prime numbers p whose base-10 expansion Nat.digits 10 p omits d is infinite. Because every prime satisfies p ≥ 2 > 0, Nat.digits 10 p is the exact canonical base-10 digit list without leading zeros (in particular covering d = 0 as well as d ∈ {1, …, 9}).
+"""
+informal_solution = """
+Let A_k be the set of integers n ∈ [10^{k-1}, 10^k) whose base-10 digits (including no leading zero) all differ from d, so |A_k| ≍ 9^k = X^{log 9 / log 10} with X = 10^k. Estimate the discrete Fourier transform F_A(t) = ∑_{n ∈ A_k} e(nt), which factors as a k-fold product of 9-term exponential sums: it has L^1 norm X^{(log 9 - c_1)/log 10} with a small supercritical exponent, while large values obey strong large-deviation and hybrid Diophantine bounds analyzed via a Markov-like recurrence over base-10 shifts and geometry of numbers. Apply Harman's sieve comparing primes in A_k against primes in [10^{k-1}, 10^k): decompose the prime indicator via Heath-Brown's identity into Type I sums (with one long smooth variable, controlled using the L^1 and Diophantine bounds on F_A) and Type II bilinear sums (with a factor in a narrow range [X^η, X^{1/2 - η}], controlled by Cauchy–Schwarz, completion, and the large-sieve / moment savings for F_A at rational points a/q). Although a tiny range of factorizations cannot be evaluated asymptotically, the positive lower bound from the asymptotic terms strictly exceeds the upper-bound sieve loss on the discarded range for base 10, yielding #{p ∈ A_k : p prime} ≍ |A_k| / log X → ∞ as k → ∞.
+"""
