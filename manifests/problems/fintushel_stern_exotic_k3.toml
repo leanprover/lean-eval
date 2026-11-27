@@ -1,0 +1,18 @@
+id = "fintushel_stern_exotic_k3"
+title = "Fintushel–Stern infinitely many exotic smooth structures on K3"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Topology.FintushelSternExoticK3"
+holes = ["fintushel_stern_exotic_k3"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "R. Fintushel and R. J. Stern, Knots, links, and 4-manifolds, Invent. Math. 134 (1998), no. 2, 363–400, Theorem 1.1 and Corollary 1.2."
+notes = """
+Stated using Tau Ceti's HomologicalOrientation, evalFundamentalClass, and integralCup: every closed simply connected smooth 4-manifold X admitting a homological orientation whose integral intersection form on H^2(X; ℤ) is isometric to the even unimodular K3 lattice (-E_8) ⊕ (-E_8) ⊕ 3H (rank 22, signature -16) admits an infinite sequence of smooth 4-manifolds each homeomorphic to X and pairwise not C^∞-diffeomorphic (taking any sequence Y_i homeomorphic to the standard elliptic K3 surface gives X ≃ₜ K3 ≃ₜ Y_i by Freedman's even classification theorem).
+"""
+informal_solution = """
+Start from a standard complex elliptic K3 surface E(2), which is a closed simply connected smooth 4-manifold with even unimodular intersection form (-E_8) ⊕ (-E_8) ⊕ 3H, trivial Seiberg–Witten invariant SW_{E(2)} = 1, and a cusp neighborhood containing a regular elliptic torus fiber T of self-intersection 0 whose complement is simply connected. For each smooth knot K ⊂ S^3, form the Fintushel–Stern knot-surgery manifold E(2)_K = (E(2) \\ νT) ∪_φ (S^1 × (S^3 \\ νK)), gluing the boundary 3-tori so that a meridian of T matches a null-homologous longitude of K. By Seifert–van Kampen and Mayer–Vietoris, E(2)_K is closed, simply connected, and has the same even intersection form (-E_8) ⊕ (-E_8) ⊕ 3H; by Freedman's homeomorphism classification of even simply connected topological 4-manifolds, every E(2)_K is homeomorphic to E(2) and hence also to the given X. By the Fintushel–Stern knot-surgery formula (Theorem 1.1, proved via Seiberg–Witten gluing/skein relations along T^3), the Seiberg–Witten series of E(2)_K equals SW_{E(2)} · Δ_K(exp(2[T])) = Δ_K(t), where Δ_K(t) is the symmetrized Alexander polynomial of K. Choosing a sequence of knots K_i (for instance (2, 2i + 1) torus knots or twist knots) whose symmetrized Alexander polynomials have pairwise distinct numbers of nonzero coefficients (or distinct coefficient multisets), diffeomorphism invariance of the Seiberg–Witten invariant implies that E(2)_{K_i} and E(2)_{K_j} are not smoothly diffeomorphic for i ≠ j.
+"""
