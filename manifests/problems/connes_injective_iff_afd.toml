@@ -1,0 +1,17 @@
+id = "connes_injective_iff_afd"
+title = "Connes's equivalence of injectivity and hyperfiniteness for von Neumann algebras"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Analysis.ConnesHaagerup"
+holes = ["connes_injective_iff_afd"]
+submitter = "Edward Lockhart"
+source = "A. Connes, Classification of injective factors. Cases II_1, II_infinity, III_lambda, lambda != 1, Ann. of Math. (2) 104 (1976), no. 1, 73–115, Theorem 6 and Corollary 7; J. Tomiyama, On the projection of norm one in W*-algebras, Proc. Japan Acad. 33 (1957), 608–612."
+notes = """
+A von Neumann algebra M on a separable complex Hilbert space H admits a contractive linear projection E : B(H) -> B(H) onto M (which by Tomiyama's theorem is equivalent to injectivity / existence of a conditional expectation from B(H) onto M) if and only if M is approximately finite-dimensional (generated via the double commutant by an increasing sequence of finite-dimensional unital *-subalgebras of B(H)). Stated with zero custom definitions on top of Mathlib.
+"""
+informal_solution = """
+For AFD => injective, construct conditional expectations onto each finite-dimensional *-subalgebra F_n (a finite direct sum of matrix algebras) and take a pointwise ultraweak cluster point along a free ultrafilter to obtain a norm-one projection B(H) -> M (Schwartz/Arveson). For injective => AFD on a separable Hilbert space (Connes 1976), reduce via direct integral decomposition into factors, then via Takesaki's crossed-product duality for type III factors and tensor-product structure for type II_infinity to the crucial case of a separable injective II_1 factor N: by Tomiyama, injectivity gives semidiscreteness and a hypertrace on B(L^2(N)) restricted to N, from which Connes's noncommutative Day-Namioka/Følner argument produces approximate matrix subalgebras, shows N has property Gamma and is McDuff (N = N tensor R), and builds an exhausting tower of finite-dimensional *-subalgebras.
+"""
