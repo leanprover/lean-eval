@@ -1,0 +1,18 @@
+id = "guth_katz_distinct_distances"
+title = "Guth–Katz planar distinct distances theorem"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Combinatorics.GuthKatzDistinctDistances"
+holes = ["guth_katz_distinct_distances"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "L. Guth and N. H. Katz, On the Erdős distinct distances problem in the plane, Ann. of Math. (2) 181 (2015), no. 1, 155–190, Theorem 1.1 (arXiv:1011.4105); P. Erdős, On sets of distances of n points, Amer. Math. Monthly 53 (1946), 248–250."
+notes = """
+Pure Mathlib statement: there exists an absolute constant c > 0 such that every finite set P ⊂ ℝ² with |P| ≥ 2 determines at least c |P| / log |P| distinct positive Euclidean distances.
+"""
+informal_solution = """
+Let N = |P| and let Q = {(p_1, p_2, q_1, q_2) ∈ P⁴ : |p_1 - q_1| = |p_2 - q_2| > 0} be the distance-quadruple set. By Cauchy–Schwarz on the fibers of (p, q) ↦ |p - q| over P.offDiag, |distinctDistances P| ≥ N(N - 1)² / |Q|, so it suffices to prove |Q| = O(N³ log N). Following the Elekes–Sharir framework, discard the O(N³) degenerate quadruples with p_1 = p_2 or q_1 = q_2 and associate to each remaining quadruple the unique orientation-preserving rigid motion g ∈ SE(2) \\ {id} taking p_1 ↦ p_2 and q_1 ↦ q_2. Parameterizing non-translation rigid motions in ℝ³ via (cot(θ/2), center_x, center_y), the set of motions mapping p ∈ P to q ∈ P forms a line L_{p,q} ⊂ ℝ³, giving a family L of ≤ N² lines with at most N lines in any single plane or regulus (since lines with fixed p are parallel/concurrent in a controlled family), and non-translation quadruples correspond to pairwise intersections of lines in L (translations are bounded separately by O(N³)). Bound the number of k-rich points p_k(L) (points lying in at least k lines of L) by O(N³ / k²) for 3 ≤ k ≤ N, and bound general point-line incidences for k = 2 via a two-level proof using Guth–Katz polynomial partitioning (from the polynomial ham-sandwich theorem in ℝ³) together with the algebraic geometry of ruled surfaces (Cayley–Salmon and Monge's flecnodal/regulus theorems showing that an irreducible algebraic surface of degree D not containing planes or reguli contains O(D²) lines, or is singly ruled with at most one exceptional curve). Summing ∑_{k=2}^N k² (p_k - p_{k+1}) ≲ ∑_{k=2}^N k p_k ≲ N³ ∑_{k=2}^N 1/k = O(N³ log N) yields |Q| = O(N³ log N).
+"""
