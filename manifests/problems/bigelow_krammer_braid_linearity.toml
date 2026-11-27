@@ -1,0 +1,18 @@
+id = "bigelow_krammer_braid_linearity"
+title = "Bigelow–Krammer linearity of Artin braid groups"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.GroupTheory.BigelowKrammerBraidLinearity"
+holes = ["bigelow_krammer_braid_linearity"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "S. J. Bigelow, Braid groups are linear, J. Amer. Math. Soc. 14 (2001), no. 2, 471–486; D. Krammer, The braid group B_4 is linear, Invent. Math. 142 (2000), 451–486; D. Krammer, Braid groups are linear, Ann. of Math. (2) 155 (2002), no. 1, 131–156."
+notes = """
+Stated directly on Tau Ceti's n-strand Artin braid group TauCeti.BraidGroup n: for every n ∈ ℕ, there exist d ∈ ℕ and an injective group homomorphism ρ : TauCeti.BraidGroup n →* GL(Fin d, ℂ).
+"""
+informal_solution = """
+For n ≤ 1, BraidGroup n is trivial and embeds in GL_0(ℂ); for n = 2, BraidGroup 2 ≅ ℤ embeds in GL_1(ℂ) via σ_0 ↦ [2]. For n ≥ 3, construct the Lawrence–Krammer representation V of BraidGroup n over the Laurent polynomial ring R = ℤ[q^{±1}, t^{±1}], a free R-module of rank d = n(n - 1)/2 with basis {v_{i,j} : 1 ≤ i < j ≤ n} and explicit action of the Artin generators σ_k verified directly against the commutation and braid relations (TauCeti.BraidGroup.lift). Prove faithfulness following Krammer (2002) (or Bigelow 2001): in the Garside positive braid monoid B_n^+ with Garside fundamental element Δ, every element β ∈ B_n writes as Δ^{-r} α with α ∈ B_n^+, so faithfulness reduces to showing ker(ρ) ∩ B_n^+ = {1}. Specialize q to 1 - ε (or work over ℝ((t)) with 0 < q < 1) and define for each subset A of the standard partial-order structure on pairs (i, j) a cone C_A in V such that every simple (permutation) braid x ∈ Ω \\ {1} and positive braid α in left-greedy Garside normal form maps cones strictly into subcones tracking its starting set S(α), showing ρ(α) ≠ I for every α ∈ B_n^+ \\ {1}. (Alternatively, via Bigelow, identify V with the second homology H_2(C̃) of a ℤ²-cover of the unordered 2-point configuration space of the n-punctured disk and show via Bigelow's key lemma on noodle-fork algebraic intersections that any braid acting trivially on H_2(C̃) fixes every fork up to isotopy and is therefore trivial.) Finally, embed ℤ[q^{±1}, t^{±1}] into ℂ by mapping q and t to two algebraically independent complex numbers to obtain an injective homomorphism BraidGroup n →* GL(Fin d, ℂ).
+"""
