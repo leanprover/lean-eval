@@ -1,0 +1,18 @@
+id = "del_pino_kowalczyk_wei_de_giorgi"
+title = "The del Pino–Kowalczyk–Wei counterexample to De Giorgi's conjecture in dimensions n ≥ 9"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Analysis.DelPinoKowalczykWeiDeGiorgi"
+holes = ["del_pino_kowalczyk_wei_de_giorgi"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "M. del Pino, M. Kowalczyk, and J. Wei, On De Giorgi's conjecture in dimension N ≥ 9, Ann. of Math. (2) 174 (2011), no. 3, 1485–1569, Theorem 1 (arXiv:0806.3141)."
+notes = """
+Demonstrates the exact sharpness of the dimension bound n ≤ 8 in savin_de_giorgi_conjecture: for every n ≥ 9 and unit direction ν, there exists an entire C² solution u : ℝⁿ → (-1, 1) to -Δu = u - u³ with ∂_ν u > 0 and pointwise limits ±1 as s → ±∞ along every line x + sν that is not one-dimensional.
+"""
+informal_solution = """
+By orthogonal invariance of the Laplacian and trivial extension from ℝ⁹ to ℝ⁹ × ℝ^{n-9} (setting u(y, z) = u_9(y) with ν = e_9), it suffices to construct u on ℝ⁹ with ν = e_9. Start from a Bombieri–De Giorgi–Giusti entire smooth non-affine minimal graph Γ = {(x', F(x')) : x' ∈ ℝ⁸} ⊂ ℝ⁹ symmetric with respect to the Simons cone |u| = |v| in ℝ⁴ × ℝ⁴, with polynomial growth F(x') ~ c |x'|³ at infinity and decaying second fundamental form |A_Γ(y)| = O((1 + |y|)^{-1}) and Jacobi-operator invertibility in weighted norms. For a small scaling parameter α > 0, let Γ_α = α⁻¹ Γ and build an approximate solution to -Δu = u - u³ in Fermi coordinates (y, z) near Γ_α of the form w(z - h(y)) + φ(y, z), where w(t) = tanh(t/√2) is the 1D heteroclinic profile and h is a small normal shift of Γ_α. Using infinite-dimensional Lyapunov–Schmidt reduction, project the PDE error orthogonally to w'(z - h(y)) to solve for the normal perturbation φ in exponentially-in-|z| and algebraically-in-|y| weighted Hölder spaces, and choose h by inverting the perturbed Jacobi operator Δ_{Γ_α} h + |A_{Γ_α}|² h = O(α³ (1 + α|y|)^{-3}) on Γ_α (using nondegeneracy and supersolutions on the BDGG graph). Glue this inner profile smoothly to ±1 away from Γ_α and solve the full nonlinear fixed-point problem for sufficiently small α > 0. Verify |u| < 1 by the strong maximum principle, lim_{x_9 → ±∞} u(x', x_9) = ±1 since the signed distance to Γ_α diverges to ±∞ along every vertical line, and ∂_{x_9} u > 0 globally using positivity of the normal component ⟨ν_{Γ_α}, e_9⟩ and maximum-principle barrier arguments on the linearized equation for ∂_{x_9} u. Because the zero level set {u = 0} is a non-flat graph close to Γ_α, u is not of the form g(⟨e, x⟩).
+"""
