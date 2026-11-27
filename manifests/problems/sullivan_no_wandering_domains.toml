@@ -1,0 +1,18 @@
+id = "sullivan_no_wandering_domains"
+title = "Sullivan's no-wandering-domains theorem for complex rational maps"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Dynamics.SullivanNoWanderingDomains"
+holes = ["sullivan_no_wandering_domains"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "D. Sullivan, Quasiconformal homeomorphisms and dynamics I. Solution of the Fatou–Julia problem on wandering domains, Ann. of Math. (2) 122 (1985), no. 3, 401–418, Theorem 1; see also J. Milnor, Dynamics in One Complex Variable, 3rd ed., Ann. of Math. Stud. 160, Princeton Univ. Press (2006), Appendix F, and C. McMullen, in Holomorphic Functions and Moduli I, MSRI Publ. 10 (1988), 31–60."
+notes = """
+Pure Mathlib statement on the Riemann sphere OnePoint ℂ: for coprime P, Q ∈ ℂ[X] with Q ≠ 0 and max(deg P, deg Q) ≥ 2 (which forces P ≠ 0 and yields a holomorphic rational self-map f of degree d ≥ 2), the Fatou set is defined via equicontinuity of the iterate family {f^[n]} under CompactSpace.toUniformSpace (equivalent to the spherical metric), and every Fatou component is eventually mapped onto itself by a positive iterate f^[p].
+"""
+informal_solution = """
+The rational map f = P/Q has degree d = max(deg P, deg Q) ≥ 2, so it is a proper branched holomorphic self-covering of the Riemann sphere ℂ̂ with at most 2d - 2 critical points. It satisfies f⁻¹(F(f)) = F(f) and maps every connected component V of F(f) onto a connected component of F(f). Suppose for contradiction that U_0 = comp_{F(f)}(x) is a wandering domain, so its forward images U_n = f^n(U_0) (n ≥ 0) are pairwise disjoint Fatou components. Passing to a tail U_m, we may assume that no U_n (n ≥ 0) contains a critical point, so each f : U_n → U_{n+1} is an unbranched holomorphic covering map. Replacing U_0 by a further forward image if every map is eventually injective, construct an infinite-dimensional family (dimension > 2d + 1, the complex dimension of Rat_d) of smooth f-invariant Beltrami differentials μ_t on the grand orbit O = ⋃_{k ≥ 0} f^{-k}(⋃_{n ≥ 0} U_n) (extended by 0 on ℂ̂ \\ O) with ‖μ_t‖_∞ < 1: when U_n is eventually simply connected and f|_{U_n} injective, build Beltrami deformations on U_0 via boundary quasiconformal perturbations of a uniformization Δ → U_0 that remain nontrivial modulo conformal equivalence fixing prime ends; when U_n is multiply connected or covers with degree > 1, transport Beltrami differentials from the quotient Riemann surface of the grand orbit. For each parameter t, solve the Beltrami equation via the Ahlfors–Bers measurable Riemann mapping theorem to obtain a normalized quasiconformal homeomorphism φ_t : ℂ̂ → ℂ̂ (fixing 0, 1, ∞) depending smoothly on t. Because μ_t is f-invariant, f_t = φ_t ∘ f ∘ φ_t⁻¹ is holomorphic, hence a rational map of degree d. Since the parameter space has real dimension larger than dim_ℝ Rat_d = 4d + 2, there is a nonconstant curve t ↦ φ_t on which f_t ≡ f_{t_0} is constant, forcing φ_{t_0}⁻¹ ∘ φ_t to commute with f_{t_0} and fix the infinite backward orbit / Julia set J(f_{t_0}) pointwise (since J(f) has ≥ 3 points and periodic points are dense in J(f)), which contradicts nontriviality of the induced quasiconformal deformation on U_0.
+"""
