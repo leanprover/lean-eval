@@ -1,0 +1,18 @@
+id = "freedman_four_manifold_realization"
+title = "Freedman's realization theorem for unimodular intersection forms of 4-manifolds"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Topology.FreedmanFourManifoldRealization"
+holes = ["freedman_four_manifold_realization"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "M. H. Freedman, The topology of four-dimensional manifolds, J. Differential Geom. 17 (1982), no. 3, 357–453, Theorem 1.5; see also M. H. Freedman and F. Quinn, Topology of 4-Manifolds, Princeton Math. Ser. 39 (1990)."
+notes = """
+Stated against Tau Ceti (HomologicalOrientation, integralCohomology, integralCup, IntegralLattice): every unimodular symmetric integral lattice is realized as the integral intersection form of a closed simply connected oriented topological 4-manifold.
+"""
+informal_solution = """
+Given a unimodular symmetric integral lattice L of rank r, plumb disk bundles over S^2 according to a matrix of L (adding 2-handles along a framed link in S^3 = boundary(B^4) whose linking matrix represents L) to construct a compact simply connected smooth 4-manifold W^4 with intersection form L and boundary Sigma^3 an integral homology 3-sphere (since det(L) = +/- 1). Using Casson handles and Freedman's disk embedding theorem (showing every flexible Casson handle is topologically homeomorphic to the standard open 2-handle D^2 x R^2 via infinite Bing-Whitehead decomposition-space shrinking), Freedman proves every integral homology 3-sphere Sigma^3 bounds a compact contractible topological 4-manifold C^4. Gluing W^4 and C^4 along Sigma^3 produces a closed simply connected oriented topological 4-manifold M with intersection form isometric to L.
+"""
