@@ -1,0 +1,18 @@
+id = "woodin_constructible_reals_determinacy"
+title = "Woodin's theorem that L(R) satisfies the Axiom of Determinacy"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.SetTheory.WoodinConstructibleRealsDeterminacy"
+holes = ["woodin_constructible_reals_determinacy"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "W. H. Woodin, Supercompact cardinals, sets of reals, and weakly homogeneous trees, Proc. Natl. Acad. Sci. USA 85 (1988), 6587–6591; P. B. Larson, The Stationary Tower: Notes on a Course by W. Hugh Woodin, AMS Univ. Lecture Ser. 32 (2004); I. Neeman, Determinacy in L(R), in Handbook of Set Theory, Springer (2010), 1877–1950."
+notes = """
+Stated purely in Mathlib (universe-polymorphic in u): if delta_0 < delta_1 < ... is a strictly increasing sequence of Woodin cardinals with sup_n delta_n < kappa for a measurable cardinal kappa, then Godel's inner model L(R) = L(V_{omega + 1}) satisfies the Axiom of Determinacy (AD^{L(R)}). Note that every strategy sigma : List N -> N is encoded in L(R), so the existence of a winning strategy in V and in L(R) agree automatically.
+"""
+informal_solution = """
+Follow either Woodin's stationary-tower proof (Larson 2004) or Neeman's / Steel's inner-model-theory proof (Neeman 2010): from kappa measurable above lam = sup_n delta_n, obtain R^# (Silver indiscernibles for L(R)) and construct the minimal iterable fine-structural mouse M_omega^# with omega Woodin cardinals (or prove generic absoluteness and universal Baireness / weakly homogeneously Suslin representations for all sets of reals in L(R) via the stationary tower Q_{<delta_n} and Martin-Steel transfer across the sequence (delta_n)). Using Neeman's Woodin-limit-of-Woodins determinacy games combined with iterability of M_omega^# (or proving by induction on the Steel scale hierarchy of L_alpha(R) that every set A in P(N^N) cap L(R) is delta_n-homogeneously Suslin for every n via stationary-tower generic elementary embeddings preserving the theory of L(R) with real and indiscernible parameters), conclude by Martin's theorem on determinacy of homogeneously Suslin sets that every A in P(N^N) cap L(R) has a winning strategy sigma : N^{<omega} -> N (which automatically lies in L(R) since L_0(R) = V_{omega + 1}).
+"""
