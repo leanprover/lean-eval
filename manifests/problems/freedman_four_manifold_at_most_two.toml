@@ -1,0 +1,18 @@
+id = "freedman_four_manifold_at_most_two"
+title = "Freedman's at-most-two homeomorphism types theorem for simply connected 4-manifolds"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.Topology.FreedmanFourManifoldAtMostTwo"
+holes = ["freedman_four_manifold_at_most_two"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "M. H. Freedman, The topology of four-dimensional manifolds, J. Differential Geom. 17 (1982), no. 3, 357–453, Theorem 1.5; M. H. Freedman and F. Quinn, Topology of 4-Manifolds, Princeton Math. Ser. 39 (1990)."
+notes = """
+Stated against Tau Ceti (HomologicalOrientation, integralCohomology, integralCup): among any three closed simply connected oriented topological 4-manifolds with pairwise isometric intersection forms, at least two are homeomorphic (reflecting that homeomorphism type is completely determined by the intersection form together with the Z/2Z-valued Kirby–Siebenmann invariant).
+"""
+informal_solution = """
+By Freedman's classification theorem (1982, Theorem 1.5; completed with Quinn's proof of existence of normal bundles and the Kirby-Siebenmann invariant for all topological 4-manifolds in Freedman-Quinn 1990), two closed simply connected oriented topological 4-manifolds M_i, M_j enjoy an orientation-preserving homeomorphism realizing a given isometry Q_{M_i} = Q_{M_j} if and only if their Kirby-Siebenmann invariants ks(M_i), ks(M_j) in Z/2Z coincide (in which case normal surgery builds a topological h-cobordism between them, trivialized by Freedman's simply connected 5-dimensional topological h-cobordism theorem). By the pigeonhole principle on Z/2Z, at least two of M_1, M_2, M_3 share the same Kirby-Siebenmann invariant and are therefore homeomorphic.
+"""
