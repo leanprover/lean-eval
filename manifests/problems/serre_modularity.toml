@@ -1,0 +1,18 @@
+id = "serre_modularity"
+title = "Serre's modularity conjecture (Khare–Wintenberger theorem)"
+group = "formalization-evaluation"
+status = "draft"
+visible = true
+statement_revision = 1
+tags = []
+module = "LeanEval.NumberTheory.SerreModularity"
+holes = ["serre_modularity"]
+supported_configurations = ["latest", "rc", "stable"]
+submitter = "Edward Lockhart"
+source = "J.-P. Serre, Sur les représentations modulaires de degré 2 de Gal(Q_bar/Q), Duke Math. J. 54 (1987), 179–230; C. Khare and J.-P. Wintenberger, Serre's modularity conjecture (I) and (II), Invent. Math. 178 (2009), no. 3, 485–504 and 505–586; M. Kisin, Modularity of 2-adic Barsotti–Tate representations, Invent. Math. 178 (2009), no. 3, 587–634."
+notes = """
+Stated against Mathlib's Galois theory and IsArithFrobAt and Tau Ceti's HeckeRing.GL2.Newform and CoefficientField: every continuous, odd (det(rho(c)) = -1 on order-2 elements of Gal(Q_bar/Q)), absolutely irreducible representation Gal(Q_bar/Q) -> GL_2(k) over a finite field k of prime characteristic p arises modulo a prime of O_{K_f} from a normalized cuspidal newform of some level N >= 1 coprime to p and weight w >= 2.
+"""
+informal_solution = """
+By Ribet's level-lowering theorem, Carayol/Mazur/Diamond/Edixhoven weight optimization (with Buzzard/Gee for p = 2), and Kisin's modularity lifting theorems for potentially Barsotti-Tate p-adic representations (including p = 2, Kisin 2009) together with Khare-Wintenberger's existence of minimal characteristic-zero lifts via Taylor's potential modularity and Böckle-Taylor-Wiles patching proving finiteness of universal deformation rings over Z_p, one proves simultaneously by a nested induction on the Serre level N(rho) and prime p (using compatible systems of ell-adic lifts to kill primes in the level one by one via level lowering and prime-switching p <-> q, anchored by Tate's nonexistence theorem in level 1 for p = 2 and Serre's theorem for p = 3) that every odd continuous absolutely irreducible mod-p representation is modular of prime-to-p level N and weight w >= 2.
+"""
